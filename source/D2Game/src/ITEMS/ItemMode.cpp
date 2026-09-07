@@ -6287,7 +6287,7 @@ int32_t __fastcall sub_6FC4C5F0_End(D2GameStrc* pGame, D2UnitStrc* pItem, D2Item
         case ITEMQUAL_TEMPERED:
             if (pItemsTxtRecord->wAutoPrefix)
             {
-                const int16_t nAutoAffix = ITEMS_RollMagicAffixes(pItem, 0, 1, 0, 1, 0, pItemsTxtRecord->wAutoPrefix);
+                const int16_t nAutoAffix = ITEMS_RollMagicAffixesWithAutomagicGroup(pItem, 0, 1, 0, 1, 0, pItemsTxtRecord->wAutoPrefix);
                 if (nAutoAffix)
                 {
                     ITEMS_SetAutoAffix(pItem, nAutoAffix);

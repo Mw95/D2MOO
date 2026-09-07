@@ -2215,7 +2215,7 @@ void __fastcall sub_6FC3F840(D2GameStrc* pGame, int32_t dwPlayerId1, int32_t dwP
 }
 
 //D2Game.0x6FC3F880
-void __fastcall sub_6FC3F880(D2GameStrc*, D2UnitStrc* pPlayer, void* packet)
+void __fastcall sub_6FC3F880(D2GameStrc* pGame, D2UnitStrc* pPlayer, void* packet)
 {
     D2ClientStrc* pClient = SUNIT_GetClientFromPlayer(pPlayer, __FILE__, __LINE__);
     D2GAME_PACKETS_SendPacket_6FC3C710(pClient, packet, sizeof(D2GSPacketSrv8C));

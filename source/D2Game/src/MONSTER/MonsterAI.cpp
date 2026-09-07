@@ -586,7 +586,7 @@ void __fastcall sub_6FC61F00(D2UnitStrc* pMonster)
     }
 }
 
-//D2Game.0xFC61F20
+//D2Game.0x6FC61F20
 int32_t __fastcall sub_6FC61F20(D2UnitStrc* pMonster, D2UnitStrc* pUnit)
 {
     if (!pMonster || pMonster->dwUnitType != UNIT_MONSTER || !pMonster->pMonsterData || !pMonster->pMonsterData->pMonInteract)
