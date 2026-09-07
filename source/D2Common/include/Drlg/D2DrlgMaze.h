@@ -20,13 +20,13 @@ struct D2MazeLevelIdStrc
 #pragma pack()
 
 //D2Common.0x6FD78E50
-D2DrlgRoomStrc* __fastcall sub_6FD78E50(D2DrlgLevelStrc* pLevel);
+D2DrlgRoomStrc* __fastcall DRLGMAZE_GetFreeLocationForRoomEast(D2DrlgLevelStrc* pLevel);
 //D2Common.0x6FD78F70
 void __fastcall DRLGMAZE_PickRoomPreset(D2DrlgRoomStrc* pDrlgRoom, BOOL bResetFlag);
 //D2Common.0x6FD79240
-D2DrlgRoomStrc* __fastcall sub_6FD79240(D2DrlgLevelStrc* pLevel);
+D2DrlgRoomStrc * __fastcall DRLGMAZE_GetFreeLocationForRoomWest(D2DrlgLevelStrc * pLevel);
 //D2Common.0x6FD79360
-D2DrlgRoomStrc* __fastcall sub_6FD79360(D2DrlgLevelStrc* pLevel);
+D2DrlgRoomStrc* __fastcall DRLGMAZE_GetFreeLocationForRoomNorth(D2DrlgLevelStrc* pLevel);
 //D2Common.0x6FD79480
 void __fastcall DRLGMAZE_InitLevelData(D2DrlgLevelStrc* pLevel);
 //D2Common.0x6FD794A0

@@ -412,7 +412,7 @@ D2GAME_DLL_DECL void __stdcall GAME_GetStatistics(D2GameStatisticsStrc* pStats);
 //D2Game.0x6FC3AE10 (#10021)
 D2GAME_DLL_DECL void __stdcall GAME_SendMessageToAllClients(int32_t a1, int32_t nPacketParam, const char* szMessage);
 //D2Game.0x6FC3AFB0 (#10022)
-D2GAME_DLL_DECL void __stdcall GAME_SendMessageToGameClients(uint16_t a1, const char* Str2);
+D2GAME_DLL_DECL void __stdcall GAME_SendMessageToGameClients(uint16_t nGameId, char* szMessage);
 using GAME_ForEachIngameClientCallbackPtr = void(__fastcall*)(D2ClientStrc*, void*);
 //D2Game.0x6FC3B0E0
 void __fastcall GAME_ForEachIngameClient(D2GameStrc* pGame, GAME_ForEachIngameClientCallbackPtr pFn, void* pContext);
@@ -435,7 +435,7 @@ void __fastcall D2GameDataTable_SyncEnterLock(D2GameDataTableStrc* pGameDataTabl
 //D2Game.0x6FC3B540
 void __fastcall D2GameDataTable_SyncLeaveLock(D2GameDataTableStrc* pGameDataTable, int32_t nUnused, int32_t tLockHandle);
 //D2Game.0x6FC3B560
-TSLink<D2GameStrc>* __fastcall D2GameDataTable_TSGetExplicitLink_Link(STORM_EXPLICIT_LIST(D2GameStrc, m_linktoslot)* pNode, int32_t nUnused, int nLinkOffset);
+TSLink<D2GameStrc>* __fastcall D2GameDataTable_TLink_NextLink(TSLink<D2GameStrc>*pLink, int32_t nUnused, int nLinkOffset);
 //D2Game.0x6FC3B590
 D2GameStrc* __fastcall D2GameDataTable_New(D2GameDataTableStrc* pGameDataTable, int32_t nUnused, D2GameGUID nGameGUID, HASHKEY_NONE* pKey, int32_t extrabytes, int32_t flags);
 //D2Game.0x6FC3B6A0

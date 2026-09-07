@@ -2024,7 +2024,7 @@ int32_t __fastcall MISSMODE_SrvDo34_BaalTauntControl(D2GameStrc* pGame, D2UnitSt
     return MISSMODE_HandleMissileCollision(pGame, pMissile);
 }
 
-//D2Game.0x6FC59F
+//D2Game.0x6FC59FB0
 int32_t __fastcall MISSMODE_SrvDo35_RoyalStrikeChaosIce(D2GameStrc* pGame, D2UnitStrc* pMissile)
 {
     if (!pMissile)
