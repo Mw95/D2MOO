@@ -3,6 +3,7 @@ add_library(TestUtilities STATIC
   include/NoopFixture.h
   include/RandomUnsignedInteger.h
   include/ReadBinFile.h
+  include/TestUtilities.h
 
   src/RandomUnsignedInteger.cpp
 )
