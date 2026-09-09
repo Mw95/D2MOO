@@ -1,6 +1,7 @@
 add_library(TestUtilities STATIC 
   include/FunctionPair.h
   include/RandomUnsignedInteger.h
+  include/ReadBinFile.h
 
   src/RandomUnsignedInteger.cpp
 )
