@@ -199,7 +199,7 @@ target_sources(D2GameTests
 get_target_property(D2GameTestsSources D2GameTests SOURCES)
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${D2GameTestsSources})
 
-target_link_libraries(D2GameTests PRIVATE doctest::doctest ${D2GameImplName} D2CommonDefinitions D2Common)
+target_link_libraries(D2GameTests PRIVATE doctest::doctest TestDefinitions TestUtilities VisitorFramework ${D2GameImplName} D2CommonDefinitions D2Common)
 target_compile_features(D2GameTests PRIVATE cxx_std_17)
 
 set_target_properties(D2GameTests PROPERTIES
