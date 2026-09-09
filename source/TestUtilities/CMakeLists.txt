@@ -1,4 +1,5 @@
 add_library(TestUtilities STATIC 
+  include/FunctionPair.h
   include/RandomUnsignedInteger.h
 
   src/RandomUnsignedInteger.cpp
