@@ -2,6 +2,8 @@ add_library(TestDefinitions STATIC src/TestDefinitions.cpp)
 
 target_sources(TestDefinitions
   PRIVATE
+    include/EqualityMacros.h
+    
     include/D2Common/DataTbls/AnimTblsVisitorDefinitions.h
     include/D2Common/DataTbls/ArenaTblsVisitorDefinitions.h
     include/D2Common/DataTbls/BeltsTblsVisitorDefinitions.h
