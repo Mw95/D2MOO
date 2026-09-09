@@ -1,0 +1,167 @@
+#include <doctest.h>
+
+#include <Windows.h>
+
+#include <cstdarg>
+#include <filesystem>
+#include <tuple>
+
+#include <TestDefinitions.h>
+#include <TestUtilities.h>
+
+#include <DataTbls/MissilesTbls.h>
+
+
+TEST_SUITE("MissilesTblsTests")
+{
+	const auto working_directory = std::filesystem::current_path();
+	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
+
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD62EA0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_MapMissilesTxtKeywordToNumber, dll_base + 0x00022EA0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				char szKey{};
+				
+				return std::tuple{ szKey };
+			};
+			
+			// Input data
+			auto [moo_szKey] = setup_data();
+			auto [original_szKey] = setup_data();
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_szKey);
+			const auto original_result = original(&original_szKey);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_szKey, original_szKey, "Comparing szKey");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD62F20" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(sub_6FD62F20, dll_base + 0x00022F20);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				char szText{};
+				int a2{};
+				
+				return std::tuple{ szText, a2 };
+			};
+			
+			// Input data
+			auto [moo_szText, moo_a2] = setup_data();
+			auto [original_szText, original_a2] = setup_data();
+			int a3{};
+			int nKeywordNumber{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_szText, &moo_a2, a3, nKeywordNumber);
+			const auto original_result = original(&original_szText, &original_a2, a3, nKeywordNumber);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_szText, original_szText, "Comparing szText");
+			SKIP_MOO_CHECK_EQ(moo_a2, original_a2, "Comparing a2");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD630F0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_MissileCalcLinker, dll_base + 0x000230F0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				char pSrc{};
+				
+				return std::tuple{ pSrc };
+			};
+			
+			// Input data
+			auto [moo_pSrc] = setup_data();
+			auto [original_pSrc] = setup_data();
+			void* moo_pRecord = nullptr;
+			void* original_pRecord = nullptr;
+			int nOffset{};
+			int nPosition{};
+			int nTxtRow{};
+			int nTxtColumn{};
+
+			// Call both implementations
+			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
+			original(&original_pSrc, original_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pSrc, original_pSrc, "Comparing pSrc");
+			SKIP_MOO_CHECK_EQ(moo_pRecord, original_pRecord, "Comparing pRecord");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD63180" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadMissilesTxt, dll_base + 0x00023180);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			HD2ARCHIVE hArchive{};
+
+			// Call both implementations
+			sut(hArchive);
+			original(hArchive);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD64B80" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadMissilesTxt, dll_base + 0x00024B80);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD64BE0 (#10590)" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetMissileVelocityFromMissilesTxt, dll_base + 0x00024BE0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			int nMissileId{};
+			int nLevel{};
+
+			// Call both implementations
+			const auto moo_result = sut(nMissileId, nLevel);
+			const auto original_result = original(nMissileId, nLevel);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+		}
+	}
+}
