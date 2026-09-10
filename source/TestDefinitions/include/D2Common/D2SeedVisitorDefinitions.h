@@ -13,8 +13,8 @@
 
 BEGIN_VISIT(D2SeedStrc)
 	//BEGIN_UNION()
-		//FIELD(nLowSeed)
-		//FIELD(nHighSeed)
+		FIELD(nLowSeed)
+		FIELD(nHighSeed)
 		//FIELD(lSeed)
 	//END_UNION()
 END_VISIT()
