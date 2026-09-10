@@ -481,7 +481,7 @@ def parameter_setup_lines(function):
 
         setup_variables.append(f"\t\t\t\t\n\t\t\t\treturn std::tuple{{ {setup_names} }};")
         lines = [
-            "\t\t\tauto setup_data = []() {",
+            "\t\t\tconst auto setup_data = []() {",
             *setup_variables,
             "\t\t\t};",
             "\t\t\t",
@@ -658,6 +658,7 @@ def main():
     output.append("")
     output.append("#include <Windows.h>")
     output.append("")
+    output.append("#include <cstdarg>")
     output.append("#include <filesystem>")
     output.append("#include <tuple>")
     output.append("")
@@ -675,9 +676,8 @@ def main():
     output.append("{")
 
     output.append('\tconst auto working_directory = std::filesystem::current_path();')
-    output.append("")
-
     output.append(f'\tconst auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / \"{args.dll_name}.dll\").string().c_str()));')
+    output.append("")
 
     for function in functions:
         output.append(generate_test(function, args.dll_base_address))
