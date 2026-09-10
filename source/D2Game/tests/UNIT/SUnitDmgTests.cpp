@@ -1,0 +1,1402 @@
+#include <doctest.h>
+
+#include <Windows.h>
+
+#include <cstdarg>
+#include <filesystem>
+#include <tuple>
+
+#include <TestDefinitions.h>
+#include <TestUtilities.h>
+
+#include <D2StatList.h>
+#include <GAME/Game.h>
+#include <UNIT/SUnitDmg.h>
+#include <Units/Units.h>
+
+
+TEST_SUITE("SUnitDmgTests")
+{
+	const auto working_directory = std::filesystem::current_path();
+	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Game.dll").string().c_str()));
+
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBE2F0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_SetHitClass, dll_base + 0x0008E2F0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pDamage };
+			};
+			
+			// Input data
+			auto [moo_pDamage] = setup_data();
+			auto [original_pDamage] = setup_data();
+			uint32_t nHitClass{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pDamage, nHitClass);
+			const auto original_result = original(&original_pDamage, nHitClass);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBE310" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_GetColdEffect, dll_base + 0x0008E310);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pGame, pUnit };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pUnit] = setup_data();
+			auto [original_pGame, original_pUnit] = setup_data();
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBE360" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_RemoveFreezeState, dll_base + 0x0008E360);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				struct D2StatListStrc pStatList{};
+				
+				return std::tuple{ pUnit, pStatList };
+			};
+			
+			// Input data
+			auto [moo_pUnit, moo_pStatList] = setup_data();
+			auto [original_pUnit, original_pStatList] = setup_data();
+			int32_t nState{};
+
+			// Call both implementations
+			sut(&moo_pUnit, nState, &moo_pStatList);
+			original(&original_pUnit, nState, &original_pStatList);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pStatList, original_pStatList, "Comparing pStatList");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBE420" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyDamageBonuses, dll_base + 0x0008E420);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				D2UnitStrc pItem{};
+				
+				return std::tuple{ pUnit, pItem };
+			};
+			
+			// Input data
+			auto [moo_pUnit, moo_pItem] = setup_data();
+			auto [original_pUnit, original_pItem] = setup_data();
+			int32_t bGetStats{};
+			int32_t nMinDmg{};
+			int32_t nMaxDmg{};
+			int32_t nDamagePercent{};
+			int32_t nDamage{};
+			uint8_t nSrcDam{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit, bGetStats, &moo_pItem, nMinDmg, nMaxDmg, nDamagePercent, nDamage, nSrcDam);
+			const auto original_result = original(&original_pUnit, bGetStats, &original_pItem, nMinDmg, nMaxDmg, nDamagePercent, nDamage, nSrcDam);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBE7E0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_FillDamageValues, dll_base + 0x0008E7E0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender, moo_pDamage] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender, original_pDamage] = setup_data();
+			int32_t a5{};
+			uint8_t nSrcDam{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, &moo_pDamage, a5, nSrcDam);
+			original(&original_pGame, &original_pAttacker, &original_pDefender, &original_pDamage, a5, nSrcDam);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBF400" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_CheckMonType, dll_base + 0x0008F400);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			int32_t nMonType1{};
+			int32_t nMonType2{};
+
+			// Call both implementations
+			const auto moo_result = sut(nMonType1, nMonType2);
+			const auto original_result = original(nMonType1, nMonType2);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBF450" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_RollDamageValueInRange, dll_base + 0x0008F450);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pUnit };
+			};
+			
+			// Input data
+			auto [moo_pUnit] = setup_data();
+			auto [original_pUnit] = setup_data();
+			int32_t nMinDamage{};
+			int32_t nMaxDamage{};
+			int32_t nMinDamageBonusPct{};
+			int32_t nMaxDamageBonusPct{};
+			int32_t nDamage{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit, nMinDamage, nMaxDamage, nMinDamageBonusPct, nMaxDamageBonusPct, nDamage);
+			const auto original_result = original(&original_pUnit, nMinDamage, nMaxDamage, nMinDamageBonusPct, nMaxDamageBonusPct, nDamage);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBF620" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_CalculateTotalDamage, dll_base + 0x0008F620);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender, moo_pDamage] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender, original_pDamage] = setup_data();
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, &moo_pDamage);
+			original(&original_pGame, &original_pAttacker, &original_pDefender, &original_pDamage);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBFB40" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyResistancesAndAbsorb, dll_base + 0x0008FB40);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2DamageInfoStrc pDamageInfo{};
+				
+				return std::tuple{ pDamageInfo };
+			};
+			
+			// Input data
+			auto [moo_pDamageInfo] = setup_data();
+			auto [original_pDamageInfo] = setup_data();
+			D2DamageStatTableStrc pDamageStatTableRecord{};
+			int32_t bDontAbsorb{};
+
+			// Call both implementations
+			sut(&moo_pDamageInfo, &pDamageStatTableRecord, bDontAbsorb);
+			original(&original_pDamageInfo, &pDamageStatTableRecord, bDontAbsorb);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pDamageInfo, original_pDamageInfo, "Comparing pDamageInfo");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCBFE90" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ExecuteEvents, dll_base + 0x0008FE90);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender, moo_pDamage] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender, original_pDamage] = setup_data();
+			int32_t bMissile{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, bMissile, &moo_pDamage);
+			original(&original_pGame, &original_pAttacker, &original_pDefender, bMissile, &original_pDamage);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC05D0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_GetMonStatsTxtRecordFromUnit, dll_base + 0x000905D0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pUnit };
+			};
+			
+			// Input data
+			auto [moo_pUnit] = setup_data();
+			auto [original_pUnit] = setup_data();
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC05F0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_AddLeechedLife, dll_base + 0x000905F0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pUnit };
+			};
+			
+			// Input data
+			auto [moo_pUnit] = setup_data();
+			auto [original_pUnit] = setup_data();
+			int32_t nLifeLeeched{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit, nLifeLeeched);
+			const auto original_result = original(&original_pUnit, nLifeLeeched);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0660" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_AddLeechedMana, dll_base + 0x00090660);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pUnit };
+			};
+			
+			// Input data
+			auto [moo_pUnit] = setup_data();
+			auto [original_pUnit] = setup_data();
+			int32_t nManaLeeched{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit, nManaLeeched);
+			const auto original_result = original(&original_pUnit, nManaLeeched);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC06C0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyPoisonDamage, dll_base + 0x000906C0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pAttacker, original_pDefender] = setup_data();
+			int32_t nPoisonDamage{};
+			int32_t nPoisonLength{};
+
+			// Call both implementations
+			sut(&moo_pAttacker, &moo_pDefender, nPoisonDamage, nPoisonLength);
+			original(&original_pAttacker, &original_pDefender, nPoisonDamage, nPoisonLength);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0800" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyBurnDamage, dll_base + 0x00090800);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pAttacker, original_pDefender] = setup_data();
+			int32_t nBurnDamage{};
+			int32_t nBurnLength{};
+
+			// Call both implementations
+			sut(&moo_pAttacker, &moo_pDefender, nBurnDamage, nBurnLength);
+			original(&original_pAttacker, &original_pDefender, nBurnDamage, nBurnLength);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0940" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyColdState, dll_base + 0x00090940);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pAttacker, original_pDefender] = setup_data();
+			int32_t nColdLength{};
+
+			// Call both implementations
+			sut(&moo_pAttacker, &moo_pDefender, nColdLength);
+			original(&original_pAttacker, &original_pDefender, nColdLength);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0B90" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_RemoveShatterState, dll_base + 0x00090B90);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				struct D2StatListStrc pStatList{};
+				
+				return std::tuple{ pUnit, pStatList };
+			};
+			
+			// Input data
+			auto [moo_pUnit, moo_pStatList] = setup_data();
+			auto [original_pUnit, original_pStatList] = setup_data();
+			int32_t nState{};
+
+			// Call both implementations
+			sut(&moo_pUnit, nState, &moo_pStatList);
+			original(&original_pUnit, nState, &original_pStatList);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pStatList, original_pStatList, "Comparing pStatList");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0BE0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyFreezeState, dll_base + 0x00090BE0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pAttacker, original_pDefender] = setup_data();
+			int32_t nFreezeLength{};
+
+			// Call both implementations
+			sut(&moo_pAttacker, &moo_pDefender, nFreezeLength);
+			original(&original_pAttacker, &original_pDefender, nFreezeLength);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0E20" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_FreeAttackerCombatList, dll_base + 0x00090E20);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				
+				return std::tuple{ pGame, pAttacker };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker] = setup_data();
+			auto [original_pGame, original_pAttacker] = setup_data();
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker);
+			original(&original_pGame, &original_pAttacker);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0E90" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_FreeAttackerDefenderCombatList, dll_base + 0x00090E90);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender] = setup_data();
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender);
+			original(&original_pGame, &original_pAttacker, &original_pDefender);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC0F10" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_KillMonster, dll_base + 0x00090F10);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pDefender{};
+				D2UnitStrc pAttacker{};
+				
+				return std::tuple{ pGame, pDefender, pAttacker };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pDefender, moo_pAttacker] = setup_data();
+			auto [original_pGame, original_pDefender, original_pAttacker] = setup_data();
+			int32_t bPetKill{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pDefender, &moo_pAttacker, bPetKill);
+			original(&original_pGame, &original_pDefender, &original_pAttacker, bPetKill);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC1260" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ExecuteMissileDamage, dll_base + 0x00091260);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pUnit{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pGame, pAttacker, pUnit, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pUnit, moo_pDamage] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pUnit, original_pDamage] = setup_data();
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pUnit, &moo_pDamage);
+			original(&original_pGame, &original_pAttacker, &original_pUnit, &original_pDamage);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC1870" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(sub_6FCC1870, dll_base + 0x00091870);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pUnit, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pUnit, moo_pDamage] = setup_data();
+			auto [original_pUnit, original_pDamage] = setup_data();
+			int32_t nHitClass{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit, &moo_pDamage, nHitClass);
+			const auto original_result = original(&original_pUnit, &original_pDamage, nHitClass);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC1A50" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_GetHitClass, dll_base + 0x00091A50);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pDamage };
+			};
+			
+			// Input data
+			auto [moo_pDamage] = setup_data();
+			auto [original_pDamage] = setup_data();
+			uint32_t nBaseHitClass{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pDamage, nBaseHitClass);
+			const auto original_result = original(&original_pDamage, nBaseHitClass);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC1AC0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_DrainItemDurability, dll_base + 0x00091AC0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender] = setup_data();
+			int32_t nUnused{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, nUnused);
+			original(&original_pGame, &original_pAttacker, &original_pDefender, nUnused);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC1D70" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_GetDamageFromUnits, dll_base + 0x00091D70);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pAttacker, original_pDefender] = setup_data();
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pAttacker, &moo_pDefender);
+			const auto original_result = original(&original_pAttacker, &original_pDefender);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC1DC0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(D2Game_10033, dll_base + 0x00091DC0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				int32_t a2{};
+				int32_t a3{};
+				
+				return std::tuple{ pUnit, a2, a3 };
+			};
+			
+			// Input data
+			auto [moo_pUnit, moo_a2, moo_a3] = setup_data();
+			auto [original_pUnit, original_a2, original_a3] = setup_data();
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit, &moo_a2, &moo_a3);
+			const auto original_result = original(&original_pUnit, &original_a2, &original_a3);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_a2, original_a2, "Comparing a2");
+			SKIP_MOO_CHECK_EQ(moo_a3, original_a3, "Comparing a3");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC1E70" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_IsHitSuccessful, dll_base + 0x00091E70);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pAttacker, original_pDefender] = setup_data();
+			int32_t nStatValue{};
+			int32_t bMissile{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pAttacker, &moo_pDefender, nStatValue, bMissile);
+			const auto original_result = original(&original_pAttacker, &original_pDefender, nStatValue, bMissile);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2300" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_GetResultFlags, dll_base + 0x00092300);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender] = setup_data();
+			int32_t nStatValue{};
+			int32_t nRangeOffset{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, nStatValue, nRangeOffset);
+			const auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, nStatValue, nRangeOffset);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2420" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_AllocCombat, dll_base + 0x00092420);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender, moo_pDamage] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender, original_pDamage] = setup_data();
+			uint8_t nSrcDam{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, &moo_pDamage, nSrcDam);
+			original(&original_pGame, &original_pAttacker, &original_pDefender, &original_pDamage, nSrcDam);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2530" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyBlockOrDodge, dll_base + 0x00092530);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender] = setup_data();
+			int32_t bAvoid{};
+			int32_t bBlock{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, bAvoid, bBlock);
+			const auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, bAvoid, bBlock);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2610" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ApplyDodge, dll_base + 0x00092610);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pAttacker, original_pDefender] = setup_data();
+			int32_t bAvoid{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pAttacker, &moo_pDefender, bAvoid);
+			const auto original_result = original(&original_pAttacker, &original_pDefender, bAvoid);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2850" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_GetWeaponBlock, dll_base + 0x00092850);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pUnit };
+			};
+			
+			// Input data
+			auto [moo_pUnit] = setup_data();
+			auto [original_pUnit] = setup_data();
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2910" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_SetMissileDamageFlagsForNearbyUnits, dll_base + 0x00092910);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pUnit{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pGame, pUnit, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pUnit, moo_pDamage] = setup_data();
+			auto [original_pGame, original_pUnit, original_pDamage] = setup_data();
+			int32_t nX{};
+			int32_t nY{};
+			int32_t nSize{};
+			int32_t a7{};
+			int32_t a8{};
+			int32_t a10{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, nSize, &moo_pDamage, a7, a8, nullptr, a10);
+			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY, nSize, &original_pDamage, a7, a8, nullptr, a10);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2BC0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_RollDamage, dll_base + 0x00092BC0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2UnitStrc pUnit{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pUnit, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pUnit, moo_pDamage] = setup_data();
+			auto [original_pUnit, original_pDamage] = setup_data();
+			int32_t nSkillId{};
+			int32_t nSkillLevel{};
+
+			// Call both implementations
+			sut(&moo_pUnit, nSkillId, nSkillLevel, &moo_pDamage);
+			original(&original_pUnit, nSkillId, nSkillLevel, &original_pDamage);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2BF0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_RollSuckBloodDamage, dll_base + 0x00092BF0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				D2DamageStrc pDamage{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender, pDamage };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender, moo_pDamage] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender, original_pDamage] = setup_data();
+			int32_t nSkillId{};
+			int32_t nSkillLevel{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, nSkillId, nSkillLevel, &moo_pDamage);
+			original(&original_pGame, &original_pAttacker, &original_pDefender, nSkillId, nSkillLevel, &original_pDamage);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+			SKIP_MOO_CHECK_EQ(moo_pDamage, original_pDamage, "Comparing pDamage");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2C70" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_DistributeExperience, dll_base + 0x00092C70);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				D2UnitStrc pDefender{};
+				
+				return std::tuple{ pGame, pAttacker, pDefender };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker, moo_pDefender] = setup_data();
+			auto [original_pGame, original_pAttacker, original_pDefender] = setup_data();
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pAttacker, &moo_pDefender);
+			original(&original_pGame, &original_pAttacker, &original_pDefender);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+			SKIP_MOO_CHECK_EQ(moo_pDefender, original_pDefender, "Comparing pDefender");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC2EC0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_ComputeExperienceGain, dll_base + 0x00092EC0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pAttacker{};
+				
+				return std::tuple{ pGame, pAttacker };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pAttacker] = setup_data();
+			auto [original_pGame, original_pAttacker] = setup_data();
+			uint32_t nAttackerLevel{};
+			uint32_t nDefenderLevel{};
+			uint32_t nDefenderExperience{};
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pGame, &moo_pAttacker, nAttackerLevel, nDefenderLevel, nDefenderExperience);
+			const auto original_result = original(&original_pGame, &original_pAttacker, nAttackerLevel, nDefenderLevel, nDefenderExperience);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pAttacker, original_pAttacker, "Comparing pAttacker");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC3170" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_AddExperienceForPlayer, dll_base + 0x00093170);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pGame, pUnit };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pUnit] = setup_data();
+			auto [original_pGame, original_pUnit] = setup_data();
+			uint32_t nOldLevel{};
+			uint32_t nExperienceGained{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pUnit, nOldLevel, nExperienceGained);
+			original(&original_pGame, &original_pUnit, nOldLevel, nExperienceGained);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC3200" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_PartyCallback_ComputePartyExperience, dll_base + 0x00093200);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pGame, pUnit };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pUnit] = setup_data();
+			auto [original_pGame, original_pUnit] = setup_data();
+			void* moo_pArg = nullptr;
+			void* original_pArg = nullptr;
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pUnit, moo_pArg);
+			original(&original_pGame, &original_pUnit, original_pArg);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			SKIP_MOO_CHECK_EQ(moo_pArg, original_pArg, "Comparing pArg");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC3360" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_AddExperienceForHireling, dll_base + 0x00093360);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pPlayer{};
+				D2UnitStrc pHireling{};
+				
+				return std::tuple{ pGame, pPlayer, pHireling };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pPlayer, moo_pHireling] = setup_data();
+			auto [original_pGame, original_pPlayer, original_pHireling] = setup_data();
+			uint32_t nLevel{};
+			uint32_t nExperienceBonus{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pPlayer, &moo_pHireling, nLevel, nExperienceBonus);
+			original(&original_pGame, &original_pPlayer, &original_pHireling, nLevel, nExperienceBonus);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+			SKIP_MOO_CHECK_EQ(moo_pHireling, original_pHireling, "Comparing pHireling");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC34A0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_AddExperience, dll_base + 0x000934A0);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pGame, pUnit };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pUnit] = setup_data();
+			auto [original_pGame, original_pUnit] = setup_data();
+			uint32_t nExperienceBonus{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pUnit, nExperienceBonus);
+			original(&original_pGame, &original_pUnit, nExperienceBonus);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Game.0x6FCC3510" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(SUNITDMG_SetExperienceForTargetLevel, dll_base + 0x00093510);
+		
+		SUBCASE("")
+		{
+			// TODO: Setup as needed
+			const auto setup_data = []() {
+				D2GameStrc pGame{};
+				D2UnitStrc pUnit{};
+				
+				return std::tuple{ pGame, pUnit };
+			};
+			
+			// Input data
+			auto [moo_pGame, moo_pUnit] = setup_data();
+			auto [original_pGame, original_pUnit] = setup_data();
+			uint32_t nTargetLevel{};
+
+			// Call both implementations
+			sut(&moo_pGame, &moo_pUnit, nTargetLevel);
+			original(&original_pGame, &original_pUnit, nTargetLevel);
+
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
+			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+	}
+}
