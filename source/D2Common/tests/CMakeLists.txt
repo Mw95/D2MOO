@@ -95,6 +95,12 @@ target_sources(D2CommonTests
     D2WaypointsTests.cpp
 )
 
+# TestFixtures
+target_sources(D2CommonTests
+  PRIVATE
+    TestFixtures/LevelsTxtFixture.h
+)
+
 get_target_property(D2CommonTestsSources D2CommonTests SOURCES)
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${D2CommonTestsSources})
 

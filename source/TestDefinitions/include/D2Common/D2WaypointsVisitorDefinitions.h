@@ -29,7 +29,7 @@ BEGIN_VISIT(D2WaypointCoordTableStrc)
 END_VISIT()
 
 BEGIN_VISIT(D2WaypointDataStrc)
-	//ARRAY(nFlags)
+	ARRAY(nFlags)
 END_VISIT()
 
 BEGIN_VISIT(D2WaypointFlagTableStrc)
