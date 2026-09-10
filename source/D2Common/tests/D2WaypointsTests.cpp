@@ -11,6 +11,8 @@
 
 #include <D2Waypoints.h>
 
+#include "TestFixtures/LevelsTxtFixture.h"
+
 
 TEST_SUITE("D2WaypointsTests")
 {
@@ -18,124 +20,150 @@ TEST_SUITE("D2WaypointsTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3D20 (#11153)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FDC3D20 (#11153)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(WAYPOINTS_GetLevelIdFromWaypointNo, dll_base + 0x00083D20);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
 				int pLevelId{};
-				
+
 				return std::tuple{ pLevelId };
 			};
-			
-			// Input data
-			auto [moo_pLevelId] = setup_data();
-			auto [original_pLevelId] = setup_data();
-			short nWaypointNo{};
 
-			// Call both implementations
-			const auto moo_result = sut(nWaypointNo, &moo_pLevelId);
-			const auto original_result = original(nWaypointNo, &original_pLevelId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			for (auto i = -1; i < 256; ++i)
+			{
+				// Input data
+				auto [moo_pLevelId] = setup_data();
+				auto [original_pLevelId] = setup_data();
+				short nWaypointNo = i;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pLevelId, original_pLevelId, "Comparing pLevelId");
+				// Call both implementations
+				const auto moo_result = sut(nWaypointNo, &moo_pLevelId);
+				const auto original_result = original(nWaypointNo, &original_pLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pLevelId, original_pLevelId, "Comparing pLevelId");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3D90 (#11152)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FDC3D90 (#11152)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(WAYPOINTS_GetWaypointNoFromLevelId, dll_base + 0x00083D90);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
 				short pWaypointNo{};
 				
 				return std::tuple{ pWaypointNo };
 			};
 			
-			// Input data
-			auto [moo_pWaypointNo] = setup_data();
-			auto [original_pWaypointNo] = setup_data();
-			int nLevelId{};
+			for (auto i = -1; i < levels_record_count + 1; ++i)
+			{
+				// Input data
+				auto [moo_pWaypointNo] = setup_data();
+				auto [original_pWaypointNo] = setup_data();
+				int nLevelId{};
 
-			// Call both implementations
-			const auto moo_result = sut(nLevelId, &moo_pWaypointNo);
-			const auto original_result = original(nLevelId, &original_pWaypointNo);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nLevelId, &moo_pWaypointNo);
+				const auto original_result = original(nLevelId, &original_pWaypointNo);
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pWaypointNo, original_pWaypointNo, "Comparing pWaypointNo");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pWaypointNo, original_pWaypointNo, "Comparing pWaypointNo");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3DE0 (#11146)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3DE0 (#11146)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(WAYPOINTS_IsActivated, dll_base + 0x00083DE0);
+
+		// Repeat the test multiple times with different random values
+		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			uint16_t flags[8]{};
+			flags[0] = 0x102;
+			for (auto i = 1; i < 8; ++i)
+			{
+				flags[i] = random_unsigned_integer(0, 65535);
+			}
+
+			const auto setup_data = [&flags]() {
 				D2WaypointDataStrc pData{};
+
+				memcpy(pData.nFlags, flags, sizeof(flags));
 				
 				return std::tuple{ pData };
 			};
 			
-			// Input data
-			auto [moo_pData] = setup_data();
-			auto [original_pData] = setup_data();
-			uint16_t wField{};
+			for (auto i = 0; i < 112; ++i)
+			{
+				// Input data
+				auto [moo_pData] = setup_data();
+				auto [original_pData] = setup_data();
+				uint16_t wField = i;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pData, wField);
-			const auto original_result = original(&original_pData, wField);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(&moo_pData, wField);
+				const auto original_result = original(&original_pData, wField);
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pData, original_pData, "Comparing pData");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pData, original_pData, "Comparing pData");
+
+				// Check specific values
+				CHECK_EQ(moo_result, flags[wField / 16 + 1] & (1 << (wField & 15)));
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3E80 (#11147)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3E80 (#11147)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(WAYPOINTS_ActivateWaypoint, dll_base + 0x00083E80);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
 				D2WaypointDataStrc pData{};
+
+				pData.nFlags[0] = 0x102;
+				pData.nFlags[1] |= 1;
 				
 				return std::tuple{ pData };
 			};
 			
-			// Input data
-			auto [moo_pData] = setup_data();
-			auto [original_pData] = setup_data();
-			uint16_t wField{};
+			for (auto i = 0; i < 112; ++i)
+			{
+				// Input data
+				auto [moo_pData] = setup_data();
+				auto [original_pData] = setup_data();
+				uint16_t wField = i;
 
-			// Call both implementations
-			sut(&moo_pData, wField);
-			original(&original_pData, wField);
+				// Call both implementations
+				sut(&moo_pData, wField);
+				original(&original_pData, wField);
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pData, original_pData, "Comparing pData");
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pData, original_pData, "Comparing pData");
+			}
 		}
 	}
 	
@@ -192,17 +220,39 @@ TEST_SUITE("D2WaypointsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3FD0 (#11150)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3FD0 (#11150)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(WAYPOINTS_CopyAndValidateWaypointData, dll_base + 0x00083FD0);
+
+		// Repeat the test multiple times with different random values
+		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			uint16_t flags[8]{};
+			switch (random_unsigned_integer(0, 2))
+			{
+			case 0:
+				flags[0] = 0x00;
+				break;
+			case 1:
+				flags[0] = 0x101;
+				break;
+			case 2:
+				flags[0] = 0x102;
+				break;
+			}
+			for (auto i = 1; i < 8; ++i)
+			{
+				flags[i] = random_unsigned_integer(0, 65535);
+			}
+
+			const auto setup_data = [&flags]() {
 				D2WaypointDataStrc pDestination{};
 				D2WaypointDataStrc pSource{};
+
+				memcpy(pSource.nFlags, flags, sizeof(flags));
 				
 				return std::tuple{ pDestination, pSource };
 			};
@@ -216,24 +266,46 @@ TEST_SUITE("D2WaypointsTests")
 			original(&original_pDestination, &original_pSource);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pDestination, original_pDestination, "Comparing pDestination");
-			SKIP_MOO_CHECK_EQ(moo_pSource, original_pSource, "Comparing pSource");
+			MOO_CHECK_EQ(moo_pDestination, original_pDestination, "Comparing pDestination");
+			MOO_CHECK_EQ(moo_pSource, original_pSource, "Comparing pSource");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC4060 (#11151)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC4060 (#11151)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(WAYPOINTS_ValidateAndCopyWaypointData, dll_base + 0x00084060);
 		
+		// Repeat the test multiple times with different random values
+		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2WaypointDataStrc pSource{};
+			uint16_t flags[8]{};
+			switch (random_unsigned_integer(0, 2))
+			{
+			case 0:
+				flags[0] = 0x00;
+				break;
+			case 1:
+				flags[0] = 0x101;
+				break;
+			case 2:
+				flags[0] = 0x102;
+				break;
+			}
+			for (auto i = 1; i < 8; ++i)
+			{
+				flags[i] = random_unsigned_integer(0, 65535);
+			}
+
+			const auto setup_data = [&flags]() {
 				D2WaypointDataStrc pDestination{};
-				
-				return std::tuple{ pSource, pDestination };
+				D2WaypointDataStrc pSource{};
+
+				memcpy(pSource.nFlags, flags, sizeof(flags));
+
+				return std::tuple{ pDestination, pSource };
 			};
 			
 			// Input data
@@ -245,8 +317,8 @@ TEST_SUITE("D2WaypointsTests")
 			original(&original_pSource, &original_pDestination);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pSource, original_pSource, "Comparing pSource");
-			SKIP_MOO_CHECK_EQ(moo_pDestination, original_pDestination, "Comparing pDestination");
+			MOO_CHECK_EQ(moo_pSource, original_pSource, "Comparing pSource");
+			MOO_CHECK_EQ(moo_pDestination, original_pDestination, "Comparing pDestination");
 		}
 	}
 }
