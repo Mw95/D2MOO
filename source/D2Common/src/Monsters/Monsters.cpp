@@ -443,7 +443,7 @@ uint32_t __stdcall D2Common_11069(D2UnitStrc* pMonster, unsigned int nIndex, uns
 
 	static uint32_t dword_6FDE4DF0[10] =
 	{
-		' exa', ' exa', ' alf', ' alf', ' xah', ' xah', ' cam', ' cam', ' mcs', 'mcs'
+		' exa', ' exa', ' alf', ' alf', ' xah', ' xah', ' cam', ' cam', ' mcs', ' mcs'
 	};
 
 	static uint32_t dword_6FDE4E18[5] =

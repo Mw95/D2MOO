@@ -31,8 +31,11 @@ struct LevelsTxtFixture : Fixture
 
 		*original_sgptDataTables = sgptDataTables;
 
-		const auto original_levels = reinterpret_cast<D2LevelsTxt**>(d2common_base + 0x000AA268);
+		const auto original_levels = reinterpret_cast<D2LevelsTxt**>(d2common_base + 0x000A9608 + 0x00000C58);
 		*original_levels = levels.get();
+
+		const auto original_record_count = reinterpret_cast<int*>(d2common_base + 0x000A9608 + 0x00000C5C);
+		*original_record_count = record_count;
 
 		levels_txt = std::move(levels);
 		levels_record_count = record_count;
