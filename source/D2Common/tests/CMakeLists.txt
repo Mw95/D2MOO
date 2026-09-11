@@ -98,7 +98,11 @@ target_sources(D2CommonTests
 # TestFixtures
 target_sources(D2CommonTests
   PRIVATE
+    TestFixtures/CompCodeTxtFixture.h
+    TestFixtures/HirelingTxtFixture.h
     TestFixtures/LevelsTxtFixture.h
+    TestFixtures/MonStatsTxtFixture.h
+    TestFixtures/MonStats2TxtFixture.h
 )
 
 get_target_property(D2CommonTestsSources D2CommonTests SOURCES)

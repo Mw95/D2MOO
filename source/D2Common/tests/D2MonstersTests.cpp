@@ -13,6 +13,12 @@
 #include <Drlg/D2DrlgDrlg.h>
 #include <Units/Units.h>
 
+#include "TestFixtures/CompCodeTxtFixture.h"
+#include "TestFixtures/HirelingTxtFixture.h"
+#include "TestFixtures/LevelsTxtFixture.h"
+#include "TestFixtures/MonstatsTxtFixture.h"
+#include "TestFixtures/Monstats2TxtFixture.h"
+
 
 TEST_SUITE("D2MonstersTests")
 {
@@ -56,16 +62,22 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA4E20 (#11081)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA4E20 (#11081)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11081, dll_base + 0x00064E20);
+
+		// Repeat the test multiple times with different random values
+		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			const auto hireling_init_id = GENERATE(0, 1, 2, 3);
+
+			const auto setup_data = [&hireling_init_id]() {
 				D2HirelingInitStrc pHirelingInit{};
+
+				pHirelingInit.nId = hireling_init_id;
 				
 				return std::tuple{ pHirelingInit };
 			};
@@ -73,18 +85,18 @@ TEST_SUITE("D2MonstersTests")
 			// Input data
 			auto [moo_pHirelingInit] = setup_data();
 			auto [original_pHirelingInit] = setup_data();
-			int nLowSeed{};
-			uint8_t a3{};
+			int nLowSeed = random_unsigned_integer();
+			uint8_t a3 = GENERATE(0, 1, 2);
 
 			// Call both implementations
 			const auto moo_result = sut(nLowSeed, &moo_pHirelingInit, a3);
 			const auto original_result = original(nLowSeed, &original_pHirelingInit, a3);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pHirelingInit, original_pHirelingInit, "Comparing pHirelingInit");
+			MOO_CHECK_EQ(moo_pHirelingInit, original_pHirelingInit, "Comparing pHirelingInit");
 		}
 	}
 	
@@ -107,44 +119,115 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA51C0 (#11086)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(HirelingTxtFixture<MonStatsTxtFixture<NoopFixture>>, "D2Common.0x6FDA51C0 (#11086)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetActFromHirelingTxt, dll_base + 0x000651C0);
 		
+		SUBCASE("bExpansion = FALSE, valid class_id")
+		{
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				BOOL bExpansion = FALSE;
+				int nClassId = class_id;
+				uint16_t nNameId = 0;
+
+				// Call both implementations
+				const auto moo_result = sut(bExpansion, nClassId, nNameId);
+				const auto original_result = original(bExpansion, nClassId, nNameId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+
+		SUBCASE("bExpansion = TRUE, valid class_id")
+		{
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				BOOL bExpansion = TRUE;
+				int nClassId = class_id;
+				uint16_t nNameId = 0;
+
+				// Call both implementations
+				const auto moo_result = sut(bExpansion, nClassId, nNameId);
+				const auto original_result = original(bExpansion, nClassId, nNameId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			BOOL bExpansion{};
-			int nClassId{};
-			uint16_t nNameId{};
+			std::set<std::pair<uint16_t, uint16_t>> unique_name_ids;
+			for (auto i = 0; i < hireling_record_count; ++i)
+			{
+				const auto& hireling_record = hireling_txt[i];
+				unique_name_ids.insert({hireling_record.wNameFirst, hireling_record.wNameLast});
+			}
 
-			// Call both implementations
-			const auto moo_result = sut(bExpansion, nClassId, nNameId);
-			const auto original_result = original(bExpansion, nClassId, nNameId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			SUBCASE("bExpansion = FALSE, invalid class_id")
+			{
+				for (auto pair : unique_name_ids)
+				{
+					for (auto name_id = pair.first; name_id < pair.second; ++name_id)
+					{
+						BOOL bExpansion = FALSE;
+						int nClassId = -1;
+						uint16_t nNameId = name_id;
+
+						// Call both implementations
+						const auto moo_result = sut(bExpansion, nClassId, nNameId);
+						const auto original_result = original(bExpansion, nClassId, nNameId);
+
+						// Compare return values
+						MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					}
+				}
+			}
+
+			SUBCASE("bExpansion = TRUE, invalid class_id")
+			{
+				for (auto pair : unique_name_ids)
+				{
+					for (auto name_id = pair.first; name_id < pair.second; ++name_id)
+					{
+						BOOL bExpansion = TRUE;
+						int nClassId = -1;
+						uint16_t nNameId = name_id;
+
+						// Call both implementations
+						const auto moo_result = sut(bExpansion, nClassId, nNameId);
+						const auto original_result = original(bExpansion, nClassId, nNameId);
+
+						// Compare return values
+						MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					}
+				}
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5200 (#11084)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5200 (#11084)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetHirelingExpForNextLevel, dll_base + 0x00065200);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			int nLevel{};
-			int nExpPerLevel{};
+			for (auto i = 1; i < 100; ++i)
+			{
+				int nLevel = i;
+				int nExpPerLevel = random_unsigned_integer(0, 65535);
 
-			// Call both implementations
-			const auto moo_result = sut(nLevel, nExpPerLevel);
-			const auto original_result = original(nLevel, nExpPerLevel);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nLevel, nExpPerLevel);
+				const auto original_result = original(nLevel, nExpPerLevel);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
@@ -178,87 +261,136 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5270 (#11068)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>, "D2Common.0x6FDA5270 (#11068)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2COMMON_11068_GetCompInfo, dll_base + 0x00065270);
+
+		// Repeat the test multiple times with different random values
+		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			const auto class_id = random_unsigned_integer(0, monstats_record_count - 1);
+
+			const auto setup_data = [&class_id]() {
 				D2UnitStrc pMonster{};
+
+				pMonster.dwUnitType = UNIT_MONSTER;
+				pMonster.dwClassId = class_id;
 				
 				return std::tuple{ pMonster };
 			};
 			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
-			int nComponent{};
+			for (auto i = 0; i < 16; ++i)
+			{
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+				int nComponent = i;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster, nComponent);
-			const auto original_result = original(&original_pMonster, nComponent);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster, nComponent);
+				const auto original_result = original(&original_pMonster, nComponent);
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA52F0 (#11069)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<CompCodeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA52F0 (#11069)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11069, dll_base + 0x000652F0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
-			unsigned int nIndex{};
-			unsigned int nComponent{};
+			for (auto level_id = 0; level_id < levels_record_count; ++level_id)
+			{
+				D2DrlgLevelStrc pLevel{};
+				pLevel.nLevelId = level_id;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster, nIndex, nComponent);
-			const auto original_result = original(&original_pMonster, nIndex, nComponent);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				D2DrlgRoomStrc pDrlgRoom{};
+				pDrlgRoom.pLevel = &pLevel;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+				D2ActiveRoomStrc pRoom{};
+				pRoom.pDrlgRoom = &pDrlgRoom;
+
+				D2DynamicPathStrc pDynamicPath{};
+				pDynamicPath.pRoom = &pRoom;
+
+				for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+				{
+					for (auto i = 0; i < 16; ++i)
+					{
+						for (auto j = 0; j < 12; ++j)
+						{
+							const auto setup_data = [&class_id, &pDynamicPath]() {
+								D2UnitStrc pMonster{};
+
+								pMonster.dwUnitType = UNIT_MONSTER;
+								pMonster.dwClassId = class_id;
+
+								pMonster.pDynamicPath = &pDynamicPath;
+
+								return std::tuple{ pMonster };
+							};
+
+							// Input data
+							auto [moo_pMonster] = setup_data();
+							auto [original_pMonster] = setup_data();
+							unsigned int nIndex = i;
+							unsigned int nComponent = j;
+
+							// Call both implementations
+							const auto moo_result = sut(&moo_pMonster, nIndex, nComponent);
+							const auto original_result = original(&original_pMonster, nIndex, nComponent);
+
+							// Compare return values
+							MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+							// Compare potentially modified input data
+							MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+						}
+					}
+				}
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5450 (#11070)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(CompCodeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>, "D2Common.0x6FDA5450 (#11070)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11070, dll_base + 0x00065450);
+
+		// Repeat the test multiple times with different random values
+		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			int nMonsterId{};
-			unsigned int nComponent{};
-			unsigned int a3{};
+			const auto monster_id = random_unsigned_integer(0, monstats_record_count - 1);
 
-			// Call both implementations
-			const auto moo_result = sut(nMonsterId, nComponent, a3);
-			const auto original_result = original(nMonsterId, nComponent, a3);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			for (auto i = 0; i < 16; ++i)
+			{
+				for (auto j = 0; j < 12; ++j)
+				{
+					// Input data
+					int nMonsterId = monster_id;
+					unsigned int nComponent = i;
+					unsigned int a3 = j;
+
+					// Call both implementations
+					const auto moo_result = sut(nMonsterId, nComponent, a3);
+					const auto original_result = original(nMonsterId, nComponent, a3);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				}
+			}
 		}
 	}
 	
@@ -293,90 +425,98 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA55E0 (#11052)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA55E0 (#11052)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11052, dll_base + 0x000655E0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			uint8_t a1{};
+			for (auto i = 0; i < 64; ++i)
+			{
+				uint8_t a1 = i;
 
-			// Call both implementations
-			const auto moo_result = sut(a1);
-			const auto original_result = original(a1);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(a1);
+				const auto original_result = original(a1);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5600 (#11053)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5600 (#11053)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11053, dll_base + 0x00065600);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			uint8_t a1{};
+			for (auto i = 0; i < 64; ++i)
+			{
+				uint8_t a1 = i;
 
-			// Call both implementations
-			const auto moo_result = sut(a1);
-			const auto original_result = original(a1);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(a1);
+				const auto original_result = original(a1);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5620 (#11054)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5620 (#11054)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11054, dll_base + 0x00065620);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			uint8_t a1{};
+			for (auto i = 0; i < 8; ++i)
+			{
+				uint8_t a1 = i;
 
-			// Call both implementations
-			const auto moo_result = sut(a1);
-			const auto original_result = original(a1);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(a1);
+				const auto original_result = original(a1);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5640 (#11055)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5640 (#11055)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11055, dll_base + 0x00065640);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
 				int a2{};
 				int a3{};
-				
+
 				return std::tuple{ a2, a3 };
 			};
-			
-			// Input data
-			auto [moo_a2, moo_a3] = setup_data();
-			auto [original_a2, original_a3] = setup_data();
-			uint8_t a1{};
 
-			// Call both implementations
-			sut(a1, &moo_a2, &moo_a3);
-			original(a1, &original_a2, &original_a3);
+			for (auto i = 0; i < 32; ++i)
+			{
+				// Input data
+				auto [moo_a2, moo_a3] = setup_data();
+				auto [original_a2, original_a3] = setup_data();
+				uint8_t a1 = i;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_a2, original_a2, "Comparing a2");
-			SKIP_MOO_CHECK_EQ(moo_a3, original_a3, "Comparing a3");
+				// Call both implementations
+				sut(a1, &moo_a2, &moo_a3);
+				original(a1, &original_a2, &original_a3);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_a2, original_a2, "Comparing a2");
+				MOO_CHECK_EQ(moo_a3, original_a3, "Comparing a3");
+			}
 		}
 	}
 	
@@ -408,142 +548,228 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA56C0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA56C0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_CanBeInTown, dll_base + 0x000656C0);
-		
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pMonster{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster);
-			const auto original_result = original(&original_pMonster);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					return std::tuple{ pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster);
+				const auto original_result = original(&original_pMonster);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5750 (#11057)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA5750 (#11057)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_IsSandLeaper, dll_base + 0x00065750);
 		
-		SUBCASE("")
+		SUBCASE("bAlwaysReturnFalse = FALSE")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
-			BOOL bAlwaysReturnFalse{};
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pMonster{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster, bAlwaysReturnFalse);
-			const auto original_result = original(&original_pMonster, bAlwaysReturnFalse);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					return std::tuple{ pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+				BOOL bAlwaysReturnFalse = FALSE;
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster, bAlwaysReturnFalse);
+				const auto original_result = original(&original_pMonster, bAlwaysReturnFalse);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
+		}
+
+		SUBCASE("bAlwaysReturnFalse = TRUE")
+		{
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pMonster{};
+
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
+
+					return std::tuple{ pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+				BOOL bAlwaysReturnFalse = TRUE;
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster, bAlwaysReturnFalse);
+				const auto original_result = original(&original_pMonster, bAlwaysReturnFalse);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA57D0 (#11058)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA57D0 (#11058)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_IsDemon, dll_base + 0x000657D0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pMonster{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster);
-			const auto original_result = original(&original_pMonster);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					return std::tuple{ pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster);
+				const auto original_result = original(&original_pMonster);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5830 (#11059)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA5830 (#11059)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_IsUndead, dll_base + 0x00065830);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pMonster{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster);
-			const auto original_result = original(&original_pMonster);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					return std::tuple{ pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster);
+				const auto original_result = original(&original_pMonster);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA58A0 (#11060)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA58A0 (#11060)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_IsBoss, dll_base + 0x000658A0);
 		
-		SUBCASE("")
+		SUBCASE("pMonStatsTxtRecord = nullptr")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2MonStatsTxt pMonStatsTxtRecord{};
+					D2UnitStrc pMonster{};
+
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
+
+					return std::tuple{ pMonStatsTxtRecord, pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonStatsTxtRecord, moo_pMonster] = setup_data();
+				auto [original_pMonStatsTxtRecord, original_pMonster] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonStatsTxtRecord, &moo_pMonster);
+				const auto original_result = original(&original_pMonStatsTxtRecord, &original_pMonster);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonStatsTxtRecord, original_pMonStatsTxtRecord, "Comparing pMonStatsTxtRecord");
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
+		}
+
+		SUBCASE("pMonStatsTxtRecord set")
+		{
+			const auto class_id = random_unsigned_integer(0, monstats_record_count - 1);
+
+			const auto setup_data = [this, &class_id]() {
 				D2MonStatsTxt pMonStatsTxtRecord{};
 				D2UnitStrc pMonster{};
-				
+
+				pMonster.dwUnitType = UNIT_MONSTER;
+
+				pMonStatsTxtRecord = monstats_txt[class_id];
+
 				return std::tuple{ pMonStatsTxtRecord, pMonster };
 			};
-			
+
 			// Input data
 			auto [moo_pMonStatsTxtRecord, moo_pMonster] = setup_data();
 			auto [original_pMonStatsTxtRecord, original_pMonster] = setup_data();
@@ -551,43 +777,48 @@ TEST_SUITE("D2MonstersTests")
 			// Call both implementations
 			const auto moo_result = sut(&moo_pMonStatsTxtRecord, &moo_pMonster);
 			const auto original_result = original(&original_pMonStatsTxtRecord, &original_pMonster);
-			
+
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonStatsTxtRecord, original_pMonStatsTxtRecord, "Comparing pMonStatsTxtRecord");
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			MOO_CHECK_EQ(moo_pMonStatsTxtRecord, original_pMonStatsTxtRecord, "Comparing pMonStatsTxtRecord");
+			MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5900 (#11064)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA5900 (#11064)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_IsDead, dll_base + 0x00065900);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			for (auto i = 0; i < NUMBER_OF_MONMODES; ++i)
+			{
+				const auto setup_data = [&i]() {
+					D2UnitStrc pMonster{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster);
-			const auto original_result = original(&original_pMonster);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwAnimMode = i;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					return std::tuple{ pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster);
+				const auto original_result = original(&original_pMonster);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
@@ -696,125 +927,153 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA64B0 (#11063)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<MonStatsTxtFixture<NoopFixture>>, "D2Common.0x6FDA64B0 (#11063)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11063, dll_base + 0x000664B0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
-			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
-			int nMonsterId{};
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				for (auto j = 1; j < levels_record_count; ++j)
+				{
+					D2DrlgLevelStrc pLevel{};
+					pLevel.nLevelId = j;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nMonsterId);
-			const auto original_result = original(&original_pRoom, nMonsterId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					D2DrlgRoomStrc pDrlgRoom{};
+					pDrlgRoom.pLevel = &pLevel;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+					const auto setup_data = [&j, &pDrlgRoom]() {
+						D2ActiveRoomStrc pRoom{};
+						pRoom.pDrlgRoom = &pDrlgRoom;
+
+						return std::tuple{ pRoom };
+					};
+
+					// Input data
+					auto [moo_pRoom] = setup_data();
+					auto [original_pRoom] = setup_data();
+					int nMonsterId = i;
+
+					// Call both implementations
+					const auto moo_result = sut(&moo_pRoom, nMonsterId);
+					const auto original_result = original(&original_pRoom, nMonsterId);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+				}
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6620 (#11065)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA6620 (#11065)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_IsPrimeEvil, dll_base + 0x00066620);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
-			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pMonster{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster);
-			const auto original_result = original(&original_pMonster);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					return std::tuple{ pMonster };
+				};
+
+				// Input data
+				auto [moo_pMonster] = setup_data();
+				auto [original_pMonster] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster);
+				const auto original_result = original(&original_pMonster);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6680 (#11066)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA6680 (#11066)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11066, dll_base + 0x00066680);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				int pDirectionX{};
-				int pDirectionY{};
-				
-				return std::tuple{ pMonster, pDirectionX, pDirectionY };
-			};
-			
-			// Input data
-			auto [moo_pMonster, moo_pDirectionX, moo_pDirectionY] = setup_data();
-			auto [original_pMonster, original_pDirectionX, original_pDirectionY] = setup_data();
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pMonster{};
 
-			// Call both implementations
-			sut(&moo_pMonster, &moo_pDirectionX, &moo_pDirectionY);
-			original(&original_pMonster, &original_pDirectionX, &original_pDirectionY);
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
-			SKIP_MOO_CHECK_EQ(moo_pDirectionX, original_pDirectionX, "Comparing pDirectionX");
-			SKIP_MOO_CHECK_EQ(moo_pDirectionY, original_pDirectionY, "Comparing pDirectionY");
+					int pDirectionX{};
+					int pDirectionY{};
+
+					return std::tuple{ pMonster, pDirectionX, pDirectionY };
+				};
+
+				// Input data
+				auto [moo_pMonster, moo_pDirectionX, moo_pDirectionY] = setup_data();
+				auto [original_pMonster, original_pDirectionX, original_pDirectionY] = setup_data();
+
+				// Call both implementations
+				sut(&moo_pMonster, &moo_pDirectionX, &moo_pDirectionY);
+				original(&original_pMonster, &original_pDirectionX, &original_pDirectionY);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+				MOO_CHECK_EQ(moo_pDirectionX, original_pDirectionX, "Comparing pDirectionX");
+				MOO_CHECK_EQ(moo_pDirectionY, original_pDirectionY, "Comparing pDirectionY");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6730 (#11067)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA6730 (#11067)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetHirelingTypeId, dll_base + 0x00066730);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pHireling{};
-				
-				return std::tuple{ pHireling };
-			};
-			
-			// Input data
-			auto [moo_pHireling] = setup_data();
-			auto [original_pHireling] = setup_data();
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				const auto setup_data = [&class_id]() {
+					D2UnitStrc pHireling{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pHireling);
-			const auto original_result = original(&original_pHireling);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pHireling.dwUnitType = UNIT_MONSTER;
+					pHireling.dwClassId = class_id;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pHireling, original_pHireling, "Comparing pHireling");
+					return std::tuple{ pHireling };
+				};
+
+				// Input data
+				auto [moo_pHireling] = setup_data();
+				auto [original_pHireling] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pHireling);
+				const auto original_result = original(&original_pHireling);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pHireling, original_pHireling, "Comparing pHireling");
+			}
 		}
 	}
 	
@@ -847,61 +1106,70 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6920" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA6920")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetBaseIdFromMonsterId, dll_base + 0x00066920);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			int nMonsterId{};
+			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			{
+				int nMonsterId = class_id;
 
-			// Call both implementations
-			const auto moo_result = sut(nMonsterId);
-			const auto original_result = original(nMonsterId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nMonsterId);
+				const auto original_result = original(nMonsterId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6950" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA6950")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetClassIdFromMonsterChain, dll_base + 0x00066950);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			int nMonsterId{};
-			int nChainId{};
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				for (auto j = 0; j < 16; ++j)
+				{
+					int nMonsterId = i;
+					int nChainId = j;
 
-			// Call both implementations
-			const auto moo_result = sut(nMonsterId, nChainId);
-			const auto original_result = original(nMonsterId, nChainId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					// Call both implementations
+					const auto moo_result = sut(nMonsterId, nChainId);
+					const auto original_result = original(nMonsterId, nChainId);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				}
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA69C0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA69C0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_ValidateMonsterId, dll_base + 0x000669C0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			int nMonsterId{};
+			for (auto class_id = -1; class_id < monstats_record_count + 1; ++class_id)
+			{
+				int nMonsterId = class_id;
 
-			// Call both implementations
-			const auto moo_result = sut(nMonsterId);
-			const auto original_result = original(nMonsterId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nMonsterId);
+				const auto original_result = original(nMonsterId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 }
