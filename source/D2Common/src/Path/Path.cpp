@@ -1558,7 +1558,7 @@ void __stdcall PATH_SetStepNum(D2DynamicPathStrc* pDynamicPath, uint8_t nSteps)
 }
 
 //D2Common.0x6FDAA4B0 (#10206)
-int __stdcall PATH_GetStepNum(D2DynamicPathStrc* pDynamicPath)
+uint8_t __stdcall PATH_GetStepNum(D2DynamicPathStrc* pDynamicPath)
 {
 	return pDynamicPath->nStepNum + 1;
 }
