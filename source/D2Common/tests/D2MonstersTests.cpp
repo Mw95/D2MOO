@@ -67,8 +67,7 @@ TEST_SUITE("D2MonstersTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11081, dll_base + 0x00064E20);
 
-		// Repeat the test multiple times with different random values
-		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
@@ -266,8 +265,7 @@ TEST_SUITE("D2MonstersTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2COMMON_11068_GetCompInfo, dll_base + 0x00065270);
 
-		// Repeat the test multiple times with different random values
-		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
@@ -367,8 +365,7 @@ TEST_SUITE("D2MonstersTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11070, dll_base + 0x00065450);
 
-		// Repeat the test multiple times with different random values
-		[[maybe_unused]] const auto repetition = GENERATE(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
