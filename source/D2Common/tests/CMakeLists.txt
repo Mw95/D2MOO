@@ -103,6 +103,7 @@ target_sources(D2CommonTests
     TestFixtures/LevelsTxtFixture.h
     TestFixtures/MonStatsTxtFixture.h
     TestFixtures/MonStats2TxtFixture.h
+    TestFixtures/ObjectsTxtFixture.h
     TestFixtures/PortalLevelsFixture.h
 )
 
