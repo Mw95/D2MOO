@@ -82,7 +82,7 @@ TEST_SUITE("D2ChatTests")
 		{
 			const auto display_time = random_unsigned_integer();
 
-			const auto setup_data = [&display_time]() {
+			const auto setup_data = [display_time]() {
 				D2HoverTextStrc pHoverMsg{};
 				pHoverMsg.dwDisplayTime = display_time;
 
@@ -117,7 +117,7 @@ TEST_SUITE("D2ChatTests")
 		{
 			const auto timeout = random_unsigned_integer();
 
-			const auto setup_data = [&timeout]() {
+			const auto setup_data = [timeout]() {
 				D2HoverTextStrc pHoverMsg{};
 				pHoverMsg.dwExpireTime = timeout;
 
@@ -186,7 +186,7 @@ TEST_SUITE("D2ChatTests")
 		{
 			BOOL bUsed = GENERATE(true, false);
 
-			const auto setup_data = [&bUsed]() {
+			const auto setup_data = [bUsed]() {
 				D2HoverTextStrc pHoverMsg{};
 				pHoverMsg.bUsed = bUsed;
 				
@@ -251,7 +251,7 @@ TEST_SUITE("D2ChatTests")
 		{
 			const auto lang_id = random_unsigned_integer(0, 255);
 
-			const auto setup_data = [&lang_id]() {
+			const auto setup_data = [lang_id]() {
 				D2HoverTextStrc pHoverMsg{};
 				pHoverMsg.nLangId = lang_id;
 

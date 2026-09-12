@@ -102,7 +102,7 @@ TEST_SUITE("D2WaypointsTests")
 				flags[i] = random_unsigned_integer(0, 65535);
 			}
 
-			const auto setup_data = [&flags]() {
+			const auto setup_data = [flags]() {
 				D2WaypointDataStrc pData{};
 
 				memcpy(pData.nFlags, flags, sizeof(flags));
@@ -246,7 +246,7 @@ TEST_SUITE("D2WaypointsTests")
 				flags[i] = random_unsigned_integer(0, 65535);
 			}
 
-			const auto setup_data = [&flags]() {
+			const auto setup_data = [flags]() {
 				D2WaypointDataStrc pDestination{};
 				D2WaypointDataStrc pSource{};
 
@@ -296,7 +296,7 @@ TEST_SUITE("D2WaypointsTests")
 				flags[i] = random_unsigned_integer(0, 65535);
 			}
 
-			const auto setup_data = [&flags]() {
+			const auto setup_data = [flags]() {
 				D2WaypointDataStrc pDestination{};
 				D2WaypointDataStrc pSource{};
 

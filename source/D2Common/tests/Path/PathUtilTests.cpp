@@ -29,7 +29,7 @@ TEST_SUITE("PathUtilTests")
 			{
 				const auto speed = random_unsigned_integer(0, 10);
 
-				const auto setup_data = [&speed, &i]() {
+				const auto setup_data = [speed, i]() {
 					D2UnitStrc pTargetUnit{};
 					pTargetUnit.dwUnitType = UNIT_PLAYER;
 

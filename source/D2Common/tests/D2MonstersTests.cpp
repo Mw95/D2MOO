@@ -73,7 +73,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			const auto hireling_init_id = GENERATE(0, 1, 2, 3);
 
-			const auto setup_data = [&hireling_init_id]() {
+			const auto setup_data = [hireling_init_id]() {
 				D2HirelingInitStrc pHirelingInit{};
 
 				pHirelingInit.nId = hireling_init_id;
@@ -271,7 +271,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			const auto class_id = random_unsigned_integer(0, monstats_record_count - 1);
 
-			const auto setup_data = [&class_id]() {
+			const auto setup_data = [class_id]() {
 				D2UnitStrc pMonster{};
 
 				pMonster.dwUnitType = UNIT_MONSTER;
@@ -309,25 +309,25 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto level_id = 0; level_id < levels_record_count; ++level_id)
 			{
-				D2DrlgLevelStrc pLevel{};
-				pLevel.nLevelId = level_id;
-
-				D2DrlgRoomStrc pDrlgRoom{};
-				pDrlgRoom.pLevel = &pLevel;
-
-				D2ActiveRoomStrc pRoom{};
-				pRoom.pDrlgRoom = &pDrlgRoom;
-
-				D2DynamicPathStrc pDynamicPath{};
-				pDynamicPath.pRoom = &pRoom;
-
 				for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 				{
 					for (auto i = 0; i < 16; ++i)
 					{
 						for (auto j = 0; j < 12; ++j)
 						{
-							const auto setup_data = [&class_id, &pDynamicPath]() {
+							const auto setup_data = [class_id, level_id]() {
+								D2DrlgLevelStrc pLevel{};
+								pLevel.nLevelId = level_id;
+
+								D2DrlgRoomStrc pDrlgRoom{};
+								pDrlgRoom.pLevel = &pLevel;
+
+								D2ActiveRoomStrc pRoom{};
+								pRoom.pDrlgRoom = &pDrlgRoom;
+
+								D2DynamicPathStrc pDynamicPath{};
+								pDynamicPath.pRoom = &pRoom;
+
 								D2UnitStrc pMonster{};
 
 								pMonster.dwUnitType = UNIT_MONSTER;
@@ -335,12 +335,12 @@ TEST_SUITE("D2MonstersTests")
 
 								pMonster.pDynamicPath = &pDynamicPath;
 
-								return std::tuple{ pMonster };
+								return std::tuple{ pMonster, pDynamicPath, pRoom, pDrlgRoom, pLevel };
 							};
 
 							// Input data
-							auto [moo_pMonster] = setup_data();
-							auto [original_pMonster] = setup_data();
+							auto [moo_pMonster, moo_pDynamicPath, moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
+							auto [original_pMonster, original_pDynamicPath, original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
 							unsigned int nIndex = i;
 							unsigned int nComponent = j;
 
@@ -554,7 +554,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -589,7 +589,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -619,7 +619,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -655,7 +655,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -690,7 +690,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -725,7 +725,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2MonStatsTxt pMonStatsTxtRecord{};
 					D2UnitStrc pMonster{};
 
@@ -793,7 +793,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto i = 0; i < NUMBER_OF_MONMODES; ++i)
 			{
-				const auto setup_data = [&i]() {
+				const auto setup_data = [i]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -935,22 +935,22 @@ TEST_SUITE("D2MonstersTests")
 			{
 				for (auto j = 1; j < levels_record_count; ++j)
 				{
-					D2DrlgLevelStrc pLevel{};
-					pLevel.nLevelId = j;
+					const auto setup_data = [j]() {
+						D2DrlgLevelStrc pLevel{};
+						pLevel.nLevelId = j;
 
-					D2DrlgRoomStrc pDrlgRoom{};
-					pDrlgRoom.pLevel = &pLevel;
+						D2DrlgRoomStrc pDrlgRoom{};
+						pDrlgRoom.pLevel = &pLevel;
 
-					const auto setup_data = [&j, &pDrlgRoom]() {
 						D2ActiveRoomStrc pRoom{};
 						pRoom.pDrlgRoom = &pDrlgRoom;
 
-						return std::tuple{ pRoom };
+						return std::tuple{ pRoom, pDrlgRoom, pLevel };
 					};
 
 					// Input data
-					auto [moo_pRoom] = setup_data();
-					auto [original_pRoom] = setup_data();
+					auto [moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
+					auto [original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
 					int nMonsterId = i;
 
 					// Call both implementations
@@ -976,7 +976,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -1011,7 +1011,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pMonster{};
 
 					pMonster.dwUnitType = UNIT_MONSTER;
@@ -1048,7 +1048,7 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
 			{
-				const auto setup_data = [&class_id]() {
+				const auto setup_data = [class_id]() {
 					D2UnitStrc pHireling{};
 
 					pHireling.dwUnitType = UNIT_MONSTER;
