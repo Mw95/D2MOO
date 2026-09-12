@@ -125,7 +125,7 @@ TEST_SUITE("D2SeedTests")
 			const auto low_seed = random_unsigned_integer();
 			const auto high_seed = random_unsigned_integer();
 
-			const auto setup_data = [&low_seed, &high_seed]() {
+			const auto setup_data = [low_seed, high_seed]() {
 				D2SeedStrc pSeed{ low_seed, high_seed };
 
 				return std::tuple{ pSeed };
@@ -192,7 +192,7 @@ TEST_SUITE("D2SeedTests")
 			const auto low_seed = random_unsigned_integer();
 			const auto high_seed = random_unsigned_integer();
 
-			const auto setup_data = [&low_seed, &high_seed]() {
+			const auto setup_data = [low_seed, high_seed]() {
 				D2SeedStrc pSeed{ low_seed, high_seed };
 				uint32_t pLowSeed{};
 				uint32_t pHighSeed{};
@@ -229,7 +229,7 @@ TEST_SUITE("D2SeedTests")
 			const auto low_seed = random_unsigned_integer();
 			const auto high_seed = random_unsigned_integer();
 
-			const auto setup_data = [&low_seed, &high_seed]() {
+			const auto setup_data = [low_seed, high_seed]() {
 				D2SeedStrc pSeed{ low_seed, high_seed };
 
 				return std::tuple{ pSeed };

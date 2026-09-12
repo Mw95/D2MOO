@@ -2062,7 +2062,7 @@ TEST_SUITE("D2DungeonTests")
 		{
 			const auto init_seed = random_unsigned_integer();
 
-			const auto setup_data = [&init_seed]() {
+			const auto setup_data = [init_seed]() {
 				D2DrlgActStrc pAct{};
 
 				pAct.dwInitSeed = init_seed;
@@ -2148,7 +2148,7 @@ TEST_SUITE("D2DungeonTests")
 		{
 			for (auto i = 0; i < levels_record_count; ++i)
 			{
-				const auto setup_data = [&i]() {
+				const auto setup_data = [i]() {
 					D2DrlgLevelStrc pLevel{};
 					pLevel.nLevelId = i;
 
@@ -2224,7 +2224,7 @@ TEST_SUITE("D2DungeonTests")
 		{
 			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [&flags]() {
+			const auto setup_data = [flags]() {
 				D2ActiveRoomStrc pRoom{};
 
 				pRoom.dwFlags = flags;
@@ -2631,7 +2631,7 @@ TEST_SUITE("D2DungeonTests")
 		{
 			const auto town_id = random_unsigned_integer();
 
-			const auto setup_data = [&town_id]() {
+			const auto setup_data = [town_id]() {
 				D2DrlgActStrc pAct{};
 				
 				pAct.nTownId = town_id;
@@ -2662,21 +2662,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			D2DrlgStrc pDrlg{};
+			const auto staff_tomb_level = random_unsigned_integer();
 
-			pDrlg.nStaffTombLevel = random_unsigned_integer();
-			
-			const auto setup_data = [&pDrlg]() {
+			const auto setup_data = [staff_tomb_level]() {
+				D2DrlgStrc pDrlg{};
+				pDrlg.nStaffTombLevel = staff_tomb_level;
+
 				D2DrlgActStrc pAct{};
-
 				pAct.pDrlg = &pDrlg;
 				
-				return std::tuple{ pAct };
+				return std::tuple{ pAct, pDrlg };
 			};
 			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			auto [moo_pAct, moo_pDrlg] = setup_data();
+			auto [original_pAct, original_pDrlg] = setup_data();
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -2699,20 +2699,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("bReset = FALSE")
 		{
-			D2DrlgRoomStrc pDrlgRoom{};
-			pDrlgRoom.dwFlags = random_unsigned_integer();
+			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [&pDrlgRoom]() {
+			const auto setup_data = [flags]() {
+				D2DrlgRoomStrc pDrlgRoom{};
+				pDrlgRoom.dwFlags = flags;
+
 				D2ActiveRoomStrc pRoom{};
-
 				pRoom.pDrlgRoom = &pDrlgRoom;
 				
-				return std::tuple{ pRoom };
+				return std::tuple{ pRoom, pDrlgRoom };
 			};
 			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			auto [moo_pRoom, moo_pDrlgRoom] = setup_data();
+			auto [original_pRoom, original_pDrlgRoom] = setup_data();
 			BOOL bReset = FALSE;
 
 			// Call both implementations
@@ -2725,20 +2726,21 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("bReset = TRUE")
 		{
-			D2DrlgRoomStrc pDrlgRoom{};
-			pDrlgRoom.dwFlags = random_unsigned_integer();
+			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [&pDrlgRoom]() {
+			const auto setup_data = [flags]() {
+				D2DrlgRoomStrc pDrlgRoom{};
+				pDrlgRoom.dwFlags = flags;
+
 				D2ActiveRoomStrc pRoom{};
-
 				pRoom.pDrlgRoom = &pDrlgRoom;
 
-				return std::tuple{ pRoom };
+				return std::tuple{ pRoom, pDrlgRoom };
 			};
 
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			auto [moo_pRoom, moo_pDrlgRoom] = setup_data();
+			auto [original_pRoom, original_pDrlgRoom] = setup_data();
 			BOOL bReset = TRUE;
 
 			// Call both implementations
@@ -2877,7 +2879,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 				
@@ -2910,7 +2912,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -2943,7 +2945,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -2976,7 +2978,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -3009,7 +3011,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -3042,7 +3044,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -3075,7 +3077,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -3108,7 +3110,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -3143,7 +3145,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -3178,7 +3180,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
@@ -3213,7 +3215,7 @@ TEST_SUITE("D2DungeonTests")
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [&x, &y]() {
+			const auto setup_data = [x, y]() {
 				int pX = x;
 				int pY = y;
 
