@@ -16,6 +16,9 @@
 #include <GAME/Game.h>
 #include <Units/Units.h>
 
+#include "TestFixtures/LevelsTxtFixture.h"
+#include "TestFixtures/PortalLevelsFixture.h"
+
 
 TEST_SUITE("D2DungeonTests")
 {
@@ -1986,16 +1989,18 @@ TEST_SUITE("D2DungeonTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D060" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D060")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetEnvironmentFromAct, dll_base + 0x0004D060);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
+				D2DrlgEnvironmentStrc pEnvironment{};
+
 				D2DrlgActStrc pAct{};
+				pAct.pEnvironment = &pEnvironment;
 				
 				return std::tuple{ pAct };
 			};
@@ -2009,23 +2014,25 @@ TEST_SUITE("D2DungeonTests")
 			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
+			MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D090 (#10088)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D090 (#10088)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetDrlgFromAct, dll_base + 0x0004D090);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
+				D2DrlgStrc pDrlg{};
+
 				D2DrlgActStrc pAct{};
+				pAct.pDrlg = &pDrlg;
 				
 				return std::tuple{ pAct };
 			};
@@ -2039,23 +2046,26 @@ TEST_SUITE("D2DungeonTests")
 			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
+			MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912D0 (#10089)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912D0 (#10089)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetInitSeedFromAct, dll_base + 0x000512D0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			const auto init_seed = random_unsigned_integer();
+
+			const auto setup_data = [&init_seed]() {
 				D2DrlgActStrc pAct{};
+
+				pAct.dwInitSeed = init_seed;
 				
 				return std::tuple{ pAct };
 			};
@@ -2069,132 +2079,155 @@ TEST_SUITE("D2DungeonTests")
 			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
+			MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D0C0 (#10007)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D0C0 (#10007)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetRoomExFromRoom, dll_base + 0x0004D0C0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
+				D2DrlgRoomStrc pDrlgRoom{};
+
 				D2ActiveRoomStrc pRoom{};
+				pRoom.pDrlgRoom = &pDrlgRoom;
 				
-				return std::tuple{ pRoom };
+				return std::tuple{ pRoom, pDrlgRoom };
 			};
 			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			auto [moo_pRoom, moo_pDrlgRoom] = setup_data();
+			auto [original_pRoom, original_pDrlgRoom] = setup_data();
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
 			const auto original_result = original(&original_pRoom);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+			MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D0D0 (#10086)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8D0D0 (#10086)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_IsTownLevelId, dll_base + 0x0004D0D0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			int nLevelId{};
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				int nLevelId = i;
 
-			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D0E0 (#10082)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8D0E0 (#10082)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_IsRoomInTown, dll_base + 0x0004D0E0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
-			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				const auto setup_data = [&i]() {
+					D2DrlgLevelStrc pLevel{};
+					pLevel.nLevelId = i;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					D2DrlgRoomStrc pDrlgRoom{};
+					pDrlgRoom.pLevel = &pLevel;
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+					D2ActiveRoomStrc pRoom{};
+					pRoom.pDrlgRoom = &pDrlgRoom;
+
+					return std::tuple{ pRoom, pDrlgRoom, pLevel };
+				};
+
+				// Input data
+				auto [moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
+				auto [original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pRoom);
+				const auto original_result = original(&original_pRoom);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D100 (#10083)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D100 (#10083)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2COMMON_10083_Return0, dll_base + 0x0004D100);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
+				D2DrlgLevelStrc pLevel{};
+
+				D2DrlgRoomStrc pDrlgRoom{};
+				pDrlgRoom.pLevel = &pLevel;
+
 				D2ActiveRoomStrc pRoom{};
+				pRoom.pDrlgRoom = &pDrlgRoom;
 				
-				return std::tuple{ pRoom };
+				return std::tuple{ pRoom, pDrlgRoom, pLevel };
 			};
 			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			auto [moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
+			auto [original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
 			const auto original_result = original(&original_pRoom);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+			MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D130 (#10084)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D130 (#10084)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10084, dll_base + 0x0004D130);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			const auto flags = random_unsigned_integer();
+
+			const auto setup_data = [&flags]() {
 				D2ActiveRoomStrc pRoom{};
+
+				pRoom.dwFlags = flags;
 				
 				return std::tuple{ pRoom };
 			};
@@ -2208,29 +2241,28 @@ TEST_SUITE("D2DungeonTests")
 			const auto original_result = original(&original_pRoom);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+			MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D140 (#10085)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D140 (#10085)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetTownLevelIdFromActNo, dll_base + 0x0004D140);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			uint8_t nAct{};
+			uint8_t nAct = GENERATE(0, 1, 2, 3, 4);
 
 			// Call both implementations
 			const auto moo_result = sut(nAct);
 			const auto original_result = original(nAct);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 		}
 	}
 	
@@ -2569,36 +2601,41 @@ TEST_SUITE("D2DungeonTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D4B0 (#10099)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(PortalLevelsFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD8D4B0 (#10099)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetPortalFlagFromLevelId, dll_base + 0x0004D4B0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			int nPortalLevelId{};
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				int nPortalLevelId = i;
 
-			// Call both implementations
-			const auto moo_result = sut(nPortalLevelId);
-			const auto original_result = original(nPortalLevelId);
-			
-			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nPortalLevelId);
+				const auto original_result = original(nPortalLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D4F0 (#10037)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D4F0 (#10037)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetTownLevelIdFromAct, dll_base + 0x0004D4F0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			const auto town_id = random_unsigned_integer();
+
+			const auto setup_data = [&town_id]() {
 				D2DrlgActStrc pAct{};
 				
+				pAct.nTownId = town_id;
+
 				return std::tuple{ pAct };
 			};
 			
@@ -2611,23 +2648,28 @@ TEST_SUITE("D2DungeonTests")
 			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
+			MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D520 (#10047)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D520 (#10047)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GetHoradricStaffTombLevelId, dll_base + 0x0004D520);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			D2DrlgStrc pDrlg{};
+
+			pDrlg.nStaffTombLevel = random_unsigned_integer();
+			
+			const auto setup_data = [&pDrlg]() {
 				D2DrlgActStrc pAct{};
+
+				pAct.pDrlg = &pDrlg;
 				
 				return std::tuple{ pAct };
 			};
@@ -2641,23 +2683,29 @@ TEST_SUITE("D2DungeonTests")
 			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
+			MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D540 (#10102)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D540 (#10102)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_ToggleHasPortalFlag, dll_base + 0x0004D540);
+
+		REPEAT_10();
 		
-		SUBCASE("")
+		SUBCASE("bReset = FALSE")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			D2DrlgRoomStrc pDrlgRoom{};
+			pDrlgRoom.dwFlags = random_unsigned_integer();
+
+			const auto setup_data = [&pDrlgRoom]() {
 				D2ActiveRoomStrc pRoom{};
+
+				pRoom.pDrlgRoom = &pDrlgRoom;
 				
 				return std::tuple{ pRoom };
 			};
@@ -2665,14 +2713,40 @@ TEST_SUITE("D2DungeonTests")
 			// Input data
 			auto [moo_pRoom] = setup_data();
 			auto [original_pRoom] = setup_data();
-			BOOL bReset{};
+			BOOL bReset = FALSE;
 
 			// Call both implementations
 			sut(&moo_pRoom, bReset);
 			original(&original_pRoom, bReset);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+			MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+		}
+
+		SUBCASE("bReset = TRUE")
+		{
+			D2DrlgRoomStrc pDrlgRoom{};
+			pDrlgRoom.dwFlags = random_unsigned_integer();
+
+			const auto setup_data = [&pDrlgRoom]() {
+				D2ActiveRoomStrc pRoom{};
+
+				pRoom.pDrlgRoom = &pDrlgRoom;
+
+				return std::tuple{ pRoom };
+			};
+
+			// Input data
+			auto [moo_pRoom] = setup_data();
+			auto [original_pRoom] = setup_data();
+			BOOL bReset = TRUE;
+
+			// Call both implementations
+			sut(&moo_pRoom, bReset);
+			original(&original_pRoom, bReset);
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
 		}
 	}
 	
@@ -2734,14 +2808,13 @@ TEST_SUITE("D2DungeonTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D5C0 (#10103)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D5C0 (#10103)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_SetActCallbackFunc, dll_base + 0x0004D5C0);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			const auto setup_data = []() {
 				D2DrlgActStrc pAct{};
 				
@@ -2751,56 +2824,62 @@ TEST_SUITE("D2DungeonTests")
 			// Input data
 			auto [moo_pAct] = setup_data();
 			auto [original_pAct] = setup_data();
-			ACTCALLBACKFN pActCallbackFunction{};
+			ACTCALLBACKFN pActCallbackFunction = (ACTCALLBACKFN)random_unsigned_integer();
 
 			// Call both implementations
 			sut(&moo_pAct, pActCallbackFunction);
 			original(&original_pAct, pActCallbackFunction);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
+			MOO_CHECK_EQ(moo_pAct, original_pAct, "Comparing pAct");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D600 (#10106)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D600 (#10106)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_SaveKilledUnitGUID, dll_base + 0x0004D600);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
-			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
-			D2UnitGUID nUnitGUID{};
+			for (auto i = 0; i < 20; ++i)
+			{
+				const auto setup_data = []() {
+					D2ActiveRoomStrc pRoom{};
 
-			// Call both implementations
-			sut(&moo_pRoom, nUnitGUID);
-			original(&original_pRoom, nUnitGUID);
+					return std::tuple{ pRoom };
+				};
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+				// Input data
+				auto [moo_pRoom] = setup_data();
+				auto [original_pRoom] = setup_data();
+				D2UnitGUID nUnitGUID = random_unsigned_integer();
+
+				// Call both implementations
+				sut(&moo_pRoom, nUnitGUID);
+				original(&original_pRoom, nUnitGUID);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D690 (#10107)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D690 (#10107)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_ClientToGameTileCoords, dll_base + 0x0004D690);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
 				
 				return std::tuple{ pX, pY };
 			};
@@ -2814,23 +2893,27 @@ TEST_SUITE("D2DungeonTests")
 			original(&original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D870 (#10108)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D870 (#10108)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_ClientToGameSubtileCoords, dll_base + 0x0004D870);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -2843,23 +2926,27 @@ TEST_SUITE("D2DungeonTests")
 			original(&original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D8A0 (#10109)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D8A0 (#10109)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_ClientToGameCoords, dll_base + 0x0004D8A0);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -2872,23 +2959,27 @@ TEST_SUITE("D2DungeonTests")
 			original(&original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D6E0 (#10110)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D6E0 (#10110)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameTileToClientCoords, dll_base + 0x0004D6E0);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -2901,23 +2992,27 @@ TEST_SUITE("D2DungeonTests")
 			original(&original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D630 (#10111)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D630 (#10111)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameSubtileToClientCoords, dll_base + 0x0004D630);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -2930,23 +3025,27 @@ TEST_SUITE("D2DungeonTests")
 			original(&original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D660 (#10112)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D660 (#10112)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameToClientCoords, dll_base + 0x0004D660);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -2959,23 +3058,27 @@ TEST_SUITE("D2DungeonTests")
 			original(&original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D8C0 (#10113)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D8C0 (#10113)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameTileToSubtileCoords, dll_base + 0x0004D8C0);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -2988,23 +3091,27 @@ TEST_SUITE("D2DungeonTests")
 			original(&original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D710 (#10114)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D710 (#10114)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_ClientTileDrawPositionToGameCoords, dll_base + 0x0004D710);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -3019,23 +3126,27 @@ TEST_SUITE("D2DungeonTests")
 			original(nX, nY, &original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D790 (#10115)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D790 (#10115)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameToClientTileDrawPositionCoords, dll_base + 0x0004D790);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -3050,23 +3161,27 @@ TEST_SUITE("D2DungeonTests")
 			original(nX, nY, &original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D7D0 (#10116)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D7D0 (#10116)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_ClientSubileDrawPositionToGameCoords, dll_base + 0x0004D7D0);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -3081,23 +3196,27 @@ TEST_SUITE("D2DungeonTests")
 			original(nX, nY, &original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D830 (#10117)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8D830 (#10117)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameToClientSubtileDrawPositionCoords, dll_base + 0x0004D830);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pX{};
-				int pY{};
-				
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [&x, &y]() {
+				int pX = x;
+				int pY = y;
+
 				return std::tuple{ pX, pY };
 			};
 			
@@ -3112,8 +3231,8 @@ TEST_SUITE("D2DungeonTests")
 			original(nX, nY, &original_pX, &original_pY);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
-			SKIP_MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
+			MOO_CHECK_EQ(moo_pX, original_pX, "Comparing pX");
+			MOO_CHECK_EQ(moo_pY, original_pY, "Comparing pY");
 		}
 	}
 }
