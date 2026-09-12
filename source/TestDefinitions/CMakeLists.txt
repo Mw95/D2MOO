@@ -4,6 +4,8 @@ target_sources(TestDefinitions
   PRIVATE
     include/TestDefinitions.h
     include/EqualityMacros.h
+    include/RepetitionMacros.h
+
     
     include/D2Common/DataTbls/AnimTblsVisitorDefinitions.h
     include/D2Common/DataTbls/ArenaTblsVisitorDefinitions.h

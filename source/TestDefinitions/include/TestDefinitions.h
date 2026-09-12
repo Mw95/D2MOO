@@ -2,6 +2,7 @@
 
 
 #include "EqualityMacros.h"
+#include "RepetitionMacros.h"
 
 
 #include "D2Common/DataTbls/AnimTblsVisitorDefinitions.h"
