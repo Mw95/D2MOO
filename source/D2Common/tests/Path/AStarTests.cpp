@@ -48,17 +48,24 @@ TEST_SUITE("AStarTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6D10" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6D10")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AStar_PushToVisitedCache, dll_base + 0x00066D10);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [x, y]() {
 				D2PathFoWallContextStrc pContext{};
 				D2PathFoWallNodeStrc pNode{};
+
+				pNode.tPoint.X = x;
+				pNode.tPoint.Y = y;
 				
 				return std::tuple{ pContext, pNode };
 			};
@@ -72,11 +79,11 @@ TEST_SUITE("AStarTests")
 			const auto original_result = original(&original_pContext, &original_pNode);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pContext, original_pContext, "Comparing pContext");
-			SKIP_MOO_CHECK_EQ(moo_pNode, original_pNode, "Comparing pNode");
+			MOO_CHECK_EQ(moo_pContext, original_pContext, "Comparing pContext");
+			MOO_CHECK_EQ(moo_pNode, original_pNode, "Comparing pNode");
 		}
 	}
 	
@@ -115,23 +122,22 @@ TEST_SUITE("AStarTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA7230" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA7230")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AStar_Heuristic, dll_base + 0x00067230);
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			D2PathPointStrc tPoint1{};
-			D2PathPointStrc tPoint2{};
+			D2PathPointStrc tPoint1{ static_cast<uint16_t>(random_unsigned_integer(0, 65535)), static_cast<uint16_t>(random_unsigned_integer(0, 65535)) };
+			D2PathPointStrc tPoint2{ static_cast<uint16_t>(random_unsigned_integer(0, 65535)), static_cast<uint16_t>(random_unsigned_integer(0, 65535)) };
 
 			// Call both implementations
 			const auto moo_result = sut(tPoint1, tPoint2);
 			const auto original_result = original(tPoint1, tPoint2);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 		}
 	}
 	
