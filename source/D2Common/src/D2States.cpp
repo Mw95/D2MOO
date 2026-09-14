@@ -425,7 +425,6 @@ BOOL __stdcall STATES_CheckStateMaskGreenOnUnit(D2UnitStrc* pUnit)
 //D2Common.0x6FDB5740 (#11303)
 BOOL __stdcall STATES_CheckStateMaskOnUnit(D2UnitStrc* pUnit, int nStateMask)
 {
-
 	if (pUnit && nStateMask >= 0 && nStateMask < 40)
 	{
 		uint32_t* pStatFlags = D2COMMON_STATES_GetStatFlags_6FDB8A90(pUnit);

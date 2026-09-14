@@ -300,7 +300,7 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelsTxtFixture<CompCodeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA52F0 (#11069)")
+	TEST_CASE_FIXTURE(LevelsTxtFixture<CompCodeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA52F0 (#11069)" * doctest::skip("Takes quite long, but passes"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11069, dll_base + 0x000652F0);

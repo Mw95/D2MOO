@@ -105,6 +105,7 @@ target_sources(D2CommonTests
     TestFixtures/MonStats2TxtFixture.h
     TestFixtures/ObjectsTxtFixture.h
     TestFixtures/PortalLevelsFixture.h
+    TestFixtures/StatesTxtFixture.h
 )
 
 get_target_property(D2CommonTestsSources D2CommonTests SOURCES)
