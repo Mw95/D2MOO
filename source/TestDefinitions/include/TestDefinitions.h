@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include "DynamicArray.h"
 #include "EqualityMacros.h"
 #include "RepetitionMacros.h"
 
