@@ -417,7 +417,6 @@ def default_value_for(parameter):
 
 def parameter_setup_lines(function):
     lines = []
-    setup_variables = []
     moo_arguments = []
     original_arguments = []
     comparison_lines = []
@@ -438,7 +437,7 @@ def parameter_setup_lines(function):
             lines.append(f"\t\t\tvoid* original_{variable_name} = nullptr;")
             moo_arguments.append(f"moo_{variable_name}")
             original_arguments.append(f"original_{variable_name}")
-            comparison_lines.append(f"\t\t\tSKIP_MOO_CHECK_EQ(moo_{variable_name}, original_{variable_name}, \"Comparing {variable_name}\");")
+            comparison_lines.append(f'\t\t\tSKIP_MOO_CHECK_EQ(moo_{variable_name}, original_{variable_name}, "Comparing {variable_name}");')
             continue
 
         if parameter.needs_duplicate:
@@ -452,7 +451,7 @@ def parameter_setup_lines(function):
                 moo_arguments.append(f"moo_{variable_name}")
                 original_arguments.append(f"original_{variable_name}")
 
-            comparison_lines.append(f"\t\t\tSKIP_MOO_CHECK_EQ(moo_{variable_name}, original_{variable_name}, \"Comparing {variable_name}\");")
+            comparison_lines.append(f'\t\t\tSKIP_MOO_CHECK_EQ(moo_{variable_name}, original_{variable_name}, "Comparing {variable_name}");')
             continue
 
         if parameter.is_pointer or parameter.is_reference:
@@ -472,23 +471,40 @@ def parameter_setup_lines(function):
         original_arguments.append(variable_name)
 
     if duplicate_parameters:
-        for type_name, variable_name in duplicate_parameters:
-            setup_variables.append(f"\t\t\t\t{type_name} {variable_name}{{}};")
+        setup_parameters = ",\n".join(
+            f"\t\t\t\t{type_name}& {variable_name}"
+            for type_name, variable_name in duplicate_parameters
+        )
 
-        setup_names = ", ".join(variable_name for _, variable_name in duplicate_parameters)
-        moo_names = ", ".join(f"moo_{variable_name}" for _, variable_name in duplicate_parameters)
-        original_names = ", ".join(f"original_{variable_name}" for _, variable_name in duplicate_parameters)
+        input_declarations = [
+            f"\t\t\t{type_name} moo_{variable_name}{{}};"
+            for type_name, variable_name in duplicate_parameters
+        ]
+        input_declarations.extend(
+            f"\t\t\t{type_name} original_{variable_name}{{}};"
+            for type_name, variable_name in duplicate_parameters
+        )
 
-        setup_variables.append(f"\t\t\t\t\n\t\t\t\treturn std::tuple{{ {setup_names} }};")
+        moo_names = ", ".join(
+            f"moo_{variable_name}" for _, variable_name in duplicate_parameters
+        )
+        original_names = ", ".join(
+            f"original_{variable_name}" for _, variable_name in duplicate_parameters
+        )
+
         lines = [
-            "\t\t\tconst auto setup_data = []() {",
-            *setup_variables,
-            "\t\t\t};",
-            "\t\t\t",
             "\t\t\t// Input data",
-            f"\t\t\tauto [{moo_names}] = setup_data();",
-            f"\t\t\tauto [{original_names}] = setup_data();",
+            *input_declarations,
             *lines,
+            "",
+            "\t\t\tconst auto setup_data = [](",
+            setup_parameters,
+            "\t\t\t) {",
+            "\t\t\t\t// TODO: Setup as needed",
+            "\t\t\t};",
+            "",
+            f"\t\t\tsetup_data({moo_names});",
+            f"\t\t\tsetup_data({original_names});",
         ]
 
     return (lines, moo_arguments, original_arguments, comparison_lines, function_pointer_parameters)
@@ -528,7 +544,6 @@ def generate_test(function, dll_base_address):
     if setup_lines:
         function_body_lines.append("\t\tSUBCASE(\"\")")
         function_body_lines.append("\t\t{")
-        function_body_lines.append("\t\t\t// TODO: Setup as needed")
         function_body_lines.extend(setup_lines)
         function_body_lines.append("")
     else:
@@ -660,7 +675,6 @@ def main():
     output.append("")
     output.append("#include <cstdarg>")
     output.append("#include <filesystem>")
-    output.append("#include <tuple>")
     output.append("")
     output.append("#include <TestDefinitions.h>")
     output.append("#include <TestUtilities.h>")
