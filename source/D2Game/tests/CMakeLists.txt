@@ -203,7 +203,7 @@ target_link_libraries(D2GameTests PRIVATE doctest::doctest TestDefinitions TestU
 target_compile_features(D2GameTests PRIVATE cxx_std_17)
 
 set_target_properties(D2GameTests PROPERTIES
-    VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/workingDirectory
+    VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../workingDirectory
 )
 
 add_test(
