@@ -13,9 +13,7 @@
 #include <Path/Path.h>
 #include <Units/Units.h>
 
-#include "../TestFixtures/MonStatsTxtFixture.h"
-#include "../TestFixtures/MonStats2TxtFixture.h"
-#include "../TestFixtures/ObjectsTxtFixture.h"
+#include <Fixtures/DataTbls/Fixtures.h>
 
 
 TEST_SUITE("PathTests")

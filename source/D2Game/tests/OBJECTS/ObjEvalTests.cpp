@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,19 +26,25 @@ TEST_SUITE("ObjEvalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pSrcUnit{};
-				D2UnitStrc pTargetUnit{};
-				
-				return std::tuple{ pGame, pSrcUnit, pTargetUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pSrcUnit, moo_pTargetUnit] = setup_data();
-			auto [original_pGame, original_pSrcUnit, original_pTargetUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pSrcUnit{};
+			D2UnitStrc moo_pTargetUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pSrcUnit{};
+			D2UnitStrc original_pTargetUnit{};
 			int32_t nDamageType{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pSrcUnit,
+				D2UnitStrc& pTargetUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pSrcUnit, moo_pTargetUnit);
+			setup_data(original_pGame, original_pSrcUnit, original_pTargetUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pSrcUnit, &moo_pTargetUnit, nDamageType);

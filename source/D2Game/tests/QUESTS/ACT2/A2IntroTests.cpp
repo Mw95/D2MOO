@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,16 +24,18 @@ TEST_SUITE("A2IntroTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				
-				return std::tuple{ pQuestData };
-			};
-			
 			// Input data
-			auto [moo_pQuestData] = setup_data();
-			auto [original_pQuestData] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestDataStrc original_pQuestData{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData);
+			setup_data(original_pQuestData);
 
 			// Call both implementations
 			sut(&moo_pQuestData);
@@ -52,17 +53,21 @@ TEST_SUITE("A2IntroTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -81,17 +86,21 @@ TEST_SUITE("A2IntroTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);

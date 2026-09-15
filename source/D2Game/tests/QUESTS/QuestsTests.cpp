@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -29,17 +28,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2QuestChainStrc pRecord{};
-				
-				return std::tuple{ pGame, pRecord };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRecord] = setup_data();
-			auto [original_pGame, original_pRecord] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2QuestChainStrc moo_pRecord{};
+			D2GameStrc original_pGame{};
+			D2QuestChainStrc original_pRecord{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2QuestChainStrc& pRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRecord);
+			setup_data(original_pGame, original_pRecord);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pRecord);
@@ -58,17 +61,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nId);
@@ -89,19 +94,25 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pGame, pUnit, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pRoom] = setup_data();
-			auto [original_pGame, original_pUnit, original_pRoom] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
 			int32_t bDebug{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pRoom);
+			setup_data(original_pGame, original_pUnit, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pRoom, bDebug);
@@ -121,18 +132,22 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nQuestId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nQuestId);
@@ -154,19 +169,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				D2TextHeaderStrc pTextControl{};
-				
-				return std::tuple{ pQuest, pTextControl };
-			};
-			
 			// Input data
-			auto [moo_pQuest, moo_pTextControl] = setup_data();
-			auto [original_pQuest, original_pTextControl] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2TextHeaderStrc moo_pTextControl{};
+			D2QuestDataStrc original_pQuest{};
+			D2TextHeaderStrc original_pTextControl{};
 			int32_t nNPCID{};
 			int32_t nIndex{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest,
+				D2TextHeaderStrc& pTextControl
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest, moo_pTextControl);
+			setup_data(original_pQuest, original_pTextControl);
 
 			// Call both implementations
 			sut(&moo_pQuest, &moo_pTextControl, nNPCID, nIndex);
@@ -185,16 +204,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -212,16 +233,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -239,16 +262,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame);
@@ -269,18 +294,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pDefender{};
-				D2UnitStrc pAttacker{};
-				
-				return std::tuple{ pGame, pDefender, pAttacker };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pDefender, moo_pAttacker] = setup_data();
-			auto [original_pGame, original_pDefender, original_pAttacker] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pDefender{};
+			D2UnitStrc moo_pAttacker{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pDefender{};
+			D2UnitStrc original_pAttacker{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pDefender,
+				D2UnitStrc& pAttacker
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pDefender, moo_pAttacker);
+			setup_data(original_pGame, original_pDefender, original_pAttacker);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pDefender, &moo_pAttacker);
@@ -300,17 +331,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestArgStrc pArgs{};
-				
-				return std::tuple{ pArgs };
-			};
-			
 			// Input data
-			auto [moo_pArgs] = setup_data();
-			auto [original_pArgs] = setup_data();
+			D2QuestArgStrc moo_pArgs{};
+			D2QuestArgStrc original_pArgs{};
 			bool bForceActive{};
+
+			const auto setup_data = [](
+				D2QuestArgStrc& pArgs
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pArgs);
+			setup_data(original_pArgs);
 
 			// Call both implementations
 			sut(&moo_pArgs, bForceActive);
@@ -328,19 +361,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nOldLevelId{};
 			int32_t nTargetLevelId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, nOldLevelId, nTargetLevelId, &moo_pUnit);
@@ -359,18 +396,20 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestArgStrc pArgs{};
-				
-				return std::tuple{ pArgs };
-			};
-			
 			// Input data
-			auto [moo_pArgs] = setup_data();
-			auto [original_pArgs] = setup_data();
+			D2QuestArgStrc moo_pArgs{};
+			D2QuestArgStrc original_pArgs{};
 			bool bCheckActive{};
 			bool bCheckAct{};
+
+			const auto setup_data = [](
+				D2QuestArgStrc& pArgs
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pArgs);
+			setup_data(original_pArgs);
 
 			// Call both implementations
 			sut(&moo_pArgs, bCheckActive, bCheckAct);
@@ -388,17 +427,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer);
@@ -417,19 +460,27 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pTarget{};
-				D2TextHeaderStrc pTextControl{};
-				
-				return std::tuple{ pClient, pPlayer, pTarget, pTextControl };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pPlayer, moo_pTarget, moo_pTextControl] = setup_data();
-			auto [original_pClient, original_pPlayer, original_pTarget, original_pTextControl] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pTarget{};
+			D2TextHeaderStrc moo_pTextControl{};
+			D2ClientStrc original_pClient{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pTarget{};
+			D2TextHeaderStrc original_pTextControl{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pTarget,
+				D2TextHeaderStrc& pTextControl
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pPlayer, moo_pTarget, moo_pTextControl);
+			setup_data(original_pClient, original_pPlayer, original_pTarget, original_pTextControl);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pPlayer, &moo_pTarget, &moo_pTextControl);
@@ -450,18 +501,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pNPC{};
-				
-				return std::tuple{ pGame, pPlayer, pNPC };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pNPC] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pNPC] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pNPC{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pNPC{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pNPC
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pNPC);
+			setup_data(original_pGame, original_pPlayer, original_pNPC);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, &moo_pNPC);
@@ -481,18 +538,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pGame, pPlayer, pItem };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pItem] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pItem] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pItem);
+			setup_data(original_pGame, original_pPlayer, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, &moo_pItem);
@@ -512,18 +575,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pGame, pPlayer, pItem };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pItem] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pItem] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pItem);
+			setup_data(original_pGame, original_pPlayer, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, &moo_pItem);
@@ -543,16 +612,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -570,18 +641,20 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				
-				return std::tuple{ pQuest };
-			};
-			
 			// Input data
-			auto [moo_pQuest] = setup_data();
-			auto [original_pQuest] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2QuestDataStrc original_pQuest{};
 			QUESTUPDATE pfnCallback{};
 			int32_t nTicks{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest);
+			setup_data(original_pQuest);
 
 			// Call both implementations
 			sut(&moo_pQuest, pfnCallback, nTicks);
@@ -599,18 +672,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				uint8_t pQuestList{};
-				D2BitBufferStrc pQuestFlags{};
-				
-				return std::tuple{ pQuest, pQuestList, pQuestFlags };
-			};
-			
 			// Input data
-			auto [moo_pQuest, moo_pQuestList, moo_pQuestFlags] = setup_data();
-			auto [original_pQuest, original_pQuestList, original_pQuestFlags] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			uint8_t moo_pQuestList{};
+			D2BitBufferStrc moo_pQuestFlags{};
+			D2QuestDataStrc original_pQuest{};
+			uint8_t original_pQuestList{};
+			D2BitBufferStrc original_pQuestFlags{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest,
+				uint8_t& pQuestList,
+				D2BitBufferStrc& pQuestFlags
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest, moo_pQuestList, moo_pQuestFlags);
+			setup_data(original_pQuest, original_pQuestList, original_pQuestFlags);
 
 			// Call both implementations
 			sut(&moo_pQuest, &moo_pQuestList, &moo_pQuestFlags);
@@ -630,17 +709,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -659,19 +742,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			char szMessage{};
 			char szFile{};
 			int32_t nLine{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &szMessage, &szFile, nLine);
@@ -692,18 +777,22 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			uint32_t dwItemCode{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, dwItemCode);
@@ -722,18 +811,22 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			uint8_t nQuestId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, nQuestId);
@@ -752,19 +845,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pQuest, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pQuest, moo_pUnit] = setup_data();
-			auto [original_pQuest, original_pUnit] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2UnitStrc moo_pUnit{};
+			D2QuestDataStrc original_pQuest{};
+			D2UnitStrc original_pUnit{};
 			int32_t nIterateState{};
 			bool bIterate{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest, moo_pUnit);
+			setup_data(original_pQuest, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pQuest, nIterateState, &moo_pUnit, nullptr, bIterate);
@@ -783,19 +880,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				
-				return std::tuple{ pQuestData };
-			};
-			
 			// Input data
-			auto [moo_pQuestData] = setup_data();
-			auto [original_pQuestData] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestDataStrc original_pQuestData{};
 			int32_t nState{};
 			char szFile{};
 			int32_t nLine{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData);
+			setup_data(original_pQuestData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pQuestData, nState, &szFile, nLine);
@@ -816,19 +915,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			int32_t dwNPCGUID{};
 			uint16_t nMessage{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, dwNPCGUID, nMessage);
@@ -847,18 +950,22 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			int32_t bGameEnter{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, bGameEnter);
@@ -877,16 +984,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame);
@@ -907,17 +1016,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nQuestId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nQuestId);
@@ -938,17 +1049,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pGame, pClient };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pClient] = setup_data();
-			auto [original_pGame, original_pClient] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ClientStrc moo_pClient{};
+			D2GameStrc original_pGame{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pClient);
+			setup_data(original_pGame, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pClient);
@@ -967,18 +1082,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pNPC{};
-				
-				return std::tuple{ pGame, pPlayer, pNPC };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pNPC] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pNPC] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pNPC{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pNPC{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pNPC
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pNPC);
+			setup_data(original_pGame, original_pPlayer, original_pNPC);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNPC);
@@ -1001,18 +1122,20 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nQuestId{};
 			int32_t nState{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame, nQuestId, nState);
@@ -1030,18 +1153,20 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nQuestId{};
 			int32_t nState{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nQuestId, nState);
@@ -1062,20 +1187,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pWarriv{};
-				
-				return std::tuple{ pGame, pWarriv };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pWarriv] = setup_data();
-			auto [original_pGame, original_pWarriv] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pWarriv{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pWarriv{};
 			int32_t nXpos{};
 			int32_t nYpos{};
 			int32_t nWarrivID{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pWarriv
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pWarriv);
+			setup_data(original_pGame, original_pWarriv);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pWarriv, nXpos, nYpos, nWarrivID);
@@ -1094,18 +1223,22 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nUnitId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nUnitId);
@@ -1124,16 +1257,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -1151,16 +1286,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -1178,16 +1315,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -1205,16 +1344,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -1232,16 +1373,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -1272,17 +1415,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -1301,16 +1448,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -1328,17 +1477,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -1357,17 +1510,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -1386,21 +1543,25 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			uint32_t dwCode{};
 			int32_t nLevel{};
 			uint8_t nQuality{};
 			int32_t bDroppable{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, dwCode, nLevel, nQuality, bDroppable);
@@ -1422,18 +1583,22 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			uint8_t nAct{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nAct);
@@ -1452,20 +1617,26 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2UnitStrc pVendor{};
-				
-				return std::tuple{ pGame, pUnit, pVendor };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pVendor] = setup_data();
-			auto [original_pGame, original_pUnit, original_pVendor] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pVendor{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pVendor{};
 			uint32_t dwDestLvl{};
 			uint32_t unk{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pVendor
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pVendor);
+			setup_data(original_pGame, original_pUnit, original_pVendor);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pVendor, dwDestLvl, unk);
@@ -1485,19 +1656,27 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pGame, pPlayer, pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pInventory, original_pItem] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pInventory, moo_pItem);
+			setup_data(original_pGame, original_pPlayer, original_pInventory, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, &moo_pInventory, &moo_pItem);
@@ -1518,19 +1697,25 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pPlayer, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pObject] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pObject{};
 			int32_t nLevel{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pObject);
+			setup_data(original_pGame, original_pPlayer, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, nLevel, &moo_pObject);
@@ -1550,19 +1735,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			int32_t pNPCs{};
 			int32_t nNPCs{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, &pNPCs, nNPCs);
@@ -1581,17 +1770,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestGUIDStrc pQuestGUID{};
-				
-				return std::tuple{ pQuestGUID };
-			};
-			
 			// Input data
-			auto [moo_pQuestGUID] = setup_data();
-			auto [original_pQuestGUID] = setup_data();
+			D2QuestGUIDStrc moo_pQuestGUID{};
+			D2QuestGUIDStrc original_pQuestGUID{};
 			int32_t dwGUID{};
+
+			const auto setup_data = [](
+				D2QuestGUIDStrc& pQuestGUID
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestGUID);
+			setup_data(original_pQuestGUID);
 
 			// Call both implementations
 			sut(&moo_pQuestGUID, dwGUID);
@@ -1609,17 +1800,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestGUIDStrc pGUIDs{};
-				
-				return std::tuple{ pGUIDs };
-			};
-			
 			// Input data
-			auto [moo_pGUIDs] = setup_data();
-			auto [original_pGUIDs] = setup_data();
+			D2QuestGUIDStrc moo_pGUIDs{};
+			D2QuestGUIDStrc original_pGUIDs{};
 			int32_t dwGUID{};
+
+			const auto setup_data = [](
+				D2QuestGUIDStrc& pGUIDs
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGUIDs);
+			setup_data(original_pGUIDs);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGUIDs, dwGUID);
@@ -1640,17 +1833,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestGUIDStrc pGUIDs{};
-				
-				return std::tuple{ pGUIDs };
-			};
-			
 			// Input data
-			auto [moo_pGUIDs] = setup_data();
-			auto [original_pGUIDs] = setup_data();
+			D2QuestGUIDStrc moo_pGUIDs{};
+			D2QuestGUIDStrc original_pGUIDs{};
 			int32_t dwGUID{};
+
+			const auto setup_data = [](
+				D2QuestGUIDStrc& pGUIDs
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGUIDs);
+			setup_data(original_pGUIDs);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGUIDs, dwGUID);
@@ -1671,17 +1866,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				
-				return std::tuple{ pQuest };
-			};
-			
 			// Input data
-			auto [moo_pQuest] = setup_data();
-			auto [original_pQuest] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2QuestDataStrc original_pQuest{};
 			int32_t dwGUID{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest);
+			setup_data(original_pQuest);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pQuest, dwGUID);
@@ -1702,16 +1899,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestGUIDStrc pGUIDs{};
-				
-				return std::tuple{ pGUIDs };
-			};
-			
 			// Input data
-			auto [moo_pGUIDs] = setup_data();
-			auto [original_pGUIDs] = setup_data();
+			D2QuestGUIDStrc moo_pGUIDs{};
+			D2QuestGUIDStrc original_pGUIDs{};
+
+			const auto setup_data = [](
+				D2QuestGUIDStrc& pGUIDs
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGUIDs);
+			setup_data(original_pGUIDs);
 
 			// Call both implementations
 			sut(&moo_pGUIDs);
@@ -1729,17 +1928,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuest, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuest, moo_pQuestArg] = setup_data();
-			auto [original_pQuest, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuest{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest, moo_pQuestArg);
+			setup_data(original_pQuest, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuest, &moo_pQuestArg);
@@ -1758,21 +1961,27 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc pCoord{};
-				D2ActiveRoomStrc* ppRoom{};
-				
-				return std::tuple{ pRoom, pCoord, ppRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pCoord, moo_ppRoom] = setup_data();
-			auto [original_pRoom, original_pCoord, original_ppRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc moo_pCoord{};
+			D2ActiveRoomStrc* moo_ppRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc original_pCoord{};
+			D2ActiveRoomStrc* original_ppRoom{};
 			uint32_t nSize{};
 			uint16_t fCollision{};
 			int32_t nRadius{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc& pCoord,
+				D2ActiveRoomStrc*& ppRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pCoord, moo_ppRoom);
+			setup_data(original_pRoom, original_pCoord, original_ppRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pCoord, nSize, fCollision, &moo_ppRoom, nRadius);
@@ -1792,17 +2001,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				D2QuestArgStrc pArgs{};
-				
-				return std::tuple{ pQuest, pArgs };
-			};
-			
 			// Input data
-			auto [moo_pQuest, moo_pArgs] = setup_data();
-			auto [original_pQuest, original_pArgs] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2QuestArgStrc moo_pArgs{};
+			D2QuestDataStrc original_pQuest{};
+			D2QuestArgStrc original_pArgs{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest,
+				D2QuestArgStrc& pArgs
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest, moo_pArgs);
+			setup_data(original_pQuest, original_pArgs);
 
 			// Call both implementations
 			sut(&moo_pQuest, &moo_pArgs);
@@ -1821,17 +2034,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -1850,19 +2067,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2QuestGUIDStrc pQuestGUID{};
-				
-				return std::tuple{ pGame, pQuestGUID };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pQuestGUID] = setup_data();
-			auto [original_pGame, original_pQuestGUID] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2QuestGUIDStrc moo_pQuestGUID{};
+			D2GameStrc original_pGame{};
+			D2QuestGUIDStrc original_pQuestGUID{};
 			int32_t nQuest{};
 			uint16_t wSoundCMD{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2QuestGUIDStrc& pQuestGUID
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pQuestGUID);
+			setup_data(original_pGame, original_pQuestGUID);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pQuestGUID, nQuest, wSoundCMD);
@@ -1881,18 +2102,22 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pPlayer, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pUnit] = setup_data();
-			auto [original_pPlayer, original_pUnit] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pUnit{};
 			uint16_t nMessage{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pUnit);
+			setup_data(original_pPlayer, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pPlayer, &moo_pUnit, nMessage);
@@ -1911,17 +2136,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			uint8_t a2{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame, a2);
@@ -1939,19 +2166,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			void* moo_pArg = nullptr;
 			void* original_pArg = nullptr;
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, moo_pArg);
@@ -1974,18 +2205,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pTarget{};
-				
-				return std::tuple{ pGame, pPlayer, pTarget };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pTarget] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pTarget] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pTarget{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pTarget{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pTarget
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pTarget);
+			setup_data(original_pGame, original_pPlayer, original_pTarget);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, &moo_pTarget);
@@ -2005,19 +2242,25 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2CoordStrc pCoord{};
-				D2ActiveRoomStrc* ppRoom{};
-				
-				return std::tuple{ pGame, pCoord, ppRoom };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pCoord, moo_ppRoom] = setup_data();
-			auto [original_pGame, original_pCoord, original_ppRoom] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2CoordStrc moo_pCoord{};
+			D2ActiveRoomStrc* moo_ppRoom{};
+			D2GameStrc original_pGame{};
+			D2CoordStrc original_pCoord{};
+			D2ActiveRoomStrc* original_ppRoom{};
 			int32_t nLevel{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2CoordStrc& pCoord,
+				D2ActiveRoomStrc*& ppRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pCoord, moo_ppRoom);
+			setup_data(original_pGame, original_pCoord, original_ppRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pCoord, nLevel, &moo_ppRoom);
@@ -2040,16 +2283,18 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp);
@@ -2070,17 +2315,19 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			uint8_t nQuestId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nQuestId);
@@ -2098,18 +2345,20 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pPlayer] = setup_data();
-			auto [original_pPlayer] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc original_pPlayer{};
 			uint8_t nQuestId{};
 			uint8_t nAct{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer);
+			setup_data(original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pPlayer, nQuestId, nAct);
@@ -2127,21 +2376,25 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pGame, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRoom] = setup_data();
-			auto [original_pGame, original_pRoom] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoom{};
 			int32_t nXpos{};
 			int32_t nYpos{};
 			int32_t bSpecialInit{};
 			int32_t nMonster{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRoom);
+			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nXpos, nYpos, &moo_pRoom, bSpecialInit, nMonster);
@@ -2163,17 +2416,21 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -2192,19 +2449,23 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			int32_t nSourceLevel{};
 			int32_t nTargetLevel{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nSourceLevel, nTargetLevel);
@@ -2226,20 +2487,26 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2CoordStrc pPosition{};
-				
-				return std::tuple{ pGame, pUnit, pPosition };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pPosition] = setup_data();
-			auto [original_pGame, original_pUnit, original_pPosition] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2CoordStrc moo_pPosition{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2CoordStrc original_pPosition{};
 			int32_t nType{};
 			int32_t nIndex{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2CoordStrc& pPosition
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pPosition);
+			setup_data(original_pGame, original_pUnit, original_pPosition);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pPosition, nType, nIndex);
@@ -2262,18 +2529,24 @@ TEST_SUITE("QuestsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2MapAIStrc pMapAI{};
-				
-				return std::tuple{ pGame, pUnit, pMapAI };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pMapAI] = setup_data();
-			auto [original_pGame, original_pUnit, original_pMapAI] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2MapAIStrc moo_pMapAI{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2MapAIStrc original_pMapAI{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2MapAIStrc& pMapAI
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pMapAI);
+			setup_data(original_pGame, original_pUnit, original_pMapAI);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pMapAI);

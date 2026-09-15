@@ -11,7 +11,7 @@
 
 #include <D2Waypoints.h>
 
-#include "TestFixtures/LevelsTxtFixture.h"
+#include <Fixtures/DataTbls/Fixtures.h>
 
 
 TEST_SUITE("D2WaypointsTests")

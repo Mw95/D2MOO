@@ -32,12 +32,12 @@ struct StatesTxtFixture : Fixture
 
 		state_masks = std::make_unique<uint32_t[]>(std::size(sgptDataTables->fStateMasks) * (sgptDataTables->nStatesTxtRecordCount + 31) / 32);
 		sgptDataTables->pStateMasks = state_masks.get();
-		
+
 		for (int i = 0; i < std::size(sgptDataTables->fStateMasks); ++i)
 		{
 			const auto data = &sgptDataTables->pStateMasks[(sgptDataTables->nStatesTxtRecordCount + 31) / 32 * i];
 			sgptDataTables->fStateMasks[i] = data;
-		
+
 			for (int j = 0; j < sgptDataTables->nStatesTxtRecordCount; ++j)
 			{
 				if (sgptDataTables->pStatesTxt[j].nStateFlags[i >> 3] & gdwBitMasks[i & 7])

@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,20 +26,30 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				D2UnitStrc pPlayer{};
-				D2BitBufferStrc pGlobalFlags{};
-				D2BitBufferStrc pFlags{};
-				uint8_t pStatus{};
-				
-				return std::tuple{ pQuest, pPlayer, pGlobalFlags, pFlags, pStatus };
-			};
-			
 			// Input data
-			auto [moo_pQuest, moo_pPlayer, moo_pGlobalFlags, moo_pFlags, moo_pStatus] = setup_data();
-			auto [original_pQuest, original_pPlayer, original_pGlobalFlags, original_pFlags, original_pStatus] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2UnitStrc moo_pPlayer{};
+			D2BitBufferStrc moo_pGlobalFlags{};
+			D2BitBufferStrc moo_pFlags{};
+			uint8_t moo_pStatus{};
+			D2QuestDataStrc original_pQuest{};
+			D2UnitStrc original_pPlayer{};
+			D2BitBufferStrc original_pGlobalFlags{};
+			D2BitBufferStrc original_pFlags{};
+			uint8_t original_pStatus{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest,
+				D2UnitStrc& pPlayer,
+				D2BitBufferStrc& pGlobalFlags,
+				D2BitBufferStrc& pFlags,
+				uint8_t& pStatus
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest, moo_pPlayer, moo_pGlobalFlags, moo_pFlags, moo_pStatus);
+			setup_data(original_pQuest, original_pPlayer, original_pGlobalFlags, original_pFlags, original_pStatus);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pQuest, &moo_pPlayer, &moo_pGlobalFlags, &moo_pFlags, &moo_pStatus);
@@ -65,20 +74,28 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuest{};
-				D2UnitStrc pPlayer{};
-				D2BitBufferStrc pQuestFlags{};
-				D2UnitStrc pNPC{};
-				
-				return std::tuple{ pQuest, pPlayer, pQuestFlags, pNPC };
-			};
-			
 			// Input data
-			auto [moo_pQuest, moo_pPlayer, moo_pQuestFlags, moo_pNPC] = setup_data();
-			auto [original_pQuest, original_pPlayer, original_pQuestFlags, original_pNPC] = setup_data();
+			D2QuestDataStrc moo_pQuest{};
+			D2UnitStrc moo_pPlayer{};
+			D2BitBufferStrc moo_pQuestFlags{};
+			D2UnitStrc moo_pNPC{};
+			D2QuestDataStrc original_pQuest{};
+			D2UnitStrc original_pPlayer{};
+			D2BitBufferStrc original_pQuestFlags{};
+			D2UnitStrc original_pNPC{};
 			int32_t nNpcId{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuest,
+				D2UnitStrc& pPlayer,
+				D2BitBufferStrc& pQuestFlags,
+				D2UnitStrc& pNPC
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuest, moo_pPlayer, moo_pQuestFlags, moo_pNPC);
+			setup_data(original_pQuest, original_pPlayer, original_pQuestFlags, original_pNPC);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pQuest, nNpcId, &moo_pPlayer, &moo_pQuestFlags, &moo_pNPC);
@@ -102,19 +119,23 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			void* moo_pData = nullptr;
 			void* original_pData = nullptr;
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, moo_pData);
@@ -134,16 +155,18 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				
-				return std::tuple{ pQuestData };
-			};
-			
 			// Input data
-			auto [moo_pQuestData] = setup_data();
-			auto [original_pQuestData] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestDataStrc original_pQuestData{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData);
+			setup_data(original_pQuestData);
 
 			// Call both implementations
 			sut(&moo_pQuestData);
@@ -161,17 +184,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -190,19 +217,23 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			void* moo_pData = nullptr;
 			void* original_pData = nullptr;
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, moo_pData);
@@ -225,19 +256,23 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			void* moo_pData = nullptr;
 			void* original_pData = nullptr;
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, moo_pData);
@@ -260,17 +295,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -289,17 +328,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -318,17 +361,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -347,19 +394,23 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			void* moo_pData = nullptr;
 			void* original_pData = nullptr;
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, moo_pData);
@@ -382,17 +433,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -411,16 +466,18 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				
-				return std::tuple{ pQuestData };
-			};
-			
 			// Input data
-			auto [moo_pQuestData] = setup_data();
-			auto [original_pQuestData] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestDataStrc original_pQuestData{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData);
+			setup_data(original_pQuestData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pQuestData);
@@ -441,17 +498,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -470,17 +531,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -499,17 +564,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -528,16 +597,18 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -555,17 +626,19 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -586,17 +659,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2QuestDataStrc pQuestData{};
-				
-				return std::tuple{ pGame, pQuestData };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pQuestData] = setup_data();
-			auto [original_pGame, original_pQuestData] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2QuestDataStrc moo_pQuestData{};
+			D2GameStrc original_pGame{};
+			D2QuestDataStrc original_pQuestData{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2QuestDataStrc& pQuestData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pQuestData);
+			setup_data(original_pGame, original_pQuestData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pQuestData);
@@ -618,17 +695,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2QuestDataStrc pQuestData{};
-				D2QuestArgStrc pQuestArg{};
-				
-				return std::tuple{ pQuestData, pQuestArg };
-			};
-			
 			// Input data
-			auto [moo_pQuestData, moo_pQuestArg] = setup_data();
-			auto [original_pQuestData, original_pQuestArg] = setup_data();
+			D2QuestDataStrc moo_pQuestData{};
+			D2QuestArgStrc moo_pQuestArg{};
+			D2QuestDataStrc original_pQuestData{};
+			D2QuestArgStrc original_pQuestArg{};
+
+			const auto setup_data = [](
+				D2QuestDataStrc& pQuestData,
+				D2QuestArgStrc& pQuestArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestData, moo_pQuestArg);
+			setup_data(original_pQuestData, original_pQuestArg);
 
 			// Call both implementations
 			sut(&moo_pQuestData, &moo_pQuestArg);
@@ -647,17 +728,21 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2CoordStrc pCoord{};
-				
-				return std::tuple{ pGame, pCoord };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pCoord] = setup_data();
-			auto [original_pGame, original_pCoord] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2CoordStrc moo_pCoord{};
+			D2GameStrc original_pGame{};
+			D2CoordStrc original_pCoord{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2CoordStrc& pCoord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pCoord);
+			setup_data(original_pGame, original_pCoord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pCoord);
@@ -679,16 +764,18 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -706,16 +793,18 @@ TEST_SUITE("A3Q3Tests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjInitFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjInitFnStrc moo_pOp{};
+			D2ObjInitFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjInitFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);

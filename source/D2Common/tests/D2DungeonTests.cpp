@@ -16,8 +16,7 @@
 #include <GAME/Game.h>
 #include <Units/Units.h>
 
-#include "TestFixtures/LevelsTxtFixture.h"
-#include "TestFixtures/PortalLevelsFixture.h"
+#include <Fixtures/DataTbls/Fixtures.h>
 
 
 TEST_SUITE("D2DungeonTests")

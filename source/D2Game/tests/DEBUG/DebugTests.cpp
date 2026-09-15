@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,7 +26,6 @@ TEST_SUITE("DebugTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nUnitType{};
 			int32_t nUnitGUID{};
 
@@ -47,7 +45,6 @@ TEST_SUITE("DebugTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			uint8_t nAct{};
 
 			// Call both implementations
@@ -82,7 +79,6 @@ TEST_SUITE("DebugTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			uint8_t nAct{};
 			int32_t nX{};
 			int32_t nY{};

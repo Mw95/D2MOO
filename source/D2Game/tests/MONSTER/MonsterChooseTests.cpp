@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,18 +27,22 @@ TEST_SUITE("MonsterChooseTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SeedStrc pSeed{};
-				D2MonRegDataStrc pMonRegData{};
-				
-				return std::tuple{ pSeed, pMonRegData };
-			};
-			
 			// Input data
-			auto [moo_pSeed, moo_pMonRegData] = setup_data();
-			auto [original_pSeed, original_pMonRegData] = setup_data();
+			D2SeedStrc moo_pSeed{};
+			D2MonRegDataStrc moo_pMonRegData{};
+			D2SeedStrc original_pSeed{};
+			D2MonRegDataStrc original_pMonRegData{};
 			int32_t nCount{};
+
+			const auto setup_data = [](
+				D2SeedStrc& pSeed,
+				D2MonRegDataStrc& pMonRegData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSeed, moo_pMonRegData);
+			setup_data(original_pSeed, original_pMonRegData);
 
 			// Call both implementations
 			sut(&moo_pSeed, &moo_pMonRegData, nCount);
@@ -58,21 +61,29 @@ TEST_SUITE("MonsterChooseTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2MonsterRegionStrc pMonsterRegion{};
-				D2ActiveRoomStrc pRoom{};
-				D2MonStatsTxt* ppMonStatsTxtRecord{};
-				
-				return std::tuple{ pGame, pMonsterRegion, pRoom, ppMonStatsTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pMonsterRegion, moo_pRoom, moo_ppMonStatsTxtRecord] = setup_data();
-			auto [original_pGame, original_pMonsterRegion, original_pRoom, original_ppMonStatsTxtRecord] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2MonsterRegionStrc moo_pMonsterRegion{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2MonStatsTxt* moo_ppMonStatsTxtRecord{};
+			D2GameStrc original_pGame{};
+			D2MonsterRegionStrc original_pMonsterRegion{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2MonStatsTxt* original_ppMonStatsTxtRecord{};
 			uint8_t nChance{};
 			int32_t bSpawnUMon{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2MonsterRegionStrc& pMonsterRegion,
+				D2ActiveRoomStrc& pRoom,
+				D2MonStatsTxt*& ppMonStatsTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pMonsterRegion, moo_pRoom, moo_ppMonStatsTxtRecord);
+			setup_data(original_pGame, original_pMonsterRegion, original_pRoom, original_ppMonStatsTxtRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pMonsterRegion, &moo_pRoom, &moo_ppMonStatsTxtRecord, nChance, bSpawnUMon);
@@ -96,16 +107,18 @@ TEST_SUITE("MonsterChooseTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -126,17 +139,21 @@ TEST_SUITE("MonsterChooseTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc pMonsterRegion{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pMonsterRegion, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pMonsterRegion, moo_pRoom] = setup_data();
-			auto [original_pMonsterRegion, original_pRoom] = setup_data();
+			D2MonsterRegionStrc moo_pMonsterRegion{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2MonsterRegionStrc original_pMonsterRegion{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc& pMonsterRegion,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonsterRegion, moo_pRoom);
+			setup_data(original_pMonsterRegion, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pMonsterRegion, &moo_pRoom);

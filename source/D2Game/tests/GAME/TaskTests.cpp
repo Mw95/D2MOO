@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -67,18 +66,22 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TaskStrc pTask{};
-				D2LinkStrc pPrevTaskBalanceLink{};
-				
-				return std::tuple{ pTask, pPrevTaskBalanceLink };
-			};
-			
 			// Input data
-			auto [moo_pTask, moo_pPrevTaskBalanceLink] = setup_data();
-			auto [original_pTask, original_pPrevTaskBalanceLink] = setup_data();
+			D2TaskStrc moo_pTask{};
+			D2LinkStrc moo_pPrevTaskBalanceLink{};
+			D2TaskStrc original_pTask{};
+			D2LinkStrc original_pPrevTaskBalanceLink{};
 			int nTaskType{};
+
+			const auto setup_data = [](
+				D2TaskStrc& pTask,
+				D2LinkStrc& pPrevTaskBalanceLink
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTask, moo_pPrevTaskBalanceLink);
+			setup_data(original_pTask, original_pPrevTaskBalanceLink);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pTask, nTaskType, &moo_pPrevTaskBalanceLink);
@@ -100,17 +103,19 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int32_t pOutBalanceTaskType{};
-				
-				return std::tuple{ pOutBalanceTaskType };
-			};
-			
 			// Input data
-			auto [moo_pOutBalanceTaskType] = setup_data();
-			auto [original_pOutBalanceTaskType] = setup_data();
+			int32_t moo_pOutBalanceTaskType{};
+			int32_t original_pOutBalanceTaskType{};
 			int8_t a1{};
+
+			const auto setup_data = [](
+				int32_t& pOutBalanceTaskType
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOutBalanceTaskType);
+			setup_data(original_pOutBalanceTaskType);
 
 			// Call both implementations
 			const auto moo_result = sut(a1, &moo_pOutBalanceTaskType);
@@ -131,7 +136,6 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int8_t nTaskNumber{};
 
 			// Call both implementations
@@ -150,17 +154,19 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TaskStrc ptTask{};
-				
-				return std::tuple{ ptTask };
-			};
-			
 			// Input data
-			auto [moo_ptTask] = setup_data();
-			auto [original_ptTask] = setup_data();
+			D2TaskStrc moo_ptTask{};
+			D2TaskStrc original_ptTask{};
 			char nTaskNumber{};
+
+			const auto setup_data = [](
+				D2TaskStrc& ptTask
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ptTask);
+			setup_data(original_ptTask);
 
 			// Call both implementations
 			sut(nTaskNumber, &moo_ptTask);
@@ -178,18 +184,22 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TaskStrc ptTaskQueue{};
-				int32_t pTaskType{};
-				
-				return std::tuple{ ptTaskQueue, pTaskType };
-			};
-			
 			// Input data
-			auto [moo_ptTaskQueue, moo_pTaskType] = setup_data();
-			auto [original_ptTaskQueue, original_pTaskType] = setup_data();
+			D2TaskStrc moo_ptTaskQueue{};
+			int32_t moo_pTaskType{};
+			D2TaskStrc original_ptTaskQueue{};
+			int32_t original_pTaskType{};
 			int nTaskTypeIncrement{};
+
+			const auto setup_data = [](
+				D2TaskStrc& ptTaskQueue,
+				int32_t& pTaskType
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ptTaskQueue, moo_pTaskType);
+			setup_data(original_ptTaskQueue, original_pTaskType);
 
 			// Call both implementations
 			sut(&moo_ptTaskQueue, &moo_pTaskType, nTaskTypeIncrement);
@@ -208,17 +218,21 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2LinkStrc pPrev{};
-				D2LinkStrc pLink{};
-				
-				return std::tuple{ pPrev, pLink };
-			};
-			
 			// Input data
-			auto [moo_pPrev, moo_pLink] = setup_data();
-			auto [original_pPrev, original_pLink] = setup_data();
+			D2LinkStrc moo_pPrev{};
+			D2LinkStrc moo_pLink{};
+			D2LinkStrc original_pPrev{};
+			D2LinkStrc original_pLink{};
+
+			const auto setup_data = [](
+				D2LinkStrc& pPrev,
+				D2LinkStrc& pLink
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPrev, moo_pLink);
+			setup_data(original_pPrev, original_pLink);
 
 			// Call both implementations
 			sut(&moo_pPrev, &moo_pLink);
@@ -237,17 +251,21 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2LinkStrc pList{};
-				D2LinkStrc pLink{};
-				
-				return std::tuple{ pList, pLink };
-			};
-			
 			// Input data
-			auto [moo_pList, moo_pLink] = setup_data();
-			auto [original_pList, original_pLink] = setup_data();
+			D2LinkStrc moo_pList{};
+			D2LinkStrc moo_pLink{};
+			D2LinkStrc original_pList{};
+			D2LinkStrc original_pLink{};
+
+			const auto setup_data = [](
+				D2LinkStrc& pList,
+				D2LinkStrc& pLink
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pList, moo_pLink);
+			setup_data(original_pList, original_pLink);
 
 			// Call both implementations
 			sut(&moo_pList, &moo_pLink);
@@ -266,16 +284,18 @@ TEST_SUITE("TaskTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2LinkStrc pLink{};
-				
-				return std::tuple{ pLink };
-			};
-			
 			// Input data
-			auto [moo_pLink] = setup_data();
-			auto [original_pLink] = setup_data();
+			D2LinkStrc moo_pLink{};
+			D2LinkStrc original_pLink{};
+
+			const auto setup_data = [](
+				D2LinkStrc& pLink
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLink);
+			setup_data(original_pLink);
 
 			// Call both implementations
 			sut(&moo_pLink);

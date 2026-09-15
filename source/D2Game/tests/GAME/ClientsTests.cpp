@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -70,17 +69,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nClientId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nClientId);
@@ -101,17 +102,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			BOOL bIgnoreDeath{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient, bIgnoreDeath);
@@ -132,17 +135,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pClient, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pUnit] = setup_data();
-			auto [original_pClient, original_pUnit] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2UnitStrc moo_pUnit{};
+			D2ClientStrc original_pClient{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pUnit);
+			setup_data(original_pClient, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pUnit);
@@ -161,21 +168,29 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2UnitStrc pPlayer{};
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoomArg{};
-				
-				return std::tuple{ pClient, pPlayer, pGame, pRoomArg };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pPlayer, moo_pGame, moo_pRoomArg] = setup_data();
-			auto [original_pClient, original_pPlayer, original_pGame, original_pRoomArg] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoomArg{};
+			D2ClientStrc original_pClient{};
+			D2UnitStrc original_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoomArg{};
 			int32_t nXArg{};
 			int32_t nYArg{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2UnitStrc& pPlayer,
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoomArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pPlayer, moo_pGame, moo_pRoomArg);
+			setup_data(original_pClient, original_pPlayer, original_pGame, original_pRoomArg);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pPlayer, &moo_pGame, &moo_pRoomArg, nXArg, nYArg);
@@ -196,16 +211,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient);
@@ -223,21 +240,27 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoomArg{};
-				
-				return std::tuple{ pClient, pGame, pRoomArg };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pGame, moo_pRoomArg] = setup_data();
-			auto [original_pClient, original_pGame, original_pRoomArg] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoomArg{};
+			D2ClientStrc original_pClient{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoomArg{};
 			int32_t a3{};
 			int32_t nXArg{};
 			int32_t nYArg{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoomArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pGame, moo_pRoomArg);
+			setup_data(original_pClient, original_pGame, original_pRoomArg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient, &moo_pGame, a3, &moo_pRoomArg, nXArg, nYArg);
@@ -260,16 +283,9 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nClientId{};
 			uint8_t nClassIdOrCharTemplate{};
 			char szClientName{};
@@ -278,6 +294,15 @@ TEST_SUITE("ClientsTests")
 			uint32_t nLocale{};
 			int32_t a8{};
 			int32_t a9{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nClientId, nClassIdOrCharTemplate, &szClientName, &szAccount, nCharSaveTransactionToken, nLocale, a8, a9);
@@ -298,16 +323,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -325,17 +352,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2CharacterPreviewInfoStrc pCharacterPreviewInfo{};
-				
-				return std::tuple{ pClient, pCharacterPreviewInfo };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pCharacterPreviewInfo] = setup_data();
-			auto [original_pClient, original_pCharacterPreviewInfo] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2CharacterPreviewInfoStrc moo_pCharacterPreviewInfo{};
+			D2ClientStrc original_pClient{};
+			D2CharacterPreviewInfoStrc original_pCharacterPreviewInfo{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2CharacterPreviewInfoStrc& pCharacterPreviewInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pCharacterPreviewInfo);
+			setup_data(original_pClient, original_pCharacterPreviewInfo);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pCharacterPreviewInfo);
@@ -354,18 +385,20 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nClientIdToRemove{};
 			BOOL bTriggerSave{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame, nClientIdToRemove, bTriggerSave);
@@ -383,16 +416,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -410,17 +445,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pClient, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pRoom] = setup_data();
-			auto [original_pClient, original_pRoom] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ClientStrc original_pClient{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pRoom);
+			setup_data(original_pClient, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pRoom);
@@ -439,17 +478,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint32_t nUpdateSize{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nUpdateSize);
@@ -467,16 +508,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -497,16 +540,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -527,17 +572,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2ClientUnitUpdateSortStrc pSort{};
-				
-				return std::tuple{ pClient, pSort };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pSort] = setup_data();
-			auto [original_pClient, original_pSort] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientUnitUpdateSortStrc moo_pSort{};
+			D2ClientStrc original_pClient{};
+			D2ClientUnitUpdateSortStrc original_pSort{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2ClientUnitUpdateSortStrc& pSort
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pSort);
+			setup_data(original_pClient, original_pSort);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pSort);
@@ -556,17 +605,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pGame, pClient };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pClient] = setup_data();
-			auto [original_pGame, original_pClient] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ClientStrc moo_pClient{};
+			D2GameStrc original_pGame{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pClient);
+			setup_data(original_pGame, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pClient);
@@ -585,17 +638,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nClientId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nClientId);
@@ -616,17 +671,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pClient, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pRoom] = setup_data();
-			auto [original_pClient, original_pRoom] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ClientStrc original_pClient{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pRoom);
+			setup_data(original_pClient, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pRoom);
@@ -645,18 +704,20 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			void* moo_pAlwaysNull = nullptr;
 			void* original_pAlwaysNull = nullptr;
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, moo_pAlwaysNull);
@@ -675,16 +736,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -705,17 +768,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint8_t nAct{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nAct);
@@ -733,16 +798,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient);
@@ -760,16 +827,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -790,17 +859,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint32_t a2{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, a2);
@@ -818,16 +889,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -848,16 +921,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -878,17 +953,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			int32_t nClass{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nClass);
@@ -906,17 +983,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			int32_t nFlags{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nFlags);
@@ -934,16 +1013,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -964,18 +1045,20 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint16_t nFlag{};
 			int32_t bSet{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nFlag, bSet);
@@ -993,17 +1076,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint16_t nFlag{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient, nFlag);
@@ -1024,18 +1109,20 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint16_t nAct{};
 			uint16_t nDifficulty{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nAct, nDifficulty);
@@ -1053,17 +1140,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			D2ClientState nClientState{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nClientState);
@@ -1081,17 +1170,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			int32_t nIronGolemItemGUID{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nIronGolemItemGUID);
@@ -1109,17 +1200,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			DWORD dwCreateTime{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, dwCreateTime);
@@ -1137,16 +1230,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1167,16 +1262,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1197,17 +1294,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pUnit, pClient };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pClient] = setup_data();
-			auto [original_pUnit, original_pClient] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2ClientStrc moo_pClient{};
+			D2UnitStrc original_pUnit{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pClient);
+			setup_data(original_pUnit, original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pClient);
@@ -1229,16 +1330,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1259,16 +1362,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1289,7 +1394,6 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nClientId{};
 			D2ClientState nExpectedClientState{};
 
@@ -1309,7 +1413,6 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nClientId{};
 			int32_t a2{};
 			int32_t arg_0{};
@@ -1327,17 +1430,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szName{};
-				
-				return std::tuple{ szName };
-			};
-			
 			// Input data
-			auto [moo_szName] = setup_data();
-			auto [original_szName] = setup_data();
+			char moo_szName{};
+			char original_szName{};
 			int32_t nClientId{};
+
+			const auto setup_data = [](
+				char& szName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szName);
+			setup_data(original_szName);
 
 			// Call both implementations
 			const auto moo_result = sut(nClientId, &moo_szName);
@@ -1358,7 +1463,6 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			char szName{};
 
 			// Call both implementations
@@ -1377,17 +1481,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szGameName{};
-				
-				return std::tuple{ szGameName };
-			};
-			
 			// Input data
-			auto [moo_szGameName] = setup_data();
-			auto [original_szGameName] = setup_data();
+			char moo_szGameName{};
+			char original_szGameName{};
 			char szName{};
+
+			const auto setup_data = [](
+				char& szGameName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szGameName);
+			setup_data(original_szGameName);
 
 			// Call both implementations
 			const auto moo_result = sut(&szName, &moo_szGameName);
@@ -1408,7 +1514,6 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nClientId{};
 			void* moo_pSaveData = nullptr;
 			void* original_pSaveData = nullptr;
@@ -1437,16 +1542,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1467,16 +1574,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1497,19 +1606,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			void* moo_pData = nullptr;
 			void* original_pData = nullptr;
 			uint32_t nSize{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, moo_pData, nSize);
@@ -1528,16 +1639,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient);
@@ -1555,16 +1668,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient);
@@ -1582,16 +1697,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1612,16 +1729,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient);
@@ -1639,16 +1758,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1669,16 +1790,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1699,20 +1822,22 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			int32_t nHotkeyId{};
 			int16_t nSkillId{};
 			uint8_t nHand{};
 			int32_t nItemGUID{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nHotkeyId, nSkillId, nHand, nItemGUID);
@@ -1730,20 +1855,28 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				int32_t pSkillId{};
-				int32_t nHand{};
-				int32_t nItemGUID{};
-				
-				return std::tuple{ pClient, pSkillId, nHand, nItemGUID };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pSkillId, moo_nHand, moo_nItemGUID] = setup_data();
-			auto [original_pClient, original_pSkillId, original_nHand, original_nItemGUID] = setup_data();
+			D2ClientStrc moo_pClient{};
+			int32_t moo_pSkillId{};
+			int32_t moo_nHand{};
+			int32_t moo_nItemGUID{};
+			D2ClientStrc original_pClient{};
+			int32_t original_pSkillId{};
+			int32_t original_nHand{};
+			int32_t original_nItemGUID{};
 			int32_t nId{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				int32_t& pSkillId,
+				int32_t& nHand,
+				int32_t& nItemGUID
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pSkillId, moo_nHand, moo_nItemGUID);
+			setup_data(original_pClient, original_pSkillId, original_nHand, original_nItemGUID);
 
 			// Call both implementations
 			sut(&moo_pClient, nId, &moo_pSkillId, &moo_nHand, &moo_nItemGUID);
@@ -1764,16 +1897,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -1794,17 +1929,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			int16_t nFlags{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nFlags);
@@ -1822,17 +1959,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				int32_t pTag{};
-				
-				return std::tuple{ pClient, pTag };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pTag] = setup_data();
-			auto [original_pClient, original_pTag] = setup_data();
+			D2ClientStrc moo_pClient{};
+			int32_t moo_pTag{};
+			D2ClientStrc original_pClient{};
+			int32_t original_pTag{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				int32_t& pTag
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pTag);
+			setup_data(original_pClient, original_pTag);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pTag);
@@ -1851,17 +1992,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				int32_t a2{};
-				
-				return std::tuple{ pClient, a2 };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_a2] = setup_data();
-			auto [original_pClient, original_a2] = setup_data();
+			D2ClientStrc moo_pClient{};
+			int32_t moo_a2{};
+			D2ClientStrc original_pClient{};
+			int32_t original_a2{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				int32_t& a2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_a2);
+			setup_data(original_pClient, original_a2);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_a2);
@@ -1880,17 +2025,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				char szName{};
-				
-				return std::tuple{ pClient, szName };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_szName] = setup_data();
-			auto [original_pClient, original_szName] = setup_data();
+			D2ClientStrc moo_pClient{};
+			char moo_szName{};
+			D2ClientStrc original_pClient{};
+			char original_szName{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				char& szName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_szName);
+			setup_data(original_pClient, original_szName);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_szName);
@@ -1909,17 +2058,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				char szName{};
-				
-				return std::tuple{ pClient, szName };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_szName] = setup_data();
-			auto [original_pClient, original_szName] = setup_data();
+			D2ClientStrc moo_pClient{};
+			char moo_szName{};
+			D2ClientStrc original_pClient{};
+			char original_szName{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				char& szName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_szName);
+			setup_data(original_pClient, original_szName);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_szName);
@@ -1938,19 +2091,27 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				uint8_t pBackgroundColor{};
-				uint8_t pForegroundColor{};
-				uint8_t pEmblemType{};
-				
-				return std::tuple{ pClient, pBackgroundColor, pForegroundColor, pEmblemType };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pBackgroundColor, moo_pForegroundColor, moo_pEmblemType] = setup_data();
-			auto [original_pClient, original_pBackgroundColor, original_pForegroundColor, original_pEmblemType] = setup_data();
+			D2ClientStrc moo_pClient{};
+			uint8_t moo_pBackgroundColor{};
+			uint8_t moo_pForegroundColor{};
+			uint8_t moo_pEmblemType{};
+			D2ClientStrc original_pClient{};
+			uint8_t original_pBackgroundColor{};
+			uint8_t original_pForegroundColor{};
+			uint8_t original_pEmblemType{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				uint8_t& pBackgroundColor,
+				uint8_t& pForegroundColor,
+				uint8_t& pEmblemType
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pBackgroundColor, moo_pForegroundColor, moo_pEmblemType);
+			setup_data(original_pClient, original_pBackgroundColor, original_pForegroundColor, original_pEmblemType);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pBackgroundColor, &moo_pForegroundColor, &moo_pEmblemType);
@@ -1971,19 +2132,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint8_t nBackgroundColor{};
 			uint8_t nForegroundColor{};
 			uint8_t nEmblemType{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nBackgroundColor, nForegroundColor, nEmblemType);
@@ -2001,17 +2164,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			int32_t nExpLoss{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, nExpLoss);
@@ -2029,16 +2194,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -2059,16 +2226,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -2089,17 +2258,19 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
 			uint8_t bSwitchWeapon{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			sut(&moo_pClient, bSwitchWeapon);
@@ -2117,17 +2288,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2PacketDataStrc pPacketData{};
-				
-				return std::tuple{ pClient, pPacketData };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pPacketData] = setup_data();
-			auto [original_pClient, original_pPacketData] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2PacketDataStrc moo_pPacketData{};
+			D2ClientStrc original_pClient{};
+			D2PacketDataStrc original_pPacketData{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2PacketDataStrc& pPacketData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pPacketData);
+			setup_data(original_pClient, original_pPacketData);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pPacketData);
@@ -2146,17 +2321,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2PacketDataStrc pSinglePacketData{};
-				
-				return std::tuple{ pClient, pSinglePacketData };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pSinglePacketData] = setup_data();
-			auto [original_pClient, original_pSinglePacketData] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2PacketDataStrc moo_pSinglePacketData{};
+			D2ClientStrc original_pClient{};
+			D2PacketDataStrc original_pSinglePacketData{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2PacketDataStrc& pSinglePacketData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pSinglePacketData);
+			setup_data(original_pClient, original_pSinglePacketData);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pSinglePacketData);
@@ -2175,16 +2354,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -2205,16 +2386,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -2235,16 +2418,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -2265,17 +2450,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				char szAccount{};
-				
-				return std::tuple{ pClient, szAccount };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_szAccount] = setup_data();
-			auto [original_pClient, original_szAccount] = setup_data();
+			D2ClientStrc moo_pClient{};
+			char moo_szAccount{};
+			D2ClientStrc original_pClient{};
+			char original_szAccount{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				char& szAccount
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_szAccount);
+			setup_data(original_pClient, original_szAccount);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_szAccount);
@@ -2294,17 +2483,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				int32_t pCharSaveTransactionToken{};
-				
-				return std::tuple{ pClient, pCharSaveTransactionToken };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pCharSaveTransactionToken] = setup_data();
-			auto [original_pClient, original_pCharSaveTransactionToken] = setup_data();
+			D2ClientStrc moo_pClient{};
+			int32_t moo_pCharSaveTransactionToken{};
+			D2ClientStrc original_pClient{};
+			int32_t original_pCharSaveTransactionToken{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				int32_t& pCharSaveTransactionToken
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pCharSaveTransactionToken);
+			setup_data(original_pClient, original_pCharSaveTransactionToken);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pCharSaveTransactionToken);
@@ -2323,17 +2516,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2ClientInfoStrc* ppClientInfo{};
-				
-				return std::tuple{ pClient, ppClientInfo };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_ppClientInfo] = setup_data();
-			auto [original_pClient, original_ppClientInfo] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientInfoStrc* moo_ppClientInfo{};
+			D2ClientStrc original_pClient{};
+			D2ClientInfoStrc* original_ppClientInfo{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2ClientInfoStrc*& ppClientInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_ppClientInfo);
+			setup_data(original_pClient, original_ppClientInfo);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_ppClientInfo);
@@ -2352,17 +2549,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2ClientInfoStrc pClientInfo{};
-				
-				return std::tuple{ pClient, pClientInfo };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pClientInfo] = setup_data();
-			auto [original_pClient, original_pClientInfo] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientInfoStrc moo_pClientInfo{};
+			D2ClientStrc original_pClient{};
+			D2ClientInfoStrc original_pClientInfo{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2ClientInfoStrc& pClientInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pClientInfo);
+			setup_data(original_pClient, original_pClientInfo);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pClientInfo);
@@ -2381,16 +2582,18 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pClient };
-			};
-			
 			// Input data
-			auto [moo_pClient] = setup_data();
-			auto [original_pClient] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient);
+			setup_data(original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pClient);
@@ -2411,17 +2614,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -2440,17 +2647,21 @@ TEST_SUITE("ClientsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);

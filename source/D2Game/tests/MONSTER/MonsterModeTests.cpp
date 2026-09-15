@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,16 +27,18 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -58,18 +59,24 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pAttacker{};
-				D2UnitStrc pDefender{};
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pAttacker, pDefender, pGame };
-			};
-			
 			// Input data
-			auto [moo_pAttacker, moo_pDefender, moo_pGame] = setup_data();
-			auto [original_pAttacker, original_pDefender, original_pGame] = setup_data();
+			D2UnitStrc moo_pAttacker{};
+			D2UnitStrc moo_pDefender{};
+			D2GameStrc moo_pGame{};
+			D2UnitStrc original_pAttacker{};
+			D2UnitStrc original_pDefender{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pAttacker,
+				D2UnitStrc& pDefender,
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAttacker, moo_pDefender, moo_pGame);
+			setup_data(original_pAttacker, original_pDefender, original_pGame);
 
 			// Call both implementations
 			sut(&moo_pAttacker, &moo_pDefender, &moo_pGame);
@@ -89,17 +96,19 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int32_t nMode{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nMode);
@@ -117,17 +126,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pUnit, pGame };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pGame] = setup_data();
-			auto [original_pUnit, original_pGame] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc moo_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pGame);
+			setup_data(original_pUnit, original_pGame);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_pGame);
@@ -146,17 +159,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2DamageStrc pDamage{};
-				
-				return std::tuple{ pUnit, pDamage };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pDamage] = setup_data();
-			auto [original_pUnit, original_pDamage] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2DamageStrc moo_pDamage{};
+			D2UnitStrc original_pUnit{};
+			D2DamageStrc original_pDamage{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2DamageStrc& pDamage
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pDamage);
+			setup_data(original_pUnit, original_pDamage);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_pDamage);
@@ -175,18 +192,24 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pAttacker{};
-				D2UnitStrc pDefender{};
-				D2DamageStrc pDamage{};
-				
-				return std::tuple{ pAttacker, pDefender, pDamage };
-			};
-			
 			// Input data
-			auto [moo_pAttacker, moo_pDefender, moo_pDamage] = setup_data();
-			auto [original_pAttacker, original_pDefender, original_pDamage] = setup_data();
+			D2UnitStrc moo_pAttacker{};
+			D2UnitStrc moo_pDefender{};
+			D2DamageStrc moo_pDamage{};
+			D2UnitStrc original_pAttacker{};
+			D2UnitStrc original_pDefender{};
+			D2DamageStrc original_pDamage{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pAttacker,
+				D2UnitStrc& pDefender,
+				D2DamageStrc& pDamage
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAttacker, moo_pDefender, moo_pDamage);
+			setup_data(original_pAttacker, original_pDefender, original_pDamage);
 
 			// Call both implementations
 			sut(&moo_pAttacker, &moo_pDefender, &moo_pDamage);
@@ -206,16 +229,18 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -236,16 +261,18 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -263,19 +290,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2AiParamStrc pAiParam{};
-				
-				return std::tuple{ pAiParam };
-			};
-			
 			// Input data
-			auto [moo_pAiParam] = setup_data();
-			auto [original_pAiParam] = setup_data();
+			D2AiParamStrc moo_pAiParam{};
+			D2AiParamStrc original_pAiParam{};
 			int32_t a2{};
 			int32_t nVel{};
 			uint8_t a4{};
+
+			const auto setup_data = [](
+				D2AiParamStrc& pAiParam
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAiParam);
+			setup_data(original_pAiParam);
 
 			// Call both implementations
 			sut(&moo_pAiParam, a2, nVel, a4);
@@ -293,16 +322,18 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame);
@@ -323,17 +354,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2AiParamStrc pAiParam{};
-				
-				return std::tuple{ pGame, pAiParam };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pAiParam] = setup_data();
-			auto [original_pGame, original_pAiParam] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2AiParamStrc moo_pAiParam{};
+			D2GameStrc original_pGame{};
+			D2AiParamStrc original_pAiParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2AiParamStrc& pAiParam
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pAiParam);
+			setup_data(original_pGame, original_pAiParam);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pAiParam);
@@ -352,18 +387,22 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
 			int32_t a3{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pModeChange, a3);
@@ -382,19 +421,25 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pUnit, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pUnit, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2ModeChangeStrc original_pModeChange{};
 			int32_t a7{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pModeChange);
+			setup_data(original_pGame, original_pUnit, original_pModeChange);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, a7, &moo_pModeChange);
@@ -414,19 +459,23 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t a3{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, a3, a4);
@@ -445,7 +494,6 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nMonsterId{};
 
 			// Call both implementations
@@ -464,17 +512,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -493,17 +545,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -522,17 +578,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -551,17 +611,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pGame, pMonster };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pMonster] = setup_data();
-			auto [original_pGame, original_pMonster] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pMonster{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pMonster{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pMonster
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pMonster);
+			setup_data(original_pGame, original_pMonster);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pMonster);
@@ -583,17 +647,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -615,18 +683,22 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			DWORD dwDir{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, dwDir);
@@ -645,17 +717,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pAttacker{};
-				
-				return std::tuple{ pGame, pAttacker };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pAttacker] = setup_data();
-			auto [original_pGame, original_pAttacker] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pAttacker{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pAttacker{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pAttacker
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pAttacker);
+			setup_data(original_pGame, original_pAttacker);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pAttacker);
@@ -674,17 +750,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -703,17 +783,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pAttacker{};
-				
-				return std::tuple{ pGame, pAttacker };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pAttacker] = setup_data();
-			auto [original_pGame, original_pAttacker] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pAttacker{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pAttacker{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pAttacker
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pAttacker);
+			setup_data(original_pGame, original_pAttacker);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pAttacker);
@@ -732,17 +816,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -764,17 +852,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -796,17 +888,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -828,17 +924,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -860,17 +960,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -892,17 +996,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -924,17 +1032,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -956,17 +1068,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -988,17 +1104,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -1020,17 +1140,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -1052,17 +1176,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -1084,17 +1212,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -1116,17 +1248,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -1148,16 +1284,18 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1178,17 +1316,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -1210,17 +1352,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -1242,17 +1388,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -1271,17 +1421,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -1303,17 +1457,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
@@ -1335,17 +1493,21 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -1367,17 +1529,19 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int32_t nMode{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nMode);
@@ -1398,19 +1562,23 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t a3{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, a3, a4);
@@ -1429,19 +1597,23 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t a3{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, a3, a4);
@@ -1460,18 +1632,22 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pGame, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pModeChange] = setup_data();
-			auto [original_pGame, original_pModeChange] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2GameStrc original_pGame{};
+			D2ModeChangeStrc original_pModeChange{};
 			int32_t a3{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pModeChange);
+			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pModeChange, a3);
@@ -1493,19 +1669,23 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2AiParamStrc pAiParam{};
-				
-				return std::tuple{ pUnit, pAiParam };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pAiParam] = setup_data();
-			auto [original_pUnit, original_pAiParam] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2AiParamStrc moo_pAiParam{};
+			D2UnitStrc original_pUnit{};
+			D2AiParamStrc original_pAiParam{};
 			int32_t nPathType{};
 			int32_t dwNewDist{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2AiParamStrc& pAiParam
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pAiParam);
+			setup_data(original_pUnit, original_pAiParam);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nPathType, &moo_pAiParam, dwNewDist);
@@ -1527,18 +1707,22 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2ModeChangeStrc pModeChange{};
-				
-				return std::tuple{ pUnit, pModeChange };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pModeChange] = setup_data();
-			auto [original_pUnit, original_pModeChange] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2ModeChangeStrc moo_pModeChange{};
+			D2UnitStrc original_pUnit{};
+			D2ModeChangeStrc original_pModeChange{};
 			int32_t nMode{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2ModeChangeStrc& pModeChange
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pModeChange);
+			setup_data(original_pUnit, original_pModeChange);
 
 			// Call both implementations
 			sut(&moo_pUnit, nMode, &moo_pModeChange);
@@ -1557,19 +1741,23 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t a3{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, a3, a4);
@@ -1588,19 +1776,23 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t a3{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, a3, a4);
@@ -1619,19 +1811,23 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t a3{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, a3, a4);
@@ -1650,20 +1846,24 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			D2C_EventTypes nEvent{};
 			int32_t nSkillId{};
 			int32_t nSkillLevel{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nEvent, nSkillId, nSkillLevel);
@@ -1682,19 +1882,25 @@ TEST_SUITE("MonsterModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2UnitStrc pTarget{};
-				
-				return std::tuple{ pGame, pUnit, pTarget };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pTarget] = setup_data();
-			auto [original_pGame, original_pUnit, original_pTarget] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pTarget{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pTarget{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pTarget
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pTarget);
+			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pTarget, a4);

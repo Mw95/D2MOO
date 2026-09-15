@@ -30,7 +30,7 @@ struct PortalLevelsFixture : Fixture
 
 		for (auto i = 1; i < count; ++i)
 		{
-			portal_levels[i] = random_unsigned_integer(0, 137);
+			portal_levels[i] = random_unsigned_integer(1, 136);
 		}
 
 		sgptDataTables->nPortalLevels = count;

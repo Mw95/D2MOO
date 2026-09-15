@@ -13,11 +13,7 @@
 #include <Drlg/D2DrlgDrlg.h>
 #include <Units/Units.h>
 
-#include "TestFixtures/CompCodeTxtFixture.h"
-#include "TestFixtures/HirelingTxtFixture.h"
-#include "TestFixtures/LevelsTxtFixture.h"
-#include "TestFixtures/MonstatsTxtFixture.h"
-#include "TestFixtures/Monstats2TxtFixture.h"
+#include <Fixtures/DataTbls/Fixtures.h>
 
 
 TEST_SUITE("D2MonstersTests")

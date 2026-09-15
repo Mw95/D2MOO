@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,19 +27,25 @@ TEST_SUITE("MonsterMsgTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pGame, pUnit, pClient };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pClient] = setup_data();
-			auto [original_pGame, original_pUnit, original_pClient] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2ClientStrc moo_pClient{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2ClientStrc original_pClient{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pClient);
+			setup_data(original_pGame, original_pUnit, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pClient, a4);
@@ -60,18 +65,24 @@ TEST_SUITE("MonsterMsgTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pMonster{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pGame, pMonster, pClient };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pMonster, moo_pClient] = setup_data();
-			auto [original_pGame, original_pMonster, original_pClient] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pMonster{};
+			D2ClientStrc moo_pClient{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pMonster{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pMonster,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pMonster, moo_pClient);
+			setup_data(original_pGame, original_pMonster, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pMonster, &moo_pClient);

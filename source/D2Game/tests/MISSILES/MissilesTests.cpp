@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,16 +27,18 @@ TEST_SUITE("MissilesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -55,18 +56,22 @@ TEST_SUITE("MissilesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pMissile{};
-				
-				return std::tuple{ pGame, pMissile };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pMissile] = setup_data();
-			auto [original_pGame, original_pMissile] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pMissile{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pMissile{};
 			int32_t nUnitGUID{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pMissile
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pMissile);
+			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pMissile, nUnitGUID);
@@ -85,17 +90,21 @@ TEST_SUITE("MissilesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pMissile{};
-				
-				return std::tuple{ pGame, pMissile };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pMissile] = setup_data();
-			auto [original_pGame, original_pMissile] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pMissile{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pMissile{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pMissile
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pMissile);
+			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pMissile);
@@ -114,17 +123,21 @@ TEST_SUITE("MissilesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2MissileStrc missileParams{};
-				
-				return std::tuple{ pGame, missileParams };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_missileParams] = setup_data();
-			auto [original_pGame, original_missileParams] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2MissileStrc moo_missileParams{};
+			D2GameStrc original_pGame{};
+			D2MissileStrc original_missileParams{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2MissileStrc& missileParams
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_missileParams);
+			setup_data(original_pGame, original_missileParams);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_missileParams);
@@ -146,19 +159,25 @@ TEST_SUITE("MissilesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ClientStrc pClient{};
-				D2GameStrc pGame{};
-				D2UnitStrc pMissile{};
-				
-				return std::tuple{ pClient, pGame, pMissile };
-			};
-			
 			// Input data
-			auto [moo_pClient, moo_pGame, moo_pMissile] = setup_data();
-			auto [original_pClient, original_pGame, original_pMissile] = setup_data();
+			D2ClientStrc moo_pClient{};
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pMissile{};
+			D2ClientStrc original_pClient{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pMissile{};
 			int32_t nVelocity{};
+
+			const auto setup_data = [](
+				D2ClientStrc& pClient,
+				D2GameStrc& pGame,
+				D2UnitStrc& pMissile
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClient, moo_pGame, moo_pMissile);
+			setup_data(original_pClient, original_pGame, original_pMissile);
 
 			// Call both implementations
 			sut(&moo_pClient, &moo_pGame, &moo_pMissile, nVelocity);

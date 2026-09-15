@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,19 +26,23 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			D2C_EventTypes nEventType{};
 			int32_t nEventCustomId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nEventType, nEventCustomId);
@@ -58,17 +61,21 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2EventTimerStrc pTimer{};
-				
-				return std::tuple{ pGame, pTimer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pTimer] = setup_data();
-			auto [original_pGame, original_pTimer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2EventTimerStrc moo_pTimer{};
+			D2GameStrc original_pGame{};
+			D2EventTimerStrc original_pTimer{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2EventTimerStrc& pTimer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pTimer);
+			setup_data(original_pGame, original_pTimer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pTimer);
@@ -87,19 +94,23 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nEvent{};
 			EventTimerCallback pCallback{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nEvent, pCallback);
@@ -118,17 +129,21 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -147,17 +162,21 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -176,16 +195,18 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -203,16 +224,18 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -230,19 +253,25 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2EventTimerQueueStrc pTimerQueue{};
-				D2EventTimerStrc pEventTimer{};
-				
-				return std::tuple{ pGame, pTimerQueue, pEventTimer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pTimerQueue, moo_pEventTimer] = setup_data();
-			auto [original_pGame, original_pTimerQueue, original_pEventTimer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2EventTimerQueueStrc moo_pTimerQueue{};
+			D2EventTimerStrc moo_pEventTimer{};
+			D2GameStrc original_pGame{};
+			D2EventTimerQueueStrc original_pTimerQueue{};
+			D2EventTimerStrc original_pEventTimer{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2EventTimerQueueStrc& pTimerQueue,
+				D2EventTimerStrc& pEventTimer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pTimerQueue, moo_pEventTimer);
+			setup_data(original_pGame, original_pTimerQueue, original_pEventTimer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pTimerQueue, &moo_pEventTimer, a4);
@@ -262,19 +291,25 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2EventTimerQueueStrc pTimerQueue{};
-				D2EventTimerStrc pEventTimer{};
-				
-				return std::tuple{ pGame, pTimerQueue, pEventTimer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pTimerQueue, moo_pEventTimer] = setup_data();
-			auto [original_pGame, original_pTimerQueue, original_pEventTimer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2EventTimerQueueStrc moo_pTimerQueue{};
+			D2EventTimerStrc moo_pEventTimer{};
+			D2GameStrc original_pGame{};
+			D2EventTimerQueueStrc original_pTimerQueue{};
+			D2EventTimerStrc original_pEventTimer{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2EventTimerQueueStrc& pTimerQueue,
+				D2EventTimerStrc& pEventTimer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pTimerQueue, moo_pEventTimer);
+			setup_data(original_pGame, original_pTimerQueue, original_pEventTimer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pTimerQueue, &moo_pEventTimer, a4);
@@ -294,19 +329,25 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2EventTimerQueueStrc pTimerQueue{};
-				D2EventTimerStrc pEventTimer{};
-				
-				return std::tuple{ pGame, pTimerQueue, pEventTimer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pTimerQueue, moo_pEventTimer] = setup_data();
-			auto [original_pGame, original_pTimerQueue, original_pEventTimer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2EventTimerQueueStrc moo_pTimerQueue{};
+			D2EventTimerStrc moo_pEventTimer{};
+			D2GameStrc original_pGame{};
+			D2EventTimerQueueStrc original_pTimerQueue{};
+			D2EventTimerStrc original_pEventTimer{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2EventTimerQueueStrc& pTimerQueue,
+				D2EventTimerStrc& pEventTimer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pTimerQueue, moo_pEventTimer);
+			setup_data(original_pGame, original_pTimerQueue, original_pEventTimer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pTimerQueue, &moo_pEventTimer, a4);
@@ -326,19 +367,25 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2EventTimerQueueStrc pTimerQueue{};
-				D2EventTimerStrc pEventTimer{};
-				
-				return std::tuple{ pGame, pTimerQueue, pEventTimer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pTimerQueue, moo_pEventTimer] = setup_data();
-			auto [original_pGame, original_pTimerQueue, original_pEventTimer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2EventTimerQueueStrc moo_pTimerQueue{};
+			D2EventTimerStrc moo_pEventTimer{};
+			D2GameStrc original_pGame{};
+			D2EventTimerQueueStrc original_pTimerQueue{};
+			D2EventTimerStrc original_pEventTimer{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2EventTimerQueueStrc& pTimerQueue,
+				D2EventTimerStrc& pEventTimer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pTimerQueue, moo_pEventTimer);
+			setup_data(original_pGame, original_pTimerQueue, original_pEventTimer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pTimerQueue, &moo_pEventTimer, a4);
@@ -358,19 +405,25 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2EventTimerQueueStrc pTimerQueue{};
-				D2EventTimerStrc pEventTimer{};
-				
-				return std::tuple{ pGame, pTimerQueue, pEventTimer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pTimerQueue, moo_pEventTimer] = setup_data();
-			auto [original_pGame, original_pTimerQueue, original_pEventTimer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2EventTimerQueueStrc moo_pTimerQueue{};
+			D2EventTimerStrc moo_pEventTimer{};
+			D2GameStrc original_pGame{};
+			D2EventTimerQueueStrc original_pTimerQueue{};
+			D2EventTimerStrc original_pEventTimer{};
 			int32_t a4{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2EventTimerQueueStrc& pTimerQueue,
+				D2EventTimerStrc& pEventTimer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pTimerQueue, moo_pEventTimer);
+			setup_data(original_pGame, original_pTimerQueue, original_pEventTimer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pTimerQueue, &moo_pEventTimer, a4);
@@ -390,18 +443,22 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nEvent{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nEvent);
@@ -423,21 +480,25 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			D2C_EventTypes nEventType{};
 			int32_t nExpireFrame{};
 			int32_t dwEventCustomId{};
 			int32_t dwEventCustomParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nEventType, nExpireFrame, dwEventCustomId, dwEventCustomParam);
@@ -456,22 +517,26 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			D2C_EventTypes nEventType{};
 			int32_t nExpireFrame{};
 			EventTimerCallback pfCallBack{};
 			int32_t dwEventCustomId{};
 			int32_t dwEventCustomParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nEventType, nExpireFrame, pfCallBack, dwEventCustomId, dwEventCustomParam);
@@ -490,18 +555,20 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nUnitType{};
 			int32_t nExpireFrame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nUnitType, nExpireFrame);
@@ -522,16 +589,18 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame);
@@ -552,17 +621,21 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -584,20 +657,24 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			D2C_EventTypes nEventType{};
 			int32_t dwEventCustomId{};
 			int32_t dwEventCustomParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nEventType, dwEventCustomId, dwEventCustomParam);
@@ -616,22 +693,26 @@ TEST_SUITE("EventTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			D2C_EventTypes nEventType{};
 			int32_t nExpireFrame{};
 			EventTimerCallback pfCallBack{};
 			int32_t nSkillId{};
 			int32_t nSkillLevel{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, nEventType, nExpireFrame, pfCallBack, nSkillId, nSkillLevel);

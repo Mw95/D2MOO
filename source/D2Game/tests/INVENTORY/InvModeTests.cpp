@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,19 +27,27 @@ TEST_SUITE("InvModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2ClientStrc pClient{};
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pGame, pUnit, pClient, pInventory };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pClient, moo_pInventory] = setup_data();
-			auto [original_pGame, original_pUnit, original_pClient, original_pInventory] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2ClientStrc moo_pClient{};
+			D2InventoryStrc moo_pInventory{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2ClientStrc original_pClient{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2ClientStrc& pClient,
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pClient, moo_pInventory);
+			setup_data(original_pGame, original_pUnit, original_pClient, original_pInventory);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pClient, &moo_pInventory);
@@ -61,19 +68,27 @@ TEST_SUITE("InvModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				D2UnitStrc pUnused{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pPlayer, pItem, pUnused, pClient };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pItem, moo_pUnused, moo_pClient] = setup_data();
-			auto [original_pPlayer, original_pItem, original_pUnused, original_pClient] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_pUnused{};
+			D2ClientStrc moo_pClient{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_pUnused{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem,
+				D2UnitStrc& pUnused,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pItem, moo_pUnused, moo_pClient);
+			setup_data(original_pPlayer, original_pItem, original_pUnused, original_pClient);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pUnused, &moo_pClient);
@@ -97,17 +112,21 @@ TEST_SUITE("InvModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pGame, pItem };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pItem] = setup_data();
-			auto [original_pGame, original_pItem] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pItem{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pItem);
+			setup_data(original_pGame, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pItem);
@@ -126,17 +145,21 @@ TEST_SUITE("InvModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
@@ -158,17 +181,21 @@ TEST_SUITE("InvModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);

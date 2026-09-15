@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,20 +27,22 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			void* moo_ppUnitArg = nullptr;
 			void* original_ppUnitArg = nullptr;
 			void* moo_pCounterArg = nullptr;
 			void* original_pCounterArg = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, moo_ppUnitArg, moo_pCounterArg);
@@ -61,18 +62,24 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2AiTickParamStrc pAiTickParam{};
-				
-				return std::tuple{ pGame, pUnit, pAiTickParam };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pAiTickParam] = setup_data();
-			auto [original_pGame, original_pUnit, original_pAiTickParam] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2AiTickParamStrc moo_pAiTickParam{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2AiTickParamStrc original_pAiTickParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2AiTickParamStrc& pAiTickParam
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pAiTickParam);
+			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
@@ -92,18 +99,24 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2AiTickParamStrc pAiTickParam{};
-				
-				return std::tuple{ pGame, pUnit, pAiTickParam };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pAiTickParam] = setup_data();
-			auto [original_pGame, original_pUnit, original_pAiTickParam] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2AiTickParamStrc moo_pAiTickParam{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2AiTickParamStrc original_pAiTickParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2AiTickParamStrc& pAiTickParam
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pAiTickParam);
+			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
@@ -123,21 +136,29 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				int32_t pMax{};
-				int32_t pCount{};
-				
-				return std::tuple{ pGame, pUnit, pMax, pCount };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pMax, moo_pCount] = setup_data();
-			auto [original_pGame, original_pUnit, original_pMax, original_pCount] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			int32_t moo_pMax{};
+			int32_t moo_pCount{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			int32_t original_pMax{};
+			int32_t original_pCount{};
 			void* moo_pArgs = nullptr;
 			void* original_pArgs = nullptr;
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				int32_t& pMax,
+				int32_t& pCount
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pMax, moo_pCount);
+			setup_data(original_pGame, original_pUnit, original_pMax, original_pCount);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pMax, &moo_pCount, moo_pArgs, nullptr);
@@ -162,19 +183,23 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pTarget{};
-				
-				return std::tuple{ pUnit, pTarget };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pTarget] = setup_data();
-			auto [original_pUnit, original_pTarget] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pTarget{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pTarget{};
 			void* moo_pArgs = nullptr;
 			void* original_pArgs = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pTarget
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pTarget);
+			setup_data(original_pUnit, original_pTarget);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pTarget, moo_pArgs);
@@ -197,17 +222,21 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pBaal{};
-				D2UnitStrc pTarget{};
-				
-				return std::tuple{ pBaal, pTarget };
-			};
-			
 			// Input data
-			auto [moo_pBaal, moo_pTarget] = setup_data();
-			auto [original_pBaal, original_pTarget] = setup_data();
+			D2UnitStrc moo_pBaal{};
+			D2UnitStrc moo_pTarget{};
+			D2UnitStrc original_pBaal{};
+			D2UnitStrc original_pTarget{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pBaal,
+				D2UnitStrc& pTarget
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pBaal, moo_pTarget);
+			setup_data(original_pBaal, original_pTarget);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pBaal, &moo_pTarget);
@@ -229,22 +258,32 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2AiControlStrc pAiControl{};
-				D2UnitStrc pTarget{};
-				D2AiCmdStrc pAiCmd{};
-				
-				return std::tuple{ pGame, pUnit, pAiControl, pTarget, pAiCmd };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pAiControl, moo_pTarget, moo_pAiCmd] = setup_data();
-			auto [original_pGame, original_pUnit, original_pAiControl, original_pTarget, original_pAiCmd] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2AiControlStrc moo_pAiControl{};
+			D2UnitStrc moo_pTarget{};
+			D2AiCmdStrc moo_pAiCmd{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2AiControlStrc original_pAiControl{};
+			D2UnitStrc original_pTarget{};
+			D2AiCmdStrc original_pAiCmd{};
 			int32_t nMax{};
 			int32_t nCount{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2AiControlStrc& pAiControl,
+				D2UnitStrc& pTarget,
+				D2AiCmdStrc& pAiCmd
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pAiControl, moo_pTarget, moo_pAiCmd);
+			setup_data(original_pGame, original_pUnit, original_pAiControl, original_pTarget, original_pAiCmd);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pTarget, nMax, nCount, &moo_pAiCmd);
@@ -269,16 +308,18 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -299,19 +340,23 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int32_t pArray{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pArray, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pArray, moo_pUnit] = setup_data();
-			auto [original_pArray, original_pUnit] = setup_data();
+			int32_t moo_pArray{};
+			D2UnitStrc moo_pUnit{};
+			int32_t original_pArray{};
+			D2UnitStrc original_pUnit{};
 			int32_t nArraySize{};
 			int32_t nDefaultValue{};
+
+			const auto setup_data = [](
+				int32_t& pArray,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pArray, moo_pUnit);
+			setup_data(original_pArray, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pArray, nArraySize, &moo_pUnit, nDefaultValue);
@@ -333,24 +378,32 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2AiControlStrc pAiControl{};
-				D2UnitStrc pUnit{};
-				D2UnitStrc pTarget{};
-				
-				return std::tuple{ pGame, pAiControl, pUnit, pTarget };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pAiControl, moo_pUnit, moo_pTarget] = setup_data();
-			auto [original_pGame, original_pAiControl, original_pUnit, original_pTarget] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2AiControlStrc moo_pAiControl{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pTarget{};
+			D2GameStrc original_pGame{};
+			D2AiControlStrc original_pAiControl{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pTarget{};
 			int32_t nCount{};
 			int32_t bInMediumRange{};
 			int32_t bInFarRange{};
 			int32_t bInCloseRange{};
 			int32_t nMax{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2AiControlStrc& pAiControl,
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pTarget
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pAiControl, moo_pUnit, moo_pTarget);
+			setup_data(original_pGame, original_pAiControl, original_pUnit, original_pTarget);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pAiControl, &moo_pUnit, &moo_pTarget, nCount, bInMediumRange, bInFarRange, bInCloseRange, nMax);
@@ -374,21 +427,31 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2AiControlStrc pAiControl{};
-				D2UnitStrc pTarget{};
-				D2AiCmdStrc pAiCmd{};
-				
-				return std::tuple{ pGame, pUnit, pAiControl, pTarget, pAiCmd };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pAiControl, moo_pTarget, moo_pAiCmd] = setup_data();
-			auto [original_pGame, original_pUnit, original_pAiControl, original_pTarget, original_pAiCmd] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2AiControlStrc moo_pAiControl{};
+			D2UnitStrc moo_pTarget{};
+			D2AiCmdStrc moo_pAiCmd{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2AiControlStrc original_pAiControl{};
+			D2UnitStrc original_pTarget{};
+			D2AiCmdStrc original_pAiCmd{};
 			int32_t nParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2AiControlStrc& pAiControl,
+				D2UnitStrc& pTarget,
+				D2AiCmdStrc& pAiCmd
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pAiControl, moo_pTarget, moo_pAiCmd);
+			setup_data(original_pGame, original_pUnit, original_pAiControl, original_pTarget, original_pAiCmd);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pTarget, nParam, &moo_pAiCmd);
@@ -410,18 +473,24 @@ TEST_SUITE("AiBaalTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2AiTickParamStrc pAiTickParam{};
-				
-				return std::tuple{ pGame, pUnit, pAiTickParam };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pAiTickParam] = setup_data();
-			auto [original_pGame, original_pUnit, original_pAiTickParam] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2AiTickParamStrc moo_pAiTickParam{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2AiTickParamStrc original_pAiTickParam{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2AiTickParamStrc& pAiTickParam
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pAiTickParam);
+			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);

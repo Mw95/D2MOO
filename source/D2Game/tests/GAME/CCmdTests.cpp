@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("CCmdTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			char pData{};
 			int32_t nDataSize{};
 
@@ -45,18 +43,20 @@ TEST_SUITE("CCmdTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szClientName{};
-				
-				return std::tuple{ szClientName };
-			};
-			
 			// Input data
-			auto [moo_szClientName] = setup_data();
-			auto [original_szClientName] = setup_data();
+			char moo_szClientName{};
+			char original_szClientName{};
 			int32_t a1{};
 			int32_t a2{};
+
+			const auto setup_data = [](
+				char& szClientName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szClientName);
+			setup_data(original_szClientName);
 
 			// Call both implementations
 			const auto moo_result = sut(a1, a2, &moo_szClientName);
@@ -77,7 +77,6 @@ TEST_SUITE("CCmdTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pData = nullptr;
 			void* original_pData = nullptr;
 			int32_t nSize{};
@@ -98,7 +97,6 @@ TEST_SUITE("CCmdTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pData = nullptr;
 			void* original_pData = nullptr;
 			int32_t nPacketSize{};

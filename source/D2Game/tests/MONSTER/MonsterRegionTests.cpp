@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -29,22 +28,32 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoom{};
-				D2RoomCoordListStrc pRoomCoordList{};
-				int32_t pX{};
-				int32_t pY{};
-				
-				return std::tuple{ pGame, pRoom, pRoomCoordList, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRoom, moo_pRoomCoordList, moo_pX, moo_pY] = setup_data();
-			auto [original_pGame, original_pRoom, original_pRoomCoordList, original_pX, original_pY] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCoordListStrc moo_pRoomCoordList{};
+			int32_t moo_pX{};
+			int32_t moo_pY{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCoordListStrc original_pRoomCoordList{};
+			int32_t original_pX{};
+			int32_t original_pY{};
 			int32_t nSuperUniqueId{};
 			int32_t a7{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCoordListStrc& pRoomCoordList,
+				int32_t& pX,
+				int32_t& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRoom, moo_pRoomCoordList, moo_pX, moo_pY);
+			setup_data(original_pGame, original_pRoom, original_pRoomCoordList, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nSuperUniqueId, &moo_pX, &moo_pY, a7);
@@ -69,21 +78,25 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pGame, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRoom] = setup_data();
-			auto [original_pGame, original_pRoom] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoom{};
 			int32_t nClassId{};
 			int32_t nX{};
 			int32_t nY{};
 			int32_t nMode{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRoom);
+			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
@@ -105,7 +118,6 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nMonsterId{};
 
 			// Call both implementations
@@ -124,7 +136,6 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nMonsterId{};
 			int32_t nFlag{};
 
@@ -144,7 +155,6 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nMonsterId{};
 
 			// Call both implementations
@@ -163,7 +173,6 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nMonsterId{};
 
 			// Call both implementations
@@ -182,17 +191,21 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pGame, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRoom] = setup_data();
-			auto [original_pGame, original_pRoom] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRoom);
+			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pRoom);
@@ -211,22 +224,34 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoom{};
-				D2RoomCoordListStrc pRoomCoordList{};
-				D2UnkMonCreateStrc2 a5{};
-				int32_t pX{};
-				int32_t pY{};
-				
-				return std::tuple{ pGame, pRoom, pRoomCoordList, a5, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRoom, moo_pRoomCoordList, moo_a5, moo_pX, moo_pY] = setup_data();
-			auto [original_pGame, original_pRoom, original_pRoomCoordList, original_a5, original_pX, original_pY] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCoordListStrc moo_pRoomCoordList{};
+			D2UnkMonCreateStrc2 moo_a5{};
+			int32_t moo_pX{};
+			int32_t moo_pY{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCoordListStrc original_pRoomCoordList{};
+			D2UnkMonCreateStrc2 original_a5{};
+			int32_t original_pX{};
+			int32_t original_pY{};
 			int32_t nMonsterId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCoordListStrc& pRoomCoordList,
+				D2UnkMonCreateStrc2& a5,
+				int32_t& pX,
+				int32_t& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRoom, moo_pRoomCoordList, moo_a5, moo_pX, moo_pY);
+			setup_data(original_pGame, original_pRoom, original_pRoomCoordList, original_a5, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nMonsterId, &moo_a5, &moo_pX, &moo_pY);
@@ -252,21 +277,27 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoom{};
-				D2RoomCoordListStrc pRoomCoordList{};
-				
-				return std::tuple{ pGame, pRoom, pRoomCoordList };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRoom, moo_pRoomCoordList] = setup_data();
-			auto [original_pGame, original_pRoom, original_pRoomCoordList] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCoordListStrc moo_pRoomCoordList{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCoordListStrc original_pRoomCoordList{};
 			int32_t nMonsterId{};
 			uint8_t nMin{};
 			uint8_t nMax{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCoordListStrc& pRoomCoordList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRoom, moo_pRoomCoordList);
+			setup_data(original_pGame, original_pRoom, original_pRoomCoordList);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nMonsterId, nMin, nMax);
@@ -289,17 +320,21 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pGame, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pRoom] = setup_data();
-			auto [original_pGame, original_pRoom] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2GameStrc original_pGame{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pRoom);
+			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pRoom);
@@ -318,22 +353,26 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				D2SeedStrc pSeed{};
-				
-				return std::tuple{ ppMonsterRegion, pSeed };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion, moo_pSeed] = setup_data();
-			auto [original_ppMonsterRegion, original_pSeed] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2SeedStrc moo_pSeed{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
+			D2SeedStrc original_pSeed{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			uint32_t nLowSeed{};
 			uint8_t nDifficulty{};
 			int32_t bExpansion{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion,
+				D2SeedStrc& pSeed
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion, moo_pSeed);
+			setup_data(original_ppMonsterRegion, original_pSeed);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_ppMonsterRegion, &moo_pSeed, nLowSeed, nDifficulty, bExpansion);
@@ -353,18 +392,20 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				
-				return std::tuple{ ppMonsterRegion };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion] = setup_data();
-			auto [original_ppMonsterRegion] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion);
+			setup_data(original_ppMonsterRegion);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_ppMonsterRegion);
@@ -383,17 +424,19 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				
-				return std::tuple{ ppMonsterRegion };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion] = setup_data();
-			auto [original_ppMonsterRegion] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
 			int32_t nLevelId{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion);
+			setup_data(original_ppMonsterRegion);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_ppMonsterRegion, nLevelId);
@@ -414,18 +457,24 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				D2ActiveRoomStrc pRoom{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ ppMonsterRegion, pRoom, pUnit };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion, moo_pRoom, moo_pUnit] = setup_data();
-			auto [original_ppMonsterRegion, original_pRoom, original_pUnit] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitStrc moo_pUnit{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion,
+				D2ActiveRoomStrc& pRoom,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion, moo_pRoom, moo_pUnit);
+			setup_data(original_ppMonsterRegion, original_pRoom, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_ppMonsterRegion, &moo_pRoom, &moo_pUnit);
@@ -448,16 +497,18 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame);
@@ -475,19 +526,25 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				D2ActiveRoomStrc pRoom{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ ppMonsterRegion, pRoom, pUnit };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion, moo_pRoom, moo_pUnit] = setup_data();
-			auto [original_ppMonsterRegion, original_pRoom, original_pUnit] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitStrc moo_pUnit{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2UnitStrc original_pUnit{};
 			int32_t bToggleFlag{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion,
+				D2ActiveRoomStrc& pRoom,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion, moo_pRoom, moo_pUnit);
+			setup_data(original_ppMonsterRegion, original_pRoom, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_ppMonsterRegion, &moo_pRoom, &moo_pUnit, bToggleFlag);
@@ -507,19 +564,23 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ ppMonsterRegion, pUnit };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion, moo_pUnit] = setup_data();
-			auto [original_ppMonsterRegion, original_pUnit] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2UnitStrc moo_pUnit{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
+			D2UnitStrc original_pUnit{};
 			int32_t nPreviousAlignment{};
 			int32_t nNewAlignment{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion, moo_pUnit);
+			setup_data(original_ppMonsterRegion, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_ppMonsterRegion, &moo_pUnit, nPreviousAlignment, nNewAlignment);
@@ -538,17 +599,21 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ ppMonsterRegion, pUnit };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion, moo_pUnit] = setup_data();
-			auto [original_ppMonsterRegion, original_pUnit] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2UnitStrc moo_pUnit{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion, moo_pUnit);
+			setup_data(original_ppMonsterRegion, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_ppMonsterRegion, &moo_pUnit);
@@ -567,17 +632,21 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonsterRegion{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ ppMonsterRegion, pUnit };
-			};
-			
 			// Input data
-			auto [moo_ppMonsterRegion, moo_pUnit] = setup_data();
-			auto [original_ppMonsterRegion, original_pUnit] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonsterRegion{};
+			D2UnitStrc moo_pUnit{};
+			D2MonsterRegionStrc* original_ppMonsterRegion{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonsterRegion,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonsterRegion, moo_pUnit);
+			setup_data(original_ppMonsterRegion, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_ppMonsterRegion, &moo_pUnit);
@@ -596,22 +665,26 @@ TEST_SUITE("MonsterRegionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonsterRegionStrc* ppMonRegion{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ ppMonRegion, pUnit };
-			};
-			
 			// Input data
-			auto [moo_ppMonRegion, moo_pUnit] = setup_data();
-			auto [original_ppMonRegion, original_pUnit] = setup_data();
+			D2MonsterRegionStrc* moo_ppMonRegion{};
+			D2UnitStrc moo_pUnit{};
+			D2MonsterRegionStrc* original_ppMonRegion{};
+			D2UnitStrc original_pUnit{};
 			int32_t nLevelId1{};
 			int32_t nLevelId2{};
 			int32_t nAlignment{};
 			int32_t bDead{};
 			int32_t a6{};
+
+			const auto setup_data = [](
+				D2MonsterRegionStrc*& ppMonRegion,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppMonRegion, moo_pUnit);
+			setup_data(original_ppMonRegion, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_ppMonRegion, nLevelId1, nLevelId2, nAlignment, bDead, a6, &moo_pUnit);

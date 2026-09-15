@@ -8,7 +8,6 @@
 #include <Windows.h>
 
 #include <D2DataTbls.h>
-#include <DataTbls/MonsterTbls.h>
 
 
 template<class Fixture>
@@ -33,6 +32,9 @@ struct MonStatsTxtFixture : Fixture
 
 		const auto original_monstats = reinterpret_cast<D2MonStatsTxt**>(d2common_base + 0x000A9608 + 0x00000A78);
 		*original_monstats = monstats.get();
+
+		const auto original_record_count = reinterpret_cast<int*>(d2common_base + 0x000A9608 + 0x00000A80);
+		*original_record_count = record_count;
 
 		monstats_txt = std::move(monstats);
 		monstats_record_count = record_count;

@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,18 +26,24 @@ TEST_SUITE("FriendlyTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pPlayer2{};
-				
-				return std::tuple{ pGame, pPlayer, pPlayer2 };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pPlayer2] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pPlayer2] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pPlayer2{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pPlayer2{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pPlayer2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pPlayer2);
+			setup_data(original_pGame, original_pPlayer, original_pPlayer2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPlayer2);
@@ -61,18 +66,24 @@ TEST_SUITE("FriendlyTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pPlayer2{};
-				
-				return std::tuple{ pGame, pPlayer, pPlayer2 };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pPlayer2] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pPlayer2] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pPlayer2{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pPlayer2{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pPlayer2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pPlayer2);
+			setup_data(original_pGame, original_pPlayer, original_pPlayer2);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, &moo_pPlayer2);

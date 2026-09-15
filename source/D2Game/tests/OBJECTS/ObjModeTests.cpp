@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -30,17 +29,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -59,17 +62,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -88,17 +95,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -117,17 +128,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -146,17 +161,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -175,17 +194,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -204,17 +227,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -233,17 +260,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -262,17 +293,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -291,17 +326,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -320,18 +359,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
 			int32_t nEventType{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject, nEventType);
@@ -350,17 +393,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pUnit, pClient };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pClient] = setup_data();
-			auto [original_pUnit, original_pClient] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2ClientStrc moo_pClient{};
+			D2UnitStrc original_pUnit{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pClient);
+			setup_data(original_pUnit, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_pClient);
@@ -379,18 +426,24 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pGame, pUnit, pClient };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pClient] = setup_data();
-			auto [original_pGame, original_pUnit, original_pClient] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2ClientStrc moo_pClient{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pClient);
+			setup_data(original_pGame, original_pUnit, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pClient);
@@ -410,17 +463,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -441,17 +496,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -472,17 +529,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -503,17 +562,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -534,17 +595,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -565,17 +628,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -596,17 +661,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -627,17 +694,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -658,17 +727,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -687,18 +760,20 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nMonsterId{};
 			int32_t a3{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp, nMonsterId, a3);
@@ -716,17 +791,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -745,17 +824,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -774,17 +857,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -803,17 +890,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -832,17 +923,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -861,16 +956,18 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp);
@@ -888,17 +985,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -919,17 +1018,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			uint8_t nTrapType{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			sut(&moo_pOp, nTrapType);
@@ -947,17 +1048,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -978,17 +1081,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1007,17 +1114,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1036,17 +1147,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1065,17 +1180,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1094,17 +1213,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1123,17 +1246,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1152,17 +1279,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1181,17 +1312,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1210,19 +1345,25 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pGame, pPlayer, pItem };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pItem] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pItem] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
 			int32_t nItemId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pItem);
+			setup_data(original_pGame, original_pPlayer, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nItemId, &moo_pItem);
@@ -1245,17 +1386,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1274,17 +1419,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitFindArgStrc pArg{};
-				
-				return std::tuple{ pUnit, pArg };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pArg] = setup_data();
-			auto [original_pUnit, original_pArg] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitFindArgStrc moo_pArg{};
+			D2UnitStrc original_pUnit{};
+			D2UnitFindArgStrc original_pArg{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitFindArgStrc& pArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pArg);
+			setup_data(original_pUnit, original_pArg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pArg);
@@ -1306,17 +1455,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1335,17 +1488,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				D2UnitStrc pUnit1{};
-				
-				return std::tuple{ pMonster, pUnit1 };
-			};
-			
 			// Input data
-			auto [moo_pMonster, moo_pUnit1] = setup_data();
-			auto [original_pMonster, original_pUnit1] = setup_data();
+			D2UnitStrc moo_pMonster{};
+			D2UnitStrc moo_pUnit1{};
+			D2UnitStrc original_pMonster{};
+			D2UnitStrc original_pUnit1{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pMonster,
+				D2UnitStrc& pUnit1
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonster, moo_pUnit1);
+			setup_data(original_pMonster, original_pUnit1);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pMonster, &moo_pUnit1);
@@ -1367,17 +1524,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1396,17 +1557,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1425,17 +1590,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1454,19 +1623,23 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ShrinesTxt pShrinesTxtRecord{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pShrinesTxtRecord, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pShrinesTxtRecord, moo_pUnit] = setup_data();
-			auto [original_pShrinesTxtRecord, original_pUnit] = setup_data();
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2UnitStrc moo_pUnit{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+			D2UnitStrc original_pUnit{};
 			int32_t nStatId{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2ShrinesTxt& pShrinesTxtRecord,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pShrinesTxtRecord, moo_pUnit);
+			setup_data(original_pShrinesTxtRecord, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pShrinesTxtRecord, nStatId, nValue, &moo_pUnit);
@@ -1488,17 +1661,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1517,18 +1694,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				struct D2StatListStrc pStatList{};
-				
-				return std::tuple{ pUnit, pStatList };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pStatList] = setup_data();
-			auto [original_pUnit, original_pStatList] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			struct D2StatListStrc moo_pStatList{};
+			D2UnitStrc original_pUnit{};
+			struct D2StatListStrc original_pStatList{};
 			int32_t nState{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				struct D2StatListStrc& pStatList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pStatList);
+			setup_data(original_pUnit, original_pStatList);
 
 			// Call both implementations
 			sut(&moo_pUnit, nState, &moo_pStatList);
@@ -1547,17 +1728,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1576,17 +1761,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				D2ShrinesTxt pShrinesTxtRecord{};
-				
-				return std::tuple{ pOp, pShrinesTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pOp, moo_pShrinesTxtRecord] = setup_data();
-			auto [original_pOp, original_pShrinesTxtRecord] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ShrinesTxt moo_pShrinesTxtRecord{};
+			D2ObjOperateFnStrc original_pOp{};
+			D2ShrinesTxt original_pShrinesTxtRecord{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp,
+				D2ShrinesTxt& pShrinesTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp, moo_pShrinesTxtRecord);
+			setup_data(original_pOp, original_pShrinesTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pOp, &moo_pShrinesTxtRecord);
@@ -1605,18 +1794,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				struct D2StatListStrc pStatList{};
-				
-				return std::tuple{ pUnit, pStatList };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pStatList] = setup_data();
-			auto [original_pUnit, original_pStatList] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			struct D2StatListStrc moo_pStatList{};
+			D2UnitStrc original_pUnit{};
+			struct D2StatListStrc original_pStatList{};
 			int32_t nState{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				struct D2StatListStrc& pStatList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pStatList);
+			setup_data(original_pUnit, original_pStatList);
 
 			// Call both implementations
 			sut(&moo_pUnit, nState, &moo_pStatList);
@@ -1635,17 +1828,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1666,17 +1861,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1697,17 +1894,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1728,17 +1927,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1759,17 +1960,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1790,17 +1993,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1821,17 +2026,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit);
@@ -1850,17 +2059,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1881,17 +2092,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1912,17 +2125,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1943,17 +2158,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -1974,17 +2191,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2005,17 +2224,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2036,17 +2257,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2067,17 +2290,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2098,17 +2323,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2129,20 +2356,26 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				int32_t pResult{};
-				
-				return std::tuple{ pGame, pPlayer, pResult };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer, moo_pResult] = setup_data();
-			auto [original_pGame, original_pPlayer, original_pResult] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			int32_t moo_pResult{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
+			int32_t original_pResult{};
 			int32_t nObjectType{};
 			int32_t nObjectGUID{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer,
+				int32_t& pResult
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer, moo_pResult);
+			setup_data(original_pGame, original_pPlayer, original_pResult);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nObjectType, nObjectGUID, &moo_pResult);
@@ -2165,19 +2398,23 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nObjectType{};
 			int32_t nObjectGUID{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nObjectType, nObjectGUID);
@@ -2199,18 +2436,20 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nUnused{};
 			int32_t nObjectGUID{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame, nUnused, nObjectGUID);
@@ -2228,17 +2467,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2259,17 +2500,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2290,17 +2533,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2321,17 +2566,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2352,17 +2599,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2383,19 +2632,23 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pGame, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pPlayer] = setup_data();
-			auto [original_pGame, original_pPlayer] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pPlayer{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pPlayer{};
 			int32_t nWaypointGUID{};
 			int32_t nLevelId{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pPlayer);
+			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pPlayer, nWaypointGUID, nLevelId);
@@ -2414,18 +2667,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nValue);
@@ -2447,18 +2704,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nValue);
@@ -2480,18 +2741,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nValue);
@@ -2513,18 +2778,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nValue);
@@ -2546,18 +2815,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nValue);
@@ -2579,18 +2852,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nValue);
@@ -2612,18 +2889,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			int32_t nValue{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nValue);
@@ -2645,20 +2926,22 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nPlayerGUID{};
 			int32_t nObjectGUID{};
 			int32_t nItemGUID{};
 			int16_t nState{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, nPlayerGUID, nObjectGUID, nItemGUID, nState);
@@ -2679,18 +2962,24 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pUnit, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pObject] = setup_data();
-			auto [original_pGame, original_pUnit, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pObject);
+			setup_data(original_pGame, original_pUnit, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pObject);
@@ -2710,17 +2999,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pObject{};
-				
-				return std::tuple{ pGame, pObject };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pObject] = setup_data();
-			auto [original_pGame, original_pObject] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pObject{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pObject{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pObject
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pObject);
+			setup_data(original_pGame, original_pObject);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pObject);
@@ -2739,19 +3032,21 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			int32_t nUnused{};
 			int32_t nPortalGUID{};
 			int32_t nDestLevel{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			sut(&moo_pGame, nUnused, nPortalGUID, nDestLevel);
@@ -2769,17 +3064,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2800,20 +3097,26 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2UnitStrc pUnit2{};
-				
-				return std::tuple{ pGame, pUnit, pUnit2 };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pUnit2] = setup_data();
-			auto [original_pGame, original_pUnit, original_pUnit2] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pUnit2{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pUnit2{};
 			void* moo_pUnitHealed = nullptr;
 			void* original_pUnitHealed = nullptr;
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pUnit2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pUnit2);
+			setup_data(original_pGame, original_pUnit, original_pUnit2);
 
 			// Call both implementations
 			sut(&moo_pGame, &moo_pUnit, &moo_pUnit2, moo_pUnitHealed);
@@ -2834,17 +3137,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nOperate{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nOperate);
@@ -2865,19 +3170,23 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pGame, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit] = setup_data();
-			auto [original_pGame, original_pUnit] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
 			uint32_t dwCode{};
 			int32_t nItemQuality{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit);
+			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, dwCode, nItemQuality);
@@ -2899,17 +3208,19 @@ TEST_SUITE("ObjModeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ObjOperateFnStrc pOp{};
-				
-				return std::tuple{ pOp };
-			};
-			
 			// Input data
-			auto [moo_pOp] = setup_data();
-			auto [original_pOp] = setup_data();
+			D2ObjOperateFnStrc moo_pOp{};
+			D2ObjOperateFnStrc original_pOp{};
 			int32_t nItemQuality{};
+
+			const auto setup_data = [](
+				D2ObjOperateFnStrc& pOp
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOp);
+			setup_data(original_pOp);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOp, nItemQuality);

@@ -13,7 +13,7 @@
 #include <D2States.h>
 #include <Units/Units.h>
 
-#include "TestFixtures/StatesTxtFixture.h"
+#include <Fixtures/DataTbls/Fixtures.h>
 
 
 DYNAMIC_ARRAY_TYPE(uint32_t);

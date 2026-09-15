@@ -8,7 +8,6 @@
 #include <Windows.h>
 
 #include <D2DataTbls.h>
-#include <DataTbls/TokenTbls.h>
 
 
 template<class Fixture>
