@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,18 +24,24 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pLevel, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pLevel, moo_pX, moo_pY] = setup_data();
-			auto [original_pLevel, original_pX, original_pY] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			int moo_pX{};
+			int moo_pY{};
+			D2DrlgLevelStrc original_pLevel{};
+			int original_pX{};
+			int original_pY{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel, moo_pX, moo_pY);
+			setup_data(original_pLevel, original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pLevel, &moo_pX, &moo_pY);
@@ -56,16 +61,18 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -83,17 +90,19 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			int nX{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevel, nX);
@@ -114,17 +123,19 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			int nX{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel, nX);
@@ -142,16 +153,18 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgVertexStrc pDrlgVertex{};
-				
-				return std::tuple{ pDrlgVertex };
-			};
-			
 			// Input data
-			auto [moo_pDrlgVertex] = setup_data();
-			auto [original_pDrlgVertex] = setup_data();
+			D2DrlgVertexStrc moo_pDrlgVertex{};
+			D2DrlgVertexStrc original_pDrlgVertex{};
+
+			const auto setup_data = [](
+				D2DrlgVertexStrc& pDrlgVertex
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgVertex);
+			setup_data(original_pDrlgVertex);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgVertex);
@@ -172,16 +185,18 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgVertexStrc pDrlgVertex{};
-				
-				return std::tuple{ pDrlgVertex };
-			};
-			
 			// Input data
-			auto [moo_pDrlgVertex] = setup_data();
-			auto [original_pDrlgVertex] = setup_data();
+			D2DrlgVertexStrc moo_pDrlgVertex{};
+			D2DrlgVertexStrc original_pDrlgVertex{};
+
+			const auto setup_data = [](
+				D2DrlgVertexStrc& pDrlgVertex
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgVertex);
+			setup_data(original_pDrlgVertex);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgVertex);
@@ -202,18 +217,20 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevel, nX, nY);
@@ -234,16 +251,18 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -261,16 +280,18 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -288,18 +309,20 @@ TEST_SUITE("D2DrlgOutWildTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			int nLvlPrestId{};
 			int a3{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel, nLvlPrestId, a3);

@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,18 +26,22 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pLayer{};
-				int pValue{};
-				
-				return std::tuple{ pLayer, pValue };
-			};
-			
 			// Input data
-			auto [moo_pLayer, moo_pValue] = setup_data();
-			auto [original_pLayer, original_pValue] = setup_data();
+			int moo_pLayer{};
+			int moo_pValue{};
+			int original_pLayer{};
+			int original_pValue{};
 			int nDataBits{};
+
+			const auto setup_data = [](
+				int& pLayer,
+				int& pValue
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLayer, moo_pValue);
+			setup_data(original_pLayer, original_pValue);
 
 			// Call both implementations
 			sut(nDataBits, &moo_pLayer, &moo_pValue);
@@ -57,20 +60,28 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int a2{};
-				int a3{};
-				int a4{};
-				int a5{};
-				
-				return std::tuple{ a2, a3, a4, a5 };
-			};
-			
 			// Input data
-			auto [moo_a2, moo_a3, moo_a4, moo_a5] = setup_data();
-			auto [original_a2, original_a3, original_a4, original_a5] = setup_data();
+			int moo_a2{};
+			int moo_a3{};
+			int moo_a4{};
+			int moo_a5{};
+			int original_a2{};
+			int original_a3{};
+			int original_a4{};
+			int original_a5{};
 			int nDataBits{};
+
+			const auto setup_data = [](
+				int& a2,
+				int& a3,
+				int& a4,
+				int& a5
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_a2, moo_a3, moo_a4, moo_a5);
+			setup_data(original_a2, original_a3, original_a4, original_a5);
 
 			// Call both implementations
 			sut(nDataBits, &moo_a2, &moo_a3, &moo_a4, &moo_a5);
@@ -91,20 +102,26 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				int pValue{};
-				D2StatListStrc* ppStatList{};
-				
-				return std::tuple{ pItem, pValue, ppStatList };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pValue, moo_ppStatList] = setup_data();
-			auto [original_pItem, original_pValue, original_ppStatList] = setup_data();
+			D2UnitStrc moo_pItem{};
+			int moo_pValue{};
+			D2StatListStrc* moo_ppStatList{};
+			D2UnitStrc original_pItem{};
+			int original_pValue{};
+			D2StatListStrc* original_ppStatList{};
 			int nSkillId{};
 			int nSkillLevel{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				int& pValue,
+				D2StatListStrc*& ppStatList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pValue, moo_ppStatList);
+			setup_data(original_pItem, original_pValue, original_ppStatList);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nSkillId, nSkillLevel, &moo_pValue, &moo_ppStatList);
@@ -127,19 +144,21 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nSkillId{};
 			int nSkillLevel{};
 			int a4{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nSkillId, nSkillLevel, a4);
@@ -160,21 +179,27 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pItemModPeriodOfDay{};
-				int pItemModMin{};
-				int pItemModMax{};
-				
-				return std::tuple{ pItemModPeriodOfDay, pItemModMin, pItemModMax };
-			};
-			
 			// Input data
-			auto [moo_pItemModPeriodOfDay, moo_pItemModMin, moo_pItemModMax] = setup_data();
-			auto [original_pItemModPeriodOfDay, original_pItemModMin, original_pItemModMax] = setup_data();
+			int moo_pItemModPeriodOfDay{};
+			int moo_pItemModMin{};
+			int moo_pItemModMax{};
+			int original_pItemModPeriodOfDay{};
+			int original_pItemModMin{};
+			int original_pItemModMax{};
 			int nAmount{};
 			int nPeriodOfDay{};
 			int nBaseTime{};
+
+			const auto setup_data = [](
+				int& pItemModPeriodOfDay,
+				int& pItemModMin,
+				int& pItemModMax
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItemModPeriodOfDay, moo_pItemModMin, moo_pItemModMax);
+			setup_data(original_pItemModPeriodOfDay, original_pItemModMin, original_pItemModMax);
 
 			// Call both implementations
 			const auto moo_result = sut(nAmount, nPeriodOfDay, nBaseTime, &moo_pItemModPeriodOfDay, &moo_pItemModMin, &moo_pItemModMax);
@@ -197,7 +222,6 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 			int a2{};
 
@@ -217,19 +241,25 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int a2{};
-				int a3{};
-				int a4{};
-				
-				return std::tuple{ a2, a3, a4 };
-			};
-			
 			// Input data
-			auto [moo_a2, moo_a3, moo_a4] = setup_data();
-			auto [original_a2, original_a3, original_a4] = setup_data();
+			int moo_a2{};
+			int moo_a3{};
+			int moo_a4{};
+			int original_a2{};
+			int original_a3{};
+			int original_a4{};
 			int nDataBits{};
+
+			const auto setup_data = [](
+				int& a2,
+				int& a3,
+				int& a4
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_a2, moo_a3, moo_a4);
+			setup_data(original_a2, original_a3, original_a4);
 
 			// Call both implementations
 			sut(nDataBits, &moo_a2, &moo_a3, &moo_a4);
@@ -249,7 +279,6 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 			int a2{};
 			int a3{};
@@ -270,19 +299,25 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pClass{};
-				int pTab{};
-				int pLevel{};
-				
-				return std::tuple{ pClass, pTab, pLevel };
-			};
-			
 			// Input data
-			auto [moo_pClass, moo_pTab, moo_pLevel] = setup_data();
-			auto [original_pClass, original_pTab, original_pLevel] = setup_data();
+			int moo_pClass{};
+			int moo_pTab{};
+			int moo_pLevel{};
+			int original_pClass{};
+			int original_pTab{};
+			int original_pLevel{};
 			int nDataBits{};
+
+			const auto setup_data = [](
+				int& pClass,
+				int& pTab,
+				int& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pClass, moo_pTab, moo_pLevel);
+			setup_data(original_pClass, original_pTab, original_pLevel);
 
 			// Call both implementations
 			sut(nDataBits, &moo_pClass, &moo_pTab, &moo_pLevel);
@@ -302,7 +337,6 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 			int a2{};
 			int a3{};
@@ -323,24 +357,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -363,19 +403,23 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem] = setup_data();
-			auto [original_pUnit, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
 			int nState{};
 			int fFilter{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem);
+			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem, nState, fFilter);
@@ -397,17 +441,19 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nStatId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nStatId);
@@ -425,24 +471,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -465,18 +517,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
@@ -484,6 +531,17 @@ TEST_SUITE("D2ItemModsTests")
 			int a7{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, a7, nState, fStatList, &moo_a9);
@@ -506,24 +564,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -546,24 +610,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -586,24 +656,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -626,24 +702,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -666,18 +748,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a10{};
-				
-				return std::tuple{ pUnit, pItem, a10 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a10] = setup_data();
-			auto [original_pUnit, original_pItem, original_a10] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a10{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a10{};
 			int nType{};
 			int a4{};
 			int nStatId{};
@@ -685,6 +762,17 @@ TEST_SUITE("D2ItemModsTests")
 			int a7{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a10
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a10);
+			setup_data(original_pUnit, original_pItem, original_a10);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, a4, nStatId, nApplyType, a7, nState, fStatList, &moo_a10);
@@ -707,24 +795,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -747,24 +841,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -787,24 +887,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -827,24 +933,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -867,17 +979,19 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pValue{};
-				
-				return std::tuple{ pValue };
-			};
-			
 			// Input data
-			auto [moo_pValue] = setup_data();
-			auto [original_pValue] = setup_data();
+			int moo_pValue{};
+			int original_pValue{};
 			int nStatId{};
+
+			const auto setup_data = [](
+				int& pValue
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pValue);
+			setup_data(original_pValue);
 
 			// Call both implementations
 			sut(nStatId, &moo_pValue);
@@ -895,24 +1009,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -935,24 +1055,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -975,24 +1101,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1015,24 +1147,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1055,24 +1193,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1095,24 +1239,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1135,24 +1285,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1175,24 +1331,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1215,24 +1377,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1255,24 +1423,30 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a9{};
-				
-				return std::tuple{ pUnit, pItem, a9 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a9] = setup_data();
-			auto [original_pUnit, original_pItem, original_a9] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a9{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a9{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nStatId{};
 			int nApplyType{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a9
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a9);
+			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
@@ -1295,22 +1469,26 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc a2{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ a2, pItem };
-			};
-			
 			// Input data
-			auto [moo_a2, moo_pItem] = setup_data();
-			auto [original_a2, original_pItem] = setup_data();
+			D2UnitStrc moo_a2{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_a2{};
+			D2UnitStrc original_pItem{};
 			int nType{};
 			void* moo_pMods = nullptr;
 			void* original_pMods = nullptr;
 			int nPropSet{};
 			int nApplyType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& a2,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_a2, moo_pItem);
+			setup_data(original_a2, original_pItem);
 
 			// Call both implementations
 			sut(nType, &moo_a2, &moo_pItem, moo_pMods, nPropSet, nApplyType);
@@ -1330,18 +1508,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			void* moo_pMods = nullptr;
 			void* original_pMods = nullptr;
@@ -1351,6 +1524,17 @@ TEST_SUITE("D2ItemModsTests")
 			D2PropertyStrc pProperty{};
 			int nState{};
 			int fStatlist{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			sut(nType, &moo_pUnit, &moo_pItem, moo_pMods, nIndex, nPropSet, nApplyType, &pProperty, nState, fStatlist, &moo_a11);
@@ -1371,16 +1555,18 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem);
@@ -1398,18 +1584,22 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem] = setup_data();
-			auto [original_pUnit, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
 			int nUnused{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem);
+			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem, nUnused);
@@ -1431,18 +1621,22 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem] = setup_data();
-			auto [original_pUnit, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
 			int nState{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem);
+			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_pItem, nState);
@@ -1461,17 +1655,19 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			D2MagicAffixTxt pMagicAffixTxtRecord{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &pMagicAffixTxtRecord);
@@ -1492,17 +1688,21 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2RareAffixTxt pRareAffixTxtRecord{};
-				
-				return std::tuple{ pItem, pRareAffixTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pRareAffixTxtRecord] = setup_data();
-			auto [original_pItem, original_pRareAffixTxtRecord] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2RareAffixTxt moo_pRareAffixTxtRecord{};
+			D2UnitStrc original_pItem{};
+			D2RareAffixTxt original_pRareAffixTxtRecord{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2RareAffixTxt& pRareAffixTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pRareAffixTxtRecord);
+			setup_data(original_pItem, original_pRareAffixTxtRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pRareAffixTxtRecord);
@@ -1524,17 +1724,21 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2QualityItemsTxt pQualityItemsTxtRecord{};
-				
-				return std::tuple{ pItem, pQualityItemsTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pQualityItemsTxtRecord] = setup_data();
-			auto [original_pItem, original_pQualityItemsTxtRecord] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2QualityItemsTxt moo_pQualityItemsTxtRecord{};
+			D2UnitStrc original_pItem{};
+			D2QualityItemsTxt original_pQualityItemsTxtRecord{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2QualityItemsTxt& pQualityItemsTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pQualityItemsTxtRecord);
+			setup_data(original_pItem, original_pQualityItemsTxtRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pQualityItemsTxtRecord);
@@ -1556,16 +1760,18 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem);
@@ -1583,18 +1789,22 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2PropertyStrc pProperty{};
-				
-				return std::tuple{ pItem, pProperty };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pProperty] = setup_data();
-			auto [original_pItem, original_pProperty] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2PropertyStrc moo_pProperty{};
+			D2UnitStrc original_pItem{};
+			D2PropertyStrc original_pProperty{};
 			int nUnused{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2PropertyStrc& pProperty
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pProperty);
+			setup_data(original_pItem, original_pProperty);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pProperty, nUnused);
@@ -1613,18 +1823,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1633,6 +1838,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1655,18 +1871,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc pUnused{};
-				
-				return std::tuple{ pUnit, pItem, pUnused };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_pUnused] = setup_data();
-			auto [original_pUnit, original_pItem, original_pUnused] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_pUnused{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_pUnused{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1675,6 +1886,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& pUnused
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_pUnused);
+			setup_data(original_pUnit, original_pItem, original_pUnused);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_pUnused);
@@ -1697,18 +1919,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1717,6 +1934,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1739,18 +1967,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1759,6 +1982,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1781,18 +2015,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1801,6 +2030,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1823,18 +2063,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1843,6 +2078,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1865,18 +2111,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1885,6 +2126,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1907,18 +2159,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1927,6 +2174,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1949,18 +2207,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -1969,6 +2222,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -1991,18 +2255,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2011,6 +2270,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2033,18 +2303,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2053,6 +2318,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2075,18 +2351,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2095,6 +2366,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2117,18 +2399,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2137,6 +2414,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2159,18 +2447,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2179,6 +2462,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2201,18 +2495,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2221,6 +2510,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2243,18 +2543,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2263,6 +2558,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2285,18 +2591,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2305,6 +2606,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2327,18 +2639,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2347,6 +2654,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2369,18 +2687,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2389,6 +2702,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2411,18 +2735,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2431,6 +2750,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2453,18 +2783,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2473,6 +2798,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2495,18 +2831,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2515,6 +2846,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2537,18 +2879,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2557,6 +2894,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2579,18 +2927,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2599,6 +2942,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2621,18 +2975,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a11{};
-				
-				return std::tuple{ pUnit, pItem, a11 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a11] = setup_data();
-			auto [original_pUnit, original_pItem, original_a11] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a11{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a11{};
 			int nType{};
 			D2PropertyStrc pProperty{};
 			int nSet{};
@@ -2641,6 +2990,17 @@ TEST_SUITE("D2ItemModsTests")
 			int nValue{};
 			int nState{};
 			int fStatList{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a11
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a11);
+			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
 			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
@@ -2663,18 +3023,13 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2UnitStrc a10{};
-				
-				return std::tuple{ pUnit, pItem, a10 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_a10] = setup_data();
-			auto [original_pUnit, original_pItem, original_a10] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_a10{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_a10{};
 			int nType{};
 			void* moo_pMods = nullptr;
 			void* original_pMods = nullptr;
@@ -2683,6 +3038,17 @@ TEST_SUITE("D2ItemModsTests")
 			D2PropertyStrc pProperty{};
 			int nState{};
 			int fStatlist{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2UnitStrc& a10
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_a10);
+			setup_data(original_pUnit, original_pItem, original_a10);
 
 			// Call both implementations
 			sut(nType, &moo_pUnit, &moo_pItem, moo_pMods, nIndex, nPropSet, &pProperty, nState, fStatlist, &moo_a10);
@@ -2703,7 +3069,6 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nMin{};
 			int nMax{};
 			int nUnused{};
@@ -2729,7 +3094,6 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nStatId{};
 			int a2{};
 			int nUnused{};
@@ -2755,18 +3119,22 @@ TEST_SUITE("D2ItemModsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem] = setup_data();
-			auto [original_pUnit, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
 			unsigned int nCalc{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem);
+			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem, nCalc);

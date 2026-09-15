@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,17 +24,19 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pFlag{};
-				
-				return std::tuple{ pFlag };
-			};
-			
 			// Input data
-			auto [moo_pFlag] = setup_data();
-			auto [original_pFlag] = setup_data();
+			int moo_pFlag{};
+			int original_pFlag{};
 			int nFlag{};
+
+			const auto setup_data = [](
+				int& pFlag
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pFlag);
+			setup_data(original_pFlag);
 
 			// Call both implementations
 			sut(&moo_pFlag, nFlag);
@@ -53,17 +54,19 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pFlag{};
-				
-				return std::tuple{ pFlag };
-			};
-			
 			// Input data
-			auto [moo_pFlag] = setup_data();
-			auto [original_pFlag] = setup_data();
+			int moo_pFlag{};
+			int original_pFlag{};
 			int nFlag{};
+
+			const auto setup_data = [](
+				int& pFlag
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pFlag);
+			setup_data(original_pFlag);
 
 			// Call both implementations
 			sut(&moo_pFlag, nFlag);
@@ -81,17 +84,19 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pFlag{};
-				
-				return std::tuple{ pFlag };
-			};
-			
 			// Input data
-			auto [moo_pFlag] = setup_data();
-			auto [original_pFlag] = setup_data();
+			int moo_pFlag{};
+			int original_pFlag{};
 			int nFlag{};
+
+			const auto setup_data = [](
+				int& pFlag
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pFlag);
+			setup_data(original_pFlag);
 
 			// Call both implementations
 			sut(&moo_pFlag, nFlag);
@@ -109,17 +114,19 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pFlag{};
-				
-				return std::tuple{ pFlag };
-			};
-			
 			// Input data
-			auto [moo_pFlag] = setup_data();
-			auto [original_pFlag] = setup_data();
+			int moo_pFlag{};
+			int original_pFlag{};
 			int nFlag{};
+
+			const auto setup_data = [](
+				int& pFlag
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pFlag);
+			setup_data(original_pFlag);
 
 			// Call both implementations
 			sut(&moo_pFlag, nFlag);
@@ -137,16 +144,18 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgGrid);
@@ -167,18 +176,20 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
@@ -199,20 +210,22 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			int nX{};
 			int nY{};
 			int nFlag{};
 			FlagOperation eOperation{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid, nX, nY, nFlag, eOperation);
@@ -230,18 +243,20 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
@@ -262,18 +277,20 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
@@ -294,18 +311,20 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			int nFlag{};
 			FlagOperation eOperation{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid, nFlag, eOperation);
@@ -323,18 +342,20 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			int nFlag{};
 			FlagOperation eOperation{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid, nFlag, eOperation);
@@ -352,18 +373,22 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				D2DrlgVertexStrc pDrlgVertex{};
-				
-				return std::tuple{ pDrlgGrid, pDrlgVertex };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid, moo_pDrlgVertex] = setup_data();
-			auto [original_pDrlgGrid, original_pDrlgVertex] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgVertexStrc moo_pDrlgVertex{};
+			D2DrlgGridStrc original_pDrlgGrid{};
+			D2DrlgVertexStrc original_pDrlgVertex{};
 			int nFlag{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid,
+				D2DrlgVertexStrc& pDrlgVertex
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid, moo_pDrlgVertex);
+			setup_data(original_pDrlgGrid, original_pDrlgVertex);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid, &moo_pDrlgVertex, nFlag);
@@ -382,21 +407,27 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				D2DrlgVertexStrc pDrlgVertex{};
-				D2DrlgCoordStrc pDrlgCoord{};
-				
-				return std::tuple{ pDrlgGrid, pDrlgVertex, pDrlgCoord };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid, moo_pDrlgVertex, moo_pDrlgCoord] = setup_data();
-			auto [original_pDrlgGrid, original_pDrlgVertex, original_pDrlgCoord] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgVertexStrc moo_pDrlgVertex{};
+			D2DrlgCoordStrc moo_pDrlgCoord{};
+			D2DrlgGridStrc original_pDrlgGrid{};
+			D2DrlgVertexStrc original_pDrlgVertex{};
+			D2DrlgCoordStrc original_pDrlgCoord{};
 			int nFlag{};
 			FlagOperation eOperation{};
 			int nSize{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid,
+				D2DrlgVertexStrc& pDrlgVertex,
+				D2DrlgCoordStrc& pDrlgCoord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid, moo_pDrlgVertex, moo_pDrlgCoord);
+			setup_data(original_pDrlgGrid, original_pDrlgVertex, original_pDrlgCoord);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid, &moo_pDrlgVertex, &moo_pDrlgCoord, nFlag, eOperation, nSize);
@@ -416,20 +447,22 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			int nWidth{};
 			int nHeight{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pDrlgGrid, nWidth, nHeight);
@@ -448,20 +481,26 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				int pCellPos{};
-				int pCellRowOffsets{};
-				
-				return std::tuple{ pDrlgGrid, pCellPos, pCellRowOffsets };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid, moo_pCellPos, moo_pCellRowOffsets] = setup_data();
-			auto [original_pDrlgGrid, original_pCellPos, original_pCellRowOffsets] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			int moo_pCellPos{};
+			int moo_pCellRowOffsets{};
+			D2DrlgGridStrc original_pDrlgGrid{};
+			int original_pCellPos{};
+			int original_pCellRowOffsets{};
 			int nWidth{};
 			int nHeight{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid,
+				int& pCellPos,
+				int& pCellRowOffsets
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid, moo_pCellPos, moo_pCellRowOffsets);
+			setup_data(original_pDrlgGrid, original_pCellPos, original_pCellRowOffsets);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid, nWidth, nHeight, &moo_pCellPos, &moo_pCellRowOffsets);
@@ -481,21 +520,27 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				int pCellPos{};
-				D2DrlgCoordStrc pDrlgCoord{};
-				
-				return std::tuple{ pDrlgGrid, pCellPos, pDrlgCoord };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid, moo_pCellPos, moo_pDrlgCoord] = setup_data();
-			auto [original_pDrlgGrid, original_pCellPos, original_pDrlgCoord] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			int moo_pCellPos{};
+			D2DrlgCoordStrc moo_pDrlgCoord{};
+			D2DrlgGridStrc original_pDrlgGrid{};
+			int original_pCellPos{};
+			D2DrlgCoordStrc original_pDrlgCoord{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			int nWidth{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid,
+				int& pCellPos,
+				D2DrlgCoordStrc& pDrlgCoord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid, moo_pCellPos, moo_pDrlgCoord);
+			setup_data(original_pDrlgGrid, original_pCellPos, original_pDrlgCoord);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pDrlgGrid, &moo_pCellPos, &moo_pDrlgCoord, nWidth);
@@ -516,20 +561,28 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				int pCellPos{};
-				D2DrlgCoordStrc pDrlgCoord{};
-				int pCellFlags{};
-				
-				return std::tuple{ pDrlgGrid, pCellPos, pDrlgCoord, pCellFlags };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid, moo_pCellPos, moo_pDrlgCoord, moo_pCellFlags] = setup_data();
-			auto [original_pDrlgGrid, original_pCellPos, original_pDrlgCoord, original_pCellFlags] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			int moo_pCellPos{};
+			D2DrlgCoordStrc moo_pDrlgCoord{};
+			int moo_pCellFlags{};
+			D2DrlgGridStrc original_pDrlgGrid{};
+			int original_pCellPos{};
+			D2DrlgCoordStrc original_pDrlgCoord{};
+			int original_pCellFlags{};
 			int nWidth{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid,
+				int& pCellPos,
+				D2DrlgCoordStrc& pDrlgCoord,
+				int& pCellFlags
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid, moo_pCellPos, moo_pDrlgCoord, moo_pCellFlags);
+			setup_data(original_pDrlgGrid, original_pCellPos, original_pDrlgCoord, original_pCellFlags);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid, &moo_pCellPos, &moo_pDrlgCoord, nWidth, &moo_pCellFlags);
@@ -550,18 +603,20 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pDrlgGrid);
@@ -580,16 +635,18 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgGridStrc pDrlgGrid{};
-				
-				return std::tuple{ pDrlgGrid };
-			};
-			
 			// Input data
-			auto [moo_pDrlgGrid] = setup_data();
-			auto [original_pDrlgGrid] = setup_data();
+			D2DrlgGridStrc moo_pDrlgGrid{};
+			D2DrlgGridStrc original_pDrlgGrid{};
+
+			const auto setup_data = [](
+				D2DrlgGridStrc& pDrlgGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgGrid);
+			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
 			sut(&moo_pDrlgGrid);

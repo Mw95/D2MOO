@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,7 +27,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 
 			// Call both implementations
@@ -47,19 +45,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			uint8_t nParamId{};
 			int nSkillId{};
 			int nSkillLevel{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nParamId, nSkillId, nSkillLevel);
@@ -80,7 +80,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int32_t nParamId{};
 			void* moo_pUserData = nullptr;
 			void* original_pUserData = nullptr;
@@ -104,7 +103,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 			int nParamId{};
 			int nUnused{};
@@ -130,7 +128,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nMissileId{};
 			int nParamId{};
 			int nUnused{};
@@ -156,7 +153,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 			int a2{};
 			int a3{};
@@ -182,19 +178,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			unsigned int nCalc{};
 			int nSkillId{};
 			int nSkillLevel{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nCalc, nSkillId, nSkillLevel);
@@ -215,19 +213,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			unsigned int nCalc{};
 			int nSkillId{};
 			int nSkillLevel{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nCalc, nSkillId, nSkillLevel);
@@ -248,17 +248,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId);
@@ -276,16 +278,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -303,17 +307,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -334,17 +340,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -366,7 +376,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 
 			// Call both implementations
@@ -385,16 +394,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -415,7 +426,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 
@@ -438,16 +448,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -465,16 +477,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -495,16 +509,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillListStrc pSkillList{};
-				
-				return std::tuple{ pSkillList };
-			};
-			
 			// Input data
-			auto [moo_pSkillList] = setup_data();
-			auto [original_pSkillList] = setup_data();
+			D2SkillListStrc moo_pSkillList{};
+			D2SkillListStrc original_pSkillList{};
+
+			const auto setup_data = [](
+				D2SkillListStrc& pSkillList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkillList);
+			setup_data(original_pSkillList);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkillList);
@@ -525,16 +541,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillListStrc pSkillList{};
-				
-				return std::tuple{ pSkillList };
-			};
-			
 			// Input data
-			auto [moo_pSkillList] = setup_data();
-			auto [original_pSkillList] = setup_data();
+			D2SkillListStrc moo_pSkillList{};
+			D2SkillListStrc original_pSkillList{};
+
+			const auto setup_data = [](
+				D2SkillListStrc& pSkillList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkillList);
+			setup_data(original_pSkillList);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkillList);
@@ -555,16 +573,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillListStrc pSkillList{};
-				
-				return std::tuple{ pSkillList };
-			};
-			
 			// Input data
-			auto [moo_pSkillList] = setup_data();
-			auto [original_pSkillList] = setup_data();
+			D2SkillListStrc moo_pSkillList{};
+			D2SkillListStrc original_pSkillList{};
+
+			const auto setup_data = [](
+				D2SkillListStrc& pSkillList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkillList);
+			setup_data(original_pSkillList);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkillList);
@@ -585,17 +605,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillListStrc pSkillList{};
-				D2SkillStrc pUsedSkill{};
-				
-				return std::tuple{ pSkillList, pUsedSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkillList, moo_pUsedSkill] = setup_data();
-			auto [original_pSkillList, original_pUsedSkill] = setup_data();
+			D2SkillListStrc moo_pSkillList{};
+			D2SkillStrc moo_pUsedSkill{};
+			D2SkillListStrc original_pSkillList{};
+			D2SkillStrc original_pUsedSkill{};
+
+			const auto setup_data = [](
+				D2SkillListStrc& pSkillList,
+				D2SkillStrc& pUsedSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkillList, moo_pUsedSkill);
+			setup_data(original_pSkillList, original_pUsedSkill);
 
 			// Call both implementations
 			sut(&moo_pSkillList, &moo_pUsedSkill);
@@ -614,16 +638,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillListStrc pSkillList{};
-				
-				return std::tuple{ pSkillList };
-			};
-			
 			// Input data
-			auto [moo_pSkillList] = setup_data();
-			auto [original_pSkillList] = setup_data();
+			D2SkillListStrc moo_pSkillList{};
+			D2SkillListStrc original_pSkillList{};
+
+			const auto setup_data = [](
+				D2SkillListStrc& pSkillList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkillList);
+			setup_data(original_pSkillList);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkillList);
@@ -644,18 +670,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			D2UnitGUID nOwnerGUID{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nOwnerGUID);
@@ -676,17 +704,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -707,19 +737,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			char szFile{};
 			int nLine{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId, &szFile, nLine);
@@ -737,20 +769,22 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int bDecrementAndCheckSkillLevel{};
 			char szFile{};
 			int nLine{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId, bDecrementAndCheckSkillLevel, &szFile, nLine);
@@ -768,18 +802,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			void* moo_a2 = nullptr;
 			void* original_a2 = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, moo_a2);
@@ -801,16 +837,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -831,16 +869,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -858,17 +898,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -889,21 +931,23 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
 			BOOL bRemove{};
 			char szFile{};
 			int nLine{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId, nSkillLevel, bRemove, &szFile, nLine);
@@ -921,21 +965,23 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			D2UnitGUID nOwnerGUID{};
 			int nSkillId{};
 			int nSkillLevel{};
 			int nCharges{};
 			BOOL bFreeMemory{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nOwnerGUID, nSkillId, nSkillLevel, nCharges, bFreeMemory);
@@ -953,16 +999,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -983,20 +1031,30 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				D2UnitGUID pOwnerGUID{};
-				int pSkillId{};
-				int pSkillLevel{};
-				int pCharges{};
-				
-				return std::tuple{ pSkill, pOwnerGUID, pSkillId, pSkillLevel, pCharges };
-			};
-			
 			// Input data
-			auto [moo_pSkill, moo_pOwnerGUID, moo_pSkillId, moo_pSkillLevel, moo_pCharges] = setup_data();
-			auto [original_pSkill, original_pOwnerGUID, original_pSkillId, original_pSkillLevel, original_pCharges] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2UnitGUID moo_pOwnerGUID{};
+			int moo_pSkillId{};
+			int moo_pSkillLevel{};
+			int moo_pCharges{};
+			D2SkillStrc original_pSkill{};
+			D2UnitGUID original_pOwnerGUID{};
+			int original_pSkillId{};
+			int original_pSkillLevel{};
+			int original_pCharges{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill,
+				D2UnitGUID& pOwnerGUID,
+				int& pSkillId,
+				int& pSkillLevel,
+				int& pCharges
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill, moo_pOwnerGUID, moo_pSkillId, moo_pSkillLevel, moo_pCharges);
+			setup_data(original_pSkill, original_pOwnerGUID, original_pSkillId, original_pSkillLevel, original_pCharges);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill, &moo_pOwnerGUID, &moo_pSkillId, &moo_pSkillLevel, &moo_pCharges);
@@ -1021,17 +1079,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nCharges{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill, nCharges);
@@ -1052,18 +1112,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			D2UnitGUID nOwnerGUID{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId, nOwnerGUID);
@@ -1081,18 +1143,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			D2UnitGUID nOwnerGUID{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId, nOwnerGUID);
@@ -1110,18 +1174,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			char szFile{};
 			int nLine{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill, &szFile, nLine);
@@ -1142,17 +1208,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1174,17 +1244,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1206,17 +1280,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1238,17 +1316,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nBodyLoc{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nBodyLoc);
@@ -1269,17 +1349,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1301,19 +1385,25 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2UnitStrc pUnit{};
-				D2SkillsTxt pSkillsTxtRecord{};
-				
-				return std::tuple{ pItem, pUnit, pSkillsTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pUnit, moo_pSkillsTxtRecord] = setup_data();
-			auto [original_pItem, original_pUnit, original_pSkillsTxtRecord] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_pUnit{};
+			D2SkillsTxt moo_pSkillsTxtRecord{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2SkillsTxt original_pSkillsTxtRecord{};
 			int nType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2UnitStrc& pUnit,
+				D2SkillsTxt& pSkillsTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pUnit, moo_pSkillsTxtRecord);
+			setup_data(original_pItem, original_pUnit, original_pSkillsTxtRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pUnit, &moo_pSkillsTxtRecord, nType);
@@ -1336,17 +1426,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1368,17 +1462,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1400,17 +1498,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1432,16 +1534,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1462,16 +1566,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1492,17 +1598,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -1524,18 +1634,22 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
 			BOOL bBonus{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill, bBonus);
@@ -1557,17 +1671,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -1588,18 +1704,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int a3{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId, a3);
@@ -1617,18 +1735,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int a3{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nSkillId, a3);
@@ -1646,17 +1766,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nSkillMode{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nSkillMode);
@@ -1674,16 +1796,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1704,16 +1828,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1734,17 +1860,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nUnknown{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nUnknown);
@@ -1762,16 +1890,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1792,17 +1922,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nUnknown{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nUnknown);
@@ -1820,16 +1952,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill);
@@ -1847,16 +1981,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1877,16 +2013,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1907,16 +2045,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1937,16 +2077,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -1967,17 +2109,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nPar1{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nPar1);
@@ -1995,17 +2139,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nPar2{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nPar2);
@@ -2023,17 +2169,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nPar3{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nPar3);
@@ -2051,17 +2199,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nPar4{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nPar4);
@@ -2079,17 +2229,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nFlags{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nFlags);
@@ -2107,16 +2259,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -2137,7 +2291,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 
 			// Call both implementations
@@ -2156,17 +2309,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -2187,17 +2342,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -2218,18 +2375,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			D2UnitGUID nOwnerGUID{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nOwnerGUID);
@@ -2250,17 +2409,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -2281,18 +2442,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel);
@@ -2313,17 +2476,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -2344,7 +2509,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 			int nSkillLevel{};
 
@@ -2364,17 +2528,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pLevelDamage{};
-				
-				return std::tuple{ pLevelDamage };
-			};
-			
 			// Input data
-			auto [moo_pLevelDamage] = setup_data();
-			auto [original_pLevelDamage] = setup_data();
+			int moo_pLevelDamage{};
+			int original_pLevelDamage{};
 			int nLevel{};
+
+			const auto setup_data = [](
+				int& pLevelDamage
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelDamage);
+			setup_data(original_pLevelDamage);
 
 			// Call both implementations
 			const auto moo_result = sut(nLevel, &moo_pLevelDamage);
@@ -2395,19 +2561,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
 			BOOL a4{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel, a4);
@@ -2428,19 +2596,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
 			BOOL a4{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel, a4);
@@ -2461,19 +2631,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
 			BOOL a4{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel, a4);
@@ -2494,18 +2666,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nElemType{};
 			int nSrcDamage{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nElemType, nSrcDamage);
@@ -2526,19 +2700,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
 			BOOL a4{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel, a4);
@@ -2559,19 +2735,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
 			BOOL bUnused{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel, bUnused);
@@ -2592,7 +2770,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int arg{};
 
 			// Call both implementations
@@ -2611,7 +2788,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 
 			// Call both implementations
@@ -2630,17 +2806,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pPlayerClass{};
-				
-				return std::tuple{ pPlayerClass };
-			};
-			
 			// Input data
-			auto [moo_pPlayerClass] = setup_data();
-			auto [original_pPlayerClass] = setup_data();
+			int moo_pPlayerClass{};
+			int original_pPlayerClass{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				int& pPlayerClass
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayerClass);
+			setup_data(original_pPlayerClass);
 
 			// Call both implementations
 			const auto moo_result = sut(nSkillId, &moo_pPlayerClass);
@@ -2661,16 +2839,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pSkill);
@@ -2691,17 +2871,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pSkill };
-			};
-			
 			// Input data
-			auto [moo_pSkill] = setup_data();
-			auto [original_pSkill] = setup_data();
+			D2SkillStrc moo_pSkill{};
+			D2SkillStrc original_pSkill{};
 			int nQuantity{};
+
+			const auto setup_data = [](
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSkill);
+			setup_data(original_pSkill);
 
 			// Call both implementations
 			sut(&moo_pSkill, nQuantity);
@@ -2719,7 +2901,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nArrayIndex{};
 			int nMonsterId{};
 
@@ -2739,21 +2920,29 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				int pType{};
-				int pClass{};
-				int pMode{};
-				
-				return std::tuple{ pUnit, pType, pClass, pMode };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pType, moo_pClass, moo_pMode] = setup_data();
-			auto [original_pUnit, original_pType, original_pClass, original_pMode] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			int moo_pType{};
+			int moo_pClass{};
+			int moo_pMode{};
+			D2UnitStrc original_pUnit{};
+			int original_pType{};
+			int original_pClass{};
+			int original_pMode{};
 			char szFile{};
 			int nLine{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				int& pType,
+				int& pClass,
+				int& pMode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pType, moo_pClass, moo_pMode);
+			setup_data(original_pUnit, original_pType, original_pClass, original_pMode);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_pType, &moo_pClass, &moo_pMode, &szFile, nLine);
@@ -2774,18 +2963,20 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int a2{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, a2, nSkillId);
@@ -2803,17 +2994,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2SkillStrc original_pSkill{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pSkill);
+			setup_data(original_pUnit, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pSkill);
@@ -2835,17 +3030,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int a2{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, a2);
@@ -2866,16 +3063,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -2896,16 +3095,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -2926,20 +3127,28 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2SkillStrc pSkill{};
-				BOOL pHasThrowBonus{};
-				
-				return std::tuple{ pUnit, pItem, pSkill, pHasThrowBonus };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_pSkill, moo_pHasThrowBonus] = setup_data();
-			auto [original_pUnit, original_pItem, original_pSkill, original_pHasThrowBonus] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2SkillStrc moo_pSkill{};
+			BOOL moo_pHasThrowBonus{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2SkillStrc original_pSkill{};
+			BOOL original_pHasThrowBonus{};
 			int nType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2SkillStrc& pSkill,
+				BOOL& pHasThrowBonus
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_pSkill, moo_pHasThrowBonus);
+			setup_data(original_pUnit, original_pItem, original_pSkill, original_pHasThrowBonus);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem, &moo_pSkill, nType, &moo_pHasThrowBonus);
@@ -2963,19 +3172,25 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				D2SkillStrc pSkill{};
-				
-				return std::tuple{ pUnit, pItem, pSkill };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem, moo_pSkill] = setup_data();
-			auto [original_pUnit, original_pItem, original_pSkill] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2SkillStrc moo_pSkill{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2SkillStrc original_pSkill{};
 			int nType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem,
+				D2SkillStrc& pSkill
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem, moo_pSkill);
+			setup_data(original_pUnit, original_pItem, original_pSkill);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem, &moo_pSkill, nType);
@@ -2998,19 +3213,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
 			int nSkillLevel{};
 			int nType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel, nType);
@@ -3031,21 +3248,23 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX1{};
 			int nY1{};
 			int nX2{};
 			int nY2{};
 			int a6{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(nX1, nY1, nX2, nY2, &moo_pRoom, a6);
@@ -3066,19 +3285,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nX{};
 			int nY{};
 			uint16_t nColMask{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(nX, nY, &moo_pUnit, nColMask);
@@ -3099,7 +3320,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 			int nLevel{};
 
@@ -3119,7 +3339,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 
 			// Call both implementations
@@ -3138,7 +3357,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevel{};
 			int nParam{};
 			int nMax{};
@@ -3159,7 +3377,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevel{};
 			int nSkillId{};
 
@@ -3179,7 +3396,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevel{};
 			int nSkillId{};
 
@@ -3199,7 +3415,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevel{};
 			int nSkillId{};
 
@@ -3219,19 +3434,27 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit1{};
-				D2UnitStrc pUnit2{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pUnit1, pUnit2, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pUnit1, moo_pUnit2, moo_pX, moo_pY] = setup_data();
-			auto [original_pUnit1, original_pUnit2, original_pX, original_pY] = setup_data();
+			D2UnitStrc moo_pUnit1{};
+			D2UnitStrc moo_pUnit2{};
+			int moo_pX{};
+			int moo_pY{};
+			D2UnitStrc original_pUnit1{};
+			D2UnitStrc original_pUnit2{};
+			int original_pX{};
+			int original_pY{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit1,
+				D2UnitStrc& pUnit2,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit1, moo_pUnit2, moo_pX, moo_pY);
+			setup_data(original_pUnit1, original_pUnit2, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit1, &moo_pUnit2, &moo_pX, &moo_pY);
@@ -3255,17 +3478,21 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				int pValue{};
-				
-				return std::tuple{ pUnit, pValue };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pValue] = setup_data();
-			auto [original_pUnit, original_pValue] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			int moo_pValue{};
+			D2UnitStrc original_pUnit{};
+			int original_pValue{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				int& pValue
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pValue);
+			setup_data(original_pUnit, original_pValue);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pValue);
@@ -3287,7 +3514,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSkillId{};
 
 			// Call both implementations
@@ -3306,16 +3532,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -3336,7 +3564,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nClassId{};
 			int nPosition{};
 
@@ -3356,7 +3583,6 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nClassId{};
 
 			// Call both implementations
@@ -3375,16 +3601,18 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -3405,17 +3633,19 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nSkillId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nSkillId);
@@ -3436,19 +3666,27 @@ TEST_SUITE("D2SkillsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				int pMinDamage{};
-				int pMaxDamage{};
-				int pDamagePercent{};
-				
-				return std::tuple{ pUnit, pMinDamage, pMaxDamage, pDamagePercent };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pMinDamage, moo_pMaxDamage, moo_pDamagePercent] = setup_data();
-			auto [original_pUnit, original_pMinDamage, original_pMaxDamage, original_pDamagePercent] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			int moo_pMinDamage{};
+			int moo_pMaxDamage{};
+			int moo_pDamagePercent{};
+			D2UnitStrc original_pUnit{};
+			int original_pMinDamage{};
+			int original_pMaxDamage{};
+			int original_pDamagePercent{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				int& pMinDamage,
+				int& pMaxDamage,
+				int& pDamagePercent
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pMinDamage, moo_pMaxDamage, moo_pDamagePercent);
+			setup_data(original_pUnit, original_pMinDamage, original_pMaxDamage, original_pDamagePercent);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_pMinDamage, &moo_pMaxDamage, &moo_pDamagePercent);

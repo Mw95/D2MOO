@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,16 +25,18 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szReference{};
-				
-				return std::tuple{ szReference };
-			};
-			
 			// Input data
-			auto [moo_szReference] = setup_data();
-			auto [original_szReference] = setup_data();
+			char moo_szReference{};
+			char original_szReference{};
+
+			const auto setup_data = [](
+				char& szReference
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szReference);
+			setup_data(original_szReference);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_szReference);
@@ -56,7 +57,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nCompCode{};
 
 			// Call both implementations
@@ -75,7 +75,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevel{};
 
 			// Call both implementations
@@ -94,7 +93,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nClass{};
 			uint32_t dwLevel{};
 
@@ -114,7 +112,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nClass{};
 
 			// Call both implementations
@@ -133,7 +130,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nClass{};
 			uint32_t dwExperience{};
 
@@ -153,20 +149,26 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				void* ppFileHandle{};
-				int pSize{};
-				int pSizeEx{};
-				
-				return std::tuple{ ppFileHandle, pSize, pSizeEx };
-			};
-			
 			// Input data
-			auto [moo_ppFileHandle, moo_pSize, moo_pSizeEx] = setup_data();
-			auto [original_ppFileHandle, original_pSize, original_pSizeEx] = setup_data();
+			void* moo_ppFileHandle{};
+			int moo_pSize{};
+			int moo_pSizeEx{};
+			void* original_ppFileHandle{};
+			int original_pSize{};
+			int original_pSizeEx{};
 			HD2ARCHIVE hArchive{};
 			char szFile{};
+
+			const auto setup_data = [](
+				void*& ppFileHandle,
+				int& pSize,
+				int& pSizeEx
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppFileHandle, moo_pSize, moo_pSizeEx);
+			setup_data(original_ppFileHandle, original_pSize, original_pSizeEx);
 
 			// Call both implementations
 			sut(hArchive, &szFile, &moo_ppFileHandle, &moo_pSize, &moo_pSizeEx);
@@ -186,21 +188,27 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char* ppCodes{};
-				int pSize{};
-				int pSizeEx{};
-				
-				return std::tuple{ ppCodes, pSize, pSizeEx };
-			};
-			
 			// Input data
-			auto [moo_ppCodes, moo_pSize, moo_pSizeEx] = setup_data();
-			auto [original_ppCodes, original_pSize, original_pSizeEx] = setup_data();
+			char* moo_ppCodes{};
+			int moo_pSize{};
+			int moo_pSizeEx{};
+			char* original_ppCodes{};
+			int original_pSize{};
+			int original_pSizeEx{};
 			void* moo_pBuffer = nullptr;
 			void* original_pBuffer = nullptr;
 			int nBufferSize{};
+
+			const auto setup_data = [](
+				char*& ppCodes,
+				int& pSize,
+				int& pSizeEx
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppCodes, moo_pSize, moo_pSizeEx);
+			setup_data(original_ppCodes, original_pSize, original_pSizeEx);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_ppCodes, &moo_pSize, &moo_pSizeEx, moo_pBuffer, nBufferSize);
@@ -256,7 +264,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nDifficulty{};
 
 			// Call both implementations
@@ -275,7 +282,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -304,7 +310,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -320,17 +325,21 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				char szName{};
-				
-				return std::tuple{ pUnit, szName };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_szName] = setup_data();
-			auto [original_pUnit, original_szName] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			char moo_szName{};
+			D2UnitStrc original_pUnit{};
+			char original_szName{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				char& szName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_szName);
+			setup_data(original_pUnit, original_szName);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_szName);
@@ -352,18 +361,20 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szName{};
-				
-				return std::tuple{ szName };
-			};
-			
 			// Input data
-			auto [moo_szName] = setup_data();
-			auto [original_szName] = setup_data();
+			char moo_szName{};
+			char original_szName{};
 			int nUnitType{};
 			int nClassId{};
+
+			const auto setup_data = [](
+				char& szName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szName);
+			setup_data(original_szName);
 
 			// Call both implementations
 			const auto moo_result = sut(nUnitType, nClassId, &moo_szName);
@@ -384,20 +395,22 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szFileName{};
-				
-				return std::tuple{ szFileName };
-			};
-			
 			// Input data
-			auto [moo_szFileName] = setup_data();
-			auto [original_szFileName] = setup_data();
+			char moo_szFileName{};
+			char original_szFileName{};
 			void* moo_pWriteBuffer = nullptr;
 			void* original_pWriteBuffer = nullptr;
 			size_t nBufferSize{};
 			int nRecordCount{};
+
+			const auto setup_data = [](
+				char& szFileName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szFileName);
+			setup_data(original_szFileName);
 
 			// Call both implementations
 			sut(&moo_szFileName, moo_pWriteBuffer, nBufferSize, nRecordCount);
@@ -416,20 +429,24 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BinFieldStrc pTbl{};
-				int pRecordCount{};
-				
-				return std::tuple{ pTbl, pRecordCount };
-			};
-			
 			// Input data
-			auto [moo_pTbl, moo_pRecordCount] = setup_data();
-			auto [original_pTbl, original_pRecordCount] = setup_data();
+			D2BinFieldStrc moo_pTbl{};
+			int moo_pRecordCount{};
+			D2BinFieldStrc original_pTbl{};
+			int original_pRecordCount{};
 			HD2ARCHIVE hArchive{};
 			char szName{};
 			size_t dwSize{};
+
+			const auto setup_data = [](
+				D2BinFieldStrc& pTbl,
+				int& pRecordCount
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTbl, moo_pRecordCount);
+			setup_data(original_pTbl, original_pRecordCount);
 
 			// Call both implementations
 			const auto moo_result = sut(hArchive, &szName, &moo_pTbl, &moo_pRecordCount, dwSize);
@@ -451,7 +468,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			BOOL bSilent{};
 
 			// Call both implementations
@@ -467,7 +483,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pBinFile = nullptr;
 			void* original_pBinFile = nullptr;
 
@@ -500,7 +515,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 			int a2{};
 			int a3{};
@@ -518,7 +532,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -534,7 +547,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -550,7 +562,6 @@ TEST_SUITE("D2DataTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations

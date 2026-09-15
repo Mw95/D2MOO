@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -54,7 +52,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nOverlayId{};
 
 			// Call both implementations
@@ -73,7 +70,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nOverlayId{};
 
 			// Call both implementations
@@ -92,7 +88,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nOverlayId{};
 
 			// Call both implementations
@@ -111,7 +106,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nOverlayId{};
 
 			// Call both implementations
@@ -130,7 +124,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nOverlayId{};
 
 			// Call both implementations
@@ -149,21 +142,31 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pInitRadius{};
-				int pRadius{};
-				uint8_t pRed{};
-				uint8_t pGreen{};
-				uint8_t pBlue{};
-				
-				return std::tuple{ pInitRadius, pRadius, pRed, pGreen, pBlue };
-			};
-			
 			// Input data
-			auto [moo_pInitRadius, moo_pRadius, moo_pRed, moo_pGreen, moo_pBlue] = setup_data();
-			auto [original_pInitRadius, original_pRadius, original_pRed, original_pGreen, original_pBlue] = setup_data();
+			int moo_pInitRadius{};
+			int moo_pRadius{};
+			uint8_t moo_pRed{};
+			uint8_t moo_pGreen{};
+			uint8_t moo_pBlue{};
+			int original_pInitRadius{};
+			int original_pRadius{};
+			uint8_t original_pRed{};
+			uint8_t original_pGreen{};
+			uint8_t original_pBlue{};
 			int nOverlayId{};
+
+			const auto setup_data = [](
+				int& pInitRadius,
+				int& pRadius,
+				uint8_t& pRed,
+				uint8_t& pGreen,
+				uint8_t& pBlue
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInitRadius, moo_pRadius, moo_pRed, moo_pGreen, moo_pBlue);
+			setup_data(original_pInitRadius, original_pRadius, original_pRed, original_pGreen, original_pBlue);
 
 			// Call both implementations
 			const auto moo_result = sut(nOverlayId, &moo_pInitRadius, &moo_pRadius, &moo_pRed, &moo_pGreen, &moo_pBlue);
@@ -188,7 +191,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nOverlayId{};
 
 			// Call both implementations
@@ -207,7 +209,6 @@ TEST_SUITE("OverlayTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nOverlayId{};
 
 			// Call both implementations

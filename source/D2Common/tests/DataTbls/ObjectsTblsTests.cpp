@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("ObjectsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -41,7 +39,6 @@ TEST_SUITE("ObjectsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nObjectId{};
 
 			// Call both implementations
@@ -86,7 +83,6 @@ TEST_SUITE("ObjectsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -102,7 +98,6 @@ TEST_SUITE("ObjectsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nId{};
 
 			// Call both implementations
@@ -121,7 +116,6 @@ TEST_SUITE("ObjectsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -137,7 +131,6 @@ TEST_SUITE("ObjectsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nShrineId{};
 
 			// Call both implementations

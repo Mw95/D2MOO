@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,7 +25,6 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -45,17 +43,19 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pExpField{};
-				
-				return std::tuple{ pExpField };
-			};
-			
 			// Input data
-			auto [moo_pExpField] = setup_data();
-			auto [original_pExpField] = setup_data();
+			char moo_pExpField{};
+			char original_pExpField{};
 			int nSize{};
+
+			const auto setup_data = [](
+				char& pExpField
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pExpField);
+			setup_data(original_pExpField);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pExpField, nSize);
@@ -92,17 +92,21 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pCenterX{};
-				int pCenterY{};
-				
-				return std::tuple{ pCenterX, pCenterY };
-			};
-			
 			// Input data
-			auto [moo_pCenterX, moo_pCenterY] = setup_data();
-			auto [original_pCenterX, original_pCenterY] = setup_data();
+			int moo_pCenterX{};
+			int moo_pCenterY{};
+			int original_pCenterX{};
+			int original_pCenterY{};
+
+			const auto setup_data = [](
+				int& pCenterX,
+				int& pCenterY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCenterX, moo_pCenterY);
+			setup_data(original_pCenterX, original_pCenterY);
 
 			// Call both implementations
 			sut(&moo_pCenterX, &moo_pCenterY);
@@ -169,16 +173,18 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2FieldStrc pField{};
-				
-				return std::tuple{ pField };
-			};
-			
 			// Input data
-			auto [moo_pField] = setup_data();
-			auto [original_pField] = setup_data();
+			D2FieldStrc moo_pField{};
+			D2FieldStrc original_pField{};
+
+			const auto setup_data = [](
+				D2FieldStrc& pField
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pField);
+			setup_data(original_pField);
 
 			// Call both implementations
 			sut(&moo_pField);
@@ -196,18 +202,20 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2FieldStrc pField{};
-				
-				return std::tuple{ pField };
-			};
-			
 			// Input data
-			auto [moo_pField] = setup_data();
-			auto [original_pField] = setup_data();
+			D2FieldStrc moo_pField{};
+			D2FieldStrc original_pField{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2FieldStrc& pField
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pField);
+			setup_data(original_pField);
 
 			// Call both implementations
 			sut(&moo_pField, nX, nY);
@@ -225,18 +233,20 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2FieldStrc pField{};
-				
-				return std::tuple{ pField };
-			};
-			
 			// Input data
-			auto [moo_pField] = setup_data();
-			auto [original_pField] = setup_data();
+			D2FieldStrc moo_pField{};
+			D2FieldStrc original_pField{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2FieldStrc& pField
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pField);
+			setup_data(original_pField);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pField, nX, nY);
@@ -257,18 +267,24 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2FieldStrc pField{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pField, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pField, moo_pX, moo_pY] = setup_data();
-			auto [original_pField, original_pX, original_pY] = setup_data();
+			D2FieldStrc moo_pField{};
+			int moo_pX{};
+			int moo_pY{};
+			D2FieldStrc original_pField{};
+			int original_pX{};
+			int original_pY{};
+
+			const auto setup_data = [](
+				D2FieldStrc& pField,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pField, moo_pX, moo_pY);
+			setup_data(original_pField, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pField, &moo_pX, &moo_pY);
@@ -291,20 +307,24 @@ TEST_SUITE("FieldTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2FieldStrc pField{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pField, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pField, moo_pRoom] = setup_data();
-			auto [original_pField, original_pRoom] = setup_data();
+			D2FieldStrc moo_pField{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2FieldStrc original_pField{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t fMask{};
+
+			const auto setup_data = [](
+				D2FieldStrc& pField,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pField, moo_pRoom);
+			setup_data(original_pField, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pField, &moo_pRoom, nX, nY, fMask);

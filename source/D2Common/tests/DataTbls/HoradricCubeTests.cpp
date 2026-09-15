@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,22 +24,24 @@ TEST_SUITE("HoradricCubeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -59,19 +60,23 @@ TEST_SUITE("HoradricCubeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2CubeInputItem pCubeInput{};
-				char szInput{};
-				
-				return std::tuple{ pCubeInput, szInput };
-			};
-			
 			// Input data
-			auto [moo_pCubeInput, moo_szInput] = setup_data();
-			auto [original_pCubeInput, original_szInput] = setup_data();
+			D2CubeInputItem moo_pCubeInput{};
+			char moo_szInput{};
+			D2CubeInputItem original_pCubeInput{};
+			char original_szInput{};
 			int nTxtRow{};
 			int nItemId{};
+
+			const auto setup_data = [](
+				D2CubeInputItem& pCubeInput,
+				char& szInput
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCubeInput, moo_szInput);
+			setup_data(original_pCubeInput, original_szInput);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCubeInput, &moo_szInput, nTxtRow, nItemId);
@@ -93,22 +98,24 @@ TEST_SUITE("HoradricCubeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -127,19 +134,23 @@ TEST_SUITE("HoradricCubeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2CubeOutputItem pCubeOutputParam{};
-				char szOutput{};
-				
-				return std::tuple{ pCubeOutputParam, szOutput };
-			};
-			
 			// Input data
-			auto [moo_pCubeOutputParam, moo_szOutput] = setup_data();
-			auto [original_pCubeOutputParam, original_szOutput] = setup_data();
+			D2CubeOutputItem moo_pCubeOutputParam{};
+			char moo_szOutput{};
+			D2CubeOutputItem original_pCubeOutputParam{};
+			char original_szOutput{};
 			int nTxtRow{};
 			int nItemId{};
+
+			const auto setup_data = [](
+				D2CubeOutputItem& pCubeOutputParam,
+				char& szOutput
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCubeOutputParam, moo_szOutput);
+			setup_data(original_pCubeOutputParam, original_szOutput);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCubeOutputParam, &moo_szOutput, nTxtRow, nItemId);
@@ -161,22 +172,24 @@ TEST_SUITE("HoradricCubeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -195,7 +208,6 @@ TEST_SUITE("HoradricCubeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -224,7 +236,6 @@ TEST_SUITE("HoradricCubeTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nIndex{};
 
 			// Call both implementations

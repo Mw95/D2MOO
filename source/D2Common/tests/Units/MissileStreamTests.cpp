@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,16 +25,18 @@ TEST_SUITE("MissileStreamTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMissile{};
-				
-				return std::tuple{ pMissile };
-			};
-			
 			// Input data
-			auto [moo_pMissile] = setup_data();
-			auto [original_pMissile] = setup_data();
+			D2UnitStrc moo_pMissile{};
+			D2UnitStrc original_pMissile{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pMissile
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMissile);
+			setup_data(original_pMissile);
 
 			// Call both implementations
 			sut(&moo_pMissile);
@@ -53,16 +54,18 @@ TEST_SUITE("MissileStreamTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMissile{};
-				
-				return std::tuple{ pMissile };
-			};
-			
 			// Input data
-			auto [moo_pMissile] = setup_data();
-			auto [original_pMissile] = setup_data();
+			D2UnitStrc moo_pMissile{};
+			D2UnitStrc original_pMissile{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pMissile
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMissile);
+			setup_data(original_pMissile);
 
 			// Call both implementations
 			sut(&moo_pMissile);
@@ -80,18 +83,20 @@ TEST_SUITE("MissileStreamTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nCollisionMask{};
 			int nCollisionPattern{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nCollisionMask, nCollisionPattern, nullptr);
@@ -109,18 +114,20 @@ TEST_SUITE("MissileStreamTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit1{};
-				
-				return std::tuple{ pUnit1 };
-			};
-			
 			// Input data
-			auto [moo_pUnit1] = setup_data();
-			auto [original_pUnit1] = setup_data();
+			D2UnitStrc moo_pUnit1{};
+			D2UnitStrc original_pUnit1{};
 			void* moo_pUnit2 = nullptr;
 			void* original_pUnit2 = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit1
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit1);
+			setup_data(original_pUnit1);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit1, moo_pUnit2);
@@ -142,19 +149,23 @@ TEST_SUITE("MissileStreamTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc a1{};
-				D2UnitStrc pMissile{};
-				
-				return std::tuple{ a1, pMissile };
-			};
-			
 			// Input data
-			auto [moo_a1, moo_pMissile] = setup_data();
-			auto [original_a1, original_pMissile] = setup_data();
+			D2UnitStrc moo_a1{};
+			D2UnitStrc moo_pMissile{};
+			D2UnitStrc original_a1{};
+			D2UnitStrc original_pMissile{};
 			int a3{};
 			int a4{};
+
+			const auto setup_data = [](
+				D2UnitStrc& a1,
+				D2UnitStrc& pMissile
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_a1, moo_pMissile);
+			setup_data(original_a1, original_pMissile);
 
 			// Call both implementations
 			sut(&moo_a1, &moo_pMissile, a3, a4, nullptr, nullptr);

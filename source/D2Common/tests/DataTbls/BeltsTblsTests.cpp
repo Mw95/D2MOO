@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("BeltsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -54,18 +52,20 @@ TEST_SUITE("BeltsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BeltsTxt pRecord{};
-				
-				return std::tuple{ pRecord };
-			};
-			
 			// Input data
-			auto [moo_pRecord] = setup_data();
-			auto [original_pRecord] = setup_data();
+			D2BeltsTxt moo_pRecord{};
+			D2BeltsTxt original_pRecord{};
 			int nIndex{};
 			int bHigherRes{};
+
+			const auto setup_data = [](
+				D2BeltsTxt& pRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRecord);
+			setup_data(original_pRecord);
 
 			// Call both implementations
 			sut(nIndex, bHigherRes, &moo_pRecord);
@@ -83,19 +83,21 @@ TEST_SUITE("BeltsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InvRectStrc pInvRect{};
-				
-				return std::tuple{ pInvRect };
-			};
-			
 			// Input data
-			auto [moo_pInvRect] = setup_data();
-			auto [original_pInvRect] = setup_data();
+			D2InvRectStrc moo_pInvRect{};
+			D2InvRectStrc original_pInvRect{};
 			int nIndex{};
 			int bHigherRes{};
 			int nBoxId{};
+
+			const auto setup_data = [](
+				D2InvRectStrc& pInvRect
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInvRect);
+			setup_data(original_pInvRect);
 
 			// Call both implementations
 			sut(nIndex, bHigherRes, &moo_pInvRect, nBoxId);

@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,21 +26,25 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2CoordStrc pDirectionVector{};
-				int pOutDirection{};
-				
-				return std::tuple{ pDirectionVector, pOutDirection };
-			};
-			
 			// Input data
-			auto [moo_pDirectionVector, moo_pOutDirection] = setup_data();
-			auto [original_pDirectionVector, original_pOutDirection] = setup_data();
+			D2CoordStrc moo_pDirectionVector{};
+			int moo_pOutDirection{};
+			D2CoordStrc original_pDirectionVector{};
+			int original_pOutDirection{};
 			DWORD dwStartPrecisionX{};
 			DWORD dwStartPrecisionY{};
 			DWORD dwTargetPrecisionX{};
 			DWORD dwTargetPrecisionY{};
+
+			const auto setup_data = [](
+				D2CoordStrc& pDirectionVector,
+				int& pOutDirection
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDirectionVector, moo_pOutDirection);
+			setup_data(original_pDirectionVector, original_pOutDirection);
 
 			// Call both implementations
 			sut(&moo_pDirectionVector, &moo_pOutDirection, dwStartPrecisionX, dwStartPrecisionY, dwTargetPrecisionX, dwTargetPrecisionY);
@@ -60,18 +63,24 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2FP32_16 a2{};
-				D2UnitStrc* pUnit{};
-				
-				return std::tuple{ pDynamicPath, a2, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_a2, moo_pUnit] = setup_data();
-			auto [original_pDynamicPath, original_a2, original_pUnit] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2FP32_16 moo_a2{};
+			D2UnitStrc* moo_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2FP32_16 original_a2{};
+			D2UnitStrc* original_pUnit{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2FP32_16& a2,
+				D2UnitStrc*& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_a2, moo_pUnit);
+			setup_data(original_pDynamicPath, original_a2, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_a2, &moo_pUnit);
@@ -94,18 +103,22 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2ActiveRoomStrc pDestRoom{};
-				
-				return std::tuple{ pDynamicPath, pDestRoom };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pDestRoom] = setup_data();
-			auto [original_pDynamicPath, original_pDestRoom] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pDestRoom{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pDestRoom{};
 			D2PathPointStrc tDest{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pDestRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pDestRoom);
+			setup_data(original_pDynamicPath, original_pDestRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_pDestRoom, tDest);
@@ -127,17 +140,21 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pPath{};
-				D2ActiveRoomStrc pNewRoom{};
-				
-				return std::tuple{ pPath, pNewRoom };
-			};
-			
 			// Input data
-			auto [moo_pPath, moo_pNewRoom] = setup_data();
-			auto [original_pPath, original_pNewRoom] = setup_data();
+			D2DynamicPathStrc moo_pPath{};
+			D2ActiveRoomStrc moo_pNewRoom{};
+			D2DynamicPathStrc original_pPath{};
+			D2ActiveRoomStrc original_pNewRoom{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pPath,
+				D2ActiveRoomStrc& pNewRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPath, moo_pNewRoom);
+			setup_data(original_pPath, original_pNewRoom);
 
 			// Call both implementations
 			sut(&moo_pPath, &moo_pNewRoom);
@@ -156,20 +173,24 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pDynamicPath, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pRoom] = setup_data();
-			auto [original_pDynamicPath, original_pRoom] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
 			int a2{};
 			unsigned int a4{};
 			__int16 a5{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pRoom);
+			setup_data(original_pDynamicPath, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, a2, &moo_pRoom, a4, a5);
@@ -191,20 +212,26 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2UnitStrc pUnit_unused{};
-				D2ActiveRoomStrc pRooms{};
-				
-				return std::tuple{ pDynamicPath, pUnit_unused, pRooms };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pUnit_unused, moo_pRooms] = setup_data();
-			auto [original_pDynamicPath, original_pUnit_unused, original_pRooms] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc moo_pUnit_unused{};
+			D2ActiveRoomStrc moo_pRooms{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2UnitStrc original_pUnit_unused{};
+			D2ActiveRoomStrc original_pRooms{};
 			uint16_t nX{};
 			uint16_t nY{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2UnitStrc& pUnit_unused,
+				D2ActiveRoomStrc& pRooms
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pUnit_unused, moo_pRooms);
+			setup_data(original_pDynamicPath, original_pUnit_unused, original_pRooms);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_pUnit_unused, &moo_pRooms, nX, nY);
@@ -227,20 +254,26 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pPath{};
-				D2UnitStrc pUnit{};
-				D2ActiveRoomStrc pDestRoom{};
-				
-				return std::tuple{ pPath, pUnit, pDestRoom };
-			};
-			
 			// Input data
-			auto [moo_pPath, moo_pUnit, moo_pDestRoom] = setup_data();
-			auto [original_pPath, original_pUnit, original_pDestRoom] = setup_data();
+			D2DynamicPathStrc moo_pPath{};
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pDestRoom{};
+			D2DynamicPathStrc original_pPath{};
+			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pDestRoom{};
 			int nTargetX{};
 			int nTargetY{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pPath,
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pDestRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPath, moo_pUnit, moo_pDestRoom);
+			setup_data(original_pPath, original_pUnit, original_pDestRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPath, &moo_pUnit, &moo_pDestRoom, nTargetX, nTargetY);
@@ -263,16 +296,18 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				
-				return std::tuple{ pDynamicPath };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath] = setup_data();
-			auto [original_pDynamicPath] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2DynamicPathStrc original_pDynamicPath{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath);
+			setup_data(original_pDynamicPath);
 
 			// Call both implementations
 			sut(&moo_pDynamicPath);
@@ -290,16 +325,18 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				
-				return std::tuple{ pDynamicPath };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath] = setup_data();
-			auto [original_pDynamicPath] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2DynamicPathStrc original_pDynamicPath{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath);
+			setup_data(original_pDynamicPath);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath);
@@ -320,17 +357,21 @@ TEST_SUITE("StepTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pRiderUnit{};
-				D2UnitStrc pMountUnit{};
-				
-				return std::tuple{ pRiderUnit, pMountUnit };
-			};
-			
 			// Input data
-			auto [moo_pRiderUnit, moo_pMountUnit] = setup_data();
-			auto [original_pRiderUnit, original_pMountUnit] = setup_data();
+			D2UnitStrc moo_pRiderUnit{};
+			D2UnitStrc moo_pMountUnit{};
+			D2UnitStrc original_pRiderUnit{};
+			D2UnitStrc original_pMountUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pRiderUnit,
+				D2UnitStrc& pMountUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRiderUnit, moo_pMountUnit);
+			setup_data(original_pRiderUnit, original_pMountUnit);
 
 			// Call both implementations
 			sut(&moo_pRiderUnit, &moo_pMountUnit);

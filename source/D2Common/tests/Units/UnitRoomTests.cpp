@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,18 +26,22 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pUnit, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pRoom] = setup_data();
-			auto [original_pUnit, original_pRoom] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nUnused{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pRoom);
+			setup_data(original_pUnit, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pRoom, nUnused);
@@ -60,17 +63,21 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pUnit, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pRoom] = setup_data();
-			auto [original_pUnit, original_pRoom] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pRoom);
+			setup_data(original_pUnit, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pRoom);
@@ -92,16 +99,18 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -119,16 +128,18 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom);
@@ -146,16 +157,18 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -173,16 +186,18 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom);
@@ -200,16 +215,18 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -227,16 +244,18 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -254,17 +273,21 @@ TEST_SUITE("UnitRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pRoom, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pUnit] = setup_data();
-			auto [original_pRoom, original_pUnit] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pUnit);
+			setup_data(original_pRoom, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pUnit);

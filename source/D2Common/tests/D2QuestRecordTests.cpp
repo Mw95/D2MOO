@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,18 +24,20 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pQuestRecord{};
-				
-				return std::tuple{ pQuestRecord };
-			};
-			
 			// Input data
-			auto [moo_pQuestRecord] = setup_data();
-			auto [original_pQuestRecord] = setup_data();
+			D2BitBufferStrc moo_pQuestRecord{};
+			D2BitBufferStrc original_pQuestRecord{};
 			int nQuest{};
 			int nState{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pQuestRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestRecord);
+			setup_data(original_pQuestRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pQuestRecord, nQuest, nState);
@@ -57,18 +58,20 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pQuestRecord{};
-				
-				return std::tuple{ pQuestRecord };
-			};
-			
 			// Input data
-			auto [moo_pQuestRecord] = setup_data();
-			auto [original_pQuestRecord] = setup_data();
+			D2BitBufferStrc moo_pQuestRecord{};
+			D2BitBufferStrc original_pQuestRecord{};
 			int nQuest{};
 			int nState{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pQuestRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestRecord);
+			setup_data(original_pQuestRecord);
 
 			// Call both implementations
 			sut(&moo_pQuestRecord, nQuest, nState);
@@ -86,18 +89,20 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pQuestRecord{};
-				
-				return std::tuple{ pQuestRecord };
-			};
-			
 			// Input data
-			auto [moo_pQuestRecord] = setup_data();
-			auto [original_pQuestRecord] = setup_data();
+			D2BitBufferStrc moo_pQuestRecord{};
+			D2BitBufferStrc original_pQuestRecord{};
 			int nQuest{};
 			int nState{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pQuestRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestRecord);
+			setup_data(original_pQuestRecord);
 
 			// Call both implementations
 			sut(&moo_pQuestRecord, nQuest, nState);
@@ -115,17 +120,19 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pQuestRecord{};
-				
-				return std::tuple{ pQuestRecord };
-			};
-			
 			// Input data
-			auto [moo_pQuestRecord] = setup_data();
-			auto [original_pQuestRecord] = setup_data();
+			D2BitBufferStrc moo_pQuestRecord{};
+			D2BitBufferStrc original_pQuestRecord{};
 			int nQuest{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pQuestRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestRecord);
+			setup_data(original_pQuestRecord);
 
 			// Call both implementations
 			sut(&moo_pQuestRecord, nQuest);
@@ -143,7 +150,6 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 
@@ -166,18 +172,20 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pQuestRecord{};
-				
-				return std::tuple{ pQuestRecord };
-			};
-			
 			// Input data
-			auto [moo_pQuestRecord] = setup_data();
-			auto [original_pQuestRecord] = setup_data();
+			D2BitBufferStrc moo_pQuestRecord{};
+			D2BitBufferStrc original_pQuestRecord{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pQuestRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestRecord);
+			setup_data(original_pQuestRecord);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pQuestRecord);
@@ -196,19 +204,23 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pQuestRecord{};
-				uint8_t pBuffer{};
-				
-				return std::tuple{ pQuestRecord, pBuffer };
-			};
-			
 			// Input data
-			auto [moo_pQuestRecord, moo_pBuffer] = setup_data();
-			auto [original_pQuestRecord, original_pBuffer] = setup_data();
+			D2BitBufferStrc moo_pQuestRecord{};
+			uint8_t moo_pBuffer{};
+			D2BitBufferStrc original_pQuestRecord{};
+			uint8_t original_pBuffer{};
 			uint16_t nBufferSize{};
 			BOOL bResetStates{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pQuestRecord,
+				uint8_t& pBuffer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestRecord, moo_pBuffer);
+			setup_data(original_pQuestRecord, original_pBuffer);
 
 			// Call both implementations
 			sut(&moo_pQuestRecord, &moo_pBuffer, nBufferSize, bResetStates);
@@ -227,19 +239,23 @@ TEST_SUITE("D2QuestRecordTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pQuestRecord{};
-				uint8_t pBuffer{};
-				
-				return std::tuple{ pQuestRecord, pBuffer };
-			};
-			
 			// Input data
-			auto [moo_pQuestRecord, moo_pBuffer] = setup_data();
-			auto [original_pQuestRecord, original_pBuffer] = setup_data();
+			D2BitBufferStrc moo_pQuestRecord{};
+			uint8_t moo_pBuffer{};
+			D2BitBufferStrc original_pQuestRecord{};
+			uint8_t original_pBuffer{};
 			uint16_t nBufferSize{};
 			int nUnused{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pQuestRecord,
+				uint8_t& pBuffer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pQuestRecord, moo_pBuffer);
+			setup_data(original_pQuestRecord, original_pBuffer);
 
 			// Call both implementations
 			sut(&moo_pQuestRecord, &moo_pBuffer, nBufferSize, nUnused);

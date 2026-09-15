@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,18 +25,22 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pMaxChainId{};
-				int pChainId{};
-				
-				return std::tuple{ pMaxChainId, pChainId };
-			};
-			
 			// Input data
-			auto [moo_pMaxChainId, moo_pChainId] = setup_data();
-			auto [original_pMaxChainId, original_pChainId] = setup_data();
+			int moo_pMaxChainId{};
+			int moo_pChainId{};
+			int original_pMaxChainId{};
+			int original_pChainId{};
 			int nMonsterId{};
+
+			const auto setup_data = [](
+				int& pMaxChainId,
+				int& pChainId
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMaxChainId, moo_pChainId);
+			setup_data(original_pMaxChainId, original_pChainId);
 
 			// Call both implementations
 			const auto moo_result = sut(nMonsterId, &moo_pMaxChainId, &moo_pChainId);
@@ -59,22 +62,24 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -93,7 +98,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -109,21 +113,23 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2MonStatsInitStrc pMonStatsInit{};
-				
-				return std::tuple{ pMonStatsInit };
-			};
-			
 			// Input data
-			auto [moo_pMonStatsInit] = setup_data();
-			auto [original_pMonStatsInit] = setup_data();
+			D2MonStatsInitStrc moo_pMonStatsInit{};
+			D2MonStatsInitStrc original_pMonStatsInit{};
 			int nMonsterId{};
 			int nGameType{};
 			int nDifficulty{};
 			int nLevel{};
 			short nFlags{};
+
+			const auto setup_data = [](
+				D2MonStatsInitStrc& pMonStatsInit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonStatsInit);
+			setup_data(original_pMonStatsInit);
 
 			// Call both implementations
 			const auto moo_result = sut(nMonsterId, nGameType, nDifficulty, nLevel, nFlags, &moo_pMonStatsInit);
@@ -144,7 +150,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nMonsterId{};
 			short nVelocity{};
 
@@ -174,16 +179,18 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -204,16 +211,18 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -234,16 +243,18 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -264,16 +275,18 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -294,17 +307,19 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TCExShortStrc pTCExShort{};
-				
-				return std::tuple{ pTCExShort };
-			};
-			
 			// Input data
-			auto [moo_pTCExShort] = setup_data();
-			auto [original_pTCExShort] = setup_data();
+			D2TCExShortStrc moo_pTCExShort{};
+			D2TCExShortStrc original_pTCExShort{};
 			int nNewRecordCount{};
+
+			const auto setup_data = [](
+				D2TCExShortStrc& pTCExShort
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTCExShort);
+			setup_data(original_pTCExShort);
 
 			// Call both implementations
 			sut(&moo_pTCExShort, nNewRecordCount);
@@ -322,19 +337,23 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TCExShortStrc pTCExShort{};
-				D2TCExInfoStrc pTCExInfo{};
-				
-				return std::tuple{ pTCExShort, pTCExInfo };
-			};
-			
 			// Input data
-			auto [moo_pTCExShort, moo_pTCExInfo] = setup_data();
-			auto [original_pTCExShort, original_pTCExInfo] = setup_data();
+			D2TCExShortStrc moo_pTCExShort{};
+			D2TCExInfoStrc moo_pTCExInfo{};
+			D2TCExShortStrc original_pTCExShort{};
+			D2TCExInfoStrc original_pTCExInfo{};
 			int nProbability{};
 			BOOL bExpansion{};
+
+			const auto setup_data = [](
+				D2TCExShortStrc& pTCExShort,
+				D2TCExInfoStrc& pTCExInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTCExShort, moo_pTCExInfo);
+			setup_data(original_pTCExShort, original_pTCExInfo);
 
 			// Call both implementations
 			sut(&moo_pTCExShort, &moo_pTCExInfo, nProbability, bExpansion);
@@ -353,7 +372,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			signed int nValue{};
 			signed int nMultiplier{};
 			signed int nDivisor{};
@@ -374,16 +392,18 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szText{};
-				
-				return std::tuple{ szText };
-			};
-			
 			// Input data
-			auto [moo_szText] = setup_data();
-			auto [original_szText] = setup_data();
+			char moo_szText{};
+			char original_szText{};
+
+			const auto setup_data = [](
+				char& szText
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szText);
+			setup_data(original_szText);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_szText);
@@ -404,7 +424,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			uint16_t wTCId{};
 			int nLvl{};
 
@@ -424,7 +443,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nDifficulty{};
 			int nAct{};
 			int nIndex{};
@@ -445,7 +463,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -477,7 +494,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -522,7 +538,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nId{};
 
 			// Call both implementations
@@ -541,7 +556,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -557,7 +571,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -573,7 +586,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSuperUniqueId{};
 
 			// Call both implementations
@@ -608,7 +620,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -624,7 +635,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemType{};
 
 			// Call both implementations
@@ -643,7 +653,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			BOOL bExpansion{};
 			int nId{};
 			int nLevel{};
@@ -664,18 +673,20 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2HirelingTxt pOldRecord{};
-				
-				return std::tuple{ pOldRecord };
-			};
-			
 			// Input data
-			auto [moo_pOldRecord] = setup_data();
-			auto [original_pOldRecord] = setup_data();
+			D2HirelingTxt moo_pOldRecord{};
+			D2HirelingTxt original_pOldRecord{};
 			BOOL bExpansion{};
 			uint16_t nNameId{};
+
+			const auto setup_data = [](
+				D2HirelingTxt& pOldRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOldRecord);
+			setup_data(original_pOldRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(bExpansion, nNameId, &moo_pOldRecord);
@@ -696,18 +707,20 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2HirelingTxt pOldRecord{};
-				
-				return std::tuple{ pOldRecord };
-			};
-			
 			// Input data
-			auto [moo_pOldRecord] = setup_data();
-			auto [original_pOldRecord] = setup_data();
+			D2HirelingTxt moo_pOldRecord{};
+			D2HirelingTxt original_pOldRecord{};
 			BOOL bExpansion{};
 			int nClass{};
+
+			const auto setup_data = [](
+				D2HirelingTxt& pOldRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOldRecord);
+			setup_data(original_pOldRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(bExpansion, nClass, &moo_pOldRecord);
@@ -728,19 +741,21 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2HirelingTxt pOldRecord{};
-				
-				return std::tuple{ pOldRecord };
-			};
-			
 			// Input data
-			auto [moo_pOldRecord] = setup_data();
-			auto [original_pOldRecord] = setup_data();
+			D2HirelingTxt moo_pOldRecord{};
+			D2HirelingTxt original_pOldRecord{};
 			BOOL bExpansion{};
 			int nVendorId{};
 			int nDifficulty{};
+
+			const auto setup_data = [](
+				D2HirelingTxt& pOldRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOldRecord);
+			setup_data(original_pOldRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(bExpansion, nVendorId, nDifficulty, &moo_pOldRecord);
@@ -761,19 +776,21 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2HirelingTxt pOldRecord{};
-				
-				return std::tuple{ pOldRecord };
-			};
-			
 			// Input data
-			auto [moo_pOldRecord] = setup_data();
-			auto [original_pOldRecord] = setup_data();
+			D2HirelingTxt moo_pOldRecord{};
+			D2HirelingTxt original_pOldRecord{};
 			BOOL bExpansion{};
 			int nAct{};
 			int nDifficulty{};
+
+			const auto setup_data = [](
+				D2HirelingTxt& pOldRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOldRecord);
+			setup_data(original_pOldRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(bExpansion, nAct, nDifficulty, &moo_pOldRecord);
@@ -794,7 +811,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -810,7 +826,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			uint32_t dwNpcId{};
 
 			// Call both implementations
@@ -829,7 +844,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -845,7 +859,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSoundId{};
 
 			// Call both implementations
@@ -864,7 +877,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nMonsterId{};
 
 			// Call both implementations
@@ -883,22 +895,24 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -917,7 +931,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -933,7 +946,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nMonType1{};
 			int nMonType2{};
 
@@ -953,7 +965,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -982,7 +993,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -998,7 +1008,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -1014,22 +1023,24 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -1048,7 +1059,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -1064,17 +1074,19 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pRecordCount{};
-				
-				return std::tuple{ pRecordCount };
-			};
-			
 			// Input data
-			auto [moo_pRecordCount] = setup_data();
-			auto [original_pRecordCount] = setup_data();
+			int moo_pRecordCount{};
+			int original_pRecordCount{};
 			int nAct{};
+
+			const auto setup_data = [](
+				int& pRecordCount
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRecordCount);
+			setup_data(original_pRecordCount);
 
 			// Call both implementations
 			const auto moo_result = sut(nAct, &moo_pRecordCount);
@@ -1095,7 +1107,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nType{};
 			int nSuperUnique{};
 
@@ -1115,7 +1126,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -1144,7 +1154,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -1160,7 +1169,6 @@ TEST_SUITE("MonsterTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations

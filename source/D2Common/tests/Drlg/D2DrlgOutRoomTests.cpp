@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,16 +24,18 @@ TEST_SUITE("D2DrlgOutRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -52,16 +53,18 @@ TEST_SUITE("D2DrlgOutRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -79,16 +82,18 @@ TEST_SUITE("D2DrlgOutRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -106,16 +111,18 @@ TEST_SUITE("D2DrlgOutRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -136,16 +143,18 @@ TEST_SUITE("D2DrlgOutRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -166,16 +175,18 @@ TEST_SUITE("D2DrlgOutRoomTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);

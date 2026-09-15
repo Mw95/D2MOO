@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,22 +24,30 @@ TEST_SUITE("PathWFTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pInfo{};
-				D2PathPointStrc pPathPoints{};
-				int pSubPathStartIdx{};
-				int nMaxIndex{};
-				
-				return std::tuple{ pInfo, pPathPoints, pSubPathStartIdx, nMaxIndex };
-			};
-			
 			// Input data
-			auto [moo_pInfo, moo_pPathPoints, moo_pSubPathStartIdx, moo_nMaxIndex] = setup_data();
-			auto [original_pInfo, original_pPathPoints, original_pSubPathStartIdx, original_nMaxIndex] = setup_data();
+			D2PathInfoStrc moo_pInfo{};
+			D2PathPointStrc moo_pPathPoints{};
+			int moo_pSubPathStartIdx{};
+			int moo_nMaxIndex{};
+			D2PathInfoStrc original_pInfo{};
+			D2PathPointStrc original_pPathPoints{};
+			int original_pSubPathStartIdx{};
+			int original_nMaxIndex{};
 			D2PathPointStrc tSubPathStart{};
 			int nMaxLength{};
 			int nMajorDirection{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pInfo,
+				D2PathPointStrc& pPathPoints,
+				int& pSubPathStartIdx,
+				int& nMaxIndex
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInfo, moo_pPathPoints, moo_pSubPathStartIdx, moo_nMaxIndex);
+			setup_data(original_pInfo, original_pPathPoints, original_pSubPathStartIdx, original_nMaxIndex);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInfo, tSubPathStart, &moo_pPathPoints, &moo_pSubPathStartIdx, &moo_nMaxIndex, nMaxLength, nMajorDirection);
@@ -64,19 +71,23 @@ TEST_SUITE("PathWFTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathPointStrc pOutPathPoints{};
-				D2PathPointStrc pInputPoints{};
-				
-				return std::tuple{ pOutPathPoints, pInputPoints };
-			};
-			
 			// Input data
-			auto [moo_pOutPathPoints, moo_pInputPoints] = setup_data();
-			auto [original_pOutPathPoints, original_pInputPoints] = setup_data();
+			D2PathPointStrc moo_pOutPathPoints{};
+			D2PathPointStrc moo_pInputPoints{};
+			D2PathPointStrc original_pOutPathPoints{};
+			D2PathPointStrc original_pInputPoints{};
 			D2PathPointStrc tStartCoord{};
 			signed int nbTempPoints{};
+
+			const auto setup_data = [](
+				D2PathPointStrc& pOutPathPoints,
+				D2PathPointStrc& pInputPoints
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOutPathPoints, moo_pInputPoints);
+			setup_data(original_pOutPathPoints, original_pInputPoints);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pOutPathPoints, &moo_pInputPoints, tStartCoord, nbTempPoints);
@@ -98,16 +109,18 @@ TEST_SUITE("PathWFTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc ptPathInfo{};
-				
-				return std::tuple{ ptPathInfo };
-			};
-			
 			// Input data
-			auto [moo_ptPathInfo] = setup_data();
-			auto [original_ptPathInfo] = setup_data();
+			D2PathInfoStrc moo_ptPathInfo{};
+			D2PathInfoStrc original_ptPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& ptPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ptPathInfo);
+			setup_data(original_ptPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_ptPathInfo);

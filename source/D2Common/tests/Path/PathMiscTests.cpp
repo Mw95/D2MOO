@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,19 +26,25 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				int pTestDir{};
-				int pDirection{};
-				
-				return std::tuple{ pPathInfo, pTestDir, pDirection };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo, moo_pTestDir, moo_pDirection] = setup_data();
-			auto [original_pPathInfo, original_pTestDir, original_pDirection] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			int moo_pTestDir{};
+			int moo_pDirection{};
+			D2PathInfoStrc original_pPathInfo{};
+			int original_pTestDir{};
+			int original_pDirection{};
 			D2PathPointStrc pPoint{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo,
+				int& pTestDir,
+				int& pDirection
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo, moo_pTestDir, moo_pDirection);
+			setup_data(original_pPathInfo, original_pTestDir, original_pDirection);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo, &moo_pTestDir, pPoint, &moo_pDirection);
@@ -62,7 +67,6 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			D2PathPointStrc pPoint1{};
 			D2PathPointStrc pPoint2{};
 
@@ -82,7 +86,6 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			D2PathPointStrc pPoint1{};
 			D2PathPointStrc pPoint2{};
 
@@ -102,7 +105,6 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nX1{};
 			int nY1{};
 			int nX2{};
@@ -124,19 +126,21 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pTestDir{};
-				
-				return std::tuple{ pTestDir };
-			};
-			
 			// Input data
-			auto [moo_pTestDir] = setup_data();
-			auto [original_pTestDir] = setup_data();
+			int moo_pTestDir{};
+			int original_pTestDir{};
 			int nUnused{};
 			D2PathPointStrc pPoint1{};
 			D2PathPointStrc pPoint2{};
+
+			const auto setup_data = [](
+				int& pTestDir
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTestDir);
+			setup_data(original_pTestDir);
 
 			// Call both implementations
 			sut(&moo_pTestDir, nUnused, pPoint1, pPoint2);
@@ -154,16 +158,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -184,16 +190,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -214,17 +222,21 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2PathPointStrc pGameCoord{};
-				
-				return std::tuple{ pDynamicPath, pGameCoord };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pGameCoord] = setup_data();
-			auto [original_pDynamicPath, original_pGameCoord] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2PathPointStrc moo_pGameCoord{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2PathPointStrc original_pGameCoord{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2PathPointStrc& pGameCoord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pGameCoord);
+			setup_data(original_pDynamicPath, original_pGameCoord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_pGameCoord);
@@ -246,16 +258,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -276,16 +290,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -306,16 +322,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -336,16 +354,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -366,16 +386,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -396,18 +418,20 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pTestDir{};
-				
-				return std::tuple{ pTestDir };
-			};
-			
 			// Input data
-			auto [moo_pTestDir] = setup_data();
-			auto [original_pTestDir] = setup_data();
+			int moo_pTestDir{};
+			int original_pTestDir{};
 			D2PathPointStrc pPoint1{};
 			D2PathPointStrc pPoint2{};
+
+			const auto setup_data = [](
+				int& pTestDir
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTestDir);
+			setup_data(original_pTestDir);
 
 			// Call both implementations
 			sut(&moo_pTestDir, pPoint1, pPoint2);
@@ -425,16 +449,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				
-				return std::tuple{ pDynamicPath };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath] = setup_data();
-			auto [original_pDynamicPath] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2DynamicPathStrc original_pDynamicPath{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath);
+			setup_data(original_pDynamicPath);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath);
@@ -455,18 +481,22 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2PathPointStrc pPathDestination{};
-				
-				return std::tuple{ pDynamicPath, pPathDestination };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pPathDestination] = setup_data();
-			auto [original_pDynamicPath, original_pPathDestination] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2PathPointStrc moo_pPathDestination{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2PathPointStrc original_pPathDestination{};
 			D2PathPointStrc tStartCoord{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2PathPointStrc& pPathDestination
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pPathDestination);
+			setup_data(original_pDynamicPath, original_pPathDestination);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_pPathDestination, tStartCoord);
@@ -488,17 +518,21 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2SeedStrc pSeed{};
-				
-				return std::tuple{ pDynamicPath, pSeed };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pSeed] = setup_data();
-			auto [original_pDynamicPath, original_pSeed] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2SeedStrc moo_pSeed{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2SeedStrc original_pSeed{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2SeedStrc& pSeed
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pSeed);
+			setup_data(original_pDynamicPath, original_pSeed);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_pSeed);
@@ -520,7 +554,6 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nX1{};
 			int nY1{};
 			int nX2{};
@@ -542,7 +575,6 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nX1{};
 			int nY1{};
 			int nX2{};
@@ -564,7 +596,6 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			DWORD dwStartPrecisionX{};
 			DWORD dwStartPrecisionY{};
 			DWORD dwTargetPrecisionX{};
@@ -586,18 +617,20 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pPath{};
-				
-				return std::tuple{ pPath };
-			};
-			
 			// Input data
-			auto [moo_pPath] = setup_data();
-			auto [original_pPath] = setup_data();
+			D2DynamicPathStrc moo_pPath{};
+			D2DynamicPathStrc original_pPath{};
 			BOOL bNormalizeDirectionIfSamePos{};
 			BOOL bForceDirectionNormalization{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pPath
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPath);
+			setup_data(original_pPath);
 
 			// Call both implementations
 			sut(&moo_pPath, bNormalizeDirectionIfSamePos, bForceDirectionNormalization);
@@ -615,17 +648,19 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int a2{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, a2);
@@ -646,17 +681,19 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			signed int a2{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, a2);
@@ -677,16 +714,18 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -707,20 +746,26 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2UnitStrc pUnit{};
-				D2ActiveRoomStrc pDestRoom{};
-				
-				return std::tuple{ pDynamicPath, pUnit, pDestRoom };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pUnit, moo_pDestRoom] = setup_data();
-			auto [original_pDynamicPath, original_pUnit, original_pDestRoom] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pDestRoom{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pDestRoom{};
 			uint32_t nDestX{};
 			uint32_t nDestY{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pDestRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pUnit, moo_pDestRoom);
+			setup_data(original_pDynamicPath, original_pUnit, original_pDestRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_pUnit, &moo_pDestRoom, nDestX, nDestY);
@@ -743,17 +788,21 @@ TEST_SUITE("PathMiscTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DynamicPathStrc pDynamicPath{};
-				D2ActiveRoomStrc pHintRoom{};
-				
-				return std::tuple{ pDynamicPath, pHintRoom };
-			};
-			
 			// Input data
-			auto [moo_pDynamicPath, moo_pHintRoom] = setup_data();
-			auto [original_pDynamicPath, original_pHintRoom] = setup_data();
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pHintRoom{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pHintRoom{};
+
+			const auto setup_data = [](
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pHintRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDynamicPath, moo_pHintRoom);
+			setup_data(original_pDynamicPath, original_pHintRoom);
 
 			// Call both implementations
 			sut(&moo_pDynamicPath, &moo_pHintRoom);

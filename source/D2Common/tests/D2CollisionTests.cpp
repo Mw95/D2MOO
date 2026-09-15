@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,18 +26,24 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2DrlgTileDataStrc pTileData{};
-				D2TileLibraryEntryStrc pTileLibraryEntry{};
-				
-				return std::tuple{ pRoom, pTileData, pTileLibraryEntry };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pTileData, moo_pTileLibraryEntry] = setup_data();
-			auto [original_pRoom, original_pTileData, original_pTileLibraryEntry] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DrlgTileDataStrc moo_pTileData{};
+			D2TileLibraryEntryStrc moo_pTileLibraryEntry{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2DrlgTileDataStrc original_pTileData{};
+			D2TileLibraryEntryStrc original_pTileLibraryEntry{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2DrlgTileDataStrc& pTileData,
+				D2TileLibraryEntryStrc& pTileLibraryEntry
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pTileData, moo_pTileLibraryEntry);
+			setup_data(original_pRoom, original_pTileData, original_pTileLibraryEntry);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pTileData, &moo_pTileLibraryEntry);
@@ -58,19 +63,23 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2RoomCollisionGridStrc pCollisionGrid{};
-				D2TileLibraryEntryStrc pTileLibraryEntry{};
-				
-				return std::tuple{ pCollisionGrid, pTileLibraryEntry };
-			};
-			
 			// Input data
-			auto [moo_pCollisionGrid, moo_pTileLibraryEntry] = setup_data();
-			auto [original_pCollisionGrid, original_pTileLibraryEntry] = setup_data();
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			D2TileLibraryEntryStrc moo_pTileLibraryEntry{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			D2TileLibraryEntryStrc original_pTileLibraryEntry{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				D2TileLibraryEntryStrc& pTileLibraryEntry
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCollisionGrid, moo_pTileLibraryEntry);
+			setup_data(original_pCollisionGrid, original_pTileLibraryEntry);
 
 			// Call both implementations
 			sut(&moo_pCollisionGrid, &moo_pTileLibraryEntry, nX, nY);
@@ -105,18 +114,20 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pRoom);
@@ -135,20 +146,26 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2RoomCollisionGridStrc pCollisionGrid{};
-				D2RoomCollisionGridStrc pAdjacentCollisionGrid{};
-				D2DrlgTileDataStrc pTiles{};
-				
-				return std::tuple{ pCollisionGrid, pAdjacentCollisionGrid, pTiles };
-			};
-			
 			// Input data
-			auto [moo_pCollisionGrid, moo_pAdjacentCollisionGrid, moo_pTiles] = setup_data();
-			auto [original_pCollisionGrid, original_pAdjacentCollisionGrid, original_pTiles] = setup_data();
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			D2RoomCollisionGridStrc moo_pAdjacentCollisionGrid{};
+			D2DrlgTileDataStrc moo_pTiles{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			D2RoomCollisionGridStrc original_pAdjacentCollisionGrid{};
+			D2DrlgTileDataStrc original_pTiles{};
 			int nTiles{};
 			BOOL bRemoveOldFlags{};
+
+			const auto setup_data = [](
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				D2RoomCollisionGridStrc& pAdjacentCollisionGrid,
+				D2DrlgTileDataStrc& pTiles
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCollisionGrid, moo_pAdjacentCollisionGrid, moo_pTiles);
+			setup_data(original_pCollisionGrid, original_pAdjacentCollisionGrid, original_pTiles);
 
 			// Call both implementations
 			sut(&moo_pCollisionGrid, &moo_pAdjacentCollisionGrid, &moo_pTiles, nTiles, bRemoveOldFlags);
@@ -168,18 +185,20 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pRoom);
@@ -198,19 +217,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
@@ -231,19 +252,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nMask);
@@ -261,19 +284,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nMask);
@@ -291,21 +316,23 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			unsigned int nSizeX{};
 			unsigned int nSizeY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nSizeX, nSizeY, nMask);
@@ -326,18 +353,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2RoomCollisionGridStrc pCollisionGrid{};
-				D2BoundingBoxStrc pBoundingBox{};
-				
-				return std::tuple{ pCollisionGrid, pBoundingBox };
-			};
-			
 			// Input data
-			auto [moo_pCollisionGrid, moo_pBoundingBox] = setup_data();
-			auto [original_pCollisionGrid, original_pBoundingBox] = setup_data();
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			D2BoundingBoxStrc original_pBoundingBox{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				D2BoundingBoxStrc& pBoundingBox
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCollisionGrid, moo_pBoundingBox);
+			setup_data(original_pCollisionGrid, original_pBoundingBox);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCollisionGrid, &moo_pBoundingBox, nMask);
@@ -359,18 +390,24 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2BoundingBoxStrc pBoundingBox{};
-				D2BoundingBoxStrc pBoundingBoxes{};
-				
-				return std::tuple{ pRoom, pBoundingBox, pBoundingBoxes };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pBoundingBox, moo_pBoundingBoxes] = setup_data();
-			auto [original_pRoom, original_pBoundingBox, original_pBoundingBoxes] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2BoundingBoxStrc moo_pBoundingBoxes{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2BoundingBoxStrc original_pBoundingBox{};
+			D2BoundingBoxStrc original_pBoundingBoxes{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2BoundingBoxStrc& pBoundingBox,
+				D2BoundingBoxStrc& pBoundingBoxes
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pBoundingBox, moo_pBoundingBoxes);
+			setup_data(original_pRoom, original_pBoundingBox, original_pBoundingBoxes);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pBoundingBox, &moo_pBoundingBoxes);
@@ -393,18 +430,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2BoundingBoxStrc pBoundingBox{};
-				
-				return std::tuple{ pRoom, pBoundingBox };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pBoundingBox] = setup_data();
-			auto [original_pRoom, original_pBoundingBox] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2BoundingBoxStrc original_pBoundingBox{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2BoundingBoxStrc& pBoundingBox
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pBoundingBox);
+			setup_data(original_pRoom, original_pBoundingBox);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pBoundingBox, nMask);
@@ -426,20 +467,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			int nCollisionPattern{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
@@ -460,19 +503,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
@@ -493,19 +538,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
@@ -526,20 +573,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			int nCollisionPattern{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
@@ -560,19 +609,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
@@ -593,20 +644,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			int nUnitSize{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY, nUnitSize, nMask);
@@ -627,20 +680,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			int nUnitSize{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nUnitSize, nMask);
@@ -658,19 +713,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nMask);
@@ -688,18 +745,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2BoundingBoxStrc pBoundingBox{};
-				
-				return std::tuple{ pRoom, pBoundingBox };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pBoundingBox] = setup_data();
-			auto [original_pRoom, original_pBoundingBox] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2BoundingBoxStrc original_pBoundingBox{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2BoundingBoxStrc& pBoundingBox
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pBoundingBox);
+			setup_data(original_pRoom, original_pBoundingBox);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pBoundingBox, nMask);
@@ -718,20 +779,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			int nCollisionPattern{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
@@ -749,20 +812,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			int nUnitSize{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nUnitSize, nMask);
@@ -780,19 +845,21 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nMask);
@@ -810,18 +877,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2BoundingBoxStrc pBoundingBox{};
-				
-				return std::tuple{ pRoom, pBoundingBox };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pBoundingBox] = setup_data();
-			auto [original_pRoom, original_pBoundingBox] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2BoundingBoxStrc original_pBoundingBox{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2BoundingBoxStrc& pBoundingBox
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pBoundingBox);
+			setup_data(original_pRoom, original_pBoundingBox);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pBoundingBox, nMask);
@@ -840,20 +911,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			int nCollisionPattern{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
@@ -871,21 +944,23 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			unsigned int nSizeX{};
 			unsigned int nSizeY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nSizeX, nSizeY, nMask);
@@ -903,18 +978,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2RoomCollisionGridStrc pCollisionGrid{};
-				D2BoundingBoxStrc pBoundingBox{};
-				
-				return std::tuple{ pCollisionGrid, pBoundingBox };
-			};
-			
 			// Input data
-			auto [moo_pCollisionGrid, moo_pBoundingBox] = setup_data();
-			auto [original_pCollisionGrid, original_pBoundingBox] = setup_data();
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			D2BoundingBoxStrc original_pBoundingBox{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				D2BoundingBoxStrc& pBoundingBox
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCollisionGrid, moo_pBoundingBox);
+			setup_data(original_pCollisionGrid, original_pBoundingBox);
 
 			// Call both implementations
 			sut(&moo_pCollisionGrid, &moo_pBoundingBox, nMask);
@@ -933,21 +1012,23 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			unsigned int nSizeX{};
 			unsigned int nSizeY{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, nSizeX, nSizeY, nMask);
@@ -965,18 +1046,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2RoomCollisionGridStrc pCollisionGrid{};
-				D2BoundingBoxStrc pBoundingBox{};
-				
-				return std::tuple{ pCollisionGrid, pBoundingBox };
-			};
-			
 			// Input data
-			auto [moo_pCollisionGrid, moo_pBoundingBox] = setup_data();
-			auto [original_pCollisionGrid, original_pBoundingBox] = setup_data();
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			D2BoundingBoxStrc original_pBoundingBox{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				D2BoundingBoxStrc& pBoundingBox
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCollisionGrid, moo_pBoundingBox);
+			setup_data(original_pCollisionGrid, original_pBoundingBox);
 
 			// Call both implementations
 			sut(&moo_pCollisionGrid, &moo_pBoundingBox, nMask);
@@ -995,16 +1080,9 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX1{};
 			int nY1{};
 			int nX2{};
@@ -1012,6 +1090,15 @@ TEST_SUITE("D2CollisionTests")
 			int nUnitSize{};
 			uint16_t nCollisionMask{};
 			uint16_t nMoveConditionMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX1, nY1, nX2, nY2, nUnitSize, nCollisionMask, nMoveConditionMask);
@@ -1032,20 +1119,22 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BoundingBoxStrc pBoundingBox{};
-				
-				return std::tuple{ pBoundingBox };
-			};
-			
 			// Input data
-			auto [moo_pBoundingBox] = setup_data();
-			auto [original_pBoundingBox] = setup_data();
+			D2BoundingBoxStrc moo_pBoundingBox{};
+			D2BoundingBoxStrc original_pBoundingBox{};
 			int nCenterX{};
 			int nCenterY{};
 			unsigned int nSizeX{};
 			unsigned int nSizeY{};
+
+			const auto setup_data = [](
+				D2BoundingBoxStrc& pBoundingBox
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pBoundingBox);
+			setup_data(original_pBoundingBox);
 
 			// Call both implementations
 			sut(&moo_pBoundingBox, nCenterX, nCenterY, nSizeX, nSizeY);
@@ -1063,16 +1152,9 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX1{};
 			int nY1{};
 			int nX2{};
@@ -1080,6 +1162,15 @@ TEST_SUITE("D2CollisionTests")
 			int nCollisionPattern{};
 			uint16_t nFootprintCollisionMask{};
 			uint16_t nMoveConditionMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX1, nY1, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
@@ -1100,17 +1191,11 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom1{};
-				D2ActiveRoomStrc pRoom2{};
-				
-				return std::tuple{ pRoom1, pRoom2 };
-			};
-			
 			// Input data
-			auto [moo_pRoom1, moo_pRoom2] = setup_data();
-			auto [original_pRoom1, original_pRoom2] = setup_data();
+			D2ActiveRoomStrc moo_pRoom1{};
+			D2ActiveRoomStrc moo_pRoom2{};
+			D2ActiveRoomStrc original_pRoom1{};
+			D2ActiveRoomStrc original_pRoom2{};
 			int nX1{};
 			int nY1{};
 			int nX2{};
@@ -1118,6 +1203,16 @@ TEST_SUITE("D2CollisionTests")
 			int nUnitSize{};
 			uint16_t nFootprintCollisionMask{};
 			uint16_t nMoveConditionMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom1,
+				D2ActiveRoomStrc& pRoom2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom1, moo_pRoom2);
+			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nUnitSize, nFootprintCollisionMask, nMoveConditionMask);
@@ -1139,23 +1234,27 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom1{};
-				D2ActiveRoomStrc pRoom2{};
-				
-				return std::tuple{ pRoom1, pRoom2 };
-			};
-			
 			// Input data
-			auto [moo_pRoom1, moo_pRoom2] = setup_data();
-			auto [original_pRoom1, original_pRoom2] = setup_data();
+			D2ActiveRoomStrc moo_pRoom1{};
+			D2ActiveRoomStrc moo_pRoom2{};
+			D2ActiveRoomStrc original_pRoom1{};
+			D2ActiveRoomStrc original_pRoom2{};
 			int nX1{};
 			int nY1{};
 			int nX2{};
 			int nY2{};
 			int nUnitSize{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom1,
+				D2ActiveRoomStrc& pRoom2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom1, moo_pRoom2);
+			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nUnitSize, nMask);
@@ -1177,17 +1276,11 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom1{};
-				D2ActiveRoomStrc pRoom2{};
-				
-				return std::tuple{ pRoom1, pRoom2 };
-			};
-			
 			// Input data
-			auto [moo_pRoom1, moo_pRoom2] = setup_data();
-			auto [original_pRoom1, original_pRoom2] = setup_data();
+			D2ActiveRoomStrc moo_pRoom1{};
+			D2ActiveRoomStrc moo_pRoom2{};
+			D2ActiveRoomStrc original_pRoom1{};
+			D2ActiveRoomStrc original_pRoom2{};
 			int nX1{};
 			int nY1{};
 			int nX2{};
@@ -1195,6 +1288,16 @@ TEST_SUITE("D2CollisionTests")
 			int nCollisionPattern{};
 			uint16_t nFootprintCollisionMask{};
 			uint16_t nMoveConditionMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom1,
+				D2ActiveRoomStrc& pRoom2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom1, moo_pRoom2);
+			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
@@ -1216,23 +1319,27 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom1{};
-				D2ActiveRoomStrc pRoom2{};
-				
-				return std::tuple{ pRoom1, pRoom2 };
-			};
-			
 			// Input data
-			auto [moo_pRoom1, moo_pRoom2] = setup_data();
-			auto [original_pRoom1, original_pRoom2] = setup_data();
+			D2ActiveRoomStrc moo_pRoom1{};
+			D2ActiveRoomStrc moo_pRoom2{};
+			D2ActiveRoomStrc original_pRoom1{};
+			D2ActiveRoomStrc original_pRoom2{};
 			int nX1{};
 			int nY1{};
 			int nX2{};
 			int nY2{};
 			int nCollisionPattern{};
 			uint16_t nCollisionMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom1,
+				D2ActiveRoomStrc& pRoom2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom1, moo_pRoom2);
+			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
 			sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nCollisionPattern, nCollisionMask);
@@ -1251,21 +1358,25 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc pSpawnPoint{};
-				
-				return std::tuple{ pRoom, pSpawnPoint };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pSpawnPoint] = setup_data();
-			auto [original_pRoom, original_pSpawnPoint] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc moo_pSpawnPoint{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc original_pSpawnPoint{};
 			int nUnitSize{};
 			unsigned int nMask{};
 			BOOL bAllowNeighborRooms{};
 			int nMaxDistance{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc& pSpawnPoint
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pSpawnPoint);
+			setup_data(original_pRoom, original_pSpawnPoint);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms, nMaxDistance);
@@ -1287,24 +1398,30 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc ptSpawnPoint{};
-				D2CoordStrc pFieldCoord{};
-				
-				return std::tuple{ pRoom, ptSpawnPoint, pFieldCoord };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_ptSpawnPoint, moo_pFieldCoord] = setup_data();
-			auto [original_pRoom, original_ptSpawnPoint, original_pFieldCoord] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc moo_ptSpawnPoint{};
+			D2CoordStrc moo_pFieldCoord{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc original_ptSpawnPoint{};
+			D2CoordStrc original_pFieldCoord{};
 			int nUnitSize{};
 			unsigned int nMask{};
 			unsigned int nFieldMask{};
 			BOOL bAllowNeighborRooms{};
 			int nMaxDistance{};
 			int nPosIncrementValue{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc& ptSpawnPoint,
+				D2CoordStrc& pFieldCoord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_ptSpawnPoint, moo_pFieldCoord);
+			setup_data(original_pRoom, original_ptSpawnPoint, original_pFieldCoord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_ptSpawnPoint, &moo_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms, nMaxDistance, nPosIncrementValue);
@@ -1327,20 +1444,24 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc pSpawnPoint{};
-				
-				return std::tuple{ pRoom, pSpawnPoint };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pSpawnPoint] = setup_data();
-			auto [original_pRoom, original_pSpawnPoint] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc moo_pSpawnPoint{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc original_pSpawnPoint{};
 			int nUnitSize{};
 			unsigned int nMask{};
 			BOOL bAllowNeighborRooms{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc& pSpawnPoint
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pSpawnPoint);
+			setup_data(original_pRoom, original_pSpawnPoint);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms);
@@ -1362,20 +1483,24 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc pSpawnPoint{};
-				
-				return std::tuple{ pRoom, pSpawnPoint };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pSpawnPoint] = setup_data();
-			auto [original_pRoom, original_pSpawnPoint] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc moo_pSpawnPoint{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc original_pSpawnPoint{};
 			int nUnitSize{};
 			unsigned int nMask{};
 			int nPosIncrementValue{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc& pSpawnPoint
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pSpawnPoint);
+			setup_data(original_pRoom, original_pSpawnPoint);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, nPosIncrementValue);
@@ -1397,22 +1522,28 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc pSpawnPoint{};
-				D2CoordStrc pFieldCoord{};
-				
-				return std::tuple{ pRoom, pSpawnPoint, pFieldCoord };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pSpawnPoint, moo_pFieldCoord] = setup_data();
-			auto [original_pRoom, original_pSpawnPoint, original_pFieldCoord] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc moo_pSpawnPoint{};
+			D2CoordStrc moo_pFieldCoord{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc original_pSpawnPoint{};
+			D2CoordStrc original_pFieldCoord{};
 			int nUnitSize{};
 			unsigned int nMask{};
 			unsigned int nFieldMask{};
 			BOOL bAllowNeighborRooms{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc& pSpawnPoint,
+				D2CoordStrc& pFieldCoord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pSpawnPoint, moo_pFieldCoord);
+			setup_data(original_pRoom, original_pSpawnPoint, original_pFieldCoord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, &moo_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms);
@@ -1435,20 +1566,26 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc pCoord{};
-				D2ActiveRoomStrc* ppRoom{};
-				
-				return std::tuple{ pRoom, pCoord, ppRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pCoord, moo_ppRoom] = setup_data();
-			auto [original_pRoom, original_pCoord, original_ppRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc moo_pCoord{};
+			D2ActiveRoomStrc* moo_ppRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc original_pCoord{};
+			D2ActiveRoomStrc* original_ppRoom{};
 			int a3{};
 			uint16_t nMask{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc& pCoord,
+				D2ActiveRoomStrc*& ppRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pCoord, moo_ppRoom);
+			setup_data(original_pRoom, original_pCoord, original_ppRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pCoord, a3, nMask, &moo_ppRoom);
@@ -1468,18 +1605,20 @@ TEST_SUITE("D2CollisionTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY);

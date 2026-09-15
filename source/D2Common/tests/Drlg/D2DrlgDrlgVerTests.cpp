@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			uint8_t nDirection{};
@@ -49,21 +47,27 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgVertexStrc* ppVertices{};
-				D2DrlgCoordStrc pDrlgCoord{};
-				D2DrlgOrthStrc pDrlgRoomData{};
-				
-				return std::tuple{ ppVertices, pDrlgCoord, pDrlgRoomData };
-			};
-			
 			// Input data
-			auto [moo_ppVertices, moo_pDrlgCoord, moo_pDrlgRoomData] = setup_data();
-			auto [original_ppVertices, original_pDrlgCoord, original_pDrlgRoomData] = setup_data();
+			D2DrlgVertexStrc* moo_ppVertices{};
+			D2DrlgCoordStrc moo_pDrlgCoord{};
+			D2DrlgOrthStrc moo_pDrlgRoomData{};
+			D2DrlgVertexStrc* original_ppVertices{};
+			D2DrlgCoordStrc original_pDrlgCoord{};
+			D2DrlgOrthStrc original_pDrlgRoomData{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			uint8_t nDirection{};
+
+			const auto setup_data = [](
+				D2DrlgVertexStrc*& ppVertices,
+				D2DrlgCoordStrc& pDrlgCoord,
+				D2DrlgOrthStrc& pDrlgRoomData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppVertices, moo_pDrlgCoord, moo_pDrlgRoomData);
+			setup_data(original_ppVertices, original_pDrlgCoord, original_pDrlgRoomData);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_ppVertices, &moo_pDrlgCoord, nDirection, &moo_pDrlgRoomData);
@@ -84,18 +88,20 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgVertexStrc* ppVertices{};
-				
-				return std::tuple{ ppVertices };
-			};
-			
 			// Input data
-			auto [moo_ppVertices] = setup_data();
-			auto [original_ppVertices] = setup_data();
+			D2DrlgVertexStrc* moo_ppVertices{};
+			D2DrlgVertexStrc* original_ppVertices{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2DrlgVertexStrc*& ppVertices
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppVertices);
+			setup_data(original_ppVertices);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_ppVertices);
@@ -114,18 +120,24 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgVertexStrc pDrlgVertex{};
-				int pDiffX{};
-				int pDiffY{};
-				
-				return std::tuple{ pDrlgVertex, pDiffX, pDiffY };
-			};
-			
 			// Input data
-			auto [moo_pDrlgVertex, moo_pDiffX, moo_pDiffY] = setup_data();
-			auto [original_pDrlgVertex, original_pDiffX, original_pDiffY] = setup_data();
+			D2DrlgVertexStrc moo_pDrlgVertex{};
+			int moo_pDiffX{};
+			int moo_pDiffY{};
+			D2DrlgVertexStrc original_pDrlgVertex{};
+			int original_pDiffX{};
+			int original_pDiffY{};
+
+			const auto setup_data = [](
+				D2DrlgVertexStrc& pDrlgVertex,
+				int& pDiffX,
+				int& pDiffY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgVertex, moo_pDiffX, moo_pDiffY);
+			setup_data(original_pDrlgVertex, original_pDiffX, original_pDiffY);
 
 			// Call both implementations
 			sut(&moo_pDrlgVertex, &moo_pDiffX, &moo_pDiffY);

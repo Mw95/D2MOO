@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -28,18 +27,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pItem);
@@ -58,18 +59,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pItem);
@@ -88,16 +91,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -118,17 +123,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint8_t nBodyLoc{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nBodyLoc);
@@ -146,16 +153,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -176,16 +185,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem);
@@ -203,16 +214,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -233,17 +246,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nSeed{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nSeed);
@@ -261,16 +276,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -291,17 +308,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nQuality{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nQuality);
@@ -319,17 +338,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nPrefixNo{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nPrefixNo);
@@ -350,18 +371,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint16_t nPrefix{};
 			int nPrefixNo{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nPrefix, nPrefixNo);
@@ -379,16 +402,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -409,17 +434,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint16_t nAffix{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nAffix);
@@ -437,17 +464,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nSuffixNo{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nSuffixNo);
@@ -468,18 +497,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint16_t nSuffix{};
 			int nSuffixNo{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nSuffix, nSuffixNo);
@@ -497,16 +528,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -527,17 +560,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint16_t nPrefix{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nPrefix);
@@ -555,16 +590,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -585,17 +622,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint16_t nSuffix{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nSuffix);
@@ -613,19 +652,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint32_t dwFlag{};
 			int nLine{};
 			char szFile{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, dwFlag, nLine, &szFile);
@@ -646,18 +687,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint32_t dwFlag{};
 			BOOL bSet{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, dwFlag, bSet);
@@ -675,16 +718,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -705,17 +750,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nFlag{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nFlag);
@@ -736,18 +783,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nFlag{};
 			BOOL bSet{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nFlag, bSet);
@@ -765,16 +814,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -795,16 +846,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -825,17 +878,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nItemLevel{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nItemLevel);
@@ -853,16 +908,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -883,17 +940,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint8_t nPage{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nPage);
@@ -911,16 +970,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -941,17 +1002,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nCellOverlap{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nCellOverlap);
@@ -969,16 +1032,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -999,17 +1064,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nItemCell{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nItemCell);
@@ -1027,16 +1094,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1057,17 +1126,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				char szName{};
-				
-				return std::tuple{ pItem, szName };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_szName] = setup_data();
-			auto [original_pItem, original_szName] = setup_data();
+			D2UnitStrc moo_pItem{};
+			char moo_szName{};
+			D2UnitStrc original_pItem{};
+			char original_szName{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				char& szName
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_szName);
+			setup_data(original_pItem, original_szName);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_szName);
@@ -1086,16 +1159,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1116,17 +1191,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint8_t nLevel{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nLevel);
@@ -1144,16 +1221,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1174,17 +1253,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint8_t nIndex{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nIndex);
@@ -1202,16 +1283,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1232,7 +1315,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemType{};
 
 			// Call both implementations
@@ -1251,16 +1333,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1281,7 +1365,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemType{};
 
 			// Call both implementations
@@ -1300,16 +1383,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1330,7 +1415,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemType{};
 
 			// Call both implementations
@@ -1349,16 +1433,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1379,16 +1465,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1409,16 +1497,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1439,16 +1529,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1469,16 +1561,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1499,17 +1593,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nId{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nId);
@@ -1530,16 +1626,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1560,16 +1658,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1590,16 +1690,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1620,16 +1722,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1650,16 +1754,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1680,16 +1786,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1710,16 +1818,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1740,16 +1850,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1770,20 +1882,26 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				uint8_t pWidth{};
-				uint8_t pHeight{};
-				
-				return std::tuple{ pItem, pWidth, pHeight };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pWidth, moo_pHeight] = setup_data();
-			auto [original_pItem, original_pWidth, original_pHeight] = setup_data();
+			D2UnitStrc moo_pItem{};
+			uint8_t moo_pWidth{};
+			uint8_t moo_pHeight{};
+			D2UnitStrc original_pItem{};
+			uint8_t original_pWidth{};
+			uint8_t original_pHeight{};
 			char szFile{};
 			int nLine{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				uint8_t& pWidth,
+				uint8_t& pHeight
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pWidth, moo_pHeight);
+			setup_data(original_pItem, original_pWidth, original_pHeight);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pWidth, &moo_pHeight, &szFile, nLine);
@@ -1803,18 +1921,24 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				uint8_t pBodyLoc1{};
-				uint8_t pBodyLoc2{};
-				
-				return std::tuple{ pItem, pBodyLoc1, pBodyLoc2 };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBodyLoc1, moo_pBodyLoc2] = setup_data();
-			auto [original_pItem, original_pBodyLoc1, original_pBodyLoc2] = setup_data();
+			D2UnitStrc moo_pItem{};
+			uint8_t moo_pBodyLoc1{};
+			uint8_t moo_pBodyLoc2{};
+			D2UnitStrc original_pItem{};
+			uint8_t original_pBodyLoc1{};
+			uint8_t original_pBodyLoc2{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				uint8_t& pBodyLoc1,
+				uint8_t& pBodyLoc2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBodyLoc1, moo_pBodyLoc2);
+			setup_data(original_pItem, original_pBodyLoc1, original_pBodyLoc2);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pBodyLoc1, &moo_pBodyLoc2);
@@ -1834,16 +1958,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -1864,7 +1990,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			uint32_t dwItemId{};
 
 			// Call both implementations
@@ -1883,7 +2008,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			D2UnitStrc pItem{};
 
 			// Call both implementations
@@ -1902,7 +2026,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nFlags{};
 			int nFlag{};
 
@@ -1922,18 +2045,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pFlags{};
-				
-				return std::tuple{ pFlags };
-			};
-			
 			// Input data
-			auto [moo_pFlags] = setup_data();
-			auto [original_pFlags] = setup_data();
+			int moo_pFlags{};
+			int original_pFlags{};
 			int nFlag{};
 			BOOL bSet{};
+
+			const auto setup_data = [](
+				int& pFlags
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pFlags);
+			setup_data(original_pFlags);
 
 			// Call both implementations
 			sut(&moo_pFlags, nFlag, bSet);
@@ -1951,21 +2076,31 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2UnitStrc pUnit{};
-				BOOL bStrength{};
-				BOOL bDexterity{};
-				BOOL bLevel{};
-				
-				return std::tuple{ pItem, pUnit, bStrength, bDexterity, bLevel };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pUnit, moo_bStrength, moo_bDexterity, moo_bLevel] = setup_data();
-			auto [original_pItem, original_pUnit, original_bStrength, original_bDexterity, original_bLevel] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_pUnit{};
+			BOOL moo_bStrength{};
+			BOOL moo_bDexterity{};
+			BOOL moo_bLevel{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_pUnit{};
+			BOOL original_bStrength{};
+			BOOL original_bDexterity{};
+			BOOL original_bLevel{};
 			BOOL bEquipping{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2UnitStrc& pUnit,
+				BOOL& bStrength,
+				BOOL& bDexterity,
+				BOOL& bLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pUnit, moo_bStrength, moo_bDexterity, moo_bLevel);
+			setup_data(original_pItem, original_pUnit, original_bStrength, original_bDexterity, original_bLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pUnit, bEquipping, &moo_bStrength, &moo_bDexterity, &moo_bLevel);
@@ -1990,7 +2125,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -2009,16 +2143,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2039,16 +2175,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2069,17 +2207,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pItem, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pPlayer] = setup_data();
-			auto [original_pItem, original_pPlayer] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_pPlayer{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pPlayer);
+			setup_data(original_pItem, original_pPlayer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
@@ -2101,17 +2243,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pItem, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pUnit] = setup_data();
-			auto [original_pItem, original_pUnit] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pUnit);
+			setup_data(original_pItem, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pUnit);
@@ -2133,17 +2279,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint8_t nBodyLoc{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nBodyLoc);
@@ -2164,7 +2312,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemType{};
 
 			// Call both implementations
@@ -2183,16 +2330,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2213,16 +2362,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2243,16 +2394,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2273,7 +2426,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 			int nWeapClass{};
 
@@ -2293,17 +2445,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nWeapClass{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nWeapClass);
@@ -2324,7 +2478,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -2343,16 +2496,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2373,16 +2528,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2403,16 +2560,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2433,17 +2592,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem1{};
-				D2UnitStrc pItem2{};
-				
-				return std::tuple{ pItem1, pItem2 };
-			};
-			
 			// Input data
-			auto [moo_pItem1, moo_pItem2] = setup_data();
-			auto [original_pItem1, original_pItem2] = setup_data();
+			D2UnitStrc moo_pItem1{};
+			D2UnitStrc moo_pItem2{};
+			D2UnitStrc original_pItem1{};
+			D2UnitStrc original_pItem2{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem1,
+				D2UnitStrc& pItem2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem1, moo_pItem2);
+			setup_data(original_pItem1, original_pItem2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem1, &moo_pItem2);
@@ -2465,17 +2628,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -2497,16 +2664,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2527,16 +2696,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2557,16 +2728,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2587,17 +2760,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nBaseCost{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nBaseCost);
@@ -2618,20 +2793,28 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				int pSellCost{};
-				int pBuyCost{};
-				int pRepCost{};
-				
-				return std::tuple{ pItem, pSellCost, pBuyCost, pRepCost };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pSellCost, moo_pBuyCost, moo_pRepCost] = setup_data();
-			auto [original_pItem, original_pSellCost, original_pBuyCost, original_pRepCost] = setup_data();
+			D2UnitStrc moo_pItem{};
+			int moo_pSellCost{};
+			int moo_pBuyCost{};
+			int moo_pRepCost{};
+			D2UnitStrc original_pItem{};
+			int original_pSellCost{};
+			int original_pBuyCost{};
+			int original_pRepCost{};
 			unsigned int nDivisor{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				int& pSellCost,
+				int& pBuyCost,
+				int& pRepCost
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pSellCost, moo_pBuyCost, moo_pRepCost);
+			setup_data(original_pItem, original_pSellCost, original_pBuyCost, original_pRepCost);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pSellCost, &moo_pBuyCost, &moo_pRepCost, nDivisor);
@@ -2652,21 +2835,27 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				D2BitBufferStrc pQuestFlags{};
-				
-				return std::tuple{ pPlayer, pItem, pQuestFlags };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pItem, moo_pQuestFlags] = setup_data();
-			auto [original_pPlayer, original_pItem, original_pQuestFlags] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2BitBufferStrc moo_pQuestFlags{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+			D2BitBufferStrc original_pQuestFlags{};
 			D2C_Difficulties nDifficulty{};
 			int nVendorId{};
 			D2C_TransactionTypes nTransactionType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem,
+				D2BitBufferStrc& pQuestFlags
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pItem, moo_pQuestFlags);
+			setup_data(original_pPlayer, original_pItem, original_pQuestFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
@@ -2689,20 +2878,28 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				int pSellCost{};
-				int pBuyCost{};
-				int pRepCost{};
-				
-				return std::tuple{ pItem, pSellCost, pBuyCost, pRepCost };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pSellCost, moo_pBuyCost, moo_pRepCost] = setup_data();
-			auto [original_pItem, original_pSellCost, original_pBuyCost, original_pRepCost] = setup_data();
+			D2UnitStrc moo_pItem{};
+			int moo_pSellCost{};
+			int moo_pBuyCost{};
+			int moo_pRepCost{};
+			D2UnitStrc original_pItem{};
+			int original_pSellCost{};
+			int original_pBuyCost{};
+			int original_pRepCost{};
 			unsigned int nDivisor{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				int& pSellCost,
+				int& pBuyCost,
+				int& pRepCost
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pSellCost, moo_pBuyCost, moo_pRepCost);
+			setup_data(original_pItem, original_pSellCost, original_pBuyCost, original_pRepCost);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pSellCost, &moo_pBuyCost, &moo_pRepCost, nDivisor);
@@ -2723,17 +2920,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nFlag{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nFlag);
@@ -2754,21 +2953,27 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				D2BitBufferStrc pQuestFlags{};
-				
-				return std::tuple{ pPlayer, pItem, pQuestFlags };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pItem, moo_pQuestFlags] = setup_data();
-			auto [original_pPlayer, original_pItem, original_pQuestFlags] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2BitBufferStrc moo_pQuestFlags{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+			D2BitBufferStrc original_pQuestFlags{};
 			D2C_Difficulties nDifficulty{};
 			int nVendorId{};
 			D2C_TransactionTypes nTransactionType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem,
+				D2BitBufferStrc& pQuestFlags
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pItem, moo_pQuestFlags);
+			setup_data(original_pPlayer, original_pItem, original_pQuestFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
@@ -2791,7 +2996,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -2810,16 +3014,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2840,7 +3046,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -2859,16 +3064,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2889,7 +3096,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -2908,16 +3114,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2938,16 +3146,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2968,16 +3178,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2998,16 +3210,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3028,16 +3242,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3058,16 +3274,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3088,7 +3306,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3107,16 +3324,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3137,16 +3356,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3167,16 +3388,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3197,7 +3420,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3216,16 +3438,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3246,16 +3470,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3276,17 +3502,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nSockets{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nSockets);
@@ -3304,17 +3532,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nSockets{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nSockets);
@@ -3332,7 +3562,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3351,16 +3580,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3381,16 +3612,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3411,7 +3644,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3430,7 +3662,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3449,7 +3680,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3468,16 +3698,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3498,17 +3730,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint32_t dwFileIndex{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, dwFileIndex);
@@ -3526,18 +3760,24 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				int pRealmData0{};
-				int pRealmData1{};
-				
-				return std::tuple{ pItem, pRealmData0, pRealmData1 };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pRealmData0, moo_pRealmData1] = setup_data();
-			auto [original_pItem, original_pRealmData0, original_pRealmData1] = setup_data();
+			D2UnitStrc moo_pItem{};
+			int moo_pRealmData0{};
+			int moo_pRealmData1{};
+			D2UnitStrc original_pItem{};
+			int original_pRealmData0{};
+			int original_pRealmData1{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				int& pRealmData0,
+				int& pRealmData1
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pRealmData0, moo_pRealmData1);
+			setup_data(original_pItem, original_pRealmData0, original_pRealmData1);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pRealmData0, &moo_pRealmData1);
@@ -3557,18 +3797,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int a2{};
 			int a3{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, a2, a3);
@@ -3586,17 +3828,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			D2UnitGUID nOwnerGUID{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nOwnerGUID);
@@ -3614,16 +3858,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3644,16 +3890,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3674,7 +3922,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3693,16 +3940,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3723,16 +3972,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3753,16 +4004,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3783,7 +4036,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -3802,16 +4054,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3832,16 +4086,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3862,16 +4118,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3892,16 +4150,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -3922,17 +4182,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pPlayer, pItem };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pItem] = setup_data();
-			auto [original_pPlayer, original_pItem] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pItem);
+			setup_data(original_pPlayer, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pItem);
@@ -3954,19 +4218,25 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				uint8_t pColor{};
-				
-				return std::tuple{ pPlayer, pItem, pColor };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pItem, moo_pColor] = setup_data();
-			auto [original_pPlayer, original_pItem, original_pColor] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			uint8_t moo_pColor{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+			uint8_t original_pColor{};
 			int nTransType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem,
+				uint8_t& pColor
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pItem, moo_pColor);
+			setup_data(original_pPlayer, original_pItem, original_pColor);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pColor, nTransType);
@@ -3989,7 +4259,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nRecordId{};
 
 			// Call both implementations
@@ -4008,16 +4277,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4038,16 +4309,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4068,16 +4341,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4098,20 +4373,26 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				D2UnitStrc pUnit{};
-				D2BitBufferStrc pQuestFlags{};
-				
-				return std::tuple{ pGame, pUnit, pQuestFlags };
-			};
-			
 			// Input data
-			auto [moo_pGame, moo_pUnit, moo_pQuestFlags] = setup_data();
-			auto [original_pGame, original_pUnit, original_pQuestFlags] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2UnitStrc moo_pUnit{};
+			D2BitBufferStrc moo_pQuestFlags{};
+			D2GameStrc original_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2BitBufferStrc original_pQuestFlags{};
 			int nNpcId{};
 			D2C_Difficulties nDifficulty{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame,
+				D2UnitStrc& pUnit,
+				D2BitBufferStrc& pQuestFlags
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame, moo_pUnit, moo_pQuestFlags);
+			setup_data(original_pGame, original_pUnit, original_pQuestFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nNpcId, nDifficulty, &moo_pQuestFlags, nullptr);
@@ -4134,17 +4415,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem1{};
-				D2UnitStrc pItem2{};
-				
-				return std::tuple{ pItem1, pItem2 };
-			};
-			
 			// Input data
-			auto [moo_pItem1, moo_pItem2] = setup_data();
-			auto [original_pItem1, original_pItem2] = setup_data();
+			D2UnitStrc moo_pItem1{};
+			D2UnitStrc moo_pItem2{};
+			D2UnitStrc original_pItem1{};
+			D2UnitStrc original_pItem2{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem1,
+				D2UnitStrc& pItem2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem1, moo_pItem2);
+			setup_data(original_pItem1, original_pItem2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem1, &moo_pItem2);
@@ -4166,16 +4451,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4196,7 +4483,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 			int a2{};
 
@@ -4216,18 +4502,22 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pSetItem{};
-				
-				return std::tuple{ pPlayer, pSetItem };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pSetItem] = setup_data();
-			auto [original_pPlayer, original_pSetItem] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pSetItem{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pSetItem{};
 			BOOL bDontIgnoreInputItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pSetItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pSetItem);
+			setup_data(original_pPlayer, original_pSetItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pSetItem, bDontIgnoreInputItem);
@@ -4249,16 +4539,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4279,16 +4571,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4309,17 +4603,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pItem, pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pPlayer] = setup_data();
-			auto [original_pItem, original_pPlayer] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc original_pPlayer{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pPlayer);
+			setup_data(original_pItem, original_pPlayer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
@@ -4341,16 +4639,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -4371,17 +4671,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pPlayer] = setup_data();
-			auto [original_pPlayer] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc original_pPlayer{};
 			int nValue{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer);
+			setup_data(original_pPlayer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, nValue);
@@ -4402,17 +4704,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				
-				return std::tuple{ pPlayer };
-			};
-			
 			// Input data
-			auto [moo_pPlayer] = setup_data();
-			auto [original_pPlayer] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc original_pPlayer{};
 			int nValue{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer);
+			setup_data(original_pPlayer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, nValue);
@@ -4433,16 +4737,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4463,17 +4769,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			uint16_t nItemFormat{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nItemFormat);
@@ -4491,17 +4799,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pWeapon{};
-				
-				return std::tuple{ pUnit, pWeapon };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pWeapon] = setup_data();
-			auto [original_pUnit, original_pWeapon] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pWeapon{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pWeapon{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pWeapon
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pWeapon);
+			setup_data(original_pUnit, original_pWeapon);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pWeapon);
@@ -4523,17 +4835,21 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				BOOL pHasChargedSkills{};
-				
-				return std::tuple{ pItem, pHasChargedSkills };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pHasChargedSkills] = setup_data();
-			auto [original_pItem, original_pHasChargedSkills] = setup_data();
+			D2UnitStrc moo_pItem{};
+			BOOL moo_pHasChargedSkills{};
+			D2UnitStrc original_pItem{};
+			BOOL original_pHasChargedSkills{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				BOOL& pHasChargedSkills
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pHasChargedSkills);
+			setup_data(original_pItem, original_pHasChargedSkills);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pHasChargedSkills);
@@ -4555,16 +4871,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -4585,19 +4903,23 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				uint8_t pBitstream{};
-				D2ItemSaveStrc pItemSave{};
-				
-				return std::tuple{ pBitstream, pItemSave };
-			};
-			
 			// Input data
-			auto [moo_pBitstream, moo_pItemSave] = setup_data();
-			auto [original_pBitstream, original_pItemSave] = setup_data();
+			uint8_t moo_pBitstream{};
+			D2ItemSaveStrc moo_pItemSave{};
+			uint8_t original_pBitstream{};
+			D2ItemSaveStrc original_pItemSave{};
 			size_t nSize{};
 			BOOL bCheckForHeader{};
+
+			const auto setup_data = [](
+				uint8_t& pBitstream,
+				D2ItemSaveStrc& pItemSave
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pBitstream, moo_pItemSave);
+			setup_data(original_pBitstream, original_pItemSave);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pBitstream, nSize, bCheckForHeader, &moo_pItemSave);
@@ -4619,22 +4941,30 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				uint8_t pBitstream{};
-				int pSocketedItemCount{};
-				BOOL pFail{};
-				
-				return std::tuple{ pItem, pBitstream, pSocketedItemCount, pFail };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBitstream, moo_pSocketedItemCount, moo_pFail] = setup_data();
-			auto [original_pItem, original_pBitstream, original_pSocketedItemCount, original_pFail] = setup_data();
+			D2UnitStrc moo_pItem{};
+			uint8_t moo_pBitstream{};
+			int moo_pSocketedItemCount{};
+			BOOL moo_pFail{};
+			D2UnitStrc original_pItem{};
+			uint8_t original_pBitstream{};
+			int original_pSocketedItemCount{};
+			BOOL original_pFail{};
 			size_t nSize{};
 			BOOL bCheckForHeader{};
 			uint32_t dwVersion{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				uint8_t& pBitstream,
+				int& pSocketedItemCount,
+				BOOL& pFail
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBitstream, moo_pSocketedItemCount, moo_pFail);
+			setup_data(original_pItem, original_pBitstream, original_pSocketedItemCount, original_pFail);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bCheckForHeader, &moo_pSocketedItemCount, dwVersion, &moo_pFail);
@@ -4658,19 +4988,23 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2BitBufferStrc pBuffer{};
-				
-				return std::tuple{ pItem, pBuffer };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBuffer] = setup_data();
-			auto [original_pItem, original_pBuffer] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2BitBufferStrc moo_pBuffer{};
+			D2UnitStrc original_pItem{};
+			D2BitBufferStrc original_pBuffer{};
 			BOOL bCheckForHeader{};
 			uint32_t dwVersion{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2BitBufferStrc& pBuffer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBuffer);
+			setup_data(original_pItem, original_pBuffer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, dwVersion);
@@ -4692,21 +5026,27 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2BitBufferStrc pBuffer{};
-				int pSocketedItems{};
-				
-				return std::tuple{ pItem, pBuffer, pSocketedItems };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBuffer, moo_pSocketedItems] = setup_data();
-			auto [original_pItem, original_pBuffer, original_pSocketedItems] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2BitBufferStrc moo_pBuffer{};
+			int moo_pSocketedItems{};
+			D2UnitStrc original_pItem{};
+			D2BitBufferStrc original_pBuffer{};
+			int original_pSocketedItems{};
 			BOOL bCheckForHeader{};
 			BOOL bGamble{};
 			uint32_t dwVersion{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2BitBufferStrc& pBuffer,
+				int& pSocketedItems
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBuffer, moo_pSocketedItems);
+			setup_data(original_pItem, original_pBuffer, original_pSocketedItems);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, bGamble, &moo_pSocketedItems, dwVersion);
@@ -4729,17 +5069,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			int nStat{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			sut(&moo_pItem, nStat);
@@ -4757,21 +5099,27 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pBuffer{};
-				D2StatListStrc pStatList{};
-				D2ItemStatCostTxt pItemStatCostTxtRecord{};
-				
-				return std::tuple{ pBuffer, pStatList, pItemStatCostTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pBuffer, moo_pStatList, moo_pItemStatCostTxtRecord] = setup_data();
-			auto [original_pBuffer, original_pStatList, original_pItemStatCostTxtRecord] = setup_data();
+			D2BitBufferStrc moo_pBuffer{};
+			D2StatListStrc moo_pStatList{};
+			D2ItemStatCostTxt moo_pItemStatCostTxtRecord{};
+			D2BitBufferStrc original_pBuffer{};
+			D2StatListStrc original_pStatList{};
+			D2ItemStatCostTxt original_pItemStatCostTxtRecord{};
 			int nStatId{};
 			uint32_t dwVersion{};
 			int n109{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pBuffer,
+				D2StatListStrc& pStatList,
+				D2ItemStatCostTxt& pItemStatCostTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pBuffer, moo_pStatList, moo_pItemStatCostTxtRecord);
+			setup_data(original_pBuffer, original_pStatList, original_pItemStatCostTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pBuffer, &moo_pStatList, &moo_pItemStatCostTxtRecord, nStatId, dwVersion, n109);
@@ -4791,21 +5139,25 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				uint8_t pBitstream{};
-				
-				return std::tuple{ pItem, pBitstream };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBitstream] = setup_data();
-			auto [original_pItem, original_pBitstream] = setup_data();
+			D2UnitStrc moo_pItem{};
+			uint8_t moo_pBitstream{};
+			D2UnitStrc original_pItem{};
+			uint8_t original_pBitstream{};
 			size_t nSize{};
 			BOOL bServer{};
 			BOOL bSaveItemInv{};
 			BOOL bGamble{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				uint8_t& pBitstream
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBitstream);
+			setup_data(original_pItem, original_pBitstream);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bServer, bSaveItemInv, bGamble);
@@ -4827,19 +5179,25 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2BitBufferStrc pBuffer{};
-				D2ItemsTxt pItemsTxtRecord{};
-				
-				return std::tuple{ pItem, pBuffer, pItemsTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBuffer, moo_pItemsTxtRecord] = setup_data();
-			auto [original_pItem, original_pBuffer, original_pItemsTxtRecord] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2BitBufferStrc moo_pBuffer{};
+			D2ItemsTxt moo_pItemsTxtRecord{};
+			D2UnitStrc original_pItem{};
+			D2BitBufferStrc original_pBuffer{};
+			D2ItemsTxt original_pItemsTxtRecord{};
 			BOOL bServer{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2BitBufferStrc& pBuffer,
+				D2ItemsTxt& pItemsTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBuffer, moo_pItemsTxtRecord);
+			setup_data(original_pItem, original_pBuffer, original_pItemsTxtRecord);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pBuffer, &moo_pItemsTxtRecord, bServer);
@@ -4859,20 +5217,24 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2BitBufferStrc pBuffer{};
-				
-				return std::tuple{ pItem, pBuffer };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBuffer] = setup_data();
-			auto [original_pItem, original_pBuffer] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2BitBufferStrc moo_pBuffer{};
+			D2UnitStrc original_pItem{};
+			D2BitBufferStrc original_pBuffer{};
 			BOOL bServer{};
 			BOOL bSaveItemInv{};
 			BOOL bGamble{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2BitBufferStrc& pBuffer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBuffer);
+			setup_data(original_pItem, original_pBuffer);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bServer, bSaveItemInv, bGamble);
@@ -4894,18 +5256,20 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2BitBufferStrc pBuffer{};
-				
-				return std::tuple{ pBuffer };
-			};
-			
 			// Input data
-			auto [moo_pBuffer] = setup_data();
-			auto [original_pBuffer] = setup_data();
+			D2BitBufferStrc moo_pBuffer{};
+			D2BitBufferStrc original_pBuffer{};
 			int nData{};
 			int nBits{};
+
+			const auto setup_data = [](
+				D2BitBufferStrc& pBuffer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pBuffer);
+			setup_data(original_pBuffer);
 
 			// Call both implementations
 			sut(&moo_pBuffer, nData, nBits);
@@ -4923,19 +5287,23 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				D2BitBufferStrc pBuffer{};
-				
-				return std::tuple{ pItem, pBuffer };
-			};
-			
 			// Input data
-			auto [moo_pItem, moo_pBuffer] = setup_data();
-			auto [original_pItem, original_pBuffer] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2BitBufferStrc moo_pBuffer{};
+			D2UnitStrc original_pItem{};
+			D2BitBufferStrc original_pBuffer{};
 			BOOL bServer{};
 			BOOL bGamble{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem,
+				D2BitBufferStrc& pBuffer
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem, moo_pBuffer);
+			setup_data(original_pItem, original_pBuffer);
 
 			// Call both implementations
 			sut(&moo_pItem, &moo_pBuffer, bServer, bGamble);
@@ -4954,7 +5322,6 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nStatId{};
 
 			// Call both implementations
@@ -4973,16 +5340,18 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -5003,17 +5372,19 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
 			unsigned int nSetItemMask{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem, nSetItemMask);
@@ -5034,18 +5405,22 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem] = setup_data();
-			auto [original_pUnit, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
 			int a3{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem);
+			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3);
@@ -5067,19 +5442,23 @@ TEST_SUITE("D2ItemsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem] = setup_data();
-			auto [original_pUnit, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
 			int a3{};
 			int a4{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem);
+			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3, a4);

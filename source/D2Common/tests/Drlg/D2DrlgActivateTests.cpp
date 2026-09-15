@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,16 +25,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -53,16 +54,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -80,16 +83,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -107,16 +112,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -134,16 +141,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -161,16 +170,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -188,20 +199,24 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				D2DrlgRoomStrc pDrlgRoomHint{};
-				
-				return std::tuple{ pDrlg, pDrlgRoomHint };
-			};
-			
 			// Input data
-			auto [moo_pDrlg, moo_pDrlgRoomHint] = setup_data();
-			auto [original_pDrlg, original_pDrlgRoomHint] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgRoomStrc moo_pDrlgRoomHint{};
+			D2DrlgStrc original_pDrlg{};
+			D2DrlgRoomStrc original_pDrlgRoomHint{};
 			int nLevelId{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg,
+				D2DrlgRoomStrc& pDrlgRoomHint
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg, moo_pDrlgRoomHint);
+			setup_data(original_pDrlg, original_pDrlgRoomHint);
 
 			// Call both implementations
 			sut(&moo_pDrlg, nLevelId, nX, nY, &moo_pDrlgRoomHint);
@@ -220,19 +235,21 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			uint8_t nStatus{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pDrlgRoom, nStatus);
@@ -251,20 +268,24 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				D2DrlgRoomStrc pDrlgRoomHint{};
-				
-				return std::tuple{ pDrlg, pDrlgRoomHint };
-			};
-			
 			// Input data
-			auto [moo_pDrlg, moo_pDrlgRoomHint] = setup_data();
-			auto [original_pDrlg, original_pDrlgRoomHint] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgRoomStrc moo_pDrlgRoomHint{};
+			D2DrlgStrc original_pDrlg{};
+			D2DrlgRoomStrc original_pDrlgRoomHint{};
 			int nLevelId{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg,
+				D2DrlgRoomStrc& pDrlgRoomHint
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg, moo_pDrlgRoomHint);
+			setup_data(original_pDrlg, original_pDrlgRoomHint);
 
 			// Call both implementations
 			sut(&moo_pDrlg, nLevelId, nX, nY, &moo_pDrlgRoomHint);
@@ -283,17 +304,19 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			uint8_t nStatus{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom, nStatus);
@@ -311,17 +334,21 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pPreviousRoom{};
-				D2DrlgRoomStrc pNewRoom{};
-				
-				return std::tuple{ pPreviousRoom, pNewRoom };
-			};
-			
 			// Input data
-			auto [moo_pPreviousRoom, moo_pNewRoom] = setup_data();
-			auto [original_pPreviousRoom, original_pNewRoom] = setup_data();
+			D2DrlgRoomStrc moo_pPreviousRoom{};
+			D2DrlgRoomStrc moo_pNewRoom{};
+			D2DrlgRoomStrc original_pPreviousRoom{};
+			D2DrlgRoomStrc original_pNewRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pPreviousRoom,
+				D2DrlgRoomStrc& pNewRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPreviousRoom, moo_pNewRoom);
+			setup_data(original_pPreviousRoom, original_pNewRoom);
 
 			// Call both implementations
 			sut(&moo_pPreviousRoom, &moo_pNewRoom);
@@ -340,16 +367,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -367,18 +396,20 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlg, nX, nY);
@@ -399,16 +430,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			sut(&moo_pDrlg);
@@ -426,16 +459,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlg);
@@ -456,17 +491,21 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlg, pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlg, moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlg, original_pDrlgRoom] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgStrc original_pDrlg{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg,
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg, moo_pDrlgRoom);
+			setup_data(original_pDrlg, original_pDrlgRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlg, &moo_pDrlgRoom);
@@ -488,19 +527,27 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pOutStatsClientAllocatedRooms{};
-				int pOutStatsClientFreedRooms{};
-				int pOutStatsAllocatedRooms{};
-				int pOutStatsFreedRooms{};
-				
-				return std::tuple{ pOutStatsClientAllocatedRooms, pOutStatsClientFreedRooms, pOutStatsAllocatedRooms, pOutStatsFreedRooms };
-			};
-			
 			// Input data
-			auto [moo_pOutStatsClientAllocatedRooms, moo_pOutStatsClientFreedRooms, moo_pOutStatsAllocatedRooms, moo_pOutStatsFreedRooms] = setup_data();
-			auto [original_pOutStatsClientAllocatedRooms, original_pOutStatsClientFreedRooms, original_pOutStatsAllocatedRooms, original_pOutStatsFreedRooms] = setup_data();
+			int moo_pOutStatsClientAllocatedRooms{};
+			int moo_pOutStatsClientFreedRooms{};
+			int moo_pOutStatsAllocatedRooms{};
+			int moo_pOutStatsFreedRooms{};
+			int original_pOutStatsClientAllocatedRooms{};
+			int original_pOutStatsClientFreedRooms{};
+			int original_pOutStatsAllocatedRooms{};
+			int original_pOutStatsFreedRooms{};
+
+			const auto setup_data = [](
+				int& pOutStatsClientAllocatedRooms,
+				int& pOutStatsClientFreedRooms,
+				int& pOutStatsAllocatedRooms,
+				int& pOutStatsFreedRooms
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOutStatsClientAllocatedRooms, moo_pOutStatsClientFreedRooms, moo_pOutStatsAllocatedRooms, moo_pOutStatsFreedRooms);
+			setup_data(original_pOutStatsClientAllocatedRooms, original_pOutStatsClientFreedRooms, original_pOutStatsAllocatedRooms, original_pOutStatsFreedRooms);
 
 			// Call both implementations
 			sut(&moo_pOutStatsClientAllocatedRooms, &moo_pOutStatsClientFreedRooms, &moo_pOutStatsAllocatedRooms, &moo_pOutStatsFreedRooms);
@@ -521,16 +568,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			sut(&moo_pDrlg);
@@ -548,16 +597,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgRoom);
@@ -578,17 +629,19 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			BOOL bReset{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom, bReset);
@@ -606,16 +659,18 @@ TEST_SUITE("D2DrlgActivateTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgRoom);

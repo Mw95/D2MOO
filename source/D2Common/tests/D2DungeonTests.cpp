@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -32,16 +31,9 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2GameStrc pGame{};
-				
-				return std::tuple{ pGame };
-			};
-			
 			// Input data
-			auto [moo_pGame] = setup_data();
-			auto [original_pGame] = setup_data();
+			D2GameStrc moo_pGame{};
+			D2GameStrc original_pGame{};
 			uint8_t nActNo{};
 			uint32_t nInitSeed{};
 			BOOL bClient{};
@@ -51,6 +43,15 @@ TEST_SUITE("D2DungeonTests")
 			int nTownLevelId{};
 			AUTOMAPFN pfAutoMap{};
 			TOWNAUTOMAPFN pfTownAutoMap{};
+
+			const auto setup_data = [](
+				D2GameStrc& pGame
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pGame);
+			setup_data(original_pGame);
 
 			// Call both implementations
 			const auto moo_result = sut(nActNo, nInitSeed, bClient, &moo_pGame, nDifficulty, moo_pMemPool, nTownLevelId, pfAutoMap, pfTownAutoMap);
@@ -72,16 +73,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			sut(&moo_pAct);
@@ -99,16 +102,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -129,17 +134,19 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			BOOL bEnabled{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, bEnabled);
@@ -157,18 +164,22 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2LvlWarpTxt* ppLvlWarpTxtRecord{};
-				
-				return std::tuple{ pRoom, ppLvlWarpTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_ppLvlWarpTxtRecord] = setup_data();
-			auto [original_pRoom, original_ppLvlWarpTxtRecord] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2LvlWarpTxt* moo_ppLvlWarpTxtRecord{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2LvlWarpTxt* original_ppLvlWarpTxtRecord{};
 			int nSourceLevel{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2LvlWarpTxt*& ppLvlWarpTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_ppLvlWarpTxtRecord);
+			setup_data(original_pRoom, original_ppLvlWarpTxtRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nSourceLevel, &moo_ppLvlWarpTxtRecord);
@@ -190,17 +201,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pRoom, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pUnit] = setup_data();
-			auto [original_pRoom, original_pUnit] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pUnit);
+			setup_data(original_pRoom, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pUnit);
@@ -222,17 +237,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				int pFloorCount{};
-				
-				return std::tuple{ pRoom, pFloorCount };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pFloorCount] = setup_data();
-			auto [original_pRoom, original_pFloorCount] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			int moo_pFloorCount{};
+			D2ActiveRoomStrc original_pRoom{};
+			int original_pFloorCount{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				int& pFloorCount
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pFloorCount);
+			setup_data(original_pRoom, original_pFloorCount);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pFloorCount);
@@ -254,17 +273,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				int pWallCount{};
-				
-				return std::tuple{ pRoom, pWallCount };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pWallCount] = setup_data();
-			auto [original_pRoom, original_pWallCount] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			int moo_pWallCount{};
+			D2ActiveRoomStrc original_pRoom{};
+			int original_pWallCount{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				int& pWallCount
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pWallCount);
+			setup_data(original_pRoom, original_pWallCount);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pWallCount);
@@ -286,17 +309,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				int pRoofCount{};
-				
-				return std::tuple{ pRoom, pRoofCount };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pRoofCount] = setup_data();
-			auto [original_pRoom, original_pRoofCount] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			int moo_pRoofCount{};
+			D2ActiveRoomStrc original_pRoom{};
+			int original_pRoofCount{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				int& pRoofCount
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pRoofCount);
+			setup_data(original_pRoom, original_pRoofCount);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_pRoofCount);
@@ -318,16 +345,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -348,17 +377,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2DrlgCoordsStrc pCoords{};
-				
-				return std::tuple{ pRoom, pCoords };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pCoords] = setup_data();
-			auto [original_pRoom, original_pCoords] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DrlgCoordsStrc moo_pCoords{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2DrlgCoordsStrc original_pCoords{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2DrlgCoordsStrc& pCoords
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pCoords);
+			setup_data(original_pRoom, original_pCoords);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pCoords);
@@ -377,18 +410,24 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2ActiveRoomStrc** pppRoomList{};
-				int pNumRooms{};
-				
-				return std::tuple{ pRoom, pppRoomList, pNumRooms };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pppRoomList, moo_pNumRooms] = setup_data();
-			auto [original_pRoom, original_pppRoomList, original_pNumRooms] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc** moo_pppRoomList{};
+			int moo_pNumRooms{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2ActiveRoomStrc** original_pppRoomList{};
+			int original_pNumRooms{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2ActiveRoomStrc**& pppRoomList,
+				int& pNumRooms
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pppRoomList, moo_pNumRooms);
+			setup_data(original_pRoom, original_pppRoomList, original_pNumRooms);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pppRoomList, &moo_pNumRooms);
@@ -408,21 +447,29 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				D2DrlgRoomStrc pDrlgRoom{};
-				D2DrlgCoordsStrc pDrlgCoords{};
-				D2DrlgRoomTilesStrc pRoomTiles{};
-				
-				return std::tuple{ pAct, pDrlgRoom, pDrlgCoords, pRoomTiles };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pDrlgRoom, moo_pDrlgCoords, moo_pRoomTiles] = setup_data();
-			auto [original_pAct, original_pDrlgRoom, original_pDrlgCoords, original_pRoomTiles] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgCoordsStrc moo_pDrlgCoords{};
+			D2DrlgRoomTilesStrc moo_pRoomTiles{};
+			D2DrlgActStrc original_pAct{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+			D2DrlgCoordsStrc original_pDrlgCoords{};
+			D2DrlgRoomTilesStrc original_pRoomTiles{};
 			int nLowSeed{};
 			uint32_t dwFlags{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2DrlgRoomStrc& pDrlgRoom,
+				D2DrlgCoordsStrc& pDrlgCoords,
+				D2DrlgRoomTilesStrc& pRoomTiles
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pDrlgRoom, moo_pDrlgCoords, moo_pRoomTiles);
+			setup_data(original_pAct, original_pDrlgRoom, original_pDrlgCoords, original_pRoomTiles);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, &moo_pDrlgRoom, &moo_pDrlgCoords, &moo_pRoomTiles, nLowSeed, dwFlags);
@@ -446,17 +493,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc ptFirst{};
-				D2ActiveRoomStrc ptSecond{};
-				
-				return std::tuple{ ptFirst, ptSecond };
-			};
-			
 			// Input data
-			auto [moo_ptFirst, moo_ptSecond] = setup_data();
-			auto [original_ptFirst, original_ptSecond] = setup_data();
+			D2ActiveRoomStrc moo_ptFirst{};
+			D2ActiveRoomStrc moo_ptSecond{};
+			D2ActiveRoomStrc original_ptFirst{};
+			D2ActiveRoomStrc original_ptSecond{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& ptFirst,
+				D2ActiveRoomStrc& ptSecond
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ptFirst, moo_ptSecond);
+			setup_data(original_ptFirst, original_ptSecond);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_ptFirst, &moo_ptSecond);
@@ -478,18 +529,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY);
@@ -510,17 +563,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pPrimary{};
-				D2ActiveRoomStrc pSecondary{};
-				
-				return std::tuple{ pPrimary, pSecondary };
-			};
-			
 			// Input data
-			auto [moo_pPrimary, moo_pSecondary] = setup_data();
-			auto [original_pPrimary, original_pSecondary] = setup_data();
+			D2ActiveRoomStrc moo_pPrimary{};
+			D2ActiveRoomStrc moo_pSecondary{};
+			D2ActiveRoomStrc original_pPrimary{};
+			D2ActiveRoomStrc original_pSecondary{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pPrimary,
+				D2ActiveRoomStrc& pSecondary
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPrimary, moo_pSecondary);
+			setup_data(original_pPrimary, original_pSecondary);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPrimary, &moo_pSecondary);
@@ -542,18 +599,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, nX, nY);
@@ -574,18 +633,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY);
@@ -606,19 +667,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			ROOMCALLBACKFN pfnRoomCallback{};
 			void* moo_pArgs = nullptr;
 			void* original_pArgs = nullptr;
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, pfnRoomCallback, moo_pArgs);
@@ -637,17 +700,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				RECT pRect{};
-				
-				return std::tuple{ pRoom, pRect };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pRect] = setup_data();
-			auto [original_pRoom, original_pRect] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			RECT moo_pRect{};
+			D2ActiveRoomStrc original_pRoom{};
+			RECT original_pRect{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				RECT& pRect
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pRect);
+			setup_data(original_pRoom, original_pRect);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pRect);
@@ -666,17 +733,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				RECT pRect{};
-				
-				return std::tuple{ pRoom, pRect };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pRect] = setup_data();
-			auto [original_pRoom, original_pRect] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			RECT moo_pRect{};
+			D2ActiveRoomStrc original_pRoom{};
+			RECT original_pRect{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				RECT& pRect
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pRect);
+			setup_data(original_pRoom, original_pRect);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pRect);
@@ -695,20 +766,30 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				uint8_t pIntensity{};
-				uint8_t pRed{};
-				uint8_t pGreen{};
-				uint8_t pBlue{};
-				
-				return std::tuple{ pRoom, pIntensity, pRed, pGreen, pBlue };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pIntensity, moo_pRed, moo_pGreen, moo_pBlue] = setup_data();
-			auto [original_pRoom, original_pIntensity, original_pRed, original_pGreen, original_pBlue] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			uint8_t moo_pIntensity{};
+			uint8_t moo_pRed{};
+			uint8_t moo_pGreen{};
+			uint8_t moo_pBlue{};
+			D2ActiveRoomStrc original_pRoom{};
+			uint8_t original_pIntensity{};
+			uint8_t original_pRed{};
+			uint8_t original_pGreen{};
+			uint8_t original_pBlue{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				uint8_t& pIntensity,
+				uint8_t& pRed,
+				uint8_t& pGreen,
+				uint8_t& pBlue
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pIntensity, moo_pRed, moo_pGreen, moo_pBlue);
+			setup_data(original_pRoom, original_pIntensity, original_pRed, original_pGreen, original_pBlue);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pIntensity, &moo_pRed, &moo_pGreen, &moo_pBlue);
@@ -730,18 +811,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, nX, nY);
@@ -762,18 +845,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgCoordsStrc pDrlgCoords{};
-				
-				return std::tuple{ pDrlgCoords };
-			};
-			
 			// Input data
-			auto [moo_pDrlgCoords] = setup_data();
-			auto [original_pDrlgCoords] = setup_data();
+			D2DrlgCoordsStrc moo_pDrlgCoords{};
+			D2DrlgCoordsStrc original_pDrlgCoords{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgCoordsStrc& pDrlgCoords
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgCoords);
+			setup_data(original_pDrlgCoords);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgCoords, nX, nY);
@@ -794,20 +879,26 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pAct, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pX, moo_pY] = setup_data();
-			auto [original_pAct, original_pX, original_pY] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			int moo_pX{};
+			int moo_pY{};
+			D2DrlgActStrc original_pAct{};
+			int original_pX{};
+			int original_pY{};
 			int nLevelId{};
 			int nTileIndex{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pX, moo_pY);
+			setup_data(original_pAct, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, nLevelId, nTileIndex, &moo_pX, &moo_pY);
@@ -830,21 +921,27 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pAct, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pX, moo_pY] = setup_data();
-			auto [original_pAct, original_pX, original_pY] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			int moo_pX{};
+			int moo_pY{};
+			D2DrlgActStrc original_pAct{};
+			int original_pX{};
+			int original_pY{};
 			int nLevelId{};
 			int nTileIndex{};
 			int nUnitSize{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pX, moo_pY);
+			setup_data(original_pAct, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, nLevelId, nTileIndex, &moo_pX, &moo_pY, nUnitSize);
@@ -867,16 +964,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -897,16 +996,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom);
@@ -924,16 +1025,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -954,16 +1057,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom);
@@ -981,16 +1086,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1011,17 +1118,19 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			BOOL bUpdate{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, bUpdate);
@@ -1042,16 +1151,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1072,16 +1183,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1102,17 +1215,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2RoomCollisionGridStrc pCollisionGrid{};
-				
-				return std::tuple{ pRoom, pCollisionGrid };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pCollisionGrid] = setup_data();
-			auto [original_pRoom, original_pCollisionGrid] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pCollisionGrid);
+			setup_data(original_pRoom, original_pCollisionGrid);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pCollisionGrid);
@@ -1131,20 +1248,24 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pAct, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pRoom] = setup_data();
-			auto [original_pAct, original_pRoom] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DrlgActStrc original_pAct{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nLevelId{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pRoom);
+			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pAct, nLevelId, nX, nY, &moo_pRoom);
@@ -1163,20 +1284,24 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pAct, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pRoom] = setup_data();
-			auto [original_pAct, original_pRoom] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DrlgActStrc original_pAct{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nLevelId{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pRoom);
+			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pAct, nLevelId, nX, nY, &moo_pRoom);
@@ -1195,17 +1320,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom1{};
-				D2ActiveRoomStrc pRoom2{};
-				
-				return std::tuple{ pRoom1, pRoom2 };
-			};
-			
 			// Input data
-			auto [moo_pRoom1, moo_pRoom2] = setup_data();
-			auto [original_pRoom1, original_pRoom2] = setup_data();
+			D2ActiveRoomStrc moo_pRoom1{};
+			D2ActiveRoomStrc moo_pRoom2{};
+			D2ActiveRoomStrc original_pRoom1{};
+			D2ActiveRoomStrc original_pRoom2{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom1,
+				D2ActiveRoomStrc& pRoom2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom1, moo_pRoom2);
+			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
 			sut(&moo_pRoom1, &moo_pRoom2);
@@ -1224,18 +1353,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, nX, nY);
@@ -1256,16 +1387,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -1286,16 +1419,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1316,17 +1451,19 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nSourceLevel{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nSourceLevel);
@@ -1347,16 +1484,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1377,16 +1516,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1407,16 +1548,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1437,18 +1580,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nUnitType{};
 			D2UnitGUID nUnitGuid{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nUnitType, nUnitGuid);
@@ -1466,16 +1611,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom);
@@ -1493,16 +1640,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1523,16 +1672,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -1553,17 +1704,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pAct, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pRoom] = setup_data();
-			auto [original_pAct, original_pRoom] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DrlgActStrc original_pAct{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pRoom);
+			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, &moo_pRoom);
@@ -1585,17 +1740,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pAct, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pRoom] = setup_data();
-			auto [original_pAct, original_pRoom] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DrlgActStrc original_pAct{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pRoom);
+			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, &moo_pRoom);
@@ -1617,16 +1776,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1647,16 +1808,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1677,16 +1840,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1707,17 +1872,19 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			BOOL bSet{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, bSet);
@@ -1735,17 +1902,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pRoom, pClient };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pClient] = setup_data();
-			auto [original_pRoom, original_pClient] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ClientStrc moo_pClient{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pClient);
+			setup_data(original_pRoom, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pClient);
@@ -1764,16 +1935,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom);
@@ -1791,17 +1964,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2ClientStrc pClient{};
-				
-				return std::tuple{ pRoom, pClient };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pClient] = setup_data();
-			auto [original_pRoom, original_pClient] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ClientStrc moo_pClient{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2ClientStrc original_pClient{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2ClientStrc& pClient
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_pClient);
+			setup_data(original_pRoom, original_pClient);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_pClient);
@@ -1820,16 +1997,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1850,18 +2029,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pRoom);
@@ -1880,17 +2061,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pAct, pRoom };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pRoom] = setup_data();
-			auto [original_pAct, original_pRoom] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DrlgActStrc original_pAct{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pRoom);
+			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pAct, &moo_pRoom);
@@ -1909,17 +2094,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom1{};
-				D2ActiveRoomStrc pRoom2{};
-				
-				return std::tuple{ pRoom1, pRoom2 };
-			};
-			
 			// Input data
-			auto [moo_pRoom1, moo_pRoom2] = setup_data();
-			auto [original_pRoom1, original_pRoom2] = setup_data();
+			D2ActiveRoomStrc moo_pRoom1{};
+			D2ActiveRoomStrc moo_pRoom2{};
+			D2ActiveRoomStrc original_pRoom1{};
+			D2ActiveRoomStrc original_pRoom2{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom1,
+				D2ActiveRoomStrc& pRoom2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom1, moo_pRoom2);
+			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
 			sut(&moo_pRoom1, &moo_pRoom2);
@@ -1938,16 +2127,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			sut(&moo_pAct);
@@ -1965,16 +2156,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -1995,18 +2188,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2DrlgEnvironmentStrc pEnvironment{};
-
-				D2DrlgActStrc pAct{};
-				pAct.pEnvironment = &pEnvironment;
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+			D2DrlgEnvironmentStrc pEnvironment{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2DrlgEnvironmentStrc& pEnvironment
+			) {
+				pAct.pEnvironment = &pEnvironment;
+			};
+
+			setup_data(moo_pAct, pEnvironment);
+			setup_data(original_pAct, pEnvironment);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -2027,18 +2222,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-
-				D2DrlgActStrc pAct{};
-				pAct.pDrlg = &pDrlg;
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+			D2DrlgStrc pDrlg{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2DrlgStrc& pDrlg
+			) {
+				pAct.pDrlg = &pDrlg;
+			};
+
+			setup_data(moo_pAct, pDrlg);
+			setup_data(original_pAct, pDrlg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -2059,19 +2256,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto init_seed = random_unsigned_integer();
 
-			const auto setup_data = [init_seed]() {
-				D2DrlgActStrc pAct{};
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
 
+			const auto setup_data = [init_seed](
+				D2DrlgActStrc& pAct
+			) {
 				pAct.dwInitSeed = init_seed;
-				
-				return std::tuple{ pAct };
 			};
-			
-			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -2092,18 +2290,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-
-				D2ActiveRoomStrc pRoom{};
-				pRoom.pDrlgRoom = &pDrlgRoom;
-				
-				return std::tuple{ pRoom, pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pDrlgRoom] = setup_data();
-			auto [original_pRoom, original_pDrlgRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2DrlgRoomStrc pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				pRoom.pDrlgRoom = &pDrlgRoom;
+			};
+
+			setup_data(moo_pRoom, pDrlgRoom);
+			setup_data(original_pRoom, pDrlgRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -2147,22 +2347,26 @@ TEST_SUITE("D2DungeonTests")
 		{
 			for (auto i = 0; i < levels_record_count; ++i)
 			{
-				const auto setup_data = [i]() {
-					D2DrlgLevelStrc pLevel{};
+				// Input data
+				D2ActiveRoomStrc moo_pRoom{};
+				D2ActiveRoomStrc original_pRoom{};
+				D2DrlgRoomStrc moo_pDrlgRoom{};
+				D2DrlgRoomStrc original_pDrlgRoom{};
+				D2DrlgLevelStrc moo_pLevel{};
+				D2DrlgLevelStrc original_pLevel{};
+
+				const auto setup_data = [i](
+					D2ActiveRoomStrc& pRoom,
+					D2DrlgRoomStrc& pDrlgRoom,
+					D2DrlgLevelStrc& pLevel
+				) {
 					pLevel.nLevelId = i;
-
-					D2DrlgRoomStrc pDrlgRoom{};
 					pDrlgRoom.pLevel = &pLevel;
-
-					D2ActiveRoomStrc pRoom{};
 					pRoom.pDrlgRoom = &pDrlgRoom;
-
-					return std::tuple{ pRoom, pDrlgRoom, pLevel };
 				};
 
-				// Input data
-				auto [moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
-				auto [original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
+				setup_data(moo_pRoom, moo_pDrlgRoom, moo_pLevel);
+				setup_data(original_pRoom, original_pDrlgRoom, original_pLevel);
 
 				// Call both implementations
 				const auto moo_result = sut(&moo_pRoom);
@@ -2184,21 +2388,25 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-
-				D2DrlgRoomStrc pDrlgRoom{};
-				pDrlgRoom.pLevel = &pLevel;
-
-				D2ActiveRoomStrc pRoom{};
-				pRoom.pDrlgRoom = &pDrlgRoom;
-				
-				return std::tuple{ pRoom, pDrlgRoom, pLevel };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
-			auto [original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2DrlgRoomStrc& pDrlgRoom,
+				D2DrlgLevelStrc& pLevel
+			) {
+				pDrlgRoom.pLevel = &pLevel;
+				pRoom.pDrlgRoom = &pDrlgRoom;
+			};
+
+			setup_data(moo_pRoom, moo_pDrlgRoom, moo_pLevel);
+			setup_data(original_pRoom, original_pDrlgRoom, original_pLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -2221,19 +2429,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [flags]() {
-				D2ActiveRoomStrc pRoom{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 
+			const auto setup_data = [flags](
+				D2ActiveRoomStrc& pRoom
+			) {
 				pRoom.dwFlags = flags;
-				
-				return std::tuple{ pRoom };
 			};
-			
-			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -2272,16 +2481,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -2302,17 +2513,19 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
 			int nLevelId{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct, nLevelId);
@@ -2333,16 +2546,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -2363,17 +2578,19 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nLevelId{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nLevelId);
@@ -2391,17 +2608,19 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nLevelId{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nLevelId);
@@ -2419,19 +2638,21 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
 			BOOL bOtherRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, nX, nY, bOtherRoom);
@@ -2449,18 +2670,24 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2CoordStrc* ppTombStoneTiles{};
-				int pnTombStoneTiles{};
-				
-				return std::tuple{ pRoom, ppTombStoneTiles, pnTombStoneTiles };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_ppTombStoneTiles, moo_pnTombStoneTiles] = setup_data();
-			auto [original_pRoom, original_ppTombStoneTiles, original_pnTombStoneTiles] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2CoordStrc* moo_ppTombStoneTiles{};
+			int moo_pnTombStoneTiles{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2CoordStrc* original_ppTombStoneTiles{};
+			int original_pnTombStoneTiles{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2CoordStrc*& ppTombStoneTiles,
+				int& pnTombStoneTiles
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_ppTombStoneTiles, moo_pnTombStoneTiles);
+			setup_data(original_pRoom, original_ppTombStoneTiles, original_pnTombStoneTiles);
 
 			// Call both implementations
 			sut(&moo_pRoom, &moo_ppTombStoneTiles, &moo_pnTombStoneTiles);
@@ -2480,18 +2707,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY);
@@ -2512,18 +2741,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nX, nY);
@@ -2544,16 +2775,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom);
@@ -2574,20 +2807,24 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int* ppLevels{};
-				int pnLevels{};
-				
-				return std::tuple{ ppLevels, pnLevels };
-			};
-			
 			// Input data
-			auto [moo_ppLevels, moo_pnLevels] = setup_data();
-			auto [original_ppLevels, original_pnLevels] = setup_data();
+			int* moo_ppLevels{};
+			int moo_pnLevels{};
+			int* original_ppLevels{};
+			int original_pnLevels{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			int nFlags{};
+
+			const auto setup_data = [](
+				int*& ppLevels,
+				int& pnLevels
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_ppLevels, moo_pnLevels);
+			setup_data(original_ppLevels, original_pnLevels);
 
 			// Call both implementations
 			sut(moo_pMemPool, nFlags, &moo_ppLevels, &moo_pnLevels);
@@ -2628,19 +2865,20 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto town_id = random_unsigned_integer();
 
-			const auto setup_data = [town_id]() {
-				D2DrlgActStrc pAct{};
-				
-				pAct.nTownId = town_id;
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
 
-				return std::tuple{ pAct };
+			const auto setup_data = [town_id](
+				D2DrlgActStrc& pAct
+			) {
+				pAct.nTownId = town_id;
 			};
-			
-			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+
+			setup_data(moo_pAct);
+			setup_data(original_pAct);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -2661,21 +2899,24 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto staff_tomb_level = random_unsigned_integer();
 
-			const auto setup_data = [staff_tomb_level]() {
-				D2DrlgStrc pDrlg{};
-				pDrlg.nStaffTombLevel = staff_tomb_level;
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
 
-				D2DrlgActStrc pAct{};
+			const auto setup_data = [staff_tomb_level](
+				D2DrlgActStrc& pAct,
+				D2DrlgStrc& pDrlg
+			) {
+				pDrlg.nStaffTombLevel = staff_tomb_level;
 				pAct.pDrlg = &pDrlg;
-				
-				return std::tuple{ pAct, pDrlg };
 			};
-			
-			// Input data
-			auto [moo_pAct, moo_pDrlg] = setup_data();
-			auto [original_pAct, original_pDrlg] = setup_data();
+
+			setup_data(moo_pAct, moo_pDrlg);
+			setup_data(original_pAct, original_pDrlg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pAct);
@@ -2698,22 +2939,25 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("bReset = FALSE")
 		{
+			// Input data
 			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [flags]() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				pDrlgRoom.dwFlags = flags;
-
-				D2ActiveRoomStrc pRoom{};
-				pRoom.pDrlgRoom = &pDrlgRoom;
-				
-				return std::tuple{ pRoom, pDrlgRoom };
-			};
-			
-			// Input data
-			auto [moo_pRoom, moo_pDrlgRoom] = setup_data();
-			auto [original_pRoom, original_pDrlgRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};			
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			BOOL bReset = FALSE;
+
+			const auto setup_data = [flags](
+				D2ActiveRoomStrc& pRoom,
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				pDrlgRoom.dwFlags = flags;
+				pRoom.pDrlgRoom = &pDrlgRoom;
+			};
+
+			setup_data(moo_pRoom, moo_pDrlgRoom);
+			setup_data(original_pRoom, original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, bReset);
@@ -2725,22 +2969,25 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("bReset = TRUE")
 		{
+			// Input data
 			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [flags]() {
-				D2DrlgRoomStrc pDrlgRoom{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+			BOOL bReset = TRUE;
+
+			const auto setup_data = [flags](
+				D2ActiveRoomStrc& pRoom,
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
 				pDrlgRoom.dwFlags = flags;
-
-				D2ActiveRoomStrc pRoom{};
 				pRoom.pDrlgRoom = &pDrlgRoom;
-
-				return std::tuple{ pRoom, pDrlgRoom };
 			};
 
-			// Input data
-			auto [moo_pRoom, moo_pDrlgRoom] = setup_data();
-			auto [original_pRoom, original_pDrlgRoom] = setup_data();
-			BOOL bReset = TRUE;
+			setup_data(moo_pRoom, moo_pDrlgRoom);
+			setup_data(original_pRoom, original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom, bReset);
@@ -2758,16 +3005,18 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pRoom);
@@ -2785,18 +3034,24 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				D2ActiveRoomStrc pRoom1{};
-				D2ActiveRoomStrc pRoom2{};
-				
-				return std::tuple{ pAct, pRoom1, pRoom2 };
-			};
-			
 			// Input data
-			auto [moo_pAct, moo_pRoom1, moo_pRoom2] = setup_data();
-			auto [original_pAct, original_pRoom1, original_pRoom2] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2ActiveRoomStrc moo_pRoom1{};
+			D2ActiveRoomStrc moo_pRoom2{};
+			D2DrlgActStrc original_pAct{};
+			D2ActiveRoomStrc original_pRoom1{};
+			D2ActiveRoomStrc original_pRoom2{};
+
+			const auto setup_data = [](
+				D2DrlgActStrc& pAct,
+				D2ActiveRoomStrc& pRoom1,
+				D2ActiveRoomStrc& pRoom2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAct, moo_pRoom1, moo_pRoom2);
+			setup_data(original_pAct, original_pRoom1, original_pRoom2);
 
 			// Call both implementations
 			sut(&moo_pAct, &moo_pRoom1, &moo_pRoom2);
@@ -2816,15 +3071,9 @@ TEST_SUITE("D2DungeonTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2DrlgActStrc pAct{};
-				
-				return std::tuple{ pAct };
-			};
-			
 			// Input data
-			auto [moo_pAct] = setup_data();
-			auto [original_pAct] = setup_data();
+			D2DrlgActStrc moo_pAct{};
+			D2DrlgActStrc original_pAct{};
 			ACTCALLBACKFN pActCallbackFunction = (ACTCALLBACKFN)random_unsigned_integer();
 
 			// Call both implementations
@@ -2845,15 +3094,9 @@ TEST_SUITE("D2DungeonTests")
 		{
 			for (auto i = 0; i < 20; ++i)
 			{
-				const auto setup_data = []() {
-					D2ActiveRoomStrc pRoom{};
-
-					return std::tuple{ pRoom };
-				};
-
 				// Input data
-				auto [moo_pRoom] = setup_data();
-				auto [original_pRoom] = setup_data();
+				D2ActiveRoomStrc moo_pRoom{};
+				D2ActiveRoomStrc original_pRoom{};
 				D2UnitGUID nUnitGUID = random_unsigned_integer();
 
 				// Call both implementations
@@ -2875,19 +3118,25 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
-				
-				return std::tuple{ pX, pY };
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
+
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
 			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pX, &moo_pY);
@@ -2908,19 +3157,25 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 
-				return std::tuple{ pX, pY };
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
 			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pX, &moo_pY);
@@ -2941,19 +3196,25 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 
-				return std::tuple{ pX, pY };
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
 			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pX, &moo_pY);
@@ -2974,19 +3235,25 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 
-				return std::tuple{ pX, pY };
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
 			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pX, &moo_pY);
@@ -3007,19 +3274,25 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 
-				return std::tuple{ pX, pY };
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
 			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pX, &moo_pY);
@@ -3040,19 +3313,25 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 
-				return std::tuple{ pX, pY };
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
 			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pX, &moo_pY);
@@ -3068,24 +3347,30 @@ TEST_SUITE("D2DungeonTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameTileToSubtileCoords, dll_base + 0x0004D8C0);
-		
-		REPEAT_10();
 
+		REPEAT_10();
+		
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 
-				return std::tuple{ pX, pY };
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
 			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(&moo_pX, &moo_pY);
@@ -3101,26 +3386,32 @@ TEST_SUITE("D2DungeonTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_ClientTileDrawPositionToGameCoords, dll_base + 0x0004D710);
-		
-		REPEAT_10();
 
+		REPEAT_10();
+		
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
-
-				return std::tuple{ pX, pY };
-			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
+			};
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(nX, nY, &moo_pX, &moo_pY);
@@ -3136,26 +3427,32 @@ TEST_SUITE("D2DungeonTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_GameToClientTileDrawPositionCoords, dll_base + 0x0004D790);
-		
-		REPEAT_10();
 
+		REPEAT_10();
+		
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
-
-				return std::tuple{ pX, pY };
-			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
+			};
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(nX, nY, &moo_pX, &moo_pY);
@@ -3176,21 +3473,27 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
-
-				return std::tuple{ pX, pY };
-			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+					pX = x;
+					pY = y;
+			};
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(nX, nY, &moo_pX, &moo_pY);
@@ -3211,21 +3514,27 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				int pX = x;
-				int pY = y;
-
-				return std::tuple{ pX, pY };
-			};
-			
-			// Input data
-			auto [moo_pX, moo_pY] = setup_data();
-			auto [original_pX, original_pY] = setup_data();
+			int moo_pX{};
+			int moo_pY{};
+			int original_pX{};
+			int original_pY{};
 			int nX{};
 			int nY{};
+
+			const auto setup_data = [x, y](
+				int& pX,
+				int& pY
+			) {
+				pX = x;
+				pY = y;
+			};
+
+			setup_data(moo_pX, moo_pY);
+			setup_data(original_pX, original_pY);
 
 			// Call both implementations
 			sut(nX, nY, &moo_pX, &moo_pY);

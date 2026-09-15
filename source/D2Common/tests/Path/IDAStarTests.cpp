@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,16 +24,18 @@ TEST_SUITE("IDAStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -55,18 +56,22 @@ TEST_SUITE("IDAStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathIDAStarContextStrc pContext{};
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pContext, pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pContext, moo_pPathInfo] = setup_data();
-			auto [original_pContext, original_pPathInfo] = setup_data();
+			D2PathIDAStarContextStrc moo_pContext{};
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathIDAStarContextStrc original_pContext{};
+			D2PathInfoStrc original_pPathInfo{};
 			int nFScoreCutoff{};
+
+			const auto setup_data = [](
+				D2PathIDAStarContextStrc& pContext,
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pContext, moo_pPathInfo);
+			setup_data(original_pContext, original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pContext, nFScoreCutoff, &moo_pPathInfo);

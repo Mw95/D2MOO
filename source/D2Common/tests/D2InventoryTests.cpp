@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,16 +26,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -57,16 +58,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -87,18 +90,20 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pOwner{};
-				
-				return std::tuple{ pOwner };
-			};
-			
 			// Input data
-			auto [moo_pOwner] = setup_data();
-			auto [original_pOwner] = setup_data();
+			D2UnitStrc moo_pOwner{};
+			D2UnitStrc original_pOwner{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pOwner
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pOwner);
+			setup_data(original_pOwner);
 
 			// Call both implementations
 			const auto moo_result = sut(moo_pMemPool, &moo_pOwner);
@@ -120,16 +125,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			sut(&moo_pInventory);
@@ -147,17 +154,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -179,17 +190,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -211,18 +226,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
 			int nUnused{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nUnused);
@@ -244,16 +263,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -274,16 +295,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -304,21 +327,29 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				int pFreeX{};
-				int pFreeY{};
-				
-				return std::tuple{ pInventory, pItem, pFreeX, pFreeY };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem, moo_pFreeX, moo_pFreeY] = setup_data();
-			auto [original_pInventory, original_pItem, original_pFreeX, original_pFreeY] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			int moo_pFreeX{};
+			int moo_pFreeY{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+			int original_pFreeX{};
+			int original_pFreeY{};
 			int nInventoryRecordId{};
 			uint8_t nPage{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem,
+				int& pFreeX,
+				int& pFreeY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem, moo_pFreeX, moo_pFreeY);
+			setup_data(original_pInventory, original_pItem, original_pFreeX, original_pFreeY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nInventoryRecordId, &moo_pFreeX, &moo_pFreeY, nPage);
@@ -342,18 +373,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2InventoryGridInfoStrc pInventoryGridInfo{};
-				
-				return std::tuple{ pInventory, pInventoryGridInfo };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pInventoryGridInfo] = setup_data();
-			auto [original_pInventory, original_pInventoryGridInfo] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryGridInfoStrc moo_pInventoryGridInfo{};
+			D2InventoryStrc original_pInventory{};
+			D2InventoryGridInfoStrc original_pInventoryGridInfo{};
 			int nInventoryGrid{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2InventoryGridInfoStrc& pInventoryGridInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pInventoryGridInfo);
+			setup_data(original_pInventory, original_pInventoryGridInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nInventoryGrid, &moo_pInventoryGridInfo);
@@ -375,20 +410,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryGridStrc pInventoryGrid{};
-				
-				return std::tuple{ pInventoryGrid };
-			};
-			
 			// Input data
-			auto [moo_pInventoryGrid] = setup_data();
-			auto [original_pInventoryGrid] = setup_data();
+			D2InventoryGridStrc moo_pInventoryGrid{};
+			D2InventoryGridStrc original_pInventoryGrid{};
 			int nX{};
 			int nY{};
 			uint8_t nItemWidth{};
 			uint8_t nItemHeight{};
+
+			const auto setup_data = [](
+				D2InventoryGridStrc& pInventoryGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventoryGrid);
+			setup_data(original_pInventoryGrid);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, nX, nY, nItemWidth, nItemHeight);
@@ -409,20 +446,26 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryGridStrc pInventoryGrid{};
-				int pFreeX{};
-				int pFreeY{};
-				
-				return std::tuple{ pInventoryGrid, pFreeX, pFreeY };
-			};
-			
 			// Input data
-			auto [moo_pInventoryGrid, moo_pFreeX, moo_pFreeY] = setup_data();
-			auto [original_pInventoryGrid, original_pFreeX, original_pFreeY] = setup_data();
+			D2InventoryGridStrc moo_pInventoryGrid{};
+			int moo_pFreeX{};
+			int moo_pFreeY{};
+			D2InventoryGridStrc original_pInventoryGrid{};
+			int original_pFreeX{};
+			int original_pFreeY{};
 			uint8_t nItemWidth{};
 			uint8_t nItemHeight{};
+
+			const auto setup_data = [](
+				D2InventoryGridStrc& pInventoryGrid,
+				int& pFreeX,
+				int& pFreeY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY);
+			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, &moo_pFreeX, &moo_pFreeY, nItemWidth, nItemHeight);
@@ -445,20 +488,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryGridStrc pInventoryGrid{};
-				
-				return std::tuple{ pInventoryGrid };
-			};
-			
 			// Input data
-			auto [moo_pInventoryGrid] = setup_data();
-			auto [original_pInventoryGrid] = setup_data();
+			D2InventoryGridStrc moo_pInventoryGrid{};
+			D2InventoryGridStrc original_pInventoryGrid{};
 			int nXPos{};
 			int nYPos{};
 			uint8_t nItemWidth{};
 			uint8_t nItemHeight{};
+
+			const auto setup_data = [](
+				D2InventoryGridStrc& pInventoryGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventoryGrid);
+			setup_data(original_pInventoryGrid);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, nXPos, nYPos, nItemWidth, nItemHeight);
@@ -479,20 +524,26 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryGridStrc pInventoryGrid{};
-				int pFreeX{};
-				int pFreeY{};
-				
-				return std::tuple{ pInventoryGrid, pFreeX, pFreeY };
-			};
-			
 			// Input data
-			auto [moo_pInventoryGrid, moo_pFreeX, moo_pFreeY] = setup_data();
-			auto [original_pInventoryGrid, original_pFreeX, original_pFreeY] = setup_data();
+			D2InventoryGridStrc moo_pInventoryGrid{};
+			int moo_pFreeX{};
+			int moo_pFreeY{};
+			D2InventoryGridStrc original_pInventoryGrid{};
+			int original_pFreeX{};
+			int original_pFreeY{};
 			uint8_t nItemWidth{};
 			uint8_t nItemHeight{};
+
+			const auto setup_data = [](
+				D2InventoryGridStrc& pInventoryGrid,
+				int& pFreeX,
+				int& pFreeY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY);
+			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, &moo_pFreeX, &moo_pFreeY, nItemWidth, nItemHeight);
@@ -515,20 +566,26 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryGridStrc pInventoryGrid{};
-				int pFreeX{};
-				int pFreeY{};
-				
-				return std::tuple{ pInventoryGrid, pFreeX, pFreeY };
-			};
-			
 			// Input data
-			auto [moo_pInventoryGrid, moo_pFreeX, moo_pFreeY] = setup_data();
-			auto [original_pInventoryGrid, original_pFreeX, original_pFreeY] = setup_data();
+			D2InventoryGridStrc moo_pInventoryGrid{};
+			int moo_pFreeX{};
+			int moo_pFreeY{};
+			D2InventoryGridStrc original_pInventoryGrid{};
+			int original_pFreeX{};
+			int original_pFreeY{};
 			uint8_t nItemWidth{};
 			uint8_t nItemHeight{};
+
+			const auto setup_data = [](
+				D2InventoryGridStrc& pInventoryGrid,
+				int& pFreeX,
+				int& pFreeY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY);
+			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, &moo_pFreeX, &moo_pFreeY, nItemWidth, nItemHeight);
@@ -551,22 +608,26 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
 			int nInventoryRecordId{};
 			BOOL bUnused{};
 			uint8_t nPage{};
 			char szFile{};
 			int nLine{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nInventoryRecordId, bUnused, nPage, &szFile, nLine);
@@ -588,22 +649,26 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
 			int nXPos{};
 			int nYPos{};
 			int nInventoryGrid{};
 			int nInventoryRecordId{};
 			BOOL bUnused{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nXPos, nYPos, nInventoryGrid, nInventoryRecordId, bUnused);
@@ -625,23 +690,31 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				D2UnitStrc* ppExchangeItem{};
-				unsigned int pHoveredItems{};
-				
-				return std::tuple{ pInventory, pItem, ppExchangeItem, pHoveredItems };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem, moo_ppExchangeItem, moo_pHoveredItems] = setup_data();
-			auto [original_pInventory, original_pItem, original_ppExchangeItem, original_pHoveredItems] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc* moo_ppExchangeItem{};
+			unsigned int moo_pHoveredItems{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc* original_ppExchangeItem{};
+			unsigned int original_pHoveredItems{};
 			int nXPos{};
 			int nYPos{};
 			int nInventoryRecordId{};
 			uint8_t nPage{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem,
+				D2UnitStrc*& ppExchangeItem,
+				unsigned int& pHoveredItems
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem, moo_ppExchangeItem, moo_pHoveredItems);
+			setup_data(original_pInventory, original_pItem, original_ppExchangeItem, original_pHoveredItems);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nXPos, nYPos, nInventoryRecordId, &moo_ppExchangeItem, &moo_pHoveredItems, nPage);
@@ -665,23 +738,29 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				D2UnitStrc* ppExchangeItem{};
-				
-				return std::tuple{ pInventory, pItem, ppExchangeItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem, moo_ppExchangeItem] = setup_data();
-			auto [original_pInventory, original_pItem, original_ppExchangeItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc* moo_ppExchangeItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc* original_ppExchangeItem{};
 			int nXPos{};
 			int nYPos{};
 			int nInventoryRecordId{};
 			uint8_t nPage{};
 			BOOL bCheckIfCube{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem,
+				D2UnitStrc*& ppExchangeItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem, moo_ppExchangeItem);
+			setup_data(original_pInventory, original_pItem, original_ppExchangeItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nXPos, nYPos, nInventoryRecordId, &moo_ppExchangeItem, nPage, bCheckIfCube);
@@ -704,22 +783,26 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
 			int nXPos{};
 			int nYPos{};
 			int nInventoryRecordId{};
 			BOOL bUnused{};
 			uint8_t nPage{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nXPos, nYPos, nInventoryRecordId, bUnused, nPage);
@@ -741,16 +824,9 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			char szFile{};
 			int nLine{};
 			int nX{};
@@ -758,6 +834,15 @@ TEST_SUITE("D2InventoryTests")
 			int nInventoryRecordId{};
 			BOOL bClient{};
 			uint8_t nPage{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			sut(&szFile, nLine, &moo_pInventory, nX, nY, nInventoryRecordId, bClient, nPage);
@@ -775,22 +860,28 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pInventory, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pX, moo_pY] = setup_data();
-			auto [original_pInventory, original_pX, original_pY] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			int moo_pX{};
+			int moo_pY{};
+			D2InventoryStrc original_pInventory{};
+			int original_pX{};
+			int original_pY{};
 			int nGridX{};
 			int nGridY{};
 			int nInventoryRecordId{};
 			uint8_t nPage{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pX, moo_pY);
+			setup_data(original_pInventory, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nGridX, nGridY, &moo_pX, &moo_pY, nInventoryRecordId, nPage);
@@ -813,18 +904,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
 			int nBodyLoc{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nBodyLoc);
@@ -846,17 +941,19 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nBodyLoc{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nBodyLoc);
@@ -877,19 +974,25 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2InventoryStrc pInventory{};
-				D2UnitStrc* ppItem{};
-				
-				return std::tuple{ pPlayer, pInventory, ppItem };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pInventory, moo_ppItem] = setup_data();
-			auto [original_pPlayer, original_pInventory, original_ppItem] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc* moo_ppItem{};
+			D2UnitStrc original_pPlayer{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc* original_ppItem{};
 			int nBodyLoc{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2InventoryStrc& pInventory,
+				D2UnitStrc*& ppItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pInventory, moo_ppItem);
+			setup_data(original_pPlayer, original_pInventory, original_ppItem);
 
 			// Call both implementations
 			sut(&moo_pPlayer, &moo_pInventory, &moo_ppItem, nBodyLoc);
@@ -909,17 +1012,19 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nWeaponClass{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nWeaponClass);
@@ -940,16 +1045,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -970,16 +1077,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -1000,17 +1109,19 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nComponent{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nComponent);
@@ -1031,17 +1142,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -1063,17 +1178,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -1095,17 +1214,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pInventory, &moo_pItem);
@@ -1124,16 +1247,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -1154,18 +1279,24 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pStackable{};
-				D2UnitStrc pCheckItem{};
-				
-				return std::tuple{ pInventory, pStackable, pCheckItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pStackable, moo_pCheckItem] = setup_data();
-			auto [original_pInventory, original_pStackable, original_pCheckItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pStackable{};
+			D2UnitStrc moo_pCheckItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pStackable{};
+			D2UnitStrc original_pCheckItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pStackable,
+				D2UnitStrc& pCheckItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pStackable, moo_pCheckItem);
+			setup_data(original_pInventory, original_pStackable, original_pCheckItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pStackable, &moo_pCheckItem);
@@ -1188,18 +1319,24 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pStackable{};
-				D2UnitStrc pCheckItem{};
-				
-				return std::tuple{ pInventory, pStackable, pCheckItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pStackable, moo_pCheckItem] = setup_data();
-			auto [original_pInventory, original_pStackable, original_pCheckItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pStackable{};
+			D2UnitStrc moo_pCheckItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pStackable{};
+			D2UnitStrc original_pCheckItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pStackable,
+				D2UnitStrc& pCheckItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pStackable, moo_pCheckItem);
+			setup_data(original_pInventory, original_pStackable, original_pCheckItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pStackable, &moo_pCheckItem);
@@ -1222,18 +1359,24 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pScrolls{};
-				D2UnitStrc pCheckItem{};
-				
-				return std::tuple{ pInventory, pScrolls, pCheckItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pScrolls, moo_pCheckItem] = setup_data();
-			auto [original_pInventory, original_pScrolls, original_pCheckItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pScrolls{};
+			D2UnitStrc moo_pCheckItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pScrolls{};
+			D2UnitStrc original_pCheckItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pScrolls,
+				D2UnitStrc& pCheckItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pScrolls, moo_pCheckItem);
+			setup_data(original_pInventory, original_pScrolls, original_pCheckItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pScrolls, &moo_pCheckItem);
@@ -1256,18 +1399,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
 			int nSlot{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nSlot);
@@ -1289,17 +1436,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pPotion{};
-				
-				return std::tuple{ pInventory, pPotion };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pPotion] = setup_data();
-			auto [original_pInventory, original_pPotion] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pPotion{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pPotion{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pPotion
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pPotion);
+			setup_data(original_pInventory, original_pPotion);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pPotion);
@@ -1321,18 +1472,24 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				int pFreeSlotId{};
-				
-				return std::tuple{ pInventory, pItem, pFreeSlotId };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem, moo_pFreeSlotId] = setup_data();
-			auto [original_pInventory, original_pItem, original_pFreeSlotId] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			int moo_pFreeSlotId{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+			int original_pFreeSlotId{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem,
+				int& pFreeSlotId
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem, moo_pFreeSlotId);
+			setup_data(original_pInventory, original_pItem, original_pFreeSlotId);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, &moo_pFreeSlotId);
@@ -1355,17 +1512,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -1387,17 +1548,19 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nSlotId{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nSlotId);
@@ -1418,19 +1581,25 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				D2UnitStrc* ppItem{};
-				
-				return std::tuple{ pInventory, pItem, ppItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem, moo_ppItem] = setup_data();
-			auto [original_pInventory, original_pItem, original_ppItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc* moo_ppItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+			D2UnitStrc* original_ppItem{};
 			int nSlotId{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem,
+				D2UnitStrc*& ppItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem, moo_ppItem);
+			setup_data(original_pInventory, original_pItem, original_ppItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nSlotId, &moo_ppItem);
@@ -1453,17 +1622,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc* ppItem{};
-				
-				return std::tuple{ pInventory, ppItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_ppItem] = setup_data();
-			auto [original_pInventory, original_ppItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc* moo_ppItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc* original_ppItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc*& ppItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_ppItem);
+			setup_data(original_pInventory, original_ppItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_ppItem);
@@ -1485,19 +1658,27 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc* ppItem{};
-				int pBodyLoc{};
-				BOOL pIsLeftHandItem{};
-				
-				return std::tuple{ pInventory, ppItem, pBodyLoc, pIsLeftHandItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_ppItem, moo_pBodyLoc, moo_pIsLeftHandItem] = setup_data();
-			auto [original_pInventory, original_ppItem, original_pBodyLoc, original_pIsLeftHandItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc* moo_ppItem{};
+			int moo_pBodyLoc{};
+			BOOL moo_pIsLeftHandItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc* original_ppItem{};
+			int original_pBodyLoc{};
+			BOOL original_pIsLeftHandItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc*& ppItem,
+				int& pBodyLoc,
+				BOOL& pIsLeftHandItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_ppItem, moo_pBodyLoc, moo_pIsLeftHandItem);
+			setup_data(original_pInventory, original_ppItem, original_pBodyLoc, original_pIsLeftHandItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_ppItem, &moo_pBodyLoc, &moo_pIsLeftHandItem);
@@ -1521,16 +1702,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -1551,19 +1734,23 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
 			int nBodyLoc{};
 			int nInventoryRecordId{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nBodyLoc, nInventoryRecordId);
@@ -1585,16 +1772,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			sut(&moo_pInventory);
@@ -1612,16 +1801,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -1642,16 +1833,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			sut(&moo_pInventory);
@@ -1669,17 +1862,19 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nItemId{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nItemId);
@@ -1700,17 +1895,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pInventory, &moo_pItem);
@@ -1729,16 +1928,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2CorpseStrc pCorpse{};
-				
-				return std::tuple{ pCorpse };
-			};
-			
 			// Input data
-			auto [moo_pCorpse] = setup_data();
-			auto [original_pCorpse] = setup_data();
+			D2CorpseStrc moo_pCorpse{};
+			D2CorpseStrc original_pCorpse{};
+
+			const auto setup_data = [](
+				D2CorpseStrc& pCorpse
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCorpse);
+			setup_data(original_pCorpse);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCorpse);
@@ -1759,16 +1960,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -1789,18 +1992,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pCheckItem{};
-				
-				return std::tuple{ pInventory, pCheckItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pCheckItem] = setup_data();
-			auto [original_pInventory, original_pCheckItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pCheckItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pCheckItem{};
 			int nItemType{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pCheckItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pCheckItem);
+			setup_data(original_pInventory, original_pCheckItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nItemType, &moo_pCheckItem);
@@ -1822,18 +2029,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pCheckItem{};
-				
-				return std::tuple{ pInventory, pCheckItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pCheckItem] = setup_data();
-			auto [original_pInventory, original_pCheckItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pCheckItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pCheckItem{};
 			int nItemType{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pCheckItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pCheckItem);
+			setup_data(original_pInventory, original_pCheckItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nItemType, &moo_pCheckItem);
@@ -1855,18 +2066,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pCheckItem{};
-				
-				return std::tuple{ pInventory, pCheckItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pCheckItem] = setup_data();
-			auto [original_pInventory, original_pCheckItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pCheckItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pCheckItem{};
 			int nItemCode{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pCheckItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pCheckItem);
+			setup_data(original_pInventory, original_pCheckItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nItemCode, &moo_pCheckItem);
@@ -1888,18 +2103,22 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pCheckItem{};
-				
-				return std::tuple{ pInventory, pCheckItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pCheckItem] = setup_data();
-			auto [original_pInventory, original_pCheckItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pCheckItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pCheckItem{};
 			int nItemCode{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pCheckItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pCheckItem);
+			setup_data(original_pInventory, original_pCheckItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nItemCode, &moo_pCheckItem);
@@ -1921,17 +2140,19 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nItemFileIndex{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nItemFileIndex);
@@ -1952,17 +2173,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pInventory, &moo_pItem);
@@ -1981,17 +2206,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pInventory, &moo_pItem);
@@ -2010,17 +2239,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pPlayer, pInventory };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pInventory] = setup_data();
-			auto [original_pPlayer, original_pInventory] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc original_pPlayer{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pInventory);
+			setup_data(original_pPlayer, original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pInventory);
@@ -2042,17 +2275,19 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			D2UnitGUID nOwnerGuid{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			sut(&moo_pInventory, nOwnerGuid);
@@ -2070,16 +2305,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -2100,19 +2337,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nUnitId{};
 			int a3{};
 			int a4{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			sut(&moo_pInventory, nUnitId, a3, a4);
@@ -2130,18 +2369,20 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
 			int nUnitId{};
 			int a3{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nUnitId, a3);
@@ -2162,16 +2403,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -2192,16 +2435,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -2222,16 +2467,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2CorpseStrc pCorpse{};
-				
-				return std::tuple{ pCorpse };
-			};
-			
 			// Input data
-			auto [moo_pCorpse] = setup_data();
-			auto [original_pCorpse] = setup_data();
+			D2CorpseStrc moo_pCorpse{};
+			D2CorpseStrc original_pCorpse{};
+
+			const auto setup_data = [](
+				D2CorpseStrc& pCorpse
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCorpse);
+			setup_data(original_pCorpse);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCorpse);
@@ -2252,16 +2499,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2CorpseStrc pCorpse{};
-				
-				return std::tuple{ pCorpse };
-			};
-			
 			// Input data
-			auto [moo_pCorpse] = setup_data();
-			auto [original_pCorpse] = setup_data();
+			D2CorpseStrc moo_pCorpse{};
+			D2CorpseStrc original_pCorpse{};
+
+			const auto setup_data = [](
+				D2CorpseStrc& pCorpse
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCorpse);
+			setup_data(original_pCorpse);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCorpse);
@@ -2282,16 +2531,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2CorpseStrc pCorpse{};
-				
-				return std::tuple{ pCorpse };
-			};
-			
 			// Input data
-			auto [moo_pCorpse] = setup_data();
-			auto [original_pCorpse] = setup_data();
+			D2CorpseStrc moo_pCorpse{};
+			D2CorpseStrc original_pCorpse{};
+
+			const auto setup_data = [](
+				D2CorpseStrc& pCorpse
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pCorpse);
+			setup_data(original_pCorpse);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCorpse);
@@ -2312,18 +2563,24 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				uint8_t pComponents{};
-				uint8_t pColor{};
-				
-				return std::tuple{ pPlayer, pComponents, pColor };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pComponents, moo_pColor] = setup_data();
-			auto [original_pPlayer, original_pComponents, original_pColor] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			uint8_t moo_pComponents{};
+			uint8_t moo_pColor{};
+			D2UnitStrc original_pPlayer{};
+			uint8_t original_pComponents{};
+			uint8_t original_pColor{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				uint8_t& pComponents,
+				uint8_t& pColor
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pComponents, moo_pColor);
+			setup_data(original_pPlayer, original_pComponents, original_pColor);
 
 			// Call both implementations
 			sut(&moo_pPlayer, &moo_pComponents, &moo_pColor);
@@ -2356,19 +2613,27 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				uint8_t a2{};
-				uint8_t pColor{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, a2, pColor, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_a2, moo_pColor, moo_pItem] = setup_data();
-			auto [original_pUnit, original_a2, original_pColor, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			uint8_t moo_a2{};
+			uint8_t moo_pColor{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			uint8_t original_a2{};
+			uint8_t original_pColor{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				uint8_t& a2,
+				uint8_t& pColor,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_a2, moo_pColor, moo_pItem);
+			setup_data(original_pUnit, original_a2, original_pColor, original_pItem);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_a2, &moo_pColor, &moo_pItem);
@@ -2389,19 +2654,23 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pUnit, pItem };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem] = setup_data();
-			auto [original_pUnit, original_pItem] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem{};
 			int nBodyLoc{};
 			BOOL bDontCheckReqs{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem);
+			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nBodyLoc, &moo_pItem, bDontCheckReqs);
@@ -2423,22 +2692,30 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc a3{};
-				D2UnitStrc a4{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pPlayer, a3, a4, pItem };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_a3, moo_a4, moo_pItem] = setup_data();
-			auto [original_pPlayer, original_a3, original_a4, original_pItem] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_a3{};
+			D2UnitStrc moo_a4{};
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_a3{};
+			D2UnitStrc original_a4{};
+			D2UnitStrc original_pItem{};
 			int a2{};
 			int nBodyLoc{};
 			int nUnused{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& a3,
+				D2UnitStrc& a4,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_a3, moo_a4, moo_pItem);
+			setup_data(original_pPlayer, original_a3, original_a4, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, a2, nBodyLoc, &moo_a3, &moo_a4, &moo_pItem, nUnused);
@@ -2462,18 +2739,24 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitStrc pItem1{};
-				D2UnitStrc pItem2{};
-				
-				return std::tuple{ pUnit, pItem1, pItem2 };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pItem1, moo_pItem2] = setup_data();
-			auto [original_pUnit, original_pItem1, original_pItem2] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc moo_pItem1{};
+			D2UnitStrc moo_pItem2{};
+			D2UnitStrc original_pUnit{};
+			D2UnitStrc original_pItem1{};
+			D2UnitStrc original_pItem2{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitStrc& pItem1,
+				D2UnitStrc& pItem2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pItem1, moo_pItem2);
+			setup_data(original_pUnit, original_pItem1, original_pItem2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem1, &moo_pItem2);
@@ -2496,16 +2779,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2526,16 +2811,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2556,16 +2843,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2586,16 +2875,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pItem };
-			};
-			
 			// Input data
-			auto [moo_pItem] = setup_data();
-			auto [original_pItem] = setup_data();
+			D2UnitStrc moo_pItem{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItem);
+			setup_data(original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -2616,17 +2907,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				D2UnitStrc pItem{};
-				
-				return std::tuple{ pInventory, pItem };
-			};
-			
 			// Input data
-			auto [moo_pInventory, moo_pItem] = setup_data();
-			auto [original_pInventory, original_pItem] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory, moo_pItem);
+			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -2648,16 +2943,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryNodeStrc pNode{};
-				
-				return std::tuple{ pNode };
-			};
-			
 			// Input data
-			auto [moo_pNode] = setup_data();
-			auto [original_pNode] = setup_data();
+			D2InventoryNodeStrc moo_pNode{};
+			D2InventoryNodeStrc original_pNode{};
+
+			const auto setup_data = [](
+				D2InventoryNodeStrc& pNode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pNode);
+			setup_data(original_pNode);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pNode);
@@ -2678,16 +2975,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryNodeStrc pNode{};
-				
-				return std::tuple{ pNode };
-			};
-			
 			// Input data
-			auto [moo_pNode] = setup_data();
-			auto [original_pNode] = setup_data();
+			D2InventoryNodeStrc moo_pNode{};
+			D2InventoryNodeStrc original_pNode{};
+
+			const auto setup_data = [](
+				D2InventoryNodeStrc& pNode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pNode);
+			setup_data(original_pNode);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pNode);
@@ -2708,16 +3007,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pInventory };
-			};
-			
 			// Input data
-			auto [moo_pInventory] = setup_data();
-			auto [original_pInventory] = setup_data();
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventory);
+			setup_data(original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
@@ -2738,20 +3039,26 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer1{};
-				D2UnitStrc pPlayer2{};
-				D2TradeStates pTradeState{};
-				
-				return std::tuple{ pPlayer1, pPlayer2, pTradeState };
-			};
-			
 			// Input data
-			auto [moo_pPlayer1, moo_pPlayer2, moo_pTradeState] = setup_data();
-			auto [original_pPlayer1, original_pPlayer2, original_pTradeState] = setup_data();
+			D2UnitStrc moo_pPlayer1{};
+			D2UnitStrc moo_pPlayer2{};
+			D2TradeStates moo_pTradeState{};
+			D2UnitStrc original_pPlayer1{};
+			D2UnitStrc original_pPlayer2{};
+			D2TradeStates original_pTradeState{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer1,
+				D2UnitStrc& pPlayer2,
+				D2TradeStates& pTradeState
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer1, moo_pPlayer2, moo_pTradeState);
+			setup_data(original_pPlayer1, original_pPlayer2, original_pTradeState);
 
 			// Call both implementations
 			const auto moo_result = sut(moo_pMemPool, &moo_pPlayer1, &moo_pPlayer2, &moo_pTradeState);
@@ -2775,17 +3082,21 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryStrc pTradeInventory{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pTradeInventory, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pTradeInventory, moo_pUnit] = setup_data();
-			auto [original_pTradeInventory, original_pUnit] = setup_data();
+			D2InventoryStrc moo_pTradeInventory{};
+			D2UnitStrc moo_pUnit{};
+			D2InventoryStrc original_pTradeInventory{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pTradeInventory,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTradeInventory, moo_pUnit);
+			setup_data(original_pTradeInventory, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pTradeInventory, &moo_pUnit);
@@ -2807,18 +3118,24 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pPlayer{};
-				D2UnitStrc pItem{};
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pPlayer, pItem, pInventory };
-			};
-			
 			// Input data
-			auto [moo_pPlayer, moo_pItem, moo_pInventory] = setup_data();
-			auto [original_pPlayer, original_pItem, original_pInventory] = setup_data();
+			D2UnitStrc moo_pPlayer{};
+			D2UnitStrc moo_pItem{};
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc original_pPlayer{};
+			D2UnitStrc original_pItem{};
+			D2InventoryStrc original_pInventory{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pPlayer,
+				D2UnitStrc& pItem,
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPlayer, moo_pItem, moo_pInventory);
+			setup_data(original_pPlayer, original_pItem, original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pInventory);
@@ -2841,16 +3158,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -2871,16 +3190,18 @@ TEST_SUITE("D2InventoryTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);

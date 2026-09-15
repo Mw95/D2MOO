@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("TransformTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 			int a2{};
 

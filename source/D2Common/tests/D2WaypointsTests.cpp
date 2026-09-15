@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,17 +26,11 @@ TEST_SUITE("D2WaypointsTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				int pLevelId{};
-
-				return std::tuple{ pLevelId };
-			};
-
 			for (auto i = -1; i < 256; ++i)
 			{
 				// Input data
-				auto [moo_pLevelId] = setup_data();
-				auto [original_pLevelId] = setup_data();
+				int moo_pLevelId{};
+				int original_pLevelId{};
 				short nWaypointNo = i;
 
 				// Call both implementations
@@ -60,18 +53,12 @@ TEST_SUITE("D2WaypointsTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				short pWaypointNo{};
-				
-				return std::tuple{ pWaypointNo };
-			};
-			
 			for (auto i = -1; i < levels_record_count + 1; ++i)
 			{
 				// Input data
-				auto [moo_pWaypointNo] = setup_data();
-				auto [original_pWaypointNo] = setup_data();
-				int nLevelId{};
+				short moo_pWaypointNo{};
+				short original_pWaypointNo{};
+				int nLevelId = i;
 
 				// Call both implementations
 				const auto moo_result = sut(nLevelId, &moo_pWaypointNo);
@@ -95,6 +82,7 @@ TEST_SUITE("D2WaypointsTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			uint16_t flags[8]{};
 			flags[0] = 0x102;
 			for (auto i = 1; i < 8; ++i)
@@ -102,20 +90,20 @@ TEST_SUITE("D2WaypointsTests")
 				flags[i] = random_unsigned_integer(0, 65535);
 			}
 
-			const auto setup_data = [flags]() {
-				D2WaypointDataStrc pData{};
-
-				memcpy(pData.nFlags, flags, sizeof(flags));
-				
-				return std::tuple{ pData };
-			};
-			
 			for (auto i = 0; i < 112; ++i)
 			{
-				// Input data
-				auto [moo_pData] = setup_data();
-				auto [original_pData] = setup_data();
+				D2WaypointDataStrc moo_pData{};
+				D2WaypointDataStrc original_pData{};
 				uint16_t wField = i;
+
+				const auto setup_data = [flags](
+					D2WaypointDataStrc& pData
+				) {
+					memcpy(pData.nFlags, flags, sizeof(flags));
+				};
+
+				setup_data(moo_pData);
+				setup_data(original_pData);
 
 				// Call both implementations
 				const auto moo_result = sut(&moo_pData, wField);
@@ -140,21 +128,22 @@ TEST_SUITE("D2WaypointsTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2WaypointDataStrc pData{};
-
-				pData.nFlags[0] = 0x102;
-				pData.nFlags[1] |= 1;
-				
-				return std::tuple{ pData };
-			};
-			
 			for (auto i = 0; i < 112; ++i)
 			{
 				// Input data
-				auto [moo_pData] = setup_data();
-				auto [original_pData] = setup_data();
+				D2WaypointDataStrc moo_pData{};
+				D2WaypointDataStrc original_pData{};
 				uint16_t wField = i;
+
+				const auto setup_data = [](
+					D2WaypointDataStrc& pData
+				) {
+					pData.nFlags[0] = 0x102;
+					pData.nFlags[1] |= 1;
+				};
+
+				setup_data(moo_pData);
+				setup_data(original_pData);
 
 				// Call both implementations
 				sut(&moo_pData, wField);
@@ -173,7 +162,6 @@ TEST_SUITE("D2WaypointsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 
@@ -196,18 +184,20 @@ TEST_SUITE("D2WaypointsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2WaypointDataStrc pData{};
-				
-				return std::tuple{ pData };
-			};
-			
 			// Input data
-			auto [moo_pData] = setup_data();
-			auto [original_pData] = setup_data();
+			D2WaypointDataStrc moo_pData{};
+			D2WaypointDataStrc original_pData{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2WaypointDataStrc& pData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pData);
+			setup_data(original_pData);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pData);
@@ -228,6 +218,7 @@ TEST_SUITE("D2WaypointsTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			uint16_t flags[8]{};
 			switch (random_unsigned_integer(0, 2))
 			{
@@ -246,18 +237,20 @@ TEST_SUITE("D2WaypointsTests")
 				flags[i] = random_unsigned_integer(0, 65535);
 			}
 
-			const auto setup_data = [flags]() {
-				D2WaypointDataStrc pDestination{};
-				D2WaypointDataStrc pSource{};
+			D2WaypointDataStrc moo_pDestination{};
+			D2WaypointDataStrc moo_pSource{};
+			D2WaypointDataStrc original_pDestination{};
+			D2WaypointDataStrc original_pSource{};
 
+			const auto setup_data = [flags](
+				D2WaypointDataStrc& pDestination,
+				D2WaypointDataStrc& pSource
+			) {
 				memcpy(pSource.nFlags, flags, sizeof(flags));
-				
-				return std::tuple{ pDestination, pSource };
 			};
-			
-			// Input data
-			auto [moo_pDestination, moo_pSource] = setup_data();
-			auto [original_pDestination, original_pSource] = setup_data();
+
+			setup_data(moo_pDestination, moo_pSource);
+			setup_data(original_pDestination, original_pSource);
 
 			// Call both implementations
 			sut(&moo_pDestination, &moo_pSource);
@@ -278,6 +271,7 @@ TEST_SUITE("D2WaypointsTests")
 
 		SUBCASE("")
 		{
+			// Input data
 			uint16_t flags[8]{};
 			switch (random_unsigned_integer(0, 2))
 			{
@@ -296,18 +290,20 @@ TEST_SUITE("D2WaypointsTests")
 				flags[i] = random_unsigned_integer(0, 65535);
 			}
 
-			const auto setup_data = [flags]() {
-				D2WaypointDataStrc pDestination{};
-				D2WaypointDataStrc pSource{};
+			D2WaypointDataStrc moo_pSource{};
+			D2WaypointDataStrc moo_pDestination{};
+			D2WaypointDataStrc original_pSource{};
+			D2WaypointDataStrc original_pDestination{};
 
+			const auto setup_data = [flags](
+				D2WaypointDataStrc& pSource,
+				D2WaypointDataStrc& pDestination
+			) {
 				memcpy(pSource.nFlags, flags, sizeof(flags));
-
-				return std::tuple{ pDestination, pSource };
 			};
-			
-			// Input data
-			auto [moo_pSource, moo_pDestination] = setup_data();
-			auto [original_pSource, original_pDestination] = setup_data();
+
+			setup_data(moo_pSource, moo_pDestination);
+			setup_data(original_pSource, original_pDestination);
 
 			// Call both implementations
 			sut(&moo_pSource, &moo_pDestination);

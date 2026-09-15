@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,7 +25,6 @@ TEST_SUITE("AnimTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -45,16 +43,18 @@ TEST_SUITE("AnimTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2AnimDataTableStrc pAnimData{};
-				
-				return std::tuple{ pAnimData };
-			};
-			
 			// Input data
-			auto [moo_pAnimData] = setup_data();
-			auto [original_pAnimData] = setup_data();
+			D2AnimDataTableStrc moo_pAnimData{};
+			D2AnimDataTableStrc original_pAnimData{};
+
+			const auto setup_data = [](
+				D2AnimDataTableStrc& pAnimData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pAnimData);
+			setup_data(original_pAnimData);
 
 			// Call both implementations
 			sut(&moo_pAnimData);
@@ -72,20 +72,24 @@ TEST_SUITE("AnimTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pUnit, pInventory };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pInventory] = setup_data();
-			auto [original_pUnit, original_pInventory] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc original_pUnit{};
+			D2InventoryStrc original_pInventory{};
 			int nClassId{};
 			int nMode{};
 			int nUnitType{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pInventory);
+			setup_data(original_pUnit, original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nClassId, nMode, nUnitType, &moo_pInventory);
@@ -107,17 +111,19 @@ TEST_SUITE("AnimTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nAnimSpeed{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nAnimSpeed);
@@ -135,19 +141,27 @@ TEST_SUITE("AnimTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szPath{};
-				int pOutLength{};
-				int pOutAnimSpeed{};
-				int pOutFirstFrameTagged{};
-				
-				return std::tuple{ szPath, pOutLength, pOutAnimSpeed, pOutFirstFrameTagged };
-			};
-			
 			// Input data
-			auto [moo_szPath, moo_pOutLength, moo_pOutAnimSpeed, moo_pOutFirstFrameTagged] = setup_data();
-			auto [original_szPath, original_pOutLength, original_pOutAnimSpeed, original_pOutFirstFrameTagged] = setup_data();
+			char moo_szPath{};
+			int moo_pOutLength{};
+			int moo_pOutAnimSpeed{};
+			int moo_pOutFirstFrameTagged{};
+			char original_szPath{};
+			int original_pOutLength{};
+			int original_pOutAnimSpeed{};
+			int original_pOutFirstFrameTagged{};
+
+			const auto setup_data = [](
+				char& szPath,
+				int& pOutLength,
+				int& pOutAnimSpeed,
+				int& pOutFirstFrameTagged
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szPath, moo_pOutLength, moo_pOutAnimSpeed, moo_pOutFirstFrameTagged);
+			setup_data(original_szPath, original_pOutLength, original_pOutAnimSpeed, original_pOutFirstFrameTagged);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_szPath, &moo_pOutLength, &moo_pOutAnimSpeed, &moo_pOutFirstFrameTagged);

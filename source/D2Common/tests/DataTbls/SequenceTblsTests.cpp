@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,16 +25,18 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -56,16 +57,18 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -86,16 +89,18 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -116,16 +121,18 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -146,22 +153,32 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2AnimSeqTxt pMonSeqTxt{};
-				unsigned int pMode{};
-				unsigned int pFrame{};
-				int pDirection{};
-				int pEvent{};
-				
-				return std::tuple{ pMonSeqTxt, pMode, pFrame, pDirection, pEvent };
-			};
-			
 			// Input data
-			auto [moo_pMonSeqTxt, moo_pMode, moo_pFrame, moo_pDirection, moo_pEvent] = setup_data();
-			auto [original_pMonSeqTxt, original_pMode, original_pFrame, original_pDirection, original_pEvent] = setup_data();
+			D2AnimSeqTxt moo_pMonSeqTxt{};
+			unsigned int moo_pMode{};
+			unsigned int moo_pFrame{};
+			int moo_pDirection{};
+			int moo_pEvent{};
+			D2AnimSeqTxt original_pMonSeqTxt{};
+			unsigned int original_pMode{};
+			unsigned int original_pFrame{};
+			int original_pDirection{};
+			int original_pEvent{};
 			int nTargetFramePoint{};
 			int nCurrentFramePoint{};
+
+			const auto setup_data = [](
+				D2AnimSeqTxt& pMonSeqTxt,
+				unsigned int& pMode,
+				unsigned int& pFrame,
+				int& pDirection,
+				int& pEvent
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonSeqTxt, moo_pMode, moo_pFrame, moo_pDirection, moo_pEvent);
+			setup_data(original_pMonSeqTxt, original_pMode, original_pFrame, original_pDirection, original_pEvent);
 
 			// Call both implementations
 			sut(&moo_pMonSeqTxt, nTargetFramePoint, nCurrentFramePoint, &moo_pMode, &moo_pFrame, &moo_pDirection, &moo_pEvent);
@@ -183,18 +200,22 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2AnimSeqTxt pMonSeqTxt{};
-				int pEvent{};
-				
-				return std::tuple{ pMonSeqTxt, pEvent };
-			};
-			
 			// Input data
-			auto [moo_pMonSeqTxt, moo_pEvent] = setup_data();
-			auto [original_pMonSeqTxt, original_pEvent] = setup_data();
+			D2AnimSeqTxt moo_pMonSeqTxt{};
+			int moo_pEvent{};
+			D2AnimSeqTxt original_pMonSeqTxt{};
+			int original_pEvent{};
 			int nSeqFramePoint{};
+
+			const auto setup_data = [](
+				D2AnimSeqTxt& pMonSeqTxt,
+				int& pEvent
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonSeqTxt, moo_pEvent);
+			setup_data(original_pMonSeqTxt, original_pEvent);
 
 			// Call both implementations
 			sut(&moo_pMonSeqTxt, nSeqFramePoint, &moo_pEvent);
@@ -213,7 +234,6 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -229,7 +249,6 @@ TEST_SUITE("SequenceTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSequence{};
 
 			// Call both implementations

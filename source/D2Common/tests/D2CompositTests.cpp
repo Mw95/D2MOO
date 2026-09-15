@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -26,24 +25,32 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2InventoryStrc pInventory{};
-				char szPath{};
-				int pWeaponClassCode{};
-				
-				return std::tuple{ pUnit, pInventory, szPath, pWeaponClassCode };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pInventory, moo_szPath, moo_pWeaponClassCode] = setup_data();
-			auto [original_pUnit, original_pInventory, original_szPath, original_pWeaponClassCode] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2InventoryStrc moo_pInventory{};
+			char moo_szPath{};
+			int moo_pWeaponClassCode{};
+			D2UnitStrc original_pUnit{};
+			D2InventoryStrc original_pInventory{};
+			char original_szPath{};
+			int original_pWeaponClassCode{};
 			int nClass{};
 			int nMode{};
 			int nUnitType{};
 			BOOL bAddPathPrefix{};
 			int a9{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2InventoryStrc& pInventory,
+				char& szPath,
+				int& pWeaponClassCode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pInventory, moo_szPath, moo_pWeaponClassCode);
+			setup_data(original_pUnit, original_pInventory, original_szPath, original_pWeaponClassCode);
 
 			// Call both implementations
 			sut(&moo_pUnit, nClass, nMode, nUnitType, &moo_pInventory, &moo_szPath, &moo_pWeaponClassCode, bAddPathPrefix, a9);
@@ -64,22 +71,30 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				char szPath{};
-				int pWeaponClassCode{};
-				D2InventoryStrc pInventory{};
-				
-				return std::tuple{ pUnit, szPath, pWeaponClassCode, pInventory };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_szPath, moo_pWeaponClassCode, moo_pInventory] = setup_data();
-			auto [original_pUnit, original_szPath, original_pWeaponClassCode, original_pInventory] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			char moo_szPath{};
+			int moo_pWeaponClassCode{};
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc original_pUnit{};
+			char original_szPath{};
+			int original_pWeaponClassCode{};
+			D2InventoryStrc original_pInventory{};
 			BOOL bAddPathPrefix{};
 			int a5{};
 			int nAnimMode{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				char& szPath,
+				int& pWeaponClassCode,
+				D2InventoryStrc& pInventory
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_szPath, moo_pWeaponClassCode, moo_pInventory);
+			setup_data(original_pUnit, original_szPath, original_pWeaponClassCode, original_pInventory);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_szPath, &moo_pWeaponClassCode, bAddPathPrefix, a5, &moo_pInventory, nAnimMode);
@@ -100,7 +115,6 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nWeaponClassCode{};
 
 			// Call both implementations
@@ -119,21 +133,27 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2InventoryStrc pInventory{};
-				int pWeaponClassId{};
-				
-				return std::tuple{ pUnit, pInventory, pWeaponClassId };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pInventory, moo_pWeaponClassId] = setup_data();
-			auto [original_pUnit, original_pInventory, original_pWeaponClassId] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2InventoryStrc moo_pInventory{};
+			int moo_pWeaponClassId{};
+			D2UnitStrc original_pUnit{};
+			D2InventoryStrc original_pInventory{};
+			int original_pWeaponClassId{};
 			int nUnitType{};
 			int nClass{};
 			int nMode{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2InventoryStrc& pInventory,
+				int& pWeaponClassId
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pInventory, moo_pWeaponClassId);
+			setup_data(original_pUnit, original_pInventory, original_pWeaponClassId);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nUnitType, nClass, nMode, &moo_pInventory, &moo_pWeaponClassId);
@@ -156,20 +176,26 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2InventoryStrc pInventory{};
-				int pWeaponClassId{};
-				
-				return std::tuple{ pUnit, pInventory, pWeaponClassId };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pInventory, moo_pWeaponClassId] = setup_data();
-			auto [original_pUnit, original_pInventory, original_pWeaponClassId] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2InventoryStrc moo_pInventory{};
+			int moo_pWeaponClassId{};
+			D2UnitStrc original_pUnit{};
+			D2InventoryStrc original_pInventory{};
+			int original_pWeaponClassId{};
 			int nAnimMode{};
 			BOOL a5{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2InventoryStrc& pInventory,
+				int& pWeaponClassId
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pInventory, moo_pWeaponClassId);
+			setup_data(original_pUnit, original_pInventory, original_pWeaponClassId);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pInventory, &moo_pWeaponClassId, nAnimMode, a5);
@@ -192,7 +218,6 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nComponent{};
 
 			// Call both implementations
@@ -211,16 +236,18 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -241,17 +268,19 @@ TEST_SUITE("D2CompositTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				uint8_t pArmorComponents{};
-				
-				return std::tuple{ pArmorComponents };
-			};
-			
 			// Input data
-			auto [moo_pArmorComponents] = setup_data();
-			auto [original_pArmorComponents] = setup_data();
+			uint8_t moo_pArmorComponents{};
+			uint8_t original_pArmorComponents{};
 			int nComponent{};
+
+			const auto setup_data = [](
+				uint8_t& pArmorComponents
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pArmorComponents);
+			setup_data(original_pArmorComponents);
 
 			// Call both implementations
 			const auto moo_result = sut(nComponent, &moo_pArmorComponents);

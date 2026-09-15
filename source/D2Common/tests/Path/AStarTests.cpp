@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,16 +24,18 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo] = setup_data();
-			auto [original_pPathInfo] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo);
+			setup_data(original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo);
@@ -52,27 +53,30 @@ TEST_SUITE("AStarTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AStar_PushToVisitedCache, dll_base + 0x00066D10);
-
-		REPEAT_10();
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
+			// Input data
 			const auto x = random_unsigned_integer(0, 65535);
 			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [x, y]() {
-				D2PathFoWallContextStrc pContext{};
-				D2PathFoWallNodeStrc pNode{};
+			D2PathFoWallContextStrc moo_pContext{};
+			D2PathFoWallNodeStrc moo_pNode{};
+			D2PathFoWallContextStrc original_pContext{};
+			D2PathFoWallNodeStrc original_pNode{};
 
+			const auto setup_data = [x, y](
+				D2PathFoWallContextStrc& pContext,
+				D2PathFoWallNodeStrc& pNode
+			) {
 				pNode.tPoint.X = x;
 				pNode.tPoint.Y = y;
-				
-				return std::tuple{ pContext, pNode };
 			};
-			
-			// Input data
-			auto [moo_pContext, moo_pNode] = setup_data();
-			auto [original_pContext, original_pNode] = setup_data();
+
+			setup_data(moo_pContext, moo_pNode);
+			setup_data(original_pContext, original_pNode);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pContext, &moo_pNode);
@@ -94,19 +98,25 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				D2PathFoWallContextStrc pContext{};
-				D2PathFoWallNodeStrc a3{};
-				
-				return std::tuple{ pPathInfo, pContext, a3 };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo, moo_pContext, moo_a3] = setup_data();
-			auto [original_pPathInfo, original_pContext, original_a3] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathFoWallContextStrc moo_pContext{};
+			D2PathFoWallNodeStrc moo_a3{};
+			D2PathInfoStrc original_pPathInfo{};
+			D2PathFoWallContextStrc original_pContext{};
+			D2PathFoWallNodeStrc original_a3{};
 			D2PathPointStrc tTargetCoord{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo,
+				D2PathFoWallContextStrc& pContext,
+				D2PathFoWallNodeStrc& a3
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo, moo_pContext, moo_a3);
+			setup_data(original_pPathInfo, original_pContext, original_a3);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo, &moo_pContext, &moo_a3, tTargetCoord);
@@ -131,7 +141,7 @@ TEST_SUITE("AStarTests")
 		{
 			D2PathPointStrc tPoint1{ static_cast<uint16_t>(random_unsigned_integer(0, 65535)), static_cast<uint16_t>(random_unsigned_integer(0, 65535)) };
 			D2PathPointStrc tPoint2{ static_cast<uint16_t>(random_unsigned_integer(0, 65535)), static_cast<uint16_t>(random_unsigned_integer(0, 65535)) };
-
+			
 			// Call both implementations
 			const auto moo_result = sut(tPoint1, tPoint2);
 			const auto original_result = original(tPoint1, tPoint2);
@@ -148,17 +158,19 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathFoWallContextStrc pContext{};
-				
-				return std::tuple{ pContext };
-			};
-			
 			// Input data
-			auto [moo_pContext] = setup_data();
-			auto [original_pContext] = setup_data();
+			D2PathFoWallContextStrc moo_pContext{};
+			D2PathFoWallContextStrc original_pContext{};
 			D2PathPointStrc tPathPoint{};
+
+			const auto setup_data = [](
+				D2PathFoWallContextStrc& pContext
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pContext);
+			setup_data(original_pContext);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pContext, tPathPoint);
@@ -179,17 +191,19 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathFoWallContextStrc pContext{};
-				
-				return std::tuple{ pContext };
-			};
-			
 			// Input data
-			auto [moo_pContext] = setup_data();
-			auto [original_pContext] = setup_data();
+			D2PathFoWallContextStrc moo_pContext{};
+			D2PathFoWallContextStrc original_pContext{};
 			D2PathPointStrc tPathPoint{};
+
+			const auto setup_data = [](
+				D2PathFoWallContextStrc& pContext
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pContext);
+			setup_data(original_pContext);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pContext, tPathPoint);
@@ -210,17 +224,21 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathFoWallContextStrc pContext{};
-				D2PathFoWallNodeStrc pNode{};
-				
-				return std::tuple{ pContext, pNode };
-			};
-			
 			// Input data
-			auto [moo_pContext, moo_pNode] = setup_data();
-			auto [original_pContext, original_pNode] = setup_data();
+			D2PathFoWallContextStrc moo_pContext{};
+			D2PathFoWallNodeStrc moo_pNode{};
+			D2PathFoWallContextStrc original_pContext{};
+			D2PathFoWallNodeStrc original_pNode{};
+
+			const auto setup_data = [](
+				D2PathFoWallContextStrc& pContext,
+				D2PathFoWallNodeStrc& pNode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pContext, moo_pNode);
+			setup_data(original_pContext, original_pNode);
 
 			// Call both implementations
 			sut(&moo_pContext, &moo_pNode);
@@ -239,18 +257,22 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathFoWallContextStrc pContext{};
-				D2PathFoWallNodeStrc pNewNode{};
-				
-				return std::tuple{ pContext, pNewNode };
-			};
-			
 			// Input data
-			auto [moo_pContext, moo_pNewNode] = setup_data();
-			auto [original_pContext, original_pNewNode] = setup_data();
+			D2PathFoWallContextStrc moo_pContext{};
+			D2PathFoWallNodeStrc moo_pNewNode{};
+			D2PathFoWallContextStrc original_pContext{};
+			D2PathFoWallNodeStrc original_pNewNode{};
 			int nUnused{};
+
+			const auto setup_data = [](
+				D2PathFoWallContextStrc& pContext,
+				D2PathFoWallNodeStrc& pNewNode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pContext, moo_pNewNode);
+			setup_data(original_pContext, original_pNewNode);
 
 			// Call both implementations
 			sut(&moo_pContext, nUnused, &moo_pNewNode);
@@ -269,20 +291,26 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathInfoStrc pPathInfo{};
-				D2PathFoWallContextStrc pContext{};
-				D2PathFoWallNodeStrc pCurrentNode{};
-				
-				return std::tuple{ pPathInfo, pContext, pCurrentNode };
-			};
-			
 			// Input data
-			auto [moo_pPathInfo, moo_pContext, moo_pCurrentNode] = setup_data();
-			auto [original_pPathInfo, original_pContext, original_pCurrentNode] = setup_data();
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathFoWallContextStrc moo_pContext{};
+			D2PathFoWallNodeStrc moo_pCurrentNode{};
+			D2PathInfoStrc original_pPathInfo{};
+			D2PathFoWallContextStrc original_pContext{};
+			D2PathFoWallNodeStrc original_pCurrentNode{};
 			D2PathPointStrc tNewPointCoord{};
 			D2PathPointStrc tTargetCoord{};
+
+			const auto setup_data = [](
+				D2PathInfoStrc& pPathInfo,
+				D2PathFoWallContextStrc& pContext,
+				D2PathFoWallNodeStrc& pCurrentNode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pPathInfo, moo_pContext, moo_pCurrentNode);
+			setup_data(original_pPathInfo, original_pContext, original_pCurrentNode);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPathInfo, &moo_pContext, &moo_pCurrentNode, tNewPointCoord, tTargetCoord);
@@ -305,17 +333,21 @@ TEST_SUITE("AStarTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2PathFoWallNodeStrc pNode{};
-				D2PathInfoStrc pPathInfo{};
-				
-				return std::tuple{ pNode, pPathInfo };
-			};
-			
 			// Input data
-			auto [moo_pNode, moo_pPathInfo] = setup_data();
-			auto [original_pNode, original_pPathInfo] = setup_data();
+			D2PathFoWallNodeStrc moo_pNode{};
+			D2PathInfoStrc moo_pPathInfo{};
+			D2PathFoWallNodeStrc original_pNode{};
+			D2PathInfoStrc original_pPathInfo{};
+
+			const auto setup_data = [](
+				D2PathFoWallNodeStrc& pNode,
+				D2PathInfoStrc& pPathInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pNode, moo_pPathInfo);
+			setup_data(original_pNode, original_pPathInfo);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pNode, &moo_pPathInfo);

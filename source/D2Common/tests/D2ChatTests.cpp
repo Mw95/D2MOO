@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			char szText{};
@@ -50,18 +48,20 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2HoverTextStrc pHoverMsg{};
-				
-				return std::tuple{ pHoverMsg };
-			};
-			
 			// Input data
-			auto [moo_pHoverMsg] = setup_data();
-			auto [original_pHoverMsg] = setup_data();
+			D2HoverTextStrc moo_pHoverMsg{};
+			D2HoverTextStrc original_pHoverMsg{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
+
+			const auto setup_data = [](
+				D2HoverTextStrc& pHoverMsg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pHoverMsg);
+			setup_data(original_pHoverMsg);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pHoverMsg);
@@ -80,18 +80,20 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto display_time = random_unsigned_integer();
 
-			const auto setup_data = [display_time]() {
-				D2HoverTextStrc pHoverMsg{};
-				pHoverMsg.dwDisplayTime = display_time;
+			D2HoverTextStrc moo_pHoverMsg{};
+			D2HoverTextStrc original_pHoverMsg{};
 
-				return std::tuple{ pHoverMsg };
+			const auto setup_data = [display_time](
+				D2HoverTextStrc& pHoverMsg
+			) {
+				pHoverMsg.dwDisplayTime = display_time;
 			};
-			
-			// Input data
-			auto [moo_pHoverMsg] = setup_data();
-			auto [original_pHoverMsg] = setup_data();
+
+			setup_data(moo_pHoverMsg);
+			setup_data(original_pHoverMsg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pHoverMsg);
@@ -115,18 +117,20 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto timeout = random_unsigned_integer();
 
-			const auto setup_data = [timeout]() {
-				D2HoverTextStrc pHoverMsg{};
-				pHoverMsg.dwExpireTime = timeout;
+			D2HoverTextStrc moo_pHoverMsg{};
+			D2HoverTextStrc original_pHoverMsg{};
 
-				return std::tuple{ pHoverMsg };
+			const auto setup_data = [timeout](
+				D2HoverTextStrc& pHoverMsg
+			) {
+				pHoverMsg.dwExpireTime = timeout;
 			};
-			
-			// Input data
-			auto [moo_pHoverMsg] = setup_data();
-			auto [original_pHoverMsg] = setup_data();
+
+			setup_data(moo_pHoverMsg);
+			setup_data(original_pHoverMsg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pHoverMsg);
@@ -150,19 +154,22 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const char* message = "Test message";
 
-			const auto setup_data = [&message]() {
-				D2HoverTextStrc pHoverMsg{};
-				char szMessage[256]{};
-				strcpy_s(pHoverMsg.szMsg, sizeof(pHoverMsg.szMsg), message);
+			D2HoverTextStrc moo_pHoverMsg{};
+			char moo_szMessage[256]{};
+			D2HoverTextStrc original_pHoverMsg{};
+			char original_szMessage[256]{};
 
-				return std::tuple{ pHoverMsg, szMessage };
+			const auto setup_data = [message](
+				D2HoverTextStrc& pHoverMsg
+			) {
+				strcpy_s(pHoverMsg.szMsg, sizeof(pHoverMsg.szMsg), message);
 			};
-			
-			// Input data
-			auto [moo_pHoverMsg, moo_szMessage] = setup_data();
-			auto [original_pHoverMsg, original_szMessage] = setup_data();
+
+			setup_data(moo_pHoverMsg);
+			setup_data(original_pHoverMsg);
 
 			// Call both implementations
 			sut(&moo_pHoverMsg, moo_szMessage);
@@ -186,16 +193,18 @@ TEST_SUITE("D2ChatTests")
 		{
 			BOOL bUsed = GENERATE(true, false);
 
-			const auto setup_data = [bUsed]() {
-				D2HoverTextStrc pHoverMsg{};
-				pHoverMsg.bUsed = bUsed;
-				
-				return std::tuple{ pHoverMsg };
-			};
-			
 			// Input data
-			auto [moo_pHoverMsg] = setup_data();
-			auto [original_pHoverMsg] = setup_data();
+			D2HoverTextStrc moo_pHoverMsg{};
+			D2HoverTextStrc original_pHoverMsg{};
+
+			const auto setup_data = [bUsed](
+				D2HoverTextStrc& pHoverMsg
+			) {
+				pHoverMsg.bUsed = bUsed;
+			};
+
+			setup_data(moo_pHoverMsg);
+			setup_data(original_pHoverMsg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pHoverMsg);
@@ -219,15 +228,9 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2HoverTextStrc pHoverMsg{};
-				
-				return std::tuple{ pHoverMsg };
-			};
-			
 			// Input data
-			auto [moo_pHoverMsg] = setup_data();
-			auto [original_pHoverMsg] = setup_data();
+			D2HoverTextStrc moo_pHoverMsg{};
+			D2HoverTextStrc original_pHoverMsg{};
 			BOOL bUsed = GENERATE(true, false);
 
 			// Call both implementations
@@ -249,18 +252,20 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto lang_id = random_unsigned_integer(0, 255);
 
-			const auto setup_data = [lang_id]() {
-				D2HoverTextStrc pHoverMsg{};
-				pHoverMsg.nLangId = lang_id;
+			D2HoverTextStrc moo_pHoverMsg{};
+			D2HoverTextStrc original_pHoverMsg{};
 
-				return std::tuple{ pHoverMsg };
+			const auto setup_data = [lang_id](
+				D2HoverTextStrc& pHoverMsg
+			) {
+				pHoverMsg.nLangId = lang_id;
 			};
-			
-			// Input data
-			auto [moo_pHoverMsg] = setup_data();
-			auto [original_pHoverMsg] = setup_data();
+
+			setup_data(moo_pHoverMsg);
+			setup_data(original_pHoverMsg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pHoverMsg);
@@ -284,15 +289,9 @@ TEST_SUITE("D2ChatTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				D2HoverTextStrc pHoverMsg{};
-				
-				return std::tuple{ pHoverMsg };
-			};
-			
 			// Input data
-			auto [moo_pHoverMsg] = setup_data();
-			auto [original_pHoverMsg] = setup_data();
+			D2HoverTextStrc moo_pHoverMsg{};
+			D2HoverTextStrc original_pHoverMsg{};
 			uint8_t nLangId = random_unsigned_integer(0, 255);
 
 			// Call both implementations

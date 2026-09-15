@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 
@@ -48,16 +46,18 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			sut(&moo_pTextHeader);
@@ -75,18 +75,20 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
 			short nStringId{};
 			int nMenu{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			sut(&moo_pTextHeader, nStringId, nMenu);
@@ -104,17 +106,19 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
 			short nStringId{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			sut(&moo_pTextHeader, nStringId);
@@ -132,16 +136,18 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pTextHeader);
@@ -162,17 +168,19 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
 			int nNodeId{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pTextHeader, nNodeId);
@@ -193,17 +201,19 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
 			int nNodeId{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pTextHeader, nNodeId);
@@ -224,17 +234,19 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
 			int nNodeId{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pTextHeader, nNodeId);
@@ -255,17 +267,21 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				D2MessageListStrc pMsgList{};
-				
-				return std::tuple{ pTextHeader, pMsgList };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader, moo_pMsgList] = setup_data();
-			auto [original_pTextHeader, original_pMsgList] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2MessageListStrc moo_pMsgList{};
+			D2TextHeaderStrc original_pTextHeader{};
+			D2MessageListStrc original_pMsgList{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader,
+				D2MessageListStrc& pMsgList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader, moo_pMsgList);
+			setup_data(original_pTextHeader, original_pMsgList);
 
 			// Call both implementations
 			sut(&moo_pTextHeader, &moo_pMsgList);
@@ -284,17 +300,21 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				D2MessageListStrc pMsgList{};
-				
-				return std::tuple{ pTextHeader, pMsgList };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader, moo_pMsgList] = setup_data();
-			auto [original_pTextHeader, original_pMsgList] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2MessageListStrc moo_pMsgList{};
+			D2TextHeaderStrc original_pTextHeader{};
+			D2MessageListStrc original_pMsgList{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader,
+				D2MessageListStrc& pMsgList
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader, moo_pMsgList);
+			setup_data(original_pTextHeader, original_pMsgList);
 
 			// Call both implementations
 			sut(&moo_pTextHeader, &moo_pMsgList);
@@ -313,16 +333,18 @@ TEST_SUITE("D2TextTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2TextHeaderStrc pTextHeader{};
-				
-				return std::tuple{ pTextHeader };
-			};
-			
 			// Input data
-			auto [moo_pTextHeader] = setup_data();
-			auto [original_pTextHeader] = setup_data();
+			D2TextHeaderStrc moo_pTextHeader{};
+			D2TextHeaderStrc original_pTextHeader{};
+
+			const auto setup_data = [](
+				D2TextHeaderStrc& pTextHeader
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pTextHeader);
+			setup_data(original_pTextHeader);
 
 			// Call both implementations
 			sut(&moo_pTextHeader);

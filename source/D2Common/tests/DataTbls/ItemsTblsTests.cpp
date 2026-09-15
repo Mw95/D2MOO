@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,16 +24,18 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szKey{};
-				
-				return std::tuple{ szKey };
-			};
-			
 			// Input data
-			auto [moo_szKey] = setup_data();
-			auto [original_szKey] = setup_data();
+			char moo_szKey{};
+			char original_szKey{};
+
+			const auto setup_data = [](
+				char& szKey
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szKey);
+			setup_data(original_szKey);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_szKey);
@@ -55,7 +56,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 
 			// Call both implementations
@@ -74,19 +74,23 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szText{};
-				int a2{};
-				
-				return std::tuple{ szText, a2 };
-			};
-			
 			// Input data
-			auto [moo_szText, moo_a2] = setup_data();
-			auto [original_szText, original_a2] = setup_data();
+			char moo_szText{};
+			int moo_a2{};
+			char original_szText{};
+			int original_a2{};
 			int a3{};
 			int nKeywordNumber{};
+
+			const auto setup_data = [](
+				char& szText,
+				int& a2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szText, moo_a2);
+			setup_data(original_szText, original_a2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_szText, &moo_a2, a3, nKeywordNumber);
@@ -108,22 +112,24 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -142,7 +148,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -187,7 +192,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -206,7 +210,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 
 			// Call both implementations
@@ -225,17 +228,19 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pItemId{};
-				
-				return std::tuple{ pItemId };
-			};
-			
 			// Input data
-			auto [moo_pItemId] = setup_data();
-			auto [original_pItemId] = setup_data();
+			int moo_pItemId{};
+			int original_pItemId{};
 			uint32_t dwCode{};
+
+			const auto setup_data = [](
+				int& pItemId
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pItemId);
+			setup_data(original_pItemId);
 
 			// Call both implementations
 			const auto moo_result = sut(dwCode, &moo_pItemId);
@@ -256,7 +261,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			uint32_t dwCode{};
 
 			// Call both implementations
@@ -275,22 +279,24 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char pSrc{};
-				
-				return std::tuple{ pSrc };
-			};
-			
 			// Input data
-			auto [moo_pSrc] = setup_data();
-			auto [original_pSrc] = setup_data();
+			char moo_pSrc{};
+			char original_pSrc{};
 			void* moo_pRecord = nullptr;
 			void* original_pRecord = nullptr;
 			int nOffset{};
 			int nPosition{};
 			int nTxtRow{};
 			int nTxtColumn{};
+
+			const auto setup_data = [](
+				char& pSrc
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pSrc);
+			setup_data(original_pSrc);
 
 			// Call both implementations
 			sut(&moo_pSrc, moo_pRecord, nOffset, nPosition, nTxtRow, nTxtColumn);
@@ -309,7 +315,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -354,7 +359,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nIndex{};
 
 			// Call both implementations
@@ -373,7 +377,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -418,7 +421,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nId{};
 
 			// Call both implementations
@@ -437,7 +439,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -466,7 +467,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -495,7 +495,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -540,7 +539,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nIndex{};
 
 			// Call both implementations
@@ -559,7 +557,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -604,7 +601,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nGemId{};
 
 			// Call both implementations
@@ -623,7 +619,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -668,7 +663,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nBookId{};
 
 			// Call both implementations
@@ -687,7 +681,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -732,7 +725,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nId{};
 
 			// Call both implementations
@@ -751,7 +743,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -796,7 +787,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemId{};
 			uint8_t nDifficulty{};
 			uint16_t wVersion{};
@@ -817,7 +807,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pRecord1 = nullptr;
 			void* original_pRecord1 = nullptr;
 			void* moo_pRecord2 = nullptr;
@@ -843,7 +832,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -872,7 +860,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -901,7 +888,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -917,7 +903,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			void* moo_pRecord1 = nullptr;
 			void* original_pRecord1 = nullptr;
 			void* moo_pRecord2 = nullptr;
@@ -972,7 +957,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nItemType1{};
 			int nItemType2{};
 
@@ -992,7 +976,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -1021,7 +1004,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -1066,17 +1048,19 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2RunesTxt pRecord{};
-				
-				return std::tuple{ pRecord };
-			};
-			
 			// Input data
-			auto [moo_pRecord] = setup_data();
-			auto [original_pRecord] = setup_data();
+			D2RunesTxt moo_pRecord{};
+			D2RunesTxt original_pRecord{};
 			int nRecordId{};
+
+			const auto setup_data = [](
+				D2RunesTxt& pRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRecord);
+			setup_data(original_pRecord);
 
 			// Call both implementations
 			sut(nRecordId, &moo_pRecord);
@@ -1094,7 +1078,6 @@ TEST_SUITE("ItemsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nRunewordId{};
 
 			// Call both implementations

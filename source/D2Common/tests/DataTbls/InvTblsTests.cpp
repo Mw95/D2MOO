@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("InvTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -54,18 +52,20 @@ TEST_SUITE("InvTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InvRectStrc pInvRect{};
-				
-				return std::tuple{ pInvRect };
-			};
-			
 			// Input data
-			auto [moo_pInvRect] = setup_data();
-			auto [original_pInvRect] = setup_data();
+			D2InvRectStrc moo_pInvRect{};
+			D2InvRectStrc original_pInvRect{};
 			int nInventoryTxtId{};
 			int bHigherRes{};
+
+			const auto setup_data = [](
+				D2InvRectStrc& pInvRect
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInvRect);
+			setup_data(original_pInvRect);
 
 			// Call both implementations
 			sut(nInventoryTxtId, bHigherRes, &moo_pInvRect);
@@ -83,18 +83,20 @@ TEST_SUITE("InvTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InventoryGridInfoStrc pInventoryGridInfo{};
-				
-				return std::tuple{ pInventoryGridInfo };
-			};
-			
 			// Input data
-			auto [moo_pInventoryGridInfo] = setup_data();
-			auto [original_pInventoryGridInfo] = setup_data();
+			D2InventoryGridInfoStrc moo_pInventoryGridInfo{};
+			D2InventoryGridInfoStrc original_pInventoryGridInfo{};
 			int nInventoryTxtId{};
 			int bHigherRes{};
+
+			const auto setup_data = [](
+				D2InventoryGridInfoStrc& pInventoryGridInfo
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInventoryGridInfo);
+			setup_data(original_pInventoryGridInfo);
 
 			// Call both implementations
 			sut(nInventoryTxtId, bHigherRes, &moo_pInventoryGridInfo);
@@ -112,19 +114,21 @@ TEST_SUITE("InvTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2InvCompGridStrc pInvCompGrid{};
-				
-				return std::tuple{ pInvCompGrid };
-			};
-			
 			// Input data
-			auto [moo_pInvCompGrid] = setup_data();
-			auto [original_pInvCompGrid] = setup_data();
+			D2InvCompGridStrc moo_pInvCompGrid{};
+			D2InvCompGridStrc original_pInvCompGrid{};
 			int nInventoryTxtId{};
 			int bHigherRes{};
 			int nComponent{};
+
+			const auto setup_data = [](
+				D2InvCompGridStrc& pInvCompGrid
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pInvCompGrid);
+			setup_data(original_pInvCompGrid);
 
 			// Call both implementations
 			sut(nInventoryTxtId, bHigherRes, &moo_pInvCompGrid, nComponent);

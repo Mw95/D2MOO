@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,16 +24,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -52,16 +53,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -79,17 +82,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			int nVertexId{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevel, nVertexId);
@@ -110,7 +115,6 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 			int a2{};
 			int a3{};
@@ -131,7 +135,6 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int a1{};
 			int a2{};
 			int a3{};
@@ -154,16 +157,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -181,16 +186,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -208,16 +215,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel);
@@ -235,16 +244,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -265,16 +276,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -295,19 +308,23 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgCoordStrc pDrlgCoord1{};
-				D2DrlgCoordStrc pDrlgCoord2{};
-				
-				return std::tuple{ pDrlgCoord1, pDrlgCoord2 };
-			};
-			
 			// Input data
-			auto [moo_pDrlgCoord1, moo_pDrlgCoord2] = setup_data();
-			auto [original_pDrlgCoord1, original_pDrlgCoord2] = setup_data();
+			D2DrlgCoordStrc moo_pDrlgCoord1{};
+			D2DrlgCoordStrc moo_pDrlgCoord2{};
+			D2DrlgCoordStrc original_pDrlgCoord1{};
+			D2DrlgCoordStrc original_pDrlgCoord2{};
 			int a3{};
 			int a4{};
+
+			const auto setup_data = [](
+				D2DrlgCoordStrc& pDrlgCoord1,
+				D2DrlgCoordStrc& pDrlgCoord2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgCoord1, moo_pDrlgCoord2);
+			setup_data(original_pDrlgCoord1, original_pDrlgCoord2);
 
 			// Call both implementations
 			sut(&moo_pDrlgCoord1, &moo_pDrlgCoord2, a3, a4);
@@ -326,16 +343,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -356,19 +375,23 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgCoordStrc pDrlgCoord1{};
-				D2DrlgCoordStrc pDrlgCoord2{};
-				
-				return std::tuple{ pDrlgCoord1, pDrlgCoord2 };
-			};
-			
 			// Input data
-			auto [moo_pDrlgCoord1, moo_pDrlgCoord2] = setup_data();
-			auto [original_pDrlgCoord1, original_pDrlgCoord2] = setup_data();
+			D2DrlgCoordStrc moo_pDrlgCoord1{};
+			D2DrlgCoordStrc moo_pDrlgCoord2{};
+			D2DrlgCoordStrc original_pDrlgCoord1{};
+			D2DrlgCoordStrc original_pDrlgCoord2{};
 			int a3{};
 			int a4{};
+
+			const auto setup_data = [](
+				D2DrlgCoordStrc& pDrlgCoord1,
+				D2DrlgCoordStrc& pDrlgCoord2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgCoord1, moo_pDrlgCoord2);
+			setup_data(original_pDrlgCoord1, original_pDrlgCoord2);
 
 			// Call both implementations
 			sut(&moo_pDrlgCoord1, &moo_pDrlgCoord2, a3, a4);
@@ -387,16 +410,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -417,19 +442,23 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgCoordStrc pDrlgCoord1{};
-				D2DrlgCoordStrc pDrlgCoord2{};
-				
-				return std::tuple{ pDrlgCoord1, pDrlgCoord2 };
-			};
-			
 			// Input data
-			auto [moo_pDrlgCoord1, moo_pDrlgCoord2] = setup_data();
-			auto [original_pDrlgCoord1, original_pDrlgCoord2] = setup_data();
+			D2DrlgCoordStrc moo_pDrlgCoord1{};
+			D2DrlgCoordStrc moo_pDrlgCoord2{};
+			D2DrlgCoordStrc original_pDrlgCoord1{};
+			D2DrlgCoordStrc original_pDrlgCoord2{};
 			int a3{};
 			int a4{};
+
+			const auto setup_data = [](
+				D2DrlgCoordStrc& pDrlgCoord1,
+				D2DrlgCoordStrc& pDrlgCoord2
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgCoord1, moo_pDrlgCoord2);
+			setup_data(original_pDrlgCoord1, original_pDrlgCoord2);
 
 			// Call both implementations
 			sut(&moo_pDrlgCoord1, &moo_pDrlgCoord2, a3, a4);
@@ -448,16 +477,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -478,16 +509,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -508,16 +541,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -538,16 +573,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -568,16 +605,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData);
@@ -598,17 +637,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
 			uint8_t nActNo{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			sut(&moo_pDrlg, nActNo);
@@ -626,17 +667,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
 			int nIteration{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
@@ -657,17 +700,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
 			int nIteration{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
@@ -688,17 +733,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
 			int nIteration{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
@@ -719,17 +766,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
 			int nIteration{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
@@ -750,17 +799,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
 			int nIteration{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
@@ -781,17 +832,19 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelLinkDataStrc pLevelLinkData{};
-				
-				return std::tuple{ pLevelLinkData };
-			};
-			
 			// Input data
-			auto [moo_pLevelLinkData] = setup_data();
-			auto [original_pLevelLinkData] = setup_data();
+			D2DrlgLevelLinkDataStrc moo_pLevelLinkData{};
+			D2DrlgLevelLinkDataStrc original_pLevelLinkData{};
 			int nIteration{};
+
+			const auto setup_data = [](
+				D2DrlgLevelLinkDataStrc& pLevelLinkData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevelLinkData);
+			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
@@ -812,18 +865,22 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				int pRand{};
-				
-				return std::tuple{ pLevel, pRand };
-			};
-			
 			// Input data
-			auto [moo_pLevel, moo_pRand] = setup_data();
-			auto [original_pLevel, original_pRand] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			int moo_pRand{};
+			D2DrlgLevelStrc original_pLevel{};
+			int original_pRand{};
 			int nIteration{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel,
+				int& pRand
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel, moo_pRand);
+			setup_data(original_pLevel, original_pRand);
 
 			// Call both implementations
 			sut(&moo_pLevel, nIteration, &moo_pRand);
@@ -842,17 +899,21 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				D2DrlgLinkStrc pDrlgLink{};
-				
-				return std::tuple{ pDrlg, pDrlgLink };
-			};
-			
 			// Input data
-			auto [moo_pDrlg, moo_pDrlgLink] = setup_data();
-			auto [original_pDrlg, original_pDrlgLink] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgLinkStrc moo_pDrlgLink{};
+			D2DrlgStrc original_pDrlg{};
+			D2DrlgLinkStrc original_pDrlgLink{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg,
+				D2DrlgLinkStrc& pDrlgLink
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg, moo_pDrlgLink);
+			setup_data(original_pDrlg, original_pDrlgLink);
 
 			// Call both implementations
 			sut(&moo_pDrlg, &moo_pDrlgLink, nullptr, nullptr);
@@ -871,18 +932,20 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
 			int nStartId{};
 			int nEndId{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			sut(&moo_pDrlg, nStartId, nEndId);
@@ -900,18 +963,20 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
 			int nStartId{};
 			int nEndId{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			sut(&moo_pDrlg, nStartId, nEndId);
@@ -929,16 +994,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevel);
@@ -959,20 +1026,24 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgCoordStrc pDrlgCoord{};
-				D2JungleStrc pJungle{};
-				
-				return std::tuple{ pDrlgCoord, pJungle };
-			};
-			
 			// Input data
-			auto [moo_pDrlgCoord, moo_pJungle] = setup_data();
-			auto [original_pDrlgCoord, original_pJungle] = setup_data();
+			D2DrlgCoordStrc moo_pDrlgCoord{};
+			D2JungleStrc moo_pJungle{};
+			D2DrlgCoordStrc original_pDrlgCoord{};
+			D2JungleStrc original_pJungle{};
 			int nRand{};
 			int nSizeX{};
 			int nSizeY{};
+
+			const auto setup_data = [](
+				D2DrlgCoordStrc& pDrlgCoord,
+				D2JungleStrc& pJungle
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgCoord, moo_pJungle);
+			setup_data(original_pDrlgCoord, original_pJungle);
 
 			// Call both implementations
 			sut(&moo_pDrlgCoord, &moo_pJungle, nRand, nSizeX, nSizeY);
@@ -991,16 +1062,18 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom);
@@ -1018,16 +1091,9 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			int nX{};
 			int nY{};
 			int nWidth{};
@@ -1036,6 +1102,15 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			int dwOutdoorFlags{};
 			int dwOutdoorFlagsEx{};
 			int dwDT1Mask{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			sut(&moo_pLevel, nX, nY, nWidth, nHeight, dwRoomFlags, dwOutdoorFlags, dwOutdoorFlagsEx, dwDT1Mask);

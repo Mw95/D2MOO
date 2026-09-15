@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,17 +26,21 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pDestUnit{};
-				D2UnitStrc pSrcUnit{};
-				
-				return std::tuple{ pDestUnit, pSrcUnit };
-			};
-			
 			// Input data
-			auto [moo_pDestUnit, moo_pSrcUnit] = setup_data();
-			auto [original_pDestUnit, original_pSrcUnit] = setup_data();
+			D2UnitStrc moo_pDestUnit{};
+			D2UnitStrc moo_pSrcUnit{};
+			D2UnitStrc original_pDestUnit{};
+			D2UnitStrc original_pSrcUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pDestUnit,
+				D2UnitStrc& pSrcUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDestUnit, moo_pSrcUnit);
+			setup_data(original_pDestUnit, original_pSrcUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDestUnit, &moo_pSrcUnit);
@@ -59,18 +62,20 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				
-				return std::tuple{ pRoom };
-			};
-			
 			// Input data
-			auto [moo_pRoom] = setup_data();
-			auto [original_pRoom] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			int nUnitType{};
 			int nClassId{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom);
+			setup_data(original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, nUnitType, nClassId);
@@ -91,19 +96,25 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2ActiveRoomStrc pRoom{};
-				D2UnitStrc* ppUnits{};
-				D2UnitFindArgStrc pUnitFindArg{};
-				
-				return std::tuple{ pRoom, ppUnits, pUnitFindArg };
-			};
-			
 			// Input data
-			auto [moo_pRoom, moo_ppUnits, moo_pUnitFindArg] = setup_data();
-			auto [original_pRoom, original_ppUnits, original_pUnitFindArg] = setup_data();
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitStrc* moo_ppUnits{};
+			D2UnitFindArgStrc moo_pUnitFindArg{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2UnitStrc* original_ppUnits{};
+			D2UnitFindArgStrc original_pUnitFindArg{};
 			UNITFINDTEST pfnUnitTest{};
+
+			const auto setup_data = [](
+				D2ActiveRoomStrc& pRoom,
+				D2UnitStrc*& ppUnits,
+				D2UnitFindArgStrc& pUnitFindArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pRoom, moo_ppUnits, moo_pUnitFindArg);
+			setup_data(original_pRoom, original_ppUnits, original_pUnitFindArg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pRoom, &moo_ppUnits, pfnUnitTest, &moo_pUnitFindArg);
@@ -126,19 +137,21 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nX{};
 			int nY{};
 			int nSize{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nX, nY, nSize, nullptr);
@@ -159,24 +172,30 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitFindDataStrc pUnitFindData{};
-				D2ActiveRoomStrc pRoom{};
-				D2UnitFindArgStrc pUnitFindArg{};
-				
-				return std::tuple{ pUnitFindData, pRoom, pUnitFindArg };
-			};
-			
 			// Input data
-			auto [moo_pUnitFindData, moo_pRoom, moo_pUnitFindArg] = setup_data();
-			auto [original_pUnitFindData, original_pRoom, original_pUnitFindArg] = setup_data();
+			D2UnitFindDataStrc moo_pUnitFindData{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2UnitFindArgStrc moo_pUnitFindArg{};
+			D2UnitFindDataStrc original_pUnitFindData{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2UnitFindArgStrc original_pUnitFindArg{};
 			void* moo_pMemPool = nullptr;
 			void* original_pMemPool = nullptr;
 			int nX{};
 			int nY{};
 			int nSize{};
 			UNITFINDTEST pfnUnitTest{};
+
+			const auto setup_data = [](
+				D2UnitFindDataStrc& pUnitFindData,
+				D2ActiveRoomStrc& pRoom,
+				D2UnitFindArgStrc& pUnitFindArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnitFindData, moo_pRoom, moo_pUnitFindArg);
+			setup_data(original_pUnitFindData, original_pRoom, original_pUnitFindArg);
 
 			// Call both implementations
 			sut(moo_pMemPool, &moo_pUnitFindData, &moo_pRoom, nX, nY, nSize, pfnUnitTest, &moo_pUnitFindArg);
@@ -197,16 +216,18 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitFindDataStrc pUnitFindData{};
-				
-				return std::tuple{ pUnitFindData };
-			};
-			
 			// Input data
-			auto [moo_pUnitFindData] = setup_data();
-			auto [original_pUnitFindData] = setup_data();
+			D2UnitFindDataStrc moo_pUnitFindData{};
+			D2UnitFindDataStrc original_pUnitFindData{};
+
+			const auto setup_data = [](
+				D2UnitFindDataStrc& pUnitFindData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnitFindData);
+			setup_data(original_pUnitFindData);
 
 			// Call both implementations
 			sut(&moo_pUnitFindData);
@@ -224,16 +245,18 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitFindDataStrc pUnitFindData{};
-				
-				return std::tuple{ pUnitFindData };
-			};
-			
 			// Input data
-			auto [moo_pUnitFindData] = setup_data();
-			auto [original_pUnitFindData] = setup_data();
+			D2UnitFindDataStrc moo_pUnitFindData{};
+			D2UnitFindDataStrc original_pUnitFindData{};
+
+			const auto setup_data = [](
+				D2UnitFindDataStrc& pUnitFindData
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnitFindData);
+			setup_data(original_pUnitFindData);
 
 			// Call both implementations
 			sut(&moo_pUnitFindData);
@@ -251,17 +274,21 @@ TEST_SUITE("UnitFindsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				D2UnitFindArgStrc pUnitFindArg{};
-				
-				return std::tuple{ pUnit, pUnitFindArg };
-			};
-			
 			// Input data
-			auto [moo_pUnit, moo_pUnitFindArg] = setup_data();
-			auto [original_pUnit, original_pUnitFindArg] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitFindArgStrc moo_pUnitFindArg{};
+			D2UnitStrc original_pUnit{};
+			D2UnitFindArgStrc original_pUnitFindArg{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit,
+				D2UnitFindArgStrc& pUnitFindArg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit, moo_pUnitFindArg);
+			setup_data(original_pUnit, original_pUnitFindArg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pUnitFindArg);

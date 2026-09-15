@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -25,7 +24,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -41,7 +39,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 
 			// Call both implementations
@@ -60,7 +57,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 
 			// Call both implementations
@@ -79,7 +75,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 
 			// Call both implementations
@@ -98,7 +93,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 
 			// Call both implementations
@@ -130,7 +124,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 			uint8_t nDifficulty{};
 			BOOL bExpansion{};
@@ -151,16 +144,18 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				int pnPortalLevels{};
-				
-				return std::tuple{ pnPortalLevels };
-			};
-			
 			// Input data
-			auto [moo_pnPortalLevels] = setup_data();
-			auto [original_pnPortalLevels] = setup_data();
+			int moo_pnPortalLevels{};
+			int original_pnPortalLevels{};
+
+			const auto setup_data = [](
+				int& pnPortalLevels
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pnPortalLevels);
+			setup_data(original_pnPortalLevels);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pnPortalLevels);
@@ -181,7 +176,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -210,7 +204,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 
 			// Call both implementations
@@ -229,7 +222,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -258,7 +250,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelType{};
 
 			// Call both implementations
@@ -277,7 +268,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelType{};
 			uint8_t nAct{};
 
@@ -297,18 +287,20 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				char szFile{};
-				
-				return std::tuple{ szFile };
-			};
-			
 			// Input data
-			auto [moo_szFile] = setup_data();
-			auto [original_szFile] = setup_data();
+			char moo_szFile{};
+			char original_szFile{};
 			int nLevelType{};
 			int nFile{};
+
+			const auto setup_data = [](
+				char& szFile
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_szFile);
+			setup_data(original_szFile);
 
 			// Call both implementations
 			sut(nLevelType, nFile, &moo_szFile);
@@ -326,7 +318,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 			int a2{};
 
@@ -356,7 +347,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nId{};
 
 			// Call both implementations
@@ -375,7 +365,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 
 			// Call both implementations
@@ -394,7 +383,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -423,7 +411,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 			char szDirection{};
 
@@ -443,7 +430,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -472,7 +458,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nLevelId{};
 
 			// Call both implementations
@@ -491,7 +476,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 			int a2{};
 			int a3{};
@@ -522,7 +506,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nSubType{};
 
 			// Call both implementations
@@ -567,7 +550,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
@@ -583,7 +565,6 @@ TEST_SUITE("LevelsTblsTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			uint32_t dwAutomapLevelType{};
 			uint32_t dwAutomapTileType{};
 			int nStyle{};

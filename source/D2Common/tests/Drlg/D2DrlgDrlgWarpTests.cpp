@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -27,19 +26,25 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				int pDestinationLevel{};
-				D2LvlWarpTxt* ppLvlWarpTxtRecord{};
-				
-				return std::tuple{ pDrlgRoom, pDestinationLevel, ppLvlWarpTxtRecord };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom, moo_pDestinationLevel, moo_ppLvlWarpTxtRecord] = setup_data();
-			auto [original_pDrlgRoom, original_pDestinationLevel, original_ppLvlWarpTxtRecord] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			int moo_pDestinationLevel{};
+			D2LvlWarpTxt* moo_ppLvlWarpTxtRecord{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+			int original_pDestinationLevel{};
+			D2LvlWarpTxt* original_ppLvlWarpTxtRecord{};
 			int nSourceLevel{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom,
+				int& pDestinationLevel,
+				D2LvlWarpTxt*& ppLvlWarpTxtRecord
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom, moo_pDestinationLevel, moo_ppLvlWarpTxtRecord);
+			setup_data(original_pDrlgRoom, original_pDestinationLevel, original_ppLvlWarpTxtRecord);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgRoom, nSourceLevel, &moo_pDestinationLevel, &moo_ppLvlWarpTxtRecord);
@@ -62,17 +67,19 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			BOOL bEnabled{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom, bEnabled);
@@ -90,17 +97,19 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			int nLevelId{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom, nLevelId);
@@ -118,17 +127,19 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				
-				return std::tuple{ pDrlgRoom };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom] = setup_data();
-			auto [original_pDrlgRoom] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			int nLevelId{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom);
+			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
 			sut(&moo_pDrlgRoom, nLevelId);
@@ -146,20 +157,26 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pDrlg, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pDrlg, moo_pX, moo_pY] = setup_data();
-			auto [original_pDrlg, original_pX, original_pY] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			int moo_pX{};
+			int moo_pY{};
+			D2DrlgStrc original_pDrlg{};
+			int original_pX{};
+			int original_pY{};
 			int nLevelId{};
 			int nTileIndex{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg, moo_pX, moo_pY);
+			setup_data(original_pDrlg, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlg, nLevelId, nTileIndex, &moo_pX, &moo_pY);
@@ -182,18 +199,24 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pLevel, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pLevel, moo_pX, moo_pY] = setup_data();
-			auto [original_pLevel, original_pX, original_pY] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			int moo_pX{};
+			int moo_pY{};
+			D2DrlgLevelStrc original_pLevel{};
+			int original_pX{};
+			int original_pY{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel, moo_pX, moo_pY);
+			setup_data(original_pLevel, original_pX, original_pY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevel, &moo_pX, &moo_pY);
@@ -216,17 +239,19 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgStrc pDrlg{};
-				
-				return std::tuple{ pDrlg };
-			};
-			
 			// Input data
-			auto [moo_pDrlg] = setup_data();
-			auto [original_pDrlg] = setup_data();
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
 			int nLevelId{};
+
+			const auto setup_data = [](
+				D2DrlgStrc& pDrlg
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlg);
+			setup_data(original_pDrlg);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlg, nLevelId);
@@ -247,17 +272,19 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			uint8_t nArrayId{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevel, nArrayId);
@@ -278,18 +305,20 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgLevelStrc pLevel{};
-				
-				return std::tuple{ pLevel };
-			};
-			
 			// Input data
-			auto [moo_pLevel] = setup_data();
-			auto [original_pLevel] = setup_data();
+			D2DrlgLevelStrc moo_pLevel{};
+			D2DrlgLevelStrc original_pLevel{};
 			uint8_t nWarpId{};
 			char szDirection{};
+
+			const auto setup_data = [](
+				D2DrlgLevelStrc& pLevel
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pLevel);
+			setup_data(original_pLevel);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pLevel, nWarpId, szDirection);
@@ -310,17 +339,21 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2DrlgRoomStrc pDrlgRoom{};
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pDrlgRoom, pUnit };
-			};
-			
 			// Input data
-			auto [moo_pDrlgRoom, moo_pUnit] = setup_data();
-			auto [original_pDrlgRoom, original_pUnit] = setup_data();
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2UnitStrc moo_pUnit{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2DrlgRoomStrc& pDrlgRoom,
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pDrlgRoom, moo_pUnit);
+			setup_data(original_pDrlgRoom, original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDrlgRoom, &moo_pUnit);
