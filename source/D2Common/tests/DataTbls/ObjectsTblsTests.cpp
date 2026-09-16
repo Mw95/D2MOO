@@ -42,8 +42,8 @@ TEST_SUITE("ObjectsTblsTests")
 			int nObjectId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nObjectId);
-			const auto original_result = original(nObjectId);
+			auto moo_result = sut(nObjectId);
+			auto original_result = original(nObjectId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -101,8 +101,8 @@ TEST_SUITE("ObjectsTblsTests")
 			int nId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nId);
-			const auto original_result = original(nId);
+			auto moo_result = sut(nId);
+			auto original_result = original(nId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -134,8 +134,8 @@ TEST_SUITE("ObjectsTblsTests")
 			int nShrineId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nShrineId);
-			const auto original_result = original(nShrineId);
+			auto moo_result = sut(nShrineId);
+			auto original_result = original(nShrineId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -150,8 +150,8 @@ TEST_SUITE("ObjectsTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -39,8 +39,8 @@ TEST_SUITE("D2DataTblsTests")
 			setup_data(original_szReference);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_szReference);
-			const auto original_result = original(&original_szReference);
+			auto moo_result = sut(&moo_szReference);
+			auto original_result = original(&original_szReference);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -60,8 +60,8 @@ TEST_SUITE("D2DataTblsTests")
 			int nCompCode{};
 
 			// Call both implementations
-			const auto moo_result = sut(nCompCode);
-			const auto original_result = original(nCompCode);
+			auto moo_result = sut(nCompCode);
+			auto original_result = original(nCompCode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -78,8 +78,8 @@ TEST_SUITE("D2DataTblsTests")
 			int nLevel{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevel);
-			const auto original_result = original(nLevel);
+			auto moo_result = sut(nLevel);
+			auto original_result = original(nLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -97,8 +97,8 @@ TEST_SUITE("D2DataTblsTests")
 			uint32_t dwLevel{};
 
 			// Call both implementations
-			const auto moo_result = sut(nClass, dwLevel);
-			const auto original_result = original(nClass, dwLevel);
+			auto moo_result = sut(nClass, dwLevel);
+			auto original_result = original(nClass, dwLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -115,8 +115,8 @@ TEST_SUITE("D2DataTblsTests")
 			int nClass{};
 
 			// Call both implementations
-			const auto moo_result = sut(nClass);
-			const auto original_result = original(nClass);
+			auto moo_result = sut(nClass);
+			auto original_result = original(nClass);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -134,8 +134,8 @@ TEST_SUITE("D2DataTblsTests")
 			uint32_t dwExperience{};
 
 			// Call both implementations
-			const auto moo_result = sut(nClass, dwExperience);
-			const auto original_result = original(nClass, dwExperience);
+			auto moo_result = sut(nClass, dwExperience);
+			auto original_result = original(nClass, dwExperience);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -211,8 +211,8 @@ TEST_SUITE("D2DataTblsTests")
 			setup_data(original_ppCodes, original_pSize, original_pSizeEx);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_ppCodes, &moo_pSize, &moo_pSizeEx, moo_pBuffer, nBufferSize);
-			const auto original_result = original(&original_ppCodes, &original_pSize, &original_pSizeEx, original_pBuffer, nBufferSize);
+			auto moo_result = sut(&moo_ppCodes, &moo_pSize, &moo_pSizeEx, moo_pBuffer, nBufferSize);
+			auto original_result = original(&original_ppCodes, &original_pSize, &original_pSizeEx, original_pBuffer, nBufferSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -233,8 +233,8 @@ TEST_SUITE("D2DataTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -249,8 +249,8 @@ TEST_SUITE("D2DataTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -267,8 +267,8 @@ TEST_SUITE("D2DataTblsTests")
 			int nDifficulty{};
 
 			// Call both implementations
-			const auto moo_result = sut(nDifficulty);
-			const auto original_result = original(nDifficulty);
+			auto moo_result = sut(nDifficulty);
+			auto original_result = original(nDifficulty);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -342,8 +342,8 @@ TEST_SUITE("D2DataTblsTests")
 			setup_data(original_pUnit, original_szName);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_szName);
-			const auto original_result = original(&original_pUnit, &original_szName);
+			auto moo_result = sut(&moo_pUnit, &moo_szName);
+			auto original_result = original(&original_pUnit, &original_szName);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -377,8 +377,8 @@ TEST_SUITE("D2DataTblsTests")
 			setup_data(original_szName);
 
 			// Call both implementations
-			const auto moo_result = sut(nUnitType, nClassId, &moo_szName);
-			const auto original_result = original(nUnitType, nClassId, &original_szName);
+			auto moo_result = sut(nUnitType, nClassId, &moo_szName);
+			auto original_result = original(nUnitType, nClassId, &original_szName);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -449,8 +449,8 @@ TEST_SUITE("D2DataTblsTests")
 			setup_data(original_pTbl, original_pRecordCount);
 
 			// Call both implementations
-			const auto moo_result = sut(hArchive, &szName, &moo_pTbl, &moo_pRecordCount, dwSize);
-			const auto original_result = original(hArchive, &szName, &original_pTbl, &original_pRecordCount, dwSize);
+			auto moo_result = sut(hArchive, &szName, &moo_pTbl, &moo_pRecordCount, dwSize);
+			auto original_result = original(hArchive, &szName, &original_pTbl, &original_pRecordCount, dwSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

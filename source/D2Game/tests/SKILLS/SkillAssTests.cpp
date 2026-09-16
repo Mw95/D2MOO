@@ -48,8 +48,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -86,8 +86,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -124,8 +124,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -196,8 +196,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -234,8 +234,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -322,8 +322,8 @@ TEST_SUITE("SkillAssTests")
 			int32_t nSkillId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nSkillId);
-			const auto original_result = original(nSkillId);
+			auto moo_result = sut(nSkillId);
+			auto original_result = original(nSkillId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -391,8 +391,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pAuraCallback, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
-			const auto original_result = original(&original_pAuraCallback, &original_pUnit);
+			auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
+			auto original_result = original(&original_pAuraCallback, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -425,8 +425,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nSkillId);
-			const auto original_result = original(&original_pUnit, nSkillId);
+			auto moo_result = sut(&moo_pUnit, nSkillId);
+			auto original_result = original(&original_pUnit, nSkillId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -459,8 +459,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -496,8 +496,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -534,8 +534,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -572,8 +572,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -610,8 +610,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -718,8 +718,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -826,8 +826,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -864,8 +864,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -939,8 +939,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1020,8 +1020,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1064,8 +1064,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit, nMissileId, nSubMissiles, nRange, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit, nMissileId, nSubMissiles, nRange, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit, nMissileId, nSubMissiles, nRange, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit, nMissileId, nSubMissiles, nRange, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1103,8 +1103,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1146,8 +1146,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit, original_pSkillsTxtRecord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, &moo_pSkillsTxtRecord, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY, &original_pSkillsTxtRecord, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, &moo_pSkillsTxtRecord, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY, &original_pSkillsTxtRecord, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1185,8 +1185,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1223,8 +1223,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1261,8 +1261,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1367,8 +1367,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1403,8 +1403,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pAuraCallback, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
-			const auto original_result = original(&original_pAuraCallback, &original_pUnit);
+			auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
+			auto original_result = original(&original_pAuraCallback, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1441,8 +1441,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1479,8 +1479,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1592,8 +1592,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1630,8 +1630,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1668,8 +1668,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1738,8 +1738,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pAuraCallback, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
-			const auto original_result = original(&original_pAuraCallback, &original_pUnit);
+			auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
+			auto original_result = original(&original_pAuraCallback, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1776,8 +1776,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1814,8 +1814,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1852,8 +1852,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1890,8 +1890,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1926,8 +1926,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pAuraCallback, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
-			const auto original_result = original(&original_pAuraCallback, &original_pUnit);
+			auto moo_result = sut(&moo_pAuraCallback, &moo_pUnit);
+			auto original_result = original(&original_pAuraCallback, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1964,8 +1964,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2002,8 +2002,8 @@ TEST_SUITE("SkillAssTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, nSkillLevel);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, nSkillLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

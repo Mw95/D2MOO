@@ -83,8 +83,8 @@ TEST_SUITE("StepTests")
 			setup_data(original_pDynamicPath, original_a2, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDynamicPath, &moo_a2, &moo_pUnit);
-			const auto original_result = original(&original_pDynamicPath, &original_a2, &original_pUnit);
+			auto moo_result = sut(&moo_pDynamicPath, &moo_a2, &moo_pUnit);
+			auto original_result = original(&original_pDynamicPath, &original_a2, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -121,8 +121,8 @@ TEST_SUITE("StepTests")
 			setup_data(original_pDynamicPath, original_pDestRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDynamicPath, &moo_pDestRoom, tDest);
-			const auto original_result = original(&original_pDynamicPath, &original_pDestRoom, tDest);
+			auto moo_result = sut(&moo_pDynamicPath, &moo_pDestRoom, tDest);
+			auto original_result = original(&original_pDynamicPath, &original_pDestRoom, tDest);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -193,8 +193,8 @@ TEST_SUITE("StepTests")
 			setup_data(original_pDynamicPath, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDynamicPath, a2, &moo_pRoom, a4, a5);
-			const auto original_result = original(&original_pDynamicPath, a2, &original_pRoom, a4, a5);
+			auto moo_result = sut(&moo_pDynamicPath, a2, &moo_pRoom, a4, a5);
+			auto original_result = original(&original_pDynamicPath, a2, &original_pRoom, a4, a5);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -234,8 +234,8 @@ TEST_SUITE("StepTests")
 			setup_data(original_pDynamicPath, original_pUnit_unused, original_pRooms);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDynamicPath, &moo_pUnit_unused, &moo_pRooms, nX, nY);
-			const auto original_result = original(&original_pDynamicPath, &original_pUnit_unused, &original_pRooms, nX, nY);
+			auto moo_result = sut(&moo_pDynamicPath, &moo_pUnit_unused, &moo_pRooms, nX, nY);
+			auto original_result = original(&original_pDynamicPath, &original_pUnit_unused, &original_pRooms, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -276,8 +276,8 @@ TEST_SUITE("StepTests")
 			setup_data(original_pPath, original_pUnit, original_pDestRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPath, &moo_pUnit, &moo_pDestRoom, nTargetX, nTargetY);
-			const auto original_result = original(&original_pPath, &original_pUnit, &original_pDestRoom, nTargetX, nTargetY);
+			auto moo_result = sut(&moo_pPath, &moo_pUnit, &moo_pDestRoom, nTargetX, nTargetY);
+			auto original_result = original(&original_pPath, &original_pUnit, &original_pDestRoom, nTargetX, nTargetY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -339,8 +339,8 @@ TEST_SUITE("StepTests")
 			setup_data(original_pDynamicPath);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDynamicPath);
-			const auto original_result = original(&original_pDynamicPath);
+			auto moo_result = sut(&moo_pDynamicPath);
+			auto original_result = original(&original_pDynamicPath);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

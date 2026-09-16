@@ -28,8 +28,8 @@ TEST_SUITE("TransformTblsTests")
 			int a2{};
 
 			// Call both implementations
-			const auto moo_result = sut(a1, a2);
-			const auto original_result = original(a1, a2);
+			auto moo_result = sut(a1, a2);
+			auto original_result = original(a1, a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

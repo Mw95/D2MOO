@@ -394,8 +394,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pGame, original_pPlayer, original_pPet);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPet);
-			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pPet);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPet);
+			auto original_result = original(&original_pGame, &original_pPlayer, &original_pPet);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -504,8 +504,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer, nPetType);
-			const auto original_result = original(&original_pPlayer, nPetType);
+			auto moo_result = sut(&moo_pPlayer, nPetType);
+			auto original_result = original(&original_pPlayer, nPetType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -548,8 +548,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pGame, original_pPlayer, original_pPetList, original_pPet, original_pPetInfo);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPetList, &moo_pPet, &moo_pPetInfo);
-			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pPetList, &original_pPet, &original_pPetInfo);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPetList, &moo_pPet, &moo_pPetInfo);
+			auto original_result = original(&original_pGame, &original_pPlayer, &original_pPetList, &original_pPet, &original_pPetInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -662,8 +662,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer, nPetGUID);
-			const auto original_result = original(&original_pPlayer, nPetGUID);
+			auto moo_result = sut(&moo_pPlayer, nPetGUID);
+			auto original_result = original(&original_pPlayer, nPetGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -700,8 +700,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pGame, original_pPlayer, original_pPet);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPet);
-			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pPet);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPet);
+			auto original_result = original(&original_pGame, &original_pPlayer, &original_pPet);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -735,8 +735,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nUnitGUID);
-			const auto original_result = original(&original_pUnit, nUnitGUID);
+			auto moo_result = sut(&moo_pUnit, nUnitGUID);
+			auto original_result = original(&original_pUnit, nUnitGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -801,8 +801,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pPlayerPets);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayerPets, nPetType);
-			const auto original_result = original(&original_pPlayerPets, nPetType);
+			auto moo_result = sut(&moo_pPlayerPets, nPetType);
+			auto original_result = original(&original_pPlayerPets, nPetType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -985,8 +985,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nPetType, a4);
-			const auto original_result = original(&original_pGame, &original_pPlayer, nPetType, a4);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, nPetType, a4);
+			auto original_result = original(&original_pGame, &original_pPlayer, nPetType, a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1018,8 +1018,8 @@ TEST_SUITE("PlayerPetsTests")
 			setup_data(original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer);
-			const auto original_result = original(&original_pPlayer);
+			auto moo_result = sut(&moo_pPlayer);
+			auto original_result = original(&original_pPlayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

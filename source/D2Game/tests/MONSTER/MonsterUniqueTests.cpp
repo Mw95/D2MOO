@@ -72,8 +72,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -104,8 +104,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -137,8 +137,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nFlag);
-			const auto original_result = original(&original_pUnit, nFlag);
+			auto moo_result = sut(&moo_pUnit, nFlag);
+			auto original_result = original(&original_pUnit, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -200,8 +200,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -232,8 +232,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -267,8 +267,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -353,8 +353,8 @@ TEST_SUITE("MonsterUniqueTests")
 			int32_t a3{};
 
 			// Call both implementations
-			const auto moo_result = sut(a1, a2, a3);
-			const auto original_result = original(a1, a2, a3);
+			auto moo_result = sut(a1, a2, a3);
+			auto original_result = original(a1, a2, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1496,8 +1496,8 @@ TEST_SUITE("MonsterUniqueTests")
 			uint32_t nUMod{};
 
 			// Call both implementations
-			const auto moo_result = sut(nUMod);
-			const auto original_result = original(nUMod);
+			auto moo_result = sut(nUMod);
+			auto original_result = original(nUMod);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2373,8 +2373,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pGame, original_pRoom, original_pRoomCoordList);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nSuperUniqueId, a5, nX, nY, a8);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pRoomCoordList, nSuperUniqueId, a5, nX, nY, a8);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nSuperUniqueId, a5, nX, nY, a8);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pRoomCoordList, nSuperUniqueId, a5, nX, nY, a8);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2441,8 +2441,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2473,8 +2473,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUMods);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUMods);
-			const auto original_result = original(&original_pUMods);
+			auto moo_result = sut(&moo_pUMods);
+			auto original_result = original(&original_pUMods);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2509,8 +2509,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pUnit, original_pMonUModTxtRecord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pMonUModTxtRecord, bExpansion);
-			const auto original_result = original(&original_pUnit, &original_pMonUModTxtRecord, bExpansion);
+			auto moo_result = sut(&moo_pUnit, &moo_pMonUModTxtRecord, bExpansion);
+			auto original_result = original(&original_pUnit, &original_pMonUModTxtRecord, bExpansion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2548,8 +2548,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pGame, original_pUnit, original_a3);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_a3);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_a3);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_a3);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2572,8 +2572,8 @@ TEST_SUITE("MonsterUniqueTests")
 			int32_t nFlag{};
 
 			// Call both implementations
-			const auto moo_result = sut(nMonsterId, nFlag);
-			const auto original_result = original(nMonsterId, nFlag);
+			auto moo_result = sut(nMonsterId, nFlag);
+			auto original_result = original(nMonsterId, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2591,8 +2591,8 @@ TEST_SUITE("MonsterUniqueTests")
 			int32_t nFlag{};
 
 			// Call both implementations
-			const auto moo_result = sut(nMonsterId, nFlag);
-			const auto original_result = original(nMonsterId, nFlag);
+			auto moo_result = sut(nMonsterId, nFlag);
+			auto original_result = original(nMonsterId, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2631,8 +2631,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pGame, original_pRoom, original_pRoomCoordList);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nX, nY, nUnitGUID, nClassId, a8);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pRoomCoordList, nX, nY, nUnitGUID, nClassId, a8);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nX, nY, nUnitGUID, nClassId, a8);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pRoomCoordList, nX, nY, nUnitGUID, nClassId, a8);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2746,8 +2746,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nSuperUnique);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nSuperUnique);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nSuperUnique);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nSuperUnique);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2793,8 +2793,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pGame, original_pRoom, original_pUMods);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nClassId, nUnitGUID, nNameSeed, bChampion, bSuperUnique, nBossHcIdx, &moo_pUMods);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nClassId, nUnitGUID, nNameSeed, bChampion, bSuperUnique, nBossHcIdx, &original_pUMods);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nClassId, nUnitGUID, nNameSeed, bChampion, bSuperUnique, nBossHcIdx, &moo_pUMods);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nClassId, nUnitGUID, nNameSeed, bChampion, bSuperUnique, nBossHcIdx, &original_pUMods);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2837,8 +2837,8 @@ TEST_SUITE("MonsterUniqueTests")
 			setup_data(original_pGame, original_pRoom, original_pUMods);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nClassId, nUnitGUID, &moo_pUMods);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nClassId, nUnitGUID, &original_pUMods);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nClassId, nUnitGUID, &moo_pUMods);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nClassId, nUnitGUID, &original_pUMods);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

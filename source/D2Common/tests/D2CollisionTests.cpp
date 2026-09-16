@@ -99,8 +99,8 @@ TEST_SUITE("D2CollisionTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -234,8 +234,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -335,8 +335,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nSizeX, nSizeY, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nSizeX, nSizeY, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nSizeX, nSizeY, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nSizeX, nSizeY, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -371,8 +371,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pCollisionGrid, original_pBoundingBox);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pCollisionGrid, &moo_pBoundingBox, nMask);
-			const auto original_result = original(&original_pCollisionGrid, &original_pBoundingBox, nMask);
+			auto moo_result = sut(&moo_pCollisionGrid, &moo_pBoundingBox, nMask);
+			auto original_result = original(&original_pCollisionGrid, &original_pBoundingBox, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -410,8 +410,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom, original_pBoundingBox, original_pBoundingBoxes);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pBoundingBox, &moo_pBoundingBoxes);
-			const auto original_result = original(&original_pRoom, &original_pBoundingBox, &original_pBoundingBoxes);
+			auto moo_result = sut(&moo_pRoom, &moo_pBoundingBox, &moo_pBoundingBoxes);
+			auto original_result = original(&original_pRoom, &original_pBoundingBox, &original_pBoundingBoxes);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -448,8 +448,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom, original_pBoundingBox);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pBoundingBox, nMask);
-			const auto original_result = original(&original_pRoom, &original_pBoundingBox, nMask);
+			auto moo_result = sut(&moo_pRoom, &moo_pBoundingBox, nMask);
+			auto original_result = original(&original_pRoom, &original_pBoundingBox, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -485,8 +485,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nCollisionPattern, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nCollisionPattern, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -520,8 +520,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -555,8 +555,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -591,8 +591,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nCollisionPattern, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nCollisionPattern, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nCollisionPattern, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -626,8 +626,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -662,8 +662,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY, nUnitSize, nMask);
-			const auto original_result = original(&original_pRoom, nX, nY, nUnitSize, nMask);
+			auto moo_result = sut(&moo_pRoom, nX, nY, nUnitSize, nMask);
+			auto original_result = original(&original_pRoom, nX, nY, nUnitSize, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1101,8 +1101,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX1, nY1, nX2, nY2, nUnitSize, nCollisionMask, nMoveConditionMask);
-			const auto original_result = original(&original_pRoom, nX1, nY1, nX2, nY2, nUnitSize, nCollisionMask, nMoveConditionMask);
+			auto moo_result = sut(&moo_pRoom, nX1, nY1, nX2, nY2, nUnitSize, nCollisionMask, nMoveConditionMask);
+			auto original_result = original(&original_pRoom, nX1, nY1, nX2, nY2, nUnitSize, nCollisionMask, nMoveConditionMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1173,8 +1173,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX1, nY1, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
-			const auto original_result = original(&original_pRoom, nX1, nY1, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
+			auto moo_result = sut(&moo_pRoom, nX1, nY1, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
+			auto original_result = original(&original_pRoom, nX1, nY1, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1215,8 +1215,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nUnitSize, nFootprintCollisionMask, nMoveConditionMask);
-			const auto original_result = original(&original_pRoom1, nX1, nY1, &original_pRoom2, nX2, nY2, nUnitSize, nFootprintCollisionMask, nMoveConditionMask);
+			auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nUnitSize, nFootprintCollisionMask, nMoveConditionMask);
+			auto original_result = original(&original_pRoom1, nX1, nY1, &original_pRoom2, nX2, nY2, nUnitSize, nFootprintCollisionMask, nMoveConditionMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1257,8 +1257,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nUnitSize, nMask);
-			const auto original_result = original(&original_pRoom1, nX1, nY1, &original_pRoom2, nX2, nY2, nUnitSize, nMask);
+			auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nUnitSize, nMask);
+			auto original_result = original(&original_pRoom1, nX1, nY1, &original_pRoom2, nX2, nY2, nUnitSize, nMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1300,8 +1300,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom1, original_pRoom2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
-			const auto original_result = original(&original_pRoom1, nX1, nY1, &original_pRoom2, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
+			auto moo_result = sut(&moo_pRoom1, nX1, nY1, &moo_pRoom2, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
+			auto original_result = original(&original_pRoom1, nX1, nY1, &original_pRoom2, nX2, nY2, nCollisionPattern, nFootprintCollisionMask, nMoveConditionMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1379,8 +1379,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom, original_pSpawnPoint);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms, nMaxDistance);
-			const auto original_result = original(&original_pRoom, &original_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms, nMaxDistance);
+			auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms, nMaxDistance);
+			auto original_result = original(&original_pRoom, &original_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms, nMaxDistance);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1424,8 +1424,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom, original_ptSpawnPoint, original_pFieldCoord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_ptSpawnPoint, &moo_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms, nMaxDistance, nPosIncrementValue);
-			const auto original_result = original(&original_pRoom, &original_ptSpawnPoint, &original_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms, nMaxDistance, nPosIncrementValue);
+			auto moo_result = sut(&moo_pRoom, &moo_ptSpawnPoint, &moo_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms, nMaxDistance, nPosIncrementValue);
+			auto original_result = original(&original_pRoom, &original_ptSpawnPoint, &original_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms, nMaxDistance, nPosIncrementValue);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1464,8 +1464,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom, original_pSpawnPoint);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms);
-			const auto original_result = original(&original_pRoom, &original_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms);
+			auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms);
+			auto original_result = original(&original_pRoom, &original_pSpawnPoint, nUnitSize, nMask, bAllowNeighborRooms);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1503,8 +1503,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom, original_pSpawnPoint);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, nPosIncrementValue);
-			const auto original_result = original(&original_pRoom, &original_pSpawnPoint, nUnitSize, nMask, nPosIncrementValue);
+			auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, nUnitSize, nMask, nPosIncrementValue);
+			auto original_result = original(&original_pRoom, &original_pSpawnPoint, nUnitSize, nMask, nPosIncrementValue);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1546,8 +1546,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom, original_pSpawnPoint, original_pFieldCoord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, &moo_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms);
-			const auto original_result = original(&original_pRoom, &original_pSpawnPoint, &original_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms);
+			auto moo_result = sut(&moo_pRoom, &moo_pSpawnPoint, &moo_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms);
+			auto original_result = original(&original_pRoom, &original_pSpawnPoint, &original_pFieldCoord, nUnitSize, nMask, nFieldMask, bAllowNeighborRooms);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1621,8 +1621,8 @@ TEST_SUITE("D2CollisionTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY);
-			const auto original_result = original(&original_pRoom, nX, nY);
+			auto moo_result = sut(&moo_pRoom, nX, nY);
+			auto original_result = original(&original_pRoom, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

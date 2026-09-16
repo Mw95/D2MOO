@@ -46,8 +46,8 @@ TEST_SUITE("SUnitProxyTests")
 			setup_data(original_pGame, original_pIndex);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nNpcClassId, &moo_pIndex);
-			const auto original_result = original(&original_pGame, nNpcClassId, &original_pIndex);
+			auto moo_result = sut(&moo_pGame, nNpcClassId, &moo_pIndex);
+			auto original_result = original(&original_pGame, nNpcClassId, &original_pIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -85,8 +85,8 @@ TEST_SUITE("SUnitProxyTests")
 			setup_data(original_pGame, original_pNpc, original_pIndex);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pNpc, &moo_pIndex);
-			const auto original_result = original(&original_pGame, &original_pNpc, &original_pIndex);
+			auto moo_result = sut(&moo_pGame, &moo_pNpc, &moo_pIndex);
+			auto original_result = original(&original_pGame, &original_pNpc, &original_pIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -458,8 +458,8 @@ TEST_SUITE("SUnitProxyTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nNpc);
-			const auto original_result = original(&original_pGame, nNpc);
+			auto moo_result = sut(&moo_pGame, nNpc);
+			auto original_result = original(&original_pGame, nNpc);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -490,8 +490,8 @@ TEST_SUITE("SUnitProxyTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame);
-			const auto original_result = original(&original_pGame);
+			auto moo_result = sut(&moo_pGame);
+			auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -606,8 +606,8 @@ TEST_SUITE("SUnitProxyTests")
 			setup_data(original_pGame, original_pPlayer, original_pNpc);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNpc);
-			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pNpc);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNpc);
+			auto original_result = original(&original_pGame, &original_pPlayer, &original_pNpc);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -646,8 +646,8 @@ TEST_SUITE("SUnitProxyTests")
 			setup_data(original_pGame, original_pNpcRecord, original_pNpc);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pNpcRecord, &moo_pNpc);
-			const auto original_result = original(&original_pGame, &original_pNpcRecord, &original_pNpc);
+			auto moo_result = sut(&moo_pGame, &moo_pNpcRecord, &moo_pNpc);
+			auto original_result = original(&original_pGame, &original_pNpcRecord, &original_pNpc);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

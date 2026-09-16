@@ -30,8 +30,8 @@ TEST_SUITE("DebugTests")
 			int32_t nUnitGUID{};
 
 			// Call both implementations
-			const auto moo_result = sut(nUnitType, nUnitGUID);
-			const auto original_result = original(nUnitType, nUnitGUID);
+			auto moo_result = sut(nUnitType, nUnitGUID);
+			auto original_result = original(nUnitType, nUnitGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -48,8 +48,8 @@ TEST_SUITE("DebugTests")
 			uint8_t nAct{};
 
 			// Call both implementations
-			const auto moo_result = sut(nAct);
-			const auto original_result = original(nAct);
+			auto moo_result = sut(nAct);
+			auto original_result = original(nAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -64,8 +64,8 @@ TEST_SUITE("DebugTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -84,8 +84,8 @@ TEST_SUITE("DebugTests")
 			int32_t nY{};
 
 			// Call both implementations
-			const auto moo_result = sut(nAct, nX, nY);
-			const auto original_result = original(nAct, nX, nY);
+			auto moo_result = sut(nAct, nX, nY);
+			auto original_result = original(nAct, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

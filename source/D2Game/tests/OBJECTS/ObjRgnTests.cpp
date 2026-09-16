@@ -41,8 +41,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame);
-			const auto original_result = original(&original_pGame);
+			auto moo_result = sut(&moo_pGame);
+			auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -103,8 +103,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nLevelId);
-			const auto original_result = original(&original_pGame, nLevelId);
+			auto moo_result = sut(&moo_pGame, nLevelId);
+			auto original_result = original(&original_pGame, nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -135,8 +135,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame);
-			const auto original_result = original(&original_pGame);
+			auto moo_result = sut(&moo_pGame);
+			auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -167,8 +167,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame);
-			const auto original_result = original(&original_pGame);
+			auto moo_result = sut(&moo_pGame);
+			auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -266,8 +266,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nLevelId);
-			const auto original_result = original(&original_pGame, nLevelId);
+			auto moo_result = sut(&moo_pGame, nLevelId);
+			auto original_result = original(&original_pGame, nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -299,8 +299,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nLevelId);
-			const auto original_result = original(&original_pGame, nLevelId);
+			auto moo_result = sut(&moo_pGame, nLevelId);
+			auto original_result = original(&original_pGame, nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -332,8 +332,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nLevelId);
-			const auto original_result = original(&original_pGame, nLevelId);
+			auto moo_result = sut(&moo_pGame, nLevelId);
+			auto original_result = original(&original_pGame, nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -397,8 +397,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nLevelId, nX, nY);
-			const auto original_result = original(&original_pGame, nLevelId, nX, nY);
+			auto moo_result = sut(&moo_pGame, nLevelId, nX, nY);
+			auto original_result = original(&original_pGame, nLevelId, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -464,8 +464,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nLevelId, nX, nY);
-			const auto original_result = original(&original_pGame, nLevelId, nX, nY);
+			auto moo_result = sut(&moo_pGame, nLevelId, nX, nY);
+			auto original_result = original(&original_pGame, nLevelId, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -528,8 +528,8 @@ TEST_SUITE("ObjRgnTests")
 			setup_data(original_pOp);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pOp);
-			const auto original_result = original(&original_pOp);
+			auto moo_result = sut(&moo_pOp);
+			auto original_result = original(&original_pOp);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

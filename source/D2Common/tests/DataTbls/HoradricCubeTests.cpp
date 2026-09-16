@@ -79,8 +79,8 @@ TEST_SUITE("HoradricCubeTests")
 			setup_data(original_pCubeInput, original_szInput);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pCubeInput, &moo_szInput, nTxtRow, nItemId);
-			const auto original_result = original(&original_pCubeInput, &original_szInput, nTxtRow, nItemId);
+			auto moo_result = sut(&moo_pCubeInput, &moo_szInput, nTxtRow, nItemId);
+			auto original_result = original(&original_pCubeInput, &original_szInput, nTxtRow, nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -153,8 +153,8 @@ TEST_SUITE("HoradricCubeTests")
 			setup_data(original_pCubeOutputParam, original_szOutput);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pCubeOutputParam, &moo_szOutput, nTxtRow, nItemId);
-			const auto original_result = original(&original_pCubeOutputParam, &original_szOutput, nTxtRow, nItemId);
+			auto moo_result = sut(&moo_pCubeOutputParam, &moo_szOutput, nTxtRow, nItemId);
+			auto original_result = original(&original_pCubeOutputParam, &original_szOutput, nTxtRow, nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -239,8 +239,8 @@ TEST_SUITE("HoradricCubeTests")
 			int nIndex{};
 
 			// Call both implementations
-			const auto moo_result = sut(nIndex);
-			const auto original_result = original(nIndex);
+			auto moo_result = sut(nIndex);
+			auto original_result = original(nIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -255,8 +255,8 @@ TEST_SUITE("HoradricCubeTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

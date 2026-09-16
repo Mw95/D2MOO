@@ -51,8 +51,8 @@ TEST_SUITE("TaskTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -84,8 +84,8 @@ TEST_SUITE("TaskTests")
 			setup_data(original_pTask, original_pPrevTaskBalanceLink);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pTask, nTaskType, &moo_pPrevTaskBalanceLink);
-			const auto original_result = original(&original_pTask, nTaskType, &original_pPrevTaskBalanceLink);
+			auto moo_result = sut(&moo_pTask, nTaskType, &moo_pPrevTaskBalanceLink);
+			auto original_result = original(&original_pTask, nTaskType, &original_pPrevTaskBalanceLink);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -118,8 +118,8 @@ TEST_SUITE("TaskTests")
 			setup_data(original_pOutBalanceTaskType);
 
 			// Call both implementations
-			const auto moo_result = sut(a1, &moo_pOutBalanceTaskType);
-			const auto original_result = original(a1, &original_pOutBalanceTaskType);
+			auto moo_result = sut(a1, &moo_pOutBalanceTaskType);
+			auto original_result = original(a1, &original_pOutBalanceTaskType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -139,8 +139,8 @@ TEST_SUITE("TaskTests")
 			int8_t nTaskNumber{};
 
 			// Call both implementations
-			const auto moo_result = sut(nTaskNumber);
-			const auto original_result = original(nTaskNumber);
+			auto moo_result = sut(nTaskNumber);
+			auto original_result = original(nTaskNumber);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

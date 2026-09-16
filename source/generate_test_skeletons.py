@@ -556,8 +556,8 @@ def generate_test(function, dll_base_address):
         function_body_lines.append(f"\t\t\tsut({moo_call});")
         function_body_lines.append(f"\t\t\toriginal({original_call});")
     else:
-        function_body_lines.append(f"\t\t\tconst auto moo_result = sut({moo_call});")
-        function_body_lines.append(f"\t\t\tconst auto original_result = original({original_call});")
+        function_body_lines.append(f"\t\t\tauto moo_result = sut({moo_call});")
+        function_body_lines.append(f"\t\t\tauto original_result = original({original_call});")
         function_body_lines.append("\t\t\t")
         function_body_lines.append("\t\t\t// Compare return values")
         function_body_lines.append("\t\t\tSKIP_MOO_CHECK_EQ(moo_result, original_result, \"Comparing results\");")

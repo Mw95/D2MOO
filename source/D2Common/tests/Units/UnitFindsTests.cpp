@@ -43,8 +43,8 @@ TEST_SUITE("UnitFindsTests")
 			setup_data(original_pDestUnit, original_pSrcUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDestUnit, &moo_pSrcUnit);
-			const auto original_result = original(&original_pDestUnit, &original_pSrcUnit);
+			auto moo_result = sut(&moo_pDestUnit, &moo_pSrcUnit);
+			auto original_result = original(&original_pDestUnit, &original_pSrcUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -78,8 +78,8 @@ TEST_SUITE("UnitFindsTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nUnitType, nClassId);
-			const auto original_result = original(&original_pRoom, nUnitType, nClassId);
+			auto moo_result = sut(&moo_pRoom, nUnitType, nClassId);
+			auto original_result = original(&original_pRoom, nUnitType, nClassId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -117,8 +117,8 @@ TEST_SUITE("UnitFindsTests")
 			setup_data(original_pRoom, original_ppUnits, original_pUnitFindArg);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_ppUnits, pfnUnitTest, &moo_pUnitFindArg);
-			const auto original_result = original(&original_pRoom, &original_ppUnits, pfnUnitTest, &original_pUnitFindArg);
+			auto moo_result = sut(&moo_pRoom, &moo_ppUnits, pfnUnitTest, &moo_pUnitFindArg);
+			auto original_result = original(&original_pRoom, &original_ppUnits, pfnUnitTest, &original_pUnitFindArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -154,8 +154,8 @@ TEST_SUITE("UnitFindsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nX, nY, nSize, nullptr);
-			const auto original_result = original(&original_pUnit, nX, nY, nSize, nullptr);
+			auto moo_result = sut(&moo_pUnit, nX, nY, nSize, nullptr);
+			auto original_result = original(&original_pUnit, nX, nY, nSize, nullptr);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -291,8 +291,8 @@ TEST_SUITE("UnitFindsTests")
 			setup_data(original_pUnit, original_pUnitFindArg);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pUnitFindArg);
-			const auto original_result = original(&original_pUnit, &original_pUnitFindArg);
+			auto moo_result = sut(&moo_pUnit, &moo_pUnitFindArg);
+			auto original_result = original(&original_pUnit, &original_pUnitFindArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

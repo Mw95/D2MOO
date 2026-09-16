@@ -45,8 +45,8 @@ TEST_SUITE("D2SeedTests")
 			int nValue = random_unsigned_integer();
 
 			// Call both implementations
-			const auto moo_result = sut(nValue);
-			const auto original_result = original(nValue);
+			auto moo_result = sut(nValue);
+			auto original_result = original(nValue);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -127,8 +127,8 @@ TEST_SUITE("D2SeedTests")
 			setup_data(original_pSeed);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pSeed);
-			const auto original_result = original(&original_pSeed);
+			auto moo_result = sut(&moo_pSeed);
+			auto original_result = original(&original_pSeed);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -237,8 +237,8 @@ TEST_SUITE("D2SeedTests")
 			setup_data(original_pSeed);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pSeed);
-			const auto original_result = original(&original_pSeed);
+			auto moo_result = sut(&moo_pSeed);
+			auto original_result = original(&original_pSeed);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

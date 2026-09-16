@@ -44,8 +44,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, moo_pArgument);
-			const auto original_result = original(&original_pUnit, original_pArgument);
+			auto moo_result = sut(&moo_pUnit, moo_pArgument);
+			auto original_result = original(&original_pUnit, original_pArgument);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -79,8 +79,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, moo_pArgument);
-			const auto original_result = original(&original_pUnit, original_pArgument);
+			auto moo_result = sut(&moo_pUnit, moo_pArgument);
+			auto original_result = original(&original_pUnit, original_pArgument);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -114,8 +114,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, moo_pArgument);
-			const auto original_result = original(&original_pUnit, original_pArgument);
+			auto moo_result = sut(&moo_pUnit, moo_pArgument);
+			auto original_result = original(&original_pUnit, original_pArgument);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -149,8 +149,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, moo_pArgument);
-			const auto original_result = original(&original_pUnit, original_pArgument);
+			auto moo_result = sut(&moo_pUnit, moo_pArgument);
+			auto original_result = original(&original_pUnit, original_pArgument);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -222,8 +222,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nMinDamStat, nMaxDamStat, nMasteryStat);
-			const auto original_result = original(&original_pUnit, nMinDamStat, nMaxDamStat, nMasteryStat);
+			auto moo_result = sut(&moo_pUnit, nMinDamStat, nMaxDamStat, nMasteryStat);
+			auto original_result = original(&original_pUnit, nMinDamStat, nMaxDamStat, nMasteryStat);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -263,8 +263,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pAttacker, original_pDefender, original_pDamage);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, &moo_pDamage);
-			const auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, &original_pDamage);
+			auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, &moo_pDamage);
+			auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, &original_pDamage);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -389,8 +389,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pOwner, original_pOrigin);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pOrigin, nMissileId, nSkillId, nSkillLevel, nSubStep, nMainStep, nLoops);
-			const auto original_result = original(&original_pGame, &original_pOwner, &original_pOrigin, nMissileId, nSkillId, nSkillLevel, nSubStep, nMainStep, nLoops);
+			auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pOrigin, nMissileId, nSkillId, nSkillLevel, nSubStep, nMainStep, nLoops);
+			auto original_result = original(&original_pGame, &original_pOwner, &original_pOrigin, nMissileId, nSkillId, nSkillLevel, nSubStep, nMainStep, nLoops);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -462,8 +462,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -501,8 +501,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pOrigin);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pOrigin, nMissileId, nRange, nLoops);
-			const auto original_result = original(&original_pGame, &original_pOrigin, nMissileId, nRange, nLoops);
+			auto moo_result = sut(&moo_pGame, &moo_pOrigin, nMissileId, nRange, nLoops);
+			auto original_result = original(&original_pGame, &original_pOrigin, nMissileId, nRange, nLoops);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -537,8 +537,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -573,8 +573,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -609,8 +609,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -645,8 +645,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -681,8 +681,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -717,8 +717,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -757,8 +757,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, nRange, nFrames, nMissileId, nCollisionMask);
-			const auto original_result = original(&original_pGame, &original_pMissile, nRange, nFrames, nMissileId, nCollisionMask);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, nRange, nFrames, nMissileId, nCollisionMask);
+			auto original_result = original(&original_pGame, &original_pMissile, nRange, nFrames, nMissileId, nCollisionMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -793,8 +793,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -829,8 +829,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -865,8 +865,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -901,8 +901,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -937,8 +937,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -973,8 +973,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1009,8 +1009,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1045,8 +1045,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1081,8 +1081,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1117,8 +1117,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1153,8 +1153,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1189,8 +1189,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1225,8 +1225,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1261,8 +1261,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1297,8 +1297,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1333,8 +1333,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1369,8 +1369,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1405,8 +1405,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1441,8 +1441,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1477,8 +1477,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1513,8 +1513,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1549,8 +1549,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1585,8 +1585,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1621,8 +1621,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1657,8 +1657,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1696,8 +1696,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1736,8 +1736,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1776,8 +1776,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1816,8 +1816,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1856,8 +1856,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1896,8 +1896,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1936,8 +1936,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1976,8 +1976,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2016,8 +2016,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2056,8 +2056,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2096,8 +2096,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2136,8 +2136,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2176,8 +2176,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2216,8 +2216,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2256,8 +2256,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2332,8 +2332,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2372,8 +2372,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2412,8 +2412,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2452,8 +2452,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2492,8 +2492,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2532,8 +2532,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2569,8 +2569,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pAuraCallback, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAuraCallback, &moo_pTarget);
-			const auto original_result = original(&original_pAuraCallback, &original_pTarget);
+			auto moo_result = sut(&moo_pAuraCallback, &moo_pTarget);
+			auto original_result = original(&original_pAuraCallback, &original_pTarget);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2608,8 +2608,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2648,8 +2648,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2685,8 +2685,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pAuraCallback, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAuraCallback, &moo_pTarget);
-			const auto original_result = original(&original_pAuraCallback, &original_pTarget);
+			auto moo_result = sut(&moo_pAuraCallback, &moo_pTarget);
+			auto original_result = original(&original_pAuraCallback, &original_pTarget);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2728,8 +2728,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pOwner, original_pOrigin);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pOrigin, nMissileId, nSkillId, nSkillLevel, nStep);
-			const auto original_result = original(&original_pGame, &original_pOwner, &original_pOrigin, nMissileId, nSkillId, nSkillLevel, nStep);
+			auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pOrigin, nMissileId, nSkillId, nSkillLevel, nStep);
+			auto original_result = original(&original_pGame, &original_pOwner, &original_pOrigin, nMissileId, nSkillId, nSkillLevel, nStep);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2768,8 +2768,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2808,8 +2808,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2848,8 +2848,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2888,8 +2888,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2928,8 +2928,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2968,8 +2968,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3008,8 +3008,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3048,8 +3048,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3088,8 +3088,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3128,8 +3128,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3168,8 +3168,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3208,8 +3208,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3278,8 +3278,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3318,8 +3318,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3358,8 +3358,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3398,8 +3398,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3438,8 +3438,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3478,8 +3478,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3518,8 +3518,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3558,8 +3558,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3598,8 +3598,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3638,8 +3638,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3678,8 +3678,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3718,8 +3718,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3758,8 +3758,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3798,8 +3798,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3838,8 +3838,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3878,8 +3878,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3918,8 +3918,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4515,8 +4515,8 @@ TEST_SUITE("MissModeTests")
 			int32_t nRecordId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nRecordId);
-			const auto original_result = original(nRecordId);
+			auto moo_result = sut(nRecordId);
+			auto original_result = original(nRecordId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4588,8 +4588,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4629,8 +4629,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pUnit, original_pCorpse);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pCorpse, nSkillLevel, nUnused);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pCorpse, nSkillLevel, nUnused);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pCorpse, nSkillLevel, nUnused);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pCorpse, nSkillLevel, nUnused);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4671,8 +4671,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pUnit, original_pCorpse);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pCorpse, nSkillLevel, nUnused);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pCorpse, nSkillLevel, nUnused);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pCorpse, nSkillLevel, nUnused);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pCorpse, nSkillLevel, nUnused);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4708,8 +4708,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4747,8 +4747,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4784,8 +4784,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4820,8 +4820,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile);
-			const auto original_result = original(&original_pGame, &original_pMissile);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile);
+			auto original_result = original(&original_pGame, &original_pMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4860,8 +4860,8 @@ TEST_SUITE("MissModeTests")
 			setup_data(original_pGame, original_pMissile, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit, a4);
-			const auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit, a4);
+			auto moo_result = sut(&moo_pGame, &moo_pMissile, &moo_pUnit, a4);
+			auto original_result = original(&original_pGame, &original_pMissile, &original_pUnit, a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -38,8 +38,8 @@ TEST_SUITE("MissilesTblsTests")
 			setup_data(original_szKey);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_szKey);
-			const auto original_result = original(&original_szKey);
+			auto moo_result = sut(&moo_szKey);
+			auto original_result = original(&original_szKey);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -75,8 +75,8 @@ TEST_SUITE("MissilesTblsTests")
 			setup_data(original_szText, original_a2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_szText, &moo_a2, a3, nKeywordNumber);
-			const auto original_result = original(&original_szText, &original_a2, a3, nKeywordNumber);
+			auto moo_result = sut(&moo_szText, &moo_a2, a3, nKeywordNumber);
+			auto original_result = original(&original_szText, &original_a2, a3, nKeywordNumber);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -162,8 +162,8 @@ TEST_SUITE("MissilesTblsTests")
 			int nLevel{};
 
 			// Call both implementations
-			const auto moo_result = sut(nMissileId, nLevel);
-			const auto original_result = original(nMissileId, nLevel);
+			auto moo_result = sut(nMissileId, nLevel);
+			auto original_result = original(nMissileId, nLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

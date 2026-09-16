@@ -29,8 +29,8 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 			uint8_t nDirection{};
 
 			// Call both implementations
-			const auto moo_result = sut(moo_pMemPool, nDirection);
-			const auto original_result = original(original_pMemPool, nDirection);
+			auto moo_result = sut(moo_pMemPool, nDirection);
+			auto original_result = original(original_pMemPool, nDirection);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

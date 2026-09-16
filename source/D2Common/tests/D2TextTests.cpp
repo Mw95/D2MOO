@@ -28,8 +28,8 @@ TEST_SUITE("D2TextTests")
 			void* original_pMemPool = nullptr;
 
 			// Call both implementations
-			const auto moo_result = sut(moo_pMemPool);
-			const auto original_result = original(original_pMemPool);
+			auto moo_result = sut(moo_pMemPool);
+			auto original_result = original(original_pMemPool);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -150,8 +150,8 @@ TEST_SUITE("D2TextTests")
 			setup_data(original_pTextHeader);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pTextHeader);
-			const auto original_result = original(&original_pTextHeader);
+			auto moo_result = sut(&moo_pTextHeader);
+			auto original_result = original(&original_pTextHeader);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -183,8 +183,8 @@ TEST_SUITE("D2TextTests")
 			setup_data(original_pTextHeader);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pTextHeader, nNodeId);
-			const auto original_result = original(&original_pTextHeader, nNodeId);
+			auto moo_result = sut(&moo_pTextHeader, nNodeId);
+			auto original_result = original(&original_pTextHeader, nNodeId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -216,8 +216,8 @@ TEST_SUITE("D2TextTests")
 			setup_data(original_pTextHeader);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pTextHeader, nNodeId);
-			const auto original_result = original(&original_pTextHeader, nNodeId);
+			auto moo_result = sut(&moo_pTextHeader, nNodeId);
+			auto original_result = original(&original_pTextHeader, nNodeId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -249,8 +249,8 @@ TEST_SUITE("D2TextTests")
 			setup_data(original_pTextHeader);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pTextHeader, nNodeId);
-			const auto original_result = original(&original_pTextHeader, nNodeId);
+			auto moo_result = sut(&moo_pTextHeader, nNodeId);
+			auto original_result = original(&original_pTextHeader, nNodeId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

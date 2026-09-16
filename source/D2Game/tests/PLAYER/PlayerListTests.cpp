@@ -189,8 +189,8 @@ TEST_SUITE("PlayerListTests")
 			setup_data(original_pPlayer1, original_pPlayer2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2, nFlags);
-			const auto original_result = original(&original_pPlayer1, &original_pPlayer2, nFlags);
+			auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2, nFlags);
+			auto original_result = original(&original_pPlayer1, &original_pPlayer2, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -225,8 +225,8 @@ TEST_SUITE("PlayerListTests")
 			setup_data(original_pPlayer1, original_pPlayer2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2);
-			const auto original_result = original(&original_pPlayer1, &original_pPlayer2);
+			auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2);
+			auto original_result = original(&original_pPlayer1, &original_pPlayer2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -295,8 +295,8 @@ TEST_SUITE("PlayerListTests")
 			setup_data(original_pPlayer1, original_pPlayer2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2);
-			const auto original_result = original(&original_pPlayer1, &original_pPlayer2);
+			auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2);
+			auto original_result = original(&original_pPlayer1, &original_pPlayer2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -503,8 +503,8 @@ TEST_SUITE("PlayerListTests")
 			setup_data(original_pPlayer1, original_pPlayer2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2);
-			const auto original_result = original(&original_pPlayer1, &original_pPlayer2);
+			auto moo_result = sut(&moo_pPlayer1, &moo_pPlayer2);
+			auto original_result = original(&original_pPlayer1, &original_pPlayer2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

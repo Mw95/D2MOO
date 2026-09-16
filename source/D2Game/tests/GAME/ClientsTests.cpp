@@ -54,8 +54,8 @@ TEST_SUITE("ClientsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -84,8 +84,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nClientId);
-			const auto original_result = original(&original_pGame, nClientId);
+			auto moo_result = sut(&moo_pGame, nClientId);
+			auto original_result = original(&original_pGame, nClientId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -117,8 +117,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient, bIgnoreDeath);
-			const auto original_result = original(&original_pClient, bIgnoreDeath);
+			auto moo_result = sut(&moo_pClient, bIgnoreDeath);
+			auto original_result = original(&original_pClient, bIgnoreDeath);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -263,8 +263,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient, original_pGame, original_pRoomArg);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient, &moo_pGame, a3, &moo_pRoomArg, nXArg, nYArg);
-			const auto original_result = original(&original_pClient, &original_pGame, a3, &original_pRoomArg, nXArg, nYArg);
+			auto moo_result = sut(&moo_pClient, &moo_pGame, a3, &moo_pRoomArg, nXArg, nYArg);
+			auto original_result = original(&original_pClient, &original_pGame, a3, &original_pRoomArg, nXArg, nYArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -305,8 +305,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nClientId, nClassIdOrCharTemplate, &szClientName, &szAccount, nCharSaveTransactionToken, nLocale, a8, a9);
-			const auto original_result = original(&original_pGame, nClientId, nClassIdOrCharTemplate, &szClientName, &szAccount, nCharSaveTransactionToken, nLocale, a8, a9);
+			auto moo_result = sut(&moo_pGame, nClientId, nClassIdOrCharTemplate, &szClientName, &szAccount, nCharSaveTransactionToken, nLocale, a8, a9);
+			auto original_result = original(&original_pGame, nClientId, nClassIdOrCharTemplate, &szClientName, &szAccount, nCharSaveTransactionToken, nLocale, a8, a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -522,8 +522,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -554,8 +554,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -653,8 +653,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nClientId);
-			const auto original_result = original(&original_pGame, nClientId);
+			auto moo_result = sut(&moo_pGame, nClientId);
+			auto original_result = original(&original_pGame, nClientId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -750,8 +750,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -841,8 +841,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -903,8 +903,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -935,8 +935,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1027,8 +1027,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1091,8 +1091,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient, nFlag);
-			const auto original_result = original(&original_pClient, nFlag);
+			auto moo_result = sut(&moo_pClient, nFlag);
+			auto original_result = original(&original_pClient, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1244,8 +1244,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1276,8 +1276,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1311,8 +1311,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pUnit, original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pClient);
-			const auto original_result = original(&original_pUnit, &original_pClient);
+			auto moo_result = sut(&moo_pUnit, &moo_pClient);
+			auto original_result = original(&original_pUnit, &original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1344,8 +1344,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1376,8 +1376,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1398,8 +1398,8 @@ TEST_SUITE("ClientsTests")
 			D2ClientState nExpectedClientState{};
 
 			// Call both implementations
-			const auto moo_result = sut(nClientId, nExpectedClientState);
-			const auto original_result = original(nClientId, nExpectedClientState);
+			auto moo_result = sut(nClientId, nExpectedClientState);
+			auto original_result = original(nClientId, nExpectedClientState);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1445,8 +1445,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_szName);
 
 			// Call both implementations
-			const auto moo_result = sut(nClientId, &moo_szName);
-			const auto original_result = original(nClientId, &original_szName);
+			auto moo_result = sut(nClientId, &moo_szName);
+			auto original_result = original(nClientId, &original_szName);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1466,8 +1466,8 @@ TEST_SUITE("ClientsTests")
 			char szName{};
 
 			// Call both implementations
-			const auto moo_result = sut(&szName);
-			const auto original_result = original(&szName);
+			auto moo_result = sut(&szName);
+			auto original_result = original(&szName);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1496,8 +1496,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_szGameName);
 
 			// Call both implementations
-			const auto moo_result = sut(&szName, &moo_szGameName);
-			const auto original_result = original(&szName, &original_szGameName);
+			auto moo_result = sut(&szName, &moo_szGameName);
+			auto original_result = original(&szName, &original_szGameName);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1524,8 +1524,8 @@ TEST_SUITE("ClientsTests")
 			int32_t a7{};
 
 			// Call both implementations
-			const auto moo_result = sut(nClientId, moo_pSaveData, nSize, nTotalSize, bUnlockCharacter, a6, a7);
-			const auto original_result = original(nClientId, original_pSaveData, nSize, nTotalSize, bUnlockCharacter, a6, a7);
+			auto moo_result = sut(nClientId, moo_pSaveData, nSize, nTotalSize, bUnlockCharacter, a6, a7);
+			auto original_result = original(nClientId, original_pSaveData, nSize, nTotalSize, bUnlockCharacter, a6, a7);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1556,8 +1556,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1588,8 +1588,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1711,8 +1711,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1772,8 +1772,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1804,8 +1804,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1911,8 +1911,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2208,8 +2208,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2240,8 +2240,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2368,8 +2368,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2400,8 +2400,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2432,8 +2432,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2596,8 +2596,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pClient);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pClient);
-			const auto original_result = original(&original_pClient);
+			auto moo_result = sut(&moo_pClient);
+			auto original_result = original(&original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2664,8 +2664,8 @@ TEST_SUITE("ClientsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

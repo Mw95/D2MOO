@@ -28,8 +28,8 @@ TEST_SUITE("FieldTblsTests")
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
-			const auto moo_result = sut(hArchive);
-			const auto original_result = original(hArchive);
+			auto moo_result = sut(hArchive);
+			auto original_result = original(hArchive);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -58,8 +58,8 @@ TEST_SUITE("FieldTblsTests")
 			setup_data(original_pExpField);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pExpField, nSize);
-			const auto original_result = original(&original_pExpField, nSize);
+			auto moo_result = sut(&moo_pExpField, nSize);
+			auto original_result = original(&original_pExpField, nSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -77,8 +77,8 @@ TEST_SUITE("FieldTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -126,8 +126,8 @@ TEST_SUITE("FieldTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -142,8 +142,8 @@ TEST_SUITE("FieldTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -158,8 +158,8 @@ TEST_SUITE("FieldTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -249,8 +249,8 @@ TEST_SUITE("FieldTblsTests")
 			setup_data(original_pField);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pField, nX, nY);
-			const auto original_result = original(&original_pField, nX, nY);
+			auto moo_result = sut(&moo_pField, nX, nY);
+			auto original_result = original(&original_pField, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -287,8 +287,8 @@ TEST_SUITE("FieldTblsTests")
 			setup_data(original_pField, original_pX, original_pY);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pField, &moo_pX, &moo_pY);
-			const auto original_result = original(&original_pField, &original_pX, &original_pY);
+			auto moo_result = sut(&moo_pField, &moo_pX, &moo_pY);
+			auto original_result = original(&original_pField, &original_pX, &original_pY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -327,8 +327,8 @@ TEST_SUITE("FieldTblsTests")
 			setup_data(original_pField, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pField, &moo_pRoom, nX, nY, fMask);
-			const auto original_result = original(&original_pField, &original_pRoom, nX, nY, fMask);
+			auto moo_result = sut(&moo_pField, &moo_pRoom, nX, nY, fMask);
+			auto original_result = original(&original_pField, &original_pRoom, nX, nY, fMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

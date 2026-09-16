@@ -48,8 +48,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
-			const auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
+			auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -88,8 +88,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
-			const auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
+			auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -128,8 +128,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
-			const auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
+			auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -168,8 +168,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
-			const auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
+			auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -208,8 +208,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
-			const auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nClassId, nX, nY, nMode);
+			auto original_result = original(&original_pGame, &original_pRoom, nClassId, nX, nY, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -373,8 +373,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nShrineClass, nLevelId, &moo_pRoom);
-			const auto original_result = original(&original_pGame, nShrineClass, nLevelId, &original_pRoom);
+			auto moo_result = sut(&moo_pGame, nShrineClass, nLevelId, &moo_pRoom);
+			auto original_result = original(&original_pGame, nShrineClass, nLevelId, &original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -876,8 +876,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -896,8 +896,8 @@ TEST_SUITE("ObjectsTests")
 //		SUBCASE("")
 //		{
 //			// Call both implementations
-//			const auto moo_result = sut();
-//			const auto original_result = original();
+//			auto moo_result = sut();
+//			auto original_result = original();
 //			
 //			// Compare return values
 //			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -931,8 +931,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1003,8 +1003,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nChance);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nChance);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nChance);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nChance);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1042,8 +1042,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nClassId, nSizeX, nSizeY, &moo_pRoom);
-			const auto original_result = original(&original_pGame, nClassId, nSizeX, nSizeY, &original_pRoom);
+			auto moo_result = sut(&moo_pGame, nClassId, nSizeX, nSizeY, &moo_pRoom);
+			auto original_result = original(&original_pGame, nClassId, nSizeX, nSizeY, &original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1081,8 +1081,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1120,8 +1120,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1159,8 +1159,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1198,8 +1198,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1233,8 +1233,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pSeed);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pSeed, nMin, nMax);
-			const auto original_result = original(&original_pSeed, nMin, nMax);
+			auto moo_result = sut(&moo_pSeed, nMin, nMax);
+			auto original_result = original(&original_pSeed, nMin, nMax);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1271,8 +1271,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1310,8 +1310,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
-			const auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nDensity, nObjectId, nProbability);
+			auto original_result = original(&original_pGame, &original_pRoom, nDensity, nObjectId, nProbability);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1349,8 +1349,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom, original_pDrlgCoords);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1389,8 +1389,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom, original_pDrlgCoords);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1429,8 +1429,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom, original_pDrlgCoords);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1469,8 +1469,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom, original_pDrlgCoords);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1547,8 +1547,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pGame, original_pRoom, original_pDrlgCoords);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pDrlgCoords);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pDrlgCoords);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1706,8 +1706,8 @@ TEST_SUITE("ObjectsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

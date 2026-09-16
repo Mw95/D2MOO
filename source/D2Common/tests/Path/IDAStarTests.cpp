@@ -38,8 +38,8 @@ TEST_SUITE("IDAStarTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPathInfo);
-			const auto original_result = original(&original_pPathInfo);
+			auto moo_result = sut(&moo_pPathInfo);
+			auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -74,8 +74,8 @@ TEST_SUITE("IDAStarTests")
 			setup_data(original_pContext, original_pPathInfo);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pContext, nFScoreCutoff, &moo_pPathInfo);
-			const auto original_result = original(&original_pContext, nFScoreCutoff, &original_pPathInfo);
+			auto moo_result = sut(&moo_pContext, nFScoreCutoff, &moo_pPathInfo);
+			auto original_result = original(&original_pContext, nFScoreCutoff, &original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

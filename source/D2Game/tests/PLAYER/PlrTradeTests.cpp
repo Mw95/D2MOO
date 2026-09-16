@@ -41,8 +41,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pOp);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pOp, nOperate);
-			const auto original_result = original(&original_pOp, nOperate);
+			auto moo_result = sut(&moo_pOp, nOperate);
+			auto original_result = original(&original_pOp, nOperate);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -86,8 +86,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame, original_pInventory, original_pCubeMainTxt, original_pCubeItem, original_a6);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pInventory, &moo_pCubeMainTxt, nInputIndex, &moo_pCubeItem, &moo_a6);
-			const auto original_result = original(&original_pGame, &original_pInventory, &original_pCubeMainTxt, nInputIndex, &original_pCubeItem, &original_a6);
+			auto moo_result = sut(&moo_pGame, &moo_pInventory, &moo_pCubeMainTxt, nInputIndex, &moo_pCubeItem, &moo_a6);
+			auto original_result = original(&original_pGame, &original_pInventory, &original_pCubeMainTxt, nInputIndex, &original_pCubeItem, &original_a6);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -124,8 +124,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, nItemLevel, nItemId);
-			const auto original_result = original(&original_pGame, nItemLevel, nItemId);
+			auto moo_result = sut(&moo_pGame, nItemLevel, nItemId);
+			auto original_result = original(&original_pGame, nItemLevel, nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -455,8 +455,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nButton, nGoldAmount);
-			const auto original_result = original(&original_pGame, &original_pPlayer, nButton, nGoldAmount);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, nButton, nGoldAmount);
+			auto original_result = original(&original_pGame, &original_pPlayer, nButton, nGoldAmount);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -524,8 +524,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer);
-			const auto original_result = original(&original_pGame, &original_pPlayer);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer);
+			auto original_result = original(&original_pGame, &original_pPlayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -639,8 +639,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame, original_pPlayer1, original_pPlayer2);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer1, &moo_pPlayer2);
-			const auto original_result = original(&original_pGame, &original_pPlayer1, &original_pPlayer2);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer1, &moo_pPlayer2);
+			auto original_result = original(&original_pGame, &original_pPlayer1, &original_pPlayer2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -850,8 +850,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pUnit, original_pBuffer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pBuffer, nBufferSize);
-			const auto original_result = original(&original_pUnit, &original_pBuffer, nBufferSize);
+			auto moo_result = sut(&moo_pUnit, &moo_pBuffer, nBufferSize);
+			auto original_result = original(&original_pUnit, &original_pBuffer, nBufferSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -889,8 +889,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame, original_pPlayer, original_pItem);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pItem);
-			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pItem);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pItem);
+			auto original_result = original(&original_pGame, &original_pPlayer, &original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -926,8 +926,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -962,8 +962,8 @@ TEST_SUITE("PlrTradeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

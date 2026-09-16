@@ -124,8 +124,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pItem, original_pValue, original_ppStatList);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, nSkillId, nSkillLevel, &moo_pValue, &moo_ppStatList);
-			const auto original_result = original(&original_pItem, nSkillId, nSkillLevel, &original_pValue, &original_ppStatList);
+			auto moo_result = sut(&moo_pItem, nSkillId, nSkillLevel, &moo_pValue, &moo_ppStatList);
+			auto original_result = original(&original_pItem, nSkillId, nSkillLevel, &original_pValue, &original_ppStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -161,8 +161,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, nSkillId, nSkillLevel, a4);
-			const auto original_result = original(&original_pItem, nSkillId, nSkillLevel, a4);
+			auto moo_result = sut(&moo_pItem, nSkillId, nSkillLevel, a4);
+			auto original_result = original(&original_pItem, nSkillId, nSkillLevel, a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -202,8 +202,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pItemModPeriodOfDay, original_pItemModMin, original_pItemModMax);
 
 			// Call both implementations
-			const auto moo_result = sut(nAmount, nPeriodOfDay, nBaseTime, &moo_pItemModPeriodOfDay, &moo_pItemModMin, &moo_pItemModMax);
-			const auto original_result = original(nAmount, nPeriodOfDay, nBaseTime, &original_pItemModPeriodOfDay, &original_pItemModMin, &original_pItemModMax);
+			auto moo_result = sut(nAmount, nPeriodOfDay, nBaseTime, &moo_pItemModPeriodOfDay, &moo_pItemModMin, &moo_pItemModMax);
+			auto original_result = original(nAmount, nPeriodOfDay, nBaseTime, &original_pItemModPeriodOfDay, &original_pItemModMin, &original_pItemModMax);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -226,8 +226,8 @@ TEST_SUITE("D2ItemModsTests")
 			int a2{};
 
 			// Call both implementations
-			const auto moo_result = sut(a1, a2);
-			const auto original_result = original(a1, a2);
+			auto moo_result = sut(a1, a2);
+			auto original_result = original(a1, a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -284,8 +284,8 @@ TEST_SUITE("D2ItemModsTests")
 			int a3{};
 
 			// Call both implementations
-			const auto moo_result = sut(a1, a2, a3);
-			const auto original_result = original(a1, a2, a3);
+			auto moo_result = sut(a1, a2, a3);
+			auto original_result = original(a1, a2, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -342,8 +342,8 @@ TEST_SUITE("D2ItemModsTests")
 			int a3{};
 
 			// Call both implementations
-			const auto moo_result = sut(a1, a2, a3);
-			const auto original_result = original(a1, a2, a3);
+			auto moo_result = sut(a1, a2, a3);
+			auto original_result = original(a1, a2, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -383,8 +383,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -422,8 +422,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pItem, nState, fFilter);
-			const auto original_result = original(&original_pUnit, &original_pItem, nState, fFilter);
+			auto moo_result = sut(&moo_pUnit, &moo_pItem, nState, fFilter);
+			auto original_result = original(&original_pUnit, &original_pItem, nState, fFilter);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -497,8 +497,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -544,8 +544,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, a7, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, a7, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, a7, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, a7, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -590,8 +590,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -636,8 +636,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -682,8 +682,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -728,8 +728,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -775,8 +775,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a10);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, a4, nStatId, nApplyType, a7, nState, fStatList, &moo_a10);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, a4, nStatId, nApplyType, a7, nState, fStatList, &original_a10);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, a4, nStatId, nApplyType, a7, nState, fStatList, &moo_a10);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, a4, nStatId, nApplyType, a7, nState, fStatList, &original_a10);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -821,8 +821,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -867,8 +867,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -913,8 +913,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -959,8 +959,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1035,8 +1035,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1081,8 +1081,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1127,8 +1127,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1173,8 +1173,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1219,8 +1219,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1265,8 +1265,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1311,8 +1311,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1357,8 +1357,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1403,8 +1403,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1449,8 +1449,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a9);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &moo_a9);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nStatId, nApplyType, nState, fStatList, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1602,8 +1602,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pItem, nUnused);
-			const auto original_result = original(&original_pUnit, &original_pItem, nUnused);
+			auto moo_result = sut(&moo_pUnit, &moo_pItem, nUnused);
+			auto original_result = original(&original_pUnit, &original_pItem, nUnused);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1670,8 +1670,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &pMagicAffixTxtRecord);
-			const auto original_result = original(&original_pItem, &pMagicAffixTxtRecord);
+			auto moo_result = sut(&moo_pItem, &pMagicAffixTxtRecord);
+			auto original_result = original(&original_pItem, &pMagicAffixTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1705,8 +1705,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pItem, original_pRareAffixTxtRecord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pRareAffixTxtRecord);
-			const auto original_result = original(&original_pItem, &original_pRareAffixTxtRecord);
+			auto moo_result = sut(&moo_pItem, &moo_pRareAffixTxtRecord);
+			auto original_result = original(&original_pItem, &original_pRareAffixTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1741,8 +1741,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pItem, original_pQualityItemsTxtRecord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pQualityItemsTxtRecord);
-			const auto original_result = original(&original_pItem, &original_pQualityItemsTxtRecord);
+			auto moo_result = sut(&moo_pItem, &moo_pQualityItemsTxtRecord);
+			auto original_result = original(&original_pItem, &original_pQualityItemsTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1851,8 +1851,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1899,8 +1899,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_pUnused);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_pUnused);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_pUnused);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_pUnused);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_pUnused);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1947,8 +1947,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1995,8 +1995,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2043,8 +2043,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2091,8 +2091,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2139,8 +2139,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2187,8 +2187,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2235,8 +2235,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2283,8 +2283,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2331,8 +2331,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2379,8 +2379,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2427,8 +2427,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2475,8 +2475,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2523,8 +2523,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2571,8 +2571,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2619,8 +2619,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2667,8 +2667,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2715,8 +2715,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2763,8 +2763,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2811,8 +2811,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2859,8 +2859,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2907,8 +2907,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2955,8 +2955,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3003,8 +3003,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem, original_a11);
 
 			// Call both implementations
-			const auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
-			const auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
+			auto moo_result = sut(nType, &moo_pUnit, &moo_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &moo_a11);
+			auto original_result = original(nType, &original_pUnit, &original_pItem, &pProperty, nSet, nStatId, nLayer, nValue, nState, fStatList, &original_a11);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3076,8 +3076,8 @@ TEST_SUITE("D2ItemModsTests")
 			void* original_pUserData = nullptr;
 
 			// Call both implementations
-			const auto moo_result = sut(nMin, nMax, nUnused, moo_pUserData);
-			const auto original_result = original(nMin, nMax, nUnused, original_pUserData);
+			auto moo_result = sut(nMin, nMax, nUnused, moo_pUserData);
+			auto original_result = original(nMin, nMax, nUnused, original_pUserData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3101,8 +3101,8 @@ TEST_SUITE("D2ItemModsTests")
 			void* original_pUserData = nullptr;
 
 			// Call both implementations
-			const auto moo_result = sut(nStatId, a2, nUnused, moo_pUserData);
-			const auto original_result = original(nStatId, a2, nUnused, original_pUserData);
+			auto moo_result = sut(nStatId, a2, nUnused, moo_pUserData);
+			auto original_result = original(nStatId, a2, nUnused, original_pUserData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3137,8 +3137,8 @@ TEST_SUITE("D2ItemModsTests")
 			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pItem, nCalc);
-			const auto original_result = original(&original_pUnit, &original_pItem, nCalc);
+			auto moo_result = sut(&moo_pUnit, &moo_pItem, nCalc);
+			auto original_result = original(&original_pUnit, &original_pItem, nCalc);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

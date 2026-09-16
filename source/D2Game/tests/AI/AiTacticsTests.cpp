@@ -53,8 +53,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pAiControl, original_pDistance, original_pCombat);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pDistance, &moo_pCombat);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pDistance, &original_pCombat);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pDistance, &moo_pCombat);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pDistance, &original_pCombat);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -101,8 +101,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pAiControl, original_pDistance, original_pCombat);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pDistance, &moo_pCombat);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pDistance, &original_pCombat);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pDistance, &moo_pCombat);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pDistance, &original_pCombat);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -150,8 +150,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pAiControl, original_pDistance, original_pCombat);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pDistance, &moo_pCombat, nMaxDistance);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pDistance, &original_pCombat, nMaxDistance);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pDistance, &moo_pCombat, nMaxDistance);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pDistance, &original_pCombat, nMaxDistance);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -192,8 +192,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_bCloseToTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_bCloseToTarget);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_bCloseToTarget);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_bCloseToTarget);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_bCloseToTarget);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -234,8 +234,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pNPC, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pNPC, &moo_pPlayer, moo_pCallbackArg);
-			const auto original_result = original(&original_pGame, &original_pNPC, &original_pPlayer, original_pCallbackArg);
+			auto moo_result = sut(&moo_pGame, &moo_pNPC, &moo_pPlayer, moo_pCallbackArg);
+			auto original_result = original(&original_pGame, &original_pNPC, &original_pPlayer, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -276,8 +276,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTargetUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nMode, &moo_pTargetUnit);
-			const auto original_result = original(&original_pGame, &original_pUnit, nMode, &original_pTargetUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nMode, &moo_pTargetUnit);
+			auto original_result = original(&original_pGame, &original_pUnit, nMode, &original_pTargetUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -316,8 +316,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nMode, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nMode, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nMode, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nMode, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -358,8 +358,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTargetUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, &moo_pTargetUnit, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, &original_pTargetUnit, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, &moo_pTargetUnit, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, &original_pTargetUnit, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -402,8 +402,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nMode, nSkillId, &moo_pTarget, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nMode, nSkillId, &original_pTarget, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nMode, nSkillId, &moo_pTarget, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nMode, nSkillId, &original_pTarget, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -577,8 +577,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTargetUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTargetUnit, nFlag);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTargetUnit, nFlag);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTargetUnit, nFlag);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTargetUnit, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -622,8 +622,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMode, nX, nY, bStep, nFlags);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMode, nX, nY, bStep, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMode, nX, nY, bStep, nFlags);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMode, nX, nY, bStep, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -662,8 +662,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -703,8 +703,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nFlags);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nFlags);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -743,8 +743,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -784,8 +784,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nFlags);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nFlags);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -823,8 +823,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -861,8 +861,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -899,8 +899,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -937,8 +937,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -975,8 +975,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1015,8 +1015,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, bStep);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, bStep);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, bStep);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, bStep);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1056,8 +1056,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, bStep);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, bStep);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, bStep);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, bStep);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1098,8 +1098,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance, bDeleteAiEventCallback);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance, bDeleteAiEventCallback);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance, bDeleteAiEventCallback);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance, bDeleteAiEventCallback);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1140,8 +1140,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance, bDeleteAiEventCallback);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance, bDeleteAiEventCallback);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance, bDeleteAiEventCallback);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance, bDeleteAiEventCallback);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1178,8 +1178,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nMaxDistance);
-			const auto original_result = original(&original_pGame, &original_pUnit, nMaxDistance);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nMaxDistance);
+			auto original_result = original(&original_pGame, &original_pUnit, nMaxDistance);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1218,8 +1218,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1259,8 +1259,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pOwner);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pOwner, nMaxDistance);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pOwner, nMaxDistance);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pOwner, nMaxDistance);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pOwner, nMaxDistance);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1300,8 +1300,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMaxDistance);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMaxDistance);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1342,8 +1342,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, a4, bDeleteAiEventCallback);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, a4, bDeleteAiEventCallback);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, a4, bDeleteAiEventCallback);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, a4, bDeleteAiEventCallback);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1421,8 +1421,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, nMode);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY, nMode);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, nMode);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1460,8 +1460,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, nMode);
-			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY, nMode);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, nMode);
+			auto original_result = original(&original_pGame, &original_pUnit, nX, nY, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1502,8 +1502,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMode, a5, a6);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMode, a5, a6);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nMode, a5, a6);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nMode, a5, a6);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1544,8 +1544,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, a4, a5);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, a4, a5);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, a4, a5);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, a4, a5);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1588,8 +1588,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit, original_pAiControl, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pTarget, nScale);
-			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pTarget, nScale);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiControl, &moo_pTarget, nScale);
+			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiControl, &original_pTarget, nScale);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1626,8 +1626,8 @@ TEST_SUITE("AiTacticsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			const auto original_result = original(&original_pGame, &original_pUnit);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -105,8 +105,8 @@ TEST_SUITE("D2DrlgOutWildTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pLevel, nX);
-			const auto original_result = original(&original_pLevel, nX);
+			auto moo_result = sut(&moo_pLevel, nX);
+			auto original_result = original(&original_pLevel, nX);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -167,8 +167,8 @@ TEST_SUITE("D2DrlgOutWildTests")
 			setup_data(original_pDrlgVertex);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDrlgVertex);
-			const auto original_result = original(&original_pDrlgVertex);
+			auto moo_result = sut(&moo_pDrlgVertex);
+			auto original_result = original(&original_pDrlgVertex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -199,8 +199,8 @@ TEST_SUITE("D2DrlgOutWildTests")
 			setup_data(original_pDrlgVertex);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDrlgVertex);
-			const auto original_result = original(&original_pDrlgVertex);
+			auto moo_result = sut(&moo_pDrlgVertex);
+			auto original_result = original(&original_pDrlgVertex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -233,8 +233,8 @@ TEST_SUITE("D2DrlgOutWildTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pLevel, nX, nY);
-			const auto original_result = original(&original_pLevel, nX, nY);
+			auto moo_result = sut(&moo_pLevel, nX, nY);
+			auto original_result = original(&original_pLevel, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

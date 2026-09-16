@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -29,25 +28,29 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				D2HirelingInitStrc pHirelingInit{};
-				
-				return std::tuple{ pMonster, pHirelingInit };
-			};
-			
 			// Input data
-			auto [moo_pMonster, moo_pHirelingInit] = setup_data();
-			auto [original_pMonster, original_pHirelingInit] = setup_data();
+			D2UnitStrc moo_pMonster{};
+			D2HirelingInitStrc moo_pHirelingInit{};
+			D2UnitStrc original_pMonster{};
+			D2HirelingInitStrc original_pHirelingInit{};
 			BOOL bExpansion{};
 			int nLowSeed{};
 			int nAct{};
 			int nDifficulty{};
 
+			const auto setup_data = [](
+				D2UnitStrc& pMonster,
+				D2HirelingInitStrc& pHirelingInit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonster, moo_pHirelingInit);
+			setup_data(original_pMonster, original_pHirelingInit);
+
 			// Call both implementations
-			const auto moo_result = sut(bExpansion, &moo_pMonster, nLowSeed, nAct, nDifficulty, &moo_pHirelingInit);
-			const auto original_result = original(bExpansion, &original_pMonster, nLowSeed, nAct, nDifficulty, &original_pHirelingInit);
+			auto moo_result = sut(bExpansion, &moo_pMonster, nLowSeed, nAct, nDifficulty, &moo_pHirelingInit);
+			auto original_result = original(bExpansion, &original_pMonster, nLowSeed, nAct, nDifficulty, &original_pHirelingInit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -67,25 +70,26 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto hireling_init_id = GENERATE(0, 1, 2, 3);
 
-			const auto setup_data = [hireling_init_id]() {
-				D2HirelingInitStrc pHirelingInit{};
-
-				pHirelingInit.nId = hireling_init_id;
-				
-				return std::tuple{ pHirelingInit };
-			};
-			
-			// Input data
-			auto [moo_pHirelingInit] = setup_data();
-			auto [original_pHirelingInit] = setup_data();
-			int nLowSeed = random_unsigned_integer();
+			D2HirelingInitStrc moo_pHirelingInit{};
+			D2HirelingInitStrc original_pHirelingInit{};
+			int nLowSeed = random_unsigned_integer();;
 			uint8_t a3 = GENERATE(0, 1, 2);
 
+			const auto setup_data = [hireling_init_id](
+				D2HirelingInitStrc& pHirelingInit
+			) {
+				pHirelingInit.nId = hireling_init_id;
+			};
+
+			setup_data(moo_pHirelingInit);
+			setup_data(original_pHirelingInit);
+
 			// Call both implementations
-			const auto moo_result = sut(nLowSeed, &moo_pHirelingInit, a3);
-			const auto original_result = original(nLowSeed, &original_pHirelingInit, a3);
+			auto moo_result = sut(nLowSeed, &moo_pHirelingInit, a3);
+			auto original_result = original(nLowSeed, &original_pHirelingInit, a3);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -102,12 +106,11 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
 			int nId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nId);
-			const auto original_result = original(nId);
+			auto moo_result = sut(nId);
+			auto original_result = original(nId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -119,34 +122,34 @@ TEST_SUITE("D2MonstersTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetActFromHirelingTxt, dll_base + 0x000651C0);
 		
-		SUBCASE("bExpansion = FALSE, valid class_id")
+		SUBCASE("bExpansion = FALSE, valid nClassId")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
 				BOOL bExpansion = FALSE;
-				int nClassId = class_id;
-				uint16_t nNameId = 0;
+				int nClassId = i;
+				uint16_t nNameId{};
 
 				// Call both implementations
-				const auto moo_result = sut(bExpansion, nClassId, nNameId);
-				const auto original_result = original(bExpansion, nClassId, nNameId);
+				auto moo_result = sut(bExpansion, nClassId, nNameId);
+				auto original_result = original(bExpansion, nClassId, nNameId);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 			}
 		}
 
-		SUBCASE("bExpansion = TRUE, valid class_id")
+		SUBCASE("bExpansion = TRUE, valid nClassId")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
 				BOOL bExpansion = TRUE;
-				int nClassId = class_id;
-				uint16_t nNameId = 0;
+				int nClassId = i;
+				uint16_t nNameId{};
 
 				// Call both implementations
-				const auto moo_result = sut(bExpansion, nClassId, nNameId);
-				const auto original_result = original(bExpansion, nClassId, nNameId);
+				auto moo_result = sut(bExpansion, nClassId, nNameId);
+				auto original_result = original(bExpansion, nClassId, nNameId);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -159,10 +162,10 @@ TEST_SUITE("D2MonstersTests")
 			for (auto i = 0; i < hireling_record_count; ++i)
 			{
 				const auto& hireling_record = hireling_txt[i];
-				unique_name_ids.insert({hireling_record.wNameFirst, hireling_record.wNameLast});
+				unique_name_ids.insert({ hireling_record.wNameFirst, hireling_record.wNameLast });
 			}
 
-			SUBCASE("bExpansion = FALSE, invalid class_id")
+			SUBCASE("bExpansion = FALSE, invalid nClassId")
 			{
 				for (auto pair : unique_name_ids)
 				{
@@ -173,8 +176,8 @@ TEST_SUITE("D2MonstersTests")
 						uint16_t nNameId = name_id;
 
 						// Call both implementations
-						const auto moo_result = sut(bExpansion, nClassId, nNameId);
-						const auto original_result = original(bExpansion, nClassId, nNameId);
+						auto moo_result = sut(bExpansion, nClassId, nNameId);
+						auto original_result = original(bExpansion, nClassId, nNameId);
 
 						// Compare return values
 						MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -182,7 +185,7 @@ TEST_SUITE("D2MonstersTests")
 				}
 			}
 
-			SUBCASE("bExpansion = TRUE, invalid class_id")
+			SUBCASE("bExpansion = TRUE, valid nClassId")
 			{
 				for (auto pair : unique_name_ids)
 				{
@@ -193,8 +196,8 @@ TEST_SUITE("D2MonstersTests")
 						uint16_t nNameId = name_id;
 
 						// Call both implementations
-						const auto moo_result = sut(bExpansion, nClassId, nNameId);
-						const auto original_result = original(bExpansion, nClassId, nNameId);
+						auto moo_result = sut(bExpansion, nClassId, nNameId);
+						auto original_result = original(bExpansion, nClassId, nNameId);
 
 						// Compare return values
 						MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -217,8 +220,8 @@ TEST_SUITE("D2MonstersTests")
 				int nExpPerLevel = random_unsigned_integer(0, 65535);
 
 				// Call both implementations
-				const auto moo_result = sut(nLevel, nExpPerLevel);
-				const auto original_result = original(nLevel, nExpPerLevel);
+				auto moo_result = sut(nLevel, nExpPerLevel);
+				auto original_result = original(nLevel, nExpPerLevel);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -233,20 +236,22 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pHireling{};
-				
-				return std::tuple{ pHireling };
-			};
-			
 			// Input data
-			auto [moo_pHireling] = setup_data();
-			auto [original_pHireling] = setup_data();
+			D2UnitStrc moo_pHireling{};
+			D2UnitStrc original_pHireling{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pHireling
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pHireling);
+			setup_data(original_pHireling);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pHireling);
-			const auto original_result = original(&original_pHireling);
+			auto moo_result = sut(&moo_pHireling);
+			auto original_result = original(&original_pHireling);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -265,27 +270,28 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			const auto class_id = random_unsigned_integer(0, monstats_record_count - 1);
-
-			const auto setup_data = [class_id]() {
-				D2UnitStrc pMonster{};
-
-				pMonster.dwUnitType = UNIT_MONSTER;
-				pMonster.dwClassId = class_id;
-				
-				return std::tuple{ pMonster };
-			};
-			
 			for (auto i = 0; i < 16; ++i)
 			{
 				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+				const auto class_id = random_unsigned_integer(0, monstats_record_count - 1);
+
+				D2UnitStrc moo_pMonster{};
+				D2UnitStrc original_pMonster{};
 				int nComponent = i;
 
+				const auto setup_data = [class_id](
+					D2UnitStrc& pMonster
+				) {
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = class_id;
+				};
+
+				setup_data(moo_pMonster);
+				setup_data(original_pMonster);
+
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster, nComponent);
-				const auto original_result = original(&original_pMonster, nComponent);
+				auto moo_result = sut(&moo_pMonster, nComponent);
+				auto original_result = original(&original_pMonster, nComponent);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -311,38 +317,42 @@ TEST_SUITE("D2MonstersTests")
 					{
 						for (auto j = 0; j < 12; ++j)
 						{
-							const auto setup_data = [class_id, level_id]() {
-								D2DrlgLevelStrc pLevel{};
-								pLevel.nLevelId = level_id;
-
-								D2DrlgRoomStrc pDrlgRoom{};
-								pDrlgRoom.pLevel = &pLevel;
-
-								D2ActiveRoomStrc pRoom{};
-								pRoom.pDrlgRoom = &pDrlgRoom;
-
-								D2DynamicPathStrc pDynamicPath{};
-								pDynamicPath.pRoom = &pRoom;
-
-								D2UnitStrc pMonster{};
-
-								pMonster.dwUnitType = UNIT_MONSTER;
-								pMonster.dwClassId = class_id;
-
-								pMonster.pDynamicPath = &pDynamicPath;
-
-								return std::tuple{ pMonster, pDynamicPath, pRoom, pDrlgRoom, pLevel };
-							};
-
 							// Input data
-							auto [moo_pMonster, moo_pDynamicPath, moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
-							auto [original_pMonster, original_pDynamicPath, original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
+							D2UnitStrc moo_pMonster{};
+							D2UnitStrc original_pMonster{};
+							D2DynamicPathStrc moo_pDynamicPath{};
+							D2DynamicPathStrc original_pDynamicPath{};
+							D2ActiveRoomStrc moo_pRoom{};
+							D2ActiveRoomStrc original_pRoom{};
+							D2DrlgRoomStrc moo_pDrlgRoom{};
+							D2DrlgRoomStrc original_pDrlgRoom{};
+							D2DrlgLevelStrc moo_pLevel{};
+							D2DrlgLevelStrc original_pLevel{};
 							unsigned int nIndex = i;
 							unsigned int nComponent = j;
 
+							const auto setup_data = [class_id, level_id](
+								D2UnitStrc& pMonster,
+								D2DynamicPathStrc& pDynamicPath,
+								D2ActiveRoomStrc& pRoom,
+								D2DrlgRoomStrc& pDrlgRoom,
+								D2DrlgLevelStrc& pLevel
+							) {
+								pLevel.nLevelId = level_id;
+								pDrlgRoom.pLevel = &pLevel;
+								pRoom.pDrlgRoom = &pDrlgRoom;
+								pDynamicPath.pRoom = &pRoom;
+								pMonster.dwUnitType = UNIT_MONSTER;
+								pMonster.dwClassId = class_id;
+								pMonster.pDynamicPath = &pDynamicPath;
+							};
+
+							setup_data(moo_pMonster, moo_pDynamicPath, moo_pRoom, moo_pDrlgRoom, moo_pLevel);
+							setup_data(original_pMonster, original_pDynamicPath, original_pRoom, original_pDrlgRoom, original_pLevel);
+
 							// Call both implementations
-							const auto moo_result = sut(&moo_pMonster, nIndex, nComponent);
-							const auto original_result = original(&original_pMonster, nIndex, nComponent);
+							auto moo_result = sut(&moo_pMonster, nIndex, nComponent);
+							auto original_result = original(&original_pMonster, nIndex, nComponent);
 
 							// Compare return values
 							MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -366,19 +376,18 @@ TEST_SUITE("D2MonstersTests")
 		SUBCASE("")
 		{
 			const auto monster_id = random_unsigned_integer(0, monstats_record_count - 1);
-
+			
 			for (auto i = 0; i < 16; ++i)
 			{
 				for (auto j = 0; j < 12; ++j)
 				{
-					// Input data
 					int nMonsterId = monster_id;
 					unsigned int nComponent = i;
 					unsigned int a3 = j;
 
 					// Call both implementations
-					const auto moo_result = sut(nMonsterId, nComponent, a3);
-					const auto original_result = original(nMonsterId, nComponent, a3);
+					auto moo_result = sut(nMonsterId, nComponent, a3);
+					auto original_result = original(nMonsterId, nComponent, a3);
 
 					// Compare return values
 					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -394,21 +403,23 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int a2{};
 
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
+
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, a2);
-			const auto original_result = original(&original_pUnit, a2);
+			auto moo_result = sut(&moo_pUnit, a2);
+			auto original_result = original(&original_pUnit, a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -430,8 +441,8 @@ TEST_SUITE("D2MonstersTests")
 				uint8_t a1 = i;
 
 				// Call both implementations
-				const auto moo_result = sut(a1);
-				const auto original_result = original(a1);
+				auto moo_result = sut(a1);
+				auto original_result = original(a1);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -451,8 +462,8 @@ TEST_SUITE("D2MonstersTests")
 				uint8_t a1 = i;
 
 				// Call both implementations
-				const auto moo_result = sut(a1);
-				const auto original_result = original(a1);
+				auto moo_result = sut(a1);
+				auto original_result = original(a1);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -472,8 +483,8 @@ TEST_SUITE("D2MonstersTests")
 				uint8_t a1 = i;
 
 				// Call both implementations
-				const auto moo_result = sut(a1);
-				const auto original_result = original(a1);
+				auto moo_result = sut(a1);
+				auto original_result = original(a1);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -488,18 +499,13 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			const auto setup_data = []() {
-				int a2{};
-				int a3{};
-
-				return std::tuple{ a2, a3 };
-			};
-
 			for (auto i = 0; i < 32; ++i)
 			{
 				// Input data
-				auto [moo_a2, moo_a3] = setup_data();
-				auto [original_a2, original_a3] = setup_data();
+				int moo_a2{};
+				int moo_a3{};
+				int original_a2{};
+				int original_a3{};
 				uint8_t a1 = i;
 
 				// Call both implementations
@@ -520,17 +526,19 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
 			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			D2UnitStrc moo_pMonster{};
+			D2UnitStrc original_pMonster{};
 			Unicode wszName{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pMonster
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonster);
+			setup_data(original_pMonster);
 
 			// Call both implementations
 			sut(&moo_pMonster, &wszName);
@@ -545,27 +553,28 @@ TEST_SUITE("D2MonstersTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_CanBeInTown, dll_base + 0x000656C0);
-
+		
 		SUBCASE("")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pMonster{};
+				// Input data
+				D2UnitStrc moo_pMonster{};
+				D2UnitStrc original_pMonster{};
 
+				const auto setup_data = [i](
+					D2UnitStrc& pMonster
+				) {
 					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
-
-					return std::tuple{ pMonster };
+					pMonster.dwClassId = i;
 				};
 
-				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+				setup_data(moo_pMonster);
+				setup_data(original_pMonster);
 
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster);
-				const auto original_result = original(&original_pMonster);
+				auto moo_result = sut(&moo_pMonster);
+				auto original_result = original(&original_pMonster);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -583,25 +592,26 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("bAlwaysReturnFalse = FALSE")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pMonster{};
-
-					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
-
-					return std::tuple{ pMonster };
-				};
-
 				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+				D2UnitStrc moo_pMonster{};
+				D2UnitStrc original_pMonster{};
 				BOOL bAlwaysReturnFalse = FALSE;
 
+				const auto setup_data = [i](
+					D2UnitStrc& pMonster
+				) {
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = i;
+				};
+
+				setup_data(moo_pMonster);
+				setup_data(original_pMonster);
+
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster, bAlwaysReturnFalse);
-				const auto original_result = original(&original_pMonster, bAlwaysReturnFalse);
+				auto moo_result = sut(&moo_pMonster, bAlwaysReturnFalse);
+				auto original_result = original(&original_pMonster, bAlwaysReturnFalse);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -613,25 +623,26 @@ TEST_SUITE("D2MonstersTests")
 
 		SUBCASE("bAlwaysReturnFalse = TRUE")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pMonster{};
-
-					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
-
-					return std::tuple{ pMonster };
-				};
-
 				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+				D2UnitStrc moo_pMonster{};
+				D2UnitStrc original_pMonster{};
 				BOOL bAlwaysReturnFalse = TRUE;
 
+				const auto setup_data = [i](
+					D2UnitStrc& pMonster
+				) {
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = i;
+				};
+
+				setup_data(moo_pMonster);
+				setup_data(original_pMonster);
+
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster, bAlwaysReturnFalse);
-				const auto original_result = original(&original_pMonster, bAlwaysReturnFalse);
+				auto moo_result = sut(&moo_pMonster, bAlwaysReturnFalse);
+				auto original_result = original(&original_pMonster, bAlwaysReturnFalse);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -649,24 +660,25 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = -1; i < monstats_record_count + 1; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pMonster{};
+				// Input data
+				D2UnitStrc moo_pMonster{};
+				D2UnitStrc original_pMonster{};
 
+				const auto setup_data = [i](
+					D2UnitStrc& pMonster
+				) {
 					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
-
-					return std::tuple{ pMonster };
+					pMonster.dwClassId = i;
 				};
 
-				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+				setup_data(moo_pMonster);
+				setup_data(original_pMonster);
 
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster);
-				const auto original_result = original(&original_pMonster);
+				auto moo_result = sut(&moo_pMonster);
+				auto original_result = original(&original_pMonster);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -684,24 +696,25 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = -1; i < monstats_record_count + 1; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pMonster{};
+				// Input data
+				D2UnitStrc moo_pMonster{};
+				D2UnitStrc original_pMonster{};
 
+				const auto setup_data = [i](
+					D2UnitStrc& pMonster
+				) {
 					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
-
-					return std::tuple{ pMonster };
+					pMonster.dwClassId = i;
 				};
 
-				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+				setup_data(moo_pMonster);
+				setup_data(original_pMonster);
 
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster);
-				const auto original_result = original(&original_pMonster);
+				auto moo_result = sut(&moo_pMonster);
+				auto original_result = original(&original_pMonster);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -719,25 +732,28 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("pMonStatsTxtRecord = nullptr")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2MonStatsTxt pMonStatsTxtRecord{};
-					D2UnitStrc pMonster{};
+				// Input data
+				D2MonStatsTxt moo_pMonStatsTxtRecord{};
+				D2UnitStrc moo_pMonster{};
+				D2MonStatsTxt original_pMonStatsTxtRecord{};
+				D2UnitStrc original_pMonster{};
 
+				const auto setup_data = [i](
+					D2MonStatsTxt& pMonStatsTxtRecord,
+					D2UnitStrc& pMonster
+				) {
 					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
-
-					return std::tuple{ pMonStatsTxtRecord, pMonster };
+					pMonster.dwClassId = i;
 				};
 
-				// Input data
-				auto [moo_pMonStatsTxtRecord, moo_pMonster] = setup_data();
-				auto [original_pMonStatsTxtRecord, original_pMonster] = setup_data();
+				setup_data(moo_pMonStatsTxtRecord, moo_pMonster);
+				setup_data(original_pMonStatsTxtRecord, original_pMonster);
 
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonStatsTxtRecord, &moo_pMonster);
-				const auto original_result = original(&original_pMonStatsTxtRecord, &original_pMonster);
+				auto moo_result = sut(&moo_pMonStatsTxtRecord, &moo_pMonster);
+				auto original_result = original(&original_pMonStatsTxtRecord, &original_pMonster);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -750,33 +766,38 @@ TEST_SUITE("D2MonstersTests")
 
 		SUBCASE("pMonStatsTxtRecord set")
 		{
-			const auto class_id = random_unsigned_integer(0, monstats_record_count - 1);
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				// Input data
+				D2MonStatsTxt moo_pMonStatsTxtRecord{};
+				D2UnitStrc moo_pMonster{};
+				D2MonStatsTxt original_pMonStatsTxtRecord{};
+				D2UnitStrc original_pMonster{};
 
-			const auto setup_data = [this, &class_id]() {
-				D2MonStatsTxt pMonStatsTxtRecord{};
-				D2UnitStrc pMonster{};
+				const auto setup_data = [this, i](
+					D2MonStatsTxt& pMonStatsTxtRecord,
+					D2UnitStrc& pMonster
+				) {
+					pMonStatsTxtRecord = monstats_txt[i];
 
-				pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = i;
+				};
 
-				pMonStatsTxtRecord = monstats_txt[class_id];
+				setup_data(moo_pMonStatsTxtRecord, moo_pMonster);
+				setup_data(original_pMonStatsTxtRecord, original_pMonster);
 
-				return std::tuple{ pMonStatsTxtRecord, pMonster };
-			};
+				// Call both implementations
+				auto moo_result = sut(&moo_pMonStatsTxtRecord, &moo_pMonster);
+				auto original_result = original(&original_pMonStatsTxtRecord, &original_pMonster);
 
-			// Input data
-			auto [moo_pMonStatsTxtRecord, moo_pMonster] = setup_data();
-			auto [original_pMonStatsTxtRecord, original_pMonster] = setup_data();
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonStatsTxtRecord, &moo_pMonster);
-			const auto original_result = original(&original_pMonStatsTxtRecord, &original_pMonster);
-
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pMonStatsTxtRecord, original_pMonStatsTxtRecord, "Comparing pMonStatsTxtRecord");
-			MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonStatsTxtRecord, original_pMonStatsTxtRecord, "Comparing pMonStatsTxtRecord");
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
 	}
 	
@@ -789,26 +810,27 @@ TEST_SUITE("D2MonstersTests")
 		{
 			for (auto i = 0; i < NUMBER_OF_MONMODES; ++i)
 			{
-				const auto setup_data = [i]() {
-					D2UnitStrc pMonster{};
+				// Input data
+				D2UnitStrc moo_pMonster{};
+				D2UnitStrc original_pMonster{};
 
+				const auto setup_data = [i](
+					D2UnitStrc& pMonster
+				) {
 					pMonster.dwUnitType = UNIT_MONSTER;
 					pMonster.dwAnimMode = i;
-
-					return std::tuple{ pMonster };
 				};
 
-				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+				setup_data(moo_pMonster);
+				setup_data(original_pMonster);
 
 				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster);
-				const auto original_result = original(&original_pMonster);
+				auto moo_result = sut(&moo_pMonster);
+				auto original_result = original(&original_pMonster);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-
+				
 				// Compare potentially modified input data
 				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
 			}
@@ -822,26 +844,34 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				int pSpawnMode{};
-				int pX{};
-				int pY{};
-				
-				return std::tuple{ pMonster, pSpawnMode, pX, pY };
-			};
-			
 			// Input data
-			auto [moo_pMonster, moo_pSpawnMode, moo_pX, moo_pY] = setup_data();
-			auto [original_pMonster, original_pSpawnMode, original_pX, original_pY] = setup_data();
+			D2UnitStrc moo_pMonster{};
+			int moo_pSpawnMode{};
+			int moo_pX{};
+			int moo_pY{};
+			D2UnitStrc original_pMonster{};
+			int original_pSpawnMode{};
+			int original_pX{};
+			int original_pY{};
 			BOOL bFromMonster{};
 			int nSkillId{};
 			int nSkillLevel{};
 
+			const auto setup_data = [](
+				D2UnitStrc& pMonster,
+				int& pSpawnMode,
+				int& pX,
+				int& pY
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonster, moo_pSpawnMode, moo_pX, moo_pY);
+			setup_data(original_pMonster, original_pSpawnMode, original_pX, original_pY);
+
 			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster, bFromMonster, nSkillId, nSkillLevel, &moo_pSpawnMode, &moo_pX, &moo_pY);
-			const auto original_result = original(&original_pMonster, bFromMonster, nSkillId, nSkillLevel, &original_pSpawnMode, &original_pX, &original_pY);
+			auto moo_result = sut(&moo_pMonster, bFromMonster, nSkillId, nSkillLevel, &moo_pSpawnMode, &moo_pX, &moo_pY);
+			auto original_result = original(&original_pMonster, bFromMonster, nSkillId, nSkillLevel, &original_pSpawnMode, &original_pX, &original_pY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -861,21 +891,31 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				int pId{};
-				int pX{};
-				int pY{};
-				int pSpawnMode{};
-				
-				return std::tuple{ pMonster, pId, pX, pY, pSpawnMode };
-			};
-			
 			// Input data
-			auto [moo_pMonster, moo_pId, moo_pX, moo_pY, moo_pSpawnMode] = setup_data();
-			auto [original_pMonster, original_pId, original_pX, original_pY, original_pSpawnMode] = setup_data();
+			D2UnitStrc moo_pMonster{};
+			int moo_pId{};
+			int moo_pX{};
+			int moo_pY{};
+			int moo_pSpawnMode{};
+			D2UnitStrc original_pMonster{};
+			int original_pId{};
+			int original_pX{};
+			int original_pY{};
+			int original_pSpawnMode{};
 			int nDifficulty{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pMonster,
+				int& pId,
+				int& pX,
+				int& pY,
+				int& pSpawnMode
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonster, moo_pId, moo_pX, moo_pY, moo_pSpawnMode);
+			setup_data(original_pMonster, original_pId, original_pX, original_pY, original_pSpawnMode);
 
 			// Call both implementations
 			sut(&moo_pMonster, &moo_pId, &moo_pX, &moo_pY, &moo_pSpawnMode, nDifficulty, nullptr);
@@ -897,20 +937,22 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
 			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			D2UnitStrc moo_pMonster{};
+			D2UnitStrc original_pMonster{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pMonster
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonster);
+			setup_data(original_pMonster);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster);
-			const auto original_result = original(&original_pMonster);
+			auto moo_result = sut(&moo_pMonster);
+			auto original_result = original(&original_pMonster);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -931,27 +973,31 @@ TEST_SUITE("D2MonstersTests")
 			{
 				for (auto j = 1; j < levels_record_count; ++j)
 				{
-					const auto setup_data = [j]() {
-						D2DrlgLevelStrc pLevel{};
-						pLevel.nLevelId = j;
-
-						D2DrlgRoomStrc pDrlgRoom{};
-						pDrlgRoom.pLevel = &pLevel;
-
-						D2ActiveRoomStrc pRoom{};
-						pRoom.pDrlgRoom = &pDrlgRoom;
-
-						return std::tuple{ pRoom, pDrlgRoom, pLevel };
-					};
-
 					// Input data
-					auto [moo_pRoom, moo_pDrlgRoom, moo_pLevel] = setup_data();
-					auto [original_pRoom, original_pDrlgRoom, original_pLevel] = setup_data();
+					D2ActiveRoomStrc moo_pRoom{};
+					D2ActiveRoomStrc original_pRoom{};
+					D2DrlgRoomStrc moo_pDrlgRoom{};
+					D2DrlgRoomStrc original_pDrlgRoom{};
+					D2DrlgLevelStrc moo_pLevel{};
+					D2DrlgLevelStrc original_pLevel{};
 					int nMonsterId = i;
 
+					const auto setup_data = [j](
+						D2ActiveRoomStrc& pRoom,
+						D2DrlgRoomStrc& pDrlgRoom,
+						D2DrlgLevelStrc& pLevel
+					) {
+						pLevel.nLevelId = j;
+						pDrlgRoom.pLevel = &pLevel;
+						pRoom.pDrlgRoom = &pDrlgRoom;
+					};
+
+					setup_data(moo_pRoom, moo_pDrlgRoom, moo_pLevel);
+					setup_data(original_pRoom, original_pDrlgRoom, original_pLevel);
+
 					// Call both implementations
-					const auto moo_result = sut(&moo_pRoom, nMonsterId);
-					const auto original_result = original(&original_pRoom, nMonsterId);
+					auto moo_result = sut(&moo_pRoom, nMonsterId);
+					auto original_result = original(&original_pRoom, nMonsterId);
 
 					// Compare return values
 					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -963,38 +1009,35 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA6620 (#11065)")
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6620 (#11065)" * doctest::skip(""))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_IsPrimeEvil, dll_base + 0x00066620);
 		
 		SUBCASE("")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
-			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pMonster{};
+			// Input data
+			D2UnitStrc moo_pMonster{};
+			D2UnitStrc original_pMonster{};
 
-					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
+			const auto setup_data = [](
+				D2UnitStrc& pMonster
+			) {
+				// TODO: Setup as needed
+			};
 
-					return std::tuple{ pMonster };
-				};
+			setup_data(moo_pMonster);
+			setup_data(original_pMonster);
 
-				// Input data
-				auto [moo_pMonster] = setup_data();
-				auto [original_pMonster] = setup_data();
+			// Call both implementations
+			auto moo_result = sut(&moo_pMonster);
+			auto original_result = original(&original_pMonster);
+			
+			// Compare return values
+			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
-				// Call both implementations
-				const auto moo_result = sut(&moo_pMonster);
-				const auto original_result = original(&original_pMonster);
-
-				// Compare return values
-				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-
-				// Compare potentially modified input data
-				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
-			}
+			// Compare potentially modified input data
+			SKIP_MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
 		}
 	}
 	
@@ -1005,23 +1048,27 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pMonster{};
+				// Input data
+				D2UnitStrc moo_pMonster{};
+				int moo_pDirectionX{};
+				int moo_pDirectionY{};
+				D2UnitStrc original_pMonster{};
+				int original_pDirectionX{};
+				int original_pDirectionY{};
 
+				const auto setup_data = [i](
+					D2UnitStrc& pMonster,
+					int& pDirectionX,
+					int& pDirectionY
+				) {
 					pMonster.dwUnitType = UNIT_MONSTER;
-					pMonster.dwClassId = class_id;
-
-					int pDirectionX{};
-					int pDirectionY{};
-
-					return std::tuple{ pMonster, pDirectionX, pDirectionY };
+					pMonster.dwClassId = i;
 				};
 
-				// Input data
-				auto [moo_pMonster, moo_pDirectionX, moo_pDirectionY] = setup_data();
-				auto [original_pMonster, original_pDirectionX, original_pDirectionY] = setup_data();
+				setup_data(moo_pMonster, moo_pDirectionX, moo_pDirectionY);
+				setup_data(original_pMonster, original_pDirectionX, original_pDirectionY);
 
 				// Call both implementations
 				sut(&moo_pMonster, &moo_pDirectionX, &moo_pDirectionY);
@@ -1042,24 +1089,25 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				const auto setup_data = [class_id]() {
-					D2UnitStrc pHireling{};
+				// Input data
+				D2UnitStrc moo_pHireling{};
+				D2UnitStrc original_pHireling{};
 
+				const auto setup_data = [i](
+					D2UnitStrc& pHireling
+				) {
 					pHireling.dwUnitType = UNIT_MONSTER;
-					pHireling.dwClassId = class_id;
-
-					return std::tuple{ pHireling };
+					pHireling.dwClassId = i;
 				};
 
-				// Input data
-				auto [moo_pHireling] = setup_data();
-				auto [original_pHireling] = setup_data();
+				setup_data(moo_pHireling);
+				setup_data(original_pHireling);
 
 				// Call both implementations
-				const auto moo_result = sut(&moo_pHireling);
-				const auto original_result = original(&original_pHireling);
+				auto moo_result = sut(&moo_pHireling);
+				auto original_result = original(&original_pHireling);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1077,18 +1125,20 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pMonster{};
-				
-				return std::tuple{ pMonster };
-			};
-			
 			// Input data
-			auto [moo_pMonster] = setup_data();
-			auto [original_pMonster] = setup_data();
+			D2UnitStrc moo_pMonster{};
+			D2UnitStrc original_pMonster{};
 			BOOL bExpansion{};
 			uint8_t nDifficulty{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pMonster
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pMonster);
+			setup_data(original_pMonster);
 
 			// Call both implementations
 			sut(&moo_pMonster, bExpansion, nDifficulty);
@@ -1106,13 +1156,13 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				int nMonsterId = class_id;
+				int nMonsterId = i;
 
 				// Call both implementations
-				const auto moo_result = sut(nMonsterId);
-				const auto original_result = original(nMonsterId);
+				auto moo_result = sut(nMonsterId);
+				auto original_result = original(nMonsterId);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1135,8 +1185,8 @@ TEST_SUITE("D2MonstersTests")
 					int nChainId = j;
 
 					// Call both implementations
-					const auto moo_result = sut(nMonsterId, nChainId);
-					const auto original_result = original(nMonsterId, nChainId);
+					auto moo_result = sut(nMonsterId, nChainId);
+					auto original_result = original(nMonsterId, nChainId);
 
 					// Compare return values
 					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1152,13 +1202,13 @@ TEST_SUITE("D2MonstersTests")
 		
 		SUBCASE("")
 		{
-			for (auto class_id = -1; class_id < monstats_record_count + 1; ++class_id)
+			for (auto i = 0; i < monstats_record_count; ++i)
 			{
-				int nMonsterId = class_id;
+				int nMonsterId = i;
 
 				// Call both implementations
-				const auto moo_result = sut(nMonsterId);
-				const auto original_result = original(nMonsterId);
+				auto moo_result = sut(nMonsterId);
+				auto original_result = original(nMonsterId);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

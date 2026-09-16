@@ -54,8 +54,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(nActNo, nInitSeed, bClient, &moo_pGame, nDifficulty, moo_pMemPool, nTownLevelId, pfAutoMap, pfTownAutoMap);
-			const auto original_result = original(nActNo, nInitSeed, bClient, &original_pGame, nDifficulty, original_pMemPool, nTownLevelId, pfAutoMap, pfTownAutoMap);
+			auto moo_result = sut(nActNo, nInitSeed, bClient, &moo_pGame, nDifficulty, moo_pMemPool, nTownLevelId, pfAutoMap, pfTownAutoMap);
+			auto original_result = original(nActNo, nInitSeed, bClient, &original_pGame, nDifficulty, original_pMemPool, nTownLevelId, pfAutoMap, pfTownAutoMap);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -116,8 +116,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -182,8 +182,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom, original_ppLvlWarpTxtRecord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nSourceLevel, &moo_ppLvlWarpTxtRecord);
-			const auto original_result = original(&original_pRoom, nSourceLevel, &original_ppLvlWarpTxtRecord);
+			auto moo_result = sut(&moo_pRoom, nSourceLevel, &moo_ppLvlWarpTxtRecord);
+			auto original_result = original(&original_pRoom, nSourceLevel, &original_ppLvlWarpTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -218,8 +218,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pUnit);
-			const auto original_result = original(&original_pRoom, &original_pUnit);
+			auto moo_result = sut(&moo_pRoom, &moo_pUnit);
+			auto original_result = original(&original_pRoom, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -254,8 +254,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom, original_pFloorCount);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pFloorCount);
-			const auto original_result = original(&original_pRoom, &original_pFloorCount);
+			auto moo_result = sut(&moo_pRoom, &moo_pFloorCount);
+			auto original_result = original(&original_pRoom, &original_pFloorCount);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -290,8 +290,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom, original_pWallCount);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pWallCount);
-			const auto original_result = original(&original_pRoom, &original_pWallCount);
+			auto moo_result = sut(&moo_pRoom, &moo_pWallCount);
+			auto original_result = original(&original_pRoom, &original_pWallCount);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -326,8 +326,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom, original_pRoofCount);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, &moo_pRoofCount);
-			const auto original_result = original(&original_pRoom, &original_pRoofCount);
+			auto moo_result = sut(&moo_pRoom, &moo_pRoofCount);
+			auto original_result = original(&original_pRoom, &original_pRoofCount);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -359,8 +359,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -472,8 +472,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct, original_pDrlgRoom, original_pDrlgCoords, original_pRoomTiles);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, &moo_pDrlgRoom, &moo_pDrlgCoords, &moo_pRoomTiles, nLowSeed, dwFlags);
-			const auto original_result = original(&original_pAct, &original_pDrlgRoom, &original_pDrlgCoords, &original_pRoomTiles, nLowSeed, dwFlags);
+			auto moo_result = sut(&moo_pAct, &moo_pDrlgRoom, &moo_pDrlgCoords, &moo_pRoomTiles, nLowSeed, dwFlags);
+			auto original_result = original(&original_pAct, &original_pDrlgRoom, &original_pDrlgCoords, &original_pRoomTiles, nLowSeed, dwFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -510,8 +510,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_ptFirst, original_ptSecond);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_ptFirst, &moo_ptSecond);
-			const auto original_result = original(&original_ptFirst, &original_ptSecond);
+			auto moo_result = sut(&moo_ptFirst, &moo_ptSecond);
+			auto original_result = original(&original_ptFirst, &original_ptSecond);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -545,8 +545,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY);
-			const auto original_result = original(&original_pRoom, nX, nY);
+			auto moo_result = sut(&moo_pRoom, nX, nY);
+			auto original_result = original(&original_pRoom, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -580,8 +580,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pPrimary, original_pSecondary);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPrimary, &moo_pSecondary);
-			const auto original_result = original(&original_pPrimary, &original_pSecondary);
+			auto moo_result = sut(&moo_pPrimary, &moo_pSecondary);
+			auto original_result = original(&original_pPrimary, &original_pSecondary);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -615,8 +615,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, nX, nY);
-			const auto original_result = original(&original_pAct, nX, nY);
+			auto moo_result = sut(&moo_pAct, nX, nY);
+			auto original_result = original(&original_pAct, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -649,8 +649,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY);
-			const auto original_result = original(&original_pRoom, nX, nY);
+			auto moo_result = sut(&moo_pRoom, nX, nY);
+			auto original_result = original(&original_pRoom, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -827,8 +827,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, nX, nY);
-			const auto original_result = original(&original_pAct, nX, nY);
+			auto moo_result = sut(&moo_pAct, nX, nY);
+			auto original_result = original(&original_pAct, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -861,8 +861,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pDrlgCoords);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pDrlgCoords, nX, nY);
-			const auto original_result = original(&original_pDrlgCoords, nX, nY);
+			auto moo_result = sut(&moo_pDrlgCoords, nX, nY);
+			auto original_result = original(&original_pDrlgCoords, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -901,8 +901,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct, original_pX, original_pY);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, nLevelId, nTileIndex, &moo_pX, &moo_pY);
-			const auto original_result = original(&original_pAct, nLevelId, nTileIndex, &original_pX, &original_pY);
+			auto moo_result = sut(&moo_pAct, nLevelId, nTileIndex, &moo_pX, &moo_pY);
+			auto original_result = original(&original_pAct, nLevelId, nTileIndex, &original_pX, &original_pY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -944,8 +944,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct, original_pX, original_pY);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, nLevelId, nTileIndex, &moo_pX, &moo_pY, nUnitSize);
-			const auto original_result = original(&original_pAct, nLevelId, nTileIndex, &original_pX, &original_pY, nUnitSize);
+			auto moo_result = sut(&moo_pAct, nLevelId, nTileIndex, &moo_pX, &moo_pY, nUnitSize);
+			auto original_result = original(&original_pAct, nLevelId, nTileIndex, &original_pX, &original_pY, nUnitSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -978,8 +978,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1039,8 +1039,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1100,8 +1100,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1133,8 +1133,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, bUpdate);
-			const auto original_result = original(&original_pRoom, bUpdate);
+			auto moo_result = sut(&moo_pRoom, bUpdate);
+			auto original_result = original(&original_pRoom, bUpdate);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1165,8 +1165,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1197,8 +1197,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1369,8 +1369,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, nX, nY);
-			const auto original_result = original(&original_pAct, nX, nY);
+			auto moo_result = sut(&moo_pAct, nX, nY);
+			auto original_result = original(&original_pAct, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1401,8 +1401,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1433,8 +1433,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1466,8 +1466,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nSourceLevel);
-			const auto original_result = original(&original_pRoom, nSourceLevel);
+			auto moo_result = sut(&moo_pRoom, nSourceLevel);
+			auto original_result = original(&original_pRoom, nSourceLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1498,8 +1498,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1530,8 +1530,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1562,8 +1562,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1654,8 +1654,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1686,8 +1686,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1721,8 +1721,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, &moo_pRoom);
-			const auto original_result = original(&original_pAct, &original_pRoom);
+			auto moo_result = sut(&moo_pAct, &moo_pRoom);
+			auto original_result = original(&original_pAct, &original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1757,8 +1757,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, &moo_pRoom);
-			const auto original_result = original(&original_pAct, &original_pRoom);
+			auto moo_result = sut(&moo_pAct, &moo_pRoom);
+			auto original_result = original(&original_pAct, &original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1790,8 +1790,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1822,8 +1822,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1854,8 +1854,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2011,8 +2011,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2170,8 +2170,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2191,7 +2191,8 @@ TEST_SUITE("D2DungeonTests")
 			// Input data
 			D2DrlgActStrc moo_pAct{};
 			D2DrlgActStrc original_pAct{};
-			D2DrlgEnvironmentStrc pEnvironment{};
+			D2DrlgEnvironmentStrc moo_pEnvironment{};
+			D2DrlgEnvironmentStrc original_pEnvironment{};
 
 			const auto setup_data = [](
 				D2DrlgActStrc& pAct,
@@ -2200,12 +2201,12 @@ TEST_SUITE("D2DungeonTests")
 				pAct.pEnvironment = &pEnvironment;
 			};
 
-			setup_data(moo_pAct, pEnvironment);
-			setup_data(original_pAct, pEnvironment);
+			setup_data(moo_pAct, moo_pEnvironment);
+			setup_data(original_pAct, original_pEnvironment);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2225,7 +2226,8 @@ TEST_SUITE("D2DungeonTests")
 			// Input data
 			D2DrlgActStrc moo_pAct{};
 			D2DrlgActStrc original_pAct{};
-			D2DrlgStrc pDrlg{};
+			D2DrlgStrc moo_pDrlg{};
+			D2DrlgStrc original_pDrlg{};
 
 			const auto setup_data = [](
 				D2DrlgActStrc& pAct,
@@ -2234,12 +2236,12 @@ TEST_SUITE("D2DungeonTests")
 				pAct.pDrlg = &pDrlg;
 			};
 
-			setup_data(moo_pAct, pDrlg);
-			setup_data(original_pAct, pDrlg);
+			setup_data(moo_pAct, moo_pDrlg);
+			setup_data(original_pAct, original_pDrlg);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2272,8 +2274,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2293,7 +2295,8 @@ TEST_SUITE("D2DungeonTests")
 			// Input data
 			D2ActiveRoomStrc moo_pRoom{};
 			D2ActiveRoomStrc original_pRoom{};
-			D2DrlgRoomStrc pDrlgRoom{};
+			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 
 			const auto setup_data = [](
 				D2ActiveRoomStrc& pRoom,
@@ -2302,12 +2305,12 @@ TEST_SUITE("D2DungeonTests")
 				pRoom.pDrlgRoom = &pDrlgRoom;
 			};
 
-			setup_data(moo_pRoom, pDrlgRoom);
-			setup_data(original_pRoom, pDrlgRoom);
+			setup_data(moo_pRoom, moo_pDrlgRoom);
+			setup_data(original_pRoom, original_pDrlgRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2329,8 +2332,8 @@ TEST_SUITE("D2DungeonTests")
 				int nLevelId = i;
 
 				// Call both implementations
-				const auto moo_result = sut(nLevelId);
-				const auto original_result = original(nLevelId);
+				auto moo_result = sut(nLevelId);
+				auto original_result = original(nLevelId);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2369,8 +2372,8 @@ TEST_SUITE("D2DungeonTests")
 				setup_data(original_pRoom, original_pDrlgRoom, original_pLevel);
 
 				// Call both implementations
-				const auto moo_result = sut(&moo_pRoom);
-				const auto original_result = original(&original_pRoom);
+				auto moo_result = sut(&moo_pRoom);
+				auto original_result = original(&original_pRoom);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2409,8 +2412,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom, original_pDrlgRoom, original_pLevel);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2445,8 +2448,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2466,8 +2469,8 @@ TEST_SUITE("D2DungeonTests")
 			uint8_t nAct = GENERATE(0, 1, 2, 3, 4);
 
 			// Call both implementations
-			const auto moo_result = sut(nAct);
-			const auto original_result = original(nAct);
+			auto moo_result = sut(nAct);
+			auto original_result = original(nAct);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2495,8 +2498,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2528,8 +2531,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct, nLevelId);
-			const auto original_result = original(&original_pAct, nLevelId);
+			auto moo_result = sut(&moo_pAct, nLevelId);
+			auto original_result = original(&original_pAct, nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2560,8 +2563,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2723,8 +2726,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY);
-			const auto original_result = original(&original_pRoom, nX, nY);
+			auto moo_result = sut(&moo_pRoom, nX, nY);
+			auto original_result = original(&original_pRoom, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2757,8 +2760,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom, nX, nY);
-			const auto original_result = original(&original_pRoom, nX, nY);
+			auto moo_result = sut(&moo_pRoom, nX, nY);
+			auto original_result = original(&original_pRoom, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2789,8 +2792,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2849,8 +2852,8 @@ TEST_SUITE("D2DungeonTests")
 				int nPortalLevelId = i;
 
 				// Call both implementations
-				const auto moo_result = sut(nPortalLevelId);
-				const auto original_result = original(nPortalLevelId);
+				auto moo_result = sut(nPortalLevelId);
+				auto original_result = original(nPortalLevelId);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2881,8 +2884,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2919,8 +2922,8 @@ TEST_SUITE("D2DungeonTests")
 			setup_data(original_pAct, original_pDrlg);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pAct);
-			const auto original_result = original(&original_pAct);
+			auto moo_result = sut(&moo_pAct);
+			auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

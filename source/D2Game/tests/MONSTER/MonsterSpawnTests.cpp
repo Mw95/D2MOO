@@ -45,8 +45,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(nMonsterId, &moo_pRoom, nX, nY, a5);
-			const auto original_result = original(nMonsterId, &original_pRoom, nX, nY, a5);
+			auto moo_result = sut(nMonsterId, &moo_pRoom, nX, nY, a5);
+			auto original_result = original(nMonsterId, &original_pRoom, nX, nY, a5);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -86,8 +86,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, &moo_pTarget, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pUnit, nSkillId, &original_pTarget, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nSkillId, &moo_pTarget, nX, nY);
+			auto original_result = original(&original_pGame, &original_pUnit, nSkillId, &original_pTarget, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -121,8 +121,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, a2);
-			const auto original_result = original(&original_pUnit, a2);
+			auto moo_result = sut(&moo_pUnit, a2);
+			auto original_result = original(&original_pUnit, a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -160,8 +160,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nMonsterId, nAnimMode, a5, nFlags);
-			const auto original_result = original(&original_pGame, &original_pUnit, nMonsterId, nAnimMode, a5, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nMonsterId, nAnimMode, a5, nFlags);
+			auto original_result = original(&original_pGame, &original_pUnit, nMonsterId, nAnimMode, a5, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -193,8 +193,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pMonCreate);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pMonCreate);
-			const auto original_result = original(&original_pMonCreate);
+			auto moo_result = sut(&moo_pMonCreate);
+			auto original_result = original(&original_pMonCreate);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -296,8 +296,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nMonsterId, nAnimMode, a7, nFlags);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nMonsterId, nAnimMode, a7, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nMonsterId, nAnimMode, a7, nFlags);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nMonsterId, nAnimMode, a7, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -339,8 +339,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoomCoordList, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoomCoordList, &moo_pUnit, nMonsterId, nAnimMode, a6, nFlags);
-			const auto original_result = original(&original_pGame, &original_pRoomCoordList, &original_pUnit, nMonsterId, nAnimMode, a6, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pRoomCoordList, &moo_pUnit, nMonsterId, nAnimMode, a6, nFlags);
+			auto original_result = original(&original_pGame, &original_pRoomCoordList, &original_pUnit, nMonsterId, nAnimMode, a6, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -385,8 +385,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoom, original_pRoomCoordList);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nX, nY, nMonsterId, nAnimMode, a8, nFlags);
-			const auto original_result = original(&original_pGame, &original_pRoom, &original_pRoomCoordList, nX, nY, nMonsterId, nAnimMode, a8, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, &moo_pRoomCoordList, nX, nY, nMonsterId, nAnimMode, a8, nFlags);
+			auto original_result = original(&original_pGame, &original_pRoom, &original_pRoomCoordList, nX, nY, nMonsterId, nAnimMode, a8, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -427,8 +427,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nMonsterId, nAnimMode, nFlags);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nMonsterId, nAnimMode, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nMonsterId, nAnimMode, nFlags);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nMonsterId, nAnimMode, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -470,8 +470,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nMonsterId, nMode, nUnitId, a8, nFlags);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nMonsterId, nMode, nUnitId, a8, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, nMonsterId, nMode, nUnitId, a8, nFlags);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY, nMonsterId, nMode, nUnitId, a8, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -510,8 +510,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nMonsterId, nAnimMode, a5, nFlags);
-			const auto original_result = original(&original_pGame, &original_pUnit, nMonsterId, nAnimMode, a5, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nMonsterId, nAnimMode, a5, nFlags);
+			auto original_result = original(&original_pGame, &original_pUnit, nMonsterId, nAnimMode, a5, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -551,8 +551,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pOwner);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pOwner, nMonsterId, nAnimMode, a5, nCount, nFlags);
-			const auto original_result = original(&original_pGame, &original_pOwner, nMonsterId, nAnimMode, a5, nCount, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pOwner, nMonsterId, nAnimMode, a5, nCount, nFlags);
+			auto original_result = original(&original_pGame, &original_pOwner, nMonsterId, nAnimMode, a5, nCount, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -598,8 +598,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoom, original_pOwner, original_a8);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, &moo_pOwner, nClassId, nAnimMode, &moo_a8, nFlags);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY, &original_pOwner, nClassId, nAnimMode, &original_a8, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY, &moo_pOwner, nClassId, nAnimMode, &moo_a8, nFlags);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY, &original_pOwner, nClassId, nAnimMode, &original_a8, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -643,8 +643,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoom, original_pTargetUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, a3, a4, &moo_pTargetUnit, a6, a7);
-			const auto original_result = original(&original_pGame, &original_pRoom, a3, a4, &original_pTargetUnit, a6, a7);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, a3, a4, &moo_pTargetUnit, a6, a7);
+			auto original_result = original(&original_pGame, &original_pRoom, a3, a4, &original_pTargetUnit, a6, a7);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -685,8 +685,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nMonsterId, nAnimMode, nCount, a6, nFlags);
-			const auto original_result = original(&original_pGame, &original_pUnit, nMonsterId, nAnimMode, nCount, a6, nFlags);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nMonsterId, nAnimMode, nCount, a6, nFlags);
+			auto original_result = original(&original_pGame, &original_pUnit, nMonsterId, nAnimMode, nCount, a6, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -723,8 +723,8 @@ TEST_SUITE("MonsterSpawnTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY);
-			const auto original_result = original(&original_pGame, &original_pRoom, nX, nY);
+			auto moo_result = sut(&moo_pGame, &moo_pRoom, nX, nY);
+			auto original_result = original(&original_pGame, &original_pRoom, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

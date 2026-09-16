@@ -120,8 +120,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pNpc, original_pGame);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pNpc, szCode, &moo_pGame, a4, nQuality, nItemLevel, nPlayerLevel);
-			const auto original_result = original(&original_pNpc, szCode, &original_pGame, a4, nQuality, nItemLevel, nPlayerLevel);
+			auto moo_result = sut(&moo_pNpc, szCode, &moo_pGame, a4, nQuality, nItemLevel, nPlayerLevel);
+			auto original_result = original(&original_pNpc, szCode, &original_pGame, a4, nQuality, nItemLevel, nPlayerLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -316,8 +316,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nNpcGUID, nItemGUID, nItemMode, a6);
-			const auto original_result = original(&original_pGame, &original_pPlayer, nNpcGUID, nItemGUID, nItemMode, a6);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, nNpcGUID, nItemGUID, nItemMode, a6);
+			auto original_result = original(&original_pGame, &original_pPlayer, nNpcGUID, nItemGUID, nItemMode, a6);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -507,8 +507,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, wName, nSeed, wVersion, nBaseMonster, bDead);
-			const auto original_result = original(&original_pGame, &original_pPlayer, wName, nSeed, wVersion, nBaseMonster, bDead);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, wName, nSeed, wVersion, nBaseMonster, bDead);
+			auto original_result = original(&original_pGame, &original_pPlayer, wName, nSeed, wVersion, nBaseMonster, bDead);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -549,8 +549,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pPlayer, original_pUnit, original_pItem, original_a4);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer, &moo_pUnit, &moo_pItem, &moo_a4);
-			const auto original_result = original(&original_pPlayer, &original_pUnit, &original_pItem, &original_a4);
+			auto moo_result = sut(&moo_pPlayer, &moo_pUnit, &moo_pItem, &moo_a4);
+			auto original_result = original(&original_pPlayer, &original_pUnit, &original_pItem, &original_a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -595,8 +595,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pGame, original_pPlayer, original_pNpc);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNpc, nItemGUID, nItemMode, nTransactionType, nCost, bMultibuy);
-			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pNpc, nItemGUID, nItemMode, nTransactionType, nCost, bMultibuy);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNpc, nItemGUID, nItemMode, nTransactionType, nCost, bMultibuy);
+			auto original_result = original(&original_pGame, &original_pPlayer, &original_pNpc, nItemGUID, nItemMode, nTransactionType, nCost, bMultibuy);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -638,8 +638,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nNpcUnitId, nItemId, nItemMode, nTransactionType, nCost, bMultibuy);
-			const auto original_result = original(&original_pGame, &original_pPlayer, nNpcUnitId, nItemId, nItemMode, nTransactionType, nCost, bMultibuy);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, nNpcUnitId, nItemId, nItemMode, nTransactionType, nCost, bMultibuy);
+			auto original_result = original(&original_pGame, &original_pPlayer, nNpcUnitId, nItemId, nItemMode, nTransactionType, nCost, bMultibuy);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -747,8 +747,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nNpcGUID, nItemGUID, nUnused, a6);
-			const auto original_result = original(&original_pGame, &original_pUnit, nNpcGUID, nItemGUID, nUnused, a6);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nNpcGUID, nItemGUID, nUnused, a6);
+			auto original_result = original(&original_pGame, &original_pUnit, nNpcGUID, nItemGUID, nUnused, a6);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -820,8 +820,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nType, nNpcGUID, nItemGUID);
-			const auto original_result = original(&original_pGame, &original_pPlayer, nType, nNpcGUID, nItemGUID);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, nType, nNpcGUID, nItemGUID);
+			auto original_result = original(&original_pGame, &original_pPlayer, nType, nNpcGUID, nItemGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -966,8 +966,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
+			auto moo_result = sut(&moo_pUnit);
+			auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1227,8 +1227,8 @@ TEST_SUITE("SUnitNpcTests")
 			setup_data(original_pGame, original_pPlayer, original_pNpc, original_pItem);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNpc, &moo_pItem, a4);
-			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pNpc, &original_pItem, a4);
+			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNpc, &moo_pItem, a4);
+			auto original_result = original(&original_pGame, &original_pPlayer, &original_pNpc, &original_pItem, a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

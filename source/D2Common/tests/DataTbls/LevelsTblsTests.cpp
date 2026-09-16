@@ -42,8 +42,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
+			auto moo_result = sut(nLevelId);
+			auto original_result = original(nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -60,8 +60,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
+			auto moo_result = sut(nLevelId);
+			auto original_result = original(nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -78,8 +78,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
+			auto moo_result = sut(nLevelId);
+			auto original_result = original(nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -96,8 +96,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
+			auto moo_result = sut(nLevelId);
+			auto original_result = original(nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -129,8 +129,8 @@ TEST_SUITE("LevelsTblsTests")
 			BOOL bExpansion{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId, nDifficulty, bExpansion);
-			const auto original_result = original(nLevelId, nDifficulty, bExpansion);
+			auto moo_result = sut(nLevelId, nDifficulty, bExpansion);
+			auto original_result = original(nLevelId, nDifficulty, bExpansion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -158,8 +158,8 @@ TEST_SUITE("LevelsTblsTests")
 			setup_data(original_pnPortalLevels);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pnPortalLevels);
-			const auto original_result = original(&original_pnPortalLevels);
+			auto moo_result = sut(&moo_pnPortalLevels);
+			auto original_result = original(&original_pnPortalLevels);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -207,8 +207,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
+			auto moo_result = sut(nLevelId);
+			auto original_result = original(nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -253,8 +253,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelType{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelType);
-			const auto original_result = original(nLevelType);
+			auto moo_result = sut(nLevelType);
+			auto original_result = original(nLevelType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -272,8 +272,8 @@ TEST_SUITE("LevelsTblsTests")
 			uint8_t nAct{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelType, nAct);
-			const auto original_result = original(nLevelType, nAct);
+			auto moo_result = sut(nLevelType, nAct);
+			auto original_result = original(nLevelType, nAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -350,8 +350,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nId);
-			const auto original_result = original(nId);
+			auto moo_result = sut(nId);
+			auto original_result = original(nId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -368,8 +368,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
+			auto moo_result = sut(nLevelId);
+			auto original_result = original(nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -415,8 +415,8 @@ TEST_SUITE("LevelsTblsTests")
 			char szDirection{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId, szDirection);
-			const auto original_result = original(nLevelId, szDirection);
+			auto moo_result = sut(nLevelId, szDirection);
+			auto original_result = original(nLevelId, szDirection);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -461,8 +461,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nLevelId{};
 
 			// Call both implementations
-			const auto moo_result = sut(nLevelId);
-			const auto original_result = original(nLevelId);
+			auto moo_result = sut(nLevelId);
+			auto original_result = original(nLevelId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -509,8 +509,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nSubType{};
 
 			// Call both implementations
-			const auto moo_result = sut(nSubType);
-			const auto original_result = original(nSubType);
+			auto moo_result = sut(nSubType);
+			auto original_result = original(nSubType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -571,8 +571,8 @@ TEST_SUITE("LevelsTblsTests")
 			int nSequence{};
 
 			// Call both implementations
-			const auto moo_result = sut(dwAutomapLevelType, dwAutomapTileType, nStyle, nSequence);
-			const auto original_result = original(dwAutomapLevelType, dwAutomapTileType, nStyle, nSequence);
+			auto moo_result = sut(dwAutomapLevelType, dwAutomapTileType, nStyle, nSequence);
+			auto original_result = original(dwAutomapLevelType, dwAutomapTileType, nStyle, nSequence);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

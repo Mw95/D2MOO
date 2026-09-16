@@ -86,8 +86,8 @@ TEST_SUITE("MonsterChooseTests")
 			setup_data(original_pGame, original_pMonsterRegion, original_pRoom, original_ppMonStatsTxtRecord);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pMonsterRegion, &moo_pRoom, &moo_ppMonStatsTxtRecord, nChance, bSpawnUMon);
-			const auto original_result = original(&original_pGame, &original_pMonsterRegion, &original_pRoom, &original_ppMonStatsTxtRecord, nChance, bSpawnUMon);
+			auto moo_result = sut(&moo_pGame, &moo_pMonsterRegion, &moo_pRoom, &moo_ppMonStatsTxtRecord, nChance, bSpawnUMon);
+			auto original_result = original(&original_pGame, &original_pMonsterRegion, &original_pRoom, &original_ppMonStatsTxtRecord, nChance, bSpawnUMon);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -121,8 +121,8 @@ TEST_SUITE("MonsterChooseTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pRoom);
-			const auto original_result = original(&original_pRoom);
+			auto moo_result = sut(&moo_pRoom);
+			auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -156,8 +156,8 @@ TEST_SUITE("MonsterChooseTests")
 			setup_data(original_pMonsterRegion, original_pRoom);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pMonsterRegion, &moo_pRoom);
-			const auto original_result = original(&original_pMonsterRegion, &original_pRoom);
+			auto moo_result = sut(&moo_pMonsterRegion, &moo_pRoom);
+			auto original_result = original(&original_pMonsterRegion, &original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

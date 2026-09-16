@@ -591,8 +591,8 @@ TEST_SUITE("PartyScreenTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nCallbackId, nOtherPlayerGUID, nParam);
-			const auto original_result = original(&original_pGame, &original_pUnit, nCallbackId, nOtherPlayerGUID, nParam);
+			auto moo_result = sut(&moo_pGame, &moo_pUnit, nCallbackId, nOtherPlayerGUID, nParam);
+			auto original_result = original(&original_pGame, &original_pUnit, nCallbackId, nOtherPlayerGUID, nParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

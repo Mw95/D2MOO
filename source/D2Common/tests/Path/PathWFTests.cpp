@@ -50,8 +50,8 @@ TEST_SUITE("PathWFTests")
 			setup_data(original_pInfo, original_pPathPoints, original_pSubPathStartIdx, original_nMaxIndex);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pInfo, tSubPathStart, &moo_pPathPoints, &moo_pSubPathStartIdx, &moo_nMaxIndex, nMaxLength, nMajorDirection);
-			const auto original_result = original(&original_pInfo, tSubPathStart, &original_pPathPoints, &original_pSubPathStartIdx, &original_nMaxIndex, nMaxLength, nMajorDirection);
+			auto moo_result = sut(&moo_pInfo, tSubPathStart, &moo_pPathPoints, &moo_pSubPathStartIdx, &moo_nMaxIndex, nMaxLength, nMajorDirection);
+			auto original_result = original(&original_pInfo, tSubPathStart, &original_pPathPoints, &original_pSubPathStartIdx, &original_nMaxIndex, nMaxLength, nMajorDirection);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -90,8 +90,8 @@ TEST_SUITE("PathWFTests")
 			setup_data(original_pOutPathPoints, original_pInputPoints);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_pOutPathPoints, &moo_pInputPoints, tStartCoord, nbTempPoints);
-			const auto original_result = original(&original_pOutPathPoints, &original_pInputPoints, tStartCoord, nbTempPoints);
+			auto moo_result = sut(&moo_pOutPathPoints, &moo_pInputPoints, tStartCoord, nbTempPoints);
+			auto original_result = original(&original_pOutPathPoints, &original_pInputPoints, tStartCoord, nbTempPoints);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -123,8 +123,8 @@ TEST_SUITE("PathWFTests")
 			setup_data(original_ptPathInfo);
 
 			// Call both implementations
-			const auto moo_result = sut(&moo_ptPathInfo);
-			const auto original_result = original(&original_ptPathInfo);
+			auto moo_result = sut(&moo_ptPathInfo);
+			auto original_result = original(&original_ptPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

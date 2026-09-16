@@ -42,8 +42,8 @@ TEST_SUITE("ArenaTblsTests")
 			int nArenaType{};
 
 			// Call both implementations
-			const auto moo_result = sut(nArenaType);
-			const auto original_result = original(nArenaType);
+			auto moo_result = sut(nArenaType);
+			auto original_result = original(nArenaType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -99,8 +99,8 @@ TEST_SUITE("ArenaTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			const auto moo_result = sut();
-			const auto original_result = original();
+			auto moo_result = sut();
+			auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -118,8 +118,8 @@ TEST_SUITE("ArenaTblsTests")
 			int nLevel{};
 
 			// Call both implementations
-			const auto moo_result = sut(nTemplate, nLevel);
-			const auto original_result = original(nTemplate, nLevel);
+			auto moo_result = sut(nTemplate, nLevel);
+			auto original_result = original(nTemplate, nLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -137,8 +137,8 @@ TEST_SUITE("ArenaTblsTests")
 			int nLevel{};
 
 			// Call both implementations
-			const auto moo_result = sut(nTemplate, nLevel);
-			const auto original_result = original(nTemplate, nLevel);
+			auto moo_result = sut(nTemplate, nLevel);
+			auto original_result = original(nTemplate, nLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
