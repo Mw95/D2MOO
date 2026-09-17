@@ -194,8 +194,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -259,8 +259,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pMonInteract);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pMonInteract);
-			auto original_result = original(&original_pMonInteract);
+			const auto moo_result = sut(&moo_pMonInteract);
+			const auto original_result = original(&original_pMonInteract);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -291,8 +291,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pMonInteract);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pMonInteract);
-			auto original_result = original(&original_pMonInteract);
+			const auto moo_result = sut(&moo_pMonInteract);
+			const auto original_result = original(&original_pMonInteract);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -326,8 +326,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pMonInteract, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pMonInteract, &moo_pUnit);
-			auto original_result = original(&original_pMonInteract, &original_pUnit);
+			const auto moo_result = sut(&moo_pMonInteract, &moo_pUnit);
+			const auto original_result = original(&original_pMonInteract, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -473,8 +473,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pMonster, original_pPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pMonster, &moo_pPlayer);
-			auto original_result = original(&original_pMonster, &original_pPlayer);
+			const auto moo_result = sut(&moo_pMonster, &moo_pPlayer);
+			const auto original_result = original(&original_pMonster, &original_pPlayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -591,8 +591,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, a2, a3);
-			auto original_result = original(&original_pUnit, a2, a3);
+			const auto moo_result = sut(&moo_pUnit, a2, a3);
+			const auto original_result = original(&original_pUnit, a2, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -623,8 +623,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pMonster);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pMonster);
-			auto original_result = original(&original_pMonster);
+			const auto moo_result = sut(&moo_pMonster);
+			const auto original_result = original(&original_pMonster);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -655,8 +655,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pMonster);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pMonster);
-			auto original_result = original(&original_pMonster);
+			const auto moo_result = sut(&moo_pMonster);
+			const auto original_result = original(&original_pMonster);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -719,8 +719,8 @@ TEST_SUITE("MonsterAITests")
 			setup_data(original_pMonster, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pMonster, &moo_pUnit);
-			auto original_result = original(&original_pMonster, &original_pUnit);
+			const auto moo_result = sut(&moo_pMonster, &moo_pUnit);
+			const auto original_result = original(&original_pMonster, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

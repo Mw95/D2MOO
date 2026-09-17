@@ -40,8 +40,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -104,8 +104,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nIndex);
-			auto original_result = original(&original_pUnit, nIndex);
+			const auto moo_result = sut(&moo_pUnit, nIndex);
+			const auto original_result = original(&original_pUnit, nIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -139,8 +139,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -238,8 +238,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -272,8 +272,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nCmdParam, bSet);
-			auto original_result = original(&original_pUnit, nCmdParam, bSet);
+			const auto moo_result = sut(&moo_pUnit, nCmdParam, bSet);
+			const auto original_result = original(&original_pUnit, nCmdParam, bSet);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -347,8 +347,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pGame, original_pUnit, original_pAiCmd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiCmd);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiCmd);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiCmd);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiCmd);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -386,8 +386,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, nCmdParam, bSet);
-			auto original_result = original(&original_pGame, &original_pUnit, nCmdParam, bSet);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nCmdParam, bSet);
+			const auto original_result = original(&original_pGame, &original_pUnit, nCmdParam, bSet);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -452,8 +452,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -558,8 +558,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -872,8 +872,8 @@ TEST_SUITE("AiGeneralTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -105,8 +105,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -167,8 +167,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -228,8 +228,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -290,8 +290,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -353,8 +353,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, nPrefixNo);
-			auto original_result = original(&original_pItem, nPrefixNo);
+			const auto moo_result = sut(&moo_pItem, nPrefixNo);
+			const auto original_result = original(&original_pItem, nPrefixNo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -416,8 +416,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -479,8 +479,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, nSuffixNo);
-			auto original_result = original(&original_pItem, nSuffixNo);
+			const auto moo_result = sut(&moo_pItem, nSuffixNo);
+			const auto original_result = original(&original_pItem, nSuffixNo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -542,8 +542,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -604,8 +604,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -669,8 +669,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, dwFlag, nLine, &szFile);
-			auto original_result = original(&original_pItem, dwFlag, nLine, &szFile);
+			const auto moo_result = sut(&moo_pItem, dwFlag, nLine, &szFile);
+			const auto original_result = original(&original_pItem, dwFlag, nLine, &szFile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -732,8 +732,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -765,8 +765,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, nFlag);
-			auto original_result = original(&original_pItem, nFlag);
+			const auto moo_result = sut(&moo_pItem, nFlag);
+			const auto original_result = original(&original_pItem, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -828,8 +828,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -860,8 +860,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -922,8 +922,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -984,8 +984,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1046,8 +1046,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1108,8 +1108,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1173,8 +1173,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1235,8 +1235,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1297,8 +1297,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1318,8 +1318,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemType{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemType);
-			auto original_result = original(nItemType);
+			const auto moo_result = sut(nItemType);
+			const auto original_result = original(nItemType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1347,8 +1347,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1368,8 +1368,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemType{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemType);
-			auto original_result = original(nItemType);
+			const auto moo_result = sut(nItemType);
+			const auto original_result = original(nItemType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1397,8 +1397,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1418,8 +1418,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemType{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemType);
-			auto original_result = original(nItemType);
+			const auto moo_result = sut(nItemType);
+			const auto original_result = original(nItemType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1447,8 +1447,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1479,8 +1479,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1511,8 +1511,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1543,8 +1543,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1575,8 +1575,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1608,8 +1608,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, nId);
-			auto original_result = original(&original_pItem, nId);
+			const auto moo_result = sut(&moo_pItem, nId);
+			const auto original_result = original(&original_pItem, nId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1640,8 +1640,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1672,8 +1672,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1704,8 +1704,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1736,8 +1736,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1768,8 +1768,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1800,8 +1800,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1832,8 +1832,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1864,8 +1864,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1972,8 +1972,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1993,8 +1993,8 @@ TEST_SUITE("D2ItemsTests")
 			uint32_t dwItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(dwItemId);
-			auto original_result = original(dwItemId);
+			const auto moo_result = sut(dwItemId);
+			const auto original_result = original(dwItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2011,8 +2011,8 @@ TEST_SUITE("D2ItemsTests")
 			D2UnitStrc pItem{};
 
 			// Call both implementations
-			auto moo_result = sut(&pItem);
-			auto original_result = original(&pItem);
+			const auto moo_result = sut(&pItem);
+			const auto original_result = original(&pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2030,8 +2030,8 @@ TEST_SUITE("D2ItemsTests")
 			int nFlag{};
 
 			// Call both implementations
-			auto moo_result = sut(nFlags, nFlag);
-			auto original_result = original(nFlags, nFlag);
+			const auto moo_result = sut(nFlags, nFlag);
+			const auto original_result = original(nFlags, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2103,8 +2103,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pUnit, original_bStrength, original_bDexterity, original_bLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pUnit, bEquipping, &moo_bStrength, &moo_bDexterity, &moo_bLevel);
-			auto original_result = original(&original_pItem, &original_pUnit, bEquipping, &original_bStrength, &original_bDexterity, &original_bLevel);
+			const auto moo_result = sut(&moo_pItem, &moo_pUnit, bEquipping, &moo_bStrength, &moo_bDexterity, &moo_bLevel);
+			const auto original_result = original(&original_pItem, &original_pUnit, bEquipping, &original_bStrength, &original_bDexterity, &original_bLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2128,8 +2128,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2157,8 +2157,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2189,8 +2189,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2224,8 +2224,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pPlayer);
-			auto original_result = original(&original_pItem, &original_pPlayer);
+			const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
+			const auto original_result = original(&original_pItem, &original_pPlayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2260,8 +2260,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pUnit);
-			auto original_result = original(&original_pItem, &original_pUnit);
+			const auto moo_result = sut(&moo_pItem, &moo_pUnit);
+			const auto original_result = original(&original_pItem, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2294,8 +2294,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, nBodyLoc);
-			auto original_result = original(&original_pItem, nBodyLoc);
+			const auto moo_result = sut(&moo_pItem, nBodyLoc);
+			const auto original_result = original(&original_pItem, nBodyLoc);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2315,8 +2315,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemType{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemType);
-			auto original_result = original(nItemType);
+			const auto moo_result = sut(nItemType);
+			const auto original_result = original(nItemType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2344,8 +2344,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2376,8 +2376,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2408,8 +2408,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2430,8 +2430,8 @@ TEST_SUITE("D2ItemsTests")
 			int nWeapClass{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId, nWeapClass);
-			auto original_result = original(nItemId, nWeapClass);
+			const auto moo_result = sut(nItemId, nWeapClass);
+			const auto original_result = original(nItemId, nWeapClass);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2460,8 +2460,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, nWeapClass);
-			auto original_result = original(&original_pItem, nWeapClass);
+			const auto moo_result = sut(&moo_pItem, nWeapClass);
+			const auto original_result = original(&original_pItem, nWeapClass);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2481,8 +2481,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2510,8 +2510,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2542,8 +2542,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2574,8 +2574,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2609,8 +2609,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem1, original_pItem2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem1, &moo_pItem2);
-			auto original_result = original(&original_pItem1, &original_pItem2);
+			const auto moo_result = sut(&moo_pItem1, &moo_pItem2);
+			const auto original_result = original(&original_pItem1, &original_pItem2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2645,8 +2645,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pInventory, original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pInventory, &moo_pItem);
-			auto original_result = original(&original_pInventory, &original_pItem);
+			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
+			const auto original_result = original(&original_pInventory, &original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2678,8 +2678,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2710,8 +2710,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2742,8 +2742,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2775,8 +2775,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nBaseCost);
-			auto original_result = original(&original_pUnit, nBaseCost);
+			const auto moo_result = sut(&moo_pUnit, nBaseCost);
+			const auto original_result = original(&original_pUnit, nBaseCost);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2858,8 +2858,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pPlayer, original_pItem, original_pQuestFlags);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
-			auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
+			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
+			const auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2935,8 +2935,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nFlag);
-			auto original_result = original(&original_pUnit, nFlag);
+			const auto moo_result = sut(&moo_pUnit, nFlag);
+			const auto original_result = original(&original_pUnit, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2976,8 +2976,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pPlayer, original_pItem, original_pQuestFlags);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
-			auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
+			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
+			const auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2999,8 +2999,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3028,8 +3028,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3049,8 +3049,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3078,8 +3078,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3099,8 +3099,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3128,8 +3128,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3160,8 +3160,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3192,8 +3192,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3224,8 +3224,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3256,8 +3256,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3288,8 +3288,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3309,8 +3309,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3338,8 +3338,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3370,8 +3370,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3402,8 +3402,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3423,8 +3423,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3452,8 +3452,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3484,8 +3484,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3565,8 +3565,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3594,8 +3594,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3626,8 +3626,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3647,8 +3647,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3665,8 +3665,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3683,8 +3683,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3712,8 +3712,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3872,8 +3872,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3904,8 +3904,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3925,8 +3925,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3954,8 +3954,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3986,8 +3986,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4018,8 +4018,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4039,8 +4039,8 @@ TEST_SUITE("D2ItemsTests")
 			int nItemId{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemId);
-			auto original_result = original(nItemId);
+			const auto moo_result = sut(nItemId);
+			const auto original_result = original(nItemId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4068,8 +4068,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4100,8 +4100,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4132,8 +4132,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4164,8 +4164,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4199,8 +4199,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pPlayer, original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, &moo_pItem);
-			auto original_result = original(&original_pPlayer, &original_pItem);
+			const auto moo_result = sut(&moo_pPlayer, &moo_pItem);
+			const auto original_result = original(&original_pPlayer, &original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4239,8 +4239,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pPlayer, original_pItem, original_pColor);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pColor, nTransType);
-			auto original_result = original(&original_pPlayer, &original_pItem, &original_pColor, nTransType);
+			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pColor, nTransType);
+			const auto original_result = original(&original_pPlayer, &original_pItem, &original_pColor, nTransType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4262,8 +4262,8 @@ TEST_SUITE("D2ItemsTests")
 			int nRecordId{};
 
 			// Call both implementations
-			auto moo_result = sut(nRecordId);
-			auto original_result = original(nRecordId);
+			const auto moo_result = sut(nRecordId);
+			const auto original_result = original(nRecordId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4291,8 +4291,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4323,8 +4323,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4355,8 +4355,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4395,8 +4395,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pGame, original_pUnit, original_pQuestFlags);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, nNpcId, nDifficulty, &moo_pQuestFlags, nullptr);
-			auto original_result = original(&original_pGame, &original_pUnit, nNpcId, nDifficulty, &original_pQuestFlags, nullptr);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nNpcId, nDifficulty, &moo_pQuestFlags, nullptr);
+			const auto original_result = original(&original_pGame, &original_pUnit, nNpcId, nDifficulty, &original_pQuestFlags, nullptr);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4432,8 +4432,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem1, original_pItem2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem1, &moo_pItem2);
-			auto original_result = original(&original_pItem1, &original_pItem2);
+			const auto moo_result = sut(&moo_pItem1, &moo_pItem2);
+			const auto original_result = original(&original_pItem1, &original_pItem2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4465,8 +4465,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4487,8 +4487,8 @@ TEST_SUITE("D2ItemsTests")
 			int a2{};
 
 			// Call both implementations
-			auto moo_result = sut(a1, a2);
-			auto original_result = original(a1, a2);
+			const auto moo_result = sut(a1, a2);
+			const auto original_result = original(a1, a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4520,8 +4520,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pPlayer, original_pSetItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, &moo_pSetItem, bDontIgnoreInputItem);
-			auto original_result = original(&original_pPlayer, &original_pSetItem, bDontIgnoreInputItem);
+			const auto moo_result = sut(&moo_pPlayer, &moo_pSetItem, bDontIgnoreInputItem);
+			const auto original_result = original(&original_pPlayer, &original_pSetItem, bDontIgnoreInputItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4553,8 +4553,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4585,8 +4585,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4620,8 +4620,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pPlayer);
-			auto original_result = original(&original_pItem, &original_pPlayer);
+			const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
+			const auto original_result = original(&original_pItem, &original_pPlayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4653,8 +4653,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4686,8 +4686,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, nValue);
-			auto original_result = original(&original_pPlayer, nValue);
+			const auto moo_result = sut(&moo_pPlayer, nValue);
+			const auto original_result = original(&original_pPlayer, nValue);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4719,8 +4719,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, nValue);
-			auto original_result = original(&original_pPlayer, nValue);
+			const auto moo_result = sut(&moo_pPlayer, nValue);
+			const auto original_result = original(&original_pPlayer, nValue);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4751,8 +4751,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4816,8 +4816,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pUnit, original_pWeapon);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pWeapon);
-			auto original_result = original(&original_pUnit, &original_pWeapon);
+			const auto moo_result = sut(&moo_pUnit, &moo_pWeapon);
+			const auto original_result = original(&original_pUnit, &original_pWeapon);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4852,8 +4852,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pHasChargedSkills);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pHasChargedSkills);
-			auto original_result = original(&original_pItem, &original_pHasChargedSkills);
+			const auto moo_result = sut(&moo_pItem, &moo_pHasChargedSkills);
+			const auto original_result = original(&original_pItem, &original_pHasChargedSkills);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4885,8 +4885,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4922,8 +4922,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pBitstream, original_pItemSave);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pBitstream, nSize, bCheckForHeader, &moo_pItemSave);
-			auto original_result = original(&original_pBitstream, nSize, bCheckForHeader, &original_pItemSave);
+			const auto moo_result = sut(&moo_pBitstream, nSize, bCheckForHeader, &moo_pItemSave);
+			const auto original_result = original(&original_pBitstream, nSize, bCheckForHeader, &original_pItemSave);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4967,8 +4967,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pBitstream, original_pSocketedItemCount, original_pFail);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bCheckForHeader, &moo_pSocketedItemCount, dwVersion, &moo_pFail);
-			auto original_result = original(&original_pItem, &original_pBitstream, nSize, bCheckForHeader, &original_pSocketedItemCount, dwVersion, &original_pFail);
+			const auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bCheckForHeader, &moo_pSocketedItemCount, dwVersion, &moo_pFail);
+			const auto original_result = original(&original_pItem, &original_pBitstream, nSize, bCheckForHeader, &original_pSocketedItemCount, dwVersion, &original_pFail);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5007,8 +5007,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pBuffer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, dwVersion);
-			auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, dwVersion);
+			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, dwVersion);
+			const auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, dwVersion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5049,8 +5049,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pBuffer, original_pSocketedItems);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, bGamble, &moo_pSocketedItems, dwVersion);
-			auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, bGamble, &original_pSocketedItems, dwVersion);
+			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, bGamble, &moo_pSocketedItems, dwVersion);
+			const auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, bGamble, &original_pSocketedItems, dwVersion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5160,8 +5160,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pBitstream);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bServer, bSaveItemInv, bGamble);
-			auto original_result = original(&original_pItem, &original_pBitstream, nSize, bServer, bSaveItemInv, bGamble);
+			const auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bServer, bSaveItemInv, bGamble);
+			const auto original_result = original(&original_pItem, &original_pBitstream, nSize, bServer, bSaveItemInv, bGamble);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5237,8 +5237,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem, original_pBuffer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pBuffer, bServer, bSaveItemInv, bGamble);
-			auto original_result = original(&original_pItem, &original_pBuffer, bServer, bSaveItemInv, bGamble);
+			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bServer, bSaveItemInv, bGamble);
+			const auto original_result = original(&original_pItem, &original_pBuffer, bServer, bSaveItemInv, bGamble);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5325,8 +5325,8 @@ TEST_SUITE("D2ItemsTests")
 			int nStatId{};
 
 			// Call both implementations
-			auto moo_result = sut(nStatId);
-			auto original_result = original(nStatId);
+			const auto moo_result = sut(nStatId);
+			const auto original_result = original(nStatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5354,8 +5354,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5387,8 +5387,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, nSetItemMask);
-			auto original_result = original(&original_pItem, nSetItemMask);
+			const auto moo_result = sut(&moo_pItem, nSetItemMask);
+			const auto original_result = original(&original_pItem, nSetItemMask);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5423,8 +5423,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pItem, a3);
-			auto original_result = original(&original_pUnit, &original_pItem, a3);
+			const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3);
+			const auto original_result = original(&original_pUnit, &original_pItem, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5461,8 +5461,8 @@ TEST_SUITE("D2ItemsTests")
 			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pItem, a3, a4);
-			auto original_result = original(&original_pUnit, &original_pItem, a3, a4);
+			const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3, a4);
+			const auto original_result = original(&original_pUnit, &original_pItem, a3, a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

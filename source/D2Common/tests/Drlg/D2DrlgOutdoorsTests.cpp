@@ -41,8 +41,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel, original_pDrlgVertex);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, &moo_pDrlgVertex);
-			auto original_result = original(&original_pLevel, &original_pDrlgVertex);
+			const auto moo_result = sut(&moo_pLevel, &moo_pDrlgVertex);
+			const auto original_result = original(&original_pLevel, &original_pDrlgVertex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -76,8 +76,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nX, nY);
-			auto original_result = original(&original_pLevel, nX, nY);
+			const auto moo_result = sut(&moo_pLevel, nX, nY);
+			const auto original_result = original(&original_pLevel, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -172,8 +172,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nX, nY);
-			auto original_result = original(&original_pLevel, nX, nY);
+			const auto moo_result = sut(&moo_pLevel, nX, nY);
+			const auto original_result = original(&original_pLevel, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -206,8 +206,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nX, nY);
-			auto original_result = original(&original_pLevel, nX, nY);
+			const auto moo_result = sut(&moo_pLevel, nX, nY);
+			const auto original_result = original(&original_pLevel, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -243,8 +243,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nX, nY, nLevelPrestId, nOffset, nFlags);
-			auto original_result = original(&original_pLevel, nX, nY, nLevelPrestId, nOffset, nFlags);
+			const auto moo_result = sut(&moo_pLevel, nX, nY, nLevelPrestId, nOffset, nFlags);
+			const auto original_result = original(&original_pLevel, nX, nY, nLevelPrestId, nOffset, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -316,8 +316,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel, original_pDrlgCoord);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, &moo_pDrlgCoord, nLvlPrestId, nRand, nOffset, nFlags);
-			auto original_result = original(&original_pLevel, &original_pDrlgCoord, nLvlPrestId, nRand, nOffset, nFlags);
+			const auto moo_result = sut(&moo_pLevel, &moo_pDrlgCoord, nLvlPrestId, nRand, nOffset, nFlags);
+			const auto original_result = original(&original_pLevel, &original_pDrlgCoord, nLvlPrestId, nRand, nOffset, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -353,8 +353,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nLevelPrestId, nRand, nOffset, nFlags);
-			auto original_result = original(&original_pLevel, nLevelPrestId, nRand, nOffset, nFlags);
+			const auto moo_result = sut(&moo_pLevel, nLevelPrestId, nRand, nOffset, nFlags);
+			const auto original_result = original(&original_pLevel, nLevelPrestId, nRand, nOffset, nFlags);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -387,8 +387,8 @@ TEST_SUITE("D2DrlgOutdoorsTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nLvlPrestId, nRand);
-			auto original_result = original(&original_pLevel, nLvlPrestId, nRand);
+			const auto moo_result = sut(&moo_pLevel, nLvlPrestId, nRand);
+			const auto original_result = original(&original_pLevel, nLvlPrestId, nRand);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

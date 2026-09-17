@@ -43,8 +43,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pMaxChainId, original_pChainId);
 
 			// Call both implementations
-			auto moo_result = sut(nMonsterId, &moo_pMaxChainId, &moo_pChainId);
-			auto original_result = original(nMonsterId, &original_pMaxChainId, &original_pChainId);
+			const auto moo_result = sut(nMonsterId, &moo_pMaxChainId, &moo_pChainId);
+			const auto original_result = original(nMonsterId, &original_pMaxChainId, &original_pChainId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -132,8 +132,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pMonStatsInit);
 
 			// Call both implementations
-			auto moo_result = sut(nMonsterId, nGameType, nDifficulty, nLevel, nFlags, &moo_pMonStatsInit);
-			auto original_result = original(nMonsterId, nGameType, nDifficulty, nLevel, nFlags, &original_pMonStatsInit);
+			const auto moo_result = sut(nMonsterId, nGameType, nDifficulty, nLevel, nFlags, &moo_pMonStatsInit);
+			const auto original_result = original(nMonsterId, nGameType, nDifficulty, nLevel, nFlags, &original_pMonStatsInit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -193,8 +193,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -225,8 +225,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -257,8 +257,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -289,8 +289,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -377,8 +377,8 @@ TEST_SUITE("MonsterTblsTests")
 			signed int nDivisor{};
 
 			// Call both implementations
-			auto moo_result = sut(nValue, nMultiplier, nDivisor);
-			auto original_result = original(nValue, nMultiplier, nDivisor);
+			const auto moo_result = sut(nValue, nMultiplier, nDivisor);
+			const auto original_result = original(nValue, nMultiplier, nDivisor);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -406,8 +406,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_szText);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_szText);
-			auto original_result = original(&original_szText);
+			const auto moo_result = sut(&moo_szText);
+			const auto original_result = original(&original_szText);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -428,8 +428,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nLvl{};
 
 			// Call both implementations
-			auto moo_result = sut(wTCId, nLvl);
-			auto original_result = original(wTCId, nLvl);
+			const auto moo_result = sut(wTCId, nLvl);
+			const auto original_result = original(wTCId, nLvl);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -448,8 +448,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nIndex{};
 
 			// Call both implementations
-			auto moo_result = sut(nDifficulty, nAct, nIndex);
-			auto original_result = original(nDifficulty, nAct, nIndex);
+			const auto moo_result = sut(nDifficulty, nAct, nIndex);
+			const auto original_result = original(nDifficulty, nAct, nIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -479,8 +479,8 @@ TEST_SUITE("MonsterTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -523,8 +523,8 @@ TEST_SUITE("MonsterTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -541,8 +541,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nId{};
 
 			// Call both implementations
-			auto moo_result = sut(nId);
-			auto original_result = original(nId);
+			const auto moo_result = sut(nId);
+			const auto original_result = original(nId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -589,8 +589,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nSuperUniqueId{};
 
 			// Call both implementations
-			auto moo_result = sut(nSuperUniqueId);
-			auto original_result = original(nSuperUniqueId);
+			const auto moo_result = sut(nSuperUniqueId);
+			const auto original_result = original(nSuperUniqueId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -605,8 +605,8 @@ TEST_SUITE("MonsterTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -638,8 +638,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nItemType{};
 
 			// Call both implementations
-			auto moo_result = sut(nItemType);
-			auto original_result = original(nItemType);
+			const auto moo_result = sut(nItemType);
+			const auto original_result = original(nItemType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -658,8 +658,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nLevel{};
 
 			// Call both implementations
-			auto moo_result = sut(bExpansion, nId, nLevel);
-			auto original_result = original(bExpansion, nId, nLevel);
+			const auto moo_result = sut(bExpansion, nId, nLevel);
+			const auto original_result = original(bExpansion, nId, nLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -689,8 +689,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pOldRecord);
 
 			// Call both implementations
-			auto moo_result = sut(bExpansion, nNameId, &moo_pOldRecord);
-			auto original_result = original(bExpansion, nNameId, &original_pOldRecord);
+			const auto moo_result = sut(bExpansion, nNameId, &moo_pOldRecord);
+			const auto original_result = original(bExpansion, nNameId, &original_pOldRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -723,8 +723,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pOldRecord);
 
 			// Call both implementations
-			auto moo_result = sut(bExpansion, nClass, &moo_pOldRecord);
-			auto original_result = original(bExpansion, nClass, &original_pOldRecord);
+			const auto moo_result = sut(bExpansion, nClass, &moo_pOldRecord);
+			const auto original_result = original(bExpansion, nClass, &original_pOldRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -758,8 +758,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pOldRecord);
 
 			// Call both implementations
-			auto moo_result = sut(bExpansion, nVendorId, nDifficulty, &moo_pOldRecord);
-			auto original_result = original(bExpansion, nVendorId, nDifficulty, &original_pOldRecord);
+			const auto moo_result = sut(bExpansion, nVendorId, nDifficulty, &moo_pOldRecord);
+			const auto original_result = original(bExpansion, nVendorId, nDifficulty, &original_pOldRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -793,8 +793,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pOldRecord);
 
 			// Call both implementations
-			auto moo_result = sut(bExpansion, nAct, nDifficulty, &moo_pOldRecord);
-			auto original_result = original(bExpansion, nAct, nDifficulty, &original_pOldRecord);
+			const auto moo_result = sut(bExpansion, nAct, nDifficulty, &moo_pOldRecord);
+			const auto original_result = original(bExpansion, nAct, nDifficulty, &original_pOldRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -829,8 +829,8 @@ TEST_SUITE("MonsterTblsTests")
 			uint32_t dwNpcId{};
 
 			// Call both implementations
-			auto moo_result = sut(dwNpcId);
-			auto original_result = original(dwNpcId);
+			const auto moo_result = sut(dwNpcId);
+			const auto original_result = original(dwNpcId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -862,8 +862,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nSoundId{};
 
 			// Call both implementations
-			auto moo_result = sut(nSoundId);
-			auto original_result = original(nSoundId);
+			const auto moo_result = sut(nSoundId);
+			const auto original_result = original(nSoundId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -880,8 +880,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nMonsterId{};
 
 			// Call both implementations
-			auto moo_result = sut(nMonsterId);
-			auto original_result = original(nMonsterId);
+			const auto moo_result = sut(nMonsterId);
+			const auto original_result = original(nMonsterId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -950,8 +950,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nMonType2{};
 
 			// Call both implementations
-			auto moo_result = sut(nMonType1, nMonType2);
-			auto original_result = original(nMonType1, nMonType2);
+			const auto moo_result = sut(nMonType1, nMonType2);
+			const auto original_result = original(nMonType1, nMonType2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1089,8 +1089,8 @@ TEST_SUITE("MonsterTblsTests")
 			setup_data(original_pRecordCount);
 
 			// Call both implementations
-			auto moo_result = sut(nAct, &moo_pRecordCount);
-			auto original_result = original(nAct, &original_pRecordCount);
+			const auto moo_result = sut(nAct, &moo_pRecordCount);
+			const auto original_result = original(nAct, &original_pRecordCount);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1111,8 +1111,8 @@ TEST_SUITE("MonsterTblsTests")
 			int nSuperUnique{};
 
 			// Call both implementations
-			auto moo_result = sut(nType, nSuperUnique);
-			auto original_result = original(nType, nSuperUnique);
+			const auto moo_result = sut(nType, nSuperUnique);
+			const auto original_result = original(nType, nSuperUnique);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

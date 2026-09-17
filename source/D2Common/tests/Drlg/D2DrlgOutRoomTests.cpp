@@ -125,8 +125,8 @@ TEST_SUITE("D2DrlgOutRoomTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -157,8 +157,8 @@ TEST_SUITE("D2DrlgOutRoomTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -189,8 +189,8 @@ TEST_SUITE("D2DrlgOutRoomTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

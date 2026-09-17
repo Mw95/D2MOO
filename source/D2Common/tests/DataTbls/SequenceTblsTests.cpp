@@ -39,8 +39,8 @@ TEST_SUITE("SequenceTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -71,8 +71,8 @@ TEST_SUITE("SequenceTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -103,8 +103,8 @@ TEST_SUITE("SequenceTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -135,8 +135,8 @@ TEST_SUITE("SequenceTblsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -252,8 +252,8 @@ TEST_SUITE("SequenceTblsTests")
 			int nSequence{};
 
 			// Call both implementations
-			auto moo_result = sut(nSequence);
-			auto original_result = original(nSequence);
+			const auto moo_result = sut(nSequence);
+			const auto original_result = original(nSequence);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

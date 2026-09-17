@@ -91,8 +91,8 @@ TEST_SUITE("InvModeTests")
 			setup_data(original_pPlayer, original_pItem, original_pUnused, original_pClient);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pUnused, &moo_pClient);
-			auto original_result = original(&original_pPlayer, &original_pItem, &original_pUnused, &original_pClient);
+			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pUnused, &moo_pClient);
+			const auto original_result = original(&original_pPlayer, &original_pItem, &original_pUnused, &original_pClient);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -162,8 +162,8 @@ TEST_SUITE("InvModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

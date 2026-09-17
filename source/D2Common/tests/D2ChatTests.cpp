@@ -30,8 +30,8 @@ TEST_SUITE("D2ChatTests")
 			int nTimeout{};
 
 			// Call both implementations
-			auto moo_result = sut(moo_pMemPool, &szText, nTimeout);
-			auto original_result = original(original_pMemPool, &szText, nTimeout);
+			const auto moo_result = sut(moo_pMemPool, &szText, nTimeout);
+			const auto original_result = original(original_pMemPool, &szText, nTimeout);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -96,8 +96,8 @@ TEST_SUITE("D2ChatTests")
 			setup_data(original_pHoverMsg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pHoverMsg);
-			auto original_result = original(&original_pHoverMsg);
+			const auto moo_result = sut(&moo_pHoverMsg);
+			const auto original_result = original(&original_pHoverMsg);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -133,8 +133,8 @@ TEST_SUITE("D2ChatTests")
 			setup_data(original_pHoverMsg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pHoverMsg);
-			auto original_result = original(&original_pHoverMsg);
+			const auto moo_result = sut(&moo_pHoverMsg);
+			const auto original_result = original(&original_pHoverMsg);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -208,8 +208,8 @@ TEST_SUITE("D2ChatTests")
 			setup_data(original_pHoverMsg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pHoverMsg);
-			auto original_result = original(&original_pHoverMsg);
+			const auto moo_result = sut(&moo_pHoverMsg);
+			const auto original_result = original(&original_pHoverMsg);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -269,8 +269,8 @@ TEST_SUITE("D2ChatTests")
 			setup_data(original_pHoverMsg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pHoverMsg);
-			auto original_result = original(&original_pHoverMsg);
+			const auto moo_result = sut(&moo_pHoverMsg);
+			const auto original_result = original(&original_pHoverMsg);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -44,8 +44,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
-			auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
+			const auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
+			const auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -81,8 +81,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
-			auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
+			const auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
+			const auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -119,8 +119,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
-			auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
+			const auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
+			const auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -157,8 +157,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
-			auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
+			const auto moo_result = sut(&moo_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
+			const auto original_result = original(&original_pItem, bRequireSpawnableAffix, bForceAffixRoll, bAssignProperties, bPrefixes, nPreferredAffixIndex, nAutoMagicGroup);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -190,8 +190,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, bPrefix);
-			auto original_result = original(&original_pItem, bPrefix);
+			const auto moo_result = sut(&moo_pItem, bPrefix);
+			const auto original_result = original(&original_pItem, bPrefix);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -225,8 +225,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
-			auto original_result = original(&original_pItem, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
+			const auto original_result = original(&original_pItem, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -259,8 +259,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, bPrefix);
-			auto original_result = original(&original_pItem, bPrefix);
+			const auto moo_result = sut(&moo_pItem, bPrefix);
+			const auto original_result = original(&original_pItem, bPrefix);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -294,8 +294,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
-			auto original_result = original(&original_pItem, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
+			const auto original_result = original(&original_pItem, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -330,8 +330,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
-			auto original_result = original(&original_pItem, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
+			const auto original_result = original(&original_pItem, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -364,8 +364,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, bScroll);
-			auto original_result = original(&original_pItem, bScroll);
+			const auto moo_result = sut(&moo_pItem, bScroll);
+			const auto original_result = original(&original_pItem, bScroll);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -399,8 +399,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
-			auto original_result = original(&original_pItem, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
+			const auto original_result = original(&original_pItem, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -432,8 +432,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem);
-			auto original_result = original(&original_pItem);
+			const auto moo_result = sut(&moo_pItem);
+			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -467,8 +467,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pUnit, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pItemDrop);
-			auto original_result = original(&original_pUnit, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pUnit, &moo_pItemDrop);
+			const auto original_result = original(&original_pUnit, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -503,8 +503,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
-			auto original_result = original(&original_pItem, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
+			const auto original_result = original(&original_pItem, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -539,8 +539,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
-			auto original_result = original(&original_pItem, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
+			const auto original_result = original(&original_pItem, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -607,8 +607,8 @@ TEST_SUITE("ItemsMagicTests")
 			setup_data(original_pItem, original_pItemDrop);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
-			auto original_result = original(&original_pItem, &original_pItemDrop);
+			const auto moo_result = sut(&moo_pItem, &moo_pItemDrop);
+			const auto original_result = original(&original_pItem, &original_pItemDrop);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

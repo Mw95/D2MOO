@@ -28,8 +28,8 @@ TEST_SUITE("AnimTblsTests")
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
-			auto moo_result = sut(hArchive);
-			auto original_result = original(hArchive);
+			const auto moo_result = sut(hArchive);
+			const auto original_result = original(hArchive);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -92,8 +92,8 @@ TEST_SUITE("AnimTblsTests")
 			setup_data(original_pUnit, original_pInventory);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nClassId, nMode, nUnitType, &moo_pInventory);
-			auto original_result = original(&original_pUnit, nClassId, nMode, nUnitType, &original_pInventory);
+			const auto moo_result = sut(&moo_pUnit, nClassId, nMode, nUnitType, &moo_pInventory);
+			const auto original_result = original(&original_pUnit, nClassId, nMode, nUnitType, &original_pInventory);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -164,8 +164,8 @@ TEST_SUITE("AnimTblsTests")
 			setup_data(original_szPath, original_pOutLength, original_pOutAnimSpeed, original_pOutFirstFrameTagged);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_szPath, &moo_pOutLength, &moo_pOutAnimSpeed, &moo_pOutFirstFrameTagged);
-			auto original_result = original(&original_szPath, &original_pOutLength, &original_pOutAnimSpeed, &original_pOutFirstFrameTagged);
+			const auto moo_result = sut(&moo_szPath, &moo_pOutLength, &moo_pOutAnimSpeed, &moo_pOutFirstFrameTagged);
+			const auto original_result = original(&original_szPath, &original_pOutLength, &original_pOutAnimSpeed, &original_pOutFirstFrameTagged);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

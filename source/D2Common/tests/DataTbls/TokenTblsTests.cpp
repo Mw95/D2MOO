@@ -113,8 +113,8 @@ TEST_SUITE("TokenTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -129,8 +129,8 @@ TEST_SUITE("TokenTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -145,8 +145,8 @@ TEST_SUITE("TokenTblsTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -164,8 +164,8 @@ TEST_SUITE("TokenTblsTests")
 			int bGetMode{};
 
 			// Call both implementations
-			auto moo_result = sut(nIndex, bGetMode);
-			auto original_result = original(nIndex, bGetMode);
+			const auto moo_result = sut(nIndex, bGetMode);
+			const auto original_result = original(nIndex, bGetMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -183,8 +183,8 @@ TEST_SUITE("TokenTblsTests")
 			int bGetMode{};
 
 			// Call both implementations
-			auto moo_result = sut(nIndex, bGetMode);
-			auto original_result = original(nIndex, bGetMode);
+			const auto moo_result = sut(nIndex, bGetMode);
+			const auto original_result = original(nIndex, bGetMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -202,8 +202,8 @@ TEST_SUITE("TokenTblsTests")
 			int bGetMode{};
 
 			// Call both implementations
-			auto moo_result = sut(nIndex, bGetMode);
-			auto original_result = original(nIndex, bGetMode);
+			const auto moo_result = sut(nIndex, bGetMode);
+			const auto original_result = original(nIndex, bGetMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -220,8 +220,8 @@ TEST_SUITE("TokenTblsTests")
 			int nComposit{};
 
 			// Call both implementations
-			auto moo_result = sut(nComposit);
-			auto original_result = original(nComposit);
+			const auto moo_result = sut(nComposit);
+			const auto original_result = original(nComposit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -238,8 +238,8 @@ TEST_SUITE("TokenTblsTests")
 			int nId{};
 
 			// Call both implementations
-			auto moo_result = sut(nId);
-			auto original_result = original(nId);
+			const auto moo_result = sut(nId);
+			const auto original_result = original(nId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -28,8 +28,8 @@ TEST_SUITE("ArenaTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -184,8 +184,8 @@ TEST_SUITE("ArenaTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -357,8 +357,8 @@ TEST_SUITE("ArenaTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -389,8 +389,8 @@ TEST_SUITE("ArenaTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -421,8 +421,8 @@ TEST_SUITE("ArenaTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -453,8 +453,8 @@ TEST_SUITE("ArenaTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -472,8 +472,8 @@ TEST_SUITE("ArenaTests")
 		SUBCASE("")
 		{
 			// Call both implementations
-			auto moo_result = sut();
-			auto original_result = original();
+			const auto moo_result = sut();
+			const auto original_result = original();
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -501,8 +501,8 @@ TEST_SUITE("ArenaTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -533,8 +533,8 @@ TEST_SUITE("ArenaTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

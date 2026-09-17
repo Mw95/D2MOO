@@ -47,8 +47,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo, original_pTestDir, original_pDirection);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo, &moo_pTestDir, pPoint, &moo_pDirection);
-			auto original_result = original(&original_pPathInfo, &original_pTestDir, pPoint, &original_pDirection);
+			const auto moo_result = sut(&moo_pPathInfo, &moo_pTestDir, pPoint, &moo_pDirection);
+			const auto original_result = original(&original_pPathInfo, &original_pTestDir, pPoint, &original_pDirection);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -71,8 +71,8 @@ TEST_SUITE("PathMiscTests")
 			D2PathPointStrc pPoint2{};
 
 			// Call both implementations
-			auto moo_result = sut(pPoint1, pPoint2);
-			auto original_result = original(pPoint1, pPoint2);
+			const auto moo_result = sut(pPoint1, pPoint2);
+			const auto original_result = original(pPoint1, pPoint2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -90,8 +90,8 @@ TEST_SUITE("PathMiscTests")
 			D2PathPointStrc pPoint2{};
 
 			// Call both implementations
-			auto moo_result = sut(pPoint1, pPoint2);
-			auto original_result = original(pPoint1, pPoint2);
+			const auto moo_result = sut(pPoint1, pPoint2);
+			const auto original_result = original(pPoint1, pPoint2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -111,8 +111,8 @@ TEST_SUITE("PathMiscTests")
 			int nY2{};
 
 			// Call both implementations
-			auto moo_result = sut(nX1, nY1, nX2, nY2);
-			auto original_result = original(nX1, nY1, nX2, nY2);
+			const auto moo_result = sut(nX1, nY1, nX2, nY2);
+			const auto original_result = original(nX1, nY1, nX2, nY2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -172,8 +172,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -204,8 +204,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -239,8 +239,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pDynamicPath, original_pGameCoord);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDynamicPath, &moo_pGameCoord);
-			auto original_result = original(&original_pDynamicPath, &original_pGameCoord);
+			const auto moo_result = sut(&moo_pDynamicPath, &moo_pGameCoord);
+			const auto original_result = original(&original_pDynamicPath, &original_pGameCoord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -272,8 +272,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -304,8 +304,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -336,8 +336,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -368,8 +368,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -400,8 +400,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -463,8 +463,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pDynamicPath);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDynamicPath);
-			auto original_result = original(&original_pDynamicPath);
+			const auto moo_result = sut(&moo_pDynamicPath);
+			const auto original_result = original(&original_pDynamicPath);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -499,8 +499,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pDynamicPath, original_pPathDestination);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDynamicPath, &moo_pPathDestination, tStartCoord);
-			auto original_result = original(&original_pDynamicPath, &original_pPathDestination, tStartCoord);
+			const auto moo_result = sut(&moo_pDynamicPath, &moo_pPathDestination, tStartCoord);
+			const auto original_result = original(&original_pDynamicPath, &original_pPathDestination, tStartCoord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -535,8 +535,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pDynamicPath, original_pSeed);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDynamicPath, &moo_pSeed);
-			auto original_result = original(&original_pDynamicPath, &original_pSeed);
+			const auto moo_result = sut(&moo_pDynamicPath, &moo_pSeed);
+			const auto original_result = original(&original_pDynamicPath, &original_pSeed);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -560,8 +560,8 @@ TEST_SUITE("PathMiscTests")
 			int nY2{};
 
 			// Call both implementations
-			auto moo_result = sut(nX1, nY1, nX2, nY2);
-			auto original_result = original(nX1, nY1, nX2, nY2);
+			const auto moo_result = sut(nX1, nY1, nX2, nY2);
+			const auto original_result = original(nX1, nY1, nX2, nY2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -581,8 +581,8 @@ TEST_SUITE("PathMiscTests")
 			int nY2{};
 
 			// Call both implementations
-			auto moo_result = sut(nX1, nY1, nX2, nY2);
-			auto original_result = original(nX1, nY1, nX2, nY2);
+			const auto moo_result = sut(nX1, nY1, nX2, nY2);
+			const auto original_result = original(nX1, nY1, nX2, nY2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -602,8 +602,8 @@ TEST_SUITE("PathMiscTests")
 			DWORD dwTargetPrecisionY{};
 
 			// Call both implementations
-			auto moo_result = sut(dwStartPrecisionX, dwStartPrecisionY, dwTargetPrecisionX, dwTargetPrecisionY);
-			auto original_result = original(dwStartPrecisionX, dwStartPrecisionY, dwTargetPrecisionX, dwTargetPrecisionY);
+			const auto moo_result = sut(dwStartPrecisionX, dwStartPrecisionY, dwTargetPrecisionX, dwTargetPrecisionY);
+			const auto original_result = original(dwStartPrecisionX, dwStartPrecisionY, dwTargetPrecisionX, dwTargetPrecisionY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -663,8 +663,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, a2);
-			auto original_result = original(&original_pUnit, a2);
+			const auto moo_result = sut(&moo_pUnit, a2);
+			const auto original_result = original(&original_pUnit, a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -696,8 +696,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, a2);
-			auto original_result = original(&original_pUnit, a2);
+			const auto moo_result = sut(&moo_pUnit, a2);
+			const auto original_result = original(&original_pUnit, a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -728,8 +728,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -768,8 +768,8 @@ TEST_SUITE("PathMiscTests")
 			setup_data(original_pDynamicPath, original_pUnit, original_pDestRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDynamicPath, &moo_pUnit, &moo_pDestRoom, nDestX, nDestY);
-			auto original_result = original(&original_pDynamicPath, &original_pUnit, &original_pDestRoom, nDestX, nDestY);
+			const auto moo_result = sut(&moo_pDynamicPath, &moo_pUnit, &moo_pDestRoom, nDestX, nDestY);
+			const auto original_result = original(&original_pDynamicPath, &original_pUnit, &original_pDestRoom, nDestX, nDestY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -55,8 +55,8 @@ TEST_SUITE("OverlayTblsTests")
 			int nOverlayId{};
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId);
-			auto original_result = original(nOverlayId);
+			const auto moo_result = sut(nOverlayId);
+			const auto original_result = original(nOverlayId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -73,8 +73,8 @@ TEST_SUITE("OverlayTblsTests")
 			int nOverlayId{};
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId);
-			auto original_result = original(nOverlayId);
+			const auto moo_result = sut(nOverlayId);
+			const auto original_result = original(nOverlayId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -91,8 +91,8 @@ TEST_SUITE("OverlayTblsTests")
 			int nOverlayId{};
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId);
-			auto original_result = original(nOverlayId);
+			const auto moo_result = sut(nOverlayId);
+			const auto original_result = original(nOverlayId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -109,8 +109,8 @@ TEST_SUITE("OverlayTblsTests")
 			int nOverlayId{};
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId);
-			auto original_result = original(nOverlayId);
+			const auto moo_result = sut(nOverlayId);
+			const auto original_result = original(nOverlayId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -127,8 +127,8 @@ TEST_SUITE("OverlayTblsTests")
 			int nOverlayId{};
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId);
-			auto original_result = original(nOverlayId);
+			const auto moo_result = sut(nOverlayId);
+			const auto original_result = original(nOverlayId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -169,8 +169,8 @@ TEST_SUITE("OverlayTblsTests")
 			setup_data(original_pInitRadius, original_pRadius, original_pRed, original_pGreen, original_pBlue);
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId, &moo_pInitRadius, &moo_pRadius, &moo_pRed, &moo_pGreen, &moo_pBlue);
-			auto original_result = original(nOverlayId, &original_pInitRadius, &original_pRadius, &original_pRed, &original_pGreen, &original_pBlue);
+			const auto moo_result = sut(nOverlayId, &moo_pInitRadius, &moo_pRadius, &moo_pRed, &moo_pGreen, &moo_pBlue);
+			const auto original_result = original(nOverlayId, &original_pInitRadius, &original_pRadius, &original_pRed, &original_pGreen, &original_pBlue);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -194,8 +194,8 @@ TEST_SUITE("OverlayTblsTests")
 			int nOverlayId{};
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId);
-			auto original_result = original(nOverlayId);
+			const auto moo_result = sut(nOverlayId);
+			const auto original_result = original(nOverlayId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -212,8 +212,8 @@ TEST_SUITE("OverlayTblsTests")
 			int nOverlayId{};
 
 			// Call both implementations
-			auto moo_result = sut(nOverlayId);
-			auto original_result = original(nOverlayId);
+			const auto moo_result = sut(nOverlayId);
+			const auto original_result = original(nOverlayId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

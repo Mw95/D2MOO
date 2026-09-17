@@ -29,8 +29,8 @@ TEST_SUITE("D2EnvironmentTests")
 			void* original_pMemPool = nullptr;
 
 			// Call both implementations
-			auto moo_result = sut(moo_pMemPool);
-			auto original_result = original(original_pMemPool);
+			const auto moo_result = sut(moo_pMemPool);
+			const auto original_result = original(original_pMemPool);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -125,8 +125,8 @@ TEST_SUITE("D2EnvironmentTests")
 			setup_data(original_pAct, original_pRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAct, &moo_pRoom);
-			auto original_result = original(&original_pAct, &original_pRoom);
+			const auto moo_result = sut(&moo_pAct, &moo_pRoom);
+			const auto original_result = original(&original_pAct, &original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -189,8 +189,8 @@ TEST_SUITE("D2EnvironmentTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAct, nActNo);
-			auto original_result = original(&original_pAct, nActNo);
+			const auto moo_result = sut(&moo_pAct, nActNo);
+			const auto original_result = original(&original_pAct, nActNo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -262,8 +262,8 @@ TEST_SUITE("D2EnvironmentTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAct);
-			auto original_result = original(&original_pAct);
+			const auto moo_result = sut(&moo_pAct);
+			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -297,8 +297,8 @@ TEST_SUITE("D2EnvironmentTests")
 			setup_data(original_pAct, original_pBaseTime);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAct, &moo_pBaseTime);
-			auto original_result = original(&original_pAct, &original_pBaseTime);
+			const auto moo_result = sut(&moo_pAct, &moo_pBaseTime);
+			const auto original_result = original(&original_pAct, &original_pBaseTime);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -330,8 +330,8 @@ TEST_SUITE("D2EnvironmentTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAct);
-			auto original_result = original(&original_pAct);
+			const auto moo_result = sut(&moo_pAct);
+			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -395,8 +395,8 @@ TEST_SUITE("D2EnvironmentTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAct);
-			auto original_result = original(&original_pAct);
+			const auto moo_result = sut(&moo_pAct);
+			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -549,8 +549,8 @@ TEST_SUITE("D2EnvironmentTests")
 			setup_data(original_pAct);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAct);
-			auto original_result = original(&original_pAct);
+			const auto moo_result = sut(&moo_pAct);
+			const auto original_result = original(&original_pAct);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

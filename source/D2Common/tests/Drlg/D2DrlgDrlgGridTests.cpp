@@ -158,8 +158,8 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgGrid);
-			auto original_result = original(&original_pDrlgGrid);
+			const auto moo_result = sut(&moo_pDrlgGrid);
+			const auto original_result = original(&original_pDrlgGrid);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -192,8 +192,8 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
-			auto original_result = original(&original_pDrlgGrid, nX, nY);
+			const auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
+			const auto original_result = original(&original_pDrlgGrid, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -259,8 +259,8 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
-			auto original_result = original(&original_pDrlgGrid, nX, nY);
+			const auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
+			const auto original_result = original(&original_pDrlgGrid, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -293,8 +293,8 @@ TEST_SUITE("D2DrlgDrlgGridTests")
 			setup_data(original_pDrlgGrid);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
-			auto original_result = original(&original_pDrlgGrid, nX, nY);
+			const auto moo_result = sut(&moo_pDrlgGrid, nX, nY);
+			const auto original_result = original(&original_pDrlgGrid, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

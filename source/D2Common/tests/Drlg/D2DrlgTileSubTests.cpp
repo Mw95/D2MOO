@@ -75,8 +75,8 @@ TEST_SUITE("D2DrlgTileSubTests")
 			setup_data(original_a3, original_pSubstGroup, original_pLvlSubTxtRecord);
 
 			// Call both implementations
-			auto moo_result = sut(a1, a2, &moo_a3, &moo_pSubstGroup, &moo_pLvlSubTxtRecord);
-			auto original_result = original(a1, a2, &original_a3, &original_pSubstGroup, &original_pLvlSubTxtRecord);
+			const auto moo_result = sut(a1, a2, &moo_a3, &moo_pSubstGroup, &moo_pLvlSubTxtRecord);
+			const auto original_result = original(a1, a2, &original_a3, &original_pSubstGroup, &original_pLvlSubTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -229,8 +229,8 @@ TEST_SUITE("D2DrlgTileSubTests")
 			setup_data(original_a3, original_pSubstGroup, original_pLvlSubTxtRecord);
 
 			// Call both implementations
-			auto moo_result = sut(a1, a2, &moo_a3, &moo_pSubstGroup, &moo_pLvlSubTxtRecord);
-			auto original_result = original(a1, a2, &original_a3, &original_pSubstGroup, &original_pLvlSubTxtRecord);
+			const auto moo_result = sut(a1, a2, &moo_a3, &moo_pSubstGroup, &moo_pLvlSubTxtRecord);
+			const auto original_result = original(a1, a2, &original_a3, &original_pSubstGroup, &original_pLvlSubTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -271,8 +271,8 @@ TEST_SUITE("D2DrlgTileSubTests")
 			setup_data(original_a3, original_pSubstGroup, original_pLvlSubTxtRecord);
 
 			// Call both implementations
-			auto moo_result = sut(a1, a2, &moo_a3, &moo_pSubstGroup, &moo_pLvlSubTxtRecord);
-			auto original_result = original(a1, a2, &original_a3, &original_pSubstGroup, &original_pLvlSubTxtRecord);
+			const auto moo_result = sut(a1, a2, &moo_a3, &moo_pSubstGroup, &moo_pLvlSubTxtRecord);
+			const auto original_result = original(a1, a2, &original_a3, &original_pSubstGroup, &original_pLvlSubTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -399,8 +399,8 @@ TEST_SUITE("D2DrlgTileSubTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, nSubType, nSubTheme);
-			auto original_result = original(&original_pDrlgRoom, nSubType, nSubTheme);
+			const auto moo_result = sut(&moo_pDrlgRoom, nSubType, nSubTheme);
+			const auto original_result = original(&original_pDrlgRoom, nSubType, nSubTheme);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

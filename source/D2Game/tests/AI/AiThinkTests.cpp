@@ -346,8 +346,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -574,8 +574,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -839,8 +839,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1030,8 +1030,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1105,8 +1105,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1146,8 +1146,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1221,8 +1221,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pUnit, original_pUnitFindArg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pUnitFindArg);
-			auto original_result = original(&original_pUnit, &original_pUnitFindArg);
+			const auto moo_result = sut(&moo_pUnit, &moo_pUnitFindArg);
+			const auto original_result = original(&original_pUnit, &original_pUnitFindArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2076,8 +2076,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2120,8 +2120,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pMonStatsTxtRecord, original_a4);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pMonStatsTxtRecord, &moo_a4);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pMonStatsTxtRecord, &original_a4);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pMonStatsTxtRecord, &moo_a4);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pMonStatsTxtRecord, &original_a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2163,8 +2163,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2613,8 +2613,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2841,8 +2841,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2995,8 +2995,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3482,8 +3482,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3784,8 +3784,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -3859,8 +3859,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pUnit1, original_pUnit2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit1, &moo_pUnit2);
-			auto original_result = original(&original_pUnit1, &original_pUnit2);
+			const auto moo_result = sut(&moo_pUnit1, &moo_pUnit2);
+			const auto original_result = original(&original_pUnit1, &original_pUnit2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4122,8 +4122,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4202,8 +4202,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4617,8 +4617,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pOwner, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pUnit, a4, bRun, nVelocity, a7);
-			auto original_result = original(&original_pGame, &original_pOwner, &original_pUnit, a4, bRun, nVelocity, a7);
+			const auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pUnit, a4, bRun, nVelocity, a7);
+			const auto original_result = original(&original_pGame, &original_pOwner, &original_pUnit, a4, bRun, nVelocity, a7);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4706,8 +4706,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget, original_pOwner, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, &moo_pOwner, a5, &moo_pAiTickParam, a7, a8);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, &original_pOwner, a5, &original_pAiTickParam, a7, a8);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, &moo_pOwner, a5, &moo_pAiTickParam, a7, a8);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, &original_pOwner, a5, &original_pAiTickParam, a7, a8);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -4826,8 +4826,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pOwner, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pUnit, eMotionType, bRun, nSpeed, bSteps);
-			auto original_result = original(&original_pGame, &original_pOwner, &original_pUnit, eMotionType, bRun, nSpeed, bSteps);
+			const auto moo_result = sut(&moo_pGame, &moo_pOwner, &moo_pUnit, eMotionType, bRun, nSpeed, bSteps);
+			const auto original_result = original(&original_pGame, &original_pOwner, &original_pUnit, eMotionType, bRun, nSpeed, bSteps);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5142,8 +5142,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5330,8 +5330,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5373,8 +5373,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam, original_pPosition);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5417,8 +5417,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam, original_pPosition);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5461,8 +5461,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam, original_pPosition);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5505,8 +5505,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam, original_pPosition);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, &moo_pPosition);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, &original_pPosition);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5583,8 +5583,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5623,8 +5623,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -5811,8 +5811,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -6261,8 +6261,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget, original_pAiCmd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, &moo_pAiCmd);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, &original_pAiCmd);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, &moo_pAiCmd);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, &original_pAiCmd);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -6308,8 +6308,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_a3, original_pCounter, original_pAiCmd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_a3, &moo_pCounter, &moo_pAiCmd, nullptr);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_a3, &original_pCounter, &original_pAiCmd, nullptr);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_a3, &moo_pCounter, &moo_pAiCmd, nullptr);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_a3, &original_pCounter, &original_pAiCmd, nullptr);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -6384,8 +6384,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pTarget);
-			auto original_result = original(&original_pUnit, &original_pTarget);
+			const auto moo_result = sut(&moo_pUnit, &moo_pTarget);
+			const auto original_result = original(&original_pUnit, &original_pTarget);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -6683,8 +6683,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, bDecreaseParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, bDecreaseParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam, bDecreaseParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam, bDecreaseParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -6953,8 +6953,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pOwner, original_pSkill, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pOwner, &moo_pSkill, nSkillId, bCombat, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pOwner, &original_pSkill, nSkillId, bCombat, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pOwner, &moo_pSkill, nSkillId, bCombat, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pOwner, &original_pSkill, nSkillId, bCombat, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -6996,8 +6996,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nSkillId);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nSkillId);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, nSkillId);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, nSkillId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -7144,8 +7144,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_a1, original_a2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_a1, &moo_a2);
-			auto original_result = original(&original_a1, &original_a2);
+			const auto moo_result = sut(&moo_a1, &moo_a2);
+			const auto original_result = original(&original_a1, &original_a2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -7185,8 +7185,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -7236,8 +7236,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_a2, original_pUnit, original_pTarget, original_a9);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_a2, &moo_pUnit, wSkillId, a5, &moo_pTarget, nX, nY, &moo_a9);
-			auto original_result = original(&original_pGame, &original_a2, &original_pUnit, wSkillId, a5, &original_pTarget, nX, nY, &original_a9);
+			const auto moo_result = sut(&moo_pGame, &moo_a2, &moo_pUnit, wSkillId, a5, &moo_pTarget, nX, nY, &moo_a9);
+			const auto original_result = original(&original_pGame, &original_a2, &original_pUnit, wSkillId, a5, &original_pTarget, nX, nY, &original_a9);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -7904,8 +7904,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pTarget);
-			auto original_result = original(&original_pUnit, &original_pTarget);
+			const auto moo_result = sut(&moo_pUnit, &moo_pTarget);
+			const auto original_result = original(&original_pUnit, &original_pTarget);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8124,8 +8124,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8315,8 +8315,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pTarget);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pTarget, moo_pCallbackArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pTarget, original_pCallbackArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8387,8 +8387,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pAiControl);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAiControl);
-			auto original_result = original(&original_pAiControl);
+			const auto moo_result = sut(&moo_pAiControl);
+			const auto original_result = original(&original_pAiControl);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8456,8 +8456,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pUnit, original_pMonStatsTxtRecord);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pMonStatsTxtRecord, nAiSpecialState, bCheckIfSuperUnique);
-			auto original_result = original(&original_pUnit, &original_pMonStatsTxtRecord, nAiSpecialState, bCheckIfSuperUnique);
+			const auto moo_result = sut(&moo_pUnit, &moo_pMonStatsTxtRecord, nAiSpecialState, bCheckIfSuperUnique);
+			const auto original_result = original(&original_pUnit, &original_pMonStatsTxtRecord, nAiSpecialState, bCheckIfSuperUnique);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8490,8 +8490,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nAiSpecialState);
-			auto original_result = original(&original_pUnit, nAiSpecialState);
+			const auto moo_result = sut(&moo_pUnit, nAiSpecialState);
+			const auto original_result = original(&original_pUnit, nAiSpecialState);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8601,8 +8601,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pMonster, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pMonster, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pMonster, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pMonster, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pMonster, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8641,8 +8641,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -8681,8 +8681,8 @@ TEST_SUITE("AiThinkTests")
 			setup_data(original_pGame, original_pUnit, original_pAiTickParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pAiTickParam);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pAiTickParam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

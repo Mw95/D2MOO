@@ -130,8 +130,8 @@ TEST_SUITE("MissileStreamTests")
 			setup_data(original_pUnit1);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit1, moo_pUnit2);
-			auto original_result = original(&original_pUnit1, original_pUnit2);
+			const auto moo_result = sut(&moo_pUnit1, moo_pUnit2);
+			const auto original_result = original(&original_pUnit1, original_pUnit2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

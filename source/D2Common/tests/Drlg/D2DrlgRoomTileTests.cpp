@@ -42,8 +42,8 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, nType, nPackedTileInformation);
-			auto original_result = original(&original_pDrlgRoom, nType, nPackedTileInformation);
+			const auto moo_result = sut(&moo_pDrlgRoom, nType, nPackedTileInformation);
+			const auto original_result = original(&original_pDrlgRoom, nType, nPackedTileInformation);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -84,8 +84,8 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			setup_data(original_pDrlgRoom, original_ppTileData, original_pTileLibraryEntry);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, &moo_ppTileData, nX, nY, nPackedTileInformation, &moo_pTileLibraryEntry, nTileType);
-			auto original_result = original(&original_pDrlgRoom, &original_ppTileData, nX, nY, nPackedTileInformation, &original_pTileLibraryEntry, nTileType);
+			const auto moo_result = sut(&moo_pDrlgRoom, &moo_ppTileData, nX, nY, nPackedTileInformation, &moo_pTileLibraryEntry, nTileType);
+			const auto original_result = original(&original_pDrlgRoom, &original_ppTileData, nX, nY, nPackedTileInformation, &original_pTileLibraryEntry, nTileType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -241,8 +241,8 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			setup_data(original_pDrlgRoom, original_ppTileData, original_pTileLibraryEntry);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, &moo_ppTileData, nX, nY, nPackedTileInformation, &moo_pTileLibraryEntry);
-			auto original_result = original(&original_pDrlgRoom, &original_ppTileData, nX, nY, nPackedTileInformation, &original_pTileLibraryEntry);
+			const auto moo_result = sut(&moo_pDrlgRoom, &moo_ppTileData, nX, nY, nPackedTileInformation, &moo_pTileLibraryEntry);
+			const auto original_result = original(&original_pDrlgRoom, &original_ppTileData, nX, nY, nPackedTileInformation, &original_pTileLibraryEntry);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -284,8 +284,8 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			setup_data(original_pDrlgRoom, original_ppTileData, original_pTileLibraryEntry);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, &moo_ppTileData, nX, nY, nPackedTileInformation, &moo_pTileLibraryEntry);
-			auto original_result = original(&original_pDrlgRoom, &original_ppTileData, nX, nY, nPackedTileInformation, &original_pTileLibraryEntry);
+			const auto moo_result = sut(&moo_pDrlgRoom, &moo_ppTileData, nX, nY, nPackedTileInformation, &moo_pTileLibraryEntry);
+			const auto original_result = original(&original_pDrlgRoom, &original_ppTileData, nX, nY, nPackedTileInformation, &original_pTileLibraryEntry);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -394,8 +394,8 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, nX, nY, nPackedTileInformation, nTileType);
-			auto original_result = original(&original_pDrlgRoom, nX, nY, nPackedTileInformation, nTileType);
+			const auto moo_result = sut(&moo_pDrlgRoom, nX, nY, nPackedTileInformation, nTileType);
+			const auto original_result = original(&original_pDrlgRoom, nX, nY, nPackedTileInformation, nTileType);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -501,8 +501,8 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			setup_data(original_pDrlgRoom, original_ppDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, bFloor, nPackedTileInformation, nX, nY, &moo_ppDrlgRoom);
-			auto original_result = original(&original_pDrlgRoom, bFloor, nPackedTileInformation, nX, nY, &original_ppDrlgRoom);
+			const auto moo_result = sut(&moo_pDrlgRoom, bFloor, nPackedTileInformation, nX, nY, &moo_ppDrlgRoom);
+			const auto original_result = original(&original_pDrlgRoom, bFloor, nPackedTileInformation, nX, nY, &original_ppDrlgRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -874,8 +874,8 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			setup_data(original_pRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pRoom);
-			auto original_result = original(&original_pRoom);
+			const auto moo_result = sut(&moo_pRoom);
+			const auto original_result = original(&original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

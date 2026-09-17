@@ -38,8 +38,8 @@ TEST_SUITE("SkillsTblsTests")
 			setup_data(original_szKey);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_szKey);
-			auto original_result = original(&original_szKey);
+			const auto moo_result = sut(&moo_szKey);
+			const auto original_result = original(&original_szKey);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -59,8 +59,8 @@ TEST_SUITE("SkillsTblsTests")
 			int nValue{};
 
 			// Call both implementations
-			auto moo_result = sut(nValue);
-			auto original_result = original(nValue);
+			const auto moo_result = sut(nValue);
+			const auto original_result = original(nValue);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -93,8 +93,8 @@ TEST_SUITE("SkillsTblsTests")
 			setup_data(original_szText, original_a2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_szText, &moo_a2, a3, nKeywordNumber);
-			auto original_result = original(&original_szText, &original_a2, a3, nKeywordNumber);
+			const auto moo_result = sut(&moo_szText, &moo_a2, a3, nKeywordNumber);
+			const auto original_result = original(&original_szText, &original_a2, a3, nKeywordNumber);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -76,8 +76,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, nId);
-			auto original_result = original(&original_pGame, nId);
+			const auto moo_result = sut(&moo_pGame, nId);
+			const auto original_result = original(&original_pGame, nId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -150,8 +150,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, nQuestId);
-			auto original_result = original(&original_pGame, &original_pUnit, nQuestId);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nQuestId);
+			const auto original_result = original(&original_pGame, &original_pUnit, nQuestId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -276,8 +276,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -759,8 +759,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &szMessage, &szFile, nLine);
-			auto original_result = original(&original_pGame, &szMessage, &szFile, nLine);
+			const auto moo_result = sut(&moo_pGame, &szMessage, &szFile, nLine);
+			const auto original_result = original(&original_pGame, &szMessage, &szFile, nLine);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -897,8 +897,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pQuestData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pQuestData, nState, &szFile, nLine);
-			auto original_result = original(&original_pQuestData, nState, &szFile, nLine);
+			const auto moo_result = sut(&moo_pQuestData, nState, &szFile, nLine);
+			const auto original_result = original(&original_pQuestData, nState, &szFile, nLine);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -998,8 +998,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1031,8 +1031,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, nQuestId);
-			auto original_result = original(&original_pGame, nQuestId);
+			const auto moo_result = sut(&moo_pGame, nQuestId);
+			const auto original_result = original(&original_pGame, nQuestId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1102,8 +1102,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pPlayer, original_pNPC);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNPC);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_pNPC);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pNPC);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pNPC);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1169,8 +1169,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, nQuestId, nState);
-			auto original_result = original(&original_pGame, nQuestId, nState);
+			const auto moo_result = sut(&moo_pGame, nQuestId, nState);
+			const auto original_result = original(&original_pGame, nQuestId, nState);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1564,8 +1564,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, dwCode, nLevel, nQuality, bDroppable);
-			auto original_result = original(&original_pGame, &original_pPlayer, dwCode, nLevel, nQuality, bDroppable);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, dwCode, nLevel, nQuality, bDroppable);
+			const auto original_result = original(&original_pGame, &original_pPlayer, dwCode, nLevel, nQuality, bDroppable);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1815,8 +1815,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGUIDs);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGUIDs, dwGUID);
-			auto original_result = original(&original_pGUIDs, dwGUID);
+			const auto moo_result = sut(&moo_pGUIDs, dwGUID);
+			const auto original_result = original(&original_pGUIDs, dwGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1848,8 +1848,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGUIDs);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGUIDs, dwGUID);
-			auto original_result = original(&original_pGUIDs, dwGUID);
+			const auto moo_result = sut(&moo_pGUIDs, dwGUID);
+			const auto original_result = original(&original_pGUIDs, dwGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1881,8 +1881,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pQuest);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pQuest, dwGUID);
-			auto original_result = original(&original_pQuest, dwGUID);
+			const auto moo_result = sut(&moo_pQuest, dwGUID);
+			const auto original_result = original(&original_pQuest, dwGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2185,8 +2185,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, moo_pArg);
-			auto original_result = original(&original_pGame, &original_pUnit, original_pArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, moo_pArg);
+			const auto original_result = original(&original_pGame, &original_pUnit, original_pArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2263,8 +2263,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pCoord, original_ppRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pCoord, nLevel, &moo_ppRoom);
-			auto original_result = original(&original_pGame, &original_pCoord, nLevel, &original_ppRoom);
+			const auto moo_result = sut(&moo_pGame, &moo_pCoord, nLevel, &moo_ppRoom);
+			const auto original_result = original(&original_pGame, &original_pCoord, nLevel, &original_ppRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2297,8 +2297,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pOp);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pOp);
-			auto original_result = original(&original_pOp);
+			const auto moo_result = sut(&moo_pOp);
+			const auto original_result = original(&original_pOp);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2397,8 +2397,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, nXpos, nYpos, &moo_pRoom, bSpecialInit, nMonster);
-			auto original_result = original(&original_pGame, nXpos, nYpos, &original_pRoom, bSpecialInit, nMonster);
+			const auto moo_result = sut(&moo_pGame, nXpos, nYpos, &moo_pRoom, bSpecialInit, nMonster);
+			const auto original_result = original(&original_pGame, nXpos, nYpos, &original_pRoom, bSpecialInit, nMonster);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2468,8 +2468,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, nSourceLevel, nTargetLevel);
-			auto original_result = original(&original_pGame, &original_pPlayer, nSourceLevel, nTargetLevel);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, nSourceLevel, nTargetLevel);
+			const auto original_result = original(&original_pGame, &original_pPlayer, nSourceLevel, nTargetLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2509,8 +2509,8 @@ TEST_SUITE("QuestsTests")
 			setup_data(original_pGame, original_pUnit, original_pPosition);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pPosition, nType, nIndex);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_pPosition, nType, nIndex);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_pPosition, nType, nIndex);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_pPosition, nType, nIndex);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

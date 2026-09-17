@@ -40,8 +40,8 @@ TEST_SUITE("D2QuestRecordTests")
 			setup_data(original_pQuestRecord);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pQuestRecord, nQuest, nState);
-			auto original_result = original(&original_pQuestRecord, nQuest, nState);
+			const auto moo_result = sut(&moo_pQuestRecord, nQuest, nState);
+			const auto original_result = original(&original_pQuestRecord, nQuest, nState);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -154,8 +154,8 @@ TEST_SUITE("D2QuestRecordTests")
 			void* original_pMemPool = nullptr;
 
 			// Call both implementations
-			auto moo_result = sut(moo_pMemPool);
-			auto original_result = original(original_pMemPool);
+			const auto moo_result = sut(moo_pMemPool);
+			const auto original_result = original(original_pMemPool);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

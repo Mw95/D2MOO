@@ -4,7 +4,6 @@
 
 #include <cstdarg>
 #include <filesystem>
-#include <tuple>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
@@ -32,18 +31,20 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nState{};
 			BOOL bSet{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nState, bSet);
@@ -58,37 +59,44 @@ TEST_SUITE("D2StatesTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_CheckState, dll_base + 0x000745A0);
-
-		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER, UNIT_MISSILE);
 		
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER, UNIT_MISSILE);
+
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
-
-			for (auto i = 0; i < states_record_count; ++i)
+			
+			for (auto j = 0; j < states_record_count; ++j)
 			{
-				for (auto j = 0; j < 2 * flag_count; ++j)
+				for (auto i = 0; i < 2 * flag_count; ++i)
 				{
-					flags[j] = random_unsigned_integer();
+					flags[i] = random_unsigned_integer();
 				}
 
-				const auto setup_data = [&flags, unit_type]() {
-					D2StatListExStrc pStatListEx{};
-					pStatListEx.dwFlags |= STATLIST_EXTENDED;
-					pStatListEx.StatFlags = flags.get();
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				int nState = j;
 
-					D2UnitStrc pUnit{};
+				const auto setup_data = [&flags, flag_count, unit_type](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::unique_ptr<uint32_t[]>& StatFlags
+				) {
+					memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.StatFlags = StatFlags.get();
 					pUnit.dwUnitType = unit_type;
 					pUnit.pStatListEx = &pStatListEx;
-
-					return std::tuple{ pUnit, pStatListEx };
 				};
 
-				// Input data
-				auto [moo_pUnit, moo_pStatListEx] = setup_data();
-				auto [original_pUnit, original_pStatListEx] = setup_data();
-				int nState{};
+				setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+				setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 				// Call both implementations
 				const auto moo_result = sut(&moo_pUnit, nState);
@@ -110,18 +118,20 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			int nState{};
 			BOOL bSet{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, nState, bSet);
@@ -139,31 +149,38 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto i = 0; i < states_record_count; ++i)
+			for (auto j = 0; j < states_record_count; ++j)
 			{
-				for (auto j = 0; j < 2 * flag_count; ++j)
+				for (auto i = 0; i < 2 * flag_count; ++i)
 				{
-					flags[j] = random_unsigned_integer();
+					flags[i] = random_unsigned_integer();
 				}
 
-				const auto setup_data = [&flags]() {
-					D2StatListExStrc pStatListEx{};
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				int nState = j;
+
+				const auto setup_data = [&flags, flag_count](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::unique_ptr<uint32_t[]>& StatFlags
+				) {
+					memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 					pStatListEx.dwFlags |= STATLIST_EXTENDED;
-					pStatListEx.StatFlags = flags.get();
-
-					D2UnitStrc pUnit{};
+					pStatListEx.StatFlags = StatFlags.get();
 					pUnit.pStatListEx = &pStatListEx;
-
-					return std::tuple{ pUnit, pStatListEx };
 				};
 
-				// Input data
-				auto [moo_pUnit, moo_pStatListEx] = setup_data();
-				auto [original_pUnit, original_pStatListEx] = setup_data();
-				int nState = i;
+				setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+				setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 				// Call both implementations
 				const auto moo_result = sut(&moo_pUnit, nState);
@@ -182,31 +199,38 @@ TEST_SUITE("D2StatesTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_ClearGfxStateFlags, dll_base + 0x000746C0);
-		
+
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -224,28 +248,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("none set")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
-
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = 0;
+				flags[i] = 0;
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -260,28 +291,35 @@ TEST_SUITE("D2StatesTests")
 
 		SUBCASE("some set")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -305,7 +343,7 @@ TEST_SUITE("D2StatesTests")
 			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
-
+			
 			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
 				flags[i] = random_unsigned_integer();
@@ -314,21 +352,18 @@ TEST_SUITE("D2StatesTests")
 			D2UnitStrc moo_pUnit{};
 			D2StatListExStrc moo_pStatListEx{};
 			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
-
 			D2UnitStrc original_pUnit{};
 			D2StatListExStrc original_pStatListEx{};
 			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			const auto setup_data = [flags = std::move(flags), flag_count](
+			const auto setup_data = [&flags, flag_count](
 				D2UnitStrc& pUnit,
 				D2StatListExStrc& pStatListEx,
 				std::unique_ptr<uint32_t[]>& StatFlags
 			) {
 				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
-
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
 				pStatListEx.StatFlags = StatFlags.get();
-
 				pUnit.pStatListEx = &pStatListEx;
 			};
 
@@ -338,12 +373,9 @@ TEST_SUITE("D2StatesTests")
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
 			const auto original_result = original(&original_pUnit);
-
-			auto wrapped_moo_result = DynamicArray<uint32_t>{ moo_result, flag_count };
-			auto wrapped_original_result = DynamicArray<uint32_t>{ original_result, flag_count };
-
+			
 			// Compare return values
-			MOO_CHECK_EQ(wrapped_moo_result, wrapped_original_result, "Comparing results");
+			MOO_CHECK_EQ((DynamicArray<uint32_t> { moo_result, flag_count }), (DynamicArray<uint32_t> { original_result, flag_count }), "Comparing results");
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
@@ -357,17 +389,19 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 			BOOL bIsBoss{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit, bIsBoss);
@@ -385,35 +419,42 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
-			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
+			auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
-			
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
 			const auto original_result = original(&original_pUnit);
-			
+
 			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ((DynamicArray<uint32_t> { moo_result, 2 * flag_count }), (DynamicArray<uint32_t> { original_result, 2 * flag_count }), "Comparing results");
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
@@ -464,28 +505,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -527,28 +575,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -569,16 +624,18 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
-			// TODO: Setup as needed
-			const auto setup_data = []() {
-				D2UnitStrc pUnit{};
-				
-				return std::tuple{ pUnit };
-			};
-			
 			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [](
+				D2UnitStrc& pUnit
+			) {
+				// TODO: Setup as needed
+			};
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -617,28 +674,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -659,28 +723,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -701,28 +772,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -743,28 +821,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -785,28 +870,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -827,28 +919,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -869,28 +968,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -913,11 +1019,15 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [is_set, flags]() {
-				D2UnitStrc pUnit{};
+			D2UnitStrc moo_pUnit{};
+			D2UnitStrc original_pUnit{};
 
+			const auto setup_data = [is_set, flags](
+				D2UnitStrc& pUnit
+			) {
 				if (is_set)
 				{
 					pUnit.dwFlagEx |= UNITFLAGEX_ISSHAPESHIFTED;
@@ -926,13 +1036,10 @@ TEST_SUITE("D2StatesTests")
 				{
 					pUnit.dwFlagEx = flags & ~UNITFLAGEX_ISSHAPESHIFTED;
 				}
-				
-				return std::tuple{ pUnit };
 			};
-			
-			// Input data
-			auto [moo_pUnit] = setup_data();
-			auto [original_pUnit] = setup_data();
+
+			setup_data(moo_pUnit);
+			setup_data(original_pUnit);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -993,49 +1100,40 @@ TEST_SUITE("D2StatesTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_CheckStateMaskStayDeathOnUnitByStateId, dll_base + 0x00074F00);
 		
-		SUBCASE("UNIT_PLAYER")
+		SUBCASE("")
 		{
-			for (auto i = 0; i < states_record_count; ++i)
+			for (auto j = 0; j < states_record_count; ++j)
 			{
-				const auto setup_data = []() {
-					D2UnitStrc pUnit{};
-					pUnit.dwUnitType = UNIT_PLAYER;
+				// Input data
+				const auto flag_count = (states_record_count >> 5) + 1;
+				const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-					return std::tuple{ pUnit };
+				for (auto i = 0; i < 2 * flag_count; ++i)
+				{
+					flags[i] = random_unsigned_integer();
+				}
+
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				int nState = j;
+
+				const auto setup_data = [&flags, flag_count](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::unique_ptr<uint32_t[]>& StatFlags
+				) {
+					memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.StatFlags = StatFlags.get();
+					pUnit.pStatListEx = &pStatListEx;
 				};
 
-				// Input data
-				auto [moo_pUnit] = setup_data();
-				auto [original_pUnit] = setup_data();
-				int nState = i;
-
-				// Call both implementations
-				const auto moo_result = sut(&moo_pUnit, nState);
-				const auto original_result = original(&original_pUnit, nState);
-
-				// Compare return values
-				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-
-				// Compare potentially modified input data
-				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
-			}
-		}
-
-		SUBCASE("UNIT_MONSTER")
-		{
-			for (auto i = 0; i < states_record_count; ++i)
-			{
-				const auto setup_data = []() {
-					D2UnitStrc pUnit{};
-					pUnit.dwUnitType = UNIT_MONSTER;
-
-					return std::tuple{ pUnit };
-				};
-
-				// Input data
-				auto [moo_pUnit] = setup_data();
-				auto [original_pUnit] = setup_data();
-				int nState = i;
+				setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+				setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 				// Call both implementations
 				const auto moo_result = sut(&moo_pUnit, nState);
@@ -1057,28 +1155,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, nullptr);
@@ -1099,28 +1204,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1141,28 +1253,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1183,28 +1302,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1225,28 +1351,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1267,28 +1400,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1309,28 +1449,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1351,28 +1498,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1393,28 +1547,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1435,28 +1596,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1477,28 +1645,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1519,28 +1694,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1561,28 +1743,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1624,28 +1813,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1687,28 +1883,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1729,28 +1932,35 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
@@ -1771,33 +1981,40 @@ TEST_SUITE("D2StatesTests")
 		
 		SUBCASE("")
 		{
+			// Input data
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto j = 0; j < 2 * flag_count; ++j)
+			for (auto i = 0; i < 2 * flag_count; ++i)
 			{
-				flags[j] = random_unsigned_integer();
+				flags[i] = random_unsigned_integer();
 			}
 
-			const auto setup_data = [&flags]() {
-				D2StatListExStrc pStatListEx{};
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
+			) {
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 				pStatListEx.dwFlags |= STATLIST_EXTENDED;
-				pStatListEx.StatFlags = flags.get();
-
-				D2UnitStrc pUnit{};
+				pStatListEx.StatFlags = StatFlags.get();
 				pUnit.pStatListEx = &pStatListEx;
-
-				return std::tuple{ pUnit, pStatListEx };
 			};
 
-			// Input data
-			auto [moo_pUnit, moo_pStatListEx] = setup_data();
-			auto [original_pUnit, original_pStatListEx] = setup_data();
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
 			const auto original_result = original(&original_pUnit);
-			
+
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
@@ -1818,28 +2035,35 @@ TEST_SUITE("D2StatesTests")
 			const auto flag_count = (states_record_count >> 5) + 1;
 			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			for (auto i = 0; i < 40; ++i)
+			for (auto j = 0; j < 40; ++j)
 			{
-				for (auto j = 0; j < 2 * flag_count; ++j)
+				for (auto i = 0; i < 2 * flag_count; ++i)
 				{
-					flags[j] = random_unsigned_integer();
+					flags[i] = random_unsigned_integer();
 				}
 
-				const auto setup_data = [&flags]() {
-					D2StatListExStrc pStatListEx{};
+				// Input data
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				int nStateMask = j;
+
+				const auto setup_data = [&flags, flag_count](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::unique_ptr<uint32_t[]>& StatFlags
+				) {
+					memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
 					pStatListEx.dwFlags |= STATLIST_EXTENDED;
-					pStatListEx.StatFlags = flags.get();
-
-					D2UnitStrc pUnit{};
+					pStatListEx.StatFlags = StatFlags.get();
 					pUnit.pStatListEx = &pStatListEx;
-
-					return std::tuple{ pUnit, pStatListEx };
 				};
 
-				// Input data
-				auto [moo_pUnit, moo_pStatListEx] = setup_data();
-				auto [original_pUnit, original_pStatListEx] = setup_data();
-				int nStateMask = i;
+				setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+				setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 				// Call both implementations
 				const auto moo_result = sut(&moo_pUnit, nStateMask);

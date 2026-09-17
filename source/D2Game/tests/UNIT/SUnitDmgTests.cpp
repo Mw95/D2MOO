@@ -42,8 +42,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pDamage);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDamage, nHitClass);
-			auto original_result = original(&original_pDamage, nHitClass);
+			const auto moo_result = sut(&moo_pDamage, nHitClass);
+			const auto original_result = original(&original_pDamage, nHitClass);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -77,8 +77,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -153,8 +153,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit, original_pItem);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, bGetStats, &moo_pItem, nMinDmg, nMaxDmg, nDamagePercent, nDamage, nSrcDam);
-			auto original_result = original(&original_pUnit, bGetStats, &original_pItem, nMinDmg, nMaxDmg, nDamagePercent, nDamage, nSrcDam);
+			const auto moo_result = sut(&moo_pUnit, bGetStats, &moo_pItem, nMinDmg, nMaxDmg, nDamagePercent, nDamage, nSrcDam);
+			const auto original_result = original(&original_pUnit, bGetStats, &original_pItem, nMinDmg, nMaxDmg, nDamagePercent, nDamage, nSrcDam);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -219,8 +219,8 @@ TEST_SUITE("SUnitDmgTests")
 			int32_t nMonType2{};
 
 			// Call both implementations
-			auto moo_result = sut(nMonType1, nMonType2);
-			auto original_result = original(nMonType1, nMonType2);
+			const auto moo_result = sut(nMonType1, nMonType2);
+			const auto original_result = original(nMonType1, nMonType2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -253,8 +253,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nMinDamage, nMaxDamage, nMinDamageBonusPct, nMaxDamageBonusPct, nDamage);
-			auto original_result = original(&original_pUnit, nMinDamage, nMaxDamage, nMinDamageBonusPct, nMaxDamageBonusPct, nDamage);
+			const auto moo_result = sut(&moo_pUnit, nMinDamage, nMaxDamage, nMinDamageBonusPct, nMaxDamageBonusPct, nDamage);
+			const auto original_result = original(&original_pUnit, nMinDamage, nMaxDamage, nMinDamageBonusPct, nMaxDamageBonusPct, nDamage);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -399,8 +399,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -432,8 +432,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nLifeLeeched);
-			auto original_result = original(&original_pUnit, nLifeLeeched);
+			const auto moo_result = sut(&moo_pUnit, nLifeLeeched);
+			const auto original_result = original(&original_pUnit, nLifeLeeched);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -465,8 +465,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nManaLeeched);
-			auto original_result = original(&original_pUnit, nManaLeeched);
+			const auto moo_result = sut(&moo_pUnit, nManaLeeched);
+			const auto original_result = original(&original_pUnit, nManaLeeched);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -822,8 +822,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit, original_pDamage);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pDamage, nHitClass);
-			auto original_result = original(&original_pUnit, &original_pDamage, nHitClass);
+			const auto moo_result = sut(&moo_pUnit, &moo_pDamage, nHitClass);
+			const auto original_result = original(&original_pUnit, &original_pDamage, nHitClass);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -856,8 +856,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pDamage);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDamage, nBaseHitClass);
-			auto original_result = original(&original_pDamage, nBaseHitClass);
+			const auto moo_result = sut(&moo_pDamage, nBaseHitClass);
+			const auto original_result = original(&original_pDamage, nBaseHitClass);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -929,8 +929,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pAttacker, original_pDefender);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAttacker, &moo_pDefender);
-			auto original_result = original(&original_pAttacker, &original_pDefender);
+			const auto moo_result = sut(&moo_pAttacker, &moo_pDefender);
+			const auto original_result = original(&original_pAttacker, &original_pDefender);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -968,8 +968,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit, original_a2, original_a3);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_a2, &moo_a3);
-			auto original_result = original(&original_pUnit, &original_a2, &original_a3);
+			const auto moo_result = sut(&moo_pUnit, &moo_a2, &moo_a3);
+			const auto original_result = original(&original_pUnit, &original_a2, &original_a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1007,8 +1007,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pAttacker, original_pDefender);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAttacker, &moo_pDefender, nStatValue, bMissile);
-			auto original_result = original(&original_pAttacker, &original_pDefender, nStatValue, bMissile);
+			const auto moo_result = sut(&moo_pAttacker, &moo_pDefender, nStatValue, bMissile);
+			const auto original_result = original(&original_pAttacker, &original_pDefender, nStatValue, bMissile);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1048,8 +1048,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pGame, original_pAttacker, original_pDefender);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, nStatValue, nRangeOffset);
-			auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, nStatValue, nRangeOffset);
+			const auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, nStatValue, nRangeOffset);
+			const auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, nStatValue, nRangeOffset);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1132,8 +1132,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pGame, original_pAttacker, original_pDefender);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, bAvoid, bBlock);
-			auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, bAvoid, bBlock);
+			const auto moo_result = sut(&moo_pGame, &moo_pAttacker, &moo_pDefender, bAvoid, bBlock);
+			const auto original_result = original(&original_pGame, &original_pAttacker, &original_pDefender, bAvoid, bBlock);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1170,8 +1170,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pAttacker, original_pDefender);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pAttacker, &moo_pDefender, bAvoid);
-			auto original_result = original(&original_pAttacker, &original_pDefender, bAvoid);
+			const auto moo_result = sut(&moo_pAttacker, &moo_pDefender, bAvoid);
+			const auto original_result = original(&original_pAttacker, &original_pDefender, bAvoid);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1203,8 +1203,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1247,8 +1247,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pGame, original_pUnit, original_pDamage);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, nSize, &moo_pDamage, a7, a8, nullptr, a10);
-			auto original_result = original(&original_pGame, &original_pUnit, nX, nY, nSize, &original_pDamage, a7, a8, nullptr, a10);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nX, nY, nSize, &moo_pDamage, a7, a8, nullptr, a10);
+			const auto original_result = original(&original_pGame, &original_pUnit, nX, nY, nSize, &original_pDamage, a7, a8, nullptr, a10);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1402,8 +1402,8 @@ TEST_SUITE("SUnitDmgTests")
 			setup_data(original_pGame, original_pAttacker);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pAttacker, nAttackerLevel, nDefenderLevel, nDefenderExperience);
-			auto original_result = original(&original_pGame, &original_pAttacker, nAttackerLevel, nDefenderLevel, nDefenderExperience);
+			const auto moo_result = sut(&moo_pGame, &moo_pAttacker, nAttackerLevel, nDefenderLevel, nDefenderExperience);
+			const auto original_result = original(&original_pGame, &original_pAttacker, nAttackerLevel, nDefenderLevel, nDefenderExperience);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -97,8 +97,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nVertexId);
-			auto original_result = original(&original_pLevel, nVertexId);
+			const auto moo_result = sut(&moo_pLevel, nVertexId);
+			const auto original_result = original(&original_pLevel, nVertexId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -120,8 +120,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			int a3{};
 
 			// Call both implementations
-			auto moo_result = sut(a1, a2, a3);
-			auto original_result = original(a1, a2, a3);
+			const auto moo_result = sut(a1, a2, a3);
+			const auto original_result = original(a1, a2, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -142,8 +142,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			int a5{};
 
 			// Call both implementations
-			auto moo_result = sut(a1, a2, a3, a4, a5);
-			auto original_result = original(a1, a2, a3, a4, a5);
+			const auto moo_result = sut(a1, a2, a3, a4, a5);
+			const auto original_result = original(a1, a2, a3, a4, a5);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -258,8 +258,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -290,8 +290,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -357,8 +357,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -424,8 +424,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -491,8 +491,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -523,8 +523,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -555,8 +555,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -587,8 +587,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -619,8 +619,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData);
-			auto original_result = original(&original_pLevelLinkData);
+			const auto moo_result = sut(&moo_pLevelLinkData);
+			const auto original_result = original(&original_pLevelLinkData);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -682,8 +682,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData, nIteration);
-			auto original_result = original(&original_pLevelLinkData, nIteration);
+			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
+			const auto original_result = original(&original_pLevelLinkData, nIteration);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -715,8 +715,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData, nIteration);
-			auto original_result = original(&original_pLevelLinkData, nIteration);
+			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
+			const auto original_result = original(&original_pLevelLinkData, nIteration);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -748,8 +748,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData, nIteration);
-			auto original_result = original(&original_pLevelLinkData, nIteration);
+			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
+			const auto original_result = original(&original_pLevelLinkData, nIteration);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -781,8 +781,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData, nIteration);
-			auto original_result = original(&original_pLevelLinkData, nIteration);
+			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
+			const auto original_result = original(&original_pLevelLinkData, nIteration);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -814,8 +814,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData, nIteration);
-			auto original_result = original(&original_pLevelLinkData, nIteration);
+			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
+			const auto original_result = original(&original_pLevelLinkData, nIteration);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -847,8 +847,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevelLinkData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevelLinkData, nIteration);
-			auto original_result = original(&original_pLevelLinkData, nIteration);
+			const auto moo_result = sut(&moo_pLevelLinkData, nIteration);
+			const auto original_result = original(&original_pLevelLinkData, nIteration);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1008,8 +1008,8 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel);
-			auto original_result = original(&original_pLevel);
+			const auto moo_result = sut(&moo_pLevel);
+			const auto original_result = original(&original_pLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

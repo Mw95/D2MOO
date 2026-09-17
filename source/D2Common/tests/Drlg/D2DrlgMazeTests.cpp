@@ -38,8 +38,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel);
-			auto original_result = original(&original_pLevel);
+			const auto moo_result = sut(&moo_pLevel);
+			const auto original_result = original(&original_pLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -100,8 +100,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel);
-			auto original_result = original(&original_pLevel);
+			const auto moo_result = sut(&moo_pLevel);
+			const auto original_result = original(&original_pLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -132,8 +132,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel);
-			auto original_result = original(&original_pLevel);
+			const auto moo_result = sut(&moo_pLevel);
+			const auto original_result = original(&original_pLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -258,8 +258,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nLevelPrestId1, nLevelPrestId2, nPickedFile, bResetFlag);
-			auto original_result = original(&original_pLevel, nLevelPrestId1, nLevelPrestId2, nPickedFile, bResetFlag);
+			const auto moo_result = sut(&moo_pLevel, nLevelPrestId1, nLevelPrestId2, nPickedFile, bResetFlag);
+			const auto original_result = original(&original_pLevel, nLevelPrestId1, nLevelPrestId2, nPickedFile, bResetFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -292,8 +292,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, nDirection, bMergeRooms);
-			auto original_result = original(&original_pDrlgRoom, nDirection, bMergeRooms);
+			const auto moo_result = sut(&moo_pDrlgRoom, nDirection, bMergeRooms);
+			const auto original_result = original(&original_pDrlgRoom, nDirection, bMergeRooms);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -358,8 +358,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pDrlgRoom1, original_pDrlgRoom2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom1, &moo_pDrlgRoom2, nDirection);
-			auto original_result = original(&original_pDrlgRoom1, &original_pDrlgRoom2, nDirection);
+			const auto moo_result = sut(&moo_pDrlgRoom1, &moo_pDrlgRoom2, nDirection);
+			const auto original_result = original(&original_pDrlgRoom1, &original_pDrlgRoom2, nDirection);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -420,8 +420,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel);
-			auto original_result = original(&original_pLevel);
+			const auto moo_result = sut(&moo_pLevel);
+			const auto original_result = original(&original_pLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -604,8 +604,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pParentRoomEx);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pParentRoomEx, nDirection, bMergeRooms);
-			auto original_result = original(&original_pParentRoomEx, nDirection, bMergeRooms);
+			const auto moo_result = sut(&moo_pParentRoomEx, nDirection, bMergeRooms);
+			const auto original_result = original(&original_pParentRoomEx, nDirection, bMergeRooms);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -732,8 +732,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, nDirection);
-			auto original_result = original(&original_pDrlgRoom, nDirection);
+			const auto moo_result = sut(&moo_pDrlgRoom, nDirection);
+			const auto original_result = original(&original_pDrlgRoom, nDirection);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -797,8 +797,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom, nDirection, nLvlPrestId, nFile, bUseInitPreset);
-			auto original_result = original(&original_pDrlgRoom, nDirection, nLvlPrestId, nFile, bUseInitPreset);
+			const auto moo_result = sut(&moo_pDrlgRoom, nDirection, nLvlPrestId, nFile, bUseInitPreset);
+			const auto original_result = original(&original_pDrlgRoom, nDirection, nLvlPrestId, nFile, bUseInitPreset);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

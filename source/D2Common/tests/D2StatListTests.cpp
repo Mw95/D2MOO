@@ -43,8 +43,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit1, original_pUnit2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit1, &moo_pUnit2);
-			auto original_result = original(&original_pUnit1, &original_pUnit2);
+			const auto moo_result = sut(&moo_pUnit1, &moo_pUnit2);
+			const auto original_result = original(&original_pUnit1, &original_pUnit2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -77,8 +77,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, nLayer_StatId);
-			auto original_result = original(&original_pStatListEx, nLayer_StatId);
+			const auto moo_result = sut(&moo_pStatListEx, nLayer_StatId);
+			const auto original_result = original(&original_pStatListEx, nLayer_StatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -110,8 +110,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatArray);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatArray, nLayer_StatId);
-			auto original_result = original(&original_pStatArray, nLayer_StatId);
+			const auto moo_result = sut(&moo_pStatArray, nLayer_StatId);
+			const auto original_result = original(&original_pStatArray, nLayer_StatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -146,8 +146,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx, original_pItemStatCostTxtRecord);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, nLayer_StatId, &moo_pItemStatCostTxtRecord);
-			auto original_result = original(&original_pStatListEx, nLayer_StatId, &original_pItemStatCostTxtRecord);
+			const auto moo_result = sut(&moo_pStatListEx, nLayer_StatId, &moo_pItemStatCostTxtRecord);
+			const auto original_result = original(&original_pStatListEx, nLayer_StatId, &original_pItemStatCostTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -183,8 +183,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList, original_pItemStatCostTxtRecord);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList, nLayer_StatId, &moo_pItemStatCostTxtRecord);
-			auto original_result = original(&original_pStatList, nLayer_StatId, &original_pItemStatCostTxtRecord);
+			const auto moo_result = sut(&moo_pStatList, nLayer_StatId, &moo_pItemStatCostTxtRecord);
+			const auto original_result = original(&original_pStatList, nLayer_StatId, &original_pItemStatCostTxtRecord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -223,8 +223,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx, original_pItemStatCostTxtRecord, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, nLayer_StatId, &moo_pItemStatCostTxtRecord, &moo_pUnit);
-			auto original_result = original(&original_pStatListEx, nLayer_StatId, &original_pItemStatCostTxtRecord, &original_pUnit);
+			const auto moo_result = sut(&moo_pStatListEx, nLayer_StatId, &moo_pItemStatCostTxtRecord, &moo_pUnit);
+			const auto original_result = original(&original_pStatListEx, nLayer_StatId, &original_pItemStatCostTxtRecord, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -258,8 +258,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatArray);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatArray, nLayer_StatId);
-			auto original_result = original(&original_pStatArray, nLayer_StatId);
+			const auto moo_result = sut(&moo_pStatArray, nLayer_StatId);
+			const auto original_result = original(&original_pStatArray, nLayer_StatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -293,8 +293,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatsArray);
 
 			// Call both implementations
-			auto moo_result = sut(moo_pMemPool, &moo_pStatsArray, nLayer_StatId);
-			auto original_result = original(original_pMemPool, &original_pStatsArray, nLayer_StatId);
+			const auto moo_result = sut(moo_pMemPool, &moo_pStatsArray, nLayer_StatId);
+			const auto original_result = original(original_pMemPool, &original_pStatsArray, nLayer_StatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -546,8 +546,8 @@ TEST_SUITE("D2StatListTests")
 			D2UnitGUID nUnitGUID{};
 
 			// Call both implementations
-			auto moo_result = sut(moo_pMemPool, fFilter, dwTimeout, nUnitType, nUnitGUID);
-			auto original_result = original(original_pMemPool, fFilter, dwTimeout, nUnitType, nUnitGUID);
+			const auto moo_result = sut(moo_pMemPool, fFilter, dwTimeout, nUnitType, nUnitGUID);
+			const auto original_result = original(original_pMemPool, fFilter, dwTimeout, nUnitType, nUnitGUID);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -613,8 +613,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList);
-			auto original_result = original(&original_pStatList);
+			const auto moo_result = sut(&moo_pStatList);
+			const auto original_result = original(&original_pStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -645,8 +645,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList);
-			auto original_result = original(&original_pStatList);
+			const auto moo_result = sut(&moo_pStatList);
+			const auto original_result = original(&original_pStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -677,8 +677,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList);
-			auto original_result = original(&original_pStatList);
+			const auto moo_result = sut(&moo_pStatList);
+			const auto original_result = original(&original_pStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -709,8 +709,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -771,8 +771,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList);
-			auto original_result = original(&original_pStatList);
+			const auto moo_result = sut(&moo_pStatList);
+			const auto original_result = original(&original_pStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -833,8 +833,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList);
-			auto original_result = original(&original_pStatList);
+			const auto moo_result = sut(&moo_pStatList);
+			const auto original_result = original(&original_pStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -964,8 +964,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList, nStatId, nValue, nLayer);
-			auto original_result = original(&original_pStatList, nStatId, nValue, nLayer);
+			const auto moo_result = sut(&moo_pStatList, nStatId, nValue, nLayer);
+			const auto original_result = original(&original_pStatList, nStatId, nValue, nLayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1034,8 +1034,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList, nStatId, nValue, nLayer, &moo_pUnit);
-			auto original_result = original(&original_pStatList, nStatId, nValue, nLayer, &original_pUnit);
+			const auto moo_result = sut(&moo_pStatList, nStatId, nValue, nLayer, &moo_pUnit);
+			const auto original_result = original(&original_pStatList, nStatId, nValue, nLayer, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1122,8 +1122,8 @@ TEST_SUITE("D2StatListTests")
 			uint16_t nLayer{};
 
 			// Call both implementations
-			auto moo_result = sut(&pUnit, nStatId, nLayer);
-			auto original_result = original(&pUnit, nStatId, nLayer);
+			const auto moo_result = sut(&pUnit, nStatId, nLayer);
+			const auto original_result = original(&pUnit, nStatId, nLayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1153,8 +1153,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nStatId, nLayer);
-			auto original_result = original(&original_pUnit, nStatId, nLayer);
+			const auto moo_result = sut(&moo_pUnit, nStatId, nLayer);
+			const auto original_result = original(&original_pUnit, nStatId, nLayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1187,8 +1187,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nStatId, nLayer);
-			auto original_result = original(&original_pUnit, nStatId, nLayer);
+			const auto moo_result = sut(&moo_pUnit, nStatId, nLayer);
+			const auto original_result = original(&original_pUnit, nStatId, nLayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1221,8 +1221,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nStatId, nLayer);
-			auto original_result = original(&original_pUnit, nStatId, nLayer);
+			const auto moo_result = sut(&moo_pUnit, nStatId, nLayer);
+			const auto original_result = original(&original_pUnit, nStatId, nLayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1283,8 +1283,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList, nStat);
-			auto original_result = original(&original_pStatList, nStat);
+			const auto moo_result = sut(&moo_pStatList, nStat);
+			const auto original_result = original(&original_pStatList, nStat);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1345,8 +1345,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, nStateId);
-			auto original_result = original(&original_pStatListEx, nStateId);
+			const auto moo_result = sut(&moo_pStatListEx, nStateId);
+			const auto original_result = original(&original_pStatListEx, nStateId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1378,8 +1378,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nState);
-			auto original_result = original(&original_pUnit, nState);
+			const auto moo_result = sut(&moo_pUnit, nState);
+			const auto original_result = original(&original_pUnit, nState);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1411,8 +1411,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList, nFlag);
-			auto original_result = original(&original_pStatList, nFlag);
+			const auto moo_result = sut(&moo_pStatList, nFlag);
+			const auto original_result = original(&original_pStatList, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1444,8 +1444,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nFlag);
-			auto original_result = original(&original_pUnit, nFlag);
+			const auto moo_result = sut(&moo_pUnit, nFlag);
+			const auto original_result = original(&original_pUnit, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1478,8 +1478,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nState, nFlag);
-			auto original_result = original(&original_pUnit, nState, nFlag);
+			const auto moo_result = sut(&moo_pUnit, nState, nFlag);
+			const auto original_result = original(&original_pUnit, nState, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1512,8 +1512,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nState, nFlag);
-			auto original_result = original(&original_pUnit, nState, nFlag);
+			const auto moo_result = sut(&moo_pUnit, nState, nFlag);
+			const auto original_result = original(&original_pUnit, nState, nFlag);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1581,8 +1581,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit, original_pStatNotDynamic);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pStatNotDynamic);
-			auto original_result = original(&original_pUnit, &original_pStatNotDynamic);
+			const auto moo_result = sut(&moo_pUnit, &moo_pStatNotDynamic);
+			const auto original_result = original(&original_pUnit, &original_pStatNotDynamic);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1710,8 +1710,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1771,8 +1771,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1804,8 +1804,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, nStatId);
-			auto original_result = original(&original_pStatListEx, nStatId);
+			const auto moo_result = sut(&moo_pStatListEx, nStatId);
+			const auto original_result = original(&original_pStatListEx, nStatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1896,8 +1896,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1928,8 +1928,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1964,8 +1964,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit, original_pOutStatBuffer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pOutStatBuffer, nBufferSize);
-			auto original_result = original(&original_pUnit, &original_pOutStatBuffer, nBufferSize);
+			const auto moo_result = sut(&moo_pUnit, &moo_pOutStatBuffer, nBufferSize);
+			const auto original_result = original(&original_pUnit, &original_pOutStatBuffer, nBufferSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2001,8 +2001,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx, original_pOutStatBuffer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, &moo_pOutStatBuffer, nBufferSize);
-			auto original_result = original(&original_pStatListEx, &original_pOutStatBuffer, nBufferSize);
+			const auto moo_result = sut(&moo_pStatListEx, &moo_pOutStatBuffer, nBufferSize);
+			const auto original_result = original(&original_pStatListEx, &original_pOutStatBuffer, nBufferSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2157,8 +2157,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nStateId, bSet);
-			auto original_result = original(&original_pUnit, nStateId, bSet);
+			const auto moo_result = sut(&moo_pUnit, nStateId, bSet);
+			const auto original_result = original(&original_pUnit, nStateId, bSet);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2255,8 +2255,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2287,8 +2287,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2319,8 +2319,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2351,8 +2351,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2384,8 +2384,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, b2Handed);
-			auto original_result = original(&original_pUnit, b2Handed);
+			const auto moo_result = sut(&moo_pUnit, b2Handed);
+			const auto original_result = original(&original_pUnit, b2Handed);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2417,8 +2417,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, b2Handed);
-			auto original_result = original(&original_pUnit, b2Handed);
+			const auto moo_result = sut(&moo_pUnit, b2Handed);
+			const auto original_result = original(&original_pUnit, b2Handed);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2449,8 +2449,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2481,8 +2481,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2513,8 +2513,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2581,8 +2581,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList, nStatId, nValue, nUnused);
-			auto original_result = original(&original_pStatList, nStatId, nValue, nUnused);
+			const auto moo_result = sut(&moo_pStatList, nStatId, nValue, nUnused);
+			const auto original_result = original(&original_pStatList, nStatId, nValue, nUnused);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2617,8 +2617,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnused, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnused, &moo_pUnit, nStatId);
-			auto original_result = original(&original_pUnused, &original_pUnit, nStatId);
+			const auto moo_result = sut(&moo_pUnused, &moo_pUnit, nStatId);
+			const auto original_result = original(&original_pUnused, &original_pUnit, nStatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2680,8 +2680,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList);
-			auto original_result = original(&original_pStatList);
+			const auto moo_result = sut(&moo_pStatList);
+			const auto original_result = original(&original_pStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2742,8 +2742,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatList);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatList);
-			auto original_result = original(&original_pStatList);
+			const auto moo_result = sut(&moo_pStatList);
+			const auto original_result = original(&original_pStatList);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2779,8 +2779,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx, original_pBuffer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, nStatId, &moo_pBuffer, nBufferSize);
-			auto original_result = original(&original_pStatListEx, nStatId, &original_pBuffer, nBufferSize);
+			const auto moo_result = sut(&moo_pStatListEx, nStatId, &moo_pBuffer, nBufferSize);
+			const auto original_result = original(&original_pStatListEx, nStatId, &original_pBuffer, nBufferSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2817,8 +2817,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pStatListEx, original_pBuffer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pStatListEx, nStatId, &moo_pBuffer, nBufferSize);
-			auto original_result = original(&original_pStatListEx, nStatId, &original_pBuffer, nBufferSize);
+			const auto moo_result = sut(&moo_pStatListEx, nStatId, &moo_pBuffer, nBufferSize);
+			const auto original_result = original(&original_pStatListEx, nStatId, &original_pBuffer, nBufferSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2855,8 +2855,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit, original_pBuffer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nStatId, &moo_pBuffer, nBufferSize);
-			auto original_result = original(&original_pUnit, nStatId, &original_pBuffer, nBufferSize);
+			const auto moo_result = sut(&moo_pUnit, nStatId, &moo_pBuffer, nBufferSize);
+			const auto original_result = original(&original_pUnit, nStatId, &original_pBuffer, nBufferSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2889,8 +2889,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nStatId);
-			auto original_result = original(&original_pUnit, nStatId);
+			const auto moo_result = sut(&moo_pUnit, nStatId);
+			const auto original_result = original(&original_pUnit, nStatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2924,8 +2924,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pTarget, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pTarget, &moo_pUnit);
-			auto original_result = original(&original_pTarget, &original_pUnit);
+			const auto moo_result = sut(&moo_pTarget, &moo_pUnit);
+			const auto original_result = original(&original_pTarget, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2960,8 +2960,8 @@ TEST_SUITE("D2StatListTests")
 			setup_data(original_pTarget, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pTarget, &moo_pUnit);
-			auto original_result = original(&original_pTarget, &original_pUnit);
+			const auto moo_result = sut(&moo_pTarget, &moo_pUnit);
+			const auto original_result = original(&original_pTarget, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

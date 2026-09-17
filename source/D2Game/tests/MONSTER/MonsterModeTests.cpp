@@ -41,8 +41,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -243,8 +243,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -336,8 +336,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -497,8 +497,8 @@ TEST_SUITE("MonsterModeTests")
 			int32_t nMonsterId{};
 
 			// Call both implementations
-			auto moo_result = sut(nMonsterId);
-			auto original_result = original(nMonsterId);
+			const auto moo_result = sut(nMonsterId);
+			const auto original_result = original(nMonsterId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -628,8 +628,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pMonster);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pMonster);
-			auto original_result = original(&original_pGame, &original_pMonster);
+			const auto moo_result = sut(&moo_pGame, &moo_pMonster);
+			const auto original_result = original(&original_pGame, &original_pMonster);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -664,8 +664,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -833,8 +833,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -869,8 +869,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -905,8 +905,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -941,8 +941,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -977,8 +977,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1013,8 +1013,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1049,8 +1049,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1085,8 +1085,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1121,8 +1121,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1157,8 +1157,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1193,8 +1193,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1229,8 +1229,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1265,8 +1265,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1298,8 +1298,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1333,8 +1333,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1369,8 +1369,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1438,8 +1438,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1474,8 +1474,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange);
-			auto original_result = original(&original_pGame, &original_pModeChange);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange);
+			const auto original_result = original(&original_pGame, &original_pModeChange);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1510,8 +1510,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit);
-			auto original_result = original(&original_pGame, &original_pUnit);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit);
+			const auto original_result = original(&original_pGame, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1544,8 +1544,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nMode);
-			auto original_result = original(&original_pUnit, nMode);
+			const auto moo_result = sut(&moo_pUnit, nMode);
+			const auto original_result = original(&original_pUnit, nMode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1650,8 +1650,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pGame, original_pModeChange);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pModeChange, a3);
-			auto original_result = original(&original_pGame, &original_pModeChange, a3);
+			const auto moo_result = sut(&moo_pGame, &moo_pModeChange, a3);
+			const auto original_result = original(&original_pGame, &original_pModeChange, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1688,8 +1688,8 @@ TEST_SUITE("MonsterModeTests")
 			setup_data(original_pUnit, original_pAiParam);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nPathType, &moo_pAiParam, dwNewDist);
-			auto original_result = original(&original_pUnit, nPathType, &original_pAiParam, dwNewDist);
+			const auto moo_result = sut(&moo_pUnit, nPathType, &moo_pAiParam, dwNewDist);
+			const auto original_result = original(&original_pUnit, nPathType, &original_pAiParam, dwNewDist);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

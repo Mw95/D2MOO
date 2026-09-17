@@ -412,8 +412,8 @@ TEST_SUITE("D2DrlgActivateTests")
 			setup_data(original_pDrlg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlg, nX, nY);
-			auto original_result = original(&original_pDrlg, nX, nY);
+			const auto moo_result = sut(&moo_pDrlg, nX, nY);
+			const auto original_result = original(&original_pDrlg, nX, nY);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -473,8 +473,8 @@ TEST_SUITE("D2DrlgActivateTests")
 			setup_data(original_pDrlg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlg);
-			auto original_result = original(&original_pDrlg);
+			const auto moo_result = sut(&moo_pDrlg);
+			const auto original_result = original(&original_pDrlg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -508,8 +508,8 @@ TEST_SUITE("D2DrlgActivateTests")
 			setup_data(original_pDrlg, original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlg, &moo_pDrlgRoom);
-			auto original_result = original(&original_pDrlg, &original_pDrlgRoom);
+			const auto moo_result = sut(&moo_pDrlg, &moo_pDrlgRoom);
+			const auto original_result = original(&original_pDrlg, &original_pDrlgRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -611,8 +611,8 @@ TEST_SUITE("D2DrlgActivateTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom);
-			auto original_result = original(&original_pDrlgRoom);
+			const auto moo_result = sut(&moo_pDrlgRoom);
+			const auto original_result = original(&original_pDrlgRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -673,8 +673,8 @@ TEST_SUITE("D2DrlgActivateTests")
 			setup_data(original_pDrlgRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pDrlgRoom);
-			auto original_result = original(&original_pDrlgRoom);
+			const auto moo_result = sut(&moo_pDrlgRoom);
+			const auto original_result = original(&original_pDrlgRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

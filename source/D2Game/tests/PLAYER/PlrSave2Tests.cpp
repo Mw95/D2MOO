@@ -86,8 +86,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppSection);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -127,8 +127,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pUnit, original_ppSection);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &pEnd);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &pEnd);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &pEnd);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &pEnd);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -168,8 +168,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pUnit, original_ppSection);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &pEnd);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &pEnd);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &pEnd);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &pEnd);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -209,8 +209,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppSection);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -251,8 +251,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppSection);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd, a5);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd, a5);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd, a5);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd, a5);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -293,8 +293,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppSection);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd, a5);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd, a5);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &pEnd, a5);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &pEnd, a5);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -339,8 +339,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_pData, original_pSize);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pData, &moo_pSize, nMaxSize, a6, a7);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_pData, &original_pSize, nMaxSize, a6, a7);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pData, &moo_pSize, nMaxSize, a6, a7);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pData, &original_pSize, nMaxSize, a6, a7);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -386,8 +386,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pClient, original_ppSection, original_pEnd, original_ppPlayer);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pClient, &moo_ppSection, &moo_pEnd, &moo_ppPlayer);
-			auto original_result = original(&original_pGame, &original_pClient, &original_ppSection, &original_pEnd, &original_ppPlayer);
+			const auto moo_result = sut(&moo_pGame, &moo_pClient, &moo_ppSection, &moo_pEnd, &moo_ppPlayer);
+			const auto original_result = original(&original_pGame, &original_pClient, &original_ppSection, &original_pEnd, &original_ppPlayer);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -432,8 +432,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pUnit, original_ppSection, original_pEnd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &moo_pEnd, nUnused);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &original_pEnd, nUnused);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &moo_pEnd, nUnused);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &original_pEnd, nUnused);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -477,8 +477,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pUnit, original_ppSection, original_pEnd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &moo_pEnd, nVersion);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &original_pEnd, nVersion);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &moo_pEnd, nVersion);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &original_pEnd, nVersion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -523,8 +523,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pUnit, original_ppSection, original_pEnd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &moo_pEnd, nVersion, nStats);
-			auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &original_pEnd, nVersion, nStats);
+			const auto moo_result = sut(&moo_pGame, &moo_pUnit, &moo_ppSection, &moo_pEnd, nVersion, nStats);
+			const auto original_result = original(&original_pGame, &original_pUnit, &original_ppSection, &original_pEnd, nVersion, nStats);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -569,8 +569,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppSection, original_pEnd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &moo_pEnd, nVersion, nSkills);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &original_pEnd, nVersion, nSkills);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &moo_pEnd, nVersion, nSkills);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &original_pEnd, nVersion, nSkills);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -617,8 +617,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppSection, original_pEnd, original_a6);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &moo_pEnd, nVersion, &moo_a6);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &original_pEnd, nVersion, &original_a6);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &moo_pEnd, nVersion, &moo_a6);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &original_pEnd, nVersion, &original_a6);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -660,8 +660,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_pData);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pData, dwVersion);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_pData, dwVersion);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pData, dwVersion);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pData, dwVersion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -710,8 +710,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_pMerc, original_ppSection, original_pEnd, original_a6);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pMerc, &moo_ppSection, &moo_pEnd, dwVersion, &moo_a6);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_pMerc, &original_ppSection, &original_pEnd, dwVersion, &original_a6);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pMerc, &moo_ppSection, &moo_pEnd, dwVersion, &moo_a6);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pMerc, &original_ppSection, &original_pEnd, dwVersion, &original_a6);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -760,8 +760,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppItem, original_ppSection, original_pEnd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppItem, &moo_ppSection, &moo_pEnd, dwVersion);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppItem, &original_ppSection, &original_pEnd, dwVersion);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppItem, &moo_ppSection, &moo_pEnd, dwVersion);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppItem, &original_ppSection, &original_pEnd, dwVersion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -806,8 +806,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pPlayer, original_ppSection, original_pEnd);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &moo_pEnd, dwVersion);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &original_pEnd, dwVersion);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_ppSection, &moo_pEnd, dwVersion);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_ppSection, &original_pEnd, dwVersion);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -891,8 +891,8 @@ TEST_SUITE("PlrSave2Tests")
 			setup_data(original_pGame, original_pClient, original_pSaveFile, original_ppPlayer, original_pRoomArg);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pClient, &moo_pSaveFile, nSize, &moo_ppPlayer, &moo_pRoomArg, nXArg, nYArg);
-			auto original_result = original(&original_pGame, &original_pClient, &original_pSaveFile, nSize, &original_ppPlayer, &original_pRoomArg, nXArg, nYArg);
+			const auto moo_result = sut(&moo_pGame, &moo_pClient, &moo_pSaveFile, nSize, &moo_ppPlayer, &moo_pRoomArg, nXArg, nYArg);
+			const auto original_result = original(&original_pGame, &original_pClient, &original_pSaveFile, nSize, &original_ppPlayer, &original_pRoomArg, nXArg, nYArg);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -916,8 +916,8 @@ TEST_SUITE("PlrSave2Tests")
 			int32_t nClass{};
 
 			// Call both implementations
-			auto moo_result = sut(nClass);
-			auto original_result = original(nClass);
+			const auto moo_result = sut(nClass);
+			const auto original_result = original(nClass);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

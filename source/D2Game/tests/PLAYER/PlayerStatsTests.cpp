@@ -144,8 +144,8 @@ TEST_SUITE("PlayerStatsTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nStatId);
-			auto original_result = original(&original_pUnit, nStatId);
+			const auto moo_result = sut(&moo_pUnit, nStatId);
+			const auto original_result = original(&original_pUnit, nStatId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

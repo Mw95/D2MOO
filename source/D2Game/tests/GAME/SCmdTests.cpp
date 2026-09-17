@@ -33,8 +33,8 @@ TEST_SUITE("SCmdTests")
 			char szGameName{};
 
 			// Call both implementations
-			auto moo_result = sut(nClientId, nGameId, nClientCount, &szGameName);
-			auto original_result = original(nClientId, nGameId, nClientCount, &szGameName);
+			const auto moo_result = sut(nClientId, nGameId, nClientCount, &szGameName);
+			const auto original_result = original(nClientId, nGameId, nClientCount, &szGameName);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -1983,8 +1983,8 @@ TEST_SUITE("SCmdTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2016,8 +2016,8 @@ TEST_SUITE("SCmdTests")
 			setup_data(original_a1);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_a1, nCurrentLifePercentage);
-			auto original_result = original(&original_a1, nCurrentLifePercentage);
+			const auto moo_result = sut(&moo_a1, nCurrentLifePercentage);
+			const auto original_result = original(&original_a1, nCurrentLifePercentage);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -2053,8 +2053,8 @@ TEST_SUITE("SCmdTests")
 			setup_data(original_pUnit1, original_pUnit2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit1, &moo_pUnit2, a3, a4);
-			auto original_result = original(&original_pUnit1, &original_pUnit2, a3, a4);
+			const auto moo_result = sut(&moo_pUnit1, &moo_pUnit2, a3, a4);
+			const auto original_result = original(&original_pUnit1, &original_pUnit2, a3, a4);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

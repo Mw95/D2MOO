@@ -34,8 +34,8 @@ TEST_SUITE("D2WaypointsTests")
 				short nWaypointNo = i;
 
 				// Call both implementations
-				auto moo_result = sut(nWaypointNo, &moo_pLevelId);
-				auto original_result = original(nWaypointNo, &original_pLevelId);
+				const auto moo_result = sut(nWaypointNo, &moo_pLevelId);
+				const auto original_result = original(nWaypointNo, &original_pLevelId);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -61,8 +61,8 @@ TEST_SUITE("D2WaypointsTests")
 				int nLevelId = i;
 
 				// Call both implementations
-				auto moo_result = sut(nLevelId, &moo_pWaypointNo);
-				auto original_result = original(nLevelId, &original_pWaypointNo);
+				const auto moo_result = sut(nLevelId, &moo_pWaypointNo);
+				const auto original_result = original(nLevelId, &original_pWaypointNo);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -106,8 +106,8 @@ TEST_SUITE("D2WaypointsTests")
 				setup_data(original_pData);
 
 				// Call both implementations
-				auto moo_result = sut(&moo_pData, wField);
-				auto original_result = original(&original_pData, wField);
+				const auto moo_result = sut(&moo_pData, wField);
+				const auto original_result = original(&original_pData, wField);
 
 				// Compare return values
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -166,8 +166,8 @@ TEST_SUITE("D2WaypointsTests")
 			void* original_pMemPool = nullptr;
 
 			// Call both implementations
-			auto moo_result = sut(moo_pMemPool);
-			auto original_result = original(original_pMemPool);
+			const auto moo_result = sut(moo_pMemPool);
+			const auto original_result = original(original_pMemPool);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

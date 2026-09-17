@@ -38,8 +38,8 @@ TEST_SUITE("D2DrlgOutSiegeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel);
-			auto original_result = original(&original_pLevel);
+			const auto moo_result = sut(&moo_pLevel);
+			const auto original_result = original(&original_pLevel);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -217,8 +217,8 @@ TEST_SUITE("D2DrlgOutSiegeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nStyle, a3);
-			auto original_result = original(&original_pLevel, nStyle, a3);
+			const auto moo_result = sut(&moo_pLevel, nStyle, a3);
+			const auto original_result = original(&original_pLevel, nStyle, a3);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -254,8 +254,8 @@ TEST_SUITE("D2DrlgOutSiegeTests")
 			setup_data(original_pLevel);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pLevel, nX, nY, a4, a5, a6);
-			auto original_result = original(&original_pLevel, nX, nY, a4, a5, a6);
+			const auto moo_result = sut(&moo_pLevel, nX, nY, a4, a5, a6);
+			const auto original_result = original(&original_pLevel, nX, nY, a4, a5, a6);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

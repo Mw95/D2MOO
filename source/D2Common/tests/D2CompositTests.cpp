@@ -118,8 +118,8 @@ TEST_SUITE("D2CompositTests")
 			int nWeaponClassCode{};
 
 			// Call both implementations
-			auto moo_result = sut(nWeaponClassCode);
-			auto original_result = original(nWeaponClassCode);
+			const auto moo_result = sut(nWeaponClassCode);
+			const auto original_result = original(nWeaponClassCode);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -156,8 +156,8 @@ TEST_SUITE("D2CompositTests")
 			setup_data(original_pUnit, original_pInventory, original_pWeaponClassId);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, nUnitType, nClass, nMode, &moo_pInventory, &moo_pWeaponClassId);
-			auto original_result = original(&original_pUnit, nUnitType, nClass, nMode, &original_pInventory, &original_pWeaponClassId);
+			const auto moo_result = sut(&moo_pUnit, nUnitType, nClass, nMode, &moo_pInventory, &moo_pWeaponClassId);
+			const auto original_result = original(&original_pUnit, nUnitType, nClass, nMode, &original_pInventory, &original_pWeaponClassId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -198,8 +198,8 @@ TEST_SUITE("D2CompositTests")
 			setup_data(original_pUnit, original_pInventory, original_pWeaponClassId);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pInventory, &moo_pWeaponClassId, nAnimMode, a5);
-			auto original_result = original(&original_pUnit, &original_pInventory, &original_pWeaponClassId, nAnimMode, a5);
+			const auto moo_result = sut(&moo_pUnit, &moo_pInventory, &moo_pWeaponClassId, nAnimMode, a5);
+			const auto original_result = original(&original_pUnit, &original_pInventory, &original_pWeaponClassId, nAnimMode, a5);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -221,8 +221,8 @@ TEST_SUITE("D2CompositTests")
 			int nComponent{};
 
 			// Call both implementations
-			auto moo_result = sut(nComponent);
-			auto original_result = original(nComponent);
+			const auto moo_result = sut(nComponent);
+			const auto original_result = original(nComponent);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -250,8 +250,8 @@ TEST_SUITE("D2CompositTests")
 			setup_data(original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit);
-			auto original_result = original(&original_pUnit);
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -283,8 +283,8 @@ TEST_SUITE("D2CompositTests")
 			setup_data(original_pArmorComponents);
 
 			// Call both implementations
-			auto moo_result = sut(nComponent, &moo_pArmorComponents);
-			auto original_result = original(nComponent, &original_pArmorComponents);
+			const auto moo_result = sut(nComponent, &moo_pArmorComponents);
+			const auto original_result = original(nComponent, &original_pArmorComponents);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -21,7 +21,7 @@ void moo_check_eq(T& a, T& b, const char* context_title)
 	}
 	else
 	{
-		using Comparator = TestComparator<Type>;
+		using Comparator = TestComparator<T>;
 		const auto are_objects_equal = Comparator::compare(a, b, context_title, diff_description);
 		CHECK_MESSAGE(are_objects_equal, diff_description);
 	}

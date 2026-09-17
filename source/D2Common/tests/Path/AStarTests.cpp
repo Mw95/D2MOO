@@ -38,8 +38,8 @@ TEST_SUITE("AStarTests")
 			setup_data(original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo);
-			auto original_result = original(&original_pPathInfo);
+			const auto moo_result = sut(&moo_pPathInfo);
+			const auto original_result = original(&original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -79,8 +79,8 @@ TEST_SUITE("AStarTests")
 			setup_data(original_pContext, original_pNode);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pContext, &moo_pNode);
-			auto original_result = original(&original_pContext, &original_pNode);
+			const auto moo_result = sut(&moo_pContext, &moo_pNode);
+			const auto original_result = original(&original_pContext, &original_pNode);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -119,8 +119,8 @@ TEST_SUITE("AStarTests")
 			setup_data(original_pPathInfo, original_pContext, original_a3);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo, &moo_pContext, &moo_a3, tTargetCoord);
-			auto original_result = original(&original_pPathInfo, &original_pContext, &original_a3, tTargetCoord);
+			const auto moo_result = sut(&moo_pPathInfo, &moo_pContext, &moo_a3, tTargetCoord);
+			const auto original_result = original(&original_pPathInfo, &original_pContext, &original_a3, tTargetCoord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -143,8 +143,8 @@ TEST_SUITE("AStarTests")
 			D2PathPointStrc tPoint2{ static_cast<uint16_t>(random_unsigned_integer(0, 65535)), static_cast<uint16_t>(random_unsigned_integer(0, 65535)) };
 			
 			// Call both implementations
-			auto moo_result = sut(tPoint1, tPoint2);
-			auto original_result = original(tPoint1, tPoint2);
+			const auto moo_result = sut(tPoint1, tPoint2);
+			const auto original_result = original(tPoint1, tPoint2);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -173,8 +173,8 @@ TEST_SUITE("AStarTests")
 			setup_data(original_pContext);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pContext, tPathPoint);
-			auto original_result = original(&original_pContext, tPathPoint);
+			const auto moo_result = sut(&moo_pContext, tPathPoint);
+			const auto original_result = original(&original_pContext, tPathPoint);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -206,8 +206,8 @@ TEST_SUITE("AStarTests")
 			setup_data(original_pContext);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pContext, tPathPoint);
-			auto original_result = original(&original_pContext, tPathPoint);
+			const auto moo_result = sut(&moo_pContext, tPathPoint);
+			const auto original_result = original(&original_pContext, tPathPoint);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -313,8 +313,8 @@ TEST_SUITE("AStarTests")
 			setup_data(original_pPathInfo, original_pContext, original_pCurrentNode);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPathInfo, &moo_pContext, &moo_pCurrentNode, tNewPointCoord, tTargetCoord);
-			auto original_result = original(&original_pPathInfo, &original_pContext, &original_pCurrentNode, tNewPointCoord, tTargetCoord);
+			const auto moo_result = sut(&moo_pPathInfo, &moo_pContext, &moo_pCurrentNode, tNewPointCoord, tTargetCoord);
+			const auto original_result = original(&original_pPathInfo, &original_pContext, &original_pCurrentNode, tNewPointCoord, tTargetCoord);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -350,8 +350,8 @@ TEST_SUITE("AStarTests")
 			setup_data(original_pNode, original_pPathInfo);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pNode, &moo_pPathInfo);
-			auto original_result = original(&original_pNode, &original_pPathInfo);
+			const auto moo_result = sut(&moo_pNode, &moo_pPathInfo);
+			const auto original_result = original(&original_pNode, &original_pPathInfo);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

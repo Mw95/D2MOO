@@ -140,8 +140,8 @@ TEST_SUITE("MissilesTests")
 			setup_data(original_pGame, original_missileParams);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_missileParams);
-			auto original_result = original(&original_pGame, &original_missileParams);
+			const auto moo_result = sut(&moo_pGame, &moo_missileParams);
+			const auto original_result = original(&original_pGame, &original_missileParams);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

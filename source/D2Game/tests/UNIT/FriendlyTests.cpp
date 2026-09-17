@@ -46,8 +46,8 @@ TEST_SUITE("FriendlyTests")
 			setup_data(original_pGame, original_pPlayer, original_pPlayer2);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPlayer2);
-			auto original_result = original(&original_pGame, &original_pPlayer, &original_pPlayer2);
+			const auto moo_result = sut(&moo_pGame, &moo_pPlayer, &moo_pPlayer2);
+			const auto original_result = original(&original_pGame, &original_pPlayer, &original_pPlayer2);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

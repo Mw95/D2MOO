@@ -78,8 +78,8 @@ TEST_SUITE("PlrIntroTests")
 			setup_data(original_pUnit, original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pGame, nNpcId);
-			auto original_result = original(&original_pUnit, &original_pGame, nNpcId);
+			const auto moo_result = sut(&moo_pUnit, &moo_pGame, nNpcId);
+			const auto original_result = original(&original_pUnit, &original_pGame, nNpcId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -142,8 +142,8 @@ TEST_SUITE("PlrIntroTests")
 			setup_data(original_pPlayerIntro);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pPlayerIntro, nNpcId);
-			auto original_result = original(&original_pPlayerIntro, nNpcId);
+			const auto moo_result = sut(&moo_pPlayerIntro, nNpcId);
+			const auto original_result = original(&original_pPlayerIntro, nNpcId);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -340,8 +340,8 @@ TEST_SUITE("PlrIntroTests")
 			setup_data(original_pGame);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pGame);
-			auto original_result = original(&original_pGame);
+			const auto moo_result = sut(&moo_pGame);
+			const auto original_result = original(&original_pGame);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

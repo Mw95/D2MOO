@@ -44,8 +44,8 @@ TEST_SUITE("UnitRoomTests")
 			setup_data(original_pUnit, original_pRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pRoom, nUnused);
-			auto original_result = original(&original_pUnit, &original_pRoom, nUnused);
+			const auto moo_result = sut(&moo_pUnit, &moo_pRoom, nUnused);
+			const auto original_result = original(&original_pUnit, &original_pRoom, nUnused);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -80,8 +80,8 @@ TEST_SUITE("UnitRoomTests")
 			setup_data(original_pUnit, original_pRoom);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pUnit, &moo_pRoom);
-			auto original_result = original(&original_pUnit, &original_pRoom);
+			const auto moo_result = sut(&moo_pUnit, &moo_pRoom);
+			const auto original_result = original(&original_pUnit, &original_pRoom);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -290,8 +290,8 @@ TEST_SUITE("UnitRoomTests")
 			setup_data(original_pRoom, original_pUnit);
 
 			// Call both implementations
-			auto moo_result = sut(&moo_pRoom, &moo_pUnit);
-			auto original_result = original(&original_pRoom, &original_pUnit);
+			const auto moo_result = sut(&moo_pRoom, &moo_pUnit);
+			const auto original_result = original(&original_pRoom, &original_pUnit);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");

@@ -28,8 +28,8 @@ TEST_SUITE("CCmdTests")
 			int32_t nDataSize{};
 
 			// Call both implementations
-			auto moo_result = sut(&pData, nDataSize);
-			auto original_result = original(&pData, nDataSize);
+			const auto moo_result = sut(&pData, nDataSize);
+			const auto original_result = original(&pData, nDataSize);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
@@ -59,8 +59,8 @@ TEST_SUITE("CCmdTests")
 			setup_data(original_szClientName);
 
 			// Call both implementations
-			auto moo_result = sut(a1, a2, &moo_szClientName);
-			auto original_result = original(a1, a2, &original_szClientName);
+			const auto moo_result = sut(a1, a2, &moo_szClientName);
+			const auto original_result = original(a1, a2, &original_szClientName);
 			
 			// Compare return values
 			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
