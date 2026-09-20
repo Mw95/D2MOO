@@ -15,7 +15,7 @@
 #include <Fixtures/DataTbls/Fixtures.h>
 
 
-DYNAMIC_ARRAY_TYPE(uint32_t);
+DYNAMIC_ARRAY_TYPE(uint32_t)
 
 
 TEST_SUITE("D2StatesTests")

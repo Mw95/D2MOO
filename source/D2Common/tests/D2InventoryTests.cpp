@@ -51,7 +51,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E4A0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E4A0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemExtraDataFromItem, dll_base + 0x0004E4A0);
@@ -59,27 +59,34 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto node_pos = random_unsigned_integer(0, 127);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
+			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
+
+			const auto setup_data = [node_pos](
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+				pItemData.pExtraData.nNodePos = node_pos;
 			};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+			setup_data(moo_pItem, moo_pItemData);
+			setup_data(original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
 			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
 		}
 	}
 	
@@ -147,39 +154,91 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E620 (#10244)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E620 (#10244)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CompareWithItemsParentInventory, dll_base + 0x0004E620);
 		
-		SUBCASE("")
+		SUBCASE("is equal")
 		{
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData,
+				D2InventoryStrc& pParentInventory
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+				pItemData.pExtraData.pParentInv = &pParentInventory;
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pParentInventory.dwSignature = D2C_InventoryHeader;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData, moo_pInventory);
+			setup_data(original_pInventory, original_pItem, original_pItemData, original_pInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
 			const auto original_result = original(&original_pInventory, &original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+
+			CHECK_EQ(moo_result, true);
+		}
+
+		SUBCASE("is not equal")
+		{
+			// Input data
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2InventoryStrc moo_pParentInventory{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
+			D2InventoryStrc original_pParentInventory{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData,
+				D2InventoryStrc& pParentInventory
+			) {
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+				pItemData.pExtraData.pParentInv = &pParentInventory;
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pParentInventory.dwSignature = D2C_InventoryHeader;
+			};
+
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData, moo_pParentInventory);
+			setup_data(original_pInventory, original_pItem, original_pItemData, original_pParentInventory);
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
+			const auto original_result = original(&original_pInventory, &original_pItem);
+
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+
+			CHECK_EQ(moo_result, false);
 		}
 	}
 	
@@ -256,7 +315,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E7A0 (#10277)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E7A0 (#10277)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetFirstItem, dll_base + 0x0004E7A0);
@@ -264,31 +323,38 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2InventoryStrc moo_pInventory{};
-			D2InventoryStrc original_pInventory{};
+			const auto item_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pFirstItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pFirstItem{};
+
+			const auto setup_data = [item_id](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pFirstItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pFirstItem = &pFirstItem;
+				pFirstItem.dwUnitId = item_id;
 			};
 
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
+			setup_data(moo_pInventory, moo_pFirstItem);
+			setup_data(original_pInventory, original_pFirstItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
 			const auto original_result = original(&original_pInventory);
-			
+
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E7C0 (#10278)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E7C0 (#10278)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetLastItem, dll_base + 0x0004E7C0);
@@ -296,27 +362,34 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2InventoryStrc moo_pInventory{};
-			D2InventoryStrc original_pInventory{};
+			const auto item_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pLastItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pLastItem{};
+
+			const auto setup_data = [item_id](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pLastItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pLastItem = &pLastItem;
+				pLastItem.dwUnitId = item_id;
 			};
 
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
+			setup_data(moo_pInventory, moo_pLastItem);
+			setup_data(original_pInventory, original_pLastItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
 			const auto original_result = original(&original_pInventory);
-			
+
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
@@ -817,7 +890,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F970 (#10250)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F970 (#10250)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_Return, dll_base + 0x0004F970);
@@ -835,21 +908,14 @@ TEST_SUITE("D2InventoryTests")
 			BOOL bClient{};
 			uint8_t nPage{};
 
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory
-			) {
-				// TODO: Setup as needed
-			};
-
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
-
 			// Call both implementations
 			sut(&szFile, nLine, &moo_pInventory, nX, nY, nInventoryRecordId, bClient, nPage);
 			original(&szFile, nLine, &original_pInventory, nX, nY, nInventoryRecordId, bClient, nPage);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+
+			// NOTE: This function just returns so there's nothing to observe here anyway
 		}
 	}
 	
@@ -1171,7 +1237,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FED0 (#11278)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FED0 (#11278)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemsXPosition, dll_base + 0x0004FED0);
@@ -1179,31 +1245,41 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto x = random_unsigned_integer(0, 11);
+			const auto item_id = random_unsigned_integer();
+
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2StaticPathStrc moo_pStaticPath{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2StaticPathStrc original_pStaticPath{};
 
-			const auto setup_data = [](
+			const auto setup_data = [x, item_id](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2StaticPathStrc& pStaticPath
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.dwUnitId = item_id;
+				pItem.pStaticPath = &pStaticPath;
+				pStaticPath.tGameCoords.nX = x;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pStaticPath);
+			setup_data(original_pInventory, original_pItem, original_pStaticPath);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
 			const auto original_result = original(&original_pInventory, &original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
 		}
 	}
 	
@@ -1240,7 +1316,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FF80 (#10262)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FF80 (#10262)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetCursorItem, dll_base + 0x0004FF80);
@@ -1248,27 +1324,34 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2InventoryStrc moo_pInventory{};
-			D2InventoryStrc original_pInventory{};
+			const auto item_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pCursorItem{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pCursorItem{};
+
+			const auto setup_data = [item_id](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pCursorItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pCursorItem = &pCursorItem;
+				pCursorItem.dwUnitId = item_id;
 			};
 
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
+			setup_data(moo_pInventory, moo_pCursorItem);
+			setup_data(original_pInventory, original_pCursorItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
 			const auto original_result = original(&original_pInventory);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
@@ -1794,7 +1877,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90940 (#10280)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90940 (#10280)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetTradeInventory, dll_base + 0x00050940);
@@ -1802,27 +1885,34 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2InventoryStrc moo_pInventory{};
-			D2InventoryStrc original_pInventory{};
+			const auto item_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryNodeStrc moo_pFirstNode{};
+			D2InventoryStrc original_pInventory{};
+			D2InventoryNodeStrc original_pFirstNode{};
+
+			const auto setup_data = [item_id](
+				D2InventoryStrc& pInventory,
+				D2InventoryNodeStrc& pInventoryNode
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pFirstNode = &pInventoryNode;
+				pInventoryNode.nItemId = item_id;
 			};
 
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
+			setup_data(moo_pInventory, moo_pFirstNode);
+			setup_data(original_pInventory, original_pFirstNode);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
 			const auto original_result = original(&original_pInventory);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
@@ -1855,36 +1945,85 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD909B0 (#10282)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD909B0 (#10282)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CheckForItemInTradeInventory, dll_base + 0x000509B0);
 		
-		SUBCASE("")
+		SUBCASE("is inside")
 		{
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2InventoryStrc original_pInventory{};
-			int nItemId{};
+			D2InventoryNodeStrc moo_nodes[5]{};
+			D2InventoryNodeStrc original_nodes[5]{};
+			int nItemId = random_unsigned_integer(1, 5);
 
 			const auto setup_data = [](
-				D2InventoryStrc& pInventory
+				D2InventoryStrc& pInventory,
+				D2InventoryNodeStrc(& nodes)[5]
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pFirstNode = &nodes[0];
+				nodes[0].nItemId = 1;
+
+				for (auto i = 1; i < 5; ++i)
+				{
+					nodes[i].nItemId = i + 1;
+					nodes[i - 1].pNext = &nodes[i];
+				}
 			};
 
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
+			setup_data(moo_pInventory, moo_nodes);
+			setup_data(original_pInventory, original_nodes);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nItemId);
 			const auto original_result = original(&original_pInventory, nItemId);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+		}
+
+		SUBCASE("is not inside")
+		{
+			// Input data
+			D2InventoryStrc moo_pInventory{};
+			D2InventoryStrc original_pInventory{};
+			D2InventoryNodeStrc moo_nodes[5]{};
+			D2InventoryNodeStrc original_nodes[5]{};
+			int nItemId = 10;
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2InventoryNodeStrc(&nodes)[5]
+			) {
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pFirstNode = &nodes[0];
+				nodes[0].nItemId = 1;
+				
+				for (auto i = 1; i < 5; ++i)
+				{
+					nodes[i].nItemId = i + 1;
+					nodes[i - 1].pNext = &nodes[i];
+				}
+			};
+
+			setup_data(moo_pInventory, moo_nodes);
+			setup_data(original_pInventory, original_nodes);
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pInventory, nItemId);
+			const auto original_result = original(&original_pInventory, nItemId);
+
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
@@ -1921,7 +2060,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AB0 (#10316)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AB0 (#10316)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10316, dll_base + 0x00050AB0);
@@ -1929,13 +2068,15 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto value = random_unsigned_integer();
+
 			D2CorpseStrc moo_pCorpse{};
 			D2CorpseStrc original_pCorpse{};
 
-			const auto setup_data = [](
+			const auto setup_data = [value](
 				D2CorpseStrc& pCorpse
 			) {
-				// TODO: Setup as needed
+				pCorpse.unk0x00 = value;
 			};
 
 			setup_data(moo_pCorpse);
@@ -1946,14 +2087,14 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pCorpse);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
+			MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AC0 (#10284)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AC0 (#10284)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemCount, dll_base + 0x00050AC0);
@@ -1961,13 +2102,16 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto item_count = random_unsigned_integer();
+
 			D2InventoryStrc moo_pInventory{};
 			D2InventoryStrc original_pInventory{};
 
-			const auto setup_data = [](
+			const auto setup_data = [item_count](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.dwItemCount = item_count;
 			};
 
 			setup_data(moo_pInventory);
@@ -1978,10 +2122,10 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pInventory);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
@@ -2268,7 +2412,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91140 (#10292)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91140 (#10292)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_SetOwnerId, dll_base + 0x00051140);
@@ -2278,12 +2422,12 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2InventoryStrc original_pInventory{};
-			D2UnitGUID nOwnerGuid{};
+			D2UnitGUID nOwnerGuid = random_unsigned_integer();
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
 			};
 
 			setup_data(moo_pInventory);
@@ -2294,11 +2438,11 @@ TEST_SUITE("D2InventoryTests")
 			original(&original_pInventory, nOwnerGuid);
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91160 (#10293)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91160 (#10293)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetOwnerId, dll_base + 0x00051160);
@@ -2306,13 +2450,16 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto owner_id = random_unsigned_integer();
+
 			D2InventoryStrc moo_pInventory{};
 			D2InventoryStrc original_pInventory{};
 
-			const auto setup_data = [](
+			const auto setup_data = [owner_id](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.dwOwnerGuid = owner_id;
 			};
 
 			setup_data(moo_pInventory);
@@ -2323,10 +2470,10 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pInventory);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
@@ -2396,7 +2543,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91290 (#10296)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91290 (#10296)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetFirstCorpse, dll_base + 0x00051290);
@@ -2404,31 +2551,39 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2InventoryStrc moo_pInventory{};
-			D2InventoryStrc original_pInventory{};
+			const auto unit_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory
+			D2InventoryStrc moo_pInventory{};
+			D2CorpseStrc moo_pCorpse{};
+			D2InventoryStrc original_pInventory{};
+			D2CorpseStrc original_pCorpse{};
+
+			const auto setup_data = [unit_id](
+				D2InventoryStrc& pInventory,
+				D2CorpseStrc& pCorpse
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pFirstCorpse = &pCorpse;
+
+				pCorpse.dwUnitId = unit_id;
 			};
 
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
+			setup_data(moo_pInventory, moo_pCorpse);
+			setup_data(original_pInventory, original_pCorpse);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory);
 			const auto original_result = original(&original_pInventory);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912B0 (#10297)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912B0 (#10297)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetCorpseCount, dll_base + 0x000512B0);
@@ -2436,13 +2591,16 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto corpse_count = random_unsigned_integer();
+
 			D2InventoryStrc moo_pInventory{};
 			D2InventoryStrc original_pInventory{};
 
-			const auto setup_data = [](
+			const auto setup_data = [corpse_count](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.nCorpseCount = corpse_count;
 			};
 
 			setup_data(moo_pInventory);
@@ -2453,14 +2611,14 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pInventory);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912D0 (#10313)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912D0 (#10313)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetNextCorpse, dll_base + 0x000512D0);
@@ -2468,31 +2626,39 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2CorpseStrc moo_pCorpse{};
-			D2CorpseStrc original_pCorpse{};
+			const auto unit_id = random_unsigned_integer();
+			const auto next_unit_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2CorpseStrc& pCorpse
+			D2CorpseStrc moo_pCorpse{};
+			D2CorpseStrc moo_pNextCorpse{};
+			D2CorpseStrc original_pCorpse{};
+			D2CorpseStrc original_pNextCorpse{};
+
+			const auto setup_data = [unit_id, next_unit_id](
+				D2CorpseStrc& pCorpse,
+				D2CorpseStrc& pNextCorpse
 			) {
-				// TODO: Setup as needed
+				pCorpse.dwUnitId = unit_id;
+				pCorpse.pNextCorpse = &pNextCorpse;
+				pNextCorpse.dwUnitId = next_unit_id;
 			};
 
-			setup_data(moo_pCorpse);
-			setup_data(original_pCorpse);
+			setup_data(moo_pCorpse, moo_pNextCorpse);
+			setup_data(original_pCorpse, original_pNextCorpse);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pCorpse);
 			const auto original_result = original(&original_pCorpse);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
+			MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAFEA0 (#10314)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAFEA0 (#10314)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetUnitGUIDFromCorpse, dll_base + 0x0006FEA0);
@@ -2500,13 +2666,15 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto unit_id = random_unsigned_integer();
+
 			D2CorpseStrc moo_pCorpse{};
 			D2CorpseStrc original_pCorpse{};
 
-			const auto setup_data = [](
+			const auto setup_data = [unit_id](
 				D2CorpseStrc& pCorpse
 			) {
-				// TODO: Setup as needed
+				pCorpse.dwUnitId = unit_id;
 			};
 
 			setup_data(moo_pCorpse);
@@ -2517,14 +2685,14 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pCorpse);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
+			MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB18D0 (#10315)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB18D0 (#10315)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10315, dll_base + 0x000718D0);
@@ -2532,13 +2700,15 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto value = random_unsigned_integer();
+
 			D2CorpseStrc moo_pCorpse{};
 			D2CorpseStrc original_pCorpse{};
 
-			const auto setup_data = [](
+			const auto setup_data = [value](
 				D2CorpseStrc& pCorpse
 			) {
-				// TODO: Setup as needed
+				pCorpse.unk0x08 = value;
 			};
 
 			setup_data(moo_pCorpse);
@@ -2549,10 +2719,10 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pCorpse);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
+			MOO_CHECK_EQ(moo_pCorpse, original_pCorpse, "Comparing pCorpse");
 		}
 	}
 	
@@ -2772,7 +2942,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92080 (#10304)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92080 (#10304)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetNextItem, dll_base + 0x00052080);
@@ -2780,31 +2950,46 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto unit_id = random_unsigned_integer();
+			const auto next_unit_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
+			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2UnitStrc moo_pNextItem{};
+			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
+			D2UnitStrc original_pNextItem{};
+
+			const auto setup_data = [unit_id, next_unit_id](
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData,
+				D2UnitStrc& pNextItem
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.dwUnitId = unit_id;
+				pItem.pItemData = &pItemData;
+				pItemData.pExtraData.pNextItem = &pNextItem;
+
+				pNextItem.dwUnitType = UNIT_ITEM;
+				pNextItem.dwUnitId = next_unit_id;
 			};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+			setup_data(moo_pItem, moo_pItemData, moo_pNextItem);
+			setup_data(original_pItem, original_pItemData, original_pNextItem);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
 			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920C0 (#10305)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920C0 (#10305)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_UnitIsItem, dll_base + 0x000520C0);
@@ -2812,13 +2997,15 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER, UNIT_OBJECT, UNIT_MISSILE, UNIT_ITEM);
+
 			D2UnitStrc moo_pItem{};
 			D2UnitStrc original_pItem{};
 
-			const auto setup_data = [](
+			const auto setup_data = [unit_type](
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = unit_type;
 			};
 
 			setup_data(moo_pItem);
@@ -2829,14 +3016,14 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920E0 (#10306)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920E0 (#10306)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemGUID, dll_base + 0x000520E0);
@@ -2844,13 +3031,16 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto unit_id = random_unsigned_integer();
+
 			D2UnitStrc moo_pItem{};
 			D2UnitStrc original_pItem{};
 
-			const auto setup_data = [](
+			const auto setup_data = [unit_id](
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.dwUnitId = unit_id;
 			};
 
 			setup_data(moo_pItem);
@@ -2861,14 +3051,14 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92100 (#10307)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92100 (#10307)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemNodePage, dll_base + 0x00052100);
@@ -2876,67 +3066,121 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto node_page = random_unsigned_integer(0, 127);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
+			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
+
+			const auto setup_data = [node_page](
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+
+				pItemData.pExtraData.nNodePosOther = node_page;
 			};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+			setup_data(moo_pItem, moo_pItemData);
+			setup_data(original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
 			const auto original_result = original(&original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+
+			CHECK_EQ(moo_result, node_page);
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92140 (#10310)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92140 (#10310)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_IsItemInInventory, dll_base + 0x00052140);
 		
-		SUBCASE("")
+		SUBCASE("in inventory")
 		{
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+
+				pItemData.pExtraData.pParentInv = &pInventory;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
 			const auto original_result = original(&original_pInventory, &original_pItem);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
-			SKIP_MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+
+			CHECK_EQ(moo_result, &moo_pItem);
+		}
+
+		SUBCASE("not in inventory")
+		{
+			// Input data
+			D2InventoryStrc moo_pInventory{};
+			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2InventoryStrc original_pInventory{};
+			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
+
+			const auto setup_data = [](
+				D2InventoryStrc& pInventory,
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
+			) {
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+			};
+
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
+			const auto original_result = original(&original_pInventory, &original_pItem);
+
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+
+			CHECK_EQ(moo_result, nullptr);
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAFEA0 (#10311)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAFEA0 (#10311)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetNextNode, dll_base + 0x0006FEA0);
@@ -2944,31 +3188,39 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2InventoryNodeStrc moo_pNode{};
-			D2InventoryNodeStrc original_pNode{};
+			const auto item_id = random_unsigned_integer();
+			const auto next_item_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2InventoryNodeStrc& pNode
+			D2InventoryNodeStrc moo_pNode{};
+			D2InventoryNodeStrc moo_pNextNode{};
+			D2InventoryNodeStrc original_pNode{};
+			D2InventoryNodeStrc original_pNextNode{};
+
+			const auto setup_data = [item_id, next_item_id](
+				D2InventoryNodeStrc& pNode,
+				D2InventoryNodeStrc& pNextNode
 			) {
-				// TODO: Setup as needed
+				pNode.nItemId = item_id;
+				pNode.pNext = &pNextNode;
+				pNextNode.nItemId = next_item_id;
 			};
 
-			setup_data(moo_pNode);
-			setup_data(original_pNode);
+			setup_data(moo_pNode, moo_pNextNode);
+			setup_data(original_pNode, original_pNextNode);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pNode);
 			const auto original_result = original(&original_pNode);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pNode, original_pNode, "Comparing pNode");
+			MOO_CHECK_EQ(moo_pNode, original_pNode, "Comparing pNode");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AB0 (#10312)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AB0 (#10312)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemGUIDFromNode, dll_base + 0x00050AB0);
@@ -2976,13 +3228,15 @@ TEST_SUITE("D2InventoryTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto item_id = random_unsigned_integer();
+
 			D2InventoryNodeStrc moo_pNode{};
 			D2InventoryNodeStrc original_pNode{};
 
-			const auto setup_data = [](
+			const auto setup_data = [item_id](
 				D2InventoryNodeStrc& pNode
 			) {
-				// TODO: Setup as needed
+				pNode.nItemId = item_id;
 			};
 
 			setup_data(moo_pNode);
@@ -2993,10 +3247,10 @@ TEST_SUITE("D2InventoryTests")
 			const auto original_result = original(&original_pNode);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pNode, original_pNode, "Comparing pNode");
+			MOO_CHECK_EQ(moo_pNode, original_pNode, "Comparing pNode");
 		}
 	}
 	
@@ -3151,67 +3405,151 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD925E0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD925E0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(UNITS_GetXPosition, dll_base + 0x000525E0);
 		
-		SUBCASE("")
+		SUBCASE("dynamic unit")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER, UNIT_MISSILE);
+			const auto x = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+
+			const auto setup_data = [unit_type, x](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = unit_type;
+				pUnit.pDynamicPath = &pDynamicPath;
+				pDynamicPath.tGameCoords.wPosX = x;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath);
+			setup_data(original_pUnit, original_pDynamicPath);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
 			const auto original_result = original(&original_pUnit);
-			
+
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+
+		SUBCASE("static unit")
+		{
+			// Input data
+			const auto unit_type = GENERATE(UNIT_OBJECT, UNIT_ITEM, UNIT_TILE);
+			const auto x = random_unsigned_integer(0, 65535);
+
+			D2UnitStrc moo_pUnit{};
+			D2StaticPathStrc moo_pStaticPath{};
+			D2UnitStrc original_pUnit{};
+			D2StaticPathStrc original_pStaticPath{};
+
+			const auto setup_data = [unit_type, x](
+				D2UnitStrc& pUnit,
+				D2StaticPathStrc& pStaticPath
+			) {
+				pUnit.dwUnitType = unit_type;
+				pUnit.pStaticPath = &pStaticPath;
+				pStaticPath.tGameCoords.nX = x;
+			};
+
+			setup_data(moo_pUnit, moo_pStaticPath);
+			setup_data(original_pUnit, original_pStaticPath);
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
+
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92610" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92610")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(UNITS_GetYPosition, dll_base + 0x00052610);
 		
-		SUBCASE("")
+		SUBCASE("dynamic unit")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER, UNIT_MISSILE);
+			const auto y = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+
+			const auto setup_data = [unit_type, y](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = unit_type;
+				pUnit.pDynamicPath = &pDynamicPath;
+				pDynamicPath.tGameCoords.wPosY = y;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath);
+			setup_data(original_pUnit, original_pDynamicPath);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit);
 			const auto original_result = original(&original_pUnit);
 			
 			// Compare return values
-			SKIP_MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+
+		SUBCASE("static unit")
+		{
+			// Input data
+			const auto unit_type = GENERATE(UNIT_OBJECT, UNIT_ITEM, UNIT_TILE);
+			const auto y = random_unsigned_integer(0, 65535);
+
+			D2UnitStrc moo_pUnit{};
+			D2StaticPathStrc moo_pStaticPath{};
+			D2UnitStrc original_pUnit{};
+			D2StaticPathStrc original_pStaticPath{};
+
+			const auto setup_data = [unit_type, y](
+				D2UnitStrc& pUnit,
+				D2StaticPathStrc& pStaticPath
+			) {
+				pUnit.dwUnitType = unit_type;
+				pUnit.pStaticPath = &pStaticPath;
+				pStaticPath.tGameCoords.nY = y;
+			};
+
+			setup_data(moo_pUnit, moo_pStaticPath);
+			setup_data(original_pUnit, original_pStaticPath);
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pUnit);
+			const auto original_result = original(&original_pUnit);
+
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
 		}
 	}
 }

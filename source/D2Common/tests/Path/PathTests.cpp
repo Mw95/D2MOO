@@ -15,6 +15,9 @@
 #include <Fixtures/DataTbls/Fixtures.h>
 
 
+DYNAMIC_ARRAY_TYPE(D2PathPointStrc)
+
+
 TEST_SUITE("PathTests")
 {
 	const auto working_directory = std::filesystem::current_path();
@@ -1046,7 +1049,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9BD0 (#10157)" * doctest::skip("ppPathPoints check fails"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9BD0 (#10157)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_GetPathPoints, dll_base + 0x00069BD0);
@@ -1087,7 +1090,7 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pDynamicPath, original_pDynamicPath, "Comparing pDynamicPath");
-			MOO_CHECK_EQ(moo_ppPathPoints, original_ppPathPoints, "Comparing ppPathPoints");
+			MOO_CHECK_EQ((DynamicArray<D2PathPointStrc> { moo_ppPathPoints, 78 }), (DynamicArray<D2PathPointStrc> { original_ppPathPoints, 78 }), "Comparing ppPathPoints");
 		}
 	}
 	
@@ -1801,7 +1804,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9E70 (#10168)" * doctest::skip("Fails for some reason (probably visitor)"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9E70 (#10168)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_GetNextRoom, dll_base + 0x00069E70);
@@ -1821,7 +1824,7 @@ TEST_SUITE("PathTests")
 				D2ActiveRoomStrc& pRoom
 			) {
 				pRoom.dwFlags = flags;
-				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.pPreviousRoom = &pRoom;
 			};
 
 			setup_data(moo_pDynamicPath, moo_pRoom);
@@ -2078,7 +2081,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9F60 (#10171)" * doctest::skip("Fails for some reason"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9F60 (#10171)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_GetTargetTypeAndGUID, dll_base + 0x00069F60);
@@ -2089,23 +2092,29 @@ TEST_SUITE("PathTests")
 			const auto unit_id = random_unsigned_integer();
 
 			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc moo_pTargetUnit{};
 			int moo_pTargetType{};
 			D2UnitGUID moo_pTargetGUID{};
 			D2DynamicPathStrc original_pDynamicPath{};
+			D2UnitStrc original_pTargetUnit{};
 			int original_pTargetType{};
 			D2UnitGUID original_pTargetGUID{};
 
 			const auto setup_data = [unit_id](
 				D2DynamicPathStrc& pDynamicPath,
+				D2UnitStrc& pTargetUnit,
 				int& pTargetType,
 				D2UnitGUID& pTargetGUID
 			) {
+				pTargetUnit.dwUnitType = UNIT_MONSTER;
+				pTargetUnit.dwUnitId = unit_id;
+				pDynamicPath.pTargetUnit = &pTargetUnit;
 				pDynamicPath.dwTargetType = UNIT_MONSTER;
 				pDynamicPath.dwTargetId = unit_id;
 			};
 
-			setup_data(moo_pDynamicPath, moo_pTargetType, moo_pTargetGUID);
-			setup_data(original_pDynamicPath, original_pTargetType, original_pTargetGUID);
+			setup_data(moo_pDynamicPath, moo_pTargetUnit, moo_pTargetType, moo_pTargetGUID);
+			setup_data(original_pDynamicPath, original_pTargetUnit, original_pTargetType, original_pTargetGUID);
 
 			// Call both implementations
 			sut(&moo_pDynamicPath, &moo_pTargetType, &moo_pTargetGUID);

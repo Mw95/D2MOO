@@ -2190,8 +2190,8 @@ TEST_SUITE("D2DungeonTests")
 		{
 			// Input data
 			D2DrlgActStrc moo_pAct{};
-			D2DrlgActStrc original_pAct{};
 			D2DrlgEnvironmentStrc moo_pEnvironment{};
+			D2DrlgActStrc original_pAct{};
 			D2DrlgEnvironmentStrc original_pEnvironment{};
 
 			const auto setup_data = [](
@@ -2225,8 +2225,8 @@ TEST_SUITE("D2DungeonTests")
 		{
 			// Input data
 			D2DrlgActStrc moo_pAct{};
-			D2DrlgActStrc original_pAct{};
 			D2DrlgStrc moo_pDrlg{};
+			D2DrlgActStrc original_pAct{};
 			D2DrlgStrc original_pDrlg{};
 
 			const auto setup_data = [](
@@ -2294,8 +2294,8 @@ TEST_SUITE("D2DungeonTests")
 		{
 			// Input data
 			D2ActiveRoomStrc moo_pRoom{};
-			D2ActiveRoomStrc original_pRoom{};
 			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			D2DrlgRoomStrc original_pDrlgRoom{};
 
 			const auto setup_data = [](
@@ -2352,10 +2352,10 @@ TEST_SUITE("D2DungeonTests")
 			{
 				// Input data
 				D2ActiveRoomStrc moo_pRoom{};
-				D2ActiveRoomStrc original_pRoom{};
 				D2DrlgRoomStrc moo_pDrlgRoom{};
-				D2DrlgRoomStrc original_pDrlgRoom{};
 				D2DrlgLevelStrc moo_pLevel{};
+				D2ActiveRoomStrc original_pRoom{};
+				D2DrlgRoomStrc original_pDrlgRoom{};
 				D2DrlgLevelStrc original_pLevel{};
 
 				const auto setup_data = [i](
@@ -2393,10 +2393,10 @@ TEST_SUITE("D2DungeonTests")
 		{
 			// Input data
 			D2ActiveRoomStrc moo_pRoom{};
-			D2ActiveRoomStrc original_pRoom{};
 			D2DrlgRoomStrc moo_pDrlgRoom{};
-			D2DrlgRoomStrc original_pDrlgRoom{};
 			D2DrlgLevelStrc moo_pLevel{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2DrlgRoomStrc original_pDrlgRoom{};
 			D2DrlgLevelStrc original_pLevel{};
 
 			const auto setup_data = [](
@@ -2906,8 +2906,8 @@ TEST_SUITE("D2DungeonTests")
 			const auto staff_tomb_level = random_unsigned_integer();
 
 			D2DrlgActStrc moo_pAct{};
-			D2DrlgActStrc original_pAct{};
 			D2DrlgStrc moo_pDrlg{};
+			D2DrlgActStrc original_pAct{};
 			D2DrlgStrc original_pDrlg{};
 
 			const auto setup_data = [staff_tomb_level](
@@ -2946,8 +2946,8 @@ TEST_SUITE("D2DungeonTests")
 			const auto flags = random_unsigned_integer();
 
 			D2ActiveRoomStrc moo_pRoom{};
-			D2ActiveRoomStrc original_pRoom{};			
 			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			D2DrlgRoomStrc original_pDrlgRoom{};
 			BOOL bReset = FALSE;
 
@@ -2976,8 +2976,8 @@ TEST_SUITE("D2DungeonTests")
 			const auto flags = random_unsigned_integer();
 
 			D2ActiveRoomStrc moo_pRoom{};
-			D2ActiveRoomStrc original_pRoom{};
 			D2DrlgRoomStrc moo_pDrlgRoom{};
+			D2ActiveRoomStrc original_pRoom{};
 			D2DrlgRoomStrc original_pDrlgRoom{};
 			BOOL bReset = TRUE;
 
