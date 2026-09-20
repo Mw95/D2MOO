@@ -217,7 +217,7 @@ BOOL __stdcall ENVIRONMENT_UpdatePeriodOfDay(D2DrlgActStrc* pAct, D2ActiveRoomSt
 	D2DrlgEnvironmentStrc* pEnvironment = DUNGEON_GetEnvironmentFromAct(pAct);
 
 	const int nPreviousPeriodOfDay = pEnvironment->nPeriodOfDay;
-	const int nLevelId = pRoom ? DUNGEON_GetLevelIdFromRoom(pRoom): 0;
+	const int nLevelId = pRoom ? DUNGEON_GetLevelIdFromRoom(pRoom) : 0;
 	const int nActNo = DRLG_GetActNoFromLevelId(nLevelId);
 
 	ENVIRONMENT_UpdateTicks(pEnvironment, nActNo);
