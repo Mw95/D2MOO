@@ -390,7 +390,7 @@ D2COMMON_DLL_DECL void __stdcall D2COMMON_10204_PATH_ClearPoint2(D2DynamicPathSt
 //D2Common.0x6FDAA480 (#10205)
 D2COMMON_DLL_DECL void __stdcall PATH_SetStepNum(D2DynamicPathStrc* pDynamicPath, uint8_t nSteps);
 //D2Common.0x6FDAA4B0 (#10206)
-D2COMMON_DLL_DECL int __stdcall PATH_GetStepNum(D2DynamicPathStrc* pDynamicPath);
+D2COMMON_DLL_DECL uint8_t __stdcall PATH_GetStepNum(D2DynamicPathStrc* pDynamicPath);
 //D2Common.0x6FDAA4C0 (#10207)
 D2COMMON_DLL_DECL void __stdcall D2Common_10207(D2DynamicPathStrc* pDynamicPath, char a2, char a3);
 //D2Common.0x6FDAA4E0 (#10217)

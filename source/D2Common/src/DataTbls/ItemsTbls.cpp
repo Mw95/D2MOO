@@ -34,7 +34,7 @@ int __fastcall DATATBLS_MapItemsTxtKeywordToNumber(char* szKey)
 }
 
 //D2Common.0x6FD55140
-int __fastcall DATATBLS_Return2(int)
+int __fastcall DATATBLS_Return2(int a1)
 {
 	return 2;
 }

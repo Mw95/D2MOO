@@ -12,7 +12,7 @@ int16_t __fastcall ITEMS_RollMagicAffixesOld(D2UnitStrc* pItem, int32_t bRequire
 //D2Game.0x6FC52C00
 int16_t __fastcall ITEMS_RollMagicAffixesNew(D2UnitStrc* pItem, int32_t bRequireSpawnableAffix, int32_t bForceAffixRoll, int32_t bAssignProperties, int32_t bPrefixes, int32_t nPreferredAffixIndex, int32_t nAutoMagicGroup);
 //D2Game.0x6FC53080
-int16_t __fastcall ITEMS_RollMagicAffixes(D2UnitStrc* pItem, int32_t bRequireSpawnableAffix, int32_t bForceAffixRoll, int32_t bAssignProperties, int32_t bPrefixes, int32_t nPreferredAffixIndex, int32_t nAutoMagicGroup);
+int16_t __fastcall ITEMS_RollMagicAffixesWithAutomagicGroup(D2UnitStrc* pItem, int32_t bRequireSpawnableAffix, int32_t bForceAffixRoll, int32_t bAssignProperties, int32_t bPrefixes, int32_t nPreferredAffixIndex, int32_t nAutoMagicGroup);
 //D2Game.0x6FC530E0
 int16_t __fastcall ITEMS_RollTemperedItemAffix(D2UnitStrc* pItem, int32_t bPrefix);
 //D2Game.0x6FC53360

@@ -53,7 +53,7 @@ int32_t __fastcall sub_6FC61EC0(D2UnitStrc* pMonster);
 int32_t __fastcall sub_6FC61EE0(D2UnitStrc* pMonster);
 //D2Game.0x6FC61F00
 void __fastcall sub_6FC61F00(D2UnitStrc* pMonster);
-//D2Game.0xFC61F20
+//D2Game.0x6FC61F20
 int32_t __fastcall sub_6FC61F20(D2UnitStrc* pMonster, D2UnitStrc* pUnit);
 //D2Game.0x6FC61F70
 void __fastcall D2GAME_MONSTERAI_Last_6FC61F70(D2GameStrc* pGame, D2UnitStrc* pMonster, void(__fastcall* pCallback)(D2UnitStrc*));

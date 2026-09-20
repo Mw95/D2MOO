@@ -369,7 +369,7 @@ int16_t __fastcall ITEMS_RollMagicAffixesNew(D2UnitStrc* pItem, int32_t bRequire
 }
 
 //D2Game.0x6FC53080
-int16_t __fastcall ITEMS_RollMagicAffixes(D2UnitStrc* pItem, int32_t bRequireSpawnableAffix, int32_t bForceAffixRoll, int32_t bAssignProperties, int32_t bPrefixes, int32_t nPreferredAffixIndex, int32_t nAutoMagicGroup)
+int16_t __fastcall ITEMS_RollMagicAffixesWithAutomagicGroup(D2UnitStrc* pItem, int32_t bRequireSpawnableAffix, int32_t bForceAffixRoll, int32_t bAssignProperties, int32_t bPrefixes, int32_t nPreferredAffixIndex, int32_t nAutoMagicGroup)
 {
     if (ITEMS_GetItemFormat(pItem) < 1u)
     {

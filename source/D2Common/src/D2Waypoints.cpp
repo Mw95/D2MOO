@@ -46,7 +46,7 @@ int __stdcall WAYPOINTS_IsActivated(D2WaypointDataStrc* pData, uint16_t wField)
 	D2_ASSERT(pData);
 	D2_ASSERT(wField < gnNumberOfWaypoints);
 
-	return (pData->nFlags[wField / 16 + 1] & (1 << (wField & 15))) != 0;
+	return pData->nFlags[wField / 16 + 1] & (1 << (wField & 15));
 }
 
 //D2Common.0x6FDC3E80 (#11147)
