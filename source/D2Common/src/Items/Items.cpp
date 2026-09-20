@@ -412,7 +412,7 @@ void __stdcall ITEMS_SetEarName(D2UnitStrc* pItem, char* szName)
 			pItemData->szPlayerName[nCounter] = szName[nCounter];
 			++nCounter;
 		}
-		while (szName[nCounter -1]);
+		while (szName[nCounter - 1]);
 	}
 }
 
@@ -3248,7 +3248,7 @@ BOOL __stdcall ITEMS_IsSocketFiller(D2UnitStrc* pItem)
 }
 
 //D2Common.0x6FD9D9E0 (#10822)
-const D2RunesTxt* __stdcall ITEMS_GetRunesTxtRecordFromItem(const D2UnitStrc* pItem)
+D2RunesTxt* __stdcall ITEMS_GetRunesTxtRecordFromItem(D2UnitStrc* pItem)
 {
 	if (!pItem)
 	{
@@ -3286,7 +3286,7 @@ const D2RunesTxt* __stdcall ITEMS_GetRunesTxtRecordFromItem(const D2UnitStrc* pI
 
 		for (int i = 0; i < sgptDataTables->pRuneDataTables.nRunesTxtRecordCount; ++i)
 		{
-			const D2RunesTxt* pRunesTxtRecord = &sgptDataTables->pRuneDataTables.pRunesTxt[i];
+			D2RunesTxt* pRunesTxtRecord = &sgptDataTables->pRuneDataTables.pRunesTxt[i];
 
 			if (pRunesTxtRecord->nComplete)
 			{
@@ -3383,7 +3383,7 @@ BOOL __stdcall ITEMS_CheckType(int nItemType1, int nItemType2)
 }
 
 //D2Common.0x6FD9DCE0 (#10731)
-BOOL __stdcall ITEMS_CheckItemTypeId(const D2UnitStrc* pItem, int nItemType)
+BOOL __stdcall ITEMS_CheckItemTypeId(D2UnitStrc* pItem, int nItemType)
 {
 	if (pItem)
 	{

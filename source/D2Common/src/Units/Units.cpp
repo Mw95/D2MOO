@@ -3533,7 +3533,9 @@ void __stdcall UNITS_FreeStaticPath(D2UnitStrc* pUnit)
 	if (pUnit->pStaticPath)
 	{
 		D2_FREE_POOL(pUnit->pMemoryPool, pUnit->pStaticPath);
-		pUnit->pStaticPath = NULL;
+#ifndef NO_BUG_FIX
+		//pUnit->pStaticPath = NULL;
+#endif
 	}
 }
 
