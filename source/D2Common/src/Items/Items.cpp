@@ -412,7 +412,7 @@ void __stdcall ITEMS_SetEarName(D2UnitStrc* pItem, char* szName)
 			pItemData->szPlayerName[nCounter] = szName[nCounter];
 			++nCounter;
 		}
-		while (szName[nCounter -1]);
+		while (szName[nCounter - 1]);
 	}
 }
 

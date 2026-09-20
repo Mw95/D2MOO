@@ -886,28 +886,28 @@ void __fastcall D2COMMON_SKILLS_RemoveSkill_6FDAFFF0(D2UnitStrc* pUnit, int nSki
 }
 
 //D2Common.0x6FDB0270 (#10958)
-void* __stdcall D2Common_10958(D2UnitStrc* pUnit, void* a2)
+int __stdcall D2Common_10958(D2UnitStrc* pUnit, int a2)
 {
-	void* pResult = NULL;
+	int pResult = 0;
 
 	if (pUnit && pUnit->pSkills)
 	{
-		pResult = (void*)pUnit->pSkills->unk014;
-		pUnit->pSkills->unk014 = (int)a2;
+		pResult = pUnit->pSkills->unk014;
+		pUnit->pSkills->unk014 = a2;
 	}
 
 	return pResult;
 }
 
 //D2Common.0x6FDB02A0 (#10959)
-void* __stdcall D2Common_10959(D2UnitStrc* pUnit)
+int __stdcall D2Common_10959(D2UnitStrc* pUnit)
 {
 	if (pUnit && pUnit->pSkills)
 	{
-		return (void*)pUnit->pSkills->unk014;
+		return pUnit->pSkills->unk014;
 	}
 
-	return NULL;
+	return 0;
 }
 
 //D2Common.0x6FDB02C0 (#10960)
@@ -1342,7 +1342,7 @@ int __stdcall SKILLS_GetSkillIdFromSkill(D2SkillStrc* pSkill, const char* szFile
 }
 
 //D2Common.0x6FDB0AF0 (#10965)
-int __fastcall SKILLS_GetSeqNumFromSkill(D2UnitStrc* pUnit, D2SkillStrc* pSkill)
+uint16_t __fastcall SKILLS_GetSeqNumFromSkill(D2UnitStrc* pUnit, D2SkillStrc* pSkill)
 {
 	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
 	int nCounter = 0;
@@ -3217,7 +3217,7 @@ int __stdcall D2Common_11028(int a1)
 //D2Common.0x6FDB3AB0 (#11033)
 int __stdcall D2Common_11033(int nLevel, int nParam, int nMax)
 {
-	int nValue = nParam + (nMax - nParam) * 110 * nLevel / (nLevel + 6) / 100;
+	int nValue = nParam + (nMax - nParam) * ((110 * nLevel) / (nLevel + 6)) / 100;
 
 	if (nValue > nMax)
 	{
@@ -3434,7 +3434,7 @@ BOOL __stdcall SKILLS_IsEnhanceable(int nSkillId)
 
 	if (pSkillsTxtRecord)
 	{
-		return pSkillsTxtRecord->dwFlags[0] & gdwBitMasks[SKILLSFLAGINDEX_ENHANCEABLE];
+		return ((pSkillsTxtRecord->dwFlags[0] & gdwBitMasks[SKILLSFLAGINDEX_ENHANCEABLE]) & 0x00FF0000) >> 16;
 	}
 
 	return FALSE;
