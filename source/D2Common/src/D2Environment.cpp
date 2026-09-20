@@ -188,7 +188,7 @@ void __fastcall ENVIRONMENT_UpdateLightIntensity(D2DrlgEnvironmentStrc* pEnviron
 
 static uint8_t LerpLightColor(uint8_t nThis, uint8_t nNext, double lerpRatio)
 {
-	return uint8_t(D2Lerp<double>(nThis,nNext,lerpRatio) + 0.5); // Round half up // NOLINT(bugprone-incorrect-roundings)
+	return uint8_t(D2Lerp<double>(nThis, nNext, lerpRatio) + 0.5); // Round half up // NOLINT(bugprone-incorrect-roundings)
 }
 
 //D2Common.0x6FD8DAC0
@@ -218,7 +218,7 @@ BOOL __stdcall ENVIRONMENT_UpdatePeriodOfDay(D2DrlgActStrc* pAct, D2ActiveRoomSt
 	D2DrlgEnvironmentStrc* pEnvironment = DUNGEON_GetEnvironmentFromAct(pAct);
 
 	const int nPreviousPeriodOfDay = pEnvironment->nPeriodOfDay;
-	const int nLevelId = pRoom ? DUNGEON_GetLevelIdFromRoom(pRoom): 0;
+	const int nLevelId = pRoom ? DUNGEON_GetLevelIdFromRoom(pRoom) : 0;
 	const int nActNo = DRLG_GetActNoFromLevelId(nLevelId);
 
 	ENVIRONMENT_UpdateTicks(pEnvironment, nActNo);

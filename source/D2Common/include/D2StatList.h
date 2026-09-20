@@ -590,7 +590,7 @@ D2COMMON_DLL_DECL int __stdcall STATLIST_GetUnitStatBonus(D2UnitStrc* pUnit, int
 //D2Common.0x6FDB80C0 (#10515)
 D2COMMON_DLL_DECL void __stdcall STATLIST_DeactivateTemporaryStates(D2UnitStrc* pUnit);
 //D2Common.0x6FDB8120 (#10467)
-D2COMMON_DLL_DECL int __stdcall D2Common_10467(D2StatListStrc* pStatList, int nStat);
+D2COMMON_DLL_DECL int __stdcall D2Common_10467(D2StatListStrc* pStatList, int nStatIndex);
 //D2Common.0x6FDB8150 (#10468)
 D2COMMON_DLL_DECL void __stdcall STATLIST_RemoveAllStats(D2StatListStrc* pStatList);
 //D2Common.0x6FDB8190
