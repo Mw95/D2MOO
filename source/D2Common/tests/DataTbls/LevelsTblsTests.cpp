@@ -1,0 +1,718 @@
+#include <doctest.h>
+
+#include <Windows.h>
+
+#include <cstdarg>
+#include <filesystem>
+
+#include <TestDefinitions.h>
+#include <TestUtilities.h>
+
+#include <DataTbls/LevelsTbls.h>
+
+#include <Fixtures/DataTbls/Fixtures.h>
+
+
+DYNAMIC_ARRAY_TYPE(int)
+
+
+TEST_SUITE("LevelsTblsTests")
+{
+	const auto working_directory = std::filesystem::current_path();
+	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
+
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD5EAE0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadLevelsTxt, dll_base + 0x0001EAE0);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+
+			// Call both implementations
+			sut(hArchive);
+			original(hArchive);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD603C0 (#10631)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLevelsTxtRecord, dll_base + 0x000203C0);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				int nLevelId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD603F0 (#10632)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetRainFromLevelsTxt, dll_base + 0x000203F0);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				int nLevelId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD60430 (#10634)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetNoPerFromLevelsTxt, dll_base + 0x00020430);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				int nLevelId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD60470 (#10633)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetMudFromLevelsTxt, dll_base + 0x00020470);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				int nLevelId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD604B0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadLevelsTxt, dll_base + 0x000204B0);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD604F0 (#11247)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetMonsterLevelInArea, dll_base + 0x000204F0);
+		
+		SUBCASE("")
+		{
+			const auto expansion = GENERATE(0, 1);
+
+			for (auto j = 0; j < 3; ++j)
+			{
+				for (auto i = 0; i < levels_record_count; ++i)
+				{
+					int nLevelId = i;
+					uint8_t nDifficulty = j;
+					BOOL bExpansion = expansion;
+
+					// Call both implementations
+					const auto moo_result = sut(nLevelId, nDifficulty, bExpansion);
+					const auto original_result = original(nLevelId, nDifficulty, bExpansion);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				}
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(PortalLevelsFixture<NoopFixture>, "D2Common.0x6FD60560")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetPortalLevels, dll_base + 0x00020560);
+		
+		SUBCASE("")
+		{
+			// Input data
+			const auto moo_pnPortalLevels = std::make_unique<int[]>(portal_levels_count);
+			const auto original_pnPortalLevels = std::make_unique<int[]>(portal_levels_count);
+
+			// Call both implementations
+			const auto moo_result = sut(moo_pnPortalLevels.get());
+			const auto original_result = original(original_pnPortalLevels.get());
+			
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ((DynamicArray<int> { moo_pnPortalLevels.get(), portal_levels_count }), (DynamicArray<int> { original_pnPortalLevels.get(), portal_levels_count }), "Comparing pnPortalLevels");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD60570" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadLevelDefsBin, dll_base + 0x00020570);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+
+			// Call both implementations
+			sut(hArchive);
+			original(hArchive);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD60D60" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadLevelDefsBin, dll_base + 0x00020D60);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LevelDefsTxtFixture<NoopFixture>, "D2Common.0x6FD60D90 (#10010)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLevelDefRecord, dll_base + 0x00020D90);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < leveldefs_record_count; ++i)
+			{
+				int nLevelId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD60DC0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadLevelTypesTxt, dll_base + 0x00020DC0);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+
+			// Call both implementations
+			sut(hArchive);
+			original(hArchive);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD61450" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadLevelTypesTxt, dll_base + 0x00021450);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlTypesTxtFixture<NoopFixture>, "D2Common.0x6FD61460 (#10023)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLevelTypesTxtRecord, dll_base + 0x00021460);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < lvltypes_record_count; ++i)
+			{
+				int nLevelType = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelType);
+				const auto original_result = original(nLevelType);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlTypesTxtFixture<NoopFixture>, "D2Common.0x6FD614A0 (#11226)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_CheckActInLevelTypesTxt, dll_base + 0x000214A0);
+		
+		SUBCASE("")
+		{
+			const auto act = GENERATE(0, 1, 2, 3, 4);
+
+			for (auto i = 0; i < lvltypes_record_count; ++i)
+			{
+				int nLevelType = i;
+				uint8_t nAct = act;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelType, nAct);
+				const auto original_result = original(nLevelType, nAct);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlTypesTxtFixture<NoopFixture>, "D2Common.0x6FD61500 (#11227)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetFileNameFromLevelTypeAndFileId, dll_base + 0x00021500);
+
+		SUBCASE("")
+		{
+			for (auto j = 0; j < 32; ++j)
+			{
+				for (auto i = 0; i < lvltypes_record_count; ++i)
+				{
+					// Input data
+					char moo_szFile[60]{};
+					char original_szFile[60]{};
+					int nLevelType{};
+					int nFile = j;
+
+					// Call both implementations
+					sut(nLevelType, nFile, moo_szFile);
+					original(nLevelType, nFile, original_szFile);
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_szFile, original_szFile, "Comparing szFile");
+				}
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD61570" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadLvlPrestTxt, dll_base + 0x00021570);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+			int a2{};
+
+			// Call both implementations
+			sut(hArchive, a2);
+			original(hArchive, a2);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD61AD0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadLvlPrestTxt, dll_base + 0x00021AD0);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlPrestTxtFixture<NoopFixture>, "D2Common.0x6FD61B50 (#10024)")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLvlPrestTxtRecord, dll_base + 0x00021B50);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < lvlprest_record_count; ++i)
+			{
+				int nId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nId);
+				const auto original_result = original(nId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlPrestTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD61B80")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLvlPrestTxtRecordFromLevelId, dll_base + 0x00021B80);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < levels_record_count; ++i)
+			{
+				int nLevelId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD61BC0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadLvlWarpTxt, dll_base + 0x00021BC0);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+
+			// Call both implementations
+			sut(hArchive);
+			original(hArchive);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD61DD0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadLvlWarpTxt, dll_base + 0x00021DD0);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlWarpTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD61DE0")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLvlWarpTxtRecordFromLevelIdAndDirection, dll_base + 0x00021DE0);
+		
+		SUBCASE("")
+		{
+			for (auto j : { 'b', 'l', 'r' })
+			{
+				for (auto i = 1; i < 83; ++i)
+				{
+					int nLevelId = i;
+					char szDirection = j;
+
+					// Call both implementations
+					const auto moo_result = sut(nLevelId, szDirection);
+					const auto original_result = original(nLevelId, szDirection);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				}
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD61E60" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadLvlMazeTxt, dll_base + 0x00021E60);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+
+			// Call both implementations
+			sut(hArchive);
+			original(hArchive);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD61F90" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadLvlMazeTxt, dll_base + 0x00021F90);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlMazeTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD61FA0")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLvlMazeTxtRecordFromLevelId, dll_base + 0x00021FA0);
+		
+		SUBCASE("")
+		{
+			const int maze_ids[] = {
+				8,
+				9,
+				10,
+				11,
+				12,
+				0,
+				13,
+				14,
+				15,
+				16,
+				18,
+				19,
+				21,
+				22,
+				23,
+				24,
+				25,
+				28,
+				29,
+				30,
+				31,
+				34,
+				35,
+				36,
+				37,
+				47,
+				48,
+				49,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				74,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				100,
+				101,
+				107,
+				113,
+				115,
+				118,
+				114,
+				116,
+				119,
+				122,
+				123,
+				125,
+				126,
+				127,
+				128,
+				129,
+				130,
+				132,
+			};
+
+			for (auto i : maze_ids)
+			{
+				int nLevelId = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nLevelId);
+				const auto original_result = original(nLevelId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD62020" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadLvlSubTxt, dll_base + 0x00022020);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+			int a2{};
+			int a3{};
+
+			// Call both implementations
+			sut(hArchive, a2, a3);
+			original(hArchive, a2, a3);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD62600" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_UnloadLvlSubTxt, dll_base + 0x00022600);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(LvlSubTxtFixture<NoopFixture>, "D2Common.0x6FD626F0")
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetLvlSubTxtRecord, dll_base + 0x000226F0);
+		
+		SUBCASE("")
+		{
+			for (auto i = 0; i < lvlsub_record_count; ++i)
+			{
+				int nSubType = i;
+
+				// Call both implementations
+				const auto moo_result = sut(nSubType);
+				const auto original_result = original(nSubType);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD62780" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_AllocGlobalTileLibraryHash, dll_base + 0x00022780);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD628A0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_FreeGlobalTileLibraryHash, dll_base + 0x000228A0);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD628C0" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_LoadAutomapTxt, dll_base + 0x000228C0);
+		
+		SUBCASE("")
+		{
+			HD2ARCHIVE hArchive{};
+
+			// Call both implementations
+			sut(hArchive);
+			original(hArchive);
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD62D30 (#10011)" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_GetAutomapCellId, dll_base + 0x00022D30);
+		
+		SUBCASE("")
+		{
+			uint32_t dwAutomapLevelType{};
+			uint32_t dwAutomapTileType{};
+			int nStyle{};
+			int nSequence{};
+
+			// Call both implementations
+			const auto moo_result = sut(dwAutomapLevelType, dwAutomapTileType, nStyle, nSequence);
+			const auto original_result = original(dwAutomapLevelType, dwAutomapTileType, nStyle, nSequence);
+			
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+		}
+	}
+	
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD62E70" * doctest::skip(""))
+	{
+		// Set up function pointers
+		const auto [sut, original] = make_function_pair(DATATBLS_FreeAutomap, dll_base + 0x00022E70);
+		
+		SUBCASE("")
+		{
+			// Call both implementations
+			sut();
+			original();
+		}
+	}
+}

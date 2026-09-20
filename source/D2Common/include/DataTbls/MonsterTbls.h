@@ -357,8 +357,8 @@ struct D2MonStatsTxt
 	int16_t wMonType;						//0x1C
 	uint16_t wAI;							//0x1E
 	uint16_t wSpawn;						//0x20
-	uint8_t nSpawnX;						//0x22
-	uint8_t nSpawnY;						//0x23
+	int8_t nSpawnX;							//0x22
+	int8_t nSpawnY;							//0x23
 	uint8_t nSpawnMode;						//0x24
 	uint8_t unk0x25;						//0x25
 	int16_t wMinion[2];						//0x26

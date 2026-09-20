@@ -400,7 +400,7 @@ int __stdcall MONSTERS_GetHirelingExpForNextLevel(int nLevel, int nExpPerLevel)
 int __stdcall MONSTERS_GetHirelingResurrectionCost(D2UnitStrc* pHireling)
 {
 	int nLevel = STATLIST_UnitGetStatValue(pHireling, STAT_LEVEL, 0);
-	int nCost = 15 * nLevel * nLevel / 2;
+	int nCost = 15 * ((nLevel * nLevel) / 2);
 
 	if (nCost > 50000)
 	{
@@ -875,7 +875,7 @@ BOOL __stdcall MONSTERS_IsDead(D2UnitStrc* pMonster)
 }
 
 //D2Common.0x6FDA5930 (#11280)
-int __stdcall MONSTERS_GetSpawnMode_XY(D2UnitStrc* pMonster, BOOL bFromMonster, int nSkillId, int nSkillLevel, int* pSpawnMode, int* pX, int* pY)
+int16_t __stdcall MONSTERS_GetSpawnMode_XY(D2UnitStrc* pMonster, BOOL bFromMonster, int nSkillId, int nSkillLevel, int* pSpawnMode, int* pX, int* pY)
 {
 	D2_MAYBE_UNUSED(nSkillLevel);
 	D2MonStatsTxt* pMonStatsTxtRecord = NULL;

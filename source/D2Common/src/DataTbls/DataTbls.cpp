@@ -579,7 +579,11 @@ char* __stdcall DATATBLS_GetUnitNameFromUnitTypeAndClassId(int nUnitType, int nC
 		break;
 
 	default:
-		sprintf_s(szName, 64, "Invalid Unit");
+#ifdef NO_BUG_FIX
+		printf(szName, "Invalid Unit");
+#else
+		//sprintf_s(szName, 64, "Invalid Unit");
+#endif // NO_BUG_FIX
 		break;
 	}
 

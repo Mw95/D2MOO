@@ -15,6 +15,7 @@ struct ItemTypesTxtFixture : Fixture
 {
 	std::unique_ptr<D2ItemTypesTxt[]> itemtypes_txt;
 	int itemtypes_record_count;
+	std::unique_ptr<uint32_t[]> itemtypes_equivalent_luts;
 
 	ItemTypesTxtFixture()
 	{
@@ -38,5 +39,24 @@ struct ItemTypesTxtFixture : Fixture
 
 		itemtypes_txt = std::move(itemtypes);
 		itemtypes_record_count = record_count;
+
+		sgptDataTables->nItemTypesIndex = (record_count + 31) / 32;
+
+		itemtypes_equivalent_luts = std::make_unique<uint32_t[]>(record_count * ((record_count + 31) / 32));
+		std::memset(itemtypes_equivalent_luts.get(), 0, sizeof(uint32_t) * record_count * ((record_count + 31) / 32));
+		sgptDataTables->pItemTypesEquivalenceLUTs = itemtypes_equivalent_luts.get();
+
+		for (int i = 0; i < record_count; ++i)
+		{
+			auto* pItemTypesNest = &itemtypes_equivalent_luts[sgptDataTables->nItemTypesIndex * i];
+
+			for (int j = 0; j < record_count; ++j)
+			{
+				if (DATATBLS_CheckItemTypesEquivalenceNested(i, j))
+				{
+					pItemTypesNest[j >> 5] |= gdwBitMasks[j & 31];
+				}
+			}
+		}
 	};
 };
