@@ -192,9 +192,9 @@ D2COMMON_DLL_DECL void __stdcall SKILLS_RemoveSkill(D2UnitStrc* pUnit, int nSkil
 //D2Common.0x6FDAFFF0
 void __fastcall D2COMMON_SKILLS_RemoveSkill_6FDAFFF0(D2UnitStrc* pUnit, int nSkillId, int bDecrementAndCheckSkillLevel, const char* szFile, int nLine);
 //D2Common.0x6FDB0270 (#10958)
-D2COMMON_DLL_DECL void* __stdcall D2Common_10958(D2UnitStrc* pUnit, void* a2);
+D2COMMON_DLL_DECL int __stdcall D2Common_10958(D2UnitStrc* pUnit, int a2);
 //D2Common.0x6FDB02A0 (#10959)
-D2COMMON_DLL_DECL void* __stdcall D2Common_10959(D2UnitStrc* pUnit);
+D2COMMON_DLL_DECL int __stdcall D2Common_10959(D2UnitStrc* pUnit);
 //D2Common.0x6FDB02C0 (#10960)
 D2COMMON_DLL_DECL void __stdcall SKILLS_FreeSkillList(D2UnitStrc* pUnit);
 //D2Common.0x6FDB0320 (#10952)
@@ -216,7 +216,7 @@ D2COMMON_DLL_DECL void __stdcall SKILLS_SetRightActiveSkill(D2UnitStrc* pUnit, i
 //D2Common.0x6FDB0AC0 (#10963)
 D2COMMON_DLL_DECL int __stdcall SKILLS_GetSkillIdFromSkill(D2SkillStrc* pSkill, const char* szFile, int nLine);
 //D2Common.0x6FDB0AF0 (#10965)
-D2COMMON_DLL_DECL int __fastcall SKILLS_GetSeqNumFromSkill(D2UnitStrc* pUnit, D2SkillStrc* pSkill);
+D2COMMON_DLL_DECL uint16_t __fastcall SKILLS_GetSeqNumFromSkill(D2UnitStrc* pUnit, D2SkillStrc* pSkill);
 //D2Common.0x6FDB0B70 (#10964)
 D2COMMON_DLL_DECL int __stdcall SKILLS_GetUseState(D2UnitStrc* pUnit, D2SkillStrc* pSkill);
 //D2Common.0x6FDB0F50

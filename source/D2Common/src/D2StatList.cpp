@@ -1468,11 +1468,11 @@ void __stdcall STATLIST_DeactivateTemporaryStates(D2UnitStrc* pUnit)
 }
 
 //D2Common.0x6FDB8120 (#10467)
-int __stdcall D2Common_10467(D2StatListStrc* pStatList, int nStat)
+int __stdcall D2Common_10467(D2StatListStrc* pStatList, int nStatIndex)
 {
-	if (pStatList && nStat < pStatList->Stats.nStatCount)
+	if (pStatList && nStatIndex < pStatList->Stats.nStatCount)
 	{
-		return pStatList->Stats.pStat[nStat].nValue;
+		return pStatList->Stats.pStat[nStatIndex].nValue;
 	}
 
 	return 0;
@@ -1800,7 +1800,7 @@ void __stdcall D2Common_STATES_ToggleState_6FDB8900(D2UnitStrc* pUnit, int nStat
 			{
 				pUnit->dwFlagEx |= UNITFLAGEX_ISSHAPESHIFTED;
 			}
-			else if (bStateMaskDisguise  && !STATES_CheckStateMaskOnUnit(pUnit, STATEMASK_DISGUISE))
+			else if (bStateMaskDisguise && !STATES_CheckStateMaskOnUnit(pUnit, STATEMASK_DISGUISE))
 			{
 				pUnit->dwFlagEx &= ~UNITFLAGEX_ISSHAPESHIFTED;
 			}
