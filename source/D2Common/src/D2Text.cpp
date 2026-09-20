@@ -94,7 +94,7 @@ int __stdcall TEXT_GetMenuType2NodeCount(D2TextHeaderStrc* pTextHeader)
 	return nNodes;
 }
 
-//D2Common.0x6FDC33820 (#10906)
+//D2Common.0x6FDC3820 (#10906)
 short __stdcall TEXT_GetStringIdOfMenuType2Node(D2TextHeaderStrc* pTextHeader, int nNodeId)
 {
 	D2TextNodeStrc* pNode = NULL;
@@ -121,7 +121,7 @@ short __stdcall TEXT_GetStringIdOfMenuType2Node(D2TextHeaderStrc* pTextHeader, i
 }
 
 //D2Common.0x6FDC3850 (#10907)
-short __stdcall TEXT_GetStringIdOfMenuType1Or2Node(D2TextHeaderStrc* pTextHeader, int nNodeId)
+short __stdcall TEXT_GetStringIdOfMenuType0Node(D2TextHeaderStrc* pTextHeader, int nNodeId)
 {
 	D2TextNodeStrc* pNode = NULL;
 	int nCounter = 0;
@@ -130,7 +130,7 @@ short __stdcall TEXT_GetStringIdOfMenuType1Or2Node(D2TextHeaderStrc* pTextHeader
 
 	while (pNode)
 	{
-		if (pNode->nMenu != 0)
+		if (pNode->nMenu == 0)
 		{
 			if (nCounter == nNodeId)
 			{
@@ -147,7 +147,7 @@ short __stdcall TEXT_GetStringIdOfMenuType1Or2Node(D2TextHeaderStrc* pTextHeader
 }
 
 //D2Common.0x6FDC3890 (#10908)
-short __stdcall TEXT_GetStringIdOfMenuType0Or2Node(D2TextHeaderStrc* pTextHeader, int nNodeId)
+short __stdcall TEXT_GetStringIdOfMenuType1Node(D2TextHeaderStrc* pTextHeader, int nNodeId)
 {
 	D2TextNodeStrc* pNode = NULL;
 	int nCounter = 0;
@@ -156,7 +156,7 @@ short __stdcall TEXT_GetStringIdOfMenuType0Or2Node(D2TextHeaderStrc* pTextHeader
 
 	while (pNode)
 	{
-		if (pNode->nMenu != 1)
+		if (pNode->nMenu == 1)
 		{
 			if (nCounter == nNodeId)
 			{
