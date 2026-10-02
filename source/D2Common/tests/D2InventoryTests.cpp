@@ -19,7 +19,7 @@ TEST_SUITE("D2InventoryTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E210" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E210")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_RemoveItem, dll_base + 0x0004E210);
@@ -28,16 +28,28 @@ TEST_SUITE("D2InventoryTests")
 		{
 			// Input data
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2InventoryStrc moo_pParentInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
+			D2InventoryStrc original_pParentInventory{};
 
 			const auto setup_data = [](
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData,
+				D2InventoryStrc& pParentInventory
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+				pItemData.pExtraData.pParentInv = &pParentInventory;
+				pParentInventory.dwSignature = D2C_InventoryHeader;
+				pParentInventory.pFirstItem = &pItem;
+				pParentInventory.pLastItem = &pItem;
+				pParentInventory.dwItemCount = 1;
 			};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+			setup_data(moo_pItem, moo_pItemData, moo_pParentInventory);
+			setup_data(original_pItem, original_pItemData, original_pParentInventory);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -124,7 +136,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E520 (#10241)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E520 (#10241)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FreeInventory, dll_base + 0x0004E520);
@@ -138,7 +150,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -241,7 +253,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E660 (#10243)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E660 (#10243)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_RemoveItemFromInventory, dll_base + 0x0004E660);
@@ -253,16 +265,25 @@ TEST_SUITE("D2InventoryTests")
 			D2UnitStrc moo_pItem{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2ItemDataStrc original_pItemData{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pFirstItem = &pItem;
+				pInventory.pLastItem = &pItem;
+				pInventory.dwItemCount = 1;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
+				pItemData.pExtraData.pParentInv = &pInventory;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -277,7 +298,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E6A0 (#10242)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E6A0 (#10242)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_PlaceItemInSocket, dll_base + 0x0004E6A0);
@@ -295,7 +316,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -392,7 +414,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E7E0 (#10245)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E7E0 (#10245)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetFreePosition, dll_base + 0x0004E7E0);
@@ -417,7 +439,10 @@ TEST_SUITE("D2InventoryTests")
 				int& pFreeX,
 				int& pFreeY
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
+				pFreeX = 1;
+				pFreeY = 1;
 			};
 
 			setup_data(moo_pInventory, moo_pItem, moo_pFreeX, moo_pFreeY);
@@ -438,7 +463,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EAF0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EAF0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetGrid, dll_base + 0x0004EAF0);
@@ -450,17 +475,30 @@ TEST_SUITE("D2InventoryTests")
 			D2InventoryGridInfoStrc moo_pInventoryGridInfo{};
 			D2InventoryStrc original_pInventory{};
 			D2InventoryGridInfoStrc original_pInventoryGridInfo{};
+			D2InventoryGridStrc moo_grids[1]{};
+			D2InventoryGridStrc original_grids[1]{};
+			D2UnitStrc* moo_items[1]{};
+			D2UnitStrc* original_items[1]{};
 			int nInventoryGrid{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2InventoryGridInfoStrc& pInventoryGridInfo
+				D2InventoryGridInfoStrc& pInventoryGridInfo,
+				D2InventoryGridStrc (&grids)[1],
+				D2UnitStrc* (&items)[1]
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pInventory.pGrids = grids;
+				pInventory.nGridCount = 1;
+				grids[0].nGridWidth = 1;
+				grids[0].nGridHeight = 1;
+				grids[0].ppItems = items;
+				pInventoryGridInfo.nGridX = 1;
+				pInventoryGridInfo.nGridY = 1;
 			};
 
-			setup_data(moo_pInventory, moo_pInventoryGridInfo);
-			setup_data(original_pInventory, original_pInventoryGridInfo);
+			setup_data(moo_pInventory, moo_pInventoryGridInfo, moo_grids, moo_items);
+			setup_data(original_pInventory, original_pInventoryGridInfo, original_grids, original_items);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, nInventoryGrid, &moo_pInventoryGridInfo);
@@ -475,7 +513,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EC70" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EC70")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CanItemBePlacedAtPos, dll_base + 0x0004EC70);
@@ -485,19 +523,24 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryGridStrc moo_pInventoryGrid{};
 			D2InventoryGridStrc original_pInventoryGrid{};
+			D2UnitStrc* moo_items[1]{};
+			D2UnitStrc* original_items[1]{};
 			int nX{};
 			int nY{};
-			uint8_t nItemWidth{};
-			uint8_t nItemHeight{};
+			uint8_t nItemWidth{ 1 };
+			uint8_t nItemHeight{ 1 };
 
 			const auto setup_data = [](
-				D2InventoryGridStrc& pInventoryGrid
+				D2InventoryGridStrc& pInventoryGrid,
+				D2UnitStrc* (&items)[1]
 			) {
-				// TODO: Setup as needed
+				pInventoryGrid.nGridWidth = 1;
+				pInventoryGrid.nGridHeight = 1;
+				pInventoryGrid.ppItems = items;
 			};
 
-			setup_data(moo_pInventoryGrid);
-			setup_data(original_pInventoryGrid);
+			setup_data(moo_pInventoryGrid, moo_items);
+			setup_data(original_pInventoryGrid, original_items);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, nX, nY, nItemWidth, nItemHeight);
@@ -511,7 +554,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8ECF0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8ECF0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FindFreePositionBottomRightToTopLeftWithWeight, dll_base + 0x0004ECF0);
@@ -525,19 +568,26 @@ TEST_SUITE("D2InventoryTests")
 			D2InventoryGridStrc original_pInventoryGrid{};
 			int original_pFreeX{};
 			int original_pFreeY{};
-			uint8_t nItemWidth{};
-			uint8_t nItemHeight{};
+			D2UnitStrc* moo_items[1]{};
+			D2UnitStrc* original_items[1]{};
+			uint8_t nItemWidth{ 1 };
+			uint8_t nItemHeight{ 1 };
 
 			const auto setup_data = [](
 				D2InventoryGridStrc& pInventoryGrid,
 				int& pFreeX,
-				int& pFreeY
+				int& pFreeY,
+				D2UnitStrc* (&items)[1]
 			) {
-				// TODO: Setup as needed
+				pInventoryGrid.nGridWidth = 1;
+				pInventoryGrid.nGridHeight = 1;
+				pInventoryGrid.ppItems = items;
+				pFreeX = 0;
+				pFreeY = 0;
 			};
 
-			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY);
-			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY);
+			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY, moo_items);
+			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY, original_items);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, &moo_pFreeX, &moo_pFreeY, nItemWidth, nItemHeight);
@@ -553,7 +603,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EE20" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EE20")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetPlacementWeight, dll_base + 0x0004EE20);
@@ -563,19 +613,24 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryGridStrc moo_pInventoryGrid{};
 			D2InventoryGridStrc original_pInventoryGrid{};
+			D2UnitStrc* moo_items[1]{};
+			D2UnitStrc* original_items[1]{};
 			int nXPos{};
 			int nYPos{};
-			uint8_t nItemWidth{};
-			uint8_t nItemHeight{};
+			uint8_t nItemWidth{ 1 };
+			uint8_t nItemHeight{ 1 };
 
 			const auto setup_data = [](
-				D2InventoryGridStrc& pInventoryGrid
+				D2InventoryGridStrc& pInventoryGrid,
+				D2UnitStrc* (&items)[1]
 			) {
-				// TODO: Setup as needed
+				pInventoryGrid.nGridWidth = 1;
+				pInventoryGrid.nGridHeight = 1;
+				pInventoryGrid.ppItems = items;
 			};
 
-			setup_data(moo_pInventoryGrid);
-			setup_data(original_pInventoryGrid);
+			setup_data(moo_pInventoryGrid, moo_items);
+			setup_data(original_pInventoryGrid, original_items);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, nXPos, nYPos, nItemWidth, nItemHeight);
@@ -589,7 +644,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EFB0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8EFB0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FindFreePositionTopLeftToBottomRightWithWeight, dll_base + 0x0004EFB0);
@@ -603,19 +658,26 @@ TEST_SUITE("D2InventoryTests")
 			D2InventoryGridStrc original_pInventoryGrid{};
 			int original_pFreeX{};
 			int original_pFreeY{};
-			uint8_t nItemWidth{};
-			uint8_t nItemHeight{};
+			D2UnitStrc* moo_items[1]{};
+			D2UnitStrc* original_items[1]{};
+			uint8_t nItemWidth{ 1 };
+			uint8_t nItemHeight{ 1 };
 
 			const auto setup_data = [](
 				D2InventoryGridStrc& pInventoryGrid,
 				int& pFreeX,
-				int& pFreeY
+				int& pFreeY,
+				D2UnitStrc* (&items)[1]
 			) {
-				// TODO: Setup as needed
+				pInventoryGrid.nGridWidth = 1;
+				pInventoryGrid.nGridHeight = 1;
+				pInventoryGrid.ppItems = items;
+				pFreeX = 0;
+				pFreeY = 0;
 			};
 
-			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY);
-			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY);
+			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY, moo_items);
+			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY, original_items);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, &moo_pFreeX, &moo_pFreeY, nItemWidth, nItemHeight);
@@ -631,7 +693,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F0E0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F0E0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FindFreePositionTopLeftToBottomRight, dll_base + 0x0004F0E0);
@@ -645,19 +707,26 @@ TEST_SUITE("D2InventoryTests")
 			D2InventoryGridStrc original_pInventoryGrid{};
 			int original_pFreeX{};
 			int original_pFreeY{};
-			uint8_t nItemWidth{};
-			uint8_t nItemHeight{};
+			D2UnitStrc* moo_items[1]{};
+			D2UnitStrc* original_items[1]{};
+			uint8_t nItemWidth{ 1 };
+			uint8_t nItemHeight{ 1 };
 
 			const auto setup_data = [](
 				D2InventoryGridStrc& pInventoryGrid,
 				int& pFreeX,
-				int& pFreeY
+				int& pFreeY,
+				D2UnitStrc* (&items)[1]
 			) {
-				// TODO: Setup as needed
+				pInventoryGrid.nGridWidth = 1;
+				pInventoryGrid.nGridHeight = 1;
+				pInventoryGrid.ppItems = items;
+				pFreeX = 0;
+				pFreeY = 0;
 			};
 
-			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY);
-			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY);
+			setup_data(moo_pInventoryGrid, moo_pFreeX, moo_pFreeY, moo_items);
+			setup_data(original_pInventoryGrid, original_pFreeX, original_pFreeY, original_items);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventoryGrid, &moo_pFreeX, &moo_pFreeY, nItemWidth, nItemHeight);
@@ -673,7 +742,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F1E0 (#10246)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F1E0 (#10246)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_PlaceItemAtFreePosition, dll_base + 0x0004F1E0);
@@ -685,6 +754,8 @@ TEST_SUITE("D2InventoryTests")
 			D2UnitStrc moo_pItem{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc moo_pItemData{};
+			D2ItemDataStrc original_pItemData{};
 			int nInventoryRecordId{};
 			BOOL bUnused{};
 			uint8_t nPage{};
@@ -693,13 +764,16 @@ TEST_SUITE("D2InventoryTests")
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nInventoryRecordId, bUnused, nPage, &szFile, nLine);
@@ -714,7 +788,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F250" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F250")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_PlaceItemInGrid, dll_base + 0x0004F250);
@@ -736,7 +810,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -755,7 +830,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F600 (#10247)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F600 (#10247)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CanItemBePlaced, dll_base + 0x0004F600);
@@ -782,7 +857,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc*& ppExchangeItem,
 				unsigned int& pHoveredItems
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
+				pHoveredItems = 1;
 			};
 
 			setup_data(moo_pInventory, moo_pItem, moo_ppExchangeItem, moo_pHoveredItems);
@@ -803,7 +880,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F780 (#10248)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F780 (#10248)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CanItemsBeExchanged, dll_base + 0x0004F780);
@@ -828,7 +905,8 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem,
 				D2UnitStrc*& ppExchangeItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem, moo_ppExchangeItem);
@@ -848,7 +926,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F930 (#10249)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F930 (#10249)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_PlaceItemAtInventoryPage, dll_base + 0x0004F930);
@@ -870,7 +948,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -918,7 +997,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F980 (#10252)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8F980 (#10252)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemFromInventoryPage, dll_base + 0x0004F980);
@@ -942,7 +1021,9 @@ TEST_SUITE("D2InventoryTests")
 				int& pX,
 				int& pY
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pX = -1;
+				pY = -1;
 			};
 
 			setup_data(moo_pInventory, moo_pX, moo_pY);
@@ -962,7 +1043,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FAB0 (#10253)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FAB0 (#10253)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_PlaceItemInBodyLoc, dll_base + 0x0004FAB0);
@@ -980,7 +1061,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -999,7 +1081,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FAE0 (#10257)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FAE0 (#10257)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemFromBodyLoc, dll_base + 0x0004FAE0);
@@ -1014,7 +1096,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -1032,7 +1114,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FB20 (#10255)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FB20 (#10255)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetSecondWieldingWeapon, dll_base + 0x0004FB20);
@@ -1053,7 +1135,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc*& ppItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				ppItem = nullptr;
 			};
 
 			setup_data(moo_pPlayer, moo_pInventory, moo_ppItem);
@@ -1070,7 +1153,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FBB0 (#10256)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FBB0 (#10256)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CheckEquipmentForWeaponByClass, dll_base + 0x0004FBB0);
@@ -1085,7 +1168,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -1103,7 +1186,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FC60 (#10258)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FC60 (#10258)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetLeftHandWeapon, dll_base + 0x0004FC60);
@@ -1117,7 +1200,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -1135,7 +1218,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FD10 (#11301)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FD10 (#11301)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetSecondaryWeapon, dll_base + 0x0004FD10);
@@ -1149,7 +1232,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -1167,7 +1250,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FDD0 (#10259)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FDD0 (#10259)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetCompositItem, dll_base + 0x0004FDD0);
@@ -1182,7 +1265,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -1200,7 +1283,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FE80 (#10260)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FE80 (#10260)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetBodyLocFromEquippedItem, dll_base + 0x0004FE80);
@@ -1217,7 +1300,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -1282,7 +1366,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FF20 (#10261)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FF20 (#10261)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_SetCursorItem, dll_base + 0x0004FF20);
@@ -1299,7 +1383,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -1354,7 +1439,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FFA0 (#10263)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8FFA0 (#10263)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FindBackPackItemForStack, dll_base + 0x0004FFA0);
@@ -1374,7 +1459,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pStackable,
 				D2UnitStrc& pCheckItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pStackable.dwUnitType = UNIT_MONSTER;
+				pCheckItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pStackable, moo_pCheckItem);
@@ -1394,7 +1481,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90080 (#10264)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90080 (#10264)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FindEquippedItemForStack, dll_base + 0x00050080);
@@ -1414,7 +1501,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pStackable,
 				D2UnitStrc& pCheckItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pStackable.dwUnitType = UNIT_MONSTER;
+				pCheckItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pStackable, moo_pCheckItem);
@@ -1434,7 +1523,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90130 (#10265)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90130 (#10265)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FindFillableBook, dll_base + 0x00050130);
@@ -1454,7 +1543,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pScrolls,
 				D2UnitStrc& pCheckItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pScrolls.dwUnitType = UNIT_MONSTER;
+				pCheckItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pScrolls, moo_pCheckItem);
@@ -1474,7 +1565,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90230 (#10266)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90230 (#10266)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_PlaceItemInBeltSlot, dll_base + 0x00050230);
@@ -1492,7 +1583,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -1511,7 +1603,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD902B0 (#10268)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD902B0 (#10268)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_HasSimilarPotionInBelt, dll_base + 0x000502B0);
@@ -1528,7 +1620,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pPotion
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pPotion.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pPotion);
@@ -1547,7 +1640,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90340 (#10269)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90340 (#10269)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetFreeBeltSlot, dll_base + 0x00050340);
@@ -1567,7 +1660,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem,
 				int& pFreeSlotId
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pItem.dwUnitType = UNIT_MONSTER;
+				pFreeSlotId = -1;
 			};
 
 			setup_data(moo_pInventory, moo_pItem, moo_pFreeSlotId);
@@ -1587,7 +1682,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD904F0 (#10270)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD904F0 (#10270)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_PlaceItemInFreeBeltSlot, dll_base + 0x000504F0);
@@ -1604,7 +1699,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -1623,7 +1719,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90550 (#10271)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90550 (#10271)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemFromBeltSlot, dll_base + 0x00050550);
@@ -1638,7 +1734,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -1656,7 +1752,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90590 (#10272)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90590 (#10272)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetUseableItemFromBeltSlot, dll_base + 0x00050590);
@@ -1677,7 +1773,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem,
 				D2UnitStrc*& ppItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pItem.dwUnitType = UNIT_MONSTER;
+				ppItem = nullptr;
 			};
 
 			setup_data(moo_pInventory, moo_pItem, moo_ppItem);
@@ -1697,7 +1795,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90690 (#10273)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90690 (#10273)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetEquippedShield, dll_base + 0x00050690);
@@ -1714,7 +1812,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc*& ppItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				ppItem = nullptr;
 			};
 
 			setup_data(moo_pInventory, moo_ppItem);
@@ -1733,7 +1832,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90760 (#10274)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90760 (#10274)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetEquippedWeapon, dll_base + 0x00050760);
@@ -1756,7 +1855,10 @@ TEST_SUITE("D2InventoryTests")
 				int& pBodyLoc,
 				BOOL& pIsLeftHandItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				ppItem = nullptr;
+				pBodyLoc = BODYLOC_NONE;
+				pIsLeftHandItem = FALSE;
 			};
 
 			setup_data(moo_pInventory, moo_ppItem, moo_pBodyLoc, moo_pIsLeftHandItem);
@@ -1777,7 +1879,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90850 (#10275)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90850 (#10275)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_HasBodyArmorEquipped, dll_base + 0x00050850);
@@ -1791,7 +1893,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -1809,7 +1911,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD908A0 (#10276)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD908A0 (#10276)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_IsItemBodyLocFree, dll_base + 0x000508A0);
@@ -1828,7 +1930,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -1847,7 +1950,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90910 (#10279)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90910 (#10279)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_RemoveInventoryItems, dll_base + 0x00050910);
@@ -1861,7 +1964,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
 			};
 
 			setup_data(moo_pInventory);
@@ -1915,7 +2018,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90960 (#10281)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90960 (#10281)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FreeTradeInventory, dll_base + 0x00050960);
@@ -1929,7 +2032,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -2026,7 +2129,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD909F0 (#10283)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD909F0 (#10283)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_AddItemToTradeInventory, dll_base + 0x000509F0);
@@ -2043,7 +2146,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -2128,7 +2232,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AE0 (#10285)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90AE0 (#10285)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetBackPackItemByType, dll_base + 0x00050AE0);
@@ -2146,7 +2250,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pCheckItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pCheckItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2165,7 +2270,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90BC0 (#10286)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90BC0 (#10286)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetEquippedItemByType, dll_base + 0x00050BC0);
@@ -2183,7 +2288,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pCheckItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pCheckItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2202,7 +2308,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90C80 (#10287)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90C80 (#10287)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetEquippedItemByCode, dll_base + 0x00050C80);
@@ -2220,7 +2326,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pCheckItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pCheckItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2239,7 +2346,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90D50 (#11306)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90D50 (#11306)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetBackPackItemByCode, dll_base + 0x00050D50);
@@ -2257,7 +2364,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pCheckItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pCheckItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2276,7 +2384,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90E20 (#10288)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90E20 (#10288)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetSetItemEquipCountByFileIndex, dll_base + 0x00050E20);
@@ -2291,7 +2399,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -2309,7 +2417,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90ED0 (#10289)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90ED0 (#10289)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_UpdateWeaponGUIDOnInsert, dll_base + 0x00050ED0);
@@ -2326,7 +2434,7 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -2342,7 +2450,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90F80 (#10290)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD90F80 (#10290)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_UpdateWeaponGUIDOnRemoval, dll_base + 0x00050F80);
@@ -2359,7 +2467,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -2375,7 +2484,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91050 (#10291)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91050 (#10291)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetWieldType, dll_base + 0x00051050);
@@ -2392,7 +2501,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pPlayer,
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pPlayer, moo_pInventory);
@@ -2476,7 +2585,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91190 (#10294)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91190 (#10294)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CreateCorpseForPlayer, dll_base + 0x00051190);
@@ -2493,7 +2602,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pInventory);
@@ -2508,7 +2617,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91210 (#10295)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91210 (#10295)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FreeCorpse, dll_base + 0x00051210);
@@ -2524,7 +2633,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
 			};
 
 			setup_data(moo_pInventory);
@@ -2725,7 +2834,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912F0 (#10298)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD912F0 (#10298)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetItemSaveGfxInfo, dll_base + 0x000512F0);
@@ -2745,7 +2854,10 @@ TEST_SUITE("D2InventoryTests")
 				uint8_t& pComponents,
 				uint8_t& pColor
 			) {
-				// TODO: Setup as needed
+				pPlayer.dwUnitType = UNIT_PLAYER;
+				pPlayer.pInventory = nullptr;
+				pComponents = 0;
+				pColor = 0;
 			};
 
 			setup_data(moo_pPlayer, moo_pComponents, moo_pColor);
@@ -2762,7 +2874,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD915C0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD915C0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_InitializeComponentArray, dll_base + 0x000515C0);
@@ -2775,7 +2887,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD917B0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD917B0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD917B0, dll_base + 0x000517B0);
@@ -2798,7 +2910,10 @@ TEST_SUITE("D2InventoryTests")
 				uint8_t& pColor,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_MONSTER;
+				a2 = 0;
+				pColor = 0;
 			};
 
 			setup_data(moo_pUnit, moo_a2, moo_pColor, moo_pItem);
@@ -2816,7 +2931,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91B60 (#10299)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91B60 (#10299)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10299, dll_base + 0x00051B60);
@@ -2835,7 +2950,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pUnit,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = UNIT_MONSTER;
+				pUnit.pInventory = nullptr;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pUnit, moo_pItem);
@@ -2854,7 +2971,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91D50" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91D50")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD91D50, dll_base + 0x00051D50);
@@ -2880,7 +2997,10 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& a4,
 				D2UnitStrc& pItem
 			) {
-				// TODO: Setup as needed
+				pPlayer.dwUnitType = UNIT_MONSTER;
+				a3.dwUnitType = UNIT_MONSTER;
+				a4.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pPlayer, moo_a3, moo_a4, moo_pItem);
@@ -2901,7 +3021,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91E80" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD91E80")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD91E80, dll_base + 0x00051E80);
@@ -2921,7 +3041,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem1,
 				D2UnitStrc& pItem2
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = UNIT_MONSTER;
+				pItem1.dwUnitType = UNIT_MONSTER;
+				pItem2.dwUnitType = UNIT_MONSTER;
 			};
 
 			setup_data(moo_pUnit, moo_pItem1, moo_pItem2);
@@ -2988,7 +3110,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920C0 (#10305)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920C0 (#10305)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_UnitIsItem, dll_base + 0x000520C0);
@@ -3099,7 +3221,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92140 (#10310)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92140 (#10310)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_IsItemInInventory, dll_base + 0x00052140);
@@ -3253,7 +3375,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92180 (#10300)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92180 (#10300)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_RemoveAllItems, dll_base + 0x00052180);
@@ -3267,7 +3389,7 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pInventory.dwSignature = D2C_InventoryHeader;
 			};
 
 			setup_data(moo_pInventory);
@@ -3285,7 +3407,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD921D0 (#10302)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD921D0 (#10302)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CanItemsBeTraded, dll_base + 0x000521D0);
@@ -3305,7 +3427,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pPlayer2,
 				D2TradeStates& pTradeState
 			) {
-				// TODO: Setup as needed
+				pPlayer1.dwUnitType = UNIT_PLAYER;
+				pPlayer2.dwUnitType = UNIT_PLAYER;
+				pTradeState = TRADESTATE_OTHERNOROOM;
 			};
 
 			setup_data(moo_pPlayer1, moo_pPlayer2, moo_pTradeState);
@@ -3325,7 +3449,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD923C0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD923C0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CopyUnitItemsToTradeInventory, dll_base + 0x000523C0);
@@ -3342,7 +3466,8 @@ TEST_SUITE("D2InventoryTests")
 				D2InventoryStrc& pTradeInventory,
 				D2UnitStrc& pUnit
 			) {
-				// TODO: Setup as needed
+				pTradeInventory.dwSignature = D2C_InventoryHeader - 1;
+				pUnit.dwUnitType = UNIT_PLAYER;
 			};
 
 			setup_data(moo_pTradeInventory, moo_pUnit);
@@ -3361,7 +3486,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92490" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92490")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_CanItemBePlacedInInventory, dll_base + 0x00052490);
@@ -3381,7 +3506,9 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem,
 				D2InventoryStrc& pInventory
 			) {
-				// TODO: Setup as needed
+				pPlayer.dwUnitType = UNIT_PLAYER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pInventory.dwSignature = D2C_InventoryHeader - 1;
 			};
 
 			setup_data(moo_pPlayer, moo_pItem, moo_pInventory);
