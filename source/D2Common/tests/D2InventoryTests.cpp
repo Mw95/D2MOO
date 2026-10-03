@@ -424,10 +424,12 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			int moo_pFreeX{};
 			int moo_pFreeY{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 			int original_pFreeX{};
 			int original_pFreeY{};
 			int nInventoryRecordId{};
@@ -436,17 +438,19 @@ TEST_SUITE("D2InventoryTests")
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
 				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData,
 				int& pFreeX,
 				int& pFreeY
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 				pFreeX = 1;
 				pFreeY = 1;
 			};
 
-			setup_data(moo_pInventory, moo_pItem, moo_pFreeX, moo_pFreeY);
-			setup_data(original_pInventory, original_pItem, original_pFreeX, original_pFreeY);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData, moo_pFreeX, moo_pFreeY);
+			setup_data(original_pInventory, original_pItem, original_pItemData, original_pFreeX, original_pFreeY);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nInventoryRecordId, &moo_pFreeX, &moo_pFreeY, nPage);
@@ -798,8 +802,10 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 			int nXPos{};
 			int nYPos{};
 			int nInventoryGrid{};
@@ -808,14 +814,16 @@ TEST_SUITE("D2InventoryTests")
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nXPos, nYPos, nInventoryGrid, nInventoryRecordId, bUnused);
@@ -858,7 +866,7 @@ TEST_SUITE("D2InventoryTests")
 				unsigned int& pHoveredItems
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 				pHoveredItems = 1;
 			};
 
@@ -906,7 +914,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc*& ppExchangeItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pItem, moo_ppExchangeItem);
@@ -936,8 +944,10 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 			int nXPos{};
 			int nYPos{};
 			int nInventoryRecordId{};
@@ -946,14 +956,16 @@ TEST_SUITE("D2InventoryTests")
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nXPos, nYPos, nInventoryRecordId, bUnused, nPage);
@@ -1053,20 +1065,24 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 			int nBodyLoc{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem, nBodyLoc);
@@ -1293,19 +1309,24 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2StaticPathStrc moo_pStaticPath{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2StaticPathStrc original_pStaticPath{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2StaticPathStrc& pStaticPath
 			) {
-				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pInventory.dwSignature = D2C_InventoryHeader;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pStaticPath = &pStaticPath;
+				pStaticPath.tGameCoords.nX = BODYLOC_HEAD;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pStaticPath);
+			setup_data(original_pInventory, original_pItem, original_pStaticPath);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
@@ -1376,19 +1397,23 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			sut(&moo_pInventory, &moo_pItem);
@@ -1460,8 +1485,8 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pCheckItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pStackable.dwUnitType = UNIT_MONSTER;
-				pCheckItem.dwUnitType = UNIT_MONSTER;
+				pStackable.dwUnitType = UNIT_ITEM;
+				pCheckItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pStackable, moo_pCheckItem);
@@ -1502,8 +1527,8 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pCheckItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pStackable.dwUnitType = UNIT_MONSTER;
-				pCheckItem.dwUnitType = UNIT_MONSTER;
+				pStackable.dwUnitType = UNIT_ITEM;
+				pCheckItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pStackable, moo_pCheckItem);
@@ -1544,8 +1569,8 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pCheckItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pScrolls.dwUnitType = UNIT_MONSTER;
-				pCheckItem.dwUnitType = UNIT_MONSTER;
+				pScrolls.dwUnitType = UNIT_ITEM;
+				pCheckItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pScrolls, moo_pCheckItem);
@@ -1584,7 +1609,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -1621,7 +1646,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pPotion
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pPotion.dwUnitType = UNIT_MONSTER;
+				pPotion.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pPotion);
@@ -1661,7 +1686,7 @@ TEST_SUITE("D2InventoryTests")
 				int& pFreeSlotId
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 				pFreeSlotId = -1;
 			};
 
@@ -1700,7 +1725,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -1774,7 +1799,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc*& ppItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 				ppItem = nullptr;
 			};
 
@@ -1931,7 +1956,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -2147,7 +2172,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -2251,7 +2276,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pCheckItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pCheckItem.dwUnitType = UNIT_MONSTER;
+				pCheckItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2289,7 +2314,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pCheckItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pCheckItem.dwUnitType = UNIT_MONSTER;
+				pCheckItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2327,7 +2352,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pCheckItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pCheckItem.dwUnitType = UNIT_MONSTER;
+				pCheckItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2365,7 +2390,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pCheckItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pCheckItem.dwUnitType = UNIT_MONSTER;
+				pCheckItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pCheckItem);
@@ -2427,18 +2452,22 @@ TEST_SUITE("D2InventoryTests")
 			// Input data
 			D2InventoryStrc moo_pInventory{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2InventoryStrc original_pInventory{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 
 			const auto setup_data = [](
 				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 			};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+			setup_data(moo_pInventory, moo_pItem, moo_pItemData);
+			setup_data(original_pInventory, original_pItem, original_pItemData);
 
 			// Call both implementations
 			sut(&moo_pInventory, &moo_pItem);
@@ -2468,7 +2497,7 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pItem
 			) {
 				pInventory.dwSignature = D2C_InventoryHeader - 1;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pInventory, moo_pItem);
@@ -2899,25 +2928,29 @@ TEST_SUITE("D2InventoryTests")
 			uint8_t moo_a2{};
 			uint8_t moo_pColor{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_pItemData{};
 			D2UnitStrc original_pUnit{};
 			uint8_t original_a2{};
 			uint8_t original_pColor{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_pItemData{};
 
 			const auto setup_data = [](
 				D2UnitStrc& pUnit,
 				uint8_t& a2,
 				uint8_t& pColor,
-				D2UnitStrc& pItem
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
 				pUnit.dwUnitType = UNIT_MONSTER;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pItemData = &pItemData;
 				a2 = 0;
 				pColor = 0;
 			};
 
-			setup_data(moo_pUnit, moo_a2, moo_pColor, moo_pItem);
-			setup_data(original_pUnit, original_a2, original_pColor, original_pItem);
+			setup_data(moo_pUnit, moo_a2, moo_pColor, moo_pItem, moo_pItemData);
+			setup_data(original_pUnit, original_a2, original_pColor, original_pItem, original_pItemData);
 
 			// Call both implementations
 			sut(&moo_pUnit, &moo_a2, &moo_pColor, &moo_pItem);
@@ -2952,7 +2985,7 @@ TEST_SUITE("D2InventoryTests")
 			) {
 				pUnit.dwUnitType = UNIT_MONSTER;
 				pUnit.pInventory = nullptr;
-				pItem.dwUnitType = UNIT_MONSTER;
+				pItem.dwUnitType = UNIT_ITEM;
 			};
 
 			setup_data(moo_pUnit, moo_pItem);
@@ -2983,10 +3016,16 @@ TEST_SUITE("D2InventoryTests")
 			D2UnitStrc moo_a3{};
 			D2UnitStrc moo_a4{};
 			D2UnitStrc moo_pItem{};
+			D2ItemDataStrc moo_a3ItemData{};
+			D2ItemDataStrc moo_a4ItemData{};
+			D2ItemDataStrc moo_pItemData{};
 			D2UnitStrc original_pPlayer{};
 			D2UnitStrc original_a3{};
 			D2UnitStrc original_a4{};
 			D2UnitStrc original_pItem{};
+			D2ItemDataStrc original_a3ItemData{};
+			D2ItemDataStrc original_a4ItemData{};
+			D2ItemDataStrc original_pItemData{};
 			int a2{};
 			int nBodyLoc{};
 			int nUnused{};
@@ -2995,16 +3034,22 @@ TEST_SUITE("D2InventoryTests")
 				D2UnitStrc& pPlayer,
 				D2UnitStrc& a3,
 				D2UnitStrc& a4,
-				D2UnitStrc& pItem
+				D2ItemDataStrc& a3ItemData,
+				D2ItemDataStrc& a4ItemData,
+				D2UnitStrc& pItem,
+				D2ItemDataStrc& pItemData
 			) {
 				pPlayer.dwUnitType = UNIT_MONSTER;
-				a3.dwUnitType = UNIT_MONSTER;
-				a4.dwUnitType = UNIT_MONSTER;
-				pItem.dwUnitType = UNIT_MONSTER;
+				a3.dwUnitType = UNIT_ITEM;
+				a4.dwUnitType = UNIT_ITEM;
+				pItem.dwUnitType = UNIT_ITEM;
+				a3.pItemData = &a3ItemData;
+				a4.pItemData = &a4ItemData;
+				pItem.pItemData = &pItemData;
 			};
 
-			setup_data(moo_pPlayer, moo_a3, moo_a4, moo_pItem);
-			setup_data(original_pPlayer, original_a3, original_a4, original_pItem);
+			setup_data(moo_pPlayer, moo_a3, moo_a4, moo_a3ItemData, moo_a4ItemData, moo_pItem, moo_pItemData);
+			setup_data(original_pPlayer, original_a3, original_a4, original_a3ItemData, original_a4ItemData, original_pItem, original_pItemData);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pPlayer, a2, nBodyLoc, &moo_a3, &moo_a4, &moo_pItem, nUnused);
@@ -3032,22 +3077,30 @@ TEST_SUITE("D2InventoryTests")
 			D2UnitStrc moo_pUnit{};
 			D2UnitStrc moo_pItem1{};
 			D2UnitStrc moo_pItem2{};
+			D2ItemDataStrc moo_pItemData1{};
+			D2ItemDataStrc moo_pItemData2{};
 			D2UnitStrc original_pUnit{};
 			D2UnitStrc original_pItem1{};
 			D2UnitStrc original_pItem2{};
+			D2ItemDataStrc original_pItemData1{};
+			D2ItemDataStrc original_pItemData2{};
 
 			const auto setup_data = [](
 				D2UnitStrc& pUnit,
 				D2UnitStrc& pItem1,
-				D2UnitStrc& pItem2
+				D2ItemDataStrc& pItemData1,
+				D2UnitStrc& pItem2,
+				D2ItemDataStrc& pItemData2
 			) {
 				pUnit.dwUnitType = UNIT_MONSTER;
-				pItem1.dwUnitType = UNIT_MONSTER;
-				pItem2.dwUnitType = UNIT_MONSTER;
+				pItem1.dwUnitType = UNIT_ITEM;
+				pItem2.dwUnitType = UNIT_ITEM;
+				pItem1.pItemData = &pItemData1;
+				pItem2.pItemData = &pItemData2;
 			};
 
-			setup_data(moo_pUnit, moo_pItem1, moo_pItem2);
-			setup_data(original_pUnit, original_pItem1, original_pItem2);
+			setup_data(moo_pUnit, moo_pItem1, moo_pItemData1, moo_pItem2, moo_pItemData2);
+			setup_data(original_pUnit, original_pItem1, original_pItemData1, original_pItem2, original_pItemData2);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, &moo_pItem1, &moo_pItem2);
