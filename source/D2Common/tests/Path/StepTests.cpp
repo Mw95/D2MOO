@@ -19,7 +19,7 @@ TEST_SUITE("StepTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAC5E0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAC5E0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_GetDirectionVector, dll_base + 0x0006C5E0);
@@ -31,16 +31,16 @@ TEST_SUITE("StepTests")
 			int moo_pOutDirection{};
 			D2CoordStrc original_pDirectionVector{};
 			int original_pOutDirection{};
-			DWORD dwStartPrecisionX{};
-			DWORD dwStartPrecisionY{};
-			DWORD dwTargetPrecisionX{};
-			DWORD dwTargetPrecisionY{};
+			DWORD dwStartPrecisionX = PATH_ToFP16Center(random_unsigned_integer(0, 65535));
+			DWORD dwStartPrecisionY = PATH_ToFP16Center(random_unsigned_integer(0, 65535));
+			DWORD dwTargetPrecisionX = PATH_ToFP16Center(random_unsigned_integer(0, 65535));
+			DWORD dwTargetPrecisionY = PATH_ToFP16Center(random_unsigned_integer(0, 65535));
 
 			const auto setup_data = [](
 				D2CoordStrc& pDirectionVector,
 				int& pOutDirection
 			) {
-				// TODO: Setup as needed
+				// pDirectionVector and pOutDirection are purely output values, nothing to set up
 			};
 
 			setup_data(moo_pDirectionVector, moo_pOutDirection);
@@ -56,7 +56,7 @@ TEST_SUITE("StepTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDACEC0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDACEC0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FDACEC0, dll_base + 0x0006CEC0);
@@ -64,6 +64,9 @@ TEST_SUITE("StepTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+
 			D2DynamicPathStrc moo_pDynamicPath{};
 			D2FP32_16 moo_a2{};
 			D2UnitStrc* moo_pUnit{};
@@ -71,12 +74,14 @@ TEST_SUITE("StepTests")
 			D2FP32_16 original_a2{};
 			D2UnitStrc* original_pUnit{};
 
-			const auto setup_data = [](
+			const auto setup_data = [x, y](
 				D2DynamicPathStrc& pDynamicPath,
 				D2FP32_16& a2,
 				D2UnitStrc*& pUnit
 			) {
-				// TODO: Setup as needed
+				pDynamicPath.tGameCoords.dwPrecisionX = PATH_ToFP16Center(x);
+				pDynamicPath.tGameCoords.dwPrecisionY = PATH_ToFP16Center(y);
+				// tVelocityVector stays {0, 0} (default), taking the early-return branch that does not need a valid pUnit/pRoom
 			};
 
 			setup_data(moo_pDynamicPath, moo_a2, moo_pUnit);
