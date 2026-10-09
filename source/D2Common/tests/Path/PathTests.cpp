@@ -2,13 +2,17 @@
 
 #include <Windows.h>
 
+#include <algorithm>
+#include <array>
 #include <cstdarg>
 #include <filesystem>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
 
+#include <D2Collision.h>
 #include <Drlg/D2DrlgDrlg.h>
+#include <Fog.h>
 #include <Path/Path.h>
 #include <Units/Units.h>
 
@@ -16,6 +20,7 @@
 
 
 DYNAMIC_ARRAY_TYPE(D2PathPointStrc)
+DYNAMIC_ARRAY_TYPE(uint16_t)
 
 
 TEST_SUITE("PathTests")
@@ -24,25 +29,52 @@ TEST_SUITE("PathTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8220" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8220")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FDA8220, dll_base + 0x00068220);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2DynamicPathStrc moo_pDynamicPath{};
-			D2DynamicPathStrc original_pDynamicPath{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto path_points = random_unsigned_integer(0, D2DynamicPathStrc::MAXPATHLEN);
+			const auto flags = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2DynamicPathStrc& pDynamicPath
+			// Most of the points are inside the room, some are slightly outside of it
+			D2PathPointStrc points[D2DynamicPathStrc::MAXPATHLEN]{};
+			for (auto& point : points)
+			{
+				point.X = random_unsigned_integer(room_x - 1, room_x + room_size);
+				point.Y = random_unsigned_integer(room_y - 1, room_y + room_size);
+			}
+
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+
+			const auto setup_data = [room_x, room_y, path_points, flags, &points](
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom
 			) {
-				// TODO: Setup as needed
+				pRoom.tCoords.nSubtileX = room_x;
+				pRoom.tCoords.nSubtileY = room_y;
+				pRoom.tCoords.nSubtileWidth = room_size;
+				pRoom.tCoords.nSubtileHeight = room_size;
+
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwFlags = flags;
+				pDynamicPath.dwPathPoints = path_points;
+				std::copy(std::begin(points), std::end(points), std::begin(pDynamicPath.PathPoints));
 			};
 
-			setup_data(moo_pDynamicPath);
-			setup_data(original_pDynamicPath);
+			setup_data(moo_pDynamicPath, moo_pRoom);
+			setup_data(original_pDynamicPath, original_pRoom);
 
 			// Call both implementations
 			sut(&moo_pDynamicPath);
@@ -101,25 +133,73 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8320 (#10222)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8320 (#10222)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AddCollisionFootprintForUnit, dll_base + 0x00068320);
+
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+
+			const auto setup_data = [unit_type, room_x, room_y, x, y, collision_pattern, collision_mask, &collision_grid_mask](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwCollisionPattern = collision_pattern;
+				pDynamicPath.nFootprintCollisionMask = collision_mask;
+
+				pUnit.dwUnitType = unit_type;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pUnit, original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -127,29 +207,80 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8450 (#10223)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8450 (#10223)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_RemoveCollisionFootprintForUnit, dll_base + 0x00068450);
+
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			BOOL bForce{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			const auto anim_mode = random_unsigned_integer(0, 15);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+			BOOL bForce = GENERATE(TRUE, FALSE);
+
+			const auto setup_data = [unit_type, room_x, room_y, x, y, anim_mode, collision_pattern, collision_mask, &collision_grid_mask](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwCollisionPattern = collision_pattern;
+				pDynamicPath.nFootprintCollisionMask = collision_mask;
+
+				pUnit.dwUnitType = unit_type;
+				pUnit.dwAnimMode = anim_mode;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pUnit, original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pUnit, bForce);
@@ -160,28 +291,107 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8600 (#10142)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8600 (#10142)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10142, dll_base + 0x00068600);
+
+		REPEAT_10();
 		
-		SUBCASE("")
+		SUBCASE("Missile path")
 		{
 			// Input data
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(128, 60000);
+			const auto room_y = random_unsigned_integer(128, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			// The target must not be further away than 99 subtiles
+			const auto target_x = random_unsigned_integer(x - 99, x + 99);
+			const auto target_y = random_unsigned_integer(y - 99, y + 99);
+			const auto velocity = random_unsigned_integer(0, 65535);
+
+			D2DynamicPathStrc moo_pPath{};
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2DynamicPathStrc original_pPath{};
+			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
+			int bAllowInTown = GENERATE(TRUE, FALSE);
+
+			const auto setup_data = [room_x, room_y, x, y, target_x, target_y, velocity](
+				D2DynamicPathStrc& pPath,
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pRoom
+			) {
+				pRoom.tCoords.nSubtileX = room_x;
+				pRoom.tCoords.nSubtileY = room_y;
+				pRoom.tCoords.nSubtileWidth = room_size;
+				pRoom.tCoords.nSubtileHeight = room_size;
+
+				pPath.tGameCoords.dwPrecisionX = PATH_ToFP16Center(x);
+				pPath.tGameCoords.dwPrecisionY = PATH_ToFP16Center(y);
+				pPath.tTargetCoord.X = target_x;
+				pPath.tTargetCoord.Y = target_y;
+				pPath.pRoom = &pRoom;
+				pPath.pUnit = &pUnit;
+				pPath.dwFlags = PATH_MISSILE_MASK;
+				pPath.dwPathType = PATHTYPE_MISSILE;
+				pPath.dwVelocity = velocity;
+
+				pUnit.dwUnitType = UNIT_MISSILE;
+				pUnit.pDynamicPath = &pPath;
+			};
+
+			setup_data(moo_pPath, moo_pUnit, moo_pRoom);
+			setup_data(original_pPath, original_pUnit, original_pRoom);
+
+			// Call both implementations
+			const auto moo_result = sut(&moo_pPath, &moo_pUnit, bAllowInTown);
+			const auto original_result = original(&original_pPath, &original_pUnit, bAllowInTown);
+			
+			// Compare return values
+			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Compare potentially modified input data
+			MOO_CHECK_EQ(moo_pPath, original_pPath, "Comparing pPath");
+			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+		}
+
+		SUBCASE("Target too far away")
+		{
+			// Input data
+			const auto x = random_unsigned_integer(200, 60000);
+			const auto y = random_unsigned_integer(200, 60000);
+			// The target is further away than 100 subtiles on at least one axis
+			const auto target_x = x + random_unsigned_integer(101, 150);
+			const auto target_y = random_unsigned_integer(y - 150, y + 150);
+			const auto flags = random_unsigned_integer() & ~PATH_MISSILE_MASK;
+
 			D2DynamicPathStrc moo_pPath{};
 			D2UnitStrc moo_pUnit{};
 			D2DynamicPathStrc original_pPath{};
 			D2UnitStrc original_pUnit{};
-			int bAllowInTown{};
+			int bAllowInTown = GENERATE(TRUE, FALSE);
 
-			const auto setup_data = [](
+			const auto setup_data = [x, y, target_x, target_y, flags](
 				D2DynamicPathStrc& pPath,
 				D2UnitStrc& pUnit
 			) {
-				// TODO: Setup as needed
+				pPath.tGameCoords.dwPrecisionX = PATH_ToFP16Center(x);
+				pPath.tGameCoords.dwPrecisionY = PATH_ToFP16Center(y);
+				pPath.tTargetCoord.X = target_x;
+				pPath.tTargetCoord.Y = target_y;
+				pPath.pUnit = &pUnit;
+				pPath.dwFlags = flags;
+				pPath.dwPathType = PATHTYPE_ASTAR;
+
+				pUnit.dwUnitType = UNIT_PLAYER;
+				pUnit.pDynamicPath = &pPath;
 			};
 
 			setup_data(moo_pPath, moo_pUnit);
@@ -200,28 +410,59 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8E30" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8E30")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_ComputePathClassicMissile, dll_base + 0x00068E30);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(128, 60000);
+			const auto room_y = random_unsigned_integer(128, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			// The target must not be further away than 99 subtiles, it might be outside of the room
+			const auto target_x = random_unsigned_integer(x - 99, x + 99);
+			const auto target_y = random_unsigned_integer(y - 99, y + 99);
+			const auto velocity = random_unsigned_integer(0, 65535);
+			const auto flags = random_unsigned_integer();
+
 			D2DynamicPathStrc moo_pDynamicPath{};
 			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pRoom{};
 			D2DynamicPathStrc original_pDynamicPath{};
 			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
 
-			const auto setup_data = [](
+			const auto setup_data = [room_x, room_y, x, y, target_x, target_y, velocity, flags](
 				D2DynamicPathStrc& pDynamicPath,
-				D2UnitStrc& pUnit
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pRoom
 			) {
-				// TODO: Setup as needed
+				pRoom.tCoords.nSubtileX = room_x;
+				pRoom.tCoords.nSubtileY = room_y;
+				pRoom.tCoords.nSubtileWidth = room_size;
+				pRoom.tCoords.nSubtileHeight = room_size;
+
+				pDynamicPath.tGameCoords.dwPrecisionX = PATH_ToFP16Center(x);
+				pDynamicPath.tGameCoords.dwPrecisionY = PATH_ToFP16Center(y);
+				pDynamicPath.tTargetCoord.X = target_x;
+				pDynamicPath.tTargetCoord.Y = target_y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.pUnit = &pUnit;
+				pDynamicPath.dwFlags = flags;
+				pDynamicPath.dwVelocity = velocity;
+
+				pUnit.dwUnitType = UNIT_MISSILE;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pDynamicPath, moo_pUnit);
-			setup_data(original_pDynamicPath, original_pUnit);
+			setup_data(moo_pDynamicPath, moo_pUnit, moo_pRoom);
+			setup_data(original_pDynamicPath, original_pUnit, original_pRoom);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_pUnit);
@@ -236,25 +477,71 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8FE0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8FE0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_FindValidTargetCoordsByMovingOrthogonally, dll_base + 0x00068FE0);
+
+		REPEAT_20();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2PathInfoStrc moo_pPathInfo{};
-			D2PathInfoStrc original_pPathInfo{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x + 10, room_x + room_size - 11);
+			const auto y = random_unsigned_integer(room_y + 10, room_y + room_size - 11);
+			// The target has to be within 4 subtiles of the start for anything to happen
+			const auto target_x = random_unsigned_integer(x - 4, x + 4);
+			const auto target_y = random_unsigned_integer(y - 4, y + 4);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2PathInfoStrc& pPathInfo
+			// Only some cells have collisions, so that the target can actually be moved
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 7) == 0 ? random_unsigned_integer(0, 65535) : 0;
+			}
+
+			D2PathInfoStrc moo_pPathInfo{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2PathInfoStrc original_pPathInfo{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+
+			const auto setup_data = [room_x, room_y, x, y, target_x, target_y, collision_pattern, collision_mask, &collision_grid_mask](
+				D2PathInfoStrc& pPathInfo,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pPathInfo.tStartCoord.X = x;
+				pPathInfo.tStartCoord.Y = y;
+				pPathInfo.tTargetCoord.X = target_x;
+				pPathInfo.tTargetCoord.Y = target_y;
+				pPathInfo.pStartRoom = &pRoom;
+				pPathInfo.nCollisionPattern = collision_pattern;
+				pPathInfo.nCollisionMask = collision_mask;
 			};
 
-			setup_data(moo_pPathInfo);
-			setup_data(original_pPathInfo);
+			setup_data(moo_pPathInfo, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pPathInfo, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			sut(&moo_pPathInfo);
@@ -326,7 +613,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9190 (#10156)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9190 (#10156)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_FreeDynamicPath, dll_base + 0x00069190);
@@ -334,24 +621,15 @@ TEST_SUITE("PathTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2DynamicPathStrc moo_pDynamicPath{};
-			D2DynamicPathStrc original_pDynamicPath{};
-
-			const auto setup_data = [](
-				D2DynamicPathStrc& pDynamicPath
-			) {
-				// TODO: Setup as needed
-			};
-
-			setup_data(moo_pDynamicPath);
-			setup_data(original_pDynamicPath);
+			// The dynamic paths have to be allocated with the same allocator that is used to free them
+			D2DynamicPathStrc* moo_pDynamicPath = D2_CALLOC_STRC_POOL(nullptr, D2DynamicPathStrc);
+			D2DynamicPathStrc* original_pDynamicPath = D2_CALLOC_STRC_POOL(nullptr, D2DynamicPathStrc);
 
 			// Call both implementations
-			sut(nullptr, &moo_pDynamicPath);
-			original(nullptr, &original_pDynamicPath);
+			sut(nullptr, moo_pDynamicPath);
+			original(nullptr, original_pDynamicPath);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pDynamicPath, original_pDynamicPath, "Comparing pDynamicPath");
+			// pDynamicPath has been freed, so there is nothing left to compare
 		}
 	}
 	
@@ -416,25 +694,74 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA92F0 (#10214)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA92F0 (#10214)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10214, dll_base + 0x000692F0);
+
+		const auto unit_size = GENERATE(COLLISION_UNIT_SIZE_NONE, COLLISION_UNIT_SIZE_POINT, COLLISION_UNIT_SIZE_SMALL, COLLISION_UNIT_SIZE_BIG);
+
+		REPEAT_5();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+
+			const auto setup_data = [unit_size, room_x, room_y, x, y, collision_pattern, collision_mask, &collision_grid_mask](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwUnitSize = unit_size;
+				pDynamicPath.dwCollisionPattern = collision_pattern;
+				pDynamicPath.nFootprintCollisionMask = collision_mask;
+
+				pUnit.dwUnitType = UNIT_PLAYER;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pUnit, original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -442,34 +769,68 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9480 (#10152)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9480 (#10152)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AllocDynamicPath, dll_base + 0x00069480);
+
+		REPEAT_5();
 		
 		SUBCASE("")
 		{
 			// Input data
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
 			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2DrlgActStrc moo_pAct{};
 			D2UnitStrc moo_pUnit{};
 			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+			D2DrlgActStrc original_pAct{};
 			D2UnitStrc original_pUnit{};
-			int nX{};
-			int nY{};
-			BOOL bSetFlag{};
+			int nX = random_unsigned_integer(room_x, room_x + room_size - 1);
+			int nY = random_unsigned_integer(room_y, room_y + room_size - 1);
+			BOOL bSetFlag = GENERATE(TRUE, FALSE);
 
-			const auto setup_data = [](
+			const auto setup_data = [room_x, room_y, &collision_grid_mask](
 				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask,
+				D2DrlgActStrc& pAct,
 				D2UnitStrc& pUnit
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+				pRoom.pAct = &pAct;
+
+				pUnit.dwUnitType = UNIT_PLAYER;
 			};
 
-			setup_data(moo_pRoom, moo_pUnit);
-			setup_data(original_pRoom, original_pUnit);
+			setup_data(moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask, moo_pAct, moo_pUnit);
+			setup_data(original_pRoom, original_pCollisionGrid, original_pCollisionMask, original_pAct, original_pUnit);
 
 			// Call both implementations
 			sut(nullptr, &moo_pRoom, nX, nY, &moo_pUnit, bSetFlag);
@@ -478,6 +839,11 @@ TEST_SUITE("PathTests")
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pRoom, original_pRoom, "Comparing pRoom");
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
+
+			// Clean up the allocated dynamic paths
+			D2_FREE_POOL(nullptr, moo_pUnit.pDynamicPath);
+			D2_FREE_POOL(nullptr, original_pUnit.pDynamicPath);
 		}
 	}
 	
@@ -562,24 +928,38 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA97C0 (#10216)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA97C0 (#10216)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10216, dll_base + 0x000697C0);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
+			const auto precision_x = random_unsigned_integer();
+			const auto precision_y = random_unsigned_integer();
+			const auto direction = random_unsigned_integer(0, 63);
+			const auto new_direction = random_unsigned_integer(0, 63);
+			const auto diff_direction = random_unsigned_integer(0, 63);
+			const auto flags = random_unsigned_integer();
+
 			D2DynamicPathStrc moo_pDynamicPath{};
 			D2DynamicPathStrc original_pDynamicPath{};
-			int nX{};
-			int nY{};
-			int a4{};
+			int nX = random_unsigned_integer(0, 65535);
+			int nY = random_unsigned_integer(0, 65535);
+			int a4 = GENERATE(TRUE, FALSE);
 
-			const auto setup_data = [](
+			const auto setup_data = [precision_x, precision_y, direction, new_direction, diff_direction, flags](
 				D2DynamicPathStrc& pDynamicPath
 			) {
-				// TODO: Setup as needed
+				pDynamicPath.tGameCoords.dwPrecisionX = precision_x;
+				pDynamicPath.tGameCoords.dwPrecisionY = precision_y;
+				pDynamicPath.nDirection = direction;
+				pDynamicPath.nNewDirection = new_direction;
+				pDynamicPath.nDiffDirection = diff_direction;
+				pDynamicPath.dwFlags = flags;
 			};
 
 			setup_data(moo_pDynamicPath);
@@ -594,25 +974,71 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9850 (#10228)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9850 (#10228)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10228, dll_base + 0x00069850);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+
+			const auto setup_data = [room_x, room_y, x, y, collision_pattern, collision_mask, &collision_grid_mask](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwCollisionPattern = collision_pattern;
+				pDynamicPath.nFootprintCollisionMask = collision_mask;
+
+				pUnit.dwUnitType = UNIT_PLAYER;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pUnit, original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -620,29 +1046,81 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9870 (#10143)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9870 (#10143)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_SetUnitDeadCollision, dll_base + 0x00069870);
+
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER);
+
+		REPEAT_5();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			BOOL bForGameLogic{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto precision_x = random_unsigned_integer(room_x << 16, ((room_x + room_size) << 16) - 1);
+			const auto precision_y = random_unsigned_integer(room_y << 16, ((room_y + room_size) << 16) - 1);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
+			// PATH_UNKNOWN_FLAG_0x00001 would require the room to be recached, which needs a full level setup
+			const auto flags = random_unsigned_integer() & ~PATH_UNKNOWN_FLAG_0x00001;
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+			BOOL bForGameLogic = GENERATE(TRUE, FALSE);
+
+			const auto setup_data = [unit_type, room_x, room_y, precision_x, precision_y, collision_pattern, collision_mask, flags, &collision_grid_mask](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pDynamicPath.tGameCoords.dwPrecisionX = precision_x;
+				pDynamicPath.tGameCoords.dwPrecisionY = precision_y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwFlags = flags;
+				pDynamicPath.dwCollisionPattern = collision_pattern;
+				pDynamicPath.nFootprintCollisionMask = collision_mask;
+
+				pUnit.dwUnitType = unit_type;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pUnit, original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			sut(&moo_pUnit, bForGameLogic);
@@ -650,36 +1128,86 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA98F0 (#10144)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>, "D2Common.0x6FDA98F0 (#10144)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_SetUnitAliveCollision, dll_base + 0x000698F0);
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			BOOL bForGameLogic{};
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				// Input data
+				constexpr auto room_size = 32;
+				const auto room_x = random_unsigned_integer(room_size, 60000);
+				const auto room_y = random_unsigned_integer(room_size, 60000);
+				const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+				const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+				const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
-			) {
-				// TODO: Setup as needed
-			};
+				std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+				for (auto& mask : collision_grid_mask)
+				{
+					mask = random_unsigned_integer(0, 65535);
+				}
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+				D2UnitStrc moo_pUnit{};
+				D2DynamicPathStrc moo_pDynamicPath{};
+				D2ActiveRoomStrc moo_pRoom{};
+				D2RoomCollisionGridStrc moo_pCollisionGrid{};
+				std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+				D2UnitStrc original_pUnit{};
+				D2DynamicPathStrc original_pDynamicPath{};
+				D2ActiveRoomStrc original_pRoom{};
+				D2RoomCollisionGridStrc original_pCollisionGrid{};
+				std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+				BOOL bForGameLogic = FALSE;
 
-			// Call both implementations
-			sut(&moo_pUnit, bForGameLogic);
-			original(&original_pUnit, bForGameLogic);
+				const auto setup_data = [i, room_x, room_y, x, y, collision_pattern, &collision_grid_mask](
+					D2UnitStrc& pUnit,
+					D2DynamicPathStrc& pDynamicPath,
+					D2ActiveRoomStrc& pRoom,
+					D2RoomCollisionGridStrc& pCollisionGrid,
+					std::array<uint16_t, room_size * room_size>& pCollisionMask
+				) {
+					pCollisionMask = collision_grid_mask;
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+					pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+					pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+					pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+					pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+					pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+					pRoom.tCoords = pCollisionGrid.pRoomCoords;
+					pRoom.pCollisionGrid = &pCollisionGrid;
+
+					pDynamicPath.tGameCoords.wPosX = x;
+					pDynamicPath.tGameCoords.wPosY = y;
+					pDynamicPath.pRoom = &pRoom;
+					pDynamicPath.dwCollisionPattern = collision_pattern;
+					// The unit has to be a corpse for anything to happen
+					pDynamicPath.nFootprintCollisionMask = COLLIDE_CORPSE;
+
+					pUnit.dwUnitType = UNIT_MONSTER;
+					pUnit.dwClassId = i;
+					pUnit.pDynamicPath = &pDynamicPath;
+				};
+
+				setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+				setup_data(original_pUnit, original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
+
+				// Call both implementations
+				sut(&moo_pUnit, bForGameLogic);
+				original(&original_pUnit, bForGameLogic);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
+			}
 		}
 	}
 	
@@ -2204,26 +2732,76 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9FE0 (#10182)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9FE0 (#10182)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_SetFootprintCollisionMask, dll_base + 0x00069FE0);
+
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MISSILE);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2DynamicPathStrc moo_pDynamicPath{};
-			D2DynamicPathStrc original_pDynamicPath{};
-			int nCollisionMask{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			const auto unit_size = random_unsigned_integer(COLLISION_UNIT_SIZE_NONE, COLLISION_UNIT_SIZE_BIG);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2DynamicPathStrc& pDynamicPath
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc moo_pUnit{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2UnitStrc original_pUnit{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+			int nCollisionMask = random_unsigned_integer(0, 65535);
+
+			const auto setup_data = [unit_type, room_x, room_y, x, y, unit_size, collision_pattern, collision_mask, &collision_grid_mask](
+				D2DynamicPathStrc& pDynamicPath,
+				D2UnitStrc& pUnit,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pUnit.dwUnitType = unit_type;
+
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.pUnit = &pUnit;
+				pDynamicPath.dwUnitSize = unit_size;
+				pDynamicPath.dwCollisionPattern = collision_pattern;
+				pDynamicPath.nFootprintCollisionMask = collision_mask;
 			};
 
-			setup_data(moo_pDynamicPath);
-			setup_data(original_pDynamicPath);
+			setup_data(moo_pDynamicPath, moo_pUnit, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pDynamicPath, original_pUnit, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			sut(&moo_pDynamicPath, nCollisionMask);
@@ -2231,6 +2809,7 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pDynamicPath, original_pDynamicPath, "Comparing pDynamicPath");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
 		}
 	}
 	
@@ -2289,55 +2868,96 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA0E0 (#10185)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA0E0 (#10185)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_SetType, dll_base + 0x0006A0E0);
+
+		REPEAT_5();
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2DynamicPathStrc moo_pDynamicPath{};
-			D2DynamicPathStrc original_pDynamicPath{};
-			int nPathType{};
+			for (auto i = 0; i < PATHTYPE_COUNT; ++i)
+			{
+				// Input data
+				// The previous path type must never become a knockback path type, so only use types below PATHTYPE_KNOCKBACK_SERVER
+				const auto path_type = random_unsigned_integer(PATHTYPE_IDASTAR, PATHTYPE_STRAIGHT);
+				const auto previous_path_type = random_unsigned_integer(PATHTYPE_IDASTAR, PATHTYPE_STRAIGHT);
+				const auto flags = random_unsigned_integer();
+				const auto velocity = random_unsigned_integer();
+				// Missile paths require the maximum distance to be smaller than MAXPATHLEN
+				const auto max_distance = random_unsigned_integer(0, D2DynamicPathStrc::MAXPATHLEN - 1);
 
-			const auto setup_data = [](
-				D2DynamicPathStrc& pDynamicPath
-			) {
-				// TODO: Setup as needed
-			};
+				D2DynamicPathStrc moo_pDynamicPath{};
+				D2DynamicPathStrc original_pDynamicPath{};
+				int nPathType = i;
 
-			setup_data(moo_pDynamicPath);
-			setup_data(original_pDynamicPath);
+				const auto setup_data = [path_type, previous_path_type, flags, velocity, max_distance](
+					D2DynamicPathStrc& pDynamicPath
+				) {
+					pDynamicPath.dwPathType = path_type;
+					pDynamicPath.dwPrevPathType = previous_path_type;
+					pDynamicPath.dwFlags = flags;
+					pDynamicPath.dwVelocity = velocity;
+					pDynamicPath.nDistMax = max_distance;
+				};
 
-			// Call both implementations
-			sut(&moo_pDynamicPath, nPathType);
-			original(&original_pDynamicPath, nPathType);
+				setup_data(moo_pDynamicPath);
+				setup_data(original_pDynamicPath);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pDynamicPath, original_pDynamicPath, "Comparing pDynamicPath");
+				// Call both implementations
+				sut(&moo_pDynamicPath, nPathType);
+				original(&original_pDynamicPath, nPathType);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pDynamicPath, original_pDynamicPath, "Comparing pDynamicPath");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA1E0 (#10186)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA1E0 (#10186)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_ResetToPreviousType, dll_base + 0x0006A1E0);
+
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER);
+
+		REPEAT_20();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2DynamicPathStrc moo_pDynamicPath{};
-			D2DynamicPathStrc original_pDynamicPath{};
+			const auto path_type = random_unsigned_integer(0, PATHTYPE_COUNT - 1);
+			// The previous path type must never become a knockback path type, so only use types below PATHTYPE_KNOCKBACK_SERVER
+			const auto previous_path_type = random_unsigned_integer(PATHTYPE_IDASTAR, PATHTYPE_STRAIGHT);
+			const auto flags = random_unsigned_integer();
+			const auto velocity = random_unsigned_integer();
+			const auto previous_velocity = random_unsigned_integer();
+			// Missile paths require the maximum distance to be smaller than MAXPATHLEN
+			const auto max_distance = random_unsigned_integer(0, D2DynamicPathStrc::MAXPATHLEN - 1);
 
-			const auto setup_data = [](
-				D2DynamicPathStrc& pDynamicPath
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2UnitStrc original_pUnit{};
+
+			const auto setup_data = [unit_type, path_type, previous_path_type, flags, velocity, previous_velocity, max_distance](
+				D2DynamicPathStrc& pDynamicPath,
+				D2UnitStrc& pUnit
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = unit_type;
+
+				pDynamicPath.pUnit = &pUnit;
+				pDynamicPath.dwPathType = path_type;
+				pDynamicPath.dwPrevPathType = previous_path_type;
+				pDynamicPath.dwFlags = flags;
+				pDynamicPath.dwVelocity = velocity;
+				pDynamicPath.nPreviousVelocity = previous_velocity;
+				pDynamicPath.nDistMax = max_distance;
 			};
 
-			setup_data(moo_pDynamicPath);
-			setup_data(original_pDynamicPath);
+			setup_data(moo_pDynamicPath, moo_pUnit);
+			setup_data(original_pDynamicPath, original_pUnit);
 
 			// Call both implementations
 			sut(&moo_pDynamicPath);
@@ -2494,25 +3114,70 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA2C0 (#10201)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA2C0 (#10201)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10201, dll_base + 0x0006A2C0);
+
+		const auto unit_size = GENERATE(COLLISION_UNIT_SIZE_NONE, COLLISION_UNIT_SIZE_POINT, COLLISION_UNIT_SIZE_SMALL, COLLISION_UNIT_SIZE_BIG);
+
+		REPEAT_5();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2DynamicPathStrc moo_pDynamicPath{};
-			D2DynamicPathStrc original_pDynamicPath{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			// The collision is only computed if the unit doesn't move
+			const auto is_moving = GENERATE(false, true);
+			const auto velocity = is_moving ? random_unsigned_integer(1, 65535) : 0;
+			const auto collided_with_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2DynamicPathStrc& pDynamicPath
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+
+			const auto setup_data = [unit_size, room_x, room_y, x, y, velocity, collided_with_mask, &collision_grid_mask](
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwUnitSize = unit_size;
+				pDynamicPath.dwVelocity = velocity;
+				pDynamicPath.nCollidedWithMask = collided_with_mask;
 			};
 
-			setup_data(moo_pDynamicPath);
-			setup_data(original_pDynamicPath);
+			setup_data(moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath);
@@ -2590,28 +3255,42 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA350 (#10198)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA350 (#10198)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2COMMON_10198_PathGetSaveStep, dll_base + 0x0006A350);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
+			D2PathPointStrc saved_steps[D2DynamicPathStrc::PATH_MAX_STEP_LEN]{};
+			for (auto& step : saved_steps)
+			{
+				step.X = random_unsigned_integer(0, 65535);
+				step.Y = random_unsigned_integer(0, 65535);
+			}
+
+			const auto saved_steps_count = random_unsigned_integer(0, D2DynamicPathStrc::PATH_MAX_STEP_LEN);
+			// The saved steps are only valid if PATH_SAVE_STEPS_MASK is set
+			const auto flags = random_unsigned_integer() | PATH_SAVE_STEPS_MASK;
+
 			D2DynamicPathStrc moo_pDynamicPath{};
 			D2PathPointStrc* moo_ppPathPoints{};
 			D2DynamicPathStrc original_pDynamicPath{};
 			D2PathPointStrc* original_ppPathPoints{};
 
-			const auto setup_data = [](
-				D2DynamicPathStrc& pDynamicPath,
-				D2PathPointStrc*& ppPathPoints
+			const auto setup_data = [&saved_steps, saved_steps_count, flags](
+				D2DynamicPathStrc& pDynamicPath
 			) {
-				// TODO: Setup as needed
+				pDynamicPath.dwFlags = flags;
+				pDynamicPath.nSavedStepsCount = saved_steps_count;
+				std::copy(std::begin(saved_steps), std::end(saved_steps), std::begin(pDynamicPath.SavedSteps));
 			};
 
-			setup_data(moo_pDynamicPath, moo_ppPathPoints);
-			setup_data(original_pDynamicPath, original_ppPathPoints);
+			setup_data(moo_pDynamicPath);
+			setup_data(original_pDynamicPath);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pDynamicPath, &moo_ppPathPoints);
@@ -2622,7 +3301,7 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pDynamicPath, original_pDynamicPath, "Comparing pDynamicPath");
-			MOO_CHECK_EQ(moo_ppPathPoints, original_ppPathPoints, "Comparing ppPathPoints");
+			MOO_CHECK_EQ((DynamicArray<D2PathPointStrc> { moo_ppPathPoints, D2DynamicPathStrc::PATH_MAX_STEP_LEN }), (DynamicArray<D2PathPointStrc> { original_ppPathPoints, D2DynamicPathStrc::PATH_MAX_STEP_LEN }), "Comparing ppPathPoints");
 		}
 	}
 	
@@ -3063,25 +3742,45 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA600 (#10213)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA600 (#10213)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10213, dll_base + 0x0006A600);
+
+		const auto unit_flags = GENERATE(0u, static_cast<uint32_t>(UNITFLAG_ISASYNC));
+		const auto unit_flags_ex = GENERATE(0u, static_cast<uint32_t>(UNITFLAGEX_UNK_PATH_RELATED));
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			const auto x = random_unsigned_integer(0, 65535);
+			const auto y = random_unsigned_integer(0, 65535);
+			const auto unknown = GENERATE(0, 1);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+
+			const auto setup_data = [unit_flags, unit_flags_ex, x, y, unknown](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath
 			) {
-				// TODO: Setup as needed
+				// The unit has already reached its target, so no new path has to be computed
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.tTargetCoord.X = x;
+				pDynamicPath.tTargetCoord.Y = y;
+				pDynamicPath.unk0x38 = unknown;
+
+				pUnit.dwUnitType = UNIT_PLAYER;
+				pUnit.dwFlags = unit_flags;
+				pUnit.dwFlagEx = unit_flags_ex;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath);
+			setup_data(original_pUnit, original_pDynamicPath);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -3113,25 +3812,73 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA6D0 (#10221)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA6D0 (#10221)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AddCollisionFootprintForOptionalUnit, dll_base + 0x0006A6D0);
+
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			constexpr auto room_size = 32;
+			const auto room_x = random_unsigned_integer(room_size, 60000);
+			const auto room_y = random_unsigned_integer(room_size, 60000);
+			const auto x = random_unsigned_integer(room_x, room_x + room_size - 1);
+			const auto y = random_unsigned_integer(room_y, room_y + room_size - 1);
+			const auto collision_pattern = random_unsigned_integer(COLLISION_PATTERN_NONE, COLLISION_PATTERN_SMALL_NO_PRESENCE);
+			const auto collision_mask = random_unsigned_integer(0, 65535);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			std::array<uint16_t, room_size * room_size> collision_grid_mask{};
+			for (auto& mask : collision_grid_mask)
+			{
+				mask = random_unsigned_integer(0, 65535);
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
+			D2ActiveRoomStrc moo_pRoom{};
+			D2RoomCollisionGridStrc moo_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> moo_pCollisionMask{};
+			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
+			D2ActiveRoomStrc original_pRoom{};
+			D2RoomCollisionGridStrc original_pCollisionGrid{};
+			std::array<uint16_t, room_size * room_size> original_pCollisionMask{};
+
+			const auto setup_data = [unit_type, room_x, room_y, x, y, collision_pattern, collision_mask, &collision_grid_mask](
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath,
+				D2ActiveRoomStrc& pRoom,
+				D2RoomCollisionGridStrc& pCollisionGrid,
+				std::array<uint16_t, room_size * room_size>& pCollisionMask
 			) {
-				// TODO: Setup as needed
+				pCollisionMask = collision_grid_mask;
+
+				pCollisionGrid.pRoomCoords.nSubtileX = room_x;
+				pCollisionGrid.pRoomCoords.nSubtileY = room_y;
+				pCollisionGrid.pRoomCoords.nSubtileWidth = room_size;
+				pCollisionGrid.pRoomCoords.nSubtileHeight = room_size;
+				pCollisionGrid.pCollisionMask = pCollisionMask.data();
+
+				pRoom.tCoords = pCollisionGrid.pRoomCoords;
+				pRoom.pCollisionGrid = &pCollisionGrid;
+
+				pDynamicPath.tGameCoords.wPosX = x;
+				pDynamicPath.tGameCoords.wPosY = y;
+				pDynamicPath.pRoom = &pRoom;
+				pDynamicPath.dwCollisionPattern = collision_pattern;
+				pDynamicPath.nFootprintCollisionMask = collision_mask;
+
+				pUnit.dwUnitType = unit_type;
+				pUnit.pDynamicPath = &pDynamicPath;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom, moo_pCollisionGrid, moo_pCollisionMask);
+			setup_data(original_pUnit, original_pDynamicPath, original_pRoom, original_pCollisionGrid, original_pCollisionMask);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -3139,6 +3886,7 @@ TEST_SUITE("PathTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint16_t>{ moo_pCollisionMask.data(), room_size * room_size }), (DynamicArray<uint16_t>{ original_pCollisionMask.data(), room_size * room_size }), "Comparing pCollisionMask");
 		}
 	}
 	
