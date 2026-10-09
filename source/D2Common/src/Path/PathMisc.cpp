@@ -22,9 +22,9 @@ struct D2UnkPathStrc
 
 struct D2UnkPathStrc2
 {
-	int8_t unk0x00;
-	int8_t unk0x01;
-	int8_t unk0x02;
+	uint8_t unk0x00;
+	uint8_t unk0x01;
+	uint8_t unk0x02;
 };
 
 //1.10f: D2Common.0x6FDD2158
