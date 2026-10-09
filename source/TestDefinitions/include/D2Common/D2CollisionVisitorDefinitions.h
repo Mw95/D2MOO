@@ -12,13 +12,13 @@
 
 
 BEGIN_VISIT(D2BoundingBoxStrc)
-	//FIELD(nLeft)
-	//FIELD(nBottom)
-	//FIELD(nRight)
-	//FIELD(nTop)
+	FIELD(nLeft)
+	FIELD(nBottom)
+	FIELD(nRight)
+	FIELD(nTop)
 END_VISIT()
 
 BEGIN_VISIT(D2RoomCollisionGridStrc)
-	//OBJECT(pRoomCoords)
+	OBJECT(pRoomCoords)
 	//POINTER(pCollisionMask)
 END_VISIT()
