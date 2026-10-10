@@ -32,16 +32,16 @@ struct MonModeTxtFixture : Fixture
 
 		*original_sgptDataTables = sgptDataTables;
 
-		const auto original_monmode = reinterpret_cast<D2MonModeTxt**>(d2common_base + 0x000A9608 + 0x00001084);
+		const auto original_monmode = reinterpret_cast<D2MonModeTxt**>(d2common_base + 0x000A9608 + 0x000010B4);
 		*original_monmode = monmode.get();
 
-		const auto original_monmode1 = reinterpret_cast<D2MonModeTxt**>(d2common_base + 0x000A9608 + 0x00001088);
+		const auto original_monmode1 = reinterpret_cast<D2MonModeTxt**>(d2common_base + 0x000A9608 + 0x000010B8);
 		*original_monmode1 = monmode.get();
 
-		const auto original_monmode2 = reinterpret_cast<D2MonModeTxt**>(d2common_base + 0x000A9608 + 0x0000108C);
+		const auto original_monmode2 = reinterpret_cast<D2MonModeTxt**>(d2common_base + 0x000A9608 + 0x000010BC);
 		*original_monmode2 = monmode.get();
 
-		const auto original_record_count = reinterpret_cast<int*>(d2common_base + 0x000A9608 + 0x00001080);
+		const auto original_record_count = reinterpret_cast<int*>(d2common_base + 0x000A9608 + 0x000010B0);
 		*original_record_count = record_count;
 
 		monmode_txt = std::move(monmode);
