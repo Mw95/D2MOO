@@ -21,43 +21,67 @@ TEST_SUITE("D2MonstersTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA4C10 (#11082)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(HirelingTxtFixture<ItemStatCostTxtFixture<NoopFixture>>, "D2Common.0x6FDA4C10 (#11082)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_HirelingInit, dll_base + 0x00064C10);
-		
+
+		REPEAT_10();
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pMonster{};
-			D2HirelingInitStrc moo_pHirelingInit{};
-			D2UnitStrc original_pMonster{};
-			D2HirelingInitStrc original_pHirelingInit{};
-			BOOL bExpansion{};
-			int nLowSeed{};
-			int nAct{};
-			int nDifficulty{};
+			const auto expansion = GENERATE(FALSE, TRUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pMonster,
-				D2HirelingInitStrc& pHirelingInit
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto act = 0; act < 5; ++act)
+			{
+				for (auto difficulty = 0; difficulty < 3; ++difficulty)
+				{
+					// Input data
+					const auto level = random_unsigned_integer(1, 99);
 
-			setup_data(moo_pMonster, moo_pHirelingInit);
-			setup_data(original_pMonster, original_pHirelingInit);
+					D2UnitStrc moo_pMonster{};
+					D2StatListExStrc moo_pStatListEx{};
+					D2StatStrc moo_pStat{};
+					D2HirelingInitStrc moo_pHirelingInit{};
+					D2UnitStrc original_pMonster{};
+					D2StatListExStrc original_pStatListEx{};
+					D2StatStrc original_pStat{};
+					D2HirelingInitStrc original_pHirelingInit{};
+					BOOL bExpansion = expansion;
+					int nLowSeed = random_unsigned_integer();
+					int nAct = act;
+					int nDifficulty = difficulty;
 
-			// Call both implementations
-			const auto moo_result = sut(bExpansion, &moo_pMonster, nLowSeed, nAct, nDifficulty, &moo_pHirelingInit);
-			const auto original_result = original(bExpansion, &original_pMonster, nLowSeed, nAct, nDifficulty, &original_pHirelingInit);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					const auto setup_data = [level](
+						D2UnitStrc& pMonster,
+						D2StatListExStrc& pStatListEx,
+						D2StatStrc& pStat,
+						D2HirelingInitStrc& pHirelingInit
+					) {
+						pMonster.dwUnitType = UNIT_MONSTER;
+						pMonster.pStatListEx = &pStatListEx;
+						pStatListEx.dwFlags |= STATLIST_EXTENDED;
+						pStatListEx.FullStats.pStat = &pStat;
+						pStatListEx.FullStats.nStatCount = 1;
+						pStat.nStat = STAT_LEVEL;
+						pStat.nValue = level;
+					};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
-			MOO_CHECK_EQ(moo_pHirelingInit, original_pHirelingInit, "Comparing pHirelingInit");
+					setup_data(moo_pMonster, moo_pStatListEx, moo_pStat, moo_pHirelingInit);
+					setup_data(original_pMonster, original_pStatListEx, original_pStat, original_pHirelingInit);
+
+					// Call both implementations
+					const auto moo_result = sut(bExpansion, &moo_pMonster, nLowSeed, nAct, nDifficulty, &moo_pHirelingInit);
+					const auto original_result = original(bExpansion, &original_pMonster, nLowSeed, nAct, nDifficulty, &original_pHirelingInit);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					MOO_CHECK_EQ(moo_pHirelingInit, original_pHirelingInit, "Comparing pHirelingInit");
+				}
+			}
 		}
 	}
 	
@@ -99,21 +123,24 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA51A0 (#11085)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA51A0 (#11085)" * doctest::skip("D2Lang required"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetHirelingDescString, dll_base + 0x000651A0);
-		
+
 		SUBCASE("")
 		{
-			int nId{};
+			for (auto i = -1; i < 11; ++i)
+			{
+				int nId = i;
 
-			// Call both implementations
-			const auto moo_result = sut(nId);
-			const auto original_result = original(nId);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nId);
+				const auto original_result = original(nId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
@@ -411,36 +438,103 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA54E0 (#11050)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA54E0 (#11050)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11050, dll_base + 0x000654E0);
-		
-		SUBCASE("")
+
+		SUBCASE("a2 = 0")
 		{
-			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			int a2{};
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				for (auto j = 0; j < NUMBER_OF_MONMODES; ++j)
+				{
+					// Input data
+					D2UnitStrc moo_pUnit{};
+					D2UnitStrc original_pUnit{};
+					int a2 = 0;
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
-			) {
-				// TODO: Setup as needed
-			};
+					const auto setup_data = [i, j](
+						D2UnitStrc& pUnit
+					) {
+						pUnit.dwUnitType = UNIT_MONSTER;
+						pUnit.dwClassId = i;
+						pUnit.dwAnimMode = j;
+					};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+					setup_data(moo_pUnit);
+					setup_data(original_pUnit);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, a2);
-			const auto original_result = original(&original_pUnit, a2);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					// Call both implementations
+					const auto moo_result = sut(&moo_pUnit, a2);
+					const auto original_result = original(&original_pUnit, a2);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				}
+			}
+		}
+
+		SUBCASE("a2 = 1")
+		{
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				for (auto j = 0; j < NUMBER_OF_MONMODES; ++j)
+				{
+					// The sequence mode would require the MonSeq.txt to compute the event frames
+					if (j == MONMODE_SEQUENCE)
+					{
+						continue;
+					}
+
+					// Input data
+					const auto action_frame = random_unsigned_integer(0, 1);
+					const auto frame = random_unsigned_integer(4, D2AnimDataRecordStrc::MAX_FRAME_FLAGS - 1);
+					const auto anim_speed = random_unsigned_integer(0, 4 << 8);
+					uint8_t frame_flags[D2AnimDataRecordStrc::MAX_FRAME_FLAGS]{};
+					for (auto& frame_flag : frame_flags)
+					{
+						frame_flag = random_unsigned_integer(ANIMSEQ_EVENT_NONE, ANIMSEQ_EVENT_TRIGGER_SKILL);
+					}
+
+					D2UnitStrc moo_pUnit{};
+					D2AnimDataRecordStrc moo_pAnimData{};
+					D2UnitStrc original_pUnit{};
+					D2AnimDataRecordStrc original_pAnimData{};
+					int a2 = 1;
+
+					const auto setup_data = [i, j, action_frame, frame, anim_speed, &frame_flags](
+						D2UnitStrc& pUnit,
+						D2AnimDataRecordStrc& pAnimData
+					) {
+						std::memcpy(pAnimData.pFrameFlags, frame_flags, sizeof(frame_flags));
+
+						pUnit.dwUnitType = UNIT_MONSTER;
+						pUnit.dwClassId = i;
+						pUnit.dwAnimMode = j;
+						pUnit.nActionFrame = action_frame;
+						pUnit.nSeqCurrentFramePrecise = frame << 8;
+						pUnit.wAnimSpeed = anim_speed;
+						pUnit.pAnimData = &pAnimData;
+					};
+
+					setup_data(moo_pUnit, moo_pAnimData);
+					setup_data(original_pUnit, original_pAnimData);
+
+					// Call both implementations
+					const auto moo_result = sut(&moo_pUnit, a2);
+					const auto original_result = original(&original_pUnit, a2);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				}
+			}
 		}
 	}
 	
@@ -990,36 +1084,73 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6410 (#11051)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<CompCodeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA6410 (#11051)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetMaximalLightRadius, dll_base + 0x00066410);
+
+		// Looking up items by their code requires the items linker, which is not set up by the ItemsTxtFixture
+		const auto items_linker = static_cast<D2TxtLinkStrc*>(FOG_AllocLinker(__FILE__, __LINE__));
+		for (auto i = 0; i < items_record_count; ++i)
+		{
+			FOG_10215(items_linker, items_txt[i].dwCode);
+		}
+
+		sgptDataTables->pItemsLinker = items_linker;
+
+		const auto original_items_linker = reinterpret_cast<D2TxtLinkStrc**>(dll_base + 0x000A9608 + 0x00000094);
+		*original_items_linker = items_linker;
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pMonster{};
-			D2UnitStrc original_pMonster{};
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				// Input data
+				const auto monstats2_id = monstats_txt[i].wMonStatsEx;
 
-			const auto setup_data = [](
-				D2UnitStrc& pMonster
-			) {
-				// TODO: Setup as needed
-			};
+				uint8_t components[16]{};
+				for (auto j = 0; j < 16; ++j)
+				{
+					const auto choice_count = monstats2_id < monstats2_record_count ? monstats2_txt[monstats2_id].nComponentChoiceCounts[j] : 0;
+					components[j] = choice_count > 0 ? random_unsigned_integer(0, choice_count - 1) : 0;
+				}
 
-			setup_data(moo_pMonster);
-			setup_data(original_pMonster);
+				D2UnitStrc moo_pMonster{};
+				D2MonsterDataStrc moo_pMonsterData{};
+				D2UnitStrc original_pMonster{};
+				D2MonsterDataStrc original_pMonsterData{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pMonster);
-			const auto original_result = original(&original_pMonster);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [i, &components](
+					D2UnitStrc& pMonster,
+					D2MonsterDataStrc& pMonsterData
+				) {
+					std::memcpy(pMonsterData.nComponent, components, sizeof(components));
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = i;
+					pMonster.pMonsterData = &pMonsterData;
+				};
+
+				setup_data(moo_pMonster, moo_pMonsterData);
+				setup_data(original_pMonster, original_pMonsterData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pMonster);
+				const auto original_result = original(&original_pMonster);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+			}
 		}
+
+		*original_items_linker = nullptr;
+		sgptDataTables->pItemsLinker = nullptr;
+		FOG_FreeLinker(items_linker);
 	}
 	
 	TEST_CASE_FIXTURE(LevelsTxtFixture<MonStatsTxtFixture<NoopFixture>>, "D2Common.0x6FDA64B0 (#11063)")
@@ -1182,34 +1313,84 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA6790 (#11246)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<MonStatsTxtFixture<NoopFixture>>, "D2Common.0x6FDA6790 (#11246)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_ApplyClassicScaling, dll_base + 0x00066790);
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pMonster{};
-			D2UnitStrc original_pMonster{};
-			BOOL bExpansion{};
-			uint8_t nDifficulty{};
+			const auto expansion = GENERATE(FALSE, TRUE);
+			const auto difficulty = GENERATE(0, 1, 2);
 
-			const auto setup_data = [](
-				D2UnitStrc& pMonster
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < monstats_record_count; ++i)
+			{
+				// Input data
+				// Stats are sorted by stat id. The capacity leaves room for inserting stats and is small enough to never
+				// trigger a shrinking reallocation, as the arrays are not allocated through the memory pool.
+				// The values are large enough to not be scaled down to 0, which would remove the stat from the arrays.
+				constexpr auto stat_capacity = 8;
+				D2StatStrc stats[stat_capacity]{};
+				stats[0].nStat = STAT_MAXHP;
+				stats[0].nValue = random_unsigned_integer(100, 65535) << 8;
+				stats[1].nStat = STAT_LEVEL;
+				stats[1].nValue = random_unsigned_integer(1, 99);
+				stats[2].nStat = STAT_EXPERIENCE;
+				stats[2].nValue = random_unsigned_integer(100, 65535);
+				stats[3].nStat = STAT_ARMORCLASS;
+				stats[3].nValue = random_unsigned_integer(100, 65535);
+				const auto stat_count = 4;
 
-			setup_data(moo_pMonster);
-			setup_data(original_pMonster);
+				D2UnitStrc moo_pMonster{};
+				D2StatListExStrc moo_pStatListEx{};
+				D2StatStrc moo_pBaseStats[stat_capacity]{};
+				D2StatStrc moo_pFullStats[stat_capacity]{};
+				D2UnitStrc original_pMonster{};
+				D2StatListExStrc original_pStatListEx{};
+				D2StatStrc original_pBaseStats[stat_capacity]{};
+				D2StatStrc original_pFullStats[stat_capacity]{};
+				BOOL bExpansion = expansion;
+				uint8_t nDifficulty = difficulty;
 
-			// Call both implementations
-			sut(&moo_pMonster, bExpansion, nDifficulty);
-			original(&original_pMonster, bExpansion, nDifficulty);
+				const auto setup_data = [i, &stats, stat_count, stat_capacity](
+					D2UnitStrc& pMonster,
+					D2StatListExStrc& pStatListEx,
+					D2StatStrc(& pBaseStats)[stat_capacity],
+					D2StatStrc(& pFullStats)[stat_capacity]
+				) {
+					std::memcpy(pBaseStats, stats, sizeof(stats));
+					std::memcpy(pFullStats, stats, sizeof(stats));
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.Stats.pStat = pBaseStats;
+					pStatListEx.Stats.nStatCount = stat_count;
+					pStatListEx.Stats.nCapacity = stat_capacity;
+					pStatListEx.FullStats.pStat = pFullStats;
+					pStatListEx.FullStats.nStatCount = stat_count;
+					pStatListEx.FullStats.nCapacity = stat_capacity;
+
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.dwClassId = i;
+					pMonster.pStatListEx = &pStatListEx;
+				};
+
+				setup_data(moo_pMonster, moo_pStatListEx, moo_pBaseStats, moo_pFullStats);
+				setup_data(original_pMonster, original_pStatListEx, original_pBaseStats, original_pFullStats);
+
+				// Call both implementations
+				sut(&moo_pMonster, bExpansion, nDifficulty);
+				original(&original_pMonster, bExpansion, nDifficulty);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+				MOO_CHECK_EQ(moo_pStatListEx.Stats.nStatCount, original_pStatListEx.Stats.nStatCount, "Comparing Stats.nStatCount");
+				MOO_CHECK_EQ(moo_pStatListEx.FullStats.nStatCount, original_pStatListEx.FullStats.nStatCount, "Comparing FullStats.nStatCount");
+				for (auto j = 0; j < stat_capacity; ++j)
+				{
+					MOO_CHECK_EQ(moo_pBaseStats[j], original_pBaseStats[j], "Comparing pBaseStats");
+					MOO_CHECK_EQ(moo_pFullStats[j], original_pFullStats[j], "Comparing pFullStats");
+				}
+			}
 		}
 	}
 	
