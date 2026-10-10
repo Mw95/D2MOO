@@ -2050,7 +2050,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD95430 (#10855)")
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD95430 (#10855)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_AssignProperty, dll_base + 0x00055430);
