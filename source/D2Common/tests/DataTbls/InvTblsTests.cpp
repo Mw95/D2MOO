@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef INV_TBLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -132,3 +136,5 @@ TEST_SUITE("InvTblsTests")
 		}
 	}
 }
+
+#endif

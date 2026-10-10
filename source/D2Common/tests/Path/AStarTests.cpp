@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef ASTAR_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -452,3 +456,5 @@ TEST_SUITE("AStarTests")
 		}
 	}
 }
+
+#endif

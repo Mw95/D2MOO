@@ -4,7 +4,7 @@
 # test executables for each library, it is suggested not to put tests directly in the libraries (even though doctest advocates this usage)
 # Creating multiple executables is of course not mandatory, and one could use the same executable with various command lines to filter what tests to run.
 
-add_executable(D2CommonTests D2CommonTests.cpp)
+add_executable(D2CommonTests D2CommonTests.cpp D2CommonTestDefines.h)
 
 # DataTbls
 target_sources(D2CommonTests
@@ -102,6 +102,7 @@ if(MSVC)
     target_compile_options(D2CommonTests PRIVATE /bigobj)
 endif()
 
+target_include_directories(D2CommonTests PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 target_link_libraries(D2CommonTests PRIVATE doctest::doctest TestDefinitions TestUtilities VisitorFramework D2Game ${D2CommonImplName})
 target_compile_features(D2CommonTests PRIVATE cxx_std_17)
 

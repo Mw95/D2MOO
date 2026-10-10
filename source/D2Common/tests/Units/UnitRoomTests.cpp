@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef UNITROOM_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -373,3 +377,5 @@ TEST_SUITE("UnitRoomTests")
 		}
 	}
 }
+
+#endif

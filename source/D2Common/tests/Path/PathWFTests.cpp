@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef PATHWF_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -243,3 +247,5 @@ TEST_SUITE("PathWFTests")
 		}
 	}
 }
+
+#endif

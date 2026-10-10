@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef ENVIRONMENT_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -864,3 +868,5 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 }
+
+#endif

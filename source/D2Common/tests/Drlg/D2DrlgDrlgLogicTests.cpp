@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_LOGIC_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -873,3 +877,5 @@ TEST_SUITE("D2DrlgDrlgLogicTests")
 		}
 	}
 }
+
+#endif

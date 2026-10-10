@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef TEXT_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -404,3 +408,5 @@ TEST_SUITE("D2TextTests")
 		}
 	}
 }
+
+#endif

@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_OUTJUNG_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -436,3 +440,5 @@ TEST_SUITE("D2DrlgOutJungTests")
 		}
 	}
 }
+
+#endif

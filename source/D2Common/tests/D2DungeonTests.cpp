@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DUNGEON_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -5330,3 +5334,5 @@ TEST_SUITE("D2DungeonTests")
 		}
 	}
 }
+
+#endif

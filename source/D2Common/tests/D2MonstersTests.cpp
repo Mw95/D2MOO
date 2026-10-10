@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef MONSTERS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -1461,3 +1465,5 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 }
+
+#endif

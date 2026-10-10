@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef ITEMS_TBLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -1134,3 +1138,5 @@ TEST_SUITE("ItemsTblsTests")
 		}
 	}
 }
+
+#endif

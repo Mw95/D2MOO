@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef MISSILE_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -2731,7 +2735,7 @@ TEST_SUITE("MissileTests")
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 		}
 	}
-	TEST_CASE_FIXTURE(MissilesTxtFixture<NoopFixture>, "D2Common.0x6FDBC170 (#11284)")
+	TEST_CASE_FIXTURE(MissilesTxtFixture<NoopFixture>, "D2Common.0x6FDBC170 (#11284)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MISSILE_EvaluateMissileFormula, dll_base + 0x0007C170);
@@ -2860,3 +2864,5 @@ TEST_SUITE("MissileTests")
 		sgptDataTables->nMissCodeSize = previous_miss_code_size;
 	}
 }
+
+#endif

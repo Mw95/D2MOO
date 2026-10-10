@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef ITEMMODS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -4769,3 +4773,5 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 }
+
+#endif

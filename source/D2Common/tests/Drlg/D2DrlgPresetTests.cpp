@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_PRESET_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -2971,3 +2975,5 @@ TEST_SUITE("D2DrlgPresetTests")
 		}
 	}
 }
+
+#endif

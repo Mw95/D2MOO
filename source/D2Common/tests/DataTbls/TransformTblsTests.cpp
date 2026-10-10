@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef TRANSFORM_TBLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -36,3 +40,5 @@ TEST_SUITE("TransformTblsTests")
 		}
 	}
 }
+
+#endif
