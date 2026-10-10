@@ -368,7 +368,7 @@ TEST_SUITE("D2DrlgMazeTests")
 
 		SUBCASE("")
 		{
-			const uint8_t difficulty = GENERATE(0, 1, 2);
+			const auto difficulty = GENERATE(0, 1, 2);
 
 			for (int i = 0; i < lvlmaze_record_count; ++i)
 			{
@@ -431,7 +431,7 @@ TEST_SUITE("D2DrlgMazeTests")
 				REQUIRE(lvlprest_txt[level_prest].dwPops == 0);
 			}
 
-			const uint8_t difficulty = GENERATE(0, 1, 2);
+			const auto difficulty = GENERATE(0, 1, 2);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -985,7 +985,7 @@ TEST_SUITE("D2DrlgMazeTests")
 
 		SUBCASE("")
 		{
-			const uint8_t difficulty = GENERATE(0, 1, 2);
+			const auto difficulty = GENERATE(0, 1, 2);
 			// Normal level, staff tomb level and boss tomb level
 			const int level_id = GENERATE(LEVEL_TALRASHASTOMB1, LEVEL_TALRASHASTOMB2, LEVEL_TALRASHASTOMB3);
 			const auto level_seed = random_unsigned_integer();
@@ -1435,8 +1435,8 @@ TEST_SUITE("D2DrlgMazeTests")
 
 		SUBCASE("")
 		{
-			const bool has_matching_room = GENERATE(true, false);
-			const int rand_value = GENERATE(0, 1, 2, 3);
+			const auto has_matching_room = GENERATE(0, 1);
+			const auto rand_value = GENERATE(0, 1, 2, 3);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -1934,8 +1934,8 @@ TEST_SUITE("D2DrlgMazeTests")
 		{
 			REPEAT_5()
 
-			const int level_id = GENERATE(LEVEL_MAGGOTLAIRLEV1, LEVEL_MAGGOTLAIRLEV3);
-			const bool has_matching_rooms = GENERATE(true, false);
+			const auto level_id = GENERATE(LEVEL_MAGGOTLAIRLEV1, LEVEL_MAGGOTLAIRLEV3);
+			const auto has_matching_rooms = GENERATE(0, 1);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -2009,7 +2009,7 @@ TEST_SUITE("D2DrlgMazeTests")
 		{
 			REPEAT_5()
 
-			const bool has_matching_rooms = GENERATE(true, false);
+			const auto has_matching_rooms = GENERATE(0, 1);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -2083,7 +2083,7 @@ TEST_SUITE("D2DrlgMazeTests")
 		{
 			REPEAT_5()
 
-			const bool has_matching_rooms = GENERATE(true, false);
+			const auto has_matching_rooms = GENERATE(0, 1);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -2157,8 +2157,8 @@ TEST_SUITE("D2DrlgMazeTests")
 		{
 			REPEAT_5()
 
-			const int level_id = GENERATE(LEVEL_DURANCEOFHATELEV1, LEVEL_DURANCEOFHATELEV2, LEVEL_DURANCEOFHATELEV3);
-			const bool has_matching_rooms = GENERATE(true, false);
+			const auto level_id = GENERATE(LEVEL_DURANCEOFHATELEV1, LEVEL_DURANCEOFHATELEV2, LEVEL_DURANCEOFHATELEV3);
+			const auto has_matching_rooms = GENERATE(0, 1);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -2232,8 +2232,8 @@ TEST_SUITE("D2DrlgMazeTests")
 		{
 			REPEAT_5()
 
-			const int level_id = GENERATE(LEVEL_HALLSOFANGUISH, LEVEL_HALLSOFDEATHSCALLING, LEVEL_HALLSOFVAUGHT);
-			const bool has_matching_rooms = GENERATE(true, false);
+			const auto level_id = GENERATE(LEVEL_HALLSOFANGUISH, LEVEL_HALLSOFDEATHSCALLING, LEVEL_HALLSOFVAUGHT);
+			const auto has_matching_rooms = GENERATE(0, 1);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -2307,8 +2307,8 @@ TEST_SUITE("D2DrlgMazeTests")
 		{
 			REPEAT_5()
 
-			const int level_id = GENERATE(LEVEL_THEWORLDSTONEKEEPLEV1, LEVEL_THEWORLDSTONEKEEPLEV2);
-			const bool has_matching_rooms = GENERATE(true, false);
+			const auto level_id = GENERATE(LEVEL_THEWORLDSTONEKEEPLEV1, LEVEL_THEWORLDSTONEKEEPLEV2);
+			const auto has_matching_rooms = GENERATE(0, 1);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -2519,7 +2519,7 @@ TEST_SUITE("D2DrlgMazeTests")
 			REPEAT_5()
 
 			// Nothing is done in act 5
-			const uint8_t act = GENERATE(ACT_IV, ACT_V);
+			const auto act = GENERATE(ACT_IV, ACT_V);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data
@@ -2607,8 +2607,8 @@ TEST_SUITE("D2DrlgMazeTests")
 			REPEAT_5()
 
 			// Ice cave levels with special presets, and a level without any
-			const int level_id = GENERATE(LEVEL_CRYSTALIZEDCAVERNLEV1, LEVEL_CRYSTALIZEDCAVERNLEV2, LEVEL_GLACIALCAVESLEV1, LEVEL_CELLAROFPITY);
-			const bool has_matching_rooms = GENERATE(true, false);
+			const auto level_id = GENERATE(LEVEL_CRYSTALIZEDCAVERNLEV1, LEVEL_CRYSTALIZEDCAVERNLEV2, LEVEL_GLACIALCAVESLEV1, LEVEL_CELLAROFPITY);
+			const auto has_matching_rooms = GENERATE(0, 1);
 			const auto level_seed = random_unsigned_integer();
 
 			// Input data

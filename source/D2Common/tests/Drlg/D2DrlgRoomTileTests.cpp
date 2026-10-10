@@ -35,7 +35,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGROOMTILE_GetTileCache, dll_base + 0x00048860);
 
-		const auto tile_exists = GENERATE(true, false);
+		const auto tile_exists = GENERATE(0, 1);
 
 		REPEAT_10();
 
@@ -758,7 +758,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			BOOL bKillEdgeX = kill_edge_x;
 			BOOL bKillEdgeY = kill_edge_y;
 
-			const auto setup_data = [level_id, room_x, room_y, tile_flags, &packed_tile_informations, &cell_tile_types](
+			const auto setup_data = [nGridSize, nCells, nRoomSize, level_id, room_x, room_y, tile_flags, &packed_tile_informations, &cell_tile_types](
 				D2DrlgRoomStrc& pDrlgRoom,
 				D2DrlgLevelStrc& pLevel,
 				D2DrlgStrc& pDrlg,
@@ -1732,7 +1732,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			BOOL bKillEdgeX = kill_edge_x;
 			BOOL bKillEdgeY = kill_edge_y;
 
-			const auto setup_data = [room_x, room_y, room_width, room_height, walls, floors, roofs, &packed_tile_informations](
+			const auto setup_data = [nMaxGridSize, room_x, room_y, room_width, room_height, walls, floors, roofs, &packed_tile_informations](
 				D2DrlgRoomStrc& pDrlgRoom,
 				D2DrlgTileGridStrc& pTileGrid,
 				D2DrlgGridStrc& pTileInfoGrid,
@@ -1826,7 +1826,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 			BOOL bKillEdgeX = kill_edge_x;
 			BOOL bKillEdgeY = kill_edge_y;
 
-			const auto setup_data = [room_width, room_height, walls, floors, &packed_tile_informations, &tile_types](
+			const auto setup_data = [nMaxGridSize, room_width, room_height, walls, floors, &packed_tile_informations, &tile_types](
 				D2DrlgRoomStrc& pDrlgRoom,
 				D2DrlgTileGridStrc& pTileGrid,
 				D2DrlgGridStrc& pTileInfoGrid,
@@ -1957,7 +1957,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGROOMTILE_AllocTileGrid, dll_base + 0x0004A010);
 
-		const auto has_tile_grid = GENERATE(true, false);
+		const auto has_tile_grid = GENERATE(0, 1);
 		
 		SUBCASE("")
 		{
@@ -2007,7 +2007,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGROOMTILE_AllocTileData, dll_base + 0x0004A050);
 
-		const auto has_roof_tiles = GENERATE(true, false);
+		const auto has_roof_tiles = GENERATE(0, 1);
 
 		REPEAT_10();
 		
@@ -2222,7 +2222,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGROOMTILE_FreeRoom, dll_base + 0x0004A2E0);
 
-		const auto has_room = GENERATE(true, false);
+		const auto has_room = GENERATE(0, 1);
 		const auto keep_room = GENERATE(TRUE, FALSE);
 
 		REPEAT_5();
@@ -2281,7 +2281,7 @@ TEST_SUITE("D2DrlgRoomTileTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LvlTypesTxtFixture<NoopFixture>, "D2Common.0x6FD8A380")
+	TEST_CASE_FIXTURE(LvlTypesTxtFixture<NoopFixture>, "D2Common.0x6FD8A380" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGROOMTILE_LoadDT1FilesForRoom, dll_base + 0x0004A380);

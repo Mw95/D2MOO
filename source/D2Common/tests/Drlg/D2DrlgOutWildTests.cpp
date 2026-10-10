@@ -69,7 +69,7 @@ TEST_SUITE("D2DrlgOutWildTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGOUTWILD_GetBridgeCoords, dll_base + 0x00044CA0);
 
-		for (auto bHasBridge : { false, true })
+		for (auto bHasBridge : { 0, 1 })
 		{
 			for (auto grid_size : { 10, 12, 16 })
 			{
@@ -229,7 +229,7 @@ TEST_SUITE("D2DrlgOutWildTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGOUTWILD_TestSpawnRiver, dll_base + 0x00045060);
 
-		for (auto bBlocked : { false, true })
+		for (auto bBlocked : { 0, 1 })
 		{
 			for (auto grid_size : { 10, 12, 16 })
 			{

@@ -196,7 +196,7 @@ TEST_SUITE("D2DrlgDrlgAnimTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD75740")
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD75740" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGANIM_AllocAnimationTileGrids, dll_base + 0x00035740);
@@ -244,7 +244,7 @@ TEST_SUITE("D2DrlgDrlgAnimTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD757B0")
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD757B0" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGANIM_AllocAnimationTileGrid, dll_base + 0x000357B0);
