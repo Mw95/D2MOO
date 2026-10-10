@@ -137,60 +137,6 @@ public:
 	}
 
 	template<auto Member>
-	void VisitIntegralField(T& other, const char* name, int allowed_difference)
-	{
-		auto& object_member = m_object.*Member;
-		auto& other_member = other.*Member;
-
-		if (m_context.visited_pointers.find(&other_member) != m_context.visited_pointers.end())
-		{
-			return;
-		}
-
-		m_context.visited_pointers.insert(&other_member);
-
-		using MemberType = std::remove_cv_t<std::remove_reference_t<decltype(object_member)>>;
-
-		bool not_equal = std::abs(object_member - other_member) > allowed_difference;
-		if (not_equal)
-		{
-			std::string field_name;
-			if (m_parent_name != "")
-			{
-				field_name = m_parent_name + "->" + name;
-			}
-			else
-			{
-				field_name = name;
-			}
-
-			std::stringstream object_stream;
-			if constexpr (std::is_integral_v<MemberType>)
-			{
-				object_stream << static_cast<int>(object_member);
-			}
-			else
-			{
-				object_stream << object_member;
-			}
-
-			std::stringstream other_stream;
-			if constexpr (std::is_integral_v<MemberType>)
-			{
-				other_stream << static_cast<int>(other_member);
-			}
-			else
-			{
-				other_stream << other_member;
-			}
-
-			const auto difference_descriptor = DifferenceDescriptor{ DifferenceType::Field, field_name, object_stream.str(), other_stream.str() };
-
-			m_context.differences.push_back(difference_descriptor);
-		}
-	}
-
-	template<auto Member>
 	void VisitPointer(T& other, const char* name)
 	{
 		std::string field_name;

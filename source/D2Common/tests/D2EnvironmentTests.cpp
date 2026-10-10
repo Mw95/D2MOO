@@ -147,7 +147,7 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8DC00 (#10923)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8DC00 (#10923)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_UpdatePeriodOfDay, dll_base + 0x0004DC00);
@@ -251,7 +251,7 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8DD60 (#10924)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8DD60 (#10924)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_UpdateCycleIndex, dll_base + 0x0004DD60);
@@ -465,7 +465,7 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8DE90 (#10929)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8DE90 (#10929)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_NextEnvCycle, dll_base + 0x0004DE90);
@@ -553,7 +553,7 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8DF40 (#10932)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8DF40 (#10932)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_InitializeEnvironment, dll_base + 0x0004DF40);
@@ -750,7 +750,7 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8E100 (#10935)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8E100 (#10935)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_SetNextTimeRate, dll_base + 0x0004E100);

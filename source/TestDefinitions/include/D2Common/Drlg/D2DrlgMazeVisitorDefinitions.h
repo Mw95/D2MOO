@@ -12,8 +12,8 @@
 
 
 BEGIN_VISIT(D2MazeLevelIdStrc)
-	//FIELD(nLevelPrestId1)
-	//FIELD(nLevelPrestId2)
-	//FIELD(nPickedFile)
-	//FIELD(nDirection)
+	FIELD(nLevelPrestId1)
+	FIELD(nLevelPrestId2)
+	FIELD(nPickedFile)
+	FIELD(nDirection)
 END_VISIT()

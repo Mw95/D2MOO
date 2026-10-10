@@ -12,10 +12,10 @@
 
 
 BEGIN_VISIT(D2ObjectRoomCoordStrc)
-	//POINTER(pRoom)
-	//FIELD(nX)
-	//FIELD(nY)
-	//POINTER(pNext)
+	POINTER(pRoom)
+	FIELD(nX)
+	FIELD(nY)
+	POINTER(pNext)
 END_VISIT()
 
 BEGIN_VISIT(D2ObjectRegionStrc)

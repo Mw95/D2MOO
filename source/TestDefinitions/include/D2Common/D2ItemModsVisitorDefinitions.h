@@ -13,10 +13,10 @@
 
 BEGIN_VISIT(D2PropertyAssignStrc)
 	//OBJECT(pfAssign)
-	//FIELD(nStatId)
+	FIELD(nStatId)
 END_VISIT()
 
 BEGIN_VISIT(D2ItemCalcStrc)
-	//POINTER(pUnit)
-	//POINTER(pItem)
+	POINTER(pUnit)
+	POINTER(pItem)
 END_VISIT()

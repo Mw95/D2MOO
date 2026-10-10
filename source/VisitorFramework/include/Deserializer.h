@@ -87,19 +87,6 @@ public:
 	}
 
 	template<auto Member, typename T>
-	void VisitIntegralField(T& object, const char* member_name, int allowed_difference)
-	{
-		using MemberType = std::remove_cv_t<std::remove_reference_t<decltype(Get<Member>(object))>>;
-
-		static_assert(
-			std::is_integral_v<MemberType>,
-			"VisitIntegralField() only accepts integral types."
-		);
-
-		m_reader.ReadBytes(&Get<Member>(object), sizeof(MemberType));
-	}
-
-	template<auto Member, typename T>
 	void VisitPointer(T& object, const char* member_name)
 	{
 		using MemberType = std::remove_cv_t<std::remove_reference_t<decltype(Get<Member>(object))>>;

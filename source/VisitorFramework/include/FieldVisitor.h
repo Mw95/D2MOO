@@ -38,19 +38,6 @@ public:
 	}
 
 	template<auto Member, typename T>
-	void IntegralField(T& object, const char* member_name, int allowed_difference)
-	{
-		using MemberType = std::remove_cv_t<std::remove_reference_t<decltype(Get<Member>(object))>>;
-
-		static_assert(
-			std::is_integral_v<MemberType>,
-			"IntegralField() only accepts integral types."
-		);
-
-		Self().template VisitIntegralField<Member>(object, member_name, allowed_difference);
-	}
-
-	template<auto Member, typename T>
 	void Pointer(T& object, const char* member_name)
 	{
 		using MemberType = std::remove_cv_t<std::remove_reference_t<decltype(Get<Member>(object))>>;

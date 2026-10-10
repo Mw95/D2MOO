@@ -12,19 +12,19 @@
 
 
 BEGIN_VISIT(D2AnimDataRecordStrc)
-	//ARRAY(szAnimDataName)
-	//FIELD(dwFrames)
-	//FIELD(dwAnimSpeed)
-	//ARRAY(pFrameFlags)
+	ARRAY(szAnimDataName)
+	FIELD(dwFrames)
+	FIELD(dwAnimSpeed)
+	ARRAY(pFrameFlags)
 END_VISIT()
 
 BEGIN_VISIT(D2AnimDataBucketStrc)
-	//FIELD(nbEntries)
-	//ARRAY(aEntries)
+	FIELD(nbEntries)
+	//DYNAMIC_ARRAY(aEntries, nbEntries)
 END_VISIT()
 
 BEGIN_VISIT(D2AnimDataTableStrc)
 	//OMIT(pBinaryData)
-	//ARRAY(pHashTableBucket)
-	//OBJECT(tDefaultRecord)
+	ARRAY(pHashTableBucket)
+	OBJECT(tDefaultRecord)
 END_VISIT()

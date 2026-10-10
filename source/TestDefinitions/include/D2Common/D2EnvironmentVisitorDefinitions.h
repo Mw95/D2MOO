@@ -24,12 +24,12 @@ BEGIN_VISIT(D2DrlgEnvironmentStrc)
 	FIELD(nCycleIndex)
 	FIELD(nPeriodOfDay)
 	FIELD(nTicks)
-	INTEGRAL_FIELD(nIntensity, 1) // Since this can be calculated by floating point operations, we allow an 'Off by 1' rounding error
+	FIELD(nIntensity)
 	FIELD(dwInitTick)
 	FIELD(unk0x14)
-	INTEGRAL_FIELD(nRed, 1) // Since this can be calculated by floating point operations, we allow an 'Off by 1' rounding error
-	INTEGRAL_FIELD(nGreen, 1) // Since this can be calculated by floating point operations, we allow an 'Off by 1' rounding error
-	INTEGRAL_FIELD(nBlue, 1) // Since this can be calculated by floating point operations, we allow an 'Off by 1' rounding error
+	FIELD(nRed)
+	FIELD(nGreen)
+	FIELD(nBlue)
 	FIELD(pad0x1B)
 	FIELD(fCos)
 	FIELD(fLast)

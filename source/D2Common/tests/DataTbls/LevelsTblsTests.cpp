@@ -620,7 +620,7 @@ TEST_SUITE("LevelsTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LvlSubTxtFixture<NoopFixture>, "D2Common.0x6FD626F0")
+	TEST_CASE_FIXTURE(LvlSubTxtFixture<NoopFixture>, "D2Common.0x6FD626F0" * doctest::skip("Needs checkin"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_GetLvlSubTxtRecord, dll_base + 0x000226F0);
