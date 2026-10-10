@@ -24,34 +24,60 @@ TEST_SUITE("D2StatesTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB4560 (#10486)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB4560 (#10486)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_ToggleState, dll_base + 0x00074560);
-		
+
+		const BOOL bSet = GENERATE(FALSE, TRUE);
+
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			int nState{};
-			BOOL bSet{};
+			const auto flag_count = (states_record_count >> 5) + 1;
+			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto j = 0; j < states_record_count; ++j)
+			{
+				for (auto i = 0; i < 2 * flag_count; ++i)
+				{
+					flags[i] = random_unsigned_integer();
+				}
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+				const auto unit_flags_ex = random_unsigned_integer();
 
-			// Call both implementations
-			sut(&moo_pUnit, nState, bSet);
-			original(&original_pUnit, nState, bSet);
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				int nState = j;
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				const auto setup_data = [&flags, flag_count, unit_flags_ex](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::unique_ptr<uint32_t[]>& StatFlags
+				) {
+					memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.StatFlags = StatFlags.get();
+					pUnit.dwUnitType = UNIT_PLAYER;
+					pUnit.dwFlagEx = unit_flags_ex;
+					pUnit.pStatListEx = &pStatListEx;
+				};
+
+				setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+				setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
+
+				// Call both implementations
+				sut(&moo_pUnit, nState, bSet);
+				original(&original_pUnit, nState, bSet);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				MOO_CHECK_EQ((DynamicArray<uint32_t> { moo_StatFlags.get(), 2 * flag_count }), (DynamicArray<uint32_t> { original_StatFlags.get(), 2 * flag_count }), "Comparing StatFlags");
+			}
 		}
 	}
 	
@@ -111,34 +137,57 @@ TEST_SUITE("D2StatesTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB45F0 (#10488)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB45F0 (#10488)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_ToggleGfxStateFlag, dll_base + 0x000745F0);
-		
+
+		const BOOL bSet = GENERATE(FALSE, TRUE);
+
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			int nState{};
-			BOOL bSet{};
+			const auto flag_count = (states_record_count >> 5) + 1;
+			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto j = 0; j < states_record_count; ++j)
+			{
+				for (auto i = 0; i < 2 * flag_count; ++i)
+				{
+					flags[i] = random_unsigned_integer();
+				}
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+				int nState = j;
 
-			// Call both implementations
-			sut(&moo_pUnit, nState, bSet);
-			original(&original_pUnit, nState, bSet);
+				const auto setup_data = [&flags, flag_count](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::unique_ptr<uint32_t[]>& StatFlags
+				) {
+					memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.StatFlags = StatFlags.get();
+					pUnit.dwUnitType = UNIT_PLAYER;
+					pUnit.pStatListEx = &pStatListEx;
+				};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+				setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
+
+				// Call both implementations
+				sut(&moo_pUnit, nState, bSet);
+				original(&original_pUnit, nState, bSet);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				MOO_CHECK_EQ((DynamicArray<uint32_t> { moo_StatFlags.get(), 2 * flag_count }), (DynamicArray<uint32_t> { original_StatFlags.get(), 2 * flag_count }), "Comparing StatFlags");
+			}
 		}
 	}
 	
@@ -195,7 +244,7 @@ TEST_SUITE("D2StatesTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB46C0 (#10491)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB46C0 (#10491)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_ClearGfxStateFlags, dll_base + 0x000746C0);
@@ -238,6 +287,7 @@ TEST_SUITE("D2StatesTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint32_t> { moo_StatFlags.get(), 2 * flag_count }), (DynamicArray<uint32_t> { original_StatFlags.get(), 2 * flag_count }), "Comparing StatFlags");
 		}
 	}
 	
@@ -382,26 +432,46 @@ TEST_SUITE("D2StatesTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB4790 (#10493)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB4790 (#10493)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_UpdateStayDeathFlags, dll_base + 0x00074790);
-		
+
+		const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER, UNIT_MISSILE);
+		const BOOL bIsBoss = GENERATE(FALSE, TRUE);
+
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			BOOL bIsBoss{};
+			const auto flag_count = (states_record_count >> 5) + 1;
+			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			for (auto i = 0; i < 2 * flag_count; ++i)
+			{
+				flags[i] = random_unsigned_integer();
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count, unit_type](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
 			) {
-				// TODO: Setup as needed
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
+				pStatListEx.dwFlags |= STATLIST_EXTENDED;
+				pStatListEx.StatFlags = StatFlags.get();
+				pUnit.dwUnitType = unit_type;
+				pUnit.pStatListEx = &pStatListEx;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			sut(&moo_pUnit, bIsBoss);
@@ -409,6 +479,7 @@ TEST_SUITE("D2StatesTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint32_t> { moo_StatFlags.get(), 2 * flag_count }), (DynamicArray<uint32_t> { original_StatFlags.get(), 2 * flag_count }), "Comparing StatFlags");
 		}
 	}
 	
@@ -547,7 +618,7 @@ TEST_SUITE("D2StatesTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB49D0 (#10500)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB49D0 (#10500)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_CheckStateMaskPgsvByStateId, dll_base + 0x000749D0);
@@ -617,25 +688,43 @@ TEST_SUITE("D2StatesTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB4A80 (#10501)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(StatesTxtFixture<NoopFixture>, "D2Common.0x6FDB4A80 (#10501)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATES_UpdatePgsvFlags, dll_base + 0x00074A80);
-		
+
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			const auto flag_count = (states_record_count >> 5) + 1;
+			const auto flags = std::make_unique<uint32_t[]>(2 * flag_count);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			for (auto i = 0; i < 2 * flag_count; ++i)
+			{
+				flags[i] = random_unsigned_integer();
+			}
+
+			D2UnitStrc moo_pUnit{};
+			D2StatListExStrc moo_pStatListEx{};
+			auto moo_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+			D2UnitStrc original_pUnit{};
+			D2StatListExStrc original_pStatListEx{};
+			auto original_StatFlags = std::make_unique<uint32_t[]>(2 * flag_count);
+
+			const auto setup_data = [&flags, flag_count](
+				D2UnitStrc& pUnit,
+				D2StatListExStrc& pStatListEx,
+				std::unique_ptr<uint32_t[]>& StatFlags
 			) {
-				// TODO: Setup as needed
+				memcpy(StatFlags.get(), flags.get(), sizeof(uint32_t) * 2 * flag_count);
+				pStatListEx.dwFlags |= STATLIST_EXTENDED;
+				pStatListEx.StatFlags = StatFlags.get();
+				pUnit.dwUnitType = UNIT_PLAYER;
+				pUnit.pStatListEx = &pStatListEx;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pStatListEx, moo_StatFlags);
+			setup_data(original_pUnit, original_pStatListEx, original_StatFlags);
 
 			// Call both implementations
 			sut(&moo_pUnit);
@@ -643,6 +732,7 @@ TEST_SUITE("D2StatesTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			MOO_CHECK_EQ((DynamicArray<uint32_t> { moo_StatFlags.get(), 2 * flag_count }), (DynamicArray<uint32_t> { original_StatFlags.get(), 2 * flag_count }), "Comparing StatFlags");
 		}
 	}
 	
