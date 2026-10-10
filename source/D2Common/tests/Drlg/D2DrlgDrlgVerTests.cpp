@@ -8,7 +8,9 @@
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
 
+#include <Drlg/D2DrlgDrlg.h>
 #include <Drlg/D2DrlgDrlgVer.h>
+#include <Fog.h>
 
 
 TEST_SUITE("D2DrlgDrlgVerTests")
@@ -35,7 +37,7 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD782D0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD782D0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGVER_CreateVertices, dll_base + 0x000382D0);
@@ -43,24 +45,43 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto nRoomDirection = GENERATE(0, 1, 2, 3);
+			const auto bPreset = GENERATE(FALSE, TRUE);
+
 			D2DrlgVertexStrc* moo_ppVertices{};
 			D2DrlgCoordStrc moo_pDrlgCoord{};
 			D2DrlgOrthStrc moo_pDrlgRoomData{};
+			D2DrlgCoordStrc moo_pBox{};
 			D2DrlgVertexStrc* original_ppVertices{};
 			D2DrlgCoordStrc original_pDrlgCoord{};
 			D2DrlgOrthStrc original_pDrlgRoomData{};
-			uint8_t nDirection{};
+			D2DrlgCoordStrc original_pBox{};
+			uint8_t nDirection = random_unsigned_integer(0, 255);
 
-			const auto setup_data = [](
+			const auto setup_data = [nRoomDirection, bPreset](
 				D2DrlgVertexStrc*& ppVertices,
 				D2DrlgCoordStrc& pDrlgCoord,
-				D2DrlgOrthStrc& pDrlgRoomData
+				D2DrlgOrthStrc& pDrlgRoomData,
+				D2DrlgCoordStrc& pBox
 			) {
-				// TODO: Setup as needed
+				pDrlgCoord.nPosX = 10;
+				pDrlgCoord.nPosY = 20;
+				pDrlgCoord.nWidth = 8;
+				pDrlgCoord.nHeight = 6;
+
+				// Adjacent room box lying within the edges of pDrlgCoord, so that new vertices get inserted
+				pBox.nPosX = 12;
+				pBox.nPosY = 22;
+				pBox.nWidth = 3;
+				pBox.nHeight = 2;
+
+				pDrlgRoomData.nDirection = nRoomDirection;
+				pDrlgRoomData.bPreset = bPreset;
+				pDrlgRoomData.pBox = &pBox;
 			};
 
-			setup_data(moo_ppVertices, moo_pDrlgCoord, moo_pDrlgRoomData);
-			setup_data(original_ppVertices, original_pDrlgCoord, original_pDrlgRoomData);
+			setup_data(moo_ppVertices, moo_pDrlgCoord, moo_pDrlgRoomData, moo_pBox);
+			setup_data(original_ppVertices, original_pDrlgCoord, original_pDrlgRoomData, original_pBox);
 
 			// Call both implementations
 			sut(nullptr, &moo_ppVertices, &moo_pDrlgCoord, nDirection, &moo_pDrlgRoomData);
@@ -73,7 +94,7 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD786C0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD786C0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGVER_FreeVertices, dll_base + 0x000386C0);
@@ -87,7 +108,24 @@ TEST_SUITE("D2DrlgDrlgVerTests")
 			const auto setup_data = [](
 				D2DrlgVertexStrc*& ppVertices
 			) {
-				// TODO: Setup as needed
+				// The vertices get freed, so they have to be allocated from the pool (circular list of 4 vertices)
+				D2DrlgVertexStrc* pPrevious = nullptr;
+				for (int i = 0; i < 4; ++i)
+				{
+					D2DrlgVertexStrc* pVertex = D2_CALLOC_STRC_POOL(nullptr, D2DrlgVertexStrc);
+					pVertex->nPosX = i;
+					pVertex->nPosY = i;
+					if (pPrevious)
+					{
+						pPrevious->pNext = pVertex;
+					}
+					else
+					{
+						ppVertices = pVertex;
+					}
+					pPrevious = pVertex;
+				}
+				pPrevious->pNext = ppVertices;
 			};
 
 			setup_data(moo_ppVertices);
