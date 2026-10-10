@@ -8,6 +8,7 @@ target_sources(TestDefinitions
     include/RepetitionMacros.h
 
     include/Fixtures/DataTbls/Fixtures.h
+    include/Fixtures/DataTbls/AnimDataFixture.h
     include/Fixtures/DataTbls/ArenaTxtFixture.h
     include/Fixtures/DataTbls/ArmTypeTxtFixture.h
     include/Fixtures/DataTbls/BeltsTxtFixture.h
