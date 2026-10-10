@@ -3844,35 +3844,95 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9D390 (#10811)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<ItemsTxtFixture<NoopFixture>>, "D2Common.0x6FD9D390 (#10811)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_HasDurability, dll_base + 0x0005D390);
 		
-		SUBCASE("")
+		SUBCASE("destructible")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				D2UnitStrc moo_pItem{};
+				D2StatListExStrc moo_pStatListEx{};
+				D2StatStrc moo_pStat{};
+				D2UnitStrc original_pItem{};
+				D2StatListExStrc original_pStatListEx{};
+				D2StatStrc original_pStat{};
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+				const auto setup_data = [i](
+					D2UnitStrc& pItem,
+					D2StatListExStrc& pStatListEx,
+					D2StatStrc& pStat
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pStatListEx = &pStatListEx;
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.FullStats.pStat = &pStat;
+					pStatListEx.FullStats.nStatCount = 1;
+					pStat.nStat = STAT_MAXDURABILITY;
+					pStat.nValue = 20;
+				};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				setup_data(moo_pItem, moo_pStatListEx, moo_pStat);
+				setup_data(original_pItem, original_pStatListEx, original_pStat);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem);
-			const auto original_result = original(&original_pItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
+		}
+
+		SUBCASE("indestructible")
+		{
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				D2UnitStrc moo_pItem{};
+				D2StatListExStrc moo_pStatListEx{};
+				D2StatStrc moo_pStat[2]{};
+				D2UnitStrc original_pItem{};
+				D2StatListExStrc original_pStatListEx{};
+				D2StatStrc original_pStat[2]{};
+
+				const auto setup_data = [i](
+					D2UnitStrc& pItem,
+					D2StatListExStrc& pStatListEx,
+					D2StatStrc(&pStat)[2]
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pStatListEx = &pStatListEx;
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.FullStats.pStat = pStat;
+					pStatListEx.FullStats.nStatCount = 2;
+					pStat[0].nStat = STAT_MAXDURABILITY;
+					pStat[0].nValue = 20;
+					pStat[1].nStat = STAT_ITEM_INDESCTRUCTIBLE;
+					pStat[1].nValue = 1;
+				};
+
+				setup_data(moo_pItem, moo_pStatListEx, moo_pStat);
+				setup_data(original_pItem, original_pStatListEx, original_pStat);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
@@ -3969,7 +4029,7 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9D580 (#10816)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9D580 (#10816)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetSockets, dll_base + 0x0005D580);
@@ -3977,17 +4037,31 @@ TEST_SUITE("D2ItemsTests")
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto sockets = random_unsigned_integer(0, 6);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
+			D2UnitStrc moo_pItem{};
+			D2StatListExStrc moo_pStatListEx{};
+			D2StatStrc moo_pStat{};
+			D2UnitStrc original_pItem{};
+			D2StatListExStrc original_pStatListEx{};
+			D2StatStrc original_pStat{};
+
+			const auto setup_data = [sockets](
+				D2UnitStrc& pItem,
+				D2StatListExStrc& pStatListEx,
+				D2StatStrc& pStat
 			) {
-				// TODO: Setup as needed
+				pItem.dwUnitType = UNIT_ITEM;
+				pItem.pStatListEx = &pStatListEx;
+				pStatListEx.dwFlags |= STATLIST_EXTENDED;
+				pStatListEx.FullStats.pStat = &pStat;
+				pStatListEx.FullStats.nStatCount = 1;
+				pStat.nStat = STAT_ITEM_NUMSOCKETS;
+				pStat.nValue = sockets;
 			};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+			setup_data(moo_pItem, moo_pStatListEx, moo_pStat);
+			setup_data(original_pItem, original_pStatListEx, original_pStat);
 
 			// Call both implementations
 			const auto moo_result = sut(&moo_pItem);
@@ -5140,35 +5214,148 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9F080 (#10832)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<NoopFixture>, "D2Common.0x6FD9F080 (#10832)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_IsPersonalizable, dll_base + 0x0005F080);
 		
-		SUBCASE("")
+		SUBCASE("With IFLAG_NOSELL")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+				const auto setup_data = [i](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags |= IFLAG_NOSELL;
+				};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				setup_data(moo_pItem, moo_pItemData);
+				setup_data(original_pItem, original_pItemData);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem);
-			const auto original_result = original(&original_pItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
+		}
+
+		SUBCASE("With IFLAG_BROKEN")
+		{
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+
+				const auto setup_data = [i](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags |= IFLAG_BROKEN;
+				};
+
+				setup_data(moo_pItem, moo_pItemData);
+				setup_data(original_pItem, original_pItemData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
+		}
+
+		SUBCASE("With IFLAG_PERSONALIZED")
+		{
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+
+				const auto setup_data = [i](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags |= IFLAG_PERSONALIZED;
+				};
+
+				setup_data(moo_pItem, moo_pItemData);
+				setup_data(original_pItem, original_pItemData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
+		}
+
+		SUBCASE("Without flags")
+		{
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+
+				const auto setup_data = [i](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+				};
+
+				setup_data(moo_pItem, moo_pItemData);
+				setup_data(original_pItem, original_pItemData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	

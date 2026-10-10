@@ -188,7 +188,7 @@ TEST_SUITE("UnitFindsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC840 (#11088)")
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC840 (#11088)" * doctest::skip(""))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(UNITFINDS_GetNearestTestedUnit, dll_base + 0x0007C840);

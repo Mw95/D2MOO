@@ -124,32 +124,23 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E520 (#10241)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8E520 (#10241)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_FreeInventory, dll_base + 0x0004E520);
-		
+		const auto [moo_alloc, original_alloc] = make_function_pair(INVENTORY_AllocInventory, dll_base + 0x0004E4C0);
+
 		SUBCASE("")
 		{
 			// Input data
-			D2InventoryStrc moo_pInventory{};
-			D2InventoryStrc original_pInventory{};
-
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory
-			) {
-				// TODO: Setup as needed
-			};
-
-			setup_data(moo_pInventory);
-			setup_data(original_pInventory);
+			D2InventoryStrc* moo_pInventory = moo_alloc(nullptr, nullptr);
+			D2InventoryStrc* original_pInventory = original_alloc(nullptr, nullptr);
 
 			// Call both implementations
-			sut(&moo_pInventory);
-			original(&original_pInventory);
+			sut(moo_pInventory);
+			original(original_pInventory);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+			// Input can not be compared since it was freed
 		}
 	}
 	
@@ -2988,7 +2979,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920C0 (#10305)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD920C0 (#10305)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_UnitIsItem, dll_base + 0x000520C0);
@@ -3099,7 +3090,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92140 (#10310)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD92140 (#10310)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_IsItemInInventory, dll_base + 0x00052140);

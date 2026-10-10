@@ -96,21 +96,24 @@ TEST_SUITE("ObjectsTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD71E00 (#10627)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ObjGroupTxtFixture<NoopFixture>, "D2Common.0x6FD71E00 (#10627)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_GetObjGroupTxtRecord, dll_base + 0x00031E00);
 		
 		SUBCASE("")
 		{
-			int nId{};
+			for (auto i = 0; i < objgroup_record_count; ++i)
+			{
+				int nId = i;
 
-			// Call both implementations
-			const auto moo_result = sut(nId);
-			const auto original_result = original(nId);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nId);
+				const auto original_result = original(nId);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+			}
 		}
 	}
 	
