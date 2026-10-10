@@ -270,24 +270,15 @@ void __fastcall ENVIRONMENT_UpdateTicks(D2DrlgEnvironmentStrc* pEnvironment, int
 	}
 
 	const int nNextEnvCycle = (pEnvironment->nCycleIndex + 1) % NUM_ENVIRONMENT_CYCLES;
-	const D2EnvironmentCycleStrc* pNextEnvCycle = ENVIRONMENT_GetCycle(nNextEnvCycle, nActNo, pEnvironment->bEclipse);
+	// Lectem's note: Missing act 4...
+	// The original never uses gAct4EnvironmentCycle here, so we can't use ENVIRONMENT_GetCycle
+	const D2EnvironmentCycleStrc* pNextEnvCycle = pEnvironment->bEclipse ? &gEclipseEnvironmentCycle[nNextEnvCycle] : &gNormalEnvironmentCycle[nNextEnvCycle];
 
 	if (pEnvironment->nTicks > pEnvironment->nTimeRate * pNextEnvCycle->nTicksBegin)
 	{
 		pEnvironment->nCycleIndex = nNextEnvCycle;
-
-		// Lectem's note: Missing act 4...
-		// Should be using pNextEnvCycle
-		if (pEnvironment->bEclipse)
-		{
-			pEnvironment->nPeriodOfDay = gEclipseEnvironmentCycle[pEnvironment->nCycleIndex].nPeriodOfDay;
-			pEnvironment->nTicks = pEnvironment->nTimeRate * gEclipseEnvironmentCycle[pEnvironment->nCycleIndex].nTicksBegin;
-		}
-		else
-		{
-			pEnvironment->nPeriodOfDay = gNormalEnvironmentCycle[pEnvironment->nCycleIndex].nPeriodOfDay;
-			pEnvironment->nTicks = pEnvironment->nTimeRate * gNormalEnvironmentCycle[pEnvironment->nCycleIndex].nTicksBegin;
-		}
+		pEnvironment->nPeriodOfDay = pNextEnvCycle->nPeriodOfDay;
+		pEnvironment->nTicks = pEnvironment->nTimeRate * pNextEnvCycle->nTicksBegin;
 	}
 }
 

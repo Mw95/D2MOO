@@ -23,7 +23,7 @@ END_VISIT()
 BEGIN_VISIT(D2DrlgEnvironmentStrc)
 	FIELD(nCycleIndex)
 	FIELD(nPeriodOfDay)
-	INTEGRAL_FIELD(nIntensity, 1) // Since this can be calculated by floating point operations, we allow an 'Off by 1' rounding error
+	FIELD(nTicks)
 	INTEGRAL_FIELD(nIntensity, 1) // Since this can be calculated by floating point operations, we allow an 'Off by 1' rounding error
 	FIELD(dwInitTick)
 	FIELD(unk0x14)
