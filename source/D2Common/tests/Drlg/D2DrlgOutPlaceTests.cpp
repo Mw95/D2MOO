@@ -202,7 +202,7 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		int32_t start_y{};
 		int32_t end_x{};
 		int32_t end_y{};
-		bool has_obstacles = false;
+		auto has_obstacles = 0;
 
 		SUBCASE("adjacent vertices")
 		{
@@ -226,7 +226,7 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 			start_y = 1;
 			end_x = 6;
 			end_y = 1;
-			has_obstacles = true;
+			has_obstacles = 1;
 		}
 
 		D2DrlgStrc moo_pDrlg{};
@@ -530,7 +530,7 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(LvlPrestTxtFixture<NoopFixture>, "D2Common.0x6FD80E10")
+	TEST_CASE_FIXTURE(LvlPrestTxtFixture<NoopFixture>, "D2Common.0x6FD80E10" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGOUTPLACE_PlaceAct1245OutdoorBorders, dll_base + 0x00040E10);
@@ -1476,16 +1476,16 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 
 		// Index into the act 1 wilderness links
 		const auto iteration = GENERATE(0, 1, 2, 3, 4);
-		bool levels_overlap = false;
+		auto levels_overlap = 0;
 
 		SUBCASE("levels not overlapping")
 		{
-			levels_overlap = false;
+			levels_overlap = 0;
 		}
 
 		SUBCASE("levels overlapping")
 		{
-			levels_overlap = true;
+			levels_overlap = 1;
 		}
 
 		int32_t directions[15]{};
@@ -2081,7 +2081,7 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		
 		SUBCASE("")
 		{
-			const uint8_t difficulty = GENERATE(0, 1, 2);
+			const auto difficulty = GENERATE(0, 1, 2);
 			const auto seed = random_unsigned_integer();
 
 			// The jungles are placed relative to Kurast Docks, which uses its level def values

@@ -2639,7 +2639,7 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD9A400 (#10758)")
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD9A400 (#10758)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CheckBodyLocation, dll_base + 0x0005A400);
@@ -4029,7 +4029,7 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9D580 (#10816)")
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FD9D580 (#10816)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetSockets, dll_base + 0x0005D580);

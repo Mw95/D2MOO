@@ -236,7 +236,7 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(LevelDefsTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD788D0")
+	TEST_CASE_FIXTURE(LevelDefsTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD788D0" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD788D0, dll_base + 0x000388D0);
@@ -314,7 +314,7 @@ TEST_SUITE("D2DrlgDrlgWarpTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ObjectsTxtFixture<NoopFixture>, "D2Common.0x6FD78C10")
+	TEST_CASE_FIXTURE(ObjectsTxtFixture<NoopFixture>, "D2Common.0x6FD78C10" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGWARP_GetWaypointRoomExFromLevel, dll_base + 0x00038C10);

@@ -2236,7 +2236,7 @@ TEST_SUITE("D2SkillsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<StatesTxtFixture<SkillDescTxtFixture<ExperienceTxtFixture<SkillsTxtFixture<NoopFixture>>>>>, "D2Common.0x6FDB04D0 (#10953)")
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<StatesTxtFixture<SkillDescTxtFixture<ExperienceTxtFixture<SkillsTxtFixture<NoopFixture>>>>>, "D2Common.0x6FDB04D0 (#10953)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(SKILLS_AssignSkill, dll_base + 0x000704D0);

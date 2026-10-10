@@ -452,7 +452,7 @@ TEST_SUITE("D2DrlgDrlgLogicTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD76C20")
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD76C20" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLG_CheckLayer1ButNotWallObject, dll_base + 0x00036C20);

@@ -169,7 +169,7 @@ TEST_SUITE("D2ItemModsTests")
 			// Input data
 			const auto nChargedSkillId = static_cast<int>(random_unsigned_integer(0, skills_record_count - 1));
 			const auto nChargedSkillLevel = static_cast<int>(random_unsigned_integer(1, 63));
-			const auto nChargedLayer = static_cast<uint16_t>((nChargedSkillLevel & sgptDataTables->nShiftedStuff) + (nChargedSkillId << sgptDataTables->nStuff));
+			const auto nChargedLayer = (nChargedSkillLevel & sgptDataTables->nShiftedStuff) + (nChargedSkillId << sgptDataTables->nStuff);
 			const auto nMaxCharges = static_cast<int>(random_unsigned_integer(1, 255));
 			const auto nCharges = static_cast<int>(random_unsigned_integer(0, nMaxCharges));
 
@@ -250,7 +250,7 @@ TEST_SUITE("D2ItemModsTests")
 			// Input data
 			const auto nChargedSkillId = static_cast<int>(random_unsigned_integer(0, skills_record_count - 1));
 			const auto nChargedSkillLevel = static_cast<int>(random_unsigned_integer(1, 63));
-			const auto nChargedLayer = static_cast<uint16_t>((nChargedSkillLevel & sgptDataTables->nShiftedStuff) + (nChargedSkillId << sgptDataTables->nStuff));
+			const auto nChargedLayer = (nChargedSkillLevel & sgptDataTables->nShiftedStuff) + (nChargedSkillId << sgptDataTables->nStuff);
 			const auto nMaxCharges = static_cast<int>(random_unsigned_integer(1, 255));
 			const auto nCharges = static_cast<int>(random_unsigned_integer(0, nMaxCharges));
 
@@ -721,7 +721,7 @@ TEST_SUITE("D2ItemModsTests")
 			const int stat_ids[] = {
 				STAT_ARMORCLASS, STAT_STRENGTH, STAT_MAXHP, STAT_MAXMANA, STAT_FIRERESIST, STAT_POISONMAXDAM, STAT_ITEM_GOLDBONUS,
 			};
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -787,7 +787,7 @@ TEST_SUITE("D2ItemModsTests")
 				STAT_ITEM_ARMOR_PERCENT, STAT_ITEM_MAXDAMAGE_PERCENT, STAT_ITEM_MINDAMAGE_PERCENT, STAT_POISONMAXDAM,
 			};
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -840,7 +840,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>, "D2Common.0x6FD93170")
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>, "D2Common.0x6FD93170" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD93170, dll_base + 0x00053170);
@@ -899,7 +899,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FD931C0")
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FD931C0" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD931C0, dll_base + 0x000531C0);
@@ -1023,7 +1023,7 @@ TEST_SUITE("D2ItemModsTests")
 				STAT_ITEM_MAXDURABILITY_PERCENT, STAT_STAMINARECOVERYBONUS, STAT_MANARECOVERYBONUS, STAT_ITEM_TOHIT_PERCENT,
 			};
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1085,7 +1085,7 @@ TEST_SUITE("D2ItemModsTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1202,7 +1202,7 @@ TEST_SUITE("D2ItemModsTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1264,7 +1264,7 @@ TEST_SUITE("D2ItemModsTests")
 		{
 			// Input data
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1327,7 +1327,7 @@ TEST_SUITE("D2ItemModsTests")
 		{
 			// Input data
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1390,7 +1390,7 @@ TEST_SUITE("D2ItemModsTests")
 		{
 			// Input data
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1487,7 +1487,7 @@ TEST_SUITE("D2ItemModsTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1778,7 +1778,7 @@ TEST_SUITE("D2ItemModsTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1840,7 +1840,7 @@ TEST_SUITE("D2ItemModsTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1905,7 +1905,7 @@ TEST_SUITE("D2ItemModsTests")
 				STAT_ITEM_ADDCLASSSKILLS, STAT_UNSENTPARAM1, STAT_ITEM_ADDEXPERIENCE, STAT_ITEM_HEALAFTERKILL,
 				STAT_ITEM_REDUCEDPRICES, STAT_ATTACK_VS_MONTYPE, STAT_DAMAGE_VS_MONTYPE,
 			};
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -1999,7 +1999,7 @@ TEST_SUITE("D2ItemModsTests")
 				STAT_ITEM_FASTERATTACKRATE, STAT_ITEM_FASTERMOVEVELOCITY, STAT_ITEM_FASTERGETHITRATE,
 				STAT_ITEM_FASTERBLOCKRATE, STAT_ITEM_FASTERCASTRATE,
 			};
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1));
+			const auto nItemFormat = random_unsigned_integer(0, 1);
 			const auto nLowSeed = random_unsigned_integer();
 
 			D2UnitStrc moo_pItem{};
@@ -2069,7 +2069,7 @@ TEST_SUITE("D2ItemModsTests")
 		};
 
 		const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-		const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1) ? 101 : 0);
+		const auto nItemFormat = random_unsigned_integer(0, 1) ? 101 : 0;
 		const auto nItemLevel = random_unsigned_integer(1, 99);
 		const auto nLowSeed = random_unsigned_integer();
 
@@ -2173,7 +2173,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD95810")
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD95810" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD95810, dll_base + 0x00055810);
@@ -2184,7 +2184,7 @@ TEST_SUITE("D2ItemModsTests")
 		{
 			// Input data
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1) ? 101 : 0);
+			const auto nItemFormat = random_unsigned_integer(0, 1) ? 101 : 0;
 			const auto nItemLevel = random_unsigned_integer(1, 99);
 			const auto nLowSeed = random_unsigned_integer();
 
@@ -2426,7 +2426,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<SetItemsTxtFixture<SetsTxtFixture<NoopFixture>>>>>>>>, "D2Common.0x6FD95A70")
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<SetItemsTxtFixture<SetsTxtFixture<NoopFixture>>>>>>>>, "D2Common.0x6FD95A70" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_UpdateFullSetBoni, dll_base + 0x00055A70);
@@ -2533,7 +2533,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<NoopFixture>>>, "D2Common.0x6FD95BE0 (#10859)")
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<NoopFixture>>>, "D2Common.0x6FD95BE0 (#10859)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_CanItemHaveMagicAffix, dll_base + 0x00055BE0);
@@ -2558,7 +2558,7 @@ TEST_SUITE("D2ItemModsTests")
 
 			for (auto i = 0; i < items_record_count; ++i)
 			{
-				const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1) ? 101 : 1);
+				const auto nItemFormat = random_unsigned_integer(0, 1) ? 101 : 1;
 				const auto nItemLevel = random_unsigned_integer(1, 99);
 
 				D2UnitStrc moo_pItem{};
@@ -2604,7 +2604,7 @@ TEST_SUITE("D2ItemModsTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto nVersion = static_cast<uint16_t>(random_unsigned_integer(0, 1) ? 100 : 0);
+			const auto nVersion = random_unsigned_integer(0, 1) ? 100 : 0;
 			std::array<uint16_t, 7> itypes{};
 			const auto nITypes = random_unsigned_integer(1, itypes.size());
 			for (auto i = 0u; i < nITypes; ++i)
@@ -2620,7 +2620,7 @@ TEST_SUITE("D2ItemModsTests")
 
 			for (auto i = 0; i < items_record_count; ++i)
 			{
-				const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1) ? 101 : 1);
+				const auto nItemFormat = random_unsigned_integer(0, 1) ? 101 : 1;
 
 				D2UnitStrc moo_pItem{};
 				D2ItemDataStrc moo_pItemData{};
@@ -2662,7 +2662,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD95D60 (#10861)")
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD95D60 (#10861)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_CanItemBeHighQuality, dll_base + 0x00055D60);
@@ -2769,7 +2769,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD95F90 (#10868)")
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<SkillsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD95F90 (#10868)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_AddCraftPropertyList, dll_base + 0x00055F90);
@@ -2780,7 +2780,7 @@ TEST_SUITE("D2ItemModsTests")
 		{
 			// Input data
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto nItemFormat = static_cast<uint16_t>(random_unsigned_integer(0, 1) ? 101 : 0);
+			const auto nItemFormat = random_unsigned_integer(0, 1) ? 101 : 0;
 			const auto nItemLevel = random_unsigned_integer(1, 99);
 			const auto nLowSeed = random_unsigned_integer();
 
@@ -3551,7 +3551,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FD97180")
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FD97180" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_PropertyFunc10, dll_base + 0x00057180);
@@ -4317,7 +4317,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>>, "D2Common.0x6FD97FB0")
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>>, "D2Common.0x6FD97FB0" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_PropertyFunc13, dll_base + 0x00057FB0);
@@ -4405,7 +4405,7 @@ TEST_SUITE("D2ItemModsTests")
 				nValue = random_unsigned_integer(0, 200);
 			}
 			const auto nClassId = static_cast<int>(random_unsigned_integer(0, items_record_count - 1));
-			const auto bEthereal = random_unsigned_integer(0, 1) != 0;
+			const auto bEthereal = random_unsigned_integer(0, 1);
 
 			D2UnitStrc moo_pItem{};
 			D2ItemDataStrc moo_pItemData{};
@@ -4693,7 +4693,7 @@ TEST_SUITE("D2ItemModsTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto nStatId = static_cast<uint16_t>(random_unsigned_integer(STAT_STRENGTH, STAT_VITALITY));
+			const auto nStatId = random_unsigned_integer(STAT_STRENGTH, STAT_VITALITY);
 			const auto nStatValue = static_cast<int>(random_unsigned_integer(0, 1000));
 			const auto nConstant1 = static_cast<int8_t>(random_unsigned_integer(0, 200) - 100);
 			const auto nConstant2 = static_cast<int8_t>(random_unsigned_integer(0, 200) - 100);

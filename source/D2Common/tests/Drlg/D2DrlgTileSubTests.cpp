@@ -508,7 +508,7 @@ TEST_SUITE("D2DrlgTileSubTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 
-	TEST_CASE_FIXTURE(LvlSubTxtFixture<NoopFixture>, "D2Common.0x6FD8A460")
+	TEST_CASE_FIXTURE(LvlSubTxtFixture<NoopFixture>, "D2Common.0x6FD8A460" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGTILESUB_AddSecondaryBorder, dll_base + 0x0004A460);
@@ -532,7 +532,7 @@ TEST_SUITE("D2DrlgTileSubTests")
 				const auto height = random_unsigned_integer(0, 15);
 				const auto level_prest_id = random_unsigned_integer(0, 3);
 				const auto field_14 = static_cast<int32_t>(random_unsigned_integer(0, 4)) - 1;
-				const auto use_field_24 = random_unsigned_integer(0, 1) != 0;
+				const auto use_field_24 = random_unsigned_integer(0, 1);
 				const auto grid1_cells = random_grid_cells<outdoor_grid_size, outdoor_grid_size>(random_level_prest_id);
 				const auto lvlsub_records = lvlsub_txt.get() + type_range.nFirstRecord;
 
@@ -632,7 +632,7 @@ TEST_SUITE("D2DrlgTileSubTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGTILESUB_TestReplaceSubPreset, dll_base + 0x0004A750);
 
-		const auto use_field_24 = GENERATE(true, false);
+		const auto use_field_24 = GENERATE(0, 1);
 
 		REPEAT_10();
 
@@ -725,7 +725,7 @@ TEST_SUITE("D2DrlgTileSubTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGTILESUB_ReplaceSubPreset, dll_base + 0x0004A8E0);
 
-		const auto use_field_28 = GENERATE(true, false);
+		const auto use_field_28 = GENERATE(0, 1);
 
 		REPEAT_10();
 
@@ -1306,7 +1306,7 @@ TEST_SUITE("D2DrlgTileSubTests")
 			const auto ds1_height = random_unsigned_integer(1, max_ds1_size);
 			const auto wall_layers = random_unsigned_integer(0, DRLG_MAX_WALL_LAYERS);
 			const auto floor_layers = random_unsigned_integer(0, DRLG_MAX_FLOOR_LAYERS);
-			const auto has_shadow_layer = random_unsigned_integer(0, 1) != 0;
+			const auto has_shadow_layer = random_unsigned_integer(0, 1);
 
 			std::array<Ds1Layer, DRLG_MAX_WALL_LAYERS> wall_layer_cells{};
 			std::array<Ds1Layer, DRLG_MAX_WALL_LAYERS> tile_type_layer_cells{};

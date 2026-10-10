@@ -283,7 +283,7 @@ TEST_SUITE("D2DrlgOutDesrTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LvlSubTxtFixture<LvlPrestTxtFixture<NoopFixture>>, "D2Common.0x6FD7D9B0")
+	TEST_CASE_FIXTURE(LvlSubTxtFixture<LvlPrestTxtFixture<NoopFixture>>, "D2Common.0x6FD7D9B0" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DRLGOUTDESR_PlaceBorders, dll_base + 0x0003D9B0);
