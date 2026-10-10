@@ -2,23 +2,405 @@
 
 #include <Windows.h>
 
+#include <algorithm>
+#include <cctype>
 #include <cstdarg>
+#include <cstdio>
+#include <cstring>
 #include <filesystem>
+#include <memory>
+#include <vector>
 
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
 
+#include <D2BitManip.h>
+#include <D2DataTbls.h>
+#include <D2Inventory.h>
 #include <D2Items.h>
+#include <D2QuestRecord.h>
 #include <D2StatList.h>
+#include <D2States.h>
+#include <DataTbls/MonsterIds.h>
 #include <GAME/Game.h>
+#include <Path/Path.h>
 #include <Units/Units.h>
 
 #include <Fixtures/DataTbls/Fixtures.h>
 
-// TODO: This has to be defined correctly
+
+// The buffer pointer is advanced while reading from/writing to the bitstream and points into a different stream for
+// both implementations. Therefore it is omitted here, the content of the streams is compared separately.
 BEGIN_VISIT(D2BitBufferStrc)
+	OMIT(pBuffer)
+	FIELD(nBits)
+	FIELD(nPos)
+	FIELD(nPosBits)
+	FIELD(bFull)
 END_VISIT()
 
+DYNAMIC_ARRAY_TYPE(uint8_t)
+DYNAMIC_ARRAY_TYPE(D2StatStrc)
+
+
+namespace
+{
+	auto make_stat(int nStat, int nLayer, int nValue) -> D2StatStrc
+	{
+		D2StatStrc stat{};
+		stat.nStat = static_cast<uint16_t>(nStat);
+		stat.nLayer = static_cast<uint16_t>(nLayer);
+		stat.nValue = nValue;
+		return stat;
+	}
+
+	// Stat arrays are searched with a binary search, therefore the stats have to be sorted by their packed layer/stat id
+	auto sorted_stats(std::vector<D2StatStrc> stats) -> std::vector<D2StatStrc>
+	{
+		std::sort(stats.begin(), stats.end(), [](const D2StatStrc& a, const D2StatStrc& b) { return a.nPackedValue < b.nPackedValue; });
+		return stats;
+	}
+
+	// Sets up an extended stat list for the unit, the vectors pStats and pFullStats are used as storage for the stat arrays.
+	// Both arrays get a capacity of at least nCapacity, so that stats can be inserted without reallocating the storage.
+	// Note: The capacity must not exceed the stat count by more than D2StatsArrayStrc::nShrinkThreshold if stats might get removed.
+	void setup_stat_list(
+		D2UnitStrc& pUnit,
+		D2StatListExStrc& pStatListEx,
+		std::vector<D2StatStrc>& pStats,
+		const std::vector<D2StatStrc>& stats,
+		std::vector<D2StatStrc>& pFullStats,
+		const std::vector<D2StatStrc>& full_stats,
+		size_t nCapacity = 0
+	) {
+		pStats = stats;
+		pStats.resize(std::max(stats.size(), nCapacity));
+		pFullStats = full_stats;
+		pFullStats.resize(std::max(full_stats.size(), nCapacity));
+
+		pUnit.pStatListEx = &pStatListEx;
+
+		pStatListEx.pUnit = &pUnit;
+		pStatListEx.pOwner = &pUnit;
+		pStatListEx.dwOwnerType = pUnit.dwUnitType;
+		pStatListEx.dwOwnerId = pUnit.dwUnitId;
+		pStatListEx.dwFlags |= STATLIST_EXTENDED;
+
+		pStatListEx.Stats.pStat = pStats.empty() ? nullptr : pStats.data();
+		pStatListEx.Stats.nStatCount = static_cast<uint16_t>(stats.size());
+		pStatListEx.Stats.nCapacity = static_cast<uint16_t>(pStats.size());
+
+		pStatListEx.FullStats.pStat = pFullStats.empty() ? nullptr : pFullStats.data();
+		pStatListEx.FullStats.nStatCount = static_cast<uint16_t>(full_stats.size());
+		pStatListEx.FullStats.nCapacity = static_cast<uint16_t>(pFullStats.size());
+	}
+
+	// Sets a value of the data tables which is not covered by the fixtures for both implementations
+	template<typename T, typename U>
+	void set_data_tables_value(uintptr_t d2common_base, T D2DataTablesStrc::* member, U value)
+	{
+		const auto offset = reinterpret_cast<uintptr_t>(&(sgptDataTables->*member)) - reinterpret_cast<uintptr_t>(sgptDataTables);
+
+		sgptDataTables->*member = static_cast<T>(value);
+		*reinterpret_cast<T*>(d2common_base + 0x000A9608 + offset) = static_cast<T>(value);
+
+		const auto original_sgptDataTables = reinterpret_cast<D2DataTablesStrc**>(d2common_base + 0x00096A20);
+		*original_sgptDataTables = sgptDataTables;
+	}
+
+	// The skill id and the skill level of some stat layers (e.g. charged skills) are packed with these values,
+	// they are usually set while loading ItemStatCost.txt
+	void setup_skill_layer_packing(uintptr_t d2common_base)
+	{
+		set_data_tables_value(d2common_base, &D2DataTablesStrc::nStuff, 6);
+		set_data_tables_value(d2common_base, &D2DataTablesStrc::nShiftedStuff, (1 << 6) - 1);
+	}
+
+	auto make_skill_layer(int nSkillId, int nSkillLevel) -> int
+	{
+		return (nSkillId << 6) + (nSkillLevel & ((1 << 6) - 1));
+	}
+
+	// The visitor of the stat arrays only compares the first stat, this compares all stats of the arrays
+	void check_stat_arrays_eq(const D2StatsArrayStrc& moo_stats_array, const D2StatsArrayStrc& original_stats_array, const char* context_title)
+	{
+		CHECK_MESSAGE(moo_stats_array.nStatCount == original_stats_array.nStatCount, context_title);
+		if (moo_stats_array.nStatCount == original_stats_array.nStatCount && moo_stats_array.nStatCount > 0)
+		{
+			auto moo_stats = DynamicArray<D2StatStrc>{ moo_stats_array.pStat, moo_stats_array.nStatCount };
+			auto original_stats = DynamicArray<D2StatStrc>{ original_stats_array.pStat, original_stats_array.nStatCount };
+			MOO_CHECK_EQ(moo_stats, original_stats, context_title);
+		}
+	}
+
+	constexpr auto item_set_state_count = 6;
+
+	// Properties of a stat list of an item set state (STATE_ITEMSET1-6)
+	struct SetStateStatListProperties
+	{
+		bool bPresent;
+		uint32_t dwFlags;
+		std::vector<D2StatStrc> stats;
+	};
+
+	// Sets up the stat lists of the item set states, they are linked to the extended stat list of the unit
+	void setup_set_state_stat_lists(
+		const SetStateStatListProperties (&properties)[item_set_state_count],
+		D2UnitStrc& pUnit,
+		D2StatListExStrc& pStatListEx,
+		D2StatListStrc (&pSetStateStatLists)[item_set_state_count],
+		std::vector<D2StatStrc> (&pSetStateStats)[item_set_state_count]
+	) {
+		for (auto i = 0; i < item_set_state_count; ++i)
+		{
+			if (!properties[i].bPresent)
+			{
+				continue;
+			}
+
+			auto& pStatList = pSetStateStatLists[i];
+			pSetStateStats[i] = properties[i].stats;
+
+			pStatList.pUnit = &pUnit;
+			pStatList.dwOwnerType = pUnit.dwUnitType;
+			pStatList.dwOwnerId = pUnit.dwUnitId;
+			pStatList.dwFlags = properties[i].dwFlags;
+			pStatList.dwStateNo = STATE_ITEMSET1 + i;
+			pStatList.Stats.pStat = pSetStateStats[i].empty() ? nullptr : pSetStateStats[i].data();
+			pStatList.Stats.nStatCount = static_cast<uint16_t>(pSetStateStats[i].size());
+			pStatList.Stats.nCapacity = static_cast<uint16_t>(pSetStateStats[i].size());
+			pStatList.pParent = &pStatListEx;
+
+			auto& pLastStatList = (pStatList.dwFlags & STATLIST_SET) ? pStatListEx.pMyStats : pStatListEx.pMyLastList;
+			pStatList.pPrevLink = pLastStatList;
+			if (pLastStatList)
+			{
+				pLastStatList->pNextLink = &pStatList;
+			}
+			pLastStatList = &pStatList;
+		}
+	}
+
+	// Writes the values (value and bit count) to a bitstream of nSize bytes, the remaining bits of the bitstream are random
+	auto make_bitstream(const std::vector<std::pair<uint32_t, int>>& values, size_t nSize) -> std::vector<uint8_t>
+	{
+		std::vector<uint8_t> bitstream(nSize);
+		for (auto& byte : bitstream)
+		{
+			byte = static_cast<uint8_t>(random_unsigned_integer(0, 255));
+		}
+
+		D2BitBufferStrc buffer{};
+		BITMANIP_Initialize(&buffer, bitstream.data(), nSize);
+		for (const auto& [value, bits] : values)
+		{
+			BITMANIP_Write(&buffer, value, bits);
+		}
+
+		return bitstream;
+	}
+
+	// Random properties of an item which gets serialized
+	struct SerializedItemProperties
+	{
+		int nClassId;
+		int nAnimMode;
+		D2CoordStrc tCoords;
+		uint32_t dwInitSeed;
+		uint32_t dwItemFlags;
+		uint32_t dwQualityNo;
+		uint32_t dwRealmData[2];
+		int32_t dwFileIndex;
+		uint32_t dwItemLevel;
+		uint16_t wItemFormat;
+		uint16_t wRarePrefix;
+		uint16_t wRareSuffix;
+		uint16_t wAutoAffix;
+		uint16_t wMagicPrefix[ITEMS_MAX_MODS];
+		uint16_t wMagicSuffix[ITEMS_MAX_MODS];
+		uint8_t nBodyLoc;
+		uint8_t nInvPage;
+		uint8_t nEarLvl;
+		uint8_t nInvGfxIdx;
+		char szPlayerName[16];
+		std::vector<D2StatStrc> stats;
+		std::vector<D2StatStrc> magic_stats;
+	};
+
+	// Note: Runewords are not covered, as there is no fixture for Runes.txt
+	auto make_serialized_item_properties(int nClassId, int nItemStatCostTxtRecordCount) -> SerializedItemProperties
+	{
+		const uint32_t item_flags[] = { IFLAG_IDENTIFIED, IFLAG_SOCKETED, IFLAG_ETHEREAL, IFLAG_PERSONALIZED, IFLAG_ISEAR, IFLAG_INIT, IFLAG_NEWITEM, IFLAG_STARTITEM };
+
+		SerializedItemProperties properties{};
+		properties.nClassId = nClassId;
+		properties.nAnimMode = random_unsigned_integer(IMODE_STORED, IMODE_SOCKETED);
+		properties.tCoords.nX = random_unsigned_integer(0, 3) ? random_unsigned_integer(0, 15) : random_unsigned_integer(0, 0xFFFF);
+		properties.tCoords.nY = random_unsigned_integer(0, 3) ? random_unsigned_integer(0, 15) : random_unsigned_integer(0, 0xFFFF);
+		properties.dwInitSeed = random_unsigned_integer();
+		for (const auto item_flag : item_flags)
+		{
+			properties.dwItemFlags |= random_unsigned_integer(0, 2) == 0 ? item_flag : 0;
+		}
+		properties.dwQualityNo = random_unsigned_integer(ITEMQUAL_INFERIOR, ITEMQUAL_TEMPERED);
+		properties.dwRealmData[0] = random_unsigned_integer();
+		properties.dwRealmData[1] = random_unsigned_integer(0, 1) * random_unsigned_integer();
+		properties.dwFileIndex = random_unsigned_integer(0, 4095);
+		properties.dwItemLevel = random_unsigned_integer(0, 127);
+		properties.wItemFormat = random_unsigned_integer(0, 1);
+		properties.wRarePrefix = random_unsigned_integer(0, 255);
+		properties.wRareSuffix = random_unsigned_integer(0, 255);
+		properties.wAutoAffix = random_unsigned_integer(0, 1) * random_unsigned_integer(0, 2047);
+		for (auto i = 0; i < ITEMS_MAX_MODS; ++i)
+		{
+			properties.wMagicPrefix[i] = random_unsigned_integer(0, 1) * random_unsigned_integer(0, 2047);
+			properties.wMagicSuffix[i] = random_unsigned_integer(0, 1) * random_unsigned_integer(0, 2047);
+		}
+		properties.nBodyLoc = random_unsigned_integer(0, 15);
+		properties.nInvPage = random_unsigned_integer(0, 5);
+		properties.nEarLvl = random_unsigned_integer(0, 127);
+		properties.nInvGfxIdx = random_unsigned_integer(0, 7);
+
+		const auto name_length = random_unsigned_integer(0, 15);
+		for (auto i = 0u; i < name_length; ++i)
+		{
+			properties.szPlayerName[i] = static_cast<char>(random_unsigned_integer('a', 'z'));
+		}
+
+		const auto max_durability = static_cast<int>(random_unsigned_integer(0, 250));
+		properties.stats = sorted_stats({
+			make_stat(STAT_GOLD, 0, random_unsigned_integer(0, 1) ? random_unsigned_integer(1, 4095) : random_unsigned_integer(4096, 1000000)),
+			make_stat(STAT_ARMORCLASS, 0, random_unsigned_integer(1, 200)),
+			make_stat(STAT_QUANTITY, 0, random_unsigned_integer(1, 300)),
+			make_stat(STAT_DURABILITY, 0, random_unsigned_integer(0, max_durability)),
+			make_stat(STAT_MAXDURABILITY, 0, max_durability),
+			make_stat(STAT_ITEM_NUMSOCKETS, 0, random_unsigned_integer(1, 6)),
+			make_stat(STAT_QUESTITEMDIFFICULTY, 0, random_unsigned_integer(0, 2)),
+		});
+
+		std::vector<D2StatStrc> magic_stats;
+		for (auto i = 0; i < 5; ++i)
+		{
+			magic_stats.push_back(make_stat(random_unsigned_integer(0, nItemStatCostTxtRecordCount - 1), random_unsigned_integer(0, 3), random_unsigned_integer(1, 20)));
+		}
+		magic_stats = sorted_stats(magic_stats);
+		magic_stats.erase(std::unique(magic_stats.begin(), magic_stats.end(), [](const D2StatStrc& a, const D2StatStrc& b) { return a.nPackedValue == b.nPackedValue; }), magic_stats.end());
+		properties.magic_stats = magic_stats;
+
+		return properties;
+	}
+
+	// Sets up an item which can be serialized. The magic properties of the item are stored in a separate stat list.
+	void setup_serialized_item(
+		const SerializedItemProperties& properties,
+		D2UnitStrc& pItem,
+		D2ItemDataStrc& pItemData,
+		D2StaticPathStrc& pStaticPath,
+		D2StatListExStrc& pStatListEx,
+		std::vector<D2StatStrc>& pStats,
+		std::vector<D2StatStrc>& pFullStats,
+		D2StatListStrc& pMagicStatList,
+		std::vector<D2StatStrc>& pMagicStats
+	) {
+		pItem.dwUnitType = UNIT_ITEM;
+		pItem.dwClassId = properties.nClassId;
+		pItem.dwAnimMode = properties.nAnimMode;
+		pItem.dwInitSeed = properties.dwInitSeed;
+		pItem.pItemData = &pItemData;
+		pItem.pStaticPath = &pStaticPath;
+
+		pStaticPath.tGameCoords = properties.tCoords;
+
+		pItemData.dwItemFlags = properties.dwItemFlags;
+		pItemData.dwQualityNo = properties.dwQualityNo;
+		pItemData.dwRealmData[0] = properties.dwRealmData[0];
+		pItemData.dwRealmData[1] = properties.dwRealmData[1];
+		pItemData.dwFileIndex = properties.dwFileIndex;
+		pItemData.dwItemLevel = properties.dwItemLevel;
+		pItemData.wItemFormat = properties.wItemFormat;
+		pItemData.wRarePrefix = properties.wRarePrefix;
+		pItemData.wRareSuffix = properties.wRareSuffix;
+		pItemData.wAutoAffix = properties.wAutoAffix;
+		for (auto i = 0; i < ITEMS_MAX_MODS; ++i)
+		{
+			pItemData.wMagicPrefix[i] = properties.wMagicPrefix[i];
+			pItemData.wMagicSuffix[i] = properties.wMagicSuffix[i];
+		}
+		pItemData.nBodyLoc = properties.nBodyLoc;
+		pItemData.nInvPage = properties.nInvPage;
+		pItemData.nEarLvl = properties.nEarLvl;
+		pItemData.nInvGfxIdx = properties.nInvGfxIdx;
+		std::memcpy(pItemData.szPlayerName, properties.szPlayerName, sizeof(pItemData.szPlayerName));
+
+		setup_stat_list(pItem, pStatListEx, pStats, properties.stats, pFullStats, properties.stats);
+
+		pMagicStats = properties.magic_stats;
+		pMagicStatList.pUnit = &pItem;
+		pMagicStatList.dwOwnerType = UNIT_ITEM;
+		pMagicStatList.dwFlags = STATLIST_MAGIC;
+		pMagicStatList.Stats.pStat = pMagicStats.empty() ? nullptr : pMagicStats.data();
+		pMagicStatList.Stats.nStatCount = static_cast<uint16_t>(pMagicStats.size());
+		pMagicStatList.Stats.nCapacity = static_cast<uint16_t>(pMagicStats.size());
+		pMagicStatList.pParent = &pStatListEx;
+		pStatListEx.pMyLastList = &pMagicStatList;
+	}
+}
+
+
+// The fixtures are defined with internal linkage, as other tests might define fixtures with the same names
+namespace
+{
+	// There is no fixture for the MagicPrefix/MagicSuffix/AutoMagic tables (yet). This fixture sets up an empty magic affix table,
+	// so that functions can look up affixes without failing assertions. These look ups never return a record.
+	template<class Fixture>
+	struct EmptyMagicAffixTxtFixture : Fixture
+	{
+		uintptr_t magicaffix_d2common_base;
+		D2MagicAffixTxt magicaffix_txt[1];
+
+		EmptyMagicAffixTxtFixture() : magicaffix_txt{}
+		{
+			const auto working_directory = std::filesystem::current_path();
+			magicaffix_d2common_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
+
+			set_data_tables_value(magicaffix_d2common_base, &D2DataTablesStrc::pMagicAffixDataTables, D2MagicAffixDataTbl{ 0, magicaffix_txt, magicaffix_txt, magicaffix_txt, magicaffix_txt });
+		}
+
+		~EmptyMagicAffixTxtFixture()
+		{
+			set_data_tables_value(magicaffix_d2common_base, &D2DataTablesStrc::pMagicAffixDataTables, D2MagicAffixDataTbl{});
+		}
+	};
+
+
+	// Sets up the linker which is used to look up item ids by item codes (see DATATBLS_GetItemIdFromItemCode), requires the ItemsTxtFixture
+	template<class Fixture>
+	struct ItemsLinkerFixture : Fixture
+	{
+		uintptr_t linker_d2common_base;
+
+		ItemsLinkerFixture()
+		{
+			const auto working_directory = std::filesystem::current_path();
+			linker_d2common_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
+
+			auto* pLinker = static_cast<D2TxtLinkStrc*>(FOG_AllocLinker(__FILE__, __LINE__));
+
+			for (auto i = 0; i < this->items_record_count; ++i)
+			{
+				FOG_10215(pLinker, this->items_txt[i].dwCode);
+			}
+
+			set_data_tables_value(linker_d2common_base, &D2DataTablesStrc::pItemsLinker, pLinker);
+		}
+
+		~ItemsLinkerFixture()
+		{
+			FOG_FreeLinker(sgptDataTables->pItemsLinker);
+			set_data_tables_value(linker_d2common_base, &D2DataTablesStrc::pItemsLinker, nullptr);
+		}
+	};
+}
 
 TEST_SUITE("D2ItemsTests")
 {
@@ -1519,35 +1901,63 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD98A70 (#10777)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD98A70 (#10777)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_IsRepairable, dll_base + 0x00058A70);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_IDENTIFIED), static_cast<uint32_t>(IFLAG_IDENTIFIED | IFLAG_ETHEREAL));
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto stats = sorted_stats({
+					make_stat(STAT_QUANTITY, 0, random_unsigned_integer(0, 50)),
+					make_stat(STAT_MAXDURABILITY, 0, random_unsigned_integer(0, 1) * random_unsigned_integer(1, 250)),
+					make_stat(STAT_ITEM_INDESCTRUCTIBLE, 0, random_unsigned_integer(0, 3) == 0),
+					make_stat(STAT_ITEM_CHARGED_SKILL, random_unsigned_integer(0, 0xFFFF), (random_unsigned_integer(1, 255) << 8) + random_unsigned_integer(0, 255)),
+				});
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem);
-			const auto original_result = original(&original_pItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [i, item_flags, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags = item_flags;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+				};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
@@ -2425,52 +2835,109 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD99740 (#10756)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<ExperienceTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>, "D2Common.0x6FD99740 (#10756)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CheckRequirements, dll_base + 0x00059740);
-		
+
+		// Note: Unique and set items are not covered, the magic affix table is empty
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc moo_pUnit{};
-			BOOL moo_bStrength{};
-			BOOL moo_bDexterity{};
-			BOOL moo_bLevel{};
-			D2UnitStrc original_pItem{};
-			D2UnitStrc original_pUnit{};
-			BOOL original_bStrength{};
-			BOOL original_bDexterity{};
-			BOOL original_bLevel{};
-			BOOL bEquipping{};
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_IDENTIFIED), static_cast<uint32_t>(IFLAG_IDENTIFIED | IFLAG_ETHEREAL));
+			const auto unit_type = GENERATE(UNIT_PLAYER, UNIT_MONSTER);
+			const BOOL bEquipping = GENERATE(FALSE, TRUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2UnitStrc& pUnit,
-				BOOL& bStrength,
-				BOOL& bDexterity,
-				BOOL& bLevel
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const D2C_ItemQualities qualities[] = { ITEMQUAL_INFERIOR, ITEMQUAL_NORMAL, ITEMQUAL_SUPERIOR, ITEMQUAL_MAGIC, ITEMQUAL_RARE, ITEMQUAL_CRAFT, ITEMQUAL_TEMPERED };
+				const auto quality = qualities[random_unsigned_integer(0, std::size(qualities) - 1)];
+				const auto unit_class = unit_type == UNIT_PLAYER ? random_unsigned_integer(0, NUMBER_OF_PLAYERCLASSES - 1) : random_unsigned_integer(MONSTER_ACT5HIRE1 - 1, MONSTER_ACT5HIRE2 + 1);
 
-			setup_data(moo_pItem, moo_pUnit, moo_bStrength, moo_bDexterity, moo_bLevel);
-			setup_data(original_pItem, original_pUnit, original_bStrength, original_bDexterity, original_bLevel);
+				const auto item_stats = sorted_stats({
+					make_stat(STAT_QUANTITY, 0, random_unsigned_integer(0, 50)),
+					make_stat(STAT_ITEM_REQ_PERCENT, 0, static_cast<int>(random_unsigned_integer(0, 100)) - 50),
+					make_stat(STAT_ITEM_LEVELREQ, 0, random_unsigned_integer(0, 10)),
+				});
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pUnit, bEquipping, &moo_bStrength, &moo_bDexterity, &moo_bLevel);
-			const auto original_result = original(&original_pItem, &original_pUnit, bEquipping, &original_bStrength, &original_bDexterity, &original_bLevel);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto unit_stats = sorted_stats({
+					make_stat(STAT_STRENGTH, 0, random_unsigned_integer(0, 200)),
+					make_stat(STAT_DEXTERITY, 0, random_unsigned_integer(0, 200)),
+					make_stat(STAT_LEVEL, 0, random_unsigned_integer(1, 99)),
+				});
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
-			MOO_CHECK_EQ(moo_bStrength, original_bStrength, "Comparing bStrength");
-			MOO_CHECK_EQ(moo_bDexterity, original_bDexterity, "Comparing bDexterity");
-			MOO_CHECK_EQ(moo_bLevel, original_bLevel, "Comparing bLevel");
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pItemStatListEx{};
+				std::vector<D2StatStrc> moo_pItemStats;
+				std::vector<D2StatStrc> moo_pItemFullStats;
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pUnitStatListEx{};
+				std::vector<D2StatStrc> moo_pUnitStats;
+				std::vector<D2StatStrc> moo_pUnitFullStats;
+				BOOL moo_bStrength{};
+				BOOL moo_bDexterity{};
+				BOOL moo_bLevel{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pItemStatListEx{};
+				std::vector<D2StatStrc> original_pItemStats;
+				std::vector<D2StatStrc> original_pItemFullStats;
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pUnitStatListEx{};
+				std::vector<D2StatStrc> original_pUnitStats;
+				std::vector<D2StatStrc> original_pUnitFullStats;
+				BOOL original_bStrength{};
+				BOOL original_bDexterity{};
+				BOOL original_bLevel{};
+
+				const auto setup_data = [i, item_flags, quality, unit_type, unit_class, &item_stats, &unit_stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pItemStatListEx,
+					std::vector<D2StatStrc>& pItemStats,
+					std::vector<D2StatStrc>& pItemFullStats,
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pUnitStatListEx,
+					std::vector<D2StatStrc>& pUnitStats,
+					std::vector<D2StatStrc>& pUnitFullStats,
+					BOOL& bStrength,
+					BOOL& bDexterity,
+					BOOL& bLevel
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags = item_flags;
+					pItemData.dwQualityNo = quality;
+					setup_stat_list(pItem, pItemStatListEx, pItemStats, item_stats, pItemFullStats, item_stats);
+
+					pUnit.dwUnitType = unit_type;
+					pUnit.dwClassId = unit_class;
+					setup_stat_list(pUnit, pUnitStatListEx, pUnitStats, unit_stats, pUnitFullStats, unit_stats);
+
+					bStrength = TRUE;
+					bDexterity = TRUE;
+					bLevel = TRUE;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pItemStatListEx, moo_pItemStats, moo_pItemFullStats, moo_pUnit, moo_pUnitStatListEx, moo_pUnitStats, moo_pUnitFullStats, moo_bStrength, moo_bDexterity, moo_bLevel);
+				setup_data(original_pItem, original_pItemData, original_pItemStatListEx, original_pItemStats, original_pItemFullStats, original_pUnit, original_pUnitStatListEx, original_pUnitStats, original_pUnitFullStats, original_bStrength, original_bDexterity, original_bLevel);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, &moo_pUnit, bEquipping, &moo_bStrength, &moo_bDexterity, &moo_bLevel);
+				const auto original_result = original(&original_pItem, &original_pUnit, bEquipping, &original_bStrength, &original_bDexterity, &original_bLevel);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				MOO_CHECK_EQ(moo_bStrength, original_bStrength, "Comparing bStrength");
+				MOO_CHECK_EQ(moo_bDexterity, original_bDexterity, "Comparing bDexterity");
+				MOO_CHECK_EQ(moo_bLevel, original_bLevel, "Comparing bLevel");
+			}
 		}
 	}
 	
@@ -2567,75 +3034,263 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD99DB0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<SkillsTxtFixture<UniqueItemsTxtFixture<SetItemsTxtFixture<ExperienceTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>>>>, "D2Common.0x6FD99DB0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetRequiredLevel, dll_base + 0x00059DB0);
-		
-		SUBCASE("")
+
+		// Note: The magic affix table is empty, affixes do not contribute to the required level
+		SUBCASE("Inferior, normal, superior, magic, rare, crafted and tempered")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc moo_pPlayer{};
-			D2UnitStrc original_pItem{};
-			D2UnitStrc original_pPlayer{};
+			const auto quality = GENERATE(ITEMQUAL_INFERIOR, ITEMQUAL_NORMAL, ITEMQUAL_SUPERIOR, ITEMQUAL_MAGIC, ITEMQUAL_RARE, ITEMQUAL_CRAFT, ITEMQUAL_TEMPERED);
+			const auto with_player = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2UnitStrc& pPlayer
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto player_class = random_unsigned_integer(0, NUMBER_OF_PLAYERCLASSES - 1);
 
-			setup_data(moo_pItem, moo_pPlayer);
-			setup_data(original_pItem, original_pPlayer);
+				const auto stats = sorted_stats({
+					make_stat(STAT_ITEM_LEVELREQ, 0, random_unsigned_integer(0, 10)),
+					make_stat(STAT_ITEM_NONCLASSSKILL, random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 3)),
+					make_stat(STAT_ITEM_SINGLESKILL, random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 3)),
+				});
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
-			const auto original_result = original(&original_pItem, &original_pPlayer);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc moo_pPlayer{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2UnitStrc original_pPlayer{};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+				const auto setup_data = [i, quality, player_class, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2UnitStrc& pPlayer
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = quality;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+
+					pPlayer.dwUnitType = UNIT_PLAYER;
+					pPlayer.dwClassId = player_class;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pPlayer);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats, original_pPlayer);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, with_player ? &moo_pPlayer : nullptr);
+				const auto original_result = original(&original_pItem, with_player ? &original_pPlayer : nullptr);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+			}
+		}
+
+		SUBCASE("Unique")
+		{
+			const auto with_player = GENERATE(false, true);
+			const auto player_flags_ex = GENERATE(0u, static_cast<uint32_t>(UNITFLAGEX_ISEXPANSION));
+			const auto item_format = GENERATE(0, 1);
+
+			for (auto i = 0; i < uniqueitems_record_count; ++i)
+			{
+				// Input data
+				const auto item_id = random_unsigned_integer(0, items_record_count - 1);
+				const auto stats = sorted_stats({
+					make_stat(STAT_ITEM_LEVELREQ, 0, random_unsigned_integer(0, 10)),
+				});
+
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc moo_pPlayer{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2UnitStrc original_pPlayer{};
+
+				const auto setup_data = [i, item_id, player_flags_ex, item_format, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2UnitStrc& pPlayer
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = item_id;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = ITEMQUAL_UNIQUE;
+					pItemData.dwFileIndex = i;
+					pItemData.wItemFormat = item_format;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+
+					pPlayer.dwUnitType = UNIT_PLAYER;
+					pPlayer.dwFlagEx = player_flags_ex;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pPlayer);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats, original_pPlayer);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, with_player ? &moo_pPlayer : nullptr);
+				const auto original_result = original(&original_pItem, with_player ? &original_pPlayer : nullptr);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+			}
+		}
+
+		SUBCASE("Set")
+		{
+			for (auto i = 0; i < setitems_record_count; ++i)
+			{
+				// Input data
+				const auto item_id = random_unsigned_integer(0, items_record_count - 1);
+				const auto stats = sorted_stats({
+					make_stat(STAT_ITEM_LEVELREQ, 0, random_unsigned_integer(0, 10)),
+				});
+
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc moo_pPlayer{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2UnitStrc original_pPlayer{};
+
+				const auto setup_data = [i, item_id, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2UnitStrc& pPlayer
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = item_id;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = ITEMQUAL_SET;
+					pItemData.dwFileIndex = i;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+
+					pPlayer.dwUnitType = UNIT_PLAYER;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pPlayer);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats, original_pPlayer);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
+				const auto original_result = original(&original_pItem, &original_pPlayer);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9A3F0 (#10757)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<SkillsTxtFixture<ExperienceTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD9A3F0 (#10757)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetLevelRequirement, dll_base + 0x0005A3F0);
 		
+		// Note: The magic affix table is empty, affixes do not contribute to the required level
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pItem{};
-			D2UnitStrc original_pUnit{};
+			const auto quality = GENERATE(ITEMQUAL_INFERIOR, ITEMQUAL_NORMAL, ITEMQUAL_SUPERIOR, ITEMQUAL_MAGIC, ITEMQUAL_RARE, ITEMQUAL_CRAFT, ITEMQUAL_TEMPERED);
+			const auto with_player = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2UnitStrc& pUnit
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto player_class = random_unsigned_integer(0, NUMBER_OF_PLAYERCLASSES - 1);
 
-			setup_data(moo_pItem, moo_pUnit);
-			setup_data(original_pItem, original_pUnit);
+				const auto stats = sorted_stats({
+					make_stat(STAT_ITEM_LEVELREQ, 0, random_unsigned_integer(0, 10)),
+					make_stat(STAT_ITEM_NONCLASSSKILL, random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 3)),
+					make_stat(STAT_ITEM_SINGLESKILL, random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 3)),
+				});
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pUnit);
-			const auto original_result = original(&original_pItem, &original_pUnit);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc moo_pUnit{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2UnitStrc original_pUnit{};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				const auto setup_data = [i, quality, player_class, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2UnitStrc& pUnit
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = quality;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+
+					pUnit.dwUnitType = UNIT_PLAYER;
+					pUnit.dwClassId = player_class;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pUnit);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats, original_pUnit);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, with_player ? &moo_pUnit : nullptr);
+				const auto original_result = original(&original_pItem, with_player ? &original_pUnit : nullptr);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			}
 		}
 	}
 	
@@ -3051,39 +3706,107 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9A960 (#10770)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD9A960 (#10770)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CheckIfAutoBeltable, dll_base + 0x0005A960);
-		
-		SUBCASE("")
+
+		SUBCASE("No inventory")
 		{
-			// Input data
-			D2InventoryStrc moo_pInventory{};
-			D2UnitStrc moo_pItem{};
-			D2InventoryStrc original_pInventory{};
-			D2UnitStrc original_pItem{};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				D2UnitStrc moo_pItem{};
+				D2UnitStrc original_pItem{};
 
-			const auto setup_data = [](
-				D2InventoryStrc& pInventory,
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+				const auto setup_data = [i](
+					D2UnitStrc& pItem
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+				};
 
-			setup_data(moo_pInventory, moo_pItem);
-			setup_data(original_pInventory, original_pItem);
+				setup_data(moo_pItem);
+				setup_data(original_pItem);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pInventory, &moo_pItem);
-			const auto original_result = original(&original_pInventory, &original_pItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Call both implementations
+				const auto moo_result = sut(nullptr, &moo_pItem);
+				const auto original_result = original(nullptr, &original_pItem);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
+		}
+
+		SUBCASE("Items in belt")
+		{
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				int belt_item_ids[4] = {};
+				for (auto& belt_item_id : belt_item_ids)
+				{
+					// Some belt slots are left empty
+					belt_item_id = static_cast<int>(random_unsigned_integer(0, items_record_count)) - 1;
+				}
+
+				D2InventoryStrc moo_pInventory{};
+				D2InventoryGridStrc moo_pGrids[INVGRID_BELT + 1]{};
+				D2UnitStrc* moo_pBeltGridItems[16]{};
+				D2UnitStrc moo_pBeltItems[4]{};
+				D2UnitStrc moo_pItem{};
+				D2InventoryStrc original_pInventory{};
+				D2InventoryGridStrc original_pGrids[INVGRID_BELT + 1]{};
+				D2UnitStrc* original_pBeltGridItems[16]{};
+				D2UnitStrc original_pBeltItems[4]{};
+				D2UnitStrc original_pItem{};
+
+				const auto setup_data = [i, &belt_item_ids](
+					D2InventoryStrc& pInventory,
+					D2InventoryGridStrc (&pGrids)[INVGRID_BELT + 1],
+					D2UnitStrc* (&pBeltGridItems)[16],
+					D2UnitStrc (&pBeltItems)[4],
+					D2UnitStrc& pItem
+				) {
+					pInventory.dwSignature = D2C_InventoryHeader;
+					pInventory.pGrids = pGrids;
+					pInventory.nGridCount = INVGRID_BELT + 1;
+
+					pGrids[INVGRID_BELT].nGridWidth = 16;
+					pGrids[INVGRID_BELT].nGridHeight = 1;
+					pGrids[INVGRID_BELT].ppItems = pBeltGridItems;
+
+					for (auto j = 0; j < 4; ++j)
+					{
+						if (belt_item_ids[j] >= 0)
+						{
+							pBeltItems[j].dwUnitType = UNIT_ITEM;
+							pBeltItems[j].dwClassId = belt_item_ids[j];
+							pBeltGridItems[j] = &pBeltItems[j];
+						}
+					}
+
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+				};
+
+				setup_data(moo_pInventory, moo_pGrids, moo_pBeltGridItems, moo_pBeltItems, moo_pItem);
+				setup_data(original_pInventory, original_pGrids, original_pBeltGridItems, original_pBeltItems, original_pItem);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pInventory, &moo_pItem);
+				const auto original_result = original(&original_pInventory, &original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pInventory, original_pInventory, "Comparing pInventory");
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
@@ -3195,163 +3918,322 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9AB90" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<SkillsTxtFixture<NoopFixture>>, "D2Common.0x6FD9AB90")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CalculateAdditionalCostsForChargedSkills, dll_base + 0x0005AB90);
-		
+
+		setup_skill_layer_packing(dll_base);
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
-			int nBaseCost{};
+			for (auto i = 0; i < skills_record_count; ++i)
+			{
+				// Input data
+				const auto stats = sorted_stats({
+					make_stat(STAT_ITEM_CHARGED_SKILL, make_skill_layer(i, random_unsigned_integer(1, 20)), (random_unsigned_integer(1, 255) << 8) + random_unsigned_integer(0, 255)),
+					make_stat(STAT_ITEM_CHARGED_SKILL, make_skill_layer(random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 20)), (random_unsigned_integer(1, 255) << 8) + random_unsigned_integer(0, 255)),
+				});
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
-			) {
-				// TODO: Setup as needed
-			};
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				int nBaseCost = random_unsigned_integer(0, 100000);
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+				const auto setup_data = [&stats](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats
+				) {
+					pUnit.dwUnitType = UNIT_ITEM;
+					setup_stat_list(pUnit, pStatListEx, pStats, stats, pFullStats, stats);
+				};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nBaseCost);
-			const auto original_result = original(&original_pUnit, nBaseCost);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				setup_data(moo_pUnit, moo_pStatListEx, moo_pStats, moo_pFullStats);
+				setup_data(original_pUnit, original_pStatListEx, original_pStats, original_pFullStats);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				// Call both implementations
+				const auto moo_result = sut(&moo_pUnit, nBaseCost);
+				const auto original_result = original(&original_pUnit, nBaseCost);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9ACE0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<SkillsTxtFixture<NoopFixture>>, "D2Common.0x6FD9ACE0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CalculateAdditionalCostsForBonusStats, dll_base + 0x0005ACE0);
-		
+
+		setup_skill_layer_packing(dll_base);
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			int moo_pSellCost{};
-			int moo_pBuyCost{};
-			int moo_pRepCost{};
-			D2UnitStrc original_pItem{};
-			int original_pSellCost{};
-			int original_pBuyCost{};
-			int original_pRepCost{};
-			unsigned int nDivisor{};
+			const auto with_base_stat = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				int& pSellCost,
-				int& pBuyCost,
-				int& pRepCost
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < itemstatcost_record_count; ++i)
+			{
+				// Input data
+				// The layer is valid for stats encoding a skill id and a skill level
+				const auto layer = make_skill_layer(random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 20));
+				const auto value = static_cast<int>(random_unsigned_integer(1, 100));
+				const auto sell_cost = static_cast<int>(random_unsigned_integer(0, 10000));
+				const auto buy_cost = static_cast<int>(random_unsigned_integer(0, 10000));
+				const auto rep_cost = static_cast<int>(random_unsigned_integer(0, 10000));
 
-			setup_data(moo_pItem, moo_pSellCost, moo_pBuyCost, moo_pRepCost);
-			setup_data(original_pItem, original_pSellCost, original_pBuyCost, original_pRepCost);
+				const auto full_stats = sorted_stats({ make_stat(i, layer, value) });
+				const auto stats = with_base_stat ? sorted_stats({ make_stat(i, layer, value / 2) }) : std::vector<D2StatStrc>{};
 
-			// Call both implementations
-			sut(&moo_pItem, &moo_pSellCost, &moo_pBuyCost, &moo_pRepCost, nDivisor);
-			original(&original_pItem, &original_pSellCost, &original_pBuyCost, &original_pRepCost, nDivisor);
+				D2UnitStrc moo_pItem{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				int moo_pSellCost{};
+				int moo_pBuyCost{};
+				int moo_pRepCost{};
+				D2UnitStrc original_pItem{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				int original_pSellCost{};
+				int original_pBuyCost{};
+				int original_pRepCost{};
+				unsigned int nDivisor = random_unsigned_integer(1, 4);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pSellCost, original_pSellCost, "Comparing pSellCost");
-			MOO_CHECK_EQ(moo_pBuyCost, original_pBuyCost, "Comparing pBuyCost");
-			MOO_CHECK_EQ(moo_pRepCost, original_pRepCost, "Comparing pRepCost");
+				const auto setup_data = [&stats, &full_stats, sell_cost, buy_cost, rep_cost](
+					D2UnitStrc& pItem,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					int& pSellCost,
+					int& pBuyCost,
+					int& pRepCost
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, full_stats);
+					pSellCost = sell_cost;
+					pBuyCost = buy_cost;
+					pRepCost = rep_cost;
+				};
+
+				setup_data(moo_pItem, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pSellCost, moo_pBuyCost, moo_pRepCost);
+				setup_data(original_pItem, original_pStatListEx, original_pStats, original_pFullStats, original_pSellCost, original_pBuyCost, original_pRepCost);
+
+				// Call both implementations
+				sut(&moo_pItem, &moo_pSellCost, &moo_pBuyCost, &moo_pRepCost, nDivisor);
+				original(&original_pItem, &original_pSellCost, &original_pBuyCost, &original_pRepCost, nDivisor);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pSellCost, original_pSellCost, "Comparing pSellCost");
+				MOO_CHECK_EQ(moo_pBuyCost, original_pBuyCost, "Comparing pBuyCost");
+				MOO_CHECK_EQ(moo_pRepCost, original_pRepCost, "Comparing pRepCost");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9B1C0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<SkillsTxtFixture<NpcTxtFixture<BooksTxtFixture<MonStatsTxtFixture<UniqueItemsTxtFixture<SetItemsTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>>>>>>>, "D2Common.0x6FD9B1C0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CalculateTransactionCost, dll_base + 0x0005B1C0);
-		
+
+		setup_skill_layer_packing(dll_base);
+
+		// Note: The magic affix table is empty, affixes do not contribute to the costs
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pPlayer{};
-			D2UnitStrc moo_pItem{};
-			D2BitBufferStrc moo_pQuestFlags{};
-			D2UnitStrc original_pPlayer{};
-			D2UnitStrc original_pItem{};
-			D2BitBufferStrc original_pQuestFlags{};
-			D2C_Difficulties nDifficulty{};
-			int nVendorId{};
-			D2C_TransactionTypes nTransactionType{};
+			const auto nTransactionType = GENERATE(TRANSACTIONTYPE_BUY, TRANSACTIONTYPE_SELL, TRANSACTIONTYPE_GAMBLE, TRANSACTIONTYPE_REPAIR);
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_IDENTIFIED), static_cast<uint32_t>(IFLAG_IDENTIFIED | IFLAG_ETHEREAL), static_cast<uint32_t>(IFLAG_STARTITEM), static_cast<uint32_t>(IFLAG_ISEAR));
 
-			const auto setup_data = [](
-				D2UnitStrc& pPlayer,
-				D2UnitStrc& pItem,
-				D2BitBufferStrc& pQuestFlags
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto quest_flags_size = static_cast<int>(sizeof(uint16_t) * NUM_QUEST_WORDS);
+				const auto quest_flags = std::make_unique<uint8_t[]>(quest_flags_size);
+				for (auto j = 0; j < quest_flags_size; ++j)
+				{
+					quest_flags[j] = random_unsigned_integer(0, 255);
+				}
 
-			setup_data(moo_pPlayer, moo_pItem, moo_pQuestFlags);
-			setup_data(original_pPlayer, original_pItem, original_pQuestFlags);
+				const auto quality = random_unsigned_integer(ITEMQUAL_INFERIOR, ITEMQUAL_TEMPERED);
+				const auto item_format = random_unsigned_integer(0, 1);
+				// The file index is used for monster body parts as well as for unique and set items
+				const auto file_index = random_unsigned_integer(0, std::min({ monstats_record_count, uniqueitems_record_count, setitems_record_count }) - 1);
+				const auto book_id = random_unsigned_integer(0, books_record_count - 1);
+				const auto ear_level = random_unsigned_integer(1, 99);
+				const auto max_durability = static_cast<int>(random_unsigned_integer(1, 250));
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
-			const auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto item_stats = sorted_stats({
+					make_stat(STAT_ARMORCLASS, 0, random_unsigned_integer(1, 200)),
+					make_stat(STAT_QUANTITY, 0, random_unsigned_integer(1, 50)),
+					make_stat(STAT_DURABILITY, 0, random_unsigned_integer(0, max_durability)),
+					make_stat(STAT_MAXDURABILITY, 0, max_durability),
+					make_stat(STAT_ITEM_INDESCTRUCTIBLE, 0, random_unsigned_integer(0, 7) == 0),
+					make_stat(STAT_ITEM_CHARGED_SKILL, make_skill_layer(random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 20)), (random_unsigned_integer(1, 50) << 8) + random_unsigned_integer(0, 50)),
+					make_stat(STAT_ITEM_REPLENISH_DURABILITY, 0, random_unsigned_integer(0, 1)),
+					make_stat(STAT_ITEM_REPLENISH_QUANTITY, 0, random_unsigned_integer(0, 1)),
+					make_stat(STAT_ITEM_EXTRA_STACK, 0, random_unsigned_integer(0, 20)),
+				});
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pQuestFlags, original_pQuestFlags, "Comparing pQuestFlags");
+				const auto player_stats = sorted_stats({
+					make_stat(STAT_LEVEL, 0, random_unsigned_integer(1, 99)),
+					make_stat(STAT_ITEM_REDUCEDPRICES, 0, random_unsigned_integer(0, 20)),
+				});
+
+				D2UnitStrc moo_pPlayer{};
+				D2StatListExStrc moo_pPlayerStatListEx{};
+				std::vector<D2StatStrc> moo_pPlayerStats;
+				std::vector<D2StatStrc> moo_pPlayerFullStats;
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pItemStatListEx{};
+				std::vector<D2StatStrc> moo_pItemStats;
+				std::vector<D2StatStrc> moo_pItemFullStats;
+				D2BitBufferStrc moo_pQuestFlags{};
+				std::unique_ptr<uint8_t[]> moo_pQuestFlagsBuffer;
+				D2UnitStrc original_pPlayer{};
+				D2StatListExStrc original_pPlayerStatListEx{};
+				std::vector<D2StatStrc> original_pPlayerStats;
+				std::vector<D2StatStrc> original_pPlayerFullStats;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pItemStatListEx{};
+				std::vector<D2StatStrc> original_pItemStats;
+				std::vector<D2StatStrc> original_pItemFullStats;
+				D2BitBufferStrc original_pQuestFlags{};
+				std::unique_ptr<uint8_t[]> original_pQuestFlagsBuffer;
+				D2C_Difficulties nDifficulty = static_cast<D2C_Difficulties>(random_unsigned_integer(DIFFMODE_NORMAL, DIFFMODE_HELL));
+				int nVendorId = npc_txt[random_unsigned_integer(0, npc_record_count - 1)].dwNpc;
+
+				const auto setup_data = [&, i](
+					D2UnitStrc& pPlayer,
+					D2StatListExStrc& pPlayerStatListEx,
+					std::vector<D2StatStrc>& pPlayerStats,
+					std::vector<D2StatStrc>& pPlayerFullStats,
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pItemStatListEx,
+					std::vector<D2StatStrc>& pItemStats,
+					std::vector<D2StatStrc>& pItemFullStats,
+					D2BitBufferStrc& pQuestFlags,
+					std::unique_ptr<uint8_t[]>& pQuestFlagsBuffer
+				) {
+					pPlayer.dwUnitType = UNIT_PLAYER;
+					setup_stat_list(pPlayer, pPlayerStatListEx, pPlayerStats, player_stats, pPlayerFullStats, player_stats);
+
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags = item_flags;
+					pItemData.dwQualityNo = quality;
+					pItemData.wItemFormat = item_format;
+					pItemData.dwFileIndex = file_index;
+					pItemData.wMagicSuffix[0] = book_id;
+					pItemData.nEarLvl = ear_level;
+					setup_stat_list(pItem, pItemStatListEx, pItemStats, item_stats, pItemFullStats, item_stats);
+
+					pQuestFlagsBuffer = std::make_unique<uint8_t[]>(quest_flags_size);
+					std::memcpy(pQuestFlagsBuffer.get(), quest_flags.get(), quest_flags_size);
+					BITMANIP_Initialize(&pQuestFlags, pQuestFlagsBuffer.get(), quest_flags_size);
+				};
+
+				setup_data(moo_pPlayer, moo_pPlayerStatListEx, moo_pPlayerStats, moo_pPlayerFullStats, moo_pItem, moo_pItemData, moo_pItemStatListEx, moo_pItemStats, moo_pItemFullStats, moo_pQuestFlags, moo_pQuestFlagsBuffer);
+				setup_data(original_pPlayer, original_pPlayerStatListEx, original_pPlayerStats, original_pPlayerFullStats, original_pItem, original_pItemData, original_pItemStatListEx, original_pItemStats, original_pItemFullStats, original_pQuestFlags, original_pQuestFlagsBuffer);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
+				const auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pQuestFlags, original_pQuestFlags, "Comparing pQuestFlags");
+				auto moo_quest_flags = DynamicArray<uint8_t>{ moo_pQuestFlagsBuffer.get(), quest_flags_size };
+				auto original_quest_flags = DynamicArray<uint8_t>{ original_pQuestFlagsBuffer.get(), quest_flags_size };
+				MOO_CHECK_EQ(moo_quest_flags, original_quest_flags, "Comparing pQuestFlags buffer");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9CB50" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<SkillsTxtFixture<NoopFixture>>>>, "D2Common.0x6FD9CB50")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CalculateAdditionalCostsForItemSkill, dll_base + 0x0005CB50);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			int moo_pSellCost{};
-			int moo_pBuyCost{};
-			int moo_pRepCost{};
-			D2UnitStrc original_pItem{};
-			int original_pSellCost{};
-			int original_pBuyCost{};
-			int original_pRepCost{};
-			unsigned int nDivisor{};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto sell_cost = static_cast<int>(random_unsigned_integer(0, 100000));
+				const auto buy_cost = static_cast<int>(random_unsigned_integer(0, 100000));
+				const auto rep_cost = static_cast<int>(random_unsigned_integer(0, 100000));
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				int& pSellCost,
-				int& pBuyCost,
-				int& pRepCost
-			) {
-				// TODO: Setup as needed
-			};
+				const auto stats = sorted_stats({
+					make_stat(STAT_ITEM_SINGLESKILL, random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 3)),
+					make_stat(STAT_ITEM_SINGLESKILL, random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 3)),
+				});
 
-			setup_data(moo_pItem, moo_pSellCost, moo_pBuyCost, moo_pRepCost);
-			setup_data(original_pItem, original_pSellCost, original_pBuyCost, original_pRepCost);
+				D2UnitStrc moo_pItem{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				int moo_pSellCost{};
+				int moo_pBuyCost{};
+				int moo_pRepCost{};
+				D2UnitStrc original_pItem{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				int original_pSellCost{};
+				int original_pBuyCost{};
+				int original_pRepCost{};
+				unsigned int nDivisor = random_unsigned_integer(1, 4);
 
-			// Call both implementations
-			sut(&moo_pItem, &moo_pSellCost, &moo_pBuyCost, &moo_pRepCost, nDivisor);
-			original(&original_pItem, &original_pSellCost, &original_pBuyCost, &original_pRepCost, nDivisor);
+				const auto setup_data = [i, &stats, sell_cost, buy_cost, rep_cost](
+					D2UnitStrc& pItem,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					int& pSellCost,
+					int& pBuyCost,
+					int& pRepCost
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+					pSellCost = sell_cost;
+					pBuyCost = buy_cost;
+					pRepCost = rep_cost;
+				};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pSellCost, original_pSellCost, "Comparing pSellCost");
-			MOO_CHECK_EQ(moo_pBuyCost, original_pBuyCost, "Comparing pBuyCost");
-			MOO_CHECK_EQ(moo_pRepCost, original_pRepCost, "Comparing pRepCost");
+				setup_data(moo_pItem, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pSellCost, moo_pBuyCost, moo_pRepCost);
+				setup_data(original_pItem, original_pStatListEx, original_pStats, original_pFullStats, original_pSellCost, original_pBuyCost, original_pRepCost);
+
+				// Call both implementations
+				sut(&moo_pItem, &moo_pSellCost, &moo_pBuyCost, &moo_pRepCost, nDivisor);
+				original(&original_pItem, &original_pSellCost, &original_pBuyCost, &original_pRepCost, nDivisor);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pSellCost, original_pSellCost, "Comparing pSellCost");
+				MOO_CHECK_EQ(moo_pBuyCost, original_pBuyCost, "Comparing pBuyCost");
+				MOO_CHECK_EQ(moo_pRepCost, original_pRepCost, "Comparing pRepCost");
+			}
 		}
 	}
 	
@@ -3393,46 +4275,129 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9CDE0 (#10775)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<SkillsTxtFixture<NpcTxtFixture<BooksTxtFixture<MonStatsTxtFixture<UniqueItemsTxtFixture<SetItemsTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>>>>>>>, "D2Common.0x6FD9CDE0 (#10775)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetTransactionCost, dll_base + 0x0005CDE0);
-		
+
+		setup_skill_layer_packing(dll_base);
+
+		// Note: The magic affix table is empty, affixes do not contribute to the costs
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pPlayer{};
-			D2UnitStrc moo_pItem{};
-			D2BitBufferStrc moo_pQuestFlags{};
-			D2UnitStrc original_pPlayer{};
-			D2UnitStrc original_pItem{};
-			D2BitBufferStrc original_pQuestFlags{};
-			D2C_Difficulties nDifficulty{};
-			int nVendorId{};
-			D2C_TransactionTypes nTransactionType{};
+			const auto nTransactionType = GENERATE(TRANSACTIONTYPE_BUY, TRANSACTIONTYPE_SELL, TRANSACTIONTYPE_GAMBLE, TRANSACTIONTYPE_REPAIR);
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_IDENTIFIED), static_cast<uint32_t>(IFLAG_IDENTIFIED | IFLAG_ETHEREAL), static_cast<uint32_t>(IFLAG_STARTITEM), static_cast<uint32_t>(IFLAG_ISEAR));
 
-			const auto setup_data = [](
-				D2UnitStrc& pPlayer,
-				D2UnitStrc& pItem,
-				D2BitBufferStrc& pQuestFlags
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto quest_flags_size = static_cast<int>(sizeof(uint16_t) * NUM_QUEST_WORDS);
+				const auto quest_flags = std::make_unique<uint8_t[]>(quest_flags_size);
+				for (auto j = 0; j < quest_flags_size; ++j)
+				{
+					quest_flags[j] = random_unsigned_integer(0, 255);
+				}
 
-			setup_data(moo_pPlayer, moo_pItem, moo_pQuestFlags);
-			setup_data(original_pPlayer, original_pItem, original_pQuestFlags);
+				const auto quality = random_unsigned_integer(ITEMQUAL_INFERIOR, ITEMQUAL_TEMPERED);
+				const auto item_format = random_unsigned_integer(0, 1);
+				// The file index is used for monster body parts as well as for unique and set items
+				const auto file_index = random_unsigned_integer(0, std::min({ monstats_record_count, uniqueitems_record_count, setitems_record_count }) - 1);
+				const auto book_id = random_unsigned_integer(0, books_record_count - 1);
+				const auto ear_level = random_unsigned_integer(1, 99);
+				const auto max_durability = static_cast<int>(random_unsigned_integer(1, 250));
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
-			const auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto item_stats = sorted_stats({
+					make_stat(STAT_ARMORCLASS, 0, random_unsigned_integer(1, 200)),
+					make_stat(STAT_QUANTITY, 0, random_unsigned_integer(1, 50)),
+					make_stat(STAT_DURABILITY, 0, random_unsigned_integer(0, max_durability)),
+					make_stat(STAT_MAXDURABILITY, 0, max_durability),
+					make_stat(STAT_ITEM_INDESCTRUCTIBLE, 0, random_unsigned_integer(0, 7) == 0),
+					make_stat(STAT_ITEM_CHARGED_SKILL, make_skill_layer(random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 20)), (random_unsigned_integer(1, 50) << 8) + random_unsigned_integer(0, 50)),
+					make_stat(STAT_ITEM_REPLENISH_DURABILITY, 0, random_unsigned_integer(0, 1)),
+					make_stat(STAT_ITEM_REPLENISH_QUANTITY, 0, random_unsigned_integer(0, 1)),
+					make_stat(STAT_ITEM_EXTRA_STACK, 0, random_unsigned_integer(0, 20)),
+				});
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pQuestFlags, original_pQuestFlags, "Comparing pQuestFlags");
+				const auto player_stats = sorted_stats({
+					make_stat(STAT_LEVEL, 0, random_unsigned_integer(1, 99)),
+					make_stat(STAT_ITEM_REDUCEDPRICES, 0, random_unsigned_integer(0, 20)),
+				});
+
+				D2UnitStrc moo_pPlayer{};
+				D2StatListExStrc moo_pPlayerStatListEx{};
+				std::vector<D2StatStrc> moo_pPlayerStats;
+				std::vector<D2StatStrc> moo_pPlayerFullStats;
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pItemStatListEx{};
+				std::vector<D2StatStrc> moo_pItemStats;
+				std::vector<D2StatStrc> moo_pItemFullStats;
+				D2BitBufferStrc moo_pQuestFlags{};
+				std::unique_ptr<uint8_t[]> moo_pQuestFlagsBuffer;
+				D2UnitStrc original_pPlayer{};
+				D2StatListExStrc original_pPlayerStatListEx{};
+				std::vector<D2StatStrc> original_pPlayerStats;
+				std::vector<D2StatStrc> original_pPlayerFullStats;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pItemStatListEx{};
+				std::vector<D2StatStrc> original_pItemStats;
+				std::vector<D2StatStrc> original_pItemFullStats;
+				D2BitBufferStrc original_pQuestFlags{};
+				std::unique_ptr<uint8_t[]> original_pQuestFlagsBuffer;
+				D2C_Difficulties nDifficulty = static_cast<D2C_Difficulties>(random_unsigned_integer(DIFFMODE_NORMAL, DIFFMODE_HELL));
+				int nVendorId = npc_txt[random_unsigned_integer(0, npc_record_count - 1)].dwNpc;
+
+				const auto setup_data = [&, i](
+					D2UnitStrc& pPlayer,
+					D2StatListExStrc& pPlayerStatListEx,
+					std::vector<D2StatStrc>& pPlayerStats,
+					std::vector<D2StatStrc>& pPlayerFullStats,
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pItemStatListEx,
+					std::vector<D2StatStrc>& pItemStats,
+					std::vector<D2StatStrc>& pItemFullStats,
+					D2BitBufferStrc& pQuestFlags,
+					std::unique_ptr<uint8_t[]>& pQuestFlagsBuffer
+				) {
+					pPlayer.dwUnitType = UNIT_PLAYER;
+					setup_stat_list(pPlayer, pPlayerStatListEx, pPlayerStats, player_stats, pPlayerFullStats, player_stats);
+
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags = item_flags;
+					pItemData.dwQualityNo = quality;
+					pItemData.wItemFormat = item_format;
+					pItemData.dwFileIndex = file_index;
+					pItemData.wMagicSuffix[0] = book_id;
+					pItemData.nEarLvl = ear_level;
+					setup_stat_list(pItem, pItemStatListEx, pItemStats, item_stats, pItemFullStats, item_stats);
+
+					pQuestFlagsBuffer = std::make_unique<uint8_t[]>(quest_flags_size);
+					std::memcpy(pQuestFlagsBuffer.get(), quest_flags.get(), quest_flags_size);
+					BITMANIP_Initialize(&pQuestFlags, pQuestFlagsBuffer.get(), quest_flags_size);
+				};
+
+				setup_data(moo_pPlayer, moo_pPlayerStatListEx, moo_pPlayerStats, moo_pPlayerFullStats, moo_pItem, moo_pItemData, moo_pItemStatListEx, moo_pItemStats, moo_pItemFullStats, moo_pQuestFlags, moo_pQuestFlagsBuffer);
+				setup_data(original_pPlayer, original_pPlayerStatListEx, original_pPlayerStats, original_pPlayerFullStats, original_pItem, original_pItemData, original_pItemStatListEx, original_pItemStats, original_pItemFullStats, original_pQuestFlags, original_pQuestFlagsBuffer);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pPlayer, &moo_pItem, nDifficulty, &moo_pQuestFlags, nVendorId, nTransactionType);
+				const auto original_result = original(&original_pPlayer, &original_pItem, nDifficulty, &original_pQuestFlags, nVendorId, nTransactionType);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pQuestFlags, original_pQuestFlags, "Comparing pQuestFlags");
+				auto moo_quest_flags = DynamicArray<uint8_t>{ moo_pQuestFlagsBuffer.get(), quest_flags_size };
+				auto original_quest_flags = DynamicArray<uint8_t>{ original_pQuestFlagsBuffer.get(), quest_flags_size };
+				MOO_CHECK_EQ(moo_quest_flags, original_quest_flags, "Comparing pQuestFlags buffer");
+			}
 		}
 	}
 	
@@ -3607,38 +4572,47 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD9D0F0 (#10804)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<BooksTxtFixture<NoopFixture>>>, "D2Common.0x6FD9D0F0 (#10804)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetSpellIcon, dll_base + 0x0005D0F0);
-		
+
 		SUBCASE("")
 		{
 			for (auto i = 0; i < items_record_count; ++i)
 			{
-				// Input data
-				D2UnitStrc moo_pItem{};
-				D2UnitStrc original_pItem{};
+				// Includes an invalid book id
+				for (auto j = 0; j <= books_record_count; ++j)
+				{
+					// Input data
+					D2UnitStrc moo_pItem{};
+					D2ItemDataStrc moo_pItemData{};
+					D2UnitStrc original_pItem{};
+					D2ItemDataStrc original_pItemData{};
 
-				const auto setup_data = [i](
-					D2UnitStrc& pItem
-				) {
-					pItem.dwUnitType = UNIT_ITEM;
-					pItem.dwClassId = i;
-				};
+					const auto setup_data = [i, j](
+						D2UnitStrc& pItem,
+						D2ItemDataStrc& pItemData
+					) {
+						pItem.dwUnitType = UNIT_ITEM;
+						pItem.dwClassId = i;
+						pItem.pItemData = &pItemData;
+						pItemData.wMagicSuffix[0] = j;
+					};
 
-				setup_data(moo_pItem);
-				setup_data(original_pItem);
+					setup_data(moo_pItem, moo_pItemData);
+					setup_data(original_pItem, original_pItemData);
 
-				// Call both implementations
-				const auto moo_result = sut(&moo_pItem);
-				const auto original_result = original(&original_pItem);
+					// Call both implementations
+					const auto moo_result = sut(&moo_pItem);
+					const auto original_result = original(&original_pItem);
 
-				// Compare return values
-				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
-				// Compare potentially modified input data
-				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				}
 			}
 		}
 	}
@@ -4075,63 +5049,114 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9D5E0 (#10817)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9D5E0 (#10817)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_AddSockets, dll_base + 0x0005D5E0);
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
-			int nSockets{};
+			const auto quality = GENERATE(ITEMQUAL_INFERIOR, ITEMQUAL_NORMAL, ITEMQUAL_SUPERIOR, ITEMQUAL_MAGIC, ITEMQUAL_SET, ITEMQUAL_RARE, ITEMQUAL_UNIQUE, ITEMQUAL_CRAFT, ITEMQUAL_TEMPERED);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto item_level = random_unsigned_integer(1, 99);
+				const auto current_sockets = static_cast<int>(random_unsigned_integer(0, 6));
+				const auto stats = current_sockets ? sorted_stats({ make_stat(STAT_ITEM_NUMSOCKETS, 0, current_sockets) }) : std::vector<D2StatStrc>{};
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				int nSockets = random_unsigned_integer(0, 7);
 
-			// Call both implementations
-			sut(&moo_pItem, nSockets);
-			original(&original_pItem, nSockets);
+				const auto setup_data = [i, quality, item_level, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = quality;
+					pItemData.dwItemLevel = item_level;
+					// Reserve space for the socket stat
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats, stats.size() + 1);
+				};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats);
+
+				// Call both implementations
+				sut(&moo_pItem, nSockets);
+				original(&original_pItem, nSockets);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9D7C0 (#10818)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9D7C0 (#10818)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_SetSockets, dll_base + 0x0005D7C0);
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
-			int nSockets{};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto item_level = random_unsigned_integer(1, 99);
+				const auto current_sockets = static_cast<int>(random_unsigned_integer(0, 6));
+				const auto stats = current_sockets ? sorted_stats({ make_stat(STAT_ITEM_NUMSOCKETS, 0, current_sockets) }) : std::vector<D2StatStrc>{};
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				int nSockets = random_unsigned_integer(0, 7);
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				const auto setup_data = [i, item_level, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemLevel = item_level;
+					// Reserve space for the socket stat
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats, stats.size() + 1);
+				};
 
-			// Call both implementations
-			sut(&moo_pItem, nSockets);
-			original(&original_pItem, nSockets);
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				// Call both implementations
+				sut(&moo_pItem, nSockets);
+				original(&original_pItem, nSockets);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
@@ -4231,147 +5256,110 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9D9E0 (#10822)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9D9E0 (#10822)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetRunesTxtRecordFromItem, dll_base + 0x0005D9E0);
 
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto quality = GENERATE(ITEMQUAL_NORMAL, ITEMQUAL_SUPERIOR, ITEMQUAL_MAGIC);
+			const auto matching_runes = GENERATE(false, true);
+			const auto matching_sockets = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-				) {
-					// TODO: Setup as needed
-				};
-
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
-
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem);
-			const auto original_result = original(&original_pItem);
-
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-		}
-	}
-
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD9DBA0 (#10729)")
-	{
-		// Set up function pointers
-		const auto [sut, original] = make_function_pair(ITEMS_CheckItemTypeIdByItemId, dll_base + 0x0005DBA0);
-
-		SUBCASE("")
-		{
-			for (auto j = 0; j < itemtypes_record_count; ++j)
-			{
-				for (auto i = 0; i < items_record_count; ++i)
-				{
-					// Input data
-					int nItemId = i;
-					int nItemType = j;
-
-					// Call both implementations
-					const auto moo_result = sut(nItemId, nItemType);
-					const auto original_result = original(nItemId, nItemType);
-
-					// Compare return values
-					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-				}
-			}
-		}
-	}
-
-	TEST_CASE_FIXTURE(ItemTypesTxtFixture<NoopFixture>, "D2Common.0x6FD9DC80 (#10730)")
-	{
-		// Set up function pointers
-		const auto [sut, original] = make_function_pair(ITEMS_CheckType, dll_base + 0x0005DC80);
-
-		SUBCASE("")
-		{
-			for (auto j = 0; j < itemtypes_record_count; ++j)
-			{
-				for (auto i = 0; i < itemtypes_record_count; ++i)
-				{
-					// Input data
-					int nItemType1 = i;
-					int nItemType2 = j;
-
-					// Call both implementations
-					const auto moo_result = sut(nItemType1, nItemType2);
-					const auto original_result = original(nItemType1, nItemType2);
-
-					// Compare return values
-					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-				}
-			}
-		}
-	}
-
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD9DCE0 (#10731)")
-	{
-		// Set up function pointers
-		const auto [sut, original] = make_function_pair(ITEMS_CheckItemTypeId, dll_base + 0x0005DCE0);
-
-		SUBCASE("")
-		{
-			for (auto j = 0; j < itemtypes_record_count; ++j)
-			{
-				for (auto i = 0; i < items_record_count; ++i)
-				{
-					// Input data
-					D2UnitStrc moo_pItem{};
-					D2UnitStrc original_pItem{};
-					int nItemType = j;
-
-					const auto setup_data = [i](
-						D2UnitStrc& pItem
-					) {
-						pItem.dwUnitType = UNIT_ITEM;
-						pItem.dwClassId = i;
-					};
-
-					setup_data(moo_pItem);
-					setup_data(original_pItem);
-
-					// Call both implementations
-					const auto moo_result = sut(&moo_pItem, nItemType);
-					const auto original_result = original(&original_pItem, nItemType);
-
-					// Compare return values
-					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
-
-					// Compare potentially modified input data
-					MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-				}
-			}
-		}
-	}
-
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>, "D2Common.0x6FD9DDD0 (#10803)")
-	{
-		// Set up function pointers
-		const auto [sut, original] = make_function_pair(ITEMS_CheckBitField1Flag1, dll_base + 0x0005DDD0);
-		
-		SUBCASE("")
-		{
 			for (auto i = 0; i < items_record_count; ++i)
 			{
-				int nItemId = i;
+				// Input data
+				const auto socketed_item_count = static_cast<int>(random_unsigned_integer(1, 6));
+				int socketed_item_ids[6] = {};
+				for (auto& socketed_item_id : socketed_item_ids)
+				{
+					socketed_item_id = random_unsigned_integer(1, items_record_count - 1);
+				}
+
+				// A runeword which requires the socketed items and is valid for weapons and armor
+				D2RunesTxt runes_txt{};
+				runes_txt.nComplete = 1;
+				runes_txt.wStringId = random_unsigned_integer(1, 0xFFFF);
+				runes_txt.wIType[0] = ITEMTYPE_WEAPON;
+				runes_txt.wIType[1] = ITEMTYPE_ANY_ARMOR;
+				for (auto j = 0; j < socketed_item_count; ++j)
+				{
+					runes_txt.nRune[j] = matching_runes ? socketed_item_ids[j] : socketed_item_ids[j] + 1;
+				}
+
+				set_data_tables_value(dll_base, &D2DataTablesStrc::pRuneDataTables, D2RuneDataTbl{ 1, &runes_txt });
+
+				const auto stats = sorted_stats({
+					make_stat(STAT_ITEM_NUMSOCKETS, 0, matching_sockets ? socketed_item_count : socketed_item_count + 1),
+				});
+
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pSocketedItems[6]{};
+				D2ItemDataStrc moo_pSocketedItemsData[6]{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pSocketedItems[6]{};
+				D2ItemDataStrc original_pSocketedItemsData[6]{};
+
+				const auto setup_data = [i, quality, socketed_item_count, &socketed_item_ids, &stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2InventoryStrc& pInventory,
+					D2UnitStrc (&pSocketedItems)[6],
+					D2ItemDataStrc (&pSocketedItemsData)[6]
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItem.pInventory = &pInventory;
+					pItemData.dwQualityNo = quality;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+
+					pInventory.dwSignature = D2C_InventoryHeader;
+					pInventory.pOwner = &pItem;
+					pInventory.pFirstItem = &pSocketedItems[0];
+					pInventory.pLastItem = &pSocketedItems[socketed_item_count - 1];
+					pInventory.dwItemCount = socketed_item_count;
+
+					for (auto j = 0; j < socketed_item_count; ++j)
+					{
+						pSocketedItems[j].dwUnitType = UNIT_ITEM;
+						pSocketedItems[j].dwClassId = socketed_item_ids[j];
+						pSocketedItems[j].dwAnimMode = IMODE_SOCKETED;
+						pSocketedItems[j].pItemData = &pSocketedItemsData[j];
+						pSocketedItemsData[j].pExtraData.pParentInv = &pInventory;
+						pSocketedItemsData[j].pExtraData.pPreviousItem = j > 0 ? &pSocketedItems[j - 1] : nullptr;
+						pSocketedItemsData[j].pExtraData.pNextItem = j < socketed_item_count - 1 ? &pSocketedItems[j + 1] : nullptr;
+					}
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pInventory, moo_pSocketedItems, moo_pSocketedItemsData);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats, original_pInventory, original_pSocketedItems, original_pSocketedItemsData);
 
 				// Call both implementations
-				const auto moo_result = sut(nItemId);
-				const auto original_result = original(nItemId);
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				set_data_tables_value(dll_base, &D2DataTablesStrc::pRuneDataTables, D2RuneDataTbl{});
 
 				// Compare return values
-				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				CHECK_EQ(moo_result, original_result);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
 			}
 		}
 	}
@@ -5120,44 +6108,147 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9E710 (#10829)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<UniqueItemsTxtFixture<SetItemsTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>, "D2Common.0x6FD9E710 (#10829)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetColor, dll_base + 0x0005E710);
-		
-		SUBCASE("")
+
+		// Note: The magic affix table is empty and items with socketed gems are not covered (the Gems table is not available)
+		SUBCASE("Unique")
 		{
-			// Input data
-			D2UnitStrc moo_pPlayer{};
-			D2UnitStrc moo_pItem{};
-			uint8_t moo_pColor{};
-			D2UnitStrc original_pPlayer{};
-			D2UnitStrc original_pItem{};
-			uint8_t original_pColor{};
-			int nTransType{};
+			const int nTransType = GENERATE(0, 1);
 
-			const auto setup_data = [](
-				D2UnitStrc& pPlayer,
-				D2UnitStrc& pItem,
-				uint8_t& pColor
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < uniqueitems_record_count; ++i)
+			{
+				// Input data
+				const auto item_id = random_unsigned_integer(0, items_record_count - 1);
 
-			setup_data(moo_pPlayer, moo_pItem, moo_pColor);
-			setup_data(original_pPlayer, original_pItem, original_pColor);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				uint8_t moo_pColor{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				uint8_t original_pColor{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer, &moo_pItem, &moo_pColor, nTransType);
-			const auto original_result = original(&original_pPlayer, &original_pItem, &original_pColor, nTransType);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [i, item_id](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					uint8_t& pColor
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = item_id;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = ITEMQUAL_UNIQUE;
+					pItemData.dwFileIndex = i;
+					pColor = 0xFF;
+				};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pColor, original_pColor, "Comparing pColor");
+				setup_data(moo_pItem, moo_pItemData, moo_pColor);
+				setup_data(original_pItem, original_pItemData, original_pColor);
+
+				// Call both implementations
+				const auto moo_result = sut(nullptr, &moo_pItem, &moo_pColor, nTransType);
+				const auto original_result = original(nullptr, &original_pItem, &original_pColor, nTransType);
+
+				// Compare return values
+				CHECK_EQ(moo_result, original_result);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pColor, original_pColor, "Comparing pColor");
+			}
+		}
+
+		SUBCASE("Set")
+		{
+			const int nTransType = GENERATE(0, 1);
+
+			for (auto i = 0; i < setitems_record_count; ++i)
+			{
+				// Input data
+				const auto item_id = random_unsigned_integer(0, items_record_count - 1);
+
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				uint8_t moo_pColor{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				uint8_t original_pColor{};
+
+				const auto setup_data = [i, item_id](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					uint8_t& pColor
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = item_id;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = ITEMQUAL_SET;
+					pItemData.dwFileIndex = i;
+					pColor = 0xFF;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pColor);
+				setup_data(original_pItem, original_pItemData, original_pColor);
+
+				// Call both implementations
+				const auto moo_result = sut(nullptr, &moo_pItem, &moo_pColor, nTransType);
+				const auto original_result = original(nullptr, &original_pItem, &original_pColor, nTransType);
+
+				// Compare return values
+				CHECK_EQ(moo_result, original_result);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pColor, original_pColor, "Comparing pColor");
+			}
+		}
+
+		SUBCASE("Other qualities")
+		{
+			const int nTransType = GENERATE(0, 1);
+			const auto quality = GENERATE(ITEMQUAL_INFERIOR, ITEMQUAL_NORMAL, ITEMQUAL_SUPERIOR, ITEMQUAL_MAGIC, ITEMQUAL_RARE, ITEMQUAL_CRAFT, ITEMQUAL_TEMPERED);
+
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto item_level = random_unsigned_integer(1, 99);
+
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				uint8_t moo_pColor{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				uint8_t original_pColor{};
+
+				const auto setup_data = [i, quality, item_level](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					uint8_t& pColor
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = quality;
+					pItemData.dwItemLevel = item_level;
+					pItemData.dwItemFlags = IFLAG_SOCKETED;
+					pColor = 0xFF;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pColor);
+				setup_data(original_pItem, original_pItemData, original_pColor);
+
+				// Call both implementations
+				const auto moo_result = sut(nullptr, &moo_pItem, &moo_pColor, nTransType);
+				const auto original_result = original(nullptr, &original_pItem, &original_pColor, nTransType);
+
+				// Compare return values
+				CHECK_EQ(moo_result, original_result);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pColor, original_pColor, "Comparing pColor");
+			}
 		}
 	}
 	
@@ -5182,35 +6273,78 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9EEA0 (#10830)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9EEA0 (#10830)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_IsImbueable, dll_base + 0x0005EEA0);
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_NOSELL), static_cast<uint32_t>(IFLAG_SOCKETED), static_cast<uint32_t>(IFLAG_BROKEN), static_cast<uint32_t>(IFLAG_IDENTIFIED));
+			const auto with_socketed_item = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto quality = random_unsigned_integer(ITEMQUAL_INFERIOR, ITEMQUAL_TEMPERED);
+				const auto flags_ex = random_unsigned_integer(0, 1) ? static_cast<uint32_t>(UNITFLAGEX_ISEXPANSION) : 0u;
+				const auto socketed_item_id = random_unsigned_integer(0, items_record_count - 1);
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pSocketedItem{};
+				D2ItemDataStrc moo_pSocketedItemData{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pSocketedItem{};
+				D2ItemDataStrc original_pSocketedItemData{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem);
-			const auto original_result = original(&original_pItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [i, item_flags, with_socketed_item, quality, flags_ex, socketed_item_id](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2InventoryStrc& pInventory,
+					D2UnitStrc& pSocketedItem,
+					D2ItemDataStrc& pSocketedItemData
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.dwFlagEx = flags_ex;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags = item_flags;
+					pItemData.dwQualityNo = quality;
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+					if (with_socketed_item)
+					{
+						pItem.pInventory = &pInventory;
+						pInventory.dwSignature = D2C_InventoryHeader;
+						pInventory.pOwner = &pItem;
+						pInventory.pFirstItem = &pSocketedItem;
+						pInventory.pLastItem = &pSocketedItem;
+						pInventory.dwItemCount = 1;
+
+						pSocketedItem.dwUnitType = UNIT_ITEM;
+						pSocketedItem.dwClassId = socketed_item_id;
+						pSocketedItem.dwAnimMode = IMODE_SOCKETED;
+						pSocketedItem.pItemData = &pSocketedItemData;
+						pSocketedItemData.pExtraData.pParentInv = &pInventory;
+					}
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pInventory, moo_pSocketedItem, moo_pSocketedItemData);
+				setup_data(original_pItem, original_pItemData, original_pInventory, original_pSocketedItem, original_pSocketedItemData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
@@ -5359,145 +6493,407 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9F260 (#10831)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9F260 (#10831)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_IsSocketable, dll_base + 0x0005F260);
 		
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_NOSELL), static_cast<uint32_t>(IFLAG_SOCKETED), static_cast<uint32_t>(IFLAG_BROKEN), static_cast<uint32_t>(IFLAG_IDENTIFIED));
+			const auto with_socketed_item = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto quality = random_unsigned_integer(ITEMQUAL_INFERIOR, ITEMQUAL_TEMPERED);
+				const auto item_level = random_unsigned_integer(1, 99);
+				const auto sockets = random_unsigned_integer(0, 1) * random_unsigned_integer(1, 6);
+				const auto stats = sockets ? sorted_stats({ make_stat(STAT_ITEM_NUMSOCKETS, 0, sockets) }) : std::vector<D2StatStrc>{};
+				const auto socketed_item_id = random_unsigned_integer(0, items_record_count - 1);
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pSocketedItem{};
+				D2ItemDataStrc moo_pSocketedItemData{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pSocketedItem{};
+				D2ItemDataStrc original_pSocketedItemData{};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem);
-			const auto original_result = original(&original_pItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [i, item_flags, with_socketed_item, quality, item_level, &stats, socketed_item_id](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2InventoryStrc& pInventory,
+					D2UnitStrc& pSocketedItem,
+					D2ItemDataStrc& pSocketedItemData
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags = item_flags;
+					pItemData.dwQualityNo = quality;
+					pItemData.dwItemLevel = item_level;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+					if (with_socketed_item)
+					{
+						pItem.pInventory = &pInventory;
+						pInventory.dwSignature = D2C_InventoryHeader;
+						pInventory.pOwner = &pItem;
+						pInventory.pFirstItem = &pSocketedItem;
+						pInventory.pLastItem = &pSocketedItem;
+						pInventory.dwItemCount = 1;
+
+						pSocketedItem.dwUnitType = UNIT_ITEM;
+						pSocketedItem.dwClassId = socketed_item_id;
+						pSocketedItem.dwAnimMode = IMODE_SOCKETED;
+						pSocketedItem.pItemData = &pSocketedItemData;
+						pSocketedItemData.pExtraData.pParentInv = &pInventory;
+					}
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pInventory, moo_pSocketedItem, moo_pSocketedItemData);
+				setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats, original_pInventory, original_pSocketedItem, original_pSocketedItemData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9F490 (#10877)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<SkillsTxtFixture<NpcTxtFixture<BooksTxtFixture<MonStatsTxtFixture<UniqueItemsTxtFixture<SetItemsTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>>>>>>, "D2Common.0x6FD9F490 (#10877)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetAllRepairCosts, dll_base + 0x0005F490);
-		
+
+		setup_skill_layer_packing(dll_base);
+
+		// Note: The magic affix table is empty, affixes do not contribute to the costs
 		SUBCASE("")
 		{
-			// Input data
-			D2GameStrc moo_pGame{};
-			D2UnitStrc moo_pUnit{};
-			D2BitBufferStrc moo_pQuestFlags{};
-			D2GameStrc original_pGame{};
-			D2UnitStrc original_pUnit{};
-			D2BitBufferStrc original_pQuestFlags{};
-			int nNpcId{};
-			D2C_Difficulties nDifficulty{};
+			for (auto repetition = 0; repetition < 200; ++repetition)
+			{
+				// Input data
+				const auto quest_flags_size = static_cast<int>(sizeof(uint16_t) * NUM_QUEST_WORDS);
+				const auto quest_flags = std::make_unique<uint8_t[]>(quest_flags_size);
+				for (auto j = 0; j < quest_flags_size; ++j)
+				{
+					quest_flags[j] = random_unsigned_integer(0, 255);
+				}
 
-			const auto setup_data = [](
-				D2GameStrc& pGame,
-				D2UnitStrc& pUnit,
-				D2BitBufferStrc& pQuestFlags
-			) {
-				// TODO: Setup as needed
-			};
+				const auto player_stats = sorted_stats({
+					make_stat(STAT_LEVEL, 0, random_unsigned_integer(1, 99)),
+					make_stat(STAT_ITEM_REDUCEDPRICES, 0, random_unsigned_integer(0, 20)),
+				});
 
-			setup_data(moo_pGame, moo_pUnit, moo_pQuestFlags);
-			setup_data(original_pGame, original_pUnit, original_pQuestFlags);
+				// Some body locations are left empty
+				int item_ids[NUM_BODYLOC] = {};
+				uint32_t item_flags[NUM_BODYLOC] = {};
+				uint32_t item_qualities[NUM_BODYLOC] = {};
+				std::vector<D2StatStrc> item_stats[NUM_BODYLOC];
+				for (auto j = 0; j < NUM_BODYLOC; ++j)
+				{
+					const auto max_durability = static_cast<int>(random_unsigned_integer(1, 250));
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pGame, &moo_pUnit, nNpcId, nDifficulty, &moo_pQuestFlags, nullptr);
-			const auto original_result = original(&original_pGame, &original_pUnit, nNpcId, nDifficulty, &original_pQuestFlags, nullptr);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					item_ids[j] = static_cast<int>(random_unsigned_integer(0, items_record_count)) - 1;
+					item_flags[j] = IFLAG_IDENTIFIED | (random_unsigned_integer(0, 3) == 0 ? IFLAG_ETHEREAL : 0);
+					item_qualities[j] = random_unsigned_integer(ITEMQUAL_INFERIOR, ITEMQUAL_TEMPERED);
+					item_stats[j] = sorted_stats({
+						make_stat(STAT_ARMORCLASS, 0, random_unsigned_integer(1, 200)),
+						make_stat(STAT_QUANTITY, 0, random_unsigned_integer(1, 50)),
+						make_stat(STAT_DURABILITY, 0, random_unsigned_integer(0, max_durability)),
+						make_stat(STAT_MAXDURABILITY, 0, max_durability),
+						make_stat(STAT_ITEM_CHARGED_SKILL, make_skill_layer(random_unsigned_integer(0, skills_record_count - 1), random_unsigned_integer(1, 20)), (random_unsigned_integer(1, 50) << 8) + random_unsigned_integer(0, 50)),
+					});
+				}
 
-			// Compare potentially modified input data
-			SKIP_MOO_CHECK_EQ(moo_pGame, original_pGame, "Comparing pGame");
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
-			MOO_CHECK_EQ(moo_pQuestFlags, original_pQuestFlags, "Comparing pQuestFlags");
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pUnitStatListEx{};
+				std::vector<D2StatStrc> moo_pUnitStats;
+				std::vector<D2StatStrc> moo_pUnitFullStats;
+				D2InventoryStrc moo_pInventory{};
+				D2InventoryGridStrc moo_pGrids[INVGRID_BODYLOC + 1]{};
+				D2UnitStrc* moo_pBodyLocGridItems[13]{};
+				D2UnitStrc moo_pItems[NUM_BODYLOC]{};
+				D2ItemDataStrc moo_pItemsData[NUM_BODYLOC]{};
+				D2StatListExStrc moo_pItemsStatListEx[NUM_BODYLOC]{};
+				std::vector<D2StatStrc> moo_pItemsStats[NUM_BODYLOC];
+				std::vector<D2StatStrc> moo_pItemsFullStats[NUM_BODYLOC];
+				D2BitBufferStrc moo_pQuestFlags{};
+				std::unique_ptr<uint8_t[]> moo_pQuestFlagsBuffer;
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pUnitStatListEx{};
+				std::vector<D2StatStrc> original_pUnitStats;
+				std::vector<D2StatStrc> original_pUnitFullStats;
+				D2InventoryStrc original_pInventory{};
+				D2InventoryGridStrc original_pGrids[INVGRID_BODYLOC + 1]{};
+				D2UnitStrc* original_pBodyLocGridItems[13]{};
+				D2UnitStrc original_pItems[NUM_BODYLOC]{};
+				D2ItemDataStrc original_pItemsData[NUM_BODYLOC]{};
+				D2StatListExStrc original_pItemsStatListEx[NUM_BODYLOC]{};
+				std::vector<D2StatStrc> original_pItemsStats[NUM_BODYLOC];
+				std::vector<D2StatStrc> original_pItemsFullStats[NUM_BODYLOC];
+				D2BitBufferStrc original_pQuestFlags{};
+				std::unique_ptr<uint8_t[]> original_pQuestFlagsBuffer;
+				int nNpcId = npc_txt[random_unsigned_integer(0, npc_record_count - 1)].dwNpc;
+				D2C_Difficulties nDifficulty = static_cast<D2C_Difficulties>(random_unsigned_integer(DIFFMODE_NORMAL, DIFFMODE_HELL));
+
+				const auto setup_data = [&player_stats, &item_ids, &item_flags, &item_qualities, &item_stats, &quest_flags, quest_flags_size](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pUnitStatListEx,
+					std::vector<D2StatStrc>& pUnitStats,
+					std::vector<D2StatStrc>& pUnitFullStats,
+					D2InventoryStrc& pInventory,
+					D2InventoryGridStrc (&pGrids)[INVGRID_BODYLOC + 1],
+					D2UnitStrc* (&pBodyLocGridItems)[13],
+					D2UnitStrc (&pItems)[NUM_BODYLOC],
+					D2ItemDataStrc (&pItemsData)[NUM_BODYLOC],
+					D2StatListExStrc (&pItemsStatListEx)[NUM_BODYLOC],
+					std::vector<D2StatStrc> (&pItemsStats)[NUM_BODYLOC],
+					std::vector<D2StatStrc> (&pItemsFullStats)[NUM_BODYLOC],
+					D2BitBufferStrc& pQuestFlags,
+					std::unique_ptr<uint8_t[]>& pQuestFlagsBuffer
+				) {
+					pUnit.dwUnitType = UNIT_PLAYER;
+					pUnit.pInventory = &pInventory;
+					setup_stat_list(pUnit, pUnitStatListEx, pUnitStats, player_stats, pUnitFullStats, player_stats);
+
+					pInventory.dwSignature = D2C_InventoryHeader;
+					pInventory.pOwner = &pUnit;
+					pInventory.pGrids = pGrids;
+					pInventory.nGridCount = INVGRID_BODYLOC + 1;
+
+					pGrids[INVGRID_BODYLOC].nGridWidth = 13;
+					pGrids[INVGRID_BODYLOC].nGridHeight = 1;
+					pGrids[INVGRID_BODYLOC].ppItems = pBodyLocGridItems;
+
+					for (auto j = 0; j < NUM_BODYLOC; ++j)
+					{
+						if (item_ids[j] >= 0)
+						{
+							pItems[j].dwUnitType = UNIT_ITEM;
+							pItems[j].dwClassId = item_ids[j];
+							pItems[j].dwAnimMode = IMODE_EQUIP;
+							pItems[j].pItemData = &pItemsData[j];
+							pItemsData[j].dwItemFlags = item_flags[j];
+							pItemsData[j].dwQualityNo = item_qualities[j];
+							pItemsData[j].nBodyLoc = j;
+							pItemsData[j].pExtraData.pParentInv = &pInventory;
+							setup_stat_list(pItems[j], pItemsStatListEx[j], pItemsStats[j], item_stats[j], pItemsFullStats[j], item_stats[j]);
+
+							pBodyLocGridItems[j] = &pItems[j];
+						}
+					}
+
+					pQuestFlagsBuffer = std::make_unique<uint8_t[]>(quest_flags_size);
+					std::memcpy(pQuestFlagsBuffer.get(), quest_flags.get(), quest_flags_size);
+					BITMANIP_Initialize(&pQuestFlags, pQuestFlagsBuffer.get(), quest_flags_size);
+				};
+
+				setup_data(moo_pUnit, moo_pUnitStatListEx, moo_pUnitStats, moo_pUnitFullStats, moo_pInventory, moo_pGrids, moo_pBodyLocGridItems, moo_pItems, moo_pItemsData, moo_pItemsStatListEx, moo_pItemsStats, moo_pItemsFullStats, moo_pQuestFlags, moo_pQuestFlagsBuffer);
+				setup_data(original_pUnit, original_pUnitStatListEx, original_pUnitStats, original_pUnitFullStats, original_pInventory, original_pGrids, original_pBodyLocGridItems, original_pItems, original_pItemsData, original_pItemsStatListEx, original_pItemsStats, original_pItemsFullStats, original_pQuestFlags, original_pQuestFlagsBuffer);
+
+				// Call both implementations
+				const auto moo_result = sut(nullptr, &moo_pUnit, nNpcId, nDifficulty, &moo_pQuestFlags, nullptr);
+				const auto original_result = original(nullptr, &original_pUnit, nNpcId, nDifficulty, &original_pQuestFlags, nullptr);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				for (auto j = 0; j < NUM_BODYLOC; ++j)
+				{
+					MOO_CHECK_EQ(moo_pItems[j], original_pItems[j], "Comparing pItems");
+				}
+				MOO_CHECK_EQ(moo_pQuestFlags, original_pQuestFlags, "Comparing pQuestFlags");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9F720 (#10833)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemStatCostTxtFixture<NoopFixture>>, "D2Common.0x6FD9F720 (#10833)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_AreStackablesEqual, dll_base + 0x0005F720);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem1{};
-			D2UnitStrc moo_pItem2{};
-			D2UnitStrc original_pItem1{};
-			D2UnitStrc original_pItem2{};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				for (auto repetition = 0; repetition < 10; ++repetition)
+				{
+					// Input data
+					// The values are chosen from small ranges, so that both equal and different items are generated
+					const int item_ids[2] = { i, random_unsigned_integer(0, 3) ? i : static_cast<int>(random_unsigned_integer(0, items_record_count - 1)) };
+					uint32_t item_flags[2] = {};
+					uint32_t item_qualities[2] = {};
+					int file_indices[2] = {};
+					std::vector<D2StatStrc> item_stats[2];
+					for (auto j = 0; j < 2; ++j)
+					{
+						item_flags[j] = random_unsigned_integer(0, 3) == 0 ? IFLAG_ETHEREAL : 0;
+						item_qualities[j] = random_unsigned_integer(0, 3) == 0 ? random_unsigned_integer(0, ITEMQUAL_TEMPERED) : ITEMQUAL_NORMAL;
+						file_indices[j] = random_unsigned_integer(0, 3) == 0;
+						item_stats[j] = sorted_stats({
+							make_stat(STAT_MINDAMAGE, 0, random_unsigned_integer(0, 1)),
+							make_stat(STAT_MAXDAMAGE, 0, random_unsigned_integer(0, 1)),
+							make_stat(STAT_SECONDARY_MINDAMAGE, 0, random_unsigned_integer(0, 1)),
+							make_stat(STAT_SECONDARY_MAXDAMAGE, 0, random_unsigned_integer(0, 1)),
+							make_stat(STAT_ITEM_THROW_MINDAMAGE, 0, random_unsigned_integer(0, 1)),
+							make_stat(STAT_ITEM_THROW_MAXDAMAGE, 0, random_unsigned_integer(0, 1)),
+							make_stat(STAT_ITEM_NUMSOCKETS, 0, random_unsigned_integer(0, 7) == 0),
+						});
+					}
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem1,
-				D2UnitStrc& pItem2
-			) {
-				// TODO: Setup as needed
-			};
+					D2UnitStrc moo_pItem1{};
+					D2ItemDataStrc moo_pItemData1{};
+					D2StatListExStrc moo_pStatListEx1{};
+					std::vector<D2StatStrc> moo_pStats1;
+					std::vector<D2StatStrc> moo_pFullStats1;
+					D2UnitStrc moo_pItem2{};
+					D2ItemDataStrc moo_pItemData2{};
+					D2StatListExStrc moo_pStatListEx2{};
+					std::vector<D2StatStrc> moo_pStats2;
+					std::vector<D2StatStrc> moo_pFullStats2;
+					D2UnitStrc original_pItem1{};
+					D2ItemDataStrc original_pItemData1{};
+					D2StatListExStrc original_pStatListEx1{};
+					std::vector<D2StatStrc> original_pStats1;
+					std::vector<D2StatStrc> original_pFullStats1;
+					D2UnitStrc original_pItem2{};
+					D2ItemDataStrc original_pItemData2{};
+					D2StatListExStrc original_pStatListEx2{};
+					std::vector<D2StatStrc> original_pStats2;
+					std::vector<D2StatStrc> original_pFullStats2;
 
-			setup_data(moo_pItem1, moo_pItem2);
-			setup_data(original_pItem1, original_pItem2);
+					const auto setup_data = [&item_ids, &item_flags, &item_qualities, &file_indices, &item_stats](
+						D2UnitStrc& pItem1,
+						D2ItemDataStrc& pItemData1,
+						D2StatListExStrc& pStatListEx1,
+						std::vector<D2StatStrc>& pStats1,
+						std::vector<D2StatStrc>& pFullStats1,
+						D2UnitStrc& pItem2,
+						D2ItemDataStrc& pItemData2,
+						D2StatListExStrc& pStatListEx2,
+						std::vector<D2StatStrc>& pStats2,
+						std::vector<D2StatStrc>& pFullStats2
+					) {
+						pItem1.dwUnitType = UNIT_ITEM;
+						pItem1.dwClassId = item_ids[0];
+						pItem1.pItemData = &pItemData1;
+						pItemData1.dwItemFlags = item_flags[0];
+						pItemData1.dwQualityNo = item_qualities[0];
+						pItemData1.dwFileIndex = file_indices[0];
+						setup_stat_list(pItem1, pStatListEx1, pStats1, item_stats[0], pFullStats1, item_stats[0]);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem1, &moo_pItem2);
-			const auto original_result = original(&original_pItem1, &original_pItem2);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+						pItem2.dwUnitType = UNIT_ITEM;
+						pItem2.dwClassId = item_ids[1];
+						pItem2.pItemData = &pItemData2;
+						pItemData2.dwItemFlags = item_flags[1];
+						pItemData2.dwQualityNo = item_qualities[1];
+						pItemData2.dwFileIndex = file_indices[1];
+						setup_stat_list(pItem2, pStatListEx2, pStats2, item_stats[1], pFullStats2, item_stats[1]);
+					};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem1, original_pItem1, "Comparing pItem1");
-			MOO_CHECK_EQ(moo_pItem2, original_pItem2, "Comparing pItem2");
+					setup_data(moo_pItem1, moo_pItemData1, moo_pStatListEx1, moo_pStats1, moo_pFullStats1, moo_pItem2, moo_pItemData2, moo_pStatListEx2, moo_pStats2, moo_pFullStats2);
+					setup_data(original_pItem1, original_pItemData1, original_pStatListEx1, original_pStats1, original_pFullStats1, original_pItem2, original_pItemData2, original_pStatListEx2, original_pStats2, original_pFullStats2);
+
+					// Call both implementations
+					const auto moo_result = sut(&moo_pItem1, &moo_pItem2);
+					const auto original_result = original(&original_pItem1, &original_pItem2);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pItem1, original_pItem1, "Comparing pItem1");
+					MOO_CHECK_EQ(moo_pItem2, original_pItem2, "Comparing pItem2");
+				}
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9FA70 (#10834)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemStatCostTxtFixture<NoopFixture>>, "D2Common.0x6FD9FA70 (#10834)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_CanItemBeUsedForThrowSkill, dll_base + 0x0005FA70);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
+			const auto with_quantity = GENERATE(false, true);
+			const auto throwable = GENERATE(false, true);
+			const auto reduced_stack = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				std::vector<D2StatStrc> stats;
+				if (with_quantity)
+				{
+					stats.push_back(make_stat(STAT_QUANTITY, 0, random_unsigned_integer(1, 50)));
+				}
+				if (throwable)
+				{
+					stats.push_back(make_stat(STAT_ITEM_THROWABLE, 0, 1));
+				}
+				if (reduced_stack)
+				{
+					stats.push_back(make_stat(STAT_ITEM_EXTRA_STACK, 0, -static_cast<int>(random_unsigned_integer(1, 500))));
+				}
+				stats = sorted_stats(stats);
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				D2UnitStrc moo_pItem{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc original_pItem{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem);
-			const auto original_result = original(&original_pItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [i, &stats](
+					D2UnitStrc& pItem,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+				};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				setup_data(moo_pItem, moo_pStatListEx, moo_pStats, moo_pFullStats);
+				setup_data(original_pItem, original_pStatListEx, original_pStats, original_pFullStats);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem);
+				const auto original_result = original(&original_pItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
@@ -5520,40 +6916,96 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9FB50 (#10836)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(SetItemsTxtFixture<SetsTxtFixture<NoopFixture>>, "D2Common.0x6FD9FB50 (#10836)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetSetItemsMask, dll_base + 0x0005FB50);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pPlayer{};
-			D2UnitStrc moo_pSetItem{};
-			D2UnitStrc original_pPlayer{};
-			D2UnitStrc original_pSetItem{};
-			BOOL bDontIgnoreInputItem{};
+			const BOOL bDontIgnoreInputItem = GENERATE(FALSE, TRUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pPlayer,
-				D2UnitStrc& pSetItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < setitems_record_count; ++i)
+			{
+				// Input data
+				// The first item is the set item which is passed to the function, the other items mostly belong to the same set
+				std::vector<int> same_set_items;
+				for (auto j = 0; j < setitems_record_count; ++j)
+				{
+					if (setitems_txt[j].nSetId == setitems_txt[i].nSetId)
+					{
+						same_set_items.push_back(j);
+					}
+				}
 
-			setup_data(moo_pPlayer, moo_pSetItem);
-			setup_data(original_pPlayer, original_pSetItem);
+				constexpr auto item_count = 6;
+				int file_indices[item_count] = {};
+				uint32_t item_qualities[item_count] = {};
+				uint32_t item_flags[item_count] = {};
+				char node_pages[item_count] = {};
+				for (auto j = 0; j < item_count; ++j)
+				{
+					file_indices[j] = j == 0 ? i : random_unsigned_integer(0, 4) ? same_set_items[random_unsigned_integer(0, same_set_items.size() - 1)] : random_unsigned_integer(0, setitems_record_count - 1);
+					item_qualities[j] = j == 0 || random_unsigned_integer(0, 4) ? ITEMQUAL_SET : ITEMQUAL_UNIQUE;
+					item_flags[j] = random_unsigned_integer(0, 7) == 0 ? IFLAG_BROKEN : random_unsigned_integer(0, 7) == 0 ? IFLAG_NOEQUIP : 0;
+					node_pages[j] = random_unsigned_integer(0, 4) ? NODEPAGE_EQUIP : NODEPAGE_STORAGE;
+				}
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pPlayer, &moo_pSetItem, bDontIgnoreInputItem);
-			const auto original_result = original(&original_pPlayer, &original_pSetItem, bDontIgnoreInputItem);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				D2UnitStrc moo_pPlayer{};
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pItems[item_count]{};
+				D2ItemDataStrc moo_pItemsData[item_count]{};
+				D2UnitStrc original_pPlayer{};
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pItems[item_count]{};
+				D2ItemDataStrc original_pItemsData[item_count]{};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
-			MOO_CHECK_EQ(moo_pSetItem, original_pSetItem, "Comparing pSetItem");
+				const auto setup_data = [&file_indices, &item_qualities, &item_flags, &node_pages](
+					D2UnitStrc& pPlayer,
+					D2InventoryStrc& pInventory,
+					D2UnitStrc (&pItems)[item_count],
+					D2ItemDataStrc (&pItemsData)[item_count]
+				) {
+					pPlayer.dwUnitType = UNIT_PLAYER;
+					pPlayer.pInventory = &pInventory;
+
+					pInventory.dwSignature = D2C_InventoryHeader;
+					pInventory.pOwner = &pPlayer;
+					pInventory.pFirstItem = &pItems[0];
+					pInventory.pLastItem = &pItems[item_count - 1];
+					pInventory.dwItemCount = item_count;
+
+					for (auto j = 0; j < item_count; ++j)
+					{
+						pItems[j].dwUnitType = UNIT_ITEM;
+						pItems[j].pItemData = &pItemsData[j];
+						pItemsData[j].dwQualityNo = item_qualities[j];
+						pItemsData[j].dwFileIndex = file_indices[j];
+						pItemsData[j].dwItemFlags = item_flags[j];
+						pItemsData[j].pExtraData.pParentInv = &pInventory;
+						pItemsData[j].pExtraData.nNodePosOther = node_pages[j];
+						pItemsData[j].pExtraData.pPreviousItem = j > 0 ? &pItems[j - 1] : nullptr;
+						pItemsData[j].pExtraData.pNextItem = j < item_count - 1 ? &pItems[j + 1] : nullptr;
+					}
+				};
+
+				setup_data(moo_pPlayer, moo_pInventory, moo_pItems, moo_pItemsData);
+				setup_data(original_pPlayer, original_pInventory, original_pItems, original_pItemsData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pPlayer, &moo_pItems[0], bDontIgnoreInputItem);
+				const auto original_result = original(&original_pPlayer, &original_pItems[0], bDontIgnoreInputItem);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+				for (auto j = 0; j < item_count; ++j)
+				{
+					MOO_CHECK_EQ(moo_pItems[j], original_pItems[j], "Comparing pItems");
+				}
+			}
 		}
 	}
 	
@@ -5702,71 +7154,170 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9FE70 (#10840)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<ExperienceTxtFixture<EmptyMagicAffixTxtFixture<NoopFixture>>>>>, "D2Common.0x6FD9FE70 (#10840)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_IsCharmUsable, dll_base + 0x0005FE70);
-		
+
+		// Note: Unique and set items are not covered, the magic affix table is empty
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc moo_pPlayer{};
-			D2UnitStrc original_pItem{};
-			D2UnitStrc original_pPlayer{};
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_IDENTIFIED), static_cast<uint32_t>(IFLAG_IDENTIFIED | IFLAG_BROKEN), static_cast<uint32_t>(IFLAG_IDENTIFIED | IFLAG_NOEQUIP));
+			const auto inventory_page = GENERATE(INVPAGE_INVENTORY, INVPAGE_CUBE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2UnitStrc& pPlayer
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const D2C_ItemQualities qualities[] = { ITEMQUAL_INFERIOR, ITEMQUAL_NORMAL, ITEMQUAL_SUPERIOR, ITEMQUAL_MAGIC, ITEMQUAL_RARE, ITEMQUAL_CRAFT, ITEMQUAL_TEMPERED };
+				const auto quality = qualities[random_unsigned_integer(0, std::size(qualities) - 1)];
+				const auto player_class = random_unsigned_integer(0, NUMBER_OF_PLAYERCLASSES - 1);
 
-			setup_data(moo_pItem, moo_pPlayer);
-			setup_data(original_pItem, original_pPlayer);
+				const auto item_stats = sorted_stats({
+					make_stat(STAT_QUANTITY, 0, random_unsigned_integer(0, 50)),
+					make_stat(STAT_ITEM_REQ_PERCENT, 0, static_cast<int>(random_unsigned_integer(0, 100)) - 50),
+					make_stat(STAT_ITEM_LEVELREQ, 0, random_unsigned_integer(0, 10)),
+				});
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
-			const auto original_result = original(&original_pItem, &original_pPlayer);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto player_stats = sorted_stats({
+					make_stat(STAT_STRENGTH, 0, random_unsigned_integer(0, 200)),
+					make_stat(STAT_DEXTERITY, 0, random_unsigned_integer(0, 200)),
+					make_stat(STAT_LEVEL, 0, random_unsigned_integer(1, 99)),
+				});
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pItemStatListEx{};
+				std::vector<D2StatStrc> moo_pItemStats;
+				std::vector<D2StatStrc> moo_pItemFullStats;
+				D2UnitStrc moo_pPlayer{};
+				D2StatListExStrc moo_pPlayerStatListEx{};
+				std::vector<D2StatStrc> moo_pPlayerStats;
+				std::vector<D2StatStrc> moo_pPlayerFullStats;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pItemStatListEx{};
+				std::vector<D2StatStrc> original_pItemStats;
+				std::vector<D2StatStrc> original_pItemFullStats;
+				D2UnitStrc original_pPlayer{};
+				D2StatListExStrc original_pPlayerStatListEx{};
+				std::vector<D2StatStrc> original_pPlayerStats;
+				std::vector<D2StatStrc> original_pPlayerFullStats;
+
+				const auto setup_data = [i, item_flags, quality, inventory_page, player_class, &item_stats, &player_stats](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pItemStatListEx,
+					std::vector<D2StatStrc>& pItemStats,
+					std::vector<D2StatStrc>& pItemFullStats,
+					D2UnitStrc& pPlayer,
+					D2StatListExStrc& pPlayerStatListEx,
+					std::vector<D2StatStrc>& pPlayerStats,
+					std::vector<D2StatStrc>& pPlayerFullStats
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					pItem.pItemData = &pItemData;
+					pItemData.dwItemFlags = item_flags;
+					pItemData.dwQualityNo = quality;
+					pItemData.nInvPage = inventory_page;
+					setup_stat_list(pItem, pItemStatListEx, pItemStats, item_stats, pItemFullStats, item_stats);
+
+					pPlayer.dwUnitType = UNIT_PLAYER;
+					pPlayer.dwClassId = player_class;
+					setup_stat_list(pPlayer, pPlayerStatListEx, pPlayerStats, player_stats, pPlayerFullStats, player_stats);
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pItemStatListEx, moo_pItemStats, moo_pItemFullStats, moo_pPlayer, moo_pPlayerStatListEx, moo_pPlayerStats, moo_pPlayerFullStats);
+				setup_data(original_pItem, original_pItemData, original_pItemStatListEx, original_pItemStats, original_pItemFullStats, original_pPlayer, original_pPlayerStatListEx, original_pPlayerStats, original_pPlayerFullStats);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, &moo_pPlayer);
+				const auto original_result = original(&original_pItem, &original_pPlayer);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pPlayer, original_pPlayer, "Comparing pPlayer");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9FF00 (#10776)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD9FF00 (#10776)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetNoOfUnidItems, dll_base + 0x0005FF00);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			for (auto item_count = 0; item_count <= 20; ++item_count)
+			{
+				// Input data
+				std::vector<uint32_t> item_flags(item_count);
+				std::vector<char> node_pages(item_count);
+				std::vector<uint8_t> inventory_pages(item_count);
+				for (auto j = 0; j < item_count; ++j)
+				{
+					item_flags[j] = random_unsigned_integer(0, 1) ? IFLAG_IDENTIFIED : 0;
+					node_pages[j] = random_unsigned_integer(NODEPAGE_STORAGE, NODEPAGE_EQUIP);
+					inventory_pages[j] = random_unsigned_integer(INVPAGE_INVENTORY, INVPAGE_BELT);
+				}
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
-			) {
-				// TODO: Setup as needed
-			};
+				D2UnitStrc moo_pUnit{};
+				D2InventoryStrc moo_pInventory{};
+				std::vector<D2UnitStrc> moo_pItems(item_count);
+				std::vector<D2ItemDataStrc> moo_pItemsData(item_count);
+				D2UnitStrc original_pUnit{};
+				D2InventoryStrc original_pInventory{};
+				std::vector<D2UnitStrc> original_pItems(item_count);
+				std::vector<D2ItemDataStrc> original_pItemsData(item_count);
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+				const auto setup_data = [item_count, &item_flags, &node_pages, &inventory_pages](
+					D2UnitStrc& pUnit,
+					D2InventoryStrc& pInventory,
+					std::vector<D2UnitStrc>& pItems,
+					std::vector<D2ItemDataStrc>& pItemsData
+				) {
+					pUnit.dwUnitType = UNIT_PLAYER;
+					pUnit.pInventory = &pInventory;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit);
-			const auto original_result = original(&original_pUnit);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					pInventory.dwSignature = D2C_InventoryHeader;
+					pInventory.pOwner = &pUnit;
+					pInventory.pFirstItem = item_count > 0 ? &pItems[0] : nullptr;
+					pInventory.pLastItem = item_count > 0 ? &pItems[item_count - 1] : nullptr;
+					pInventory.dwItemCount = item_count;
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+					for (auto j = 0; j < item_count; ++j)
+					{
+						pItems[j].dwUnitType = UNIT_ITEM;
+						pItems[j].pItemData = &pItemsData[j];
+						pItemsData[j].dwItemFlags = item_flags[j];
+						pItemsData[j].nInvPage = inventory_pages[j];
+						pItemsData[j].pExtraData.pParentInv = &pInventory;
+						pItemsData[j].pExtraData.nNodePosOther = node_pages[j];
+						pItemsData[j].pExtraData.pPreviousItem = j > 0 ? &pItems[j - 1] : nullptr;
+						pItemsData[j].pExtraData.pNextItem = j < item_count - 1 ? &pItems[j + 1] : nullptr;
+					}
+				};
+
+				setup_data(moo_pUnit, moo_pInventory, moo_pItems, moo_pItemsData);
+				setup_data(original_pUnit, original_pInventory, original_pItems, original_pItemsData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pUnit);
+				const auto original_result = original(&original_pUnit);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				for (auto j = 0; j < item_count; ++j)
+				{
+					MOO_CHECK_EQ(moo_pItems[j], original_pItems[j], "Comparing pItems");
+				}
+			}
 		}
 	}
 	
@@ -5985,75 +7536,188 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA0130 (#10878)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDA0130 (#10878)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetWeaponAttackSpeed, dll_base + 0x00060130);
-		
+
+		// There are no fixtures for PlrType.txt, PlrMode.txt and AnimData.d2, minimal tables are set up instead
+		const char* player_type_tokens[NUMBER_OF_PLAYERCLASSES] = { "AM", "SO", "NE", "PA", "BA", "DZ", "AI" };
+		D2PlrModeTypeTxt player_types[PLRMODE_ATTACK1 + 1] = {};
+		D2PlrModeTypeTxt player_modes[PLRMODE_ATTACK1 + 1] = {};
+		for (auto i = 0; i < NUMBER_OF_PLAYERCLASSES; ++i)
+		{
+			std::strcpy(player_types[i].szToken, player_type_tokens[i]);
+		}
+		std::strcpy(player_modes[PLRMODE_ATTACK1].szToken, "A1");
+
+		set_data_tables_value(dll_base, &D2DataTablesStrc::pPlrModeDataTables, D2PlrModeDataTbl{ PLRMODE_ATTACK1 + 1, player_types, player_types, player_modes });
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc moo_pWeapon{};
-			D2UnitStrc original_pUnit{};
-			D2UnitStrc original_pWeapon{};
+			const auto with_anim_data_record = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit,
-				D2UnitStrc& pWeapon
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// The function only accepts weapons
+				D2UnitStrc weapon{};
+				weapon.dwUnitType = UNIT_ITEM;
+				weapon.dwClassId = i;
+				if (!ITEMS_CheckItemTypeId(&weapon, ITEMTYPE_WEAPON))
+				{
+					continue;
+				}
 
-			setup_data(moo_pUnit, moo_pWeapon);
-			setup_data(original_pUnit, original_pWeapon);
+				// Input data
+				const auto player_class = random_unsigned_integer(0, NUMBER_OF_PLAYERCLASSES - 1);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pWeapon);
-			const auto original_result = original(&original_pUnit, &original_pWeapon);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// The anim data record name consists of the class token, the mode token and the weapon class
+				char weapon_class[4] = {};
+				std::memcpy(weapon_class, &items_txt[i].dwWeapClass, 3);
+				for (auto& c : weapon_class)
+				{
+					c = c == ' ' ? '\0' : static_cast<char>(std::toupper(c));
+				}
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
-			MOO_CHECK_EQ(moo_pWeapon, original_pWeapon, "Comparing pWeapon");
+				D2AnimDataRecordStrc anim_data_record{};
+				std::snprintf(anim_data_record.szAnimDataName, sizeof(anim_data_record.szAnimDataName), "%s%s%s", player_type_tokens[player_class], "A1", weapon_class);
+				anim_data_record.dwFrames = random_unsigned_integer(1, 30);
+				anim_data_record.dwAnimSpeed = random_unsigned_integer(128, 256);
+
+				uint8_t anim_data_record_hash = 0;
+				for (auto c = anim_data_record.szAnimDataName; *c; ++c)
+				{
+					anim_data_record_hash += *c;
+				}
+
+				std::vector<uint8_t> anim_data_bucket(sizeof(D2AnimDataBucketStrc) + sizeof(D2AnimDataRecordStrc));
+				reinterpret_cast<D2AnimDataBucketStrc*>(anim_data_bucket.data())->nbEntries = 1;
+				std::memcpy(reinterpret_cast<D2AnimDataBucketStrc*>(anim_data_bucket.data())->aEntries, &anim_data_record, sizeof(anim_data_record));
+
+				D2AnimDataBucketStrc empty_anim_data_bucket{};
+				auto anim_data = std::make_unique<D2AnimDataTableStrc>();
+				std::fill(std::begin(anim_data->pHashTableBucket), std::end(anim_data->pHashTableBucket), &empty_anim_data_bucket);
+				if (with_anim_data_record)
+				{
+					anim_data->pHashTableBucket[anim_data_record_hash] = reinterpret_cast<D2AnimDataBucketStrc*>(anim_data_bucket.data());
+				}
+				anim_data->tDefaultRecord.dwFrames = 1;
+				anim_data->tDefaultRecord.dwAnimSpeed = 256;
+
+				set_data_tables_value(dll_base, &D2DataTablesStrc::pAnimData, anim_data.get());
+
+				const auto stats = sorted_stats({
+					make_stat(STAT_ATTACKRATE, 0, static_cast<int>(random_unsigned_integer(0, 100)) - 50),
+					make_stat(STAT_ITEM_FASTERATTACKRATE, 0, random_unsigned_integer(0, 100)),
+				});
+
+				D2UnitStrc moo_pUnit{};
+				D2UnitStrc moo_pWeapon{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc original_pUnit{};
+				D2UnitStrc original_pWeapon{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+
+				const auto setup_data = [i, player_class, &stats](
+					D2UnitStrc& pUnit,
+					D2UnitStrc& pWeapon,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats
+				) {
+					pUnit.dwUnitType = UNIT_PLAYER;
+					pUnit.dwClassId = player_class;
+
+					pWeapon.dwUnitType = UNIT_ITEM;
+					pWeapon.dwClassId = i;
+					setup_stat_list(pWeapon, pStatListEx, pStats, stats, pFullStats, stats);
+				};
+
+				setup_data(moo_pUnit, moo_pWeapon, moo_pStatListEx, moo_pStats, moo_pFullStats);
+				setup_data(original_pUnit, original_pWeapon, original_pStatListEx, original_pStats, original_pFullStats);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pUnit, &moo_pWeapon);
+				const auto original_result = original(&original_pUnit, &original_pWeapon);
+
+				set_data_tables_value(dll_base, &D2DataTablesStrc::pAnimData, nullptr);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				MOO_CHECK_EQ(moo_pWeapon, original_pWeapon, "Comparing pWeapon");
+			}
 		}
+
+		set_data_tables_value(dll_base, &D2DataTablesStrc::pPlrModeDataTables, D2PlrModeDataTbl{});
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA02B0 (#10879)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FDA02B0 (#10879)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_HasUsedCharges, dll_base + 0x000602B0);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			BOOL moo_pHasChargedSkills{};
-			D2UnitStrc original_pItem{};
-			BOOL original_pHasChargedSkills{};
+			for (auto charged_skill_count = 0; charged_skill_count <= 5; ++charged_skill_count)
+			{
+				for (auto repetition = 0; repetition < 20; ++repetition)
+				{
+					// Input data
+					// The charges are often full, so that items with and without used charges are generated
+					std::vector<D2StatStrc> stats;
+					for (auto j = 0; j < charged_skill_count; ++j)
+					{
+						const auto max_charges = random_unsigned_integer(1, 255);
+						const auto charges = random_unsigned_integer(0, 3) ? max_charges : random_unsigned_integer(0, max_charges);
+						stats.push_back(make_stat(STAT_ITEM_CHARGED_SKILL, j, (max_charges << 8) + charges));
+					}
+					stats = sorted_stats(stats);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				BOOL& pHasChargedSkills
-			) {
-				// TODO: Setup as needed
-			};
+					D2UnitStrc moo_pItem{};
+					D2StatListExStrc moo_pStatListEx{};
+					std::vector<D2StatStrc> moo_pStats;
+					std::vector<D2StatStrc> moo_pFullStats;
+					BOOL moo_pHasChargedSkills{};
+					D2UnitStrc original_pItem{};
+					D2StatListExStrc original_pStatListEx{};
+					std::vector<D2StatStrc> original_pStats;
+					std::vector<D2StatStrc> original_pFullStats;
+					BOOL original_pHasChargedSkills{};
 
-			setup_data(moo_pItem, moo_pHasChargedSkills);
-			setup_data(original_pItem, original_pHasChargedSkills);
+					const auto setup_data = [&stats](
+						D2UnitStrc& pItem,
+						D2StatListExStrc& pStatListEx,
+						std::vector<D2StatStrc>& pStats,
+						std::vector<D2StatStrc>& pFullStats,
+						BOOL& pHasChargedSkills
+					) {
+						pItem.dwUnitType = UNIT_ITEM;
+						setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats);
+						pHasChargedSkills = 2;
+					};
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pHasChargedSkills);
-			const auto original_result = original(&original_pItem, &original_pHasChargedSkills);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					setup_data(moo_pItem, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pHasChargedSkills);
+					setup_data(original_pItem, original_pStatListEx, original_pStats, original_pFullStats, original_pHasChargedSkills);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pHasChargedSkills, original_pHasChargedSkills, "Comparing pHasChargedSkills");
+					// Call both implementations
+					const auto moo_result = sut(&moo_pItem, &moo_pHasChargedSkills);
+					const auto original_result = original(&original_pItem, &original_pHasChargedSkills);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+					MOO_CHECK_EQ(moo_pHasChargedSkills, original_pHasChargedSkills, "Comparing pHasChargedSkills");
+				}
+			}
 		}
 	}
 	
@@ -6131,422 +7795,1030 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA0370 (#10883)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemsTxtFixture<NoopFixture>>, "D2Common.0x6FDA0370 (#10883)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_GetCompactItemDataFromBitstream, dll_base + 0x00060370);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			uint8_t moo_pBitstream{};
-			D2ItemSaveStrc moo_pItemSave{};
-			uint8_t original_pBitstream{};
-			D2ItemSaveStrc original_pItemSave{};
-			size_t nSize{};
-			BOOL bCheckForHeader{};
+			const BOOL bCheckForHeader = GENERATE(FALSE, TRUE);
+			const auto item_flags = GENERATE(0u, static_cast<uint32_t>(IFLAG_IDENTIFIED), static_cast<uint32_t>(IFLAG_ISEAR), static_cast<uint32_t>(IFLAG_LOWQUALITY), static_cast<uint32_t>(IFLAG_COMPACTSAVE));
 
-			const auto setup_data = [](
-				uint8_t& pBitstream,
-				D2ItemSaveStrc& pItemSave
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto valid_header = random_unsigned_integer(0, 7) != 0;
+				const auto anim_mode = random_unsigned_integer(IMODE_STORED, IMODE_SOCKETED);
 
-			setup_data(moo_pBitstream, moo_pItemSave);
-			setup_data(original_pBitstream, original_pItemSave);
+				std::vector<std::pair<uint32_t, int>> values;
+				if (bCheckForHeader)
+				{
+					values.push_back({ valid_header ? 'MJ' : random_unsigned_integer(0, 0xFFFF), 16 });
+				}
+				values.push_back({ item_flags, 32 });
+				values.push_back({ random_unsigned_integer(0, 1023), 10 });
+				values.push_back({ anim_mode, 3 });
+				if (anim_mode == IMODE_ONGROUND || anim_mode == IMODE_DROPPING)
+				{
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+				}
+				else
+				{
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 7), 3 });
+				}
+				if (!(item_flags & IFLAG_ISEAR))
+				{
+					values.push_back({ items_txt[i].dwCode, 32 });
+				}
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pBitstream, nSize, bCheckForHeader, &moo_pItemSave);
-			const auto original_result = original(&original_pBitstream, nSize, bCheckForHeader, &original_pItemSave);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				constexpr auto bitstream_size = 32;
+				const auto bitstream = make_bitstream(values, bitstream_size);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pBitstream, original_pBitstream, "Comparing pBitstream");
-			MOO_CHECK_EQ(moo_pItemSave, original_pItemSave, "Comparing pItemSave");
+				std::vector<uint8_t> moo_pBitstream;
+				D2ItemSaveStrc moo_pItemSave{};
+				std::vector<uint8_t> original_pBitstream;
+				D2ItemSaveStrc original_pItemSave{};
+				size_t nSize = bitstream_size;
+
+				const auto setup_data = [&bitstream](
+					std::vector<uint8_t>& pBitstream
+				) {
+					pBitstream = bitstream;
+				};
+
+				setup_data(moo_pBitstream);
+				setup_data(original_pBitstream);
+
+				// Call both implementations
+				const auto moo_result = sut(moo_pBitstream.data(), nSize, bCheckForHeader, &moo_pItemSave);
+				const auto original_result = original(original_pBitstream.data(), nSize, bCheckForHeader, &original_pItemSave);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+
+				// The fields of D2ItemSaveStrc are not covered by its visitor (yet)
+				CHECK_EQ(moo_pItemSave.nClassId, original_pItemSave.nClassId);
+				CHECK_EQ(moo_pItemSave.nX, original_pItemSave.nX);
+				CHECK_EQ(moo_pItemSave.nY, original_pItemSave.nY);
+				CHECK_EQ(moo_pItemSave.nAnimMode, original_pItemSave.nAnimMode);
+				CHECK_EQ(moo_pItemSave.dwFlags, original_pItemSave.dwFlags);
+				CHECK_EQ(moo_pItemSave.nStorePage, original_pItemSave.nStorePage);
+				CHECK_EQ(moo_pItemSave.nBodyloc, original_pItemSave.nBodyloc);
+				CHECK_EQ(moo_pItemSave.nItemFileIndex, original_pItemSave.nItemFileIndex);
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA0490 (#10882)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA0490 (#10882)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_DecodeItemFromBitstream, dll_base + 0x00060490);
-		
+
+		// Note: Complete items are only covered if they are unidentified and without a header, as the magic properties of other items are stored
+		// in newly allocated stat lists. The difficulty of quest items is stored in a newly allocated stat list as well, this is not covered either.
+		// Ears and personalized items are not covered, as the name of the player is read until a terminating zero is found in the random bitstream.
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			uint8_t moo_pBitstream{};
-			int moo_pSocketedItemCount{};
-			BOOL moo_pFail{};
-			D2UnitStrc original_pItem{};
-			uint8_t original_pBitstream{};
-			int original_pSocketedItemCount{};
-			BOOL original_pFail{};
-			size_t nSize{};
-			BOOL bCheckForHeader{};
-			uint32_t dwVersion{};
+			const uint32_t dwVersion = GENERATE(87, 92, 96);
+			const auto with_socketed_item_count = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				uint8_t& pBitstream,
-				int& pSocketedItemCount,
-				BOOL& pFail
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				const auto compact = items_txt[i].nCompactSave != 0;
+				if (compact && dwVersion > 92 && items_txt[i].nQuest && items_txt[i].nQuestDiffCheck)
+				{
+					continue;
+				}
 
-			setup_data(moo_pItem, moo_pBitstream, moo_pSocketedItemCount, moo_pFail);
-			setup_data(original_pItem, original_pBitstream, original_pSocketedItemCount, original_pFail);
+				// Input data
+				const BOOL bCheckForHeader = compact && random_unsigned_integer(0, 1);
+				const auto valid_header = random_unsigned_integer(0, 7) != 0;
+				const uint32_t complete_item_flags[] = { 0, IFLAG_SOCKETED, IFLAG_ETHEREAL, IFLAG_RUNEWORD, IFLAG_LOWQUALITY, IFLAG_SOCKETED | IFLAG_ETHEREAL };
+				const auto item_flags = compact
+					? static_cast<uint32_t>(IFLAG_COMPACTSAVE) | (random_unsigned_integer(0, 1) ? IFLAG_ETHEREAL : 0) | (random_unsigned_integer(0, 1) ? IFLAG_IDENTIFIED : 0)
+					: complete_item_flags[random_unsigned_integer(0, std::size(complete_item_flags) - 1)];
+				const auto anim_mode = random_unsigned_integer(IMODE_STORED, IMODE_SOCKETED);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bCheckForHeader, &moo_pSocketedItemCount, dwVersion, &moo_pFail);
-			const auto original_result = original(&original_pItem, &original_pBitstream, nSize, bCheckForHeader, &original_pSocketedItemCount, dwVersion, &original_pFail);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				std::vector<std::pair<uint32_t, int>> values;
+				if (bCheckForHeader)
+				{
+					values.push_back({ valid_header ? 'MJ' : random_unsigned_integer(0, 0xFFFF), 16 });
+				}
+				values.push_back({ item_flags, 32 });
+				values.push_back({ random_unsigned_integer(0, 1023), 10 });
+				values.push_back({ anim_mode, 3 });
+				if (anim_mode == IMODE_ONGROUND || anim_mode == IMODE_DROPPING)
+				{
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+				}
+				else
+				{
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 7), 3 });
+				}
+				values.push_back({ items_txt[i].dwCode, 32 });
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pBitstream, original_pBitstream, "Comparing pBitstream");
-			MOO_CHECK_EQ(moo_pSocketedItemCount, original_pSocketedItemCount, "Comparing pSocketedItemCount");
-			MOO_CHECK_EQ(moo_pFail, original_pFail, "Comparing pFail");
+				// The remaining bits are random
+				constexpr auto bitstream_size = 32;
+				const auto bitstream = make_bitstream(values, bitstream_size);
+
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StaticPathStrc moo_pStaticPath{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				int moo_pSocketedItemCount{};
+				BOOL moo_pFail{};
+				std::vector<uint8_t> moo_pBitstream;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StaticPathStrc original_pStaticPath{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				int original_pSocketedItemCount{};
+				BOOL original_pFail{};
+				std::vector<uint8_t> original_pBitstream;
+				size_t nSize = bitstream_size;
+
+				const auto setup_data = [&bitstream](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StaticPathStrc& pStaticPath,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					std::vector<uint8_t>& pBitstream
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.pItemData = &pItemData;
+					pItem.pStaticPath = &pStaticPath;
+					// The stat arrays are allocated by the implementations
+					setup_stat_list(pItem, pStatListEx, pStats, {}, pFullStats, {});
+
+					pBitstream = bitstream;
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStaticPath, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pBitstream);
+				setup_data(original_pItem, original_pItemData, original_pStaticPath, original_pStatListEx, original_pStats, original_pFullStats, original_pBitstream);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, moo_pBitstream.data(), nSize, bCheckForHeader, with_socketed_item_count ? &moo_pSocketedItemCount : nullptr, dwVersion, &moo_pFail);
+				const auto original_result = original(&original_pItem, original_pBitstream.data(), nSize, bCheckForHeader, with_socketed_item_count ? &original_pSocketedItemCount : nullptr, dwVersion, &original_pFail);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				check_stat_arrays_eq(moo_pStatListEx.Stats, original_pStatListEx.Stats, "Comparing pItem->pStatListEx->Stats");
+				check_stat_arrays_eq(moo_pStatListEx.FullStats, original_pStatListEx.FullStats, "Comparing pItem->pStatListEx->FullStats");
+				MOO_CHECK_EQ(moo_pSocketedItemCount, original_pSocketedItemCount, "Comparing pSocketedItemCount");
+				MOO_CHECK_EQ(moo_pFail, original_pFail, "Comparing pFail");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA0620" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA0620")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_DecodeItemBitstreamCompact, dll_base + 0x00060620);
-		
+
+		// Note: Ears are not covered, as the name of the player is read until a terminating zero is found in the random bitstream
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2BitBufferStrc moo_pBuffer{};
-			D2UnitStrc original_pItem{};
-			D2BitBufferStrc original_pBuffer{};
-			BOOL bCheckForHeader{};
-			uint32_t dwVersion{};
+			const BOOL bCheckForHeader = GENERATE(FALSE, TRUE);
+			const uint32_t dwVersion = GENERATE(87, 92, 96);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2BitBufferStrc& pBuffer
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// The difficulty of quest items is stored in a newly allocated stat list, this is not covered
+				if (dwVersion > 92 && items_txt[i].nQuest && items_txt[i].nQuestDiffCheck)
+				{
+					continue;
+				}
 
-			setup_data(moo_pItem, moo_pBuffer);
-			setup_data(original_pItem, original_pBuffer);
+				// Input data
+				const auto item_flags = static_cast<uint32_t>(IFLAG_COMPACTSAVE) | (random_unsigned_integer(0, 1) ? IFLAG_ETHEREAL : 0) | (random_unsigned_integer(0, 1) ? IFLAG_IDENTIFIED : 0);
+				const auto anim_mode = random_unsigned_integer(IMODE_STORED, IMODE_SOCKETED);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, dwVersion);
-			const auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, dwVersion);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				std::vector<std::pair<uint32_t, int>> values;
+				values.push_back({ random_unsigned_integer(0, 1023), 10 });
+				values.push_back({ anim_mode, 3 });
+				if (anim_mode == IMODE_ONGROUND || anim_mode == IMODE_DROPPING)
+				{
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+				}
+				else
+				{
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 7), 3 });
+				}
+				values.push_back({ items_txt[i].dwCode, 32 });
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+				// The remaining bits (gold, realm data) are random
+				constexpr auto bitstream_size = 32;
+				const auto bitstream = make_bitstream(values, bitstream_size);
+
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StaticPathStrc moo_pStaticPath{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2BitBufferStrc moo_pBuffer{};
+				std::vector<uint8_t> moo_pBitstream;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StaticPathStrc original_pStaticPath{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2BitBufferStrc original_pBuffer{};
+				std::vector<uint8_t> original_pBitstream;
+
+				const auto setup_data = [item_flags, &bitstream](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StaticPathStrc& pStaticPath,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2BitBufferStrc& pBuffer,
+					std::vector<uint8_t>& pBitstream
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.pItemData = &pItemData;
+					pItem.pStaticPath = &pStaticPath;
+					pItemData.dwItemFlags = item_flags;
+					// The stat arrays are allocated by the implementations
+					setup_stat_list(pItem, pStatListEx, pStats, {}, pFullStats, {});
+
+					pBitstream = bitstream;
+					BITMANIP_Initialize(&pBuffer, pBitstream.data(), pBitstream.size());
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStaticPath, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pBuffer, moo_pBitstream);
+				setup_data(original_pItem, original_pItemData, original_pStaticPath, original_pStatListEx, original_pStats, original_pFullStats, original_pBuffer, original_pBitstream);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, dwVersion);
+				const auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, dwVersion);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				check_stat_arrays_eq(moo_pStatListEx.Stats, original_pStatListEx.Stats, "Comparing pItem->pStatListEx->Stats");
+				check_stat_arrays_eq(moo_pStatListEx.FullStats, original_pStatListEx.FullStats, "Comparing pItem->pStatListEx->FullStats");
+				MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA0A20" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA0A20")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_DecodeItemBitstreamComplete, dll_base + 0x00060A20);
-		
+
+		// Note: Only unidentified items without a header are covered, as the magic properties of other items are stored in newly allocated stat lists.
+		// Ears and personalized items are not covered, as the name of the player is read until a terminating zero is found in the random bitstream.
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2BitBufferStrc moo_pBuffer{};
-			int moo_pSocketedItems{};
-			D2UnitStrc original_pItem{};
-			D2BitBufferStrc original_pBuffer{};
-			int original_pSocketedItems{};
-			BOOL bCheckForHeader{};
-			BOOL bGamble{};
-			uint32_t dwVersion{};
+			const BOOL bCheckForHeader = FALSE;
+			const BOOL bGamble = GENERATE(FALSE, TRUE);
+			const uint32_t dwVersion = GENERATE(87, 92, 96);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2BitBufferStrc& pBuffer,
-				int& pSocketedItems
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const uint32_t item_flags[] = { 0, IFLAG_SOCKETED, IFLAG_ETHEREAL, IFLAG_RUNEWORD, IFLAG_SOCKETED | IFLAG_ETHEREAL };
+				const auto item_flag = item_flags[random_unsigned_integer(0, std::size(item_flags) - 1)];
+				const auto anim_mode = random_unsigned_integer(IMODE_STORED, IMODE_SOCKETED);
 
-			setup_data(moo_pItem, moo_pBuffer, moo_pSocketedItems);
-			setup_data(original_pItem, original_pBuffer, original_pSocketedItems);
+				std::vector<std::pair<uint32_t, int>> values;
+				values.push_back({ random_unsigned_integer(0, 1023), 10 });
+				values.push_back({ anim_mode, 3 });
+				if (anim_mode == IMODE_ONGROUND || anim_mode == IMODE_DROPPING)
+				{
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+					values.push_back({ random_unsigned_integer(0, 0xFFFF), 16 });
+				}
+				else
+				{
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 15), 4 });
+					values.push_back({ random_unsigned_integer(0, 7), 3 });
+				}
+				values.push_back({ items_txt[i].dwCode, 32 });
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, bGamble, &moo_pSocketedItems, dwVersion);
-			const auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, bGamble, &original_pSocketedItems, dwVersion);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// The remaining bits (quality, affixes, defense, durability, quantity, sockets) are random
+				constexpr auto bitstream_size = 32;
+				const auto bitstream = make_bitstream(values, bitstream_size);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
-			MOO_CHECK_EQ(moo_pSocketedItems, original_pSocketedItems, "Comparing pSocketedItems");
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StaticPathStrc moo_pStaticPath{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2BitBufferStrc moo_pBuffer{};
+				int moo_pSocketedItems{};
+				std::vector<uint8_t> moo_pBitstream;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StaticPathStrc original_pStaticPath{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2BitBufferStrc original_pBuffer{};
+				int original_pSocketedItems{};
+				std::vector<uint8_t> original_pBitstream;
+
+				const auto setup_data = [item_flag, &bitstream](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StaticPathStrc& pStaticPath,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2BitBufferStrc& pBuffer,
+					std::vector<uint8_t>& pBitstream
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.pItemData = &pItemData;
+					pItem.pStaticPath = &pStaticPath;
+					pItemData.dwItemFlags = item_flag;
+					// The stat arrays are allocated by the implementations
+					setup_stat_list(pItem, pStatListEx, pStats, {}, pFullStats, {});
+
+					pBitstream = bitstream;
+					BITMANIP_Initialize(&pBuffer, pBitstream.data(), pBitstream.size());
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStaticPath, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pBuffer, moo_pBitstream);
+				setup_data(original_pItem, original_pItemData, original_pStaticPath, original_pStatListEx, original_pStats, original_pFullStats, original_pBuffer, original_pBitstream);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bCheckForHeader, bGamble, &moo_pSocketedItems, dwVersion);
+				const auto original_result = original(&original_pItem, &original_pBuffer, bCheckForHeader, bGamble, &original_pSocketedItems, dwVersion);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				check_stat_arrays_eq(moo_pStatListEx.Stats, original_pStatListEx.Stats, "Comparing pItem->pStatListEx->Stats");
+				check_stat_arrays_eq(moo_pStatListEx.FullStats, original_pStatListEx.FullStats, "Comparing pItem->pStatListEx->FullStats");
+				MOO_CHECK_EQ(moo_pSocketedItems, original_pSocketedItems, "Comparing pSocketedItems");
+				MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA2690" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsLinkerFixture<ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA2690")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_SetDefenseOrDamage, dll_base + 0x00062690);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
-			int nStat{};
+			const int nStat = GENERATE(STAT_ARMORCLASS, STAT_ITEM_ARMOR_PERCENT, STAT_MAXDAMAGE, STAT_ITEM_MAXDAMAGE_PERCENT, STAT_MINDAMAGE, STAT_ITEM_MINDAMAGE_PERCENT, STAT_STRENGTH);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				// Some stats are missing, the others might be lower or higher than the values of the item record
+				const int stat_ids[] = { STAT_ARMORCLASS, STAT_MINDAMAGE, STAT_MAXDAMAGE, STAT_SECONDARY_MINDAMAGE, STAT_SECONDARY_MAXDAMAGE, STAT_ITEM_THROW_MINDAMAGE, STAT_ITEM_THROW_MAXDAMAGE };
+				std::vector<D2StatStrc> stats;
+				for (const auto stat_id : stat_ids)
+				{
+					if (random_unsigned_integer(0, 3) != 0)
+					{
+						stats.push_back(make_stat(stat_id, 0, random_unsigned_integer(1, 200)));
+					}
+				}
+				stats = sorted_stats(stats);
+				const auto stat_capacity = std::size(stat_ids);
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+				D2UnitStrc moo_pItem{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2UnitStrc original_pItem{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
 
-			// Call both implementations
-			sut(&moo_pItem, nStat);
-			original(&original_pItem, nStat);
+				const auto setup_data = [i, &stats, stat_capacity](
+					D2UnitStrc& pItem,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats
+				) {
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.dwClassId = i;
+					// Reserve space for all stats which might get inserted
+					setup_stat_list(pItem, pStatListEx, pStats, stats, pFullStats, stats, stat_capacity);
+				};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				setup_data(moo_pItem, moo_pStatListEx, moo_pStats, moo_pFullStats);
+				setup_data(original_pItem, original_pStatListEx, original_pStats, original_pFullStats);
+
+				// Call both implementations
+				sut(&moo_pItem, nStat);
+				original(&original_pItem, nStat);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				check_stat_arrays_eq(moo_pStatListEx.Stats, original_pStatListEx.Stats, "Comparing pItem->pStatListEx->Stats");
+				check_stat_arrays_eq(moo_pStatListEx.FullStats, original_pStatListEx.FullStats, "Comparing pItem->pStatListEx->FullStats");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA29D0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FDA29D0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_ReadStatFromItemBitstream, dll_base + 0x000629D0);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2BitBufferStrc moo_pBuffer{};
-			D2StatListStrc moo_pStatList{};
-			D2ItemStatCostTxt moo_pItemStatCostTxtRecord{};
-			D2BitBufferStrc original_pBuffer{};
-			D2StatListStrc original_pStatList{};
-			D2ItemStatCostTxt original_pItemStatCostTxtRecord{};
-			int nStatId{};
-			uint32_t dwVersion{};
-			int n109{};
+			const uint32_t dwVersion = GENERATE(87, 89, 92, 96);
+			const int n109 = GENERATE(0, 1);
+			const auto with_stat_list = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2BitBufferStrc& pBuffer,
-				D2StatListStrc& pStatList,
-				D2ItemStatCostTxt& pItemStatCostTxtRecord
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < itemstatcost_record_count; ++i)
+			{
+				// Input data
+				constexpr auto bitstream_size = 16;
+				const auto bitstream = make_bitstream({}, bitstream_size);
 
-			setup_data(moo_pBuffer, moo_pStatList, moo_pItemStatCostTxtRecord);
-			setup_data(original_pBuffer, original_pStatList, original_pItemStatCostTxtRecord);
+				D2BitBufferStrc moo_pBuffer{};
+				std::vector<uint8_t> moo_pBitstream;
+				D2StatListStrc moo_pStatList{};
+				D2ItemStatCostTxt moo_pItemStatCostTxtRecord{};
+				D2BitBufferStrc original_pBuffer{};
+				std::vector<uint8_t> original_pBitstream;
+				D2StatListStrc original_pStatList{};
+				D2ItemStatCostTxt original_pItemStatCostTxtRecord{};
+				int nStatId = i;
 
-			// Call both implementations
-			sut(&moo_pBuffer, &moo_pStatList, &moo_pItemStatCostTxtRecord, nStatId, dwVersion, n109);
-			original(&original_pBuffer, &original_pStatList, &original_pItemStatCostTxtRecord, nStatId, dwVersion, n109);
+				const auto setup_data = [this, i, &bitstream](
+					D2BitBufferStrc& pBuffer,
+					std::vector<uint8_t>& pBitstream,
+					D2StatListStrc& pStatList,
+					D2ItemStatCostTxt& pItemStatCostTxtRecord
+				) {
+					pBitstream = bitstream;
+					BITMANIP_Initialize(&pBuffer, pBitstream.data(), pBitstream.size());
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
-			MOO_CHECK_EQ(moo_pStatList, original_pStatList, "Comparing pStatList");
-			MOO_CHECK_EQ(moo_pItemStatCostTxtRecord, original_pItemStatCostTxtRecord, "Comparing pItemStatCostTxtRecord");
+					// The stat array is allocated by the implementations
+					pStatList.dwOwnerType = UNIT_ITEM;
+					pStatList.dwFlags = STATLIST_MAGIC;
+
+					pItemStatCostTxtRecord = itemstatcost_txt[i];
+				};
+
+				setup_data(moo_pBuffer, moo_pBitstream, moo_pStatList, moo_pItemStatCostTxtRecord);
+				setup_data(original_pBuffer, original_pBitstream, original_pStatList, original_pItemStatCostTxtRecord);
+
+				// Call both implementations
+				sut(&moo_pBuffer, with_stat_list ? &moo_pStatList : nullptr, &moo_pItemStatCostTxtRecord, nStatId, dwVersion, n109);
+				original(&original_pBuffer, with_stat_list ? &original_pStatList : nullptr, &original_pItemStatCostTxtRecord, nStatId, dwVersion, n109);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+				MOO_CHECK_EQ(moo_pStatList, original_pStatList, "Comparing pStatList");
+				check_stat_arrays_eq(moo_pStatList.Stats, original_pStatList.Stats, "Comparing pStatList->Stats");
+				MOO_CHECK_EQ(moo_pItemStatCostTxtRecord, original_pItemStatCostTxtRecord, "Comparing pItemStatCostTxtRecord");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA2BA0 (#10881)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDA2BA0 (#10881)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_SerializeItemToBitstream, dll_base + 0x00062BA0);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			uint8_t moo_pBitstream{};
-			D2UnitStrc original_pItem{};
-			uint8_t original_pBitstream{};
-			size_t nSize{};
-			BOOL bServer{};
-			BOOL bSaveItemInv{};
-			BOOL bGamble{};
+			const BOOL bServer = GENERATE(FALSE, TRUE);
+			const BOOL bSaveItemInv = GENERATE(FALSE, TRUE);
+			const BOOL bGamble = GENERATE(FALSE, TRUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				uint8_t& pBitstream
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto properties = make_serialized_item_properties(i, itemstatcost_record_count);
+				const auto with_socketed_item = random_unsigned_integer(0, 1) == 1;
+				const auto socketed_item_properties = make_serialized_item_properties(random_unsigned_integer(0, items_record_count - 1), itemstatcost_record_count);
+				const auto bitstream_size = static_cast<int>(random_unsigned_integer(0, 3) ? 512 : random_unsigned_integer(1, 16));
 
-			setup_data(moo_pItem, moo_pBitstream);
-			setup_data(original_pItem, original_pBitstream);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StaticPathStrc moo_pStaticPath{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2StatListStrc moo_pMagicStatList{};
+				std::vector<D2StatStrc> moo_pMagicStats;
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pSocketedItem{};
+				D2ItemDataStrc moo_pSocketedItemData{};
+				D2StaticPathStrc moo_pSocketedItemStaticPath{};
+				D2StatListExStrc moo_pSocketedItemStatListEx{};
+				std::vector<D2StatStrc> moo_pSocketedItemStats;
+				std::vector<D2StatStrc> moo_pSocketedItemFullStats;
+				D2StatListStrc moo_pSocketedItemMagicStatList{};
+				std::vector<D2StatStrc> moo_pSocketedItemMagicStats;
+				std::vector<uint8_t> moo_pBitstream;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StaticPathStrc original_pStaticPath{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2StatListStrc original_pMagicStatList{};
+				std::vector<D2StatStrc> original_pMagicStats;
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pSocketedItem{};
+				D2ItemDataStrc original_pSocketedItemData{};
+				D2StaticPathStrc original_pSocketedItemStaticPath{};
+				D2StatListExStrc original_pSocketedItemStatListEx{};
+				std::vector<D2StatStrc> original_pSocketedItemStats;
+				std::vector<D2StatStrc> original_pSocketedItemFullStats;
+				D2StatListStrc original_pSocketedItemMagicStatList{};
+				std::vector<D2StatStrc> original_pSocketedItemMagicStats;
+				std::vector<uint8_t> original_pBitstream;
+				size_t nSize = bitstream_size;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pBitstream, nSize, bServer, bSaveItemInv, bGamble);
-			const auto original_result = original(&original_pItem, &original_pBitstream, nSize, bServer, bSaveItemInv, bGamble);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [&properties, with_socketed_item, &socketed_item_properties, bitstream_size](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StaticPathStrc& pStaticPath,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2StatListStrc& pMagicStatList,
+					std::vector<D2StatStrc>& pMagicStats,
+					D2InventoryStrc& pInventory,
+					D2UnitStrc& pSocketedItem,
+					D2ItemDataStrc& pSocketedItemData,
+					D2StaticPathStrc& pSocketedItemStaticPath,
+					D2StatListExStrc& pSocketedItemStatListEx,
+					std::vector<D2StatStrc>& pSocketedItemStats,
+					std::vector<D2StatStrc>& pSocketedItemFullStats,
+					D2StatListStrc& pSocketedItemMagicStatList,
+					std::vector<D2StatStrc>& pSocketedItemMagicStats,
+					std::vector<uint8_t>& pBitstream
+				) {
+					setup_serialized_item(properties, pItem, pItemData, pStaticPath, pStatListEx, pStats, pFullStats, pMagicStatList, pMagicStats);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pBitstream, original_pBitstream, "Comparing pBitstream");
+					if (with_socketed_item)
+					{
+						setup_serialized_item(socketed_item_properties, pSocketedItem, pSocketedItemData, pSocketedItemStaticPath, pSocketedItemStatListEx, pSocketedItemStats, pSocketedItemFullStats, pSocketedItemMagicStatList, pSocketedItemMagicStats);
+						pSocketedItemData.pExtraData.pParentInv = &pInventory;
+
+						pItem.pInventory = &pInventory;
+						pInventory.dwSignature = D2C_InventoryHeader;
+						pInventory.pOwner = &pItem;
+						pInventory.pFirstItem = &pSocketedItem;
+						pInventory.pLastItem = &pSocketedItem;
+						pInventory.dwItemCount = 1;
+					}
+
+					pBitstream.resize(bitstream_size);
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStaticPath, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pMagicStatList, moo_pMagicStats, moo_pInventory, moo_pSocketedItem, moo_pSocketedItemData, moo_pSocketedItemStaticPath, moo_pSocketedItemStatListEx, moo_pSocketedItemStats, moo_pSocketedItemFullStats, moo_pSocketedItemMagicStatList, moo_pSocketedItemMagicStats, moo_pBitstream);
+				setup_data(original_pItem, original_pItemData, original_pStaticPath, original_pStatListEx, original_pStats, original_pFullStats, original_pMagicStatList, original_pMagicStats, original_pInventory, original_pSocketedItem, original_pSocketedItemData, original_pSocketedItemStaticPath, original_pSocketedItemStatListEx, original_pSocketedItemStats, original_pSocketedItemFullStats, original_pSocketedItemMagicStatList, original_pSocketedItemMagicStats, original_pBitstream);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, moo_pBitstream.data(), nSize, bServer, bSaveItemInv, bGamble);
+				const auto original_result = original(&original_pItem, original_pBitstream.data(), nSize, bServer, bSaveItemInv, bGamble);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pSocketedItem, original_pSocketedItem, "Comparing pSocketedItem");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "Inlined in D2Common.0x6FDA2C00" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "Inlined in D2Common.0x6FDA2C00")
 	{
 		// Set up function pointers
-		const auto [sut, original] = make_function_pair(ITEMS_SerializeItemCompact, dll_base + 0x00062C00);
-		
+		// The function is inlined in ITEMS_SerializeItem in the original game. Therefore it is compared with ITEMS_SerializeItem
+		// (without saving socketed items), which writes the header and the item flags before serializing the compact item.
+		const auto sut = &ITEMS_SerializeItemCompact;
+		const auto original = reinterpret_cast<decltype(&ITEMS_SerializeItem)>(dll_base + 0x00062C00);
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2BitBufferStrc moo_pBuffer{};
-			D2ItemsTxt moo_pItemsTxtRecord{};
-			D2UnitStrc original_pItem{};
-			D2BitBufferStrc original_pBuffer{};
-			D2ItemsTxt original_pItemsTxtRecord{};
-			BOOL bServer{};
+			const BOOL bServer = GENERATE(FALSE, TRUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2BitBufferStrc& pBuffer,
-				D2ItemsTxt& pItemsTxtRecord
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				if (!items_txt[i].nCompactSave)
+				{
+					continue;
+				}
 
-			setup_data(moo_pItem, moo_pBuffer, moo_pItemsTxtRecord);
-			setup_data(original_pItem, original_pBuffer, original_pItemsTxtRecord);
+				// Input data
+				const auto properties = make_serialized_item_properties(i, itemstatcost_record_count);
+				const auto bitstream_size = static_cast<int>(random_unsigned_integer(0, 3) ? 512 : random_unsigned_integer(1, 16));
 
-			// Call both implementations
-			sut(&moo_pItem, &moo_pBuffer, &moo_pItemsTxtRecord, bServer);
-			original(&original_pItem, &original_pBuffer, &original_pItemsTxtRecord, bServer);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StaticPathStrc moo_pStaticPath{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2StatListStrc moo_pMagicStatList{};
+				std::vector<D2StatStrc> moo_pMagicStats;
+				D2BitBufferStrc moo_pBuffer{};
+				D2ItemsTxt moo_pItemsTxtRecord{};
+				std::vector<uint8_t> moo_pBitstream;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StaticPathStrc original_pStaticPath{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2StatListStrc original_pMagicStatList{};
+				std::vector<D2StatStrc> original_pMagicStats;
+				D2BitBufferStrc original_pBuffer{};
+				std::vector<uint8_t> original_pBitstream;
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
-			MOO_CHECK_EQ(moo_pItemsTxtRecord, original_pItemsTxtRecord, "Comparing pItemsTxtRecord");
+				const auto setup_data = [&properties, bitstream_size](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StaticPathStrc& pStaticPath,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2StatListStrc& pMagicStatList,
+					std::vector<D2StatStrc>& pMagicStats,
+					D2BitBufferStrc& pBuffer,
+					std::vector<uint8_t>& pBitstream
+				) {
+					setup_serialized_item(properties, pItem, pItemData, pStaticPath, pStatListEx, pStats, pFullStats, pMagicStatList, pMagicStats);
+
+					pBitstream.resize(bitstream_size);
+					BITMANIP_Initialize(&pBuffer, pBitstream.data(), bitstream_size);
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStaticPath, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pMagicStatList, moo_pMagicStats, moo_pBuffer, moo_pBitstream);
+				setup_data(original_pItem, original_pItemData, original_pStaticPath, original_pStatListEx, original_pStats, original_pFullStats, original_pMagicStatList, original_pMagicStats, original_pBuffer, original_pBitstream);
+
+				moo_pItemsTxtRecord = items_txt[i];
+
+				// Write the header and the item flags like ITEMS_SerializeItem does
+				auto moo_item_flags = (moo_pItemData.dwItemFlags & ~IFLAG_INIT) | IFLAG_JUSTSAVED | IFLAG_COMPACTSAVE;
+				if (bServer)
+				{
+					BITMANIP_Write(&moo_pBuffer, 'MJ', 16);
+				}
+				else if (!(moo_item_flags & IFLAG_IDENTIFIED))
+				{
+					moo_item_flags &= ~IFLAG_SOCKETED;
+				}
+				BITMANIP_Write(&moo_pBuffer, moo_item_flags, 32);
+
+				// Call both implementations
+				sut(&moo_pItem, &moo_pBuffer, &moo_pItemsTxtRecord, bServer);
+				original(&original_pItem, &original_pBuffer, bServer, FALSE, FALSE);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pItemsTxtRecord, items_txt[i], "Comparing pItemsTxtRecord");
+				MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA2C00" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDA2C00")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_SerializeItem, dll_base + 0x00062C00);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2BitBufferStrc moo_pBuffer{};
-			D2UnitStrc original_pItem{};
-			D2BitBufferStrc original_pBuffer{};
-			BOOL bServer{};
-			BOOL bSaveItemInv{};
-			BOOL bGamble{};
+			const BOOL bServer = GENERATE(FALSE, TRUE);
+			const BOOL bSaveItemInv = GENERATE(FALSE, TRUE);
+			const BOOL bGamble = GENERATE(FALSE, TRUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2BitBufferStrc& pBuffer
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto properties = make_serialized_item_properties(i, itemstatcost_record_count);
+				const auto with_socketed_item = random_unsigned_integer(0, 1) == 1;
+				const auto socketed_item_properties = make_serialized_item_properties(random_unsigned_integer(0, items_record_count - 1), itemstatcost_record_count);
+				const auto bitstream_size = static_cast<int>(random_unsigned_integer(0, 3) ? 512 : random_unsigned_integer(1, 16));
 
-			setup_data(moo_pItem, moo_pBuffer);
-			setup_data(original_pItem, original_pBuffer);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StaticPathStrc moo_pStaticPath{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2StatListStrc moo_pMagicStatList{};
+				std::vector<D2StatStrc> moo_pMagicStats;
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pSocketedItem{};
+				D2ItemDataStrc moo_pSocketedItemData{};
+				D2StaticPathStrc moo_pSocketedItemStaticPath{};
+				D2StatListExStrc moo_pSocketedItemStatListEx{};
+				std::vector<D2StatStrc> moo_pSocketedItemStats;
+				std::vector<D2StatStrc> moo_pSocketedItemFullStats;
+				D2StatListStrc moo_pSocketedItemMagicStatList{};
+				std::vector<D2StatStrc> moo_pSocketedItemMagicStats;
+				D2BitBufferStrc moo_pBuffer{};
+				std::vector<uint8_t> moo_pBitstream;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StaticPathStrc original_pStaticPath{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2StatListStrc original_pMagicStatList{};
+				std::vector<D2StatStrc> original_pMagicStats;
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pSocketedItem{};
+				D2ItemDataStrc original_pSocketedItemData{};
+				D2StaticPathStrc original_pSocketedItemStaticPath{};
+				D2StatListExStrc original_pSocketedItemStatListEx{};
+				std::vector<D2StatStrc> original_pSocketedItemStats;
+				std::vector<D2StatStrc> original_pSocketedItemFullStats;
+				D2StatListStrc original_pSocketedItemMagicStatList{};
+				std::vector<D2StatStrc> original_pSocketedItemMagicStats;
+				D2BitBufferStrc original_pBuffer{};
+				std::vector<uint8_t> original_pBitstream;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bServer, bSaveItemInv, bGamble);
-			const auto original_result = original(&original_pItem, &original_pBuffer, bServer, bSaveItemInv, bGamble);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				const auto setup_data = [&properties, with_socketed_item, &socketed_item_properties, bitstream_size](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StaticPathStrc& pStaticPath,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2StatListStrc& pMagicStatList,
+					std::vector<D2StatStrc>& pMagicStats,
+					D2InventoryStrc& pInventory,
+					D2UnitStrc& pSocketedItem,
+					D2ItemDataStrc& pSocketedItemData,
+					D2StaticPathStrc& pSocketedItemStaticPath,
+					D2StatListExStrc& pSocketedItemStatListEx,
+					std::vector<D2StatStrc>& pSocketedItemStats,
+					std::vector<D2StatStrc>& pSocketedItemFullStats,
+					D2StatListStrc& pSocketedItemMagicStatList,
+					std::vector<D2StatStrc>& pSocketedItemMagicStats,
+					D2BitBufferStrc& pBuffer,
+					std::vector<uint8_t>& pBitstream
+				) {
+					setup_serialized_item(properties, pItem, pItemData, pStaticPath, pStatListEx, pStats, pFullStats, pMagicStatList, pMagicStats);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+					if (with_socketed_item)
+					{
+						setup_serialized_item(socketed_item_properties, pSocketedItem, pSocketedItemData, pSocketedItemStaticPath, pSocketedItemStatListEx, pSocketedItemStats, pSocketedItemFullStats, pSocketedItemMagicStatList, pSocketedItemMagicStats);
+						pSocketedItemData.pExtraData.pParentInv = &pInventory;
+
+						pItem.pInventory = &pInventory;
+						pInventory.dwSignature = D2C_InventoryHeader;
+						pInventory.pOwner = &pItem;
+						pInventory.pFirstItem = &pSocketedItem;
+						pInventory.pLastItem = &pSocketedItem;
+						pInventory.dwItemCount = 1;
+					}
+
+					pBitstream.resize(bitstream_size);
+					BITMANIP_Initialize(&pBuffer, pBitstream.data(), bitstream_size);
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStaticPath, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pMagicStatList, moo_pMagicStats, moo_pInventory, moo_pSocketedItem, moo_pSocketedItemData, moo_pSocketedItemStaticPath, moo_pSocketedItemStatListEx, moo_pSocketedItemStats, moo_pSocketedItemFullStats, moo_pSocketedItemMagicStatList, moo_pSocketedItemMagicStats, moo_pBuffer, moo_pBitstream);
+				setup_data(original_pItem, original_pItemData, original_pStaticPath, original_pStatListEx, original_pStats, original_pFullStats, original_pMagicStatList, original_pMagicStats, original_pInventory, original_pSocketedItem, original_pSocketedItemData, original_pSocketedItemStaticPath, original_pSocketedItemStatListEx, original_pSocketedItemStats, original_pSocketedItemFullStats, original_pSocketedItemMagicStatList, original_pSocketedItemMagicStats, original_pBuffer, original_pBitstream);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pItem, &moo_pBuffer, bServer, bSaveItemInv, bGamble);
+				const auto original_result = original(&original_pItem, &original_pBuffer, bServer, bSaveItemInv, bGamble);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pSocketedItem, original_pSocketedItem, "Comparing pSocketedItem");
+				MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA2FD0" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA2FD0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_WriteBitsToBitstream, dll_base + 0x00062FD0);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2BitBufferStrc moo_pBuffer{};
-			D2BitBufferStrc original_pBuffer{};
-			int nData{};
-			int nBits{};
+			for (auto nBits = 1; nBits <= 32; ++nBits)
+			{
+				for (auto repetition = 0; repetition < 20; ++repetition)
+				{
+					// Input data
+					// The data is written at a random position of the bitstream, the data might exceed the bit count or be negative
+					constexpr auto bitstream_size = 16;
+					const auto initial_bits = static_cast<int>(random_unsigned_integer(0, 8 * bitstream_size));
+					const auto initial_bitstream = make_bitstream({}, bitstream_size);
 
-			const auto setup_data = [](
-				D2BitBufferStrc& pBuffer
-			) {
-				// TODO: Setup as needed
-			};
+					D2BitBufferStrc moo_pBuffer{};
+					std::vector<uint8_t> moo_pBitstream;
+					D2BitBufferStrc original_pBuffer{};
+					std::vector<uint8_t> original_pBitstream;
+					int nData = random_unsigned_integer(0, 3) == 0 ? static_cast<int>(random_unsigned_integer()) : static_cast<int>(random_unsigned_integer(0, (1u << (nBits - 1)) * 2 - 1));
 
-			setup_data(moo_pBuffer);
-			setup_data(original_pBuffer);
+					const auto setup_data = [&initial_bitstream, initial_bits](
+						D2BitBufferStrc& pBuffer,
+						std::vector<uint8_t>& pBitstream
+					) {
+						pBitstream = initial_bitstream;
+						BITMANIP_Initialize(&pBuffer, pBitstream.data(), pBitstream.size());
+						pBuffer.pBuffer += initial_bits / 8;
+						pBuffer.nPos = initial_bits / 8;
+						pBuffer.nPosBits = initial_bits % 8;
+					};
 
-			// Call both implementations
-			sut(&moo_pBuffer, nData, nBits);
-			original(&original_pBuffer, nData, nBits);
+					setup_data(moo_pBuffer, moo_pBitstream);
+					setup_data(original_pBuffer, original_pBitstream);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+					// Call both implementations
+					sut(&moo_pBuffer, nData, nBits);
+					original(&original_pBuffer, nData, nBits);
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+					auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+					auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+					MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+				}
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA3010" * doctest::skip(""))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDA3010")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_SerializeItemComplete, dll_base + 0x00063010);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2BitBufferStrc moo_pBuffer{};
-			D2UnitStrc original_pItem{};
-			D2BitBufferStrc original_pBuffer{};
-			BOOL bServer{};
-			BOOL bGamble{};
+			const BOOL bServer = GENERATE(FALSE, TRUE);
+			const BOOL bGamble = GENERATE(FALSE, TRUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem,
-				D2BitBufferStrc& pBuffer
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < items_record_count; ++i)
+			{
+				// Input data
+				const auto properties = make_serialized_item_properties(i, itemstatcost_record_count);
+				const auto with_socketed_item = random_unsigned_integer(0, 1) == 1;
+				const auto socketed_item_properties = make_serialized_item_properties(random_unsigned_integer(0, items_record_count - 1), itemstatcost_record_count);
+				const auto bitstream_size = static_cast<int>(random_unsigned_integer(0, 3) ? 512 : random_unsigned_integer(1, 16));
 
-			setup_data(moo_pItem, moo_pBuffer);
-			setup_data(original_pItem, original_pBuffer);
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StaticPathStrc moo_pStaticPath{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2StatListStrc moo_pMagicStatList{};
+				std::vector<D2StatStrc> moo_pMagicStats;
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pSocketedItem{};
+				D2ItemDataStrc moo_pSocketedItemData{};
+				D2StaticPathStrc moo_pSocketedItemStaticPath{};
+				D2StatListExStrc moo_pSocketedItemStatListEx{};
+				std::vector<D2StatStrc> moo_pSocketedItemStats;
+				std::vector<D2StatStrc> moo_pSocketedItemFullStats;
+				D2StatListStrc moo_pSocketedItemMagicStatList{};
+				std::vector<D2StatStrc> moo_pSocketedItemMagicStats;
+				D2BitBufferStrc moo_pBuffer{};
+				std::vector<uint8_t> moo_pBitstream;
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StaticPathStrc original_pStaticPath{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2StatListStrc original_pMagicStatList{};
+				std::vector<D2StatStrc> original_pMagicStats;
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pSocketedItem{};
+				D2ItemDataStrc original_pSocketedItemData{};
+				D2StaticPathStrc original_pSocketedItemStaticPath{};
+				D2StatListExStrc original_pSocketedItemStatListEx{};
+				std::vector<D2StatStrc> original_pSocketedItemStats;
+				std::vector<D2StatStrc> original_pSocketedItemFullStats;
+				D2StatListStrc original_pSocketedItemMagicStatList{};
+				std::vector<D2StatStrc> original_pSocketedItemMagicStats;
+				D2BitBufferStrc original_pBuffer{};
+				std::vector<uint8_t> original_pBitstream;
 
-			// Call both implementations
-			sut(&moo_pItem, &moo_pBuffer, bServer, bGamble);
-			original(&original_pItem, &original_pBuffer, bServer, bGamble);
+				const auto setup_data = [&properties, with_socketed_item, &socketed_item_properties, bitstream_size](
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StaticPathStrc& pStaticPath,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2StatListStrc& pMagicStatList,
+					std::vector<D2StatStrc>& pMagicStats,
+					D2InventoryStrc& pInventory,
+					D2UnitStrc& pSocketedItem,
+					D2ItemDataStrc& pSocketedItemData,
+					D2StaticPathStrc& pSocketedItemStaticPath,
+					D2StatListExStrc& pSocketedItemStatListEx,
+					std::vector<D2StatStrc>& pSocketedItemStats,
+					std::vector<D2StatStrc>& pSocketedItemFullStats,
+					D2StatListStrc& pSocketedItemMagicStatList,
+					std::vector<D2StatStrc>& pSocketedItemMagicStats,
+					D2BitBufferStrc& pBuffer,
+					std::vector<uint8_t>& pBitstream
+				) {
+					setup_serialized_item(properties, pItem, pItemData, pStaticPath, pStatListEx, pStats, pFullStats, pMagicStatList, pMagicStats);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
-			MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+					if (with_socketed_item)
+					{
+						setup_serialized_item(socketed_item_properties, pSocketedItem, pSocketedItemData, pSocketedItemStaticPath, pSocketedItemStatListEx, pSocketedItemStats, pSocketedItemFullStats, pSocketedItemMagicStatList, pSocketedItemMagicStats);
+						pSocketedItemData.pExtraData.pParentInv = &pInventory;
+
+						pItem.pInventory = &pInventory;
+						pInventory.dwSignature = D2C_InventoryHeader;
+						pInventory.pOwner = &pItem;
+						pInventory.pFirstItem = &pSocketedItem;
+						pInventory.pLastItem = &pSocketedItem;
+						pInventory.dwItemCount = 1;
+					}
+
+					pBitstream.resize(bitstream_size);
+					BITMANIP_Initialize(&pBuffer, pBitstream.data(), bitstream_size);
+				};
+
+				setup_data(moo_pItem, moo_pItemData, moo_pStaticPath, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pMagicStatList, moo_pMagicStats, moo_pInventory, moo_pSocketedItem, moo_pSocketedItemData, moo_pSocketedItemStaticPath, moo_pSocketedItemStatListEx, moo_pSocketedItemStats, moo_pSocketedItemFullStats, moo_pSocketedItemMagicStatList, moo_pSocketedItemMagicStats, moo_pBuffer, moo_pBitstream);
+				setup_data(original_pItem, original_pItemData, original_pStaticPath, original_pStatListEx, original_pStats, original_pFullStats, original_pMagicStatList, original_pMagicStats, original_pInventory, original_pSocketedItem, original_pSocketedItemData, original_pSocketedItemStaticPath, original_pSocketedItemStatListEx, original_pSocketedItemStats, original_pSocketedItemFullStats, original_pSocketedItemMagicStatList, original_pSocketedItemMagicStats, original_pBuffer, original_pBitstream);
+
+				// Call both implementations
+				sut(&moo_pItem, &moo_pBuffer, bServer, bGamble);
+				original(&original_pItem, &original_pBuffer, bServer, bGamble);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				MOO_CHECK_EQ(moo_pSocketedItem, original_pSocketedItem, "Comparing pSocketedItem");
+				MOO_CHECK_EQ(moo_pBuffer, original_pBuffer, "Comparing pBuffer");
+				auto moo_bitstream = DynamicArray<uint8_t>{ moo_pBitstream.data(), bitstream_size };
+				auto original_bitstream = DynamicArray<uint8_t>{ original_pBitstream.data(), bitstream_size };
+				MOO_CHECK_EQ(moo_bitstream, original_bitstream, "Comparing pBitstream");
+			}
 		}
 	}
 	
@@ -6596,6 +8868,9 @@ TEST_SUITE("D2ItemsTests")
 					pItemData.dwFileIndex = i;
 				};
 
+				setup_data(moo_pItem, moo_pItemData);
+				setup_data(original_pItem, original_pItemData);
+
 				// Call both implementations
 				const auto moo_result = sut(&moo_pItem);
 				const auto original_result = original(&original_pItem);
@@ -6608,112 +8883,327 @@ TEST_SUITE("D2ItemsTests")
 			}
 		}
 	}
-	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA4380" * doctest::skip(""))
+
+	TEST_CASE_FIXTURE(SetItemsTxtFixture<NoopFixture>, "D2Common.0x6FDA4380")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FDA4380, dll_base + 0x00064380);
-		
+
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pItem{};
-			unsigned int nSetItemMask{};
+			const auto quality = GENERATE(ITEMQUAL_SET, ITEMQUAL_UNIQUE);
 
-			const auto setup_data = [](
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			for (auto i = 0; i < setitems_record_count; ++i)
+			{
+				for (auto repetition = 0; repetition < 5; ++repetition)
+				{
+					// Input data
+					// The stat lists of the item set states are (de-)activated, they have no stats
+					SetStateStatListProperties set_state_stat_lists[item_set_state_count];
+					for (auto& set_state_stat_list : set_state_stat_lists)
+					{
+						set_state_stat_list.bPresent = random_unsigned_integer(0, 3) != 0;
+						set_state_stat_list.dwFlags = random_unsigned_integer(0, 1) ? STATLIST_SET : 0;
+					}
 
-			setup_data(moo_pItem);
-			setup_data(original_pItem);
+					D2UnitStrc moo_pItem{};
+					D2ItemDataStrc moo_pItemData{};
+					D2StatListExStrc moo_pStatListEx{};
+					std::vector<D2StatStrc> moo_pStats;
+					std::vector<D2StatStrc> moo_pFullStats;
+					D2StatListStrc moo_pSetStateStatLists[item_set_state_count]{};
+					std::vector<D2StatStrc> moo_pSetStateStats[item_set_state_count];
+					D2UnitStrc original_pItem{};
+					D2ItemDataStrc original_pItemData{};
+					D2StatListExStrc original_pStatListEx{};
+					std::vector<D2StatStrc> original_pStats;
+					std::vector<D2StatStrc> original_pFullStats;
+					D2StatListStrc original_pSetStateStatLists[item_set_state_count]{};
+					std::vector<D2StatStrc> original_pSetStateStats[item_set_state_count];
+					unsigned int nSetItemMask = random_unsigned_integer(0, 0x7F);
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pItem, nSetItemMask);
-			const auto original_result = original(&original_pItem, nSetItemMask);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					const auto setup_data = [i, quality, &set_state_stat_lists](
+						D2UnitStrc& pItem,
+						D2ItemDataStrc& pItemData,
+						D2StatListExStrc& pStatListEx,
+						std::vector<D2StatStrc>& pStats,
+						std::vector<D2StatStrc>& pFullStats,
+						D2StatListStrc (&pSetStateStatLists)[item_set_state_count],
+						std::vector<D2StatStrc> (&pSetStateStats)[item_set_state_count]
+					) {
+						pItem.dwUnitType = UNIT_ITEM;
+						pItem.pItemData = &pItemData;
+						pItemData.dwQualityNo = quality;
+						pItemData.dwFileIndex = i;
+						setup_stat_list(pItem, pStatListEx, pStats, {}, pFullStats, {});
+						setup_set_state_stat_lists(set_state_stat_lists, pItem, pStatListEx, pSetStateStatLists, pSetStateStats);
+					};
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+					setup_data(moo_pItem, moo_pItemData, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pSetStateStatLists, moo_pSetStateStats);
+					setup_data(original_pItem, original_pItemData, original_pStatListEx, original_pStats, original_pFullStats, original_pSetStateStatLists, original_pSetStateStats);
+
+					// Call both implementations
+					const auto moo_result = sut(&moo_pItem, nSetItemMask);
+					const auto original_result = original(&original_pItem, nSetItemMask);
+
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+					for (auto j = 0; j < item_set_state_count; ++j)
+					{
+						MOO_CHECK_EQ(moo_pSetStateStatLists[j], original_pSetStateStatLists[j], "Comparing pSetStateStatLists");
+					}
+				}
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA4490" * doctest::skip(""))
+	TEST_CASE_FIXTURE(SetItemsTxtFixture<SetsTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDA4490")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FDA4490, dll_base + 0x00064490);
-		
+
+		// Note: Removing an existing stat list of an item set state (a3 == 1) is not covered, as the stat list gets freed
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pUnit{};
-			D2UnitStrc original_pItem{};
-			int a3{};
+			const int a3 = GENERATE(0, 1, 2);
+			const auto with_matching_stat_list = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit,
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			if (a3 == 1 && with_matching_stat_list)
+			{
+				return;
+			}
 
-			setup_data(moo_pUnit, moo_pItem);
-			setup_data(original_pUnit, original_pItem);
+			for (auto i = 0; i < setitems_record_count; ++i)
+			{
+				// Input data
+				// The stat lists of the item set states store the id of the set
+				const int set_id = setitems_txt[i].nSetId;
+				const auto matching_stat_list = random_unsigned_integer(0, item_set_state_count - 1);
+				int set_ids_sum = 0;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3);
-			const auto original_result = original(&original_pUnit, &original_pItem, a3);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				SetStateStatListProperties set_state_stat_lists[item_set_state_count];
+				for (auto j = 0; j < item_set_state_count; ++j)
+				{
+					const auto matching = with_matching_stat_list && j == matching_stat_list;
+					const auto other_set_id = set_id + static_cast<int>(random_unsigned_integer(1, 10));
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+					set_state_stat_lists[j].bPresent = matching || random_unsigned_integer(0, 1);
+					set_state_stat_lists[j].stats = { make_stat(STAT_VALUE, 0, matching ? set_id : other_set_id) };
+					if (set_state_stat_lists[j].bPresent)
+					{
+						set_ids_sum += set_state_stat_lists[j].stats[0].nValue;
+					}
+				}
+
+				const auto unit_stats = set_ids_sum ? sorted_stats({ make_stat(STAT_VALUE, 0, set_ids_sum) }) : std::vector<D2StatStrc>{};
+
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pStatListEx{};
+				std::vector<D2StatStrc> moo_pStats;
+				std::vector<D2StatStrc> moo_pFullStats;
+				D2StatListStrc moo_pSetStateStatLists[item_set_state_count]{};
+				std::vector<D2StatStrc> moo_pSetStateStats[item_set_state_count];
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pStatListEx{};
+				std::vector<D2StatStrc> original_pStats;
+				std::vector<D2StatStrc> original_pFullStats;
+				D2StatListStrc original_pSetStateStatLists[item_set_state_count]{};
+				std::vector<D2StatStrc> original_pSetStateStats[item_set_state_count];
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+
+				const auto setup_data = [i, &set_state_stat_lists, &unit_stats](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pStatListEx,
+					std::vector<D2StatStrc>& pStats,
+					std::vector<D2StatStrc>& pFullStats,
+					D2StatListStrc (&pSetStateStatLists)[item_set_state_count],
+					std::vector<D2StatStrc> (&pSetStateStats)[item_set_state_count],
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData
+				) {
+					pUnit.dwUnitType = UNIT_PLAYER;
+					// Reserve space for the stat of a new stat list
+					setup_stat_list(pUnit, pStatListEx, pStats, {}, pFullStats, unit_stats, unit_stats.size() + 1);
+					setup_set_state_stat_lists(set_state_stat_lists, pUnit, pStatListEx, pSetStateStatLists, pSetStateStats);
+
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = ITEMQUAL_SET;
+					pItemData.dwFileIndex = i;
+				};
+
+				setup_data(moo_pUnit, moo_pStatListEx, moo_pStats, moo_pFullStats, moo_pSetStateStatLists, moo_pSetStateStats, moo_pItem, moo_pItemData);
+				setup_data(original_pUnit, original_pStatListEx, original_pStats, original_pFullStats, original_pSetStateStatLists, original_pSetStateStats, original_pItem, original_pItemData);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3);
+				const auto original_result = original(&original_pUnit, &original_pItem, a3);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				check_stat_arrays_eq(moo_pStatListEx.FullStats, original_pStatListEx.FullStats, "Comparing pUnit->pStatListEx->FullStats");
+				for (auto j = 0; j < item_set_state_count; ++j)
+				{
+					MOO_CHECK_EQ(moo_pSetStateStatLists[j], original_pSetStateStatLists[j], "Comparing pSetStateStatLists");
+				}
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+			}
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA4640 (#10866)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(SetItemsTxtFixture<SetsTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDA4640 (#10866)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_UpdateSets, dll_base + 0x00064640);
-		
+
+		// Note: The item is the only item in the inventory of the unit, so that no set bonuses are applied.
+		// Removing an existing stat list of an item set state (a3 == 1) is not covered, as the stat list gets freed.
 		SUBCASE("")
 		{
-			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc moo_pItem{};
-			D2UnitStrc original_pUnit{};
-			D2UnitStrc original_pItem{};
-			int a3{};
-			int a4{};
+			const int a3 = GENERATE(0, 1, 2);
+			const int a4 = GENERATE(0, 1);
+			const auto with_matching_stat_list = GENERATE(false, true);
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit,
-				D2UnitStrc& pItem
-			) {
-				// TODO: Setup as needed
-			};
+			if (a3 == 1 && with_matching_stat_list)
+			{
+				return;
+			}
 
-			setup_data(moo_pUnit, moo_pItem);
-			setup_data(original_pUnit, original_pItem);
+			for (auto i = 0; i < setitems_record_count; ++i)
+			{
+				// Input data
+				const auto in_inventory = random_unsigned_integer(0, 3) != 0;
+				const char node_page = random_unsigned_integer(0, 3) ? NODEPAGE_EQUIP : NODEPAGE_STORAGE;
 
-			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3, a4);
-			const auto original_result = original(&original_pUnit, &original_pItem, a3, a4);
-			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// The stat lists of the item set states of the unit store the id of the set
+				const int set_id = setitems_txt[i].nSetId;
+				const auto matching_stat_list = random_unsigned_integer(0, item_set_state_count - 1);
+				int set_ids_sum = 0;
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
-			MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				SetStateStatListProperties unit_set_state_stat_lists[item_set_state_count];
+				for (auto j = 0; j < item_set_state_count; ++j)
+				{
+					const auto matching = with_matching_stat_list && j == matching_stat_list;
+					const auto other_set_id = set_id + static_cast<int>(random_unsigned_integer(1, 10));
+
+					unit_set_state_stat_lists[j].bPresent = matching || random_unsigned_integer(0, 1);
+					unit_set_state_stat_lists[j].stats = { make_stat(STAT_VALUE, 0, matching ? set_id : other_set_id) };
+					if (unit_set_state_stat_lists[j].bPresent)
+					{
+						set_ids_sum += unit_set_state_stat_lists[j].stats[0].nValue;
+					}
+				}
+
+				const auto unit_stats = set_ids_sum ? sorted_stats({ make_stat(STAT_VALUE, 0, set_ids_sum) }) : std::vector<D2StatStrc>{};
+
+				// The stat lists of the item set states of the item are (de-)activated, they have no stats
+				SetStateStatListProperties item_set_state_stat_lists[item_set_state_count];
+				for (auto& item_set_state_stat_list : item_set_state_stat_lists)
+				{
+					item_set_state_stat_list.bPresent = random_unsigned_integer(0, 3) != 0;
+					item_set_state_stat_list.dwFlags = random_unsigned_integer(0, 1) ? STATLIST_SET : 0;
+				}
+
+				D2UnitStrc moo_pUnit{};
+				D2StatListExStrc moo_pUnitStatListEx{};
+				std::vector<D2StatStrc> moo_pUnitStats;
+				std::vector<D2StatStrc> moo_pUnitFullStats;
+				D2StatListStrc moo_pUnitSetStateStatLists[item_set_state_count]{};
+				std::vector<D2StatStrc> moo_pUnitSetStateStats[item_set_state_count];
+				D2InventoryStrc moo_pInventory{};
+				D2UnitStrc moo_pItem{};
+				D2ItemDataStrc moo_pItemData{};
+				D2StatListExStrc moo_pItemStatListEx{};
+				std::vector<D2StatStrc> moo_pItemStats;
+				std::vector<D2StatStrc> moo_pItemFullStats;
+				D2StatListStrc moo_pItemSetStateStatLists[item_set_state_count]{};
+				std::vector<D2StatStrc> moo_pItemSetStateStats[item_set_state_count];
+				D2UnitStrc original_pUnit{};
+				D2StatListExStrc original_pUnitStatListEx{};
+				std::vector<D2StatStrc> original_pUnitStats;
+				std::vector<D2StatStrc> original_pUnitFullStats;
+				D2StatListStrc original_pUnitSetStateStatLists[item_set_state_count]{};
+				std::vector<D2StatStrc> original_pUnitSetStateStats[item_set_state_count];
+				D2InventoryStrc original_pInventory{};
+				D2UnitStrc original_pItem{};
+				D2ItemDataStrc original_pItemData{};
+				D2StatListExStrc original_pItemStatListEx{};
+				std::vector<D2StatStrc> original_pItemStats;
+				std::vector<D2StatStrc> original_pItemFullStats;
+				D2StatListStrc original_pItemSetStateStatLists[item_set_state_count]{};
+				std::vector<D2StatStrc> original_pItemSetStateStats[item_set_state_count];
+
+				const auto setup_data = [i, in_inventory, node_page, &unit_set_state_stat_lists, &unit_stats, &item_set_state_stat_lists](
+					D2UnitStrc& pUnit,
+					D2StatListExStrc& pUnitStatListEx,
+					std::vector<D2StatStrc>& pUnitStats,
+					std::vector<D2StatStrc>& pUnitFullStats,
+					D2StatListStrc (&pUnitSetStateStatLists)[item_set_state_count],
+					std::vector<D2StatStrc> (&pUnitSetStateStats)[item_set_state_count],
+					D2InventoryStrc& pInventory,
+					D2UnitStrc& pItem,
+					D2ItemDataStrc& pItemData,
+					D2StatListExStrc& pItemStatListEx,
+					std::vector<D2StatStrc>& pItemStats,
+					std::vector<D2StatStrc>& pItemFullStats,
+					D2StatListStrc (&pItemSetStateStatLists)[item_set_state_count],
+					std::vector<D2StatStrc> (&pItemSetStateStats)[item_set_state_count]
+				) {
+					pUnit.dwUnitType = UNIT_PLAYER;
+					pUnit.pInventory = &pInventory;
+					// Reserve space for the stat of a new stat list
+					setup_stat_list(pUnit, pUnitStatListEx, pUnitStats, {}, pUnitFullStats, unit_stats, unit_stats.size() + 1);
+					setup_set_state_stat_lists(unit_set_state_stat_lists, pUnit, pUnitStatListEx, pUnitSetStateStatLists, pUnitSetStateStats);
+
+					pInventory.dwSignature = D2C_InventoryHeader;
+					pInventory.pOwner = &pUnit;
+
+					pItem.dwUnitType = UNIT_ITEM;
+					pItem.pItemData = &pItemData;
+					pItemData.dwQualityNo = ITEMQUAL_SET;
+					pItemData.dwFileIndex = i;
+					setup_stat_list(pItem, pItemStatListEx, pItemStats, {}, pItemFullStats, {});
+					setup_set_state_stat_lists(item_set_state_stat_lists, pItem, pItemStatListEx, pItemSetStateStatLists, pItemSetStateStats);
+
+					if (in_inventory)
+					{
+						pInventory.pFirstItem = &pItem;
+						pInventory.pLastItem = &pItem;
+						pInventory.dwItemCount = 1;
+						pItemData.pExtraData.pParentInv = &pInventory;
+						pItemData.pExtraData.nNodePosOther = node_page;
+					}
+				};
+
+				setup_data(moo_pUnit, moo_pUnitStatListEx, moo_pUnitStats, moo_pUnitFullStats, moo_pUnitSetStateStatLists, moo_pUnitSetStateStats, moo_pInventory, moo_pItem, moo_pItemData, moo_pItemStatListEx, moo_pItemStats, moo_pItemFullStats, moo_pItemSetStateStatLists, moo_pItemSetStateStats);
+				setup_data(original_pUnit, original_pUnitStatListEx, original_pUnitStats, original_pUnitFullStats, original_pUnitSetStateStatLists, original_pUnitSetStateStats, original_pInventory, original_pItem, original_pItemData, original_pItemStatListEx, original_pItemStats, original_pItemFullStats, original_pItemSetStateStatLists, original_pItemSetStateStats);
+
+				// Call both implementations
+				const auto moo_result = sut(&moo_pUnit, &moo_pItem, a3, a4);
+				const auto original_result = original(&original_pUnit, &original_pItem, a3, a4);
+
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pUnit, original_pUnit, "Comparing pUnit");
+				check_stat_arrays_eq(moo_pUnitStatListEx.FullStats, original_pUnitStatListEx.FullStats, "Comparing pUnit->pStatListEx->FullStats");
+				MOO_CHECK_EQ(moo_pItem, original_pItem, "Comparing pItem");
+				for (auto j = 0; j < item_set_state_count; ++j)
+				{
+					MOO_CHECK_EQ(moo_pUnitSetStateStatLists[j], original_pUnitSetStateStatLists[j], "Comparing pUnitSetStateStatLists");
+					MOO_CHECK_EQ(moo_pItemSetStateStatLists[j], original_pItemSetStateStatLists[j], "Comparing pItemSetStateStatLists");
+				}
+			}
 		}
 	}
 }
