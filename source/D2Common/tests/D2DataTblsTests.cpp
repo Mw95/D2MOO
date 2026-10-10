@@ -304,37 +304,23 @@ TEST_SUITE("D2DataTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD4E4C0")
+	TEST_CASE_FIXTURE(AnimDataFixture<NoopFixture>, "D2Common.0x6FD4E4C0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_GetAnimData, dll_base + 0x0000E4C0);
 		
 		SUBCASE("")
 		{
-			// The original reads pAnimData from its own data tables pointer
-			const auto original_sgptDataTables = reinterpret_cast<D2DataTablesStrc**>(dll_base + 0x00096A20);
-			*original_sgptDataTables = sgptDataTables;
-
-			// Global data
-			D2AnimDataTableStrc anim_data{};
-			anim_data.tDefaultRecord.dwFrames = 10;
-			anim_data.tDefaultRecord.dwAnimSpeed = 256;
-
-			D2AnimDataTableStrc* const previous_anim_data = sgptDataTables->pAnimData;
-			sgptDataTables->pAnimData = &anim_data;
-
 			// Call both implementations
 			const auto moo_result = sut();
 			const auto original_result = original();
 			
-			sgptDataTables->pAnimData = previous_anim_data;
-
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
 			// Check specific values
-			CHECK_EQ(moo_result, &anim_data);
-			CHECK_EQ(original_result, &anim_data);
+			CHECK_EQ(moo_result, anim_data.get());
+			CHECK_EQ(original_result, anim_data.get());
 		}
 	}
 	
