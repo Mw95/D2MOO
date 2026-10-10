@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef SKILLS_TBLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -213,3 +217,5 @@ TEST_SUITE("SkillsTblsTests")
 		}
 	}
 }
+
+#endif

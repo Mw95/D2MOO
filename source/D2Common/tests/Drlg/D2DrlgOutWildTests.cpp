@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_OUTWILD_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -743,3 +747,5 @@ TEST_SUITE("D2DrlgOutWildTests")
 		}
 	}
 }
+
+#endif

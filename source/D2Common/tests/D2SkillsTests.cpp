@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef SKILLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -7327,3 +7331,5 @@ TEST_SUITE("D2SkillsTests")
 		}
 	}
 }
+
+#endif

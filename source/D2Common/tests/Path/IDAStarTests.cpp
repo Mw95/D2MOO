@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef IDASTAR_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -292,3 +296,5 @@ TEST_SUITE("IDAStarTests")
 		}
 	}
 }
+
+#endif

@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef SEQUENCE_TBLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -260,3 +264,5 @@ TEST_SUITE("SequenceTblsTests")
 		}
 	}
 }
+
+#endif

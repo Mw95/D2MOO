@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef WAYPOINTS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -298,3 +302,5 @@ TEST_SUITE("D2WaypointsTests")
 		}
 	}
 }
+
+#endif

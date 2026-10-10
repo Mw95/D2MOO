@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_OUTSIEGE_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -704,3 +708,5 @@ TEST_SUITE("D2DrlgOutSiegeTests")
 		}
 	}
 }
+
+#endif

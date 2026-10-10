@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_OUTPLACE_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -2342,3 +2346,5 @@ TEST_SUITE("D2DrlgOutPlaceTests")
 		}
 	}
 }
+
+#endif

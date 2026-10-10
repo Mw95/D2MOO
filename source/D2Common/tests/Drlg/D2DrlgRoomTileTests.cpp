@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_ROOMTILE_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -2323,3 +2327,5 @@ TEST_SUITE("D2DrlgRoomTileTests")
 		}
 	}
 }
+
+#endif

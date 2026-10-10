@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef STEP_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -902,3 +906,5 @@ TEST_SUITE("StepTests")
 		}
 	}
 }
+
+#endif

@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DATATBLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -985,3 +989,5 @@ TEST_SUITE("D2DataTblsTests")
 		}
 	}
 }
+
+#endif

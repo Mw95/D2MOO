@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef HORADRICCUBE_TBLS_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -268,3 +272,5 @@ TEST_SUITE("HoradricCubeTests")
 		}
 	}
 }
+
+#endif

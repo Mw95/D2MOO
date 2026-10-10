@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef DRLG_OUTROOM_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -316,3 +320,5 @@ TEST_SUITE("D2DrlgOutRoomTests")
 		}
 	}
 }
+
+#endif

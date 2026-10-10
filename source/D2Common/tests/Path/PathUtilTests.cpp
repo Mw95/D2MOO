@@ -1,3 +1,7 @@
+#include <D2CommonTestDefines.h>
+
+#ifdef PATHUTIL_TESTS
+
 #include <doctest.h>
 
 #include <Windows.h>
@@ -118,3 +122,5 @@ TEST_SUITE("PathUtilTests")
 		}
 	}
 }
+
+#endif
