@@ -131,19 +131,6 @@ public:
 	}
 
 	template<auto Member, typename T>
-	void VisitIntegralField(T& object, const char* member_name, int allowed_difference)
-	{
-		using MemberType = std::remove_cv_t<std::remove_reference_t<decltype(Get<Member>(object))>>;
-
-		static_assert(
-			std::is_trivially_copyable_v<MemberType>,
-			"VisitIntegralField() only accepts trivially copyable types."
-		);
-
-		m_writer.WriteBytes(&Get<Member>(object), sizeof(MemberType));
-	}
-
-	template<auto Member, typename T>
 	void VisitPointer(T& object, const char* member_name)
 	{
 		using MemberType = std::remove_cv_t<std::remove_reference_t<decltype(Get<Member>(object))>>;

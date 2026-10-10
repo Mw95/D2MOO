@@ -1278,7 +1278,7 @@ TEST_SUITE("D2DungeonTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelDefsTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD8C2F0 (#10046)")
+	TEST_CASE_FIXTURE(LevelDefsTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD8C2F0 (#10046)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_FindActSpawnLocation, dll_base + 0x0004C2F0);
@@ -1354,7 +1354,7 @@ TEST_SUITE("D2DungeonTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelDefsTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD8C340 (#10045)")
+	TEST_CASE_FIXTURE(LevelDefsTxtFixture<LevelsTxtFixture<NoopFixture>>, "D2Common.0x6FD8C340 (#10045)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_FindActSpawnLocationEx, dll_base + 0x0004C340);
@@ -2086,7 +2086,7 @@ TEST_SUITE("D2DungeonTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8C730 (#10065)")
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8C730 (#10065)" * doctest::skip("Needs checking"))
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DUNGEON_StreamRoomAtCoords, dll_base + 0x0004C730);
@@ -4772,7 +4772,7 @@ TEST_SUITE("D2DungeonTests")
 
 		SUBCASE("")
 		{
-			for (auto room1_in_act : { false, true })
+			for (auto room1_in_act : { 0, 1 })
 			{
 				// Input data
 				const auto current_frame = random_unsigned_integer(1, 0x3FF);

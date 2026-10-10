@@ -98,6 +98,10 @@ target_sources(D2CommonTests
 get_target_property(D2CommonTestsSources D2CommonTests SOURCES)
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${D2CommonTestsSources})
 
+if(MSVC)
+    target_compile_options(D2CommonTests PRIVATE /bigobj)
+endif()
+
 target_link_libraries(D2CommonTests PRIVATE doctest::doctest TestDefinitions TestUtilities VisitorFramework D2Game ${D2CommonImplName})
 target_compile_features(D2CommonTests PRIVATE cxx_std_17)
 

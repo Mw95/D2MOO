@@ -12,19 +12,19 @@
 
 
 BEGIN_VISIT(D2AnimSeqTxt)
-	//FIELD(wSequence)
-	//FIELD(nMode)
-	//FIELD(nFrame)
-	//FIELD(nDir)
-	//OBJECT(nEvent)
+	FIELD(wSequence)
+	FIELD(nMode)
+	FIELD(nFrame)
+	FIELD(nDir)
+	FIELD(nEvent)
 END_VISIT()
 
 BEGIN_VISIT(D2AnimSeqRecordStrc)
-	//POINTER(pAnimSeqTxtRecord)
-	//FIELD(nSeqFramesCount)
-	//FIELD(nFramesCount)
+	POINTER(pAnimSeqTxtRecord)
+	FIELD(nSeqFramesCount)
+	FIELD(nFramesCount)
 END_VISIT()
 
 BEGIN_VISIT(D2PlayerWeaponSequencesStrc)
-	//ARRAY(weaponRecords)
+	ARRAY(weaponRecords)
 END_VISIT()

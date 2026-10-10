@@ -53,10 +53,6 @@ struct VisitorTraits<TYPE>																				\
     visitor.Field<&Self::NAME>(object, #NAME);
 
 
-#define INTEGRAL_FIELD(NAME, ALLOWED_DIFFERENCE)																						\
-    visitor.IntegralField<&Self::NAME>(object, #NAME, ALLOWED_DIFFERENCE);
-
-
 #define OBJECT(NAME)																					\
     visitor.Object<&Self::NAME>(object, #NAME);
 

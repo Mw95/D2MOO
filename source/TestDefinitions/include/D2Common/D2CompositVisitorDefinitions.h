@@ -12,6 +12,6 @@
 
 
 BEGIN_VISIT(D2CompositStrc)
-	//FIELD(nWeaponClassCode)
-	//FIELD(nWeaponClassId)
+	FIELD(nWeaponClassCode)
+	FIELD(nWeaponClassId)
 END_VISIT()
