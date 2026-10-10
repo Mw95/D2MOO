@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include "AnimDataFixture.h"
 #include "ArenaTxtFixture.h"
 #include "ArmTypeTxtFixture.h"
 #include "BeltsTxtFixture.h"
