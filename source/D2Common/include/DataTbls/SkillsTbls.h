@@ -156,8 +156,8 @@ struct D2SkillsTxt
 	uint32_t dwFlags[2];					//0x04 D2C_SkillsTxtFlags
 	int8_t nCharClass;						//0x0C
 	uint8_t unk0x0D[3];						//0x0D
-	uint8_t nAnim;							//0x10
-	uint8_t nMonAnim;						//0x11
+	int8_t nAnim;							//0x10
+	int8_t nMonAnim;						//0x11
 	uint8_t nSeqTrans;						//0x12
 	uint8_t nSeqNum;						//0x13
 	uint8_t nRange;							//0x14
