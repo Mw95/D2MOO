@@ -157,7 +157,8 @@ void __fastcall ENVIRONMENT_UpdateLightIntensity(D2DrlgEnvironmentStrc* pEnviron
 	}
 	else
 	{
-		double dAngle = (double)pEnvironment->nTicks / (double)pEnvironment->nTimeRate * M_PI / (double)ENV_HALF_CIRCLE_DEGREES;
+		// Original multiplies by 1/180 (instead of dividing by 180) and uses PI rounded to float precision
+		const double dAngle = (double)pEnvironment->nTicks / (double)pEnvironment->nTimeRate * (1.0 / ENV_HALF_CIRCLE_DEGREES) * (double)(float)M_PI;
 
 		pEnvironment->fCos = float(-cos(dAngle));
 		pEnvironment->fSin = float(sin(dAngle));
@@ -187,7 +188,8 @@ void __fastcall ENVIRONMENT_UpdateLightIntensity(D2DrlgEnvironmentStrc* pEnviron
 
 static uint8_t LerpLightColor(uint8_t nThis, uint8_t nNext, double lerpRatio)
 {
-	return uint8_t(nThis + int32_t((int32_t(nNext) - int32_t(nThis)) * lerpRatio + 0.5)); // NOLINT(bugprone-incorrect-roundings)
+	// Note: the delta is truncated towards zero after adding 0.5, so this only rounds half up for positive deltas
+	return uint8_t(nThis + (int)((int)(nNext - nThis) * lerpRatio + 0.5)); // NOLINT(bugprone-incorrect-roundings)
 }
 
 //D2Common.0x6FD8DAC0
@@ -198,7 +200,9 @@ void __fastcall ENVIRONMENT_UpdateLightColor(D2DrlgEnvironmentStrc* pEnvironment
 	const D2EnvironmentCycleStrc* pCurrEnvironmentCycle = ENVIRONMENT_GetCycle(nCycleIndex, nAct, pEnvironment->bEclipse);
 	const D2EnvironmentCycleStrc* pNextEnvironmentCycle = ENVIRONMENT_GetCycle(nNextCycleIndex, nAct, pEnvironment->bEclipse);
 	
-	const double dLerpRatio = (double)(pEnvironment->nTicks - pEnvironment->nTimeRate * pCurrEnvironmentCycle->nTicksBegin) / (double)(pEnvironment->nTimeRate * (pNextEnvironmentCycle->nTicksBegin - pCurrEnvironmentCycle->nTicksBegin));
+	const int nCurrTicksBegin = pEnvironment->nTimeRate * pCurrEnvironmentCycle->nTicksBegin;
+	const int nNextTicksBegin = pEnvironment->nTimeRate * pNextEnvironmentCycle->nTicksBegin;
+	const double dLerpRatio = (double)(pEnvironment->nTicks - nCurrTicksBegin) / (double)(nNextTicksBegin - nCurrTicksBegin);
 
 	pEnvironment->nRed   = LerpLightColor(pCurrEnvironmentCycle->nRed,   pNextEnvironmentCycle->nRed,   dLerpRatio);
 	pEnvironment->nGreen = LerpLightColor(pCurrEnvironmentCycle->nGreen, pNextEnvironmentCycle->nGreen, dLerpRatio);
