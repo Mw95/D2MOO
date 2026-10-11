@@ -28,7 +28,7 @@ TEST_SUITE("D2CompositTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(MonModeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>, "D2Common.0x6FD466C0 (#10884)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(MonModeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>, "D2Common.0x6FD466C0 (#10884)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10884_COMPOSIT_unk, dll_base + 0x000066C0);
@@ -125,7 +125,7 @@ TEST_SUITE("D2CompositTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(MonModeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>, "D2Common.0x6FD46BC0 (#10885)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(MonModeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>, "D2Common.0x6FD46BC0 (#10885)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10885_COMPOSIT_unk, dll_base + 0x00006BC0);

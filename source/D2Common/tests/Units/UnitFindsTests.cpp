@@ -192,7 +192,7 @@ TEST_SUITE("UnitFindsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC840 (#11088)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC840 (#11088)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(UNITFINDS_GetNearestTestedUnit, dll_base + 0x0007C840);
@@ -224,9 +224,13 @@ TEST_SUITE("UnitFindsTests")
 			setup_data(moo_pUnit, moo_pDynamicPath, moo_pRoom);
 			setup_data(original_pUnit, original_pDynamicPath, original_pRoom);
 
+			auto unit_test = [](D2UnitStrc* pUnit1, D2UnitStrc* pUnit2) -> int {
+				return 1;
+			};
+
 			// Call both implementations
-			const auto moo_result = sut(&moo_pUnit, nX, nY, nSize, nullptr);
-			const auto original_result = original(&original_pUnit, nX, nY, nSize, nullptr);
+			const auto moo_result = sut(&moo_pUnit, nX, nY, nSize, unit_test);
+			const auto original_result = original(&original_pUnit, nX, nY, nSize, unit_test);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
