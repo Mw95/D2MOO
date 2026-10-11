@@ -71,6 +71,8 @@ target_sources(TestDefinitions
     include/Fixtures/DataTbls/UniqueSuffixTxtFixture.h
     include/Fixtures/DataTbls/UniqueTitleTxtFixture.h
 
+    include/Fixtures/UnitWithStatFlagsFixture.h
+
     include/D2CommonDefinitions/D2PacketDefVisitorDefinitions.h
     
     include/D2Common/DataTbls/AnimTblsVisitorDefinitions.h

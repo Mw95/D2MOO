@@ -102,7 +102,7 @@ void __stdcall STATES_ClearGfxStateFlags(D2UnitStrc* pUnit)
 
 	if (pGfxFlags)
 	{
-		memset(pGfxFlags, 0x00, sizeof(uint32_t) * (sgptDataTables->nStatesTxtRecordCount + 31) / 32);
+		memset(pGfxFlags, 0x00, sizeof(uint32_t) * ((sgptDataTables->nStatesTxtRecordCount + 31) / 32));
 	}
 }
 
