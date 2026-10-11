@@ -5,29 +5,20 @@
 #include <D2StrTable.h>
 #include <Fog.h>
 
+#include <algorithm>
+
 //D2Common.0x6FDC3BF0 (#10892)
 D2HoverTextStrc* __stdcall CHAT_AllocHoverMsg(void* pMemPool, const char* szText, int nTimeout)
 {
-	D2HoverTextStrc* pHoverMsg = NULL;
-	size_t nTextLength = 0;
-	int nLength = 0;
-
-	nTextLength = strlen(szText);
+	const auto nTextLength = strlen(szText);
 	if (nTextLength == 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	if (nTextLength < 255)
-	{
-		nLength = nTextLength;
-	}
-	else
-	{
-		nLength = 254;
-	}
+	const auto nLength = std::min(nTextLength, static_cast<size_t>(254));
 
-	pHoverMsg = D2_CALLOC_STRC_POOL(pMemPool, D2HoverTextStrc);
+	D2HoverTextStrc* pHoverMsg = D2_CALLOC_STRC_POOL(pMemPool, D2HoverTextStrc);
 	
 	pHoverMsg->dwDisplayTime = 8 * nLength + 125;
 	pHoverMsg->dwExpireTime = 8 * nLength + 125 + nTimeout;
@@ -83,7 +74,7 @@ BOOL __stdcall CHAT_GetUsedFromHoverMsg(D2HoverTextStrc* pHoverMsg)
 		return pHoverMsg->bUsed;
 	}
 
-	REMOVE_LATER_Trace("CHAT_GetUsedFromHoverMsg: NULL pointer");
+	REMOVE_LATER_Trace("CHAT_GetUsedFromHoverMsg: nullptr pointer");
 	return FALSE;
 }
 

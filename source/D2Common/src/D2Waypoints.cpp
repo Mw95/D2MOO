@@ -27,11 +27,9 @@ BOOL __stdcall WAYPOINTS_GetLevelIdFromWaypointNo(short nWaypointNo, int* pLevel
 //D2Common.0x6FDC3D90 (#11152)
 BOOL __stdcall WAYPOINTS_GetWaypointNoFromLevelId(int nLevelId, short* pWaypointNo)
 {
-	D2LevelsTxt* pLevelsTxtRecord = NULL;
-
 	*pWaypointNo = 255;
 
-	pLevelsTxtRecord = DATATBLS_GetLevelsTxtRecord(nLevelId);
+	D2LevelsTxt* pLevelsTxtRecord = DATATBLS_GetLevelsTxtRecord(nLevelId);
 	if (pLevelsTxtRecord)
 	{
 		*pWaypointNo = pLevelsTxtRecord->nWaypoint;

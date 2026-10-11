@@ -1678,54 +1678,64 @@ TEST_SUITE("D2StatListTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB7050" * doctest::skip("Not really testable"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB7050")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_STATLIST_FreeStatListImpl_6FDB7050, dll_base + 0x00077050);
-		
+		const auto [moo_alloc, original_alloc] = make_function_pair(STATLIST_AllocStatList, dll_base + 0x00077140);
+
 		SUBCASE("")
 		{
 			// Input data
-			D2StatListStrc moo_pStatList{};
-			D2StatListStrc original_pStatList{};
+			uint32_t fFilter = random_unsigned_integer();
+			uint32_t dwTimeout = random_unsigned_integer();
+			int nUnitType = random_unsigned_integer();
+			D2UnitGUID nUnitGUID = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2StatListStrc& pStatList
-			) {
-				// TODO: Setup as needed
-			};
-
-			setup_data(moo_pStatList);
-			setup_data(original_pStatList);
+			D2StatListStrc* moo_pStatList = moo_alloc(nullptr, fFilter, dwTimeout, nUnitType, nUnitGUID);
+			D2StatListStrc* original_pStatList = original_alloc(nullptr, fFilter, dwTimeout, nUnitType, nUnitGUID);
 
 			// Call both implementations
-			sut(&moo_pStatList);
-			original(&original_pStatList);
+			sut(moo_pStatList);
+			original(original_pStatList);
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_pStatList, original_pStatList, "Comparing pStatList");
+			// Input data can not be compared since it was freed
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB7110 (#10527)" * doctest::skip("Not really testable"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB7110 (#10527)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(STATLIST_FreeStatListEx, dll_base + 0x00077110);
-		
+		const auto [moo_alloc, original_alloc] = make_function_pair(STATLIST_AllocStatListEx, dll_base + 0x00077190);
+
 		SUBCASE("")
 		{
 			// Input data
-			D2UnitStrc moo_pUnit{};
-			D2UnitStrc original_pUnit{};
+			const auto unit_type = random_unsigned_integer();
+			const auto unit_id = random_unsigned_integer();
 
-			const auto setup_data = [](
-				D2UnitStrc& pUnit
+			D2UnitStrc moo_pUnit{};
+			D2GameStrc moo_pGame{};
+			D2UnitStrc original_pUnit{};
+			D2GameStrc original_pGame{};
+			char nFlags = random_unsigned_integer(0, 127);
+			StatListValueChangeFunc pfOnValueChanged = (StatListValueChangeFunc)random_unsigned_integer();
+
+			const auto setup_data = [unit_type, unit_id](
+				D2UnitStrc& pUnit,
+				D2GameStrc& pGame
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = unit_type;
+				pUnit.dwUnitId = unit_id;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pGame);
+			setup_data(original_pUnit, original_pGame);
+
+			// Call both implementations
+			moo_alloc(&moo_pUnit, nFlags, pfOnValueChanged, &moo_pGame);
+			original_alloc(&original_pUnit, nFlags, pfOnValueChanged, &original_pGame);
 
 			// Call both implementations
 			sut(&moo_pUnit);

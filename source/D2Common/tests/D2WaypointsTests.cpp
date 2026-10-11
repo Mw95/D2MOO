@@ -89,6 +89,7 @@ TEST_SUITE("D2WaypointsTests")
 			// Input data
 			uint16_t flags[8]{};
 			flags[0] = 0x102;
+
 			for (auto i = 1; i < 8; ++i)
 			{
 				flags[i] = random_unsigned_integer(0, 65535);
@@ -163,19 +164,24 @@ TEST_SUITE("D2WaypointsTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(WAYPOINTS_AllocWaypointData, dll_base + 0x00083F20);
-		
+		const auto [moo_free, original_free] = make_function_pair(WAYPOINTS_FreeWaypointData, dll_base + 0x00083F70);
+
 		SUBCASE("")
 		{
-
 			// Call both implementations
 			const auto moo_result = sut(nullptr);
 			const auto original_result = original(nullptr);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Free allocated memory
+			moo_free(nullptr, moo_result);
+			original_free(nullptr, original_result);
 		}
 	}
 	
+	// NOTE: Still needs to be confirmed manually since there's not really any observable behaviour
 	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3F70 (#11149)")
 	{
 		// Set up function pointers
@@ -206,19 +212,11 @@ TEST_SUITE("D2WaypointsTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto first_value = GENERATE(0, 0x101, 0x102);
+
 			uint16_t flags[8]{};
-			switch (random_unsigned_integer(0, 2))
-			{
-			case 0:
-				flags[0] = 0x00;
-				break;
-			case 1:
-				flags[0] = 0x101;
-				break;
-			case 2:
-				flags[0] = 0x102;
-				break;
-			}
+			flags[0] = first_value;
+
 			for (auto i = 1; i < 8; ++i)
 			{
 				flags[i] = random_unsigned_integer(0, 65535);
@@ -259,19 +257,11 @@ TEST_SUITE("D2WaypointsTests")
 		SUBCASE("")
 		{
 			// Input data
+			const auto first_value = GENERATE(0, 0x101, 0x102);
+
 			uint16_t flags[8]{};
-			switch (random_unsigned_integer(0, 2))
-			{
-			case 0:
-				flags[0] = 0x00;
-				break;
-			case 1:
-				flags[0] = 0x101;
-				break;
-			case 2:
-				flags[0] = 0x102;
-				break;
-			}
+			flags[0] = first_value;
+
 			for (auto i = 1; i < 8; ++i)
 			{
 				flags[i] = random_unsigned_integer(0, 65535);

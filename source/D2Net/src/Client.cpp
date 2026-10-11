@@ -155,7 +155,7 @@ void __stdcall CLIENT_Release()
 	NET_FreePacketList(&gCriticalSection, &gpSystemPacketList);
 	NET_FreePacketList(&gCriticalSection, &gpGamePacketList);
 
-#ifdef NO_BUG_FIX
+#ifndef BUGFIX
 	// Original game would lock the CS here, but it is actually undefined behaviour to then delete it.
 	// "If a critical section is deleted while it is still owned, the state of the threads waiting for ownership of the deleted critical section is undefined."
 	// This never happens because no thread other than the current one should use this critical section after ghClientThread is closed anyway.

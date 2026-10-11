@@ -1560,11 +1560,11 @@ int32_t __fastcall sub_6FC6A8C0(D2GameStrc* pGame, D2UnitStrc* pUnit, int32_t nM
     }
 
     int32_t v9 = bNonWaterSpawn;
-#ifdef NO_BUG_FIX
-    // Original game accepts a value of 2 here, which then indexes past the end of stru_6FD28B68 (only 2 sets of 6 coordinates).
-    if (bNonWaterSpawn < 0 || bNonWaterSpawn > 2)
+#ifdef BUGFIX
+	// Original game accepts a value of 2 here, which then indexes past the end of stru_6FD28B68 (only 2 sets of 6 coordinates).
+	if (bNonWaterSpawn < 0 || bNonWaterSpawn > 1)
 #else
-    if (bNonWaterSpawn < 0 || bNonWaterSpawn > 1)
+	if (bNonWaterSpawn < 0 || bNonWaterSpawn > 2)
 #endif
     {
         v9 = 0;
