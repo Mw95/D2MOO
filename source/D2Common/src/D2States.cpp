@@ -21,25 +21,39 @@ __forceinline BOOL __fastcall STATES_CheckStateMaskByStateId(int nState, int nSt
 //D2Common.0x6FDB4560 (#10486)
 void __stdcall STATES_ToggleState(D2UnitStrc* pUnit, int nState, BOOL bSet)
 {
-	if (nState >= 0 && nState < sgptDataTables->nStatesTxtRecordCount)
+	if (nState < 0 || nState >= sgptDataTables->nStatesTxtRecordCount)
 	{
-		D2Common_STATES_ToggleState_6FDB8900(pUnit, nState, bSet);
-		UNITROOM_RefreshUnit(pUnit);
+		return;
 	}
+
+	D2Common_STATES_ToggleState_6FDB8900(pUnit, nState, bSet);
+	UNITROOM_RefreshUnit(pUnit);
 }
 
 //D2Common.0x6FDB45A0 (#10487)
 BOOL __stdcall STATES_CheckState(D2UnitStrc* pUnit, int nState)
 {
-	if (pUnit && (pUnit->dwUnitType == UNIT_PLAYER || pUnit->dwUnitType == UNIT_MONSTER || pUnit->dwUnitType == UNIT_MISSILE) && nState >= 0 && nState < sgptDataTables->nStatesTxtRecordCount)
+	if (!pUnit)
 	{
-		if (pUnit->pStatListEx && STATLIST_IsExtended(pUnit->pStatListEx))
-		{
-			return pUnit->pStatListEx->StatFlags[nState >> 5] & gdwBitMasks[nState & 31];
-		}
+		return FALSE;
 	}
 
-	return FALSE;
+	if (pUnit->dwUnitType != UNIT_PLAYER && pUnit->dwUnitType != UNIT_MONSTER && pUnit->dwUnitType != UNIT_MISSILE)
+	{
+		return FALSE;
+	}
+
+	if (nState < 0 || nState >= sgptDataTables->nStatesTxtRecordCount)
+	{
+		return FALSE;
+	}
+
+	if (!pUnit->pStatListEx || !STATLIST_IsExtended(pUnit->pStatListEx))
+	{
+		return FALSE;
+	}
+
+	return pUnit->pStatListEx->StatFlags[nState >> 5] & gdwBitMasks[nState & 31];
 }
 
 //D2Common.0x6FDB45F0 (#10488)
@@ -47,36 +61,38 @@ void __stdcall STATES_ToggleGfxStateFlag(D2UnitStrc* pUnit, int nState, BOOL bSe
 {
 	uint32_t* pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
 
-	if (pGfxFlags && nState >= 0 && nState < sgptDataTables->nStatesTxtRecordCount)
+	if (!pGfxFlags || nState < 0 || nState >= sgptDataTables->nStatesTxtRecordCount)
 	{
-		if (bSet)
-		{
-			pGfxFlags[nState >> 5] |= gdwBitMasks[nState & 31];
-		}
-		else
-		{
-			pGfxFlags[nState >> 5] &= gdwInvBitMasks[nState & 31];
-		}
-
-		UNITROOM_RefreshUnit(pUnit);
+		return;
 	}
+
+	if (bSet)
+	{
+		pGfxFlags[nState >> 5] |= gdwBitMasks[nState & 31];
+	}
+	else
+	{
+		pGfxFlags[nState >> 5] &= gdwInvBitMasks[nState & 31];
+	}
+
+	UNITROOM_RefreshUnit(pUnit);
 }
 
 //D2Common.0x6FDB4670 (#10489)
 BOOL __stdcall STATES_CheckGfxStateFlag(D2UnitStrc* pUnit, int nState)
 {
-	uint32_t* pGfxFlags = NULL;
-
-	if (nState >= 0 && nState < sgptDataTables->nStatesTxtRecordCount)
+	if (nState < 0 || nState >= sgptDataTables->nStatesTxtRecordCount)
 	{
-		pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
-		if (pGfxFlags)
-		{
-			return pGfxFlags[nState >> 5] & gdwBitMasks[nState & 31];
-		}
+		return FALSE;
 	}
 
-	return FALSE;
+	const uint32_t* pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
+	if (!pGfxFlags)
+	{
+		return FALSE;
+	}
+
+	return pGfxFlags[nState >> 5] & gdwBitMasks[nState & 31];
 }
 
 //D2Common.0x6FDB46C0 (#10491)
@@ -93,22 +109,18 @@ void __stdcall STATES_ClearGfxStateFlags(D2UnitStrc* pUnit)
 //D2Common.0x6FDB4710 (#10490)
 BOOL __stdcall STATES_IsAnyGfxStateFlagSet(D2UnitStrc* pUnit)
 {
-	uint32_t* pGfxFlags = NULL;
-	int nCounter = 0;
-
-	pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
-	if (pGfxFlags && (sgptDataTables->nStatesTxtRecordCount + 31) / 32 > 0)
+	uint32_t* pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
+	if (!pGfxFlags)
 	{
-		while (!pGfxFlags[nCounter])
-		{
-			++nCounter;
-			if (nCounter >= (sgptDataTables->nStatesTxtRecordCount + 31) / 32)
-			{
-				return FALSE;
-			}
-		}
+		return FALSE;
+	}
 
-		return TRUE;
+	for (auto i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
+	{
+		if (pGfxFlags[i])
+		{
+			return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -125,41 +137,40 @@ uint32_t* __stdcall STATES_GetGfxStateFlags(D2UnitStrc* pUnit)
 //D2Common.0x6FDB4790 (#10493)
 void __stdcall STATES_UpdateStayDeathFlags(D2UnitStrc* pUnit, BOOL bIsBoss)
 {
-	uint32_t* pStatFlags = NULL;
-	uint32_t* pGfxFlags = NULL;
+	uint32_t* pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
+	uint32_t* pStatFlags = D2COMMON_STATES_GetStatFlags_6FDB8A90(pUnit);
 
-	pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
-	pStatFlags = D2COMMON_STATES_GetStatFlags_6FDB8A90(pUnit);
-
-	if (pGfxFlags && pStatFlags)
+	if (!pGfxFlags || !pStatFlags)
 	{
-		if (bIsBoss)
-		{
-			for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
-			{
-				pGfxFlags[i] |= pStatFlags[i] & ~sgptDataTables->fStateMasks[STATEMASK_BOSSSTAYDEATH][i];
-				pStatFlags[i] &= sgptDataTables->fStateMasks[STATEMASK_BOSSSTAYDEATH][i];
-			}
-		}
-		else if (!pUnit || pUnit->dwUnitType != UNIT_PLAYER)
-		{
-			for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
-			{
-				pGfxFlags[i] |= pStatFlags[i] & ~sgptDataTables->fStateMasks[STATEMASK_MONSTAYDEATH][i];
-				pStatFlags[i] &= sgptDataTables->fStateMasks[STATEMASK_MONSTAYDEATH][i];
-			}
-		}
-		else
-		{
-			for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
-			{
-				pGfxFlags[i] |= pStatFlags[i] & ~sgptDataTables->fStateMasks[STATEMASK_PLRSTAYDEATH][i];
-				pStatFlags[i] &= sgptDataTables->fStateMasks[STATEMASK_PLRSTAYDEATH][i];
-			}
-		}
-
-		UNITROOM_RefreshUnit(pUnit);
+		return;
 	}
+
+	if (bIsBoss)
+	{
+		for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
+		{
+			pGfxFlags[i] |= pStatFlags[i] & ~sgptDataTables->fStateMasks[STATEMASK_BOSSSTAYDEATH][i];
+			pStatFlags[i] &= sgptDataTables->fStateMasks[STATEMASK_BOSSSTAYDEATH][i];
+		}
+	}
+	else if (!pUnit || pUnit->dwUnitType != UNIT_PLAYER)
+	{
+		for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
+		{
+			pGfxFlags[i] |= pStatFlags[i] & ~sgptDataTables->fStateMasks[STATEMASK_MONSTAYDEATH][i];
+			pStatFlags[i] &= sgptDataTables->fStateMasks[STATEMASK_MONSTAYDEATH][i];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
+		{
+			pGfxFlags[i] |= pStatFlags[i] & ~sgptDataTables->fStateMasks[STATEMASK_PLRSTAYDEATH][i];
+			pStatFlags[i] &= sgptDataTables->fStateMasks[STATEMASK_PLRSTAYDEATH][i];
+		}
+	}
+
+	UNITROOM_RefreshUnit(pUnit);
 }
 
 //D2Common.0x6FDB48F0 (#10494)
@@ -201,22 +212,21 @@ BOOL __stdcall STATES_CheckStateMaskPgsvOnUnit(D2UnitStrc* pUnit)
 //D2Common.0x6FDB4A80 (#10501)
 void __stdcall STATES_UpdatePgsvFlags(D2UnitStrc* pUnit)
 {
-	uint32_t* pStatFlags = NULL;
-	uint32_t* pGfxFlags = NULL;
+	uint32_t* pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
+	uint32_t* pStatFlags = D2COMMON_STATES_GetStatFlags_6FDB8A90(pUnit);
 
-	pGfxFlags = D2COMMON_STATES_GetListGfxFlags_6FDB8AC0(pUnit);
-	pStatFlags = D2COMMON_STATES_GetStatFlags_6FDB8A90(pUnit);
-
-	if (pGfxFlags && pStatFlags)
+	if (!pGfxFlags || !pStatFlags)
 	{
-		for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
-		{
-			pGfxFlags[i] |= pStatFlags[i] & sgptDataTables->fStateMasks[STATEMASK_PGSV][i];
-			pStatFlags[i] &= ~sgptDataTables->fStateMasks[STATEMASK_PGSV][i];
-		}
-
-		UNITROOM_RefreshUnit(pUnit);
+		return;
 	}
+
+	for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
+	{
+		pGfxFlags[i] |= pStatFlags[i] & sgptDataTables->fStateMasks[STATEMASK_PGSV][i];
+		pStatFlags[i] &= ~sgptDataTables->fStateMasks[STATEMASK_PGSV][i];
+	}
+
+	UNITROOM_RefreshUnit(pUnit);
 }
 
 //D2Common.0x6FDB4B20 (#10558)
@@ -293,19 +303,19 @@ BOOL __stdcall STATES_CheckStateMaskCurableByStateId(int nState)
 //D2Common.0x6FDB4F00 (#10554)
 BOOL __stdcall STATES_CheckStateMaskStayDeathOnUnitByStateId(D2UnitStrc* pUnit, int nState)
 {
-	if (nState >= 0 && nState < sgptDataTables->nStatesTxtRecordCount)
+	if (nState < 0 || nState >= sgptDataTables->nStatesTxtRecordCount)
 	{
-		if (pUnit && pUnit->dwUnitType == UNIT_MONSTER)
-		{
-			return sgptDataTables->fStateMasks[STATEMASK_MONSTAYDEATH][nState >> 5] & gdwBitMasks[nState & 31];
-		}
-		else
-		{
-			return sgptDataTables->fStateMasks[STATEMASK_PLRSTAYDEATH][nState >> 5] & gdwBitMasks[nState & 31];
-		}
+		return FALSE;
 	}
 
-	return FALSE;
+	if (pUnit && pUnit->dwUnitType == UNIT_MONSTER)
+	{
+		return sgptDataTables->fStateMasks[STATEMASK_MONSTAYDEATH][nState >> 5] & gdwBitMasks[nState & 31];
+	}
+	else
+	{
+		return sgptDataTables->fStateMasks[STATEMASK_PLRSTAYDEATH][nState >> 5] & gdwBitMasks[nState & 31];
+	}
 }
 
 //D2Common.0x6FDB4F60
@@ -425,19 +435,23 @@ BOOL __stdcall STATES_CheckStateMaskGreenOnUnit(D2UnitStrc* pUnit)
 //D2Common.0x6FDB5740 (#11303)
 BOOL __stdcall STATES_CheckStateMaskOnUnit(D2UnitStrc* pUnit, int nStateMask)
 {
-	if (pUnit && nStateMask >= 0 && nStateMask < 40)
+	if (!pUnit || nStateMask < 0 || nStateMask >= 40)
 	{
-		uint32_t* pStatFlags = D2COMMON_STATES_GetStatFlags_6FDB8A90(pUnit);
+		return FALSE;
+	}
 
-		if (pStatFlags)
+	uint32_t* pStatFlags = D2COMMON_STATES_GetStatFlags_6FDB8A90(pUnit);
+
+	if (!pStatFlags)
+	{
+		return FALSE;
+	}
+
+	for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
+	{
+		if (pStatFlags[i] & sgptDataTables->fStateMasks[nStateMask][i])
 		{
-			for (int i = 0; i < (sgptDataTables->nStatesTxtRecordCount + 31) / 32; ++i)
-			{
-				if (pStatFlags[i] & sgptDataTables->fStateMasks[nStateMask][i])
-				{
-					return TRUE;
-				}
-			}
+			return TRUE;
 		}
 	}
 

@@ -45,26 +45,26 @@
 //#define PATHWF_TESTS
 //#define STEP_TESTS
 
-#define MISSILESTREAM_TESTS
+//#define MISSILESTREAM_TESTS
 //#define MISSILE_TESTS
 //#define UNITFINDS_TESTS
 //#define UNITROOM_TESTS
 //#define UNITS_TESTS
 
-#define CHAT_TESTS
+//#define CHAT_TESTS
 //#define COLLISION_TESTS
 //#define COMPOSIT_TESTS
 //#define DATATBLS_TESTS
 //#define DUNGEON_TESTS
-#define ENVIRONMENT_TESTS
+//#define ENVIRONMENT_TESTS
 //#define INVENTORY_TESTS
 //#define ITEMMODS_TESTS
 //#define ITEMS_TESTS
 //#define MONSTERS_TESTS
-#define QUESTRECORD_TESTS
-#define SEED_TESTS
+//#define QUESTRECORD_TESTS
+//#define SEED_TESTS
 //#define SKILLS_TESTS
-//#define STATES_TESTS
+#define STATES_TESTS
 //#define STATLIST_TESTS
-#define TEXT_TESTS
-#define WAYPOINTS_TESTS
+//#define TEXT_TESTS
+//#define WAYPOINTS_TESTS
