@@ -12,7 +12,7 @@ void __stdcall SEED_Return()
 //D2Common.0x6FDAEA80 (#10920)
 int __fastcall SEED_GetRandomValue(int nValue)
 {
-	return (0x2F490A95 * (time(NULL) + nValue + GetTickCount()) - 0x2E330917) & 0x7FFFFFFF;
+	return (0x2F490A95 * (time(nullptr) + nValue + GetTickCount()) - 0x2E330917) & 0x7FFFFFFF;
 }
 
 //D2Common.0x6FDAEAB0 (#10912)

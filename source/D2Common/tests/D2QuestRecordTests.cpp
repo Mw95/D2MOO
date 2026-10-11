@@ -21,37 +21,6 @@
 DYNAMIC_ARRAY_TYPE(uint8_t)
 
 
-struct WrappedD2BitBufferStrc : D2BitBufferStrc {
-	int buffer_size;
-
-	WrappedD2BitBufferStrc() {
-		this->pBuffer = nullptr;
-		this->nBits = 0;
-		this->nPos = 0;
-		this->nPosBits = 0;
-		this->bFull = FALSE;
-		this->buffer_size = 0;
-	}
-
-	WrappedD2BitBufferStrc(const D2BitBufferStrc& buffer, unsigned int size) {
-		this->pBuffer = buffer.pBuffer;
-		this->nBits = buffer.nBits;
-		this->nPos = buffer.nPos;
-		this->nPosBits = buffer.nPosBits;
-		this->bFull = buffer.bFull;
-		this->buffer_size = size;
-	}
-};
-
-BEGIN_VISIT(WrappedD2BitBufferStrc)
-	DYNAMIC_ARRAY(pBuffer, buffer_size)
-	FIELD(nBits)
-	FIELD(nPos)
-	FIELD(nPosBits)
-	FIELD(bFull)
-END_VISIT()
-
-
 TEST_SUITE("D2QuestRecordTests")
 {
 	const auto working_directory = std::filesystem::current_path();
@@ -68,9 +37,9 @@ TEST_SUITE("D2QuestRecordTests")
 			const auto size = sizeof(uint16_t) * NUM_QUEST_WORDS;
 			const auto flags = std::make_unique<uint8_t[]>(size);
 
-			for (auto i = 0; i < NUM_QUEST_WORDS; ++i)
+			for (auto j = 0; j < 16; ++j)
 			{
-				for (auto j = 0; j < 16; ++j)
+				for (auto i = 0; i < NUM_QUEST_WORDS; ++i)
 				{
 					// Input data
 					D2BitBufferStrc moo_pQuestRecord{};
@@ -123,9 +92,9 @@ TEST_SUITE("D2QuestRecordTests")
 		{
 			const auto size = sizeof(uint16_t) * NUM_QUEST_WORDS;
 
-			for (auto i = 0; i < NUM_QUEST_WORDS; ++i)
+			for (auto j = 0; j < 16; ++j)
 			{
-				for (auto j = 0; j < 16; ++j)
+				for (auto i = 0; i < NUM_QUEST_WORDS; ++i)
 				{
 					// Input data
 					D2BitBufferStrc moo_pQuestRecord{};
@@ -171,9 +140,9 @@ TEST_SUITE("D2QuestRecordTests")
 			const auto size = sizeof(uint16_t) * NUM_QUEST_WORDS;
 			const auto flags = std::make_unique<uint8_t[]>(size);
 
-			for (auto i = 0; i < NUM_QUEST_WORDS; ++i)
+			for (auto j = 0; j < 16; ++j)
 			{
-				for (auto j = 0; j < 16; ++j)
+				for (auto i = 0; i < NUM_QUEST_WORDS; ++i)
 				{
 					// Input data
 					D2BitBufferStrc moo_pQuestRecord{};
@@ -267,6 +236,7 @@ TEST_SUITE("D2QuestRecordTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(QUESTRECORD_AllocRecord, dll_base + 0x0006E920);
+		const auto [moo_free, original_free] = make_function_pair(QUESTRECORD_FreeRecord, dll_base + 0x0006E970);
 
 		SUBCASE("")
 		{
@@ -282,9 +252,13 @@ TEST_SUITE("D2QuestRecordTests")
 
 			MOO_CHECK_EQ(wrapped_moo_buffer, wrapped_original_buffer, "Comparing pQuestRecord");
 
+			// Free allocated memory
+			moo_free(nullptr, moo_result);
+			original_free(nullptr, original_result);
 		}
 	}
 
+	// NOTE: Still needs to be confirmed manually since there's not really any observable behaviour
 	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAE970 (#11112)")
 	{
 		// Set up function pointers

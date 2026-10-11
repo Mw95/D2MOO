@@ -32,7 +32,6 @@ TEST_SUITE("D2EnvironmentTests")
 		
 		SUBCASE("")
 		{
-
 			// Call both implementations
 			const auto moo_result = sut(nullptr);
 			const auto original_result = original(nullptr);
@@ -42,8 +41,7 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 	
-	// NOTE: may_fail because we currently have some off-by-one errors
-	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8D970" * doctest::may_fail())
+	TEST_CASE_FIXTURE(LevelsTxtFixture<NoopFixture>, "D2Common.0x6FD8D970")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_UpdateLightIntensity, dll_base + 0x0004D970);
@@ -52,100 +50,84 @@ TEST_SUITE("D2EnvironmentTests")
 		
 		SUBCASE("")
 		{
-			for (auto eclipse : { 0, 1 })
+			const auto eclipse = GENERATE(0, 1);
+			const auto time_rate = GENERATE(0, 4, 8, 128);
+
+			for (auto j = 0; j < 5; ++j)
 			{
-				for (auto j = 0; j < 5; ++j)
+				for (auto i = 0; i < levels_record_count; ++i)
 				{
-					for (auto i = 0; i < levels_record_count; ++i)
-					{
-						// Input data
-						const auto intensity = random_unsigned_integer(0, 255);
-						const auto ticks = random_unsigned_integer(0, 1000);
-						const auto time_rate = random_unsigned_integer(1, 4);
+					// Input data
+					const auto intensity = random_unsigned_integer(0, 255);
+					const auto ticks = random_unsigned_integer(0, 1000);
 
-						D2DrlgEnvironmentStrc moo_pEnvironment{};
-						D2DrlgEnvironmentStrc original_pEnvironment{};
-						int nLevelId = i;
-						int nAct = j;
+					D2DrlgEnvironmentStrc moo_pEnvironment{};
+					D2DrlgEnvironmentStrc original_pEnvironment{};
+					int nLevelId = i;
+					int nAct = j;
 
-						const auto setup_data = [intensity, eclipse, ticks, time_rate](
-							D2DrlgEnvironmentStrc& pEnvironment
-						) {
-							pEnvironment.nIntensity = intensity;
-							pEnvironment.bEclipse = eclipse;
-							pEnvironment.nTicks = ticks;
-							pEnvironment.nTimeRate = time_rate;
-						};
+					const auto setup_data = [intensity, eclipse, ticks, time_rate](
+						D2DrlgEnvironmentStrc& pEnvironment
+					) {
+						pEnvironment.nIntensity = intensity;
+						pEnvironment.bEclipse = eclipse;
+						pEnvironment.nTicks = ticks;
+						pEnvironment.nTimeRate = time_rate;
+					};
 
-						CAPTURE(eclipse);
-						CAPTURE(intensity);
-						CAPTURE(ticks);
-						CAPTURE(time_rate);
-						CAPTURE(nLevelId);
-						CAPTURE(nAct);
+					setup_data(moo_pEnvironment);
+					setup_data(original_pEnvironment);
 
-						setup_data(moo_pEnvironment);
-						setup_data(original_pEnvironment);
+					// Call both implementations
+					sut(&moo_pEnvironment, nLevelId, nAct);
+					original(&original_pEnvironment, nLevelId, nAct);
 
-						// Call both implementations
-						sut(&moo_pEnvironment, nLevelId, nAct);
-						original(&original_pEnvironment, nLevelId, nAct);
-
-						// Compare potentially modified input data
-						MOO_CHECK_EQ(moo_pEnvironment, original_pEnvironment, "Comparing pEnvironment");
-					}
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pEnvironment, original_pEnvironment, "Comparing pEnvironment");
 				}
 			}
 		}
 	}
 	
-	// NOTE: may_fail because we currently have some off-by-one errors
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8DAC0" * doctest::may_fail())
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8DAC0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_UpdateLightColor, dll_base + 0x0004DAC0);
 		
 		SUBCASE("")
 		{
-			for (auto eclipse : { 0, 1 })
+			const auto eclipse = GENERATE(0, 1);
+			const auto time_rate = GENERATE(0, 4, 8, 128);
+
+			for (auto j = 0; j < 5; ++j)
 			{
-				for (auto j = 0; j < 5; ++j)
+				for (auto i = 0; i < NUM_ENVIRONMENT_CYCLES; ++i)
 				{
-					for (auto i = 0; i < NUM_ENVIRONMENT_CYCLES; ++i)
-					{
-						// Input data
-						const auto ticks = random_unsigned_integer(0, 1000);
-						const auto time_rate = random_unsigned_integer(1, 4);
+					// Input data
+					const auto ticks = random_unsigned_integer(0, 1000);
 
-						D2DrlgEnvironmentStrc moo_pEnvironment{};
-						D2DrlgEnvironmentStrc original_pEnvironment{};
-						int nAct = j;
+					D2DrlgEnvironmentStrc moo_pEnvironment{};
+					D2DrlgEnvironmentStrc original_pEnvironment{};
+					int nAct = j;
 
-						const auto setup_data = [i, eclipse, time_rate, ticks](
-							D2DrlgEnvironmentStrc& pEnvironment
-						) {
-							pEnvironment.nCycleIndex = i;
-							pEnvironment.bEclipse = eclipse;
-							pEnvironment.nTimeRate = time_rate;
-							pEnvironment.nTicks = ticks;
-						};
+					const auto setup_data = [i, eclipse, time_rate, ticks](
+						D2DrlgEnvironmentStrc& pEnvironment
+					) {
+						pEnvironment.nCycleIndex = i;
+						pEnvironment.bEclipse = eclipse;
+						pEnvironment.nTimeRate = time_rate;
+						pEnvironment.nTicks = ticks;
+					};
 
-						CAPTURE(i);
-						CAPTURE(eclipse);
-						CAPTURE(ticks);
-						CAPTURE(time_rate);
-						CAPTURE(nAct);
+					setup_data(moo_pEnvironment);
+					setup_data(original_pEnvironment);
 
-						setup_data(moo_pEnvironment);
-						setup_data(original_pEnvironment);
+					// Call both implementations
+					sut(&moo_pEnvironment, nAct);
+					original(&original_pEnvironment, nAct);
 
-						// Call both implementations
-						sut(&moo_pEnvironment, nAct);
-						original(&original_pEnvironment, nAct);
-
-						// Compare potentially modified input data
-						MOO_CHECK_EQ(moo_pEnvironment, original_pEnvironment, "Comparing pEnvironment");
-					}
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pEnvironment, original_pEnvironment, "Comparing pEnvironment");
 				}
 			}
 		}
@@ -204,52 +186,47 @@ TEST_SUITE("D2EnvironmentTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8DC70" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD8DC70")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ENVIRONMENT_UpdateTicks, dll_base + 0x0004DC70);
+
+		REPEAT_10();
 		
 		SUBCASE("")
 		{
-			for (auto eclipse : { 0, 1 })
+			const auto eclipse = GENERATE(0, 1);
+			const auto time_rate = GENERATE(0, 4, 8, 128);
+
+			for (auto cycle_index = 0; cycle_index < NUM_ENVIRONMENT_CYCLES; ++cycle_index)
 			{
-				for (auto j = 0; j < NUM_ENVIRONMENT_CYCLES; ++j)
+				for (auto act = 0; act < 5; ++act)
 				{
-					for (auto i = 0; i < 5; ++i)
-					{
-						const auto ticks = random_unsigned_integer(0, 1000);
-						const auto time_rate = random_unsigned_integer(1, 4);
+					const auto ticks = random_unsigned_integer(0, 1000);
 
-						// Input data
-						D2DrlgEnvironmentStrc moo_pEnvironment{};
-						D2DrlgEnvironmentStrc original_pEnvironment{};
-						int nActNo = i;
+					// Input data
+					D2DrlgEnvironmentStrc moo_pEnvironment{};
+					D2DrlgEnvironmentStrc original_pEnvironment{};
+					int nActNo = act;
 
-						const auto setup_data = [j, ticks, time_rate, eclipse](
-							D2DrlgEnvironmentStrc& pEnvironment
-						) {
-							pEnvironment.nCycleIndex = j;
-							pEnvironment.nTicks = ticks;
-							pEnvironment.nTimeRate = time_rate;
-							pEnvironment.bEclipse = eclipse;
-						};
+					const auto setup_data = [cycle_index, ticks, time_rate, eclipse](
+						D2DrlgEnvironmentStrc& pEnvironment
+					) {
+						pEnvironment.nCycleIndex = cycle_index;
+						pEnvironment.nTicks = ticks;
+						pEnvironment.nTimeRate = time_rate;
+						pEnvironment.bEclipse = eclipse;
+					};
 
-						CAPTURE(j);
-						CAPTURE(eclipse);
-						CAPTURE(ticks);
-						CAPTURE(time_rate);
-						CAPTURE(nActNo);
+					setup_data(moo_pEnvironment);
+					setup_data(original_pEnvironment);
 
-						setup_data(moo_pEnvironment);
-						setup_data(original_pEnvironment);
+					// Call both implementations
+					sut(&moo_pEnvironment, nActNo);
+					original(&original_pEnvironment, nActNo);
 
-						// Call both implementations
-						sut(&moo_pEnvironment, nActNo);
-						original(&original_pEnvironment, nActNo);
-
-						// Compare potentially modified input data
-						MOO_CHECK_EQ(moo_pEnvironment, original_pEnvironment, "Comparing pEnvironment");
-					}
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pEnvironment, original_pEnvironment, "Comparing pEnvironment");
 				}
 			}
 		}
@@ -393,7 +370,7 @@ TEST_SUITE("D2EnvironmentTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto time_rate = GENERATE(0, 1, 2, 3);
+			const auto time_rate = GENERATE(0, 4, 8, 128);
 			const auto ticks = random_unsigned_integer();
 			const auto period_of_day = random_unsigned_integer();
 

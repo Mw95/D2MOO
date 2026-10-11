@@ -15,19 +15,6 @@
 #include <D2Text.h>
 
 
-BEGIN_VISIT(D2MessageStrc)
-	FIELD(nMenu)
-	FIELD(pad0x01)
-	FIELD(nStringId)
-END_VISIT()
-
-BEGIN_VISIT(D2MessageListStrc)
-	FIELD(nCount)
-	FIELD(pad0x01)
-	ARRAY(pMessages)
-END_VISIT()
-
-
 TEST_SUITE("D2TextTests")
 {
 	const auto working_directory = std::filesystem::current_path();
@@ -38,19 +25,24 @@ TEST_SUITE("D2TextTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(TEXT_AllocTextHeader, dll_base + 0x000836E0);
-		
+		const auto [moo_free, original_free] = make_function_pair(TEXT_FreeTextHeader, dll_base + 0x00083710);
+
 		SUBCASE("")
 		{
-
 			// Call both implementations
 			const auto moo_result = sut(nullptr);
 			const auto original_result = original(nullptr);
 			
 			// Compare return values
 			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+			// Free allocated memory
+			moo_free(moo_result);
+			original_free(original_result);
 		}
 	}
 	
+	// NOTE: Still needs to be confirmed manually since there's not really any observable behaviour
 	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC3710 (#10902)")
 	{
 		// Set up function pointers

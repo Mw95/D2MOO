@@ -1025,35 +1025,54 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(MonStatsTxtFixture<NoopFixture>, "D2Common.0x6FDA5B30 (#11061)" * doctest::skip("Needs further setup"))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<MonStatsTxtFixture<NoopFixture>>, "D2Common.0x6FDA5B30 (#11061)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetMinionSpawnInfo, dll_base + 0x00065B30);
 		
 		SUBCASE("")
 		{
+			const auto difficulty = GENERATE(0, 1, 2);
+
 			for (auto i = 0; i < monstats_record_count; ++i)
 			{
 				// Input data
 				const auto x = random_unsigned_integer(0, 65535);
 				const auto y = random_unsigned_integer(0, 65535);
+				const auto target_x = random_unsigned_integer(0, 65535);
+				const auto target_y = random_unsigned_integer(0, 65535);
+				const auto level_id = random_unsigned_integer(1, levels_record_count - 1);
+				const auto low_seed = random_unsigned_integer();
+				const auto high_seed = random_unsigned_integer();
 
 				D2UnitStrc moo_pMonster{};
+				D2ActiveRoomStrc moo_pRoom{};
+				D2DrlgRoomStrc moo_pDrlgRoom{};
+				D2DrlgLevelStrc moo_pLevel{};
+				D2SeedStrc moo_pSeed{};
 				D2DynamicPathStrc moo_pDynamicPath{};
 				int moo_pId{};
 				int moo_pX{};
 				int moo_pY{};
 				int moo_pSpawnMode{};
 				D2UnitStrc original_pMonster{};
+				D2ActiveRoomStrc original_pRoom{};
+				D2DrlgRoomStrc original_pDrlgRoom{};
+				D2DrlgLevelStrc original_pLevel{};
+				D2SeedStrc original_pSeed{};
 				D2DynamicPathStrc original_pDynamicPath{};
 				int original_pId{};
 				int original_pX{};
 				int original_pY{};
 				int original_pSpawnMode{};
-				int nDifficulty{};
+				int nDifficulty = difficulty;
 
-				const auto setup_data = [i, x, y](
+				const auto setup_data = [i, x, y, target_x, target_y, level_id, low_seed, high_seed](
 					D2UnitStrc& pMonster,
+					D2ActiveRoomStrc& pRoom,
+					D2DrlgRoomStrc& pDrlgRoom,
+					D2DrlgLevelStrc& pLevel,
+					D2SeedStrc& pSeed,
 					D2DynamicPathStrc& pDynamicPath,
 					int& pId,
 					int& pX,
@@ -1062,13 +1081,22 @@ TEST_SUITE("D2MonstersTests")
 				) {
 					pMonster.dwUnitType = UNIT_MONSTER;
 					pMonster.dwClassId = i;
+					pMonster.pSeed = pSeed;
 					pMonster.pDynamicPath = &pDynamicPath;
+					pDynamicPath.pRoom = &pRoom;
+					pRoom.pDrlgRoom = &pDrlgRoom;
+					pDrlgRoom.pLevel = &pLevel;
+					pLevel.nLevelId = level_id;
 					pDynamicPath.tGameCoords.wPosX = x;
 					pDynamicPath.tGameCoords.wPosY = y;
+					pDynamicPath.tTargetCoord.X = target_x;
+					pDynamicPath.tTargetCoord.Y = target_y;
+					pSeed.nLowSeed = low_seed;
+					pSeed.nHighSeed = high_seed;
 				};
 
-				setup_data(moo_pMonster, moo_pDynamicPath, moo_pId, moo_pX, moo_pY, moo_pSpawnMode);
-				setup_data(original_pMonster, original_pDynamicPath, original_pId, original_pX, original_pY, original_pSpawnMode);
+				setup_data(moo_pMonster, moo_pRoom, moo_pDrlgRoom, moo_pLevel, moo_pSeed, moo_pDynamicPath, moo_pId, moo_pX, moo_pY, moo_pSpawnMode);
+				setup_data(original_pMonster, original_pRoom, original_pDrlgRoom, original_pLevel, original_pSeed, original_pDynamicPath, original_pId, original_pX, original_pY, original_pSpawnMode);
 
 				auto get_class_id = [](D2UnitStrc* monster) {
 					return 123;

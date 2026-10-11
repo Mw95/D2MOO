@@ -4,7 +4,9 @@
 #include "DynamicArray.h"
 #include "EqualityMacros.h"
 #include "RepetitionMacros.h"
+#include "WrappedD2BitBufferStrc.h"
 
+#include "D2CommonDefinitions/D2PacketDefVisitorDefinitions.h"
 
 #include "D2Common/DataTbls/AnimTblsVisitorDefinitions.h"
 #include "D2Common/DataTbls/ArenaTblsVisitorDefinitions.h"

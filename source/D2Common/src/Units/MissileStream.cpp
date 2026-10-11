@@ -11,12 +11,10 @@
 //D2Common.0x6FDBC230 (#11213)
 void __stdcall MISSTREAM_AllocMissileStream(D2UnitStrc* pMissile)
 {
-	D2MissileStreamStrc* pStream = nullptr;
-
 	if (!MISSILE_GetStream(pMissile))
 	{
-		pStream = D2_ALLOC_STRC_POOL(pMissile ? pMissile->pMemoryPool : nullptr, D2MissileStreamStrc);
-		pStream->unk0x00 = 0;
+		D2MissileStreamStrc* pStream = D2_ALLOC_STRC_POOL(pMissile ? pMissile->pMemoryPool : nullptr, D2MissileStreamStrc);
+		pStream->unk0x00 = nullptr;
 		pStream->unk0x04 = 0;
 
 		MISSILE_SetStream(pMissile, pStream);
@@ -32,33 +30,29 @@ void __stdcall MISSTREAM_FreeMissileStream(D2UnitStrc* pMissile)
 	{
 		if (pStream->unk0x00)
 		{
-			D2_FREE_POOL(pMissile ? pMissile->pMemoryPool : NULL, (void*)pStream->unk0x00);
+			D2_FREE_POOL(pMissile ? pMissile->pMemoryPool : nullptr, (void*)pStream->unk0x00);
 		}
 
-		D2_FREE_POOL(pMissile ? pMissile->pMemoryPool : NULL, pStream);
+		D2_FREE_POOL(pMissile ? pMissile->pMemoryPool : nullptr, pStream);
 	}
 }
 
 //D2Common.0x6FDBC2E0 (#11215)
 void __stdcall MISSTREAM_ExecuteHit(D2UnitStrc* pUnit, int nCollisionMask, int nCollisionPattern, void (__fastcall* pfnHit)(D2UnitStrc*, D2UnitStrc*))
 {
-	D2PathPointStrc* ppPathPoints = NULL;
-	D2UnitStrc* pTargetUnit = NULL;
-	D2ActiveRoomStrc* pRoom = NULL;
-	int nPathPoints = 0;
-
 	PATH_SetType(pUnit->pDynamicPath, PATHTYPE_MISSILE_STREAM);
 	D2Common_10142(pUnit->pDynamicPath, pUnit, 0);
 
-	nPathPoints = PATH_GetPathPoints(pUnit->pDynamicPath, &ppPathPoints);
+	D2PathPointStrc* ppPathPoints = nullptr;
+	const auto nPathPoints = PATH_GetPathPoints(pUnit->pDynamicPath, &ppPathPoints);
 
-	pRoom = UNITS_GetRoom(pUnit);
+	D2ActiveRoomStrc* pRoom = UNITS_GetRoom(pUnit);
 
 	for (int i = 0; i < nPathPoints; ++i)
 	{
 		if (COLLISION_CheckMaskWithSize(pRoom, ppPathPoints[i].X, ppPathPoints[i].Y, nCollisionPattern, nCollisionMask))
 		{
-			pTargetUnit = D2Common_10407(pRoom, ppPathPoints[i].X, ppPathPoints[i].Y, MISSTREAM_Return1, 0, nCollisionPattern);
+			D2UnitStrc* pTargetUnit = D2Common_10407(pRoom, ppPathPoints[i].X, ppPathPoints[i].Y, MISSTREAM_Return1, 0, nCollisionPattern);
 			if (pTargetUnit)
 			{
 				D2_ASSERT(!IsBadCodePtr((FARPROC)pfnHit));
@@ -79,8 +73,8 @@ int __fastcall MISSTREAM_Return1(D2UnitStrc* pUnit1, void* pUnit2)
 //TODO: Variable names
 void __stdcall MISSTREAM_Update(D2UnitStrc* a1, D2UnitStrc* pMissile, int a3, int a4, int (__fastcall* pfCreate)(D2UnitStrc*, int, int, int, int, int), void (__fastcall* a6)(int))
 {
-	D2MissileStreamStrc* pStream = NULL;
-	D2PathPointStrc* pPathPoints = NULL;
+	D2MissileStreamStrc* pStream = nullptr;
+	D2PathPointStrc* pPathPoints = nullptr;
 	BOOL bCreate = FALSE;
 	int nPathPoints = 0;
 	int nCounter = 0;

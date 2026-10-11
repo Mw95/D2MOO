@@ -26,7 +26,8 @@ TEST_SUITE("MissileStreamTests")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MISSTREAM_AllocMissileStream, dll_base + 0x0007C230);
-		
+		const auto [moo_free, original_free] = make_function_pair(MISSTREAM_FreeMissileStream, dll_base + 0x0007C280);
+
 		SUBCASE("")
 		{
 			// Input data
@@ -52,6 +53,10 @@ TEST_SUITE("MissileStreamTests")
 
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pMissile, original_pMissile, "Comparing pMissile");
+
+			// Free allocated memory
+			moo_free(&moo_pMissile);
+			original_free(&original_pMissile);
 		}
 	}
 	

@@ -103,7 +103,7 @@ if(MSVC)
 endif()
 
 target_include_directories(D2CommonTests PRIVATE ${CMAKE_CURRENT_LIST_DIR})
-target_link_libraries(D2CommonTests PRIVATE doctest::doctest TestDefinitions TestUtilities VisitorFramework D2Game ${D2CommonImplName})
+target_link_libraries(D2CommonTests PRIVATE doctest::doctest TestDefinitions TestUtilities VisitorFramework D2Game D2Lang ${D2CommonImplName})
 target_compile_features(D2CommonTests PRIVATE cxx_std_17)
 
 set_target_properties(D2CommonTests PROPERTIES
