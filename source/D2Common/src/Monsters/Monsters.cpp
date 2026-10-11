@@ -12,6 +12,7 @@
 #include <D2Lang.h>
 #include <D2BitManip.h>
 #include <DataTbls/MonsterIds.h>
+#include <algorithm>
 
 
 //TODO: Check names
@@ -64,19 +65,14 @@ struct D2UnkHireStrc5
 //D2Common.0x6FDA4C10 (#11082)
 int __fastcall MONSTERS_HirelingInit(BOOL bExpansion, D2UnitStrc* pMonster, int nLowSeed, int nAct, int nDifficulty, D2HirelingInitStrc* pHirelingInit)
 {
-	D2HirelingTxt* pHirelingTxtRecord = NULL;
-	D2HirelingTxt* pRecord = NULL;
-	int nLevelUps = 0;
-	int nEntries = 0;
-	int nRecord = 0;
-	int nLevel = 0;
-	int nRand = 0;
-	D2HirelingTxt* pRecords[16] = {};
 	D2SeedStrc pSeed = {};
 
 	SEED_InitSeed(&pSeed);
 	SEED_InitLowSeed(&pSeed, nLowSeed);
 
+	D2HirelingTxt* pRecords[16] = {};
+	D2HirelingTxt* pRecord = nullptr;
+	int nEntries = 0;
 	while (1)
 	{
 		pRecord = DATATBLS_GetNextHirelingTxtRecordFromActAndDifficulty(bExpansion, nAct, nDifficulty, pRecord);
@@ -88,93 +84,45 @@ int __fastcall MONSTERS_HirelingInit(BOOL bExpansion, D2UnitStrc* pMonster, int 
 		++nEntries;
 	}
 
-	if (nEntries)
+	if (!nEntries)
 	{
-		nRecord = SEED_RollLimitedRandomNumber(&pSeed, nEntries);
-
-		pHirelingTxtRecord = pRecords[nRecord];
-
-		pHirelingInit->nId = pHirelingTxtRecord->nId;
-
-		nLevel = STATLIST_UnitGetStatValue(pMonster, STAT_LEVEL, 0);
-		nRand = (int)SEED_RollRandomNumber(&pSeed) % 5;
-		if (nRand >= nLevel - pHirelingTxtRecord->nHirelingLevel)
-		{
-			nLevelUps = nLevel - pHirelingTxtRecord->nHirelingLevel;
-		}
-		else
-		{
-			nLevelUps = nRand;
-		}
-		pHirelingInit->nLevel = pHirelingTxtRecord->nHirelingLevel + nLevelUps;
-
-		pHirelingInit->nHitpoints = nLevelUps * pHirelingTxtRecord->dwHitpointsPerLvl + pHirelingTxtRecord->dwHitpoints;
-		if (pHirelingInit->nHitpoints <= 40)
-		{
-			pHirelingInit->nHitpoints = 40;
-		}
-
-		pHirelingInit->nStrength = (nLevelUps * pHirelingTxtRecord->nStrPerLvl >> 3) + pHirelingTxtRecord->nStr;
-		if (pHirelingInit->nStrength <= 10)
-		{
-			pHirelingInit->nStrength = 10;
-		}
-
-		pHirelingInit->nDexterity = (nLevelUps * pHirelingTxtRecord->nDexPerLvl >> 3) + pHirelingTxtRecord->nDex;
-		if (pHirelingInit->nDexterity <= 10)
-		{
-			pHirelingInit->nDexterity = 10;
-		}
-
-		pHirelingInit->nGold = pHirelingTxtRecord->nGold * (15 * nLevelUps + 100) / 100;
-		if (pHirelingInit->nGold < pHirelingTxtRecord->nGold)
-		{
-			pHirelingInit->nGold = pHirelingTxtRecord->nGold;
-		}
-
-		pHirelingInit->nExperience = pHirelingInit->nLevel * pHirelingInit->nLevel * pHirelingTxtRecord->dwExpPerLvl * (pHirelingInit->nLevel + 1);
-		if (pHirelingInit->nExperience <= 0)
-		{
-			pHirelingInit->nExperience = 0;
-		}
-
-		pHirelingInit->nDefense = pHirelingTxtRecord->dwDefense + nLevelUps * pHirelingTxtRecord->dwDefensePerLvl;
-		if (pHirelingInit->nDefense <= 0)
-		{
-			pHirelingInit->nDefense = 0;
-		}
-
-		pHirelingInit->nMinDamage = pHirelingTxtRecord->nDmgMin + (nLevelUps * pHirelingTxtRecord->nDmgPerLvl >> 3);
-		if (pHirelingInit->nMinDamage <= 0)
-		{
-			pHirelingInit->nMinDamage = 0;
-		}
-
-		pHirelingInit->nMaxDamage = pHirelingTxtRecord->nDmgMax + (nLevelUps * pHirelingTxtRecord->nDmgPerLvl >> 3);
-		if (pHirelingInit->nMaxDamage <= 1)
-		{
-			pHirelingInit->nMaxDamage = 1;
-		}
-
-		pHirelingInit->nShare = pHirelingTxtRecord->dwShare;
-		if (pHirelingInit->nShare <= 0)
-		{
-			pHirelingInit->nShare = 0;
-		}
-
-		pHirelingInit->nResist = pHirelingTxtRecord->dwResist;
-		if (pHirelingInit->nResist <= 0)
-		{
-			pHirelingInit->nResist = 0;
-		}
-
-		pHirelingInit->nHireDesc = pHirelingTxtRecord->nHireDesc;
-		pHirelingInit->field_34 = 1;
-		pHirelingInit->nFlags = 0;
-		return TRUE;
+		return FALSE;
 	}
 
-	return FALSE;
+	const int32_t nRecord = SEED_RollLimitedRandomNumber(&pSeed, nEntries);
+
+	D2HirelingTxt* pHirelingTxtRecord = pRecords[nRecord];
+
+	pHirelingInit->nId = pHirelingTxtRecord->nId;
+
+	const int32_t nLevel = STATLIST_UnitGetStatValue(pMonster, STAT_LEVEL, 0);
+	const int32_t nRand = ((uint32_t)SEED_RollRandomNumber(&pSeed) % 5);
+
+	int32_t nLevelUps = 0;
+	if (pHirelingTxtRecord->nHirelingLevel + nRand >= nLevel)
+	{
+		nLevelUps = nLevel - pHirelingTxtRecord->nHirelingLevel;
+	}
+	else
+	{
+		nLevelUps = nRand;
+	}
+
+	pHirelingInit->nLevel = pHirelingTxtRecord->nHirelingLevel + nLevelUps;
+	pHirelingInit->nHitpoints = std::max(nLevelUps * pHirelingTxtRecord->dwHitpointsPerLvl + pHirelingTxtRecord->dwHitpoints, 40);
+	pHirelingInit->nStrength = std::max((nLevelUps * pHirelingTxtRecord->nStrPerLvl >> 3) + pHirelingTxtRecord->nStr, 10);
+	pHirelingInit->nDexterity = std::max((nLevelUps * pHirelingTxtRecord->nDexPerLvl >> 3) + pHirelingTxtRecord->nDex, 10);
+	pHirelingInit->nGold = std::max(pHirelingTxtRecord->nGold * (15 * nLevelUps + 100) / 100, pHirelingTxtRecord->nGold);
+	pHirelingInit->nExperience = std::max(pHirelingInit->nLevel * pHirelingInit->nLevel * pHirelingTxtRecord->dwExpPerLvl * (pHirelingInit->nLevel + 1), 0u);
+	pHirelingInit->nDefense = std::max(pHirelingTxtRecord->dwDefense + nLevelUps * pHirelingTxtRecord->dwDefensePerLvl, 0);
+	pHirelingInit->nMinDamage = std::max(pHirelingTxtRecord->nDmgMin + (nLevelUps * pHirelingTxtRecord->nDmgPerLvl >> 3), 0);
+	pHirelingInit->nMaxDamage = std::max(pHirelingTxtRecord->nDmgMax + (nLevelUps * pHirelingTxtRecord->nDmgPerLvl >> 3), 1);
+	pHirelingInit->nShare = std::max(pHirelingTxtRecord->dwShare, 0u);
+	pHirelingInit->nResist = std::max(pHirelingTxtRecord->dwResist, 0);
+	pHirelingInit->nHireDesc = pHirelingTxtRecord->nHireDesc;
+	pHirelingInit->field_34 = 1;
+	pHirelingInit->nFlags = 0;
+	return TRUE;
 }
 
 //D2Common.0x6FDA4E20
@@ -365,22 +313,22 @@ const Unicode* __fastcall MONSTERS_GetHirelingDescString(int nId)
 		return D2LANG_GetStringFromTblIndex(gnHirelingDescStringIds[nId]);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //D2Common.0x6FDA51C0 (#11086)
 int __fastcall MONSTERS_GetActFromHirelingTxt(BOOL bExpansion, int nClassId, uint16_t nNameId)
 {
-	D2HirelingTxt* pHirelingTxtRecord = NULL;
+	D2HirelingTxt* pHirelingTxtRecord = nullptr;
 
-	pHirelingTxtRecord = DATATBLS_GetNextHirelingTxtRecordFromClassId(bExpansion, nClassId, NULL);
+	pHirelingTxtRecord = DATATBLS_GetNextHirelingTxtRecordFromClassId(bExpansion, nClassId, nullptr);
 	if (pHirelingTxtRecord)
 	{
 		return pHirelingTxtRecord->dwAct - 1;
 	}
 	else
 	{
-		pHirelingTxtRecord = DATATBLS_GetNextHirelingTxtRecordFromNameId(bExpansion, nNameId, NULL);
+		pHirelingTxtRecord = DATATBLS_GetNextHirelingTxtRecordFromNameId(bExpansion, nNameId, nullptr);
 		if (pHirelingTxtRecord)
 		{
 			return pHirelingTxtRecord->dwAct - 1;
@@ -399,21 +347,14 @@ int __stdcall MONSTERS_GetHirelingExpForNextLevel(int nLevel, int nExpPerLevel)
 //D2Common.0x6FDA5220 (#11083)
 int __stdcall MONSTERS_GetHirelingResurrectionCost(D2UnitStrc* pHireling)
 {
-	int nLevel = STATLIST_UnitGetStatValue(pHireling, STAT_LEVEL, 0);
-	int nCost = 15 * ((nLevel * nLevel) / 2);
-
-	if (nCost > 50000)
-	{
-		nCost = 50000;
-	}
-
-	return nCost;
+	const int nLevel = STATLIST_UnitGetStatValue(pHireling, STAT_LEVEL, 0);
+	return std::min(15 * ((nLevel * nLevel) / 2), 50000);
 }
 
 //D2Common.0x6FDA5270 (#11068)
 int __stdcall D2COMMON_11068_GetCompInfo(D2UnitStrc* pMonster, int nComponent)
 {
-	D2MonStats2Txt* pMonStats2TxtRecord = NULL;
+	D2MonStats2Txt* pMonStats2TxtRecord = nullptr;
 
 	if (pMonster && pMonster->dwUnitType == UNIT_MONSTER && nComponent < ARRAY_SIZE(pMonStats2TxtRecord->nComponentChoiceCounts))
 	{
@@ -469,16 +410,16 @@ uint32_t __stdcall D2Common_11069(D2UnitStrc* pMonster, unsigned int nIndex, uns
 		dword_6FDE4DE4,
 		dword_6FDE4DE4,
 		dword_6FDE4DF0,
-		NULL,
+		nullptr,
 		dword_6FDE4E18,
 		dword_6FDE4E2C,
 		dword_6FDE4E2C,
-		NULL,
-		NULL,
-		NULL,
-		NULL,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
 	};
 
 	static uint32_t dword_6FDE4EA8[3] =
@@ -503,24 +444,24 @@ uint32_t __stdcall D2Common_11069(D2UnitStrc* pMonster, unsigned int nIndex, uns
 		dword_6FDE4EA8,
 		dword_6FDE4EA8,
 		dword_6FDE4EA8,
-		NULL,
+		nullptr,
 		dword_6FDE4EE0,
-		NULL,
+		nullptr,
 		dword_6FDE4EB4,
 		dword_6FDE4EB4,
-		NULL,
-		NULL,
-		NULL,
-		NULL,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
 	};
 	// NOLINTEND(clang-diagnostic-multichar)
 
-	D2MonStats2Txt* pMonStats2TxtRecord = NULL;
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
-	D2ActiveRoomStrc* pRoom = NULL;
-	const uint32_t* pCode = NULL;
+	D2MonStats2Txt* pMonStats2TxtRecord = nullptr;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
+	D2ActiveRoomStrc* pRoom = nullptr;
+	const uint32_t* pCode = nullptr;
 	int nMonsterId = 0;
 	int nLevelId = 0;
 	uint32_t dwCode = 0;
@@ -577,7 +518,7 @@ uint32_t __stdcall D2Common_11069(D2UnitStrc* pMonster, unsigned int nIndex, uns
 //D2Common.0x6FDA5450 (#11070)
 int __stdcall D2Common_11070(int nMonsterId, unsigned int nComponent, unsigned int a3)
 {
-	D2MonStats2Txt* pMonStats2TxtRecord = NULL;
+	D2MonStats2Txt* pMonStats2TxtRecord = nullptr;
 
 	if (nComponent < ARRAY_SIZE(pMonStats2TxtRecord->nComponentChoiceCounts))
 	{
@@ -594,7 +535,7 @@ int __stdcall D2Common_11070(int nMonsterId, unsigned int nComponent, unsigned i
 //D2Common.0x6FDA54E0 (#11050)
 int __stdcall D2Common_11050(D2UnitStrc* pUnit, int a2)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 	int nFrameCount = 0;
 	int nCounter = 0;
 	int nFrame = 0;
@@ -750,7 +691,7 @@ void __fastcall MONSTERS_SetMonsterNameInMonsterData(D2UnitStrc* pMonster, const
 //D2Common.0x6FDA56C0
 BOOL __fastcall MONSTERS_CanBeInTown(D2UnitStrc* pMonster)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 
 	if (pMonster && pMonster->dwUnitType == UNIT_MONSTER)
 	{
@@ -770,7 +711,7 @@ BOOL __fastcall MONSTERS_CanBeInTown(D2UnitStrc* pMonster)
 //D2Common.0x6FDA5750 (#11057)
 BOOL __stdcall MONSTERS_IsSandLeaper(D2UnitStrc* pMonster, BOOL bAlwaysReturnFalse)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 	int nClassId = 0;
 
 	if (bAlwaysReturnFalse)
@@ -813,7 +754,7 @@ BOOL __stdcall MONSTERS_IsSandLeaper(D2UnitStrc* pMonster, BOOL bAlwaysReturnFal
 //D2Common.0x6FDA57D0 (#11058)
 BOOL __stdcall MONSTERS_IsDemon(D2UnitStrc* pMonster)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 
 	if (pMonster && pMonster->dwUnitType == UNIT_MONSTER)
 	{
@@ -830,7 +771,7 @@ BOOL __stdcall MONSTERS_IsDemon(D2UnitStrc* pMonster)
 //D2Common.0x6FDA5830 (#11059)
 BOOL __stdcall MONSTERS_IsUndead(D2UnitStrc* pMonster)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 
 	if (pMonster && pMonster->dwUnitType == UNIT_MONSTER)
 	{
@@ -878,8 +819,8 @@ BOOL __stdcall MONSTERS_IsDead(D2UnitStrc* pMonster)
 int16_t __stdcall MONSTERS_GetSpawnMode_XY(D2UnitStrc* pMonster, BOOL bFromMonster, int nSkillId, int nSkillLevel, int* pSpawnMode, int* pX, int* pY)
 {
 	D2_MAYBE_UNUSED(nSkillLevel);
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
-	D2SkillsTxt* pSkillsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
+	D2SkillsTxt* pSkillsTxtRecord = nullptr;
 	D2CoordStrc pCoords = {};
 
 	if (bFromMonster && pMonster && pMonster->dwUnitType == UNIT_MONSTER)
@@ -1116,7 +1057,7 @@ void __stdcall MONSTERS_GetMinionSpawnInfo(D2UnitStrc* pMonster, int* pId, int* 
 //D2Common.0x6FDA6410 (#11051)
 uint8_t __stdcall MONSTERS_GetMaximalLightRadius(D2UnitStrc* pMonster)
 {
-	D2ItemsTxt* pItemsTxtRecord = NULL;
+	D2ItemsTxt* pItemsTxtRecord = nullptr;
 	uint8_t nMaxLightRadius = 0;
 	int nCode = 0;
 	int nItemId = 0;
@@ -1148,8 +1089,8 @@ uint8_t __stdcall MONSTERS_GetMaximalLightRadius(D2UnitStrc* pMonster)
 //D2Common.0x6FDA64B0 (#11063)
 int __stdcall D2Common_11063(D2ActiveRoomStrc* pRoom, int nMonsterId)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
-	D2LevelsTxt* pLevelsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
+	D2LevelsTxt* pLevelsTxtRecord = nullptr;
 	int nMonstersInChain = 0;
 	int nNextInClass = 0;
 	int nClassId = 0;
@@ -1175,7 +1116,7 @@ int __stdcall D2Common_11063(D2ActiveRoomStrc* pRoom, int nMonsterId)
 					}
 				}
 
-				DATATBLS_GetMonsterChainInfo(nMonsterId, &nMonstersInChain, NULL);
+				DATATBLS_GetMonsterChainInfo(nMonsterId, &nMonstersInChain, nullptr);
 
 				nResult = nMonsterId;
 				nNextInClass = pMonStatsTxtRecord->nNextInClass;
@@ -1204,7 +1145,7 @@ int __stdcall D2Common_11063(D2ActiveRoomStrc* pRoom, int nMonsterId)
 //D2Common.0x6FDA6620 (#11065)
 BOOL __stdcall MONSTERS_IsPrimeEvil(D2UnitStrc* pMonster)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 
 	if (pMonster && pMonster->dwUnitType == UNIT_MONSTER)
 	{
@@ -1234,7 +1175,7 @@ void __stdcall D2Common_11066(D2UnitStrc* pMonster, int* pDirectionX, int* pDire
 
 	D2_ASSERT(pMonster && pMonster->dwUnitType == UNIT_MONSTER);
 
-	DATATBLS_GetMonsterChainInfo(pMonster->dwClassId, NULL, &nIndex);
+	DATATBLS_GetMonsterChainInfo(pMonster->dwClassId, nullptr, &nIndex);
 
 	D2_ASSERT(nIndex < ARRAY_SIZE(dword_6FDD1778));
 
@@ -1291,7 +1232,7 @@ static D2ClassicStatAdjustmentStrc aClassicStatAdjustments[]
 //1.10f: D2Common.0x6FDA6790 (#11246)
 void __stdcall MONSTERS_ApplyClassicScaling(D2UnitStrc* pMonster, BOOL bExpansion, uint8_t nDifficulty)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 
 	if (!bExpansion && nDifficulty != DIFFMODE_NORMAL && pMonster && pMonster->dwUnitType == UNIT_MONSTER)
 	{
@@ -1327,7 +1268,7 @@ int __fastcall MONSTERS_GetBaseIdFromMonsterId(int nMonsterId)
 //D2Common.0x6FDA6950
 int __fastcall MONSTERS_GetClassIdFromMonsterChain(int nMonsterId, int nChainId)
 {
-	D2MonStatsTxt* pMonStatsTxtRecord = NULL;
+	D2MonStatsTxt* pMonStatsTxtRecord = nullptr;
 	int nClassId = 0;
 
 	pMonStatsTxtRecord = DATATBLS_GetMonStatsTxtRecord(nMonsterId);
