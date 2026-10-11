@@ -12,6 +12,7 @@
 #include <TestDefinitions.h>
 #include <TestUtilities.h>
 
+#include <Path/Path.h>
 #include <Units/MissileStream.h>
 #include <Units/Units.h>
 
@@ -97,7 +98,7 @@ TEST_SUITE("MissileStreamTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC2E0 (#11215)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC2E0 (#11215)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MISSTREAM_ExecuteHit, dll_base + 0x0007C2E0);
@@ -106,18 +107,23 @@ TEST_SUITE("MissileStreamTests")
 		{
 			// Input data
 			D2UnitStrc moo_pUnit{};
+			D2DynamicPathStrc moo_pDynamicPath{};
 			D2UnitStrc original_pUnit{};
+			D2DynamicPathStrc original_pDynamicPath{};
 			int nCollisionMask{};
 			int nCollisionPattern{};
 
 			const auto setup_data = [](
-				D2UnitStrc& pUnit
+				D2UnitStrc& pUnit,
+				D2DynamicPathStrc& pDynamicPath
 			) {
-				// TODO: Setup as needed
+				pUnit.dwUnitType = UNIT_MISSILE;
+				pUnit.pDynamicPath = &pDynamicPath;
+				pDynamicPath.pUnit = &pUnit;
 			};
 
-			setup_data(moo_pUnit);
-			setup_data(original_pUnit);
+			setup_data(moo_pUnit, moo_pDynamicPath);
+			setup_data(original_pUnit, original_pDynamicPath);
 
 			// Call both implementations
 			sut(&moo_pUnit, nCollisionMask, nCollisionPattern, nullptr);
@@ -168,7 +174,7 @@ TEST_SUITE("MissileStreamTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC3C0 (#11216)" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDBC3C0 (#11216)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MISSTREAM_Update, dll_base + 0x0007C3C0);
@@ -178,20 +184,25 @@ TEST_SUITE("MissileStreamTests")
 			// Input data
 			D2UnitStrc moo_a1{};
 			D2UnitStrc moo_pMissile{};
+			D2DynamicPathStrc moo_pDynamicPath{};
 			D2UnitStrc original_a1{};
 			D2UnitStrc original_pMissile{};
+			D2DynamicPathStrc original_pDynamicPath{};
 			int a3{};
 			int a4{};
 
 			const auto setup_data = [](
 				D2UnitStrc& a1,
-				D2UnitStrc& pMissile
+				D2UnitStrc& pMissile,
+				D2DynamicPathStrc& pDynamicPath
 			) {
-				// TODO: Setup as needed
+				pMissile.dwUnitType = UNIT_MISSILE;
+				pMissile.pDynamicPath = &pDynamicPath;
+				pDynamicPath.pUnit = &pMissile;
 			};
 
-			setup_data(moo_a1, moo_pMissile);
-			setup_data(original_a1, original_pMissile);
+			setup_data(moo_a1, moo_pMissile, moo_pDynamicPath);
+			setup_data(original_a1, original_pMissile, original_pDynamicPath);
 
 			// Call both implementations
 			sut(&moo_a1, &moo_pMissile, a3, a4, nullptr, nullptr);
