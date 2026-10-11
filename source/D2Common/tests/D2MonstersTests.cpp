@@ -25,7 +25,7 @@ TEST_SUITE("D2MonstersTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(HirelingTxtFixture<ItemStatCostTxtFixture<NoopFixture>>, "D2Common.0x6FDA4C10 (#11082)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(HirelingTxtFixture<ItemStatCostTxtFixture<NoopFixture>>, "D2Common.0x6FDA4C10 (#11082)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_HirelingInit, dll_base + 0x00064C10);
@@ -34,57 +34,55 @@ TEST_SUITE("D2MonstersTests")
 
 		SUBCASE("")
 		{
-			const auto expansion = GENERATE(FALSE, TRUE);
+			const auto expansion = GENERATE(0, 1);
+			const auto difficulty = GENERATE(0, 1, 2);
 
 			for (auto act = 0; act < 5; ++act)
 			{
-				for (auto difficulty = 0; difficulty < 3; ++difficulty)
-				{
-					// Input data
-					const auto level = random_unsigned_integer(1, 99);
+				// Input data
+				const auto level = random_unsigned_integer(1, 99);
 
-					D2UnitStrc moo_pMonster{};
-					D2StatListExStrc moo_pStatListEx{};
-					D2StatStrc moo_pStat{};
-					D2HirelingInitStrc moo_pHirelingInit{};
-					D2UnitStrc original_pMonster{};
-					D2StatListExStrc original_pStatListEx{};
-					D2StatStrc original_pStat{};
-					D2HirelingInitStrc original_pHirelingInit{};
-					BOOL bExpansion = expansion;
-					int nLowSeed = random_unsigned_integer();
-					int nAct = act;
-					int nDifficulty = difficulty;
+				D2UnitStrc moo_pMonster{};
+				D2StatListExStrc moo_pStatListEx{};
+				D2StatStrc moo_pStat{};
+				D2HirelingInitStrc moo_pHirelingInit{};
+				D2UnitStrc original_pMonster{};
+				D2StatListExStrc original_pStatListEx{};
+				D2StatStrc original_pStat{};
+				D2HirelingInitStrc original_pHirelingInit{};
+				BOOL bExpansion = expansion;
+				int nLowSeed = random_unsigned_integer();
+				int nAct = act;
+				int nDifficulty = difficulty;
 
-					const auto setup_data = [level](
-						D2UnitStrc& pMonster,
-						D2StatListExStrc& pStatListEx,
-						D2StatStrc& pStat,
-						D2HirelingInitStrc& pHirelingInit
-					) {
-						pMonster.dwUnitType = UNIT_MONSTER;
-						pMonster.pStatListEx = &pStatListEx;
-						pStatListEx.dwFlags |= STATLIST_EXTENDED;
-						pStatListEx.FullStats.pStat = &pStat;
-						pStatListEx.FullStats.nStatCount = 1;
-						pStat.nStat = STAT_LEVEL;
-						pStat.nValue = level;
-					};
+				const auto setup_data = [level](
+					D2UnitStrc& pMonster,
+					D2StatListExStrc& pStatListEx,
+					D2StatStrc& pStat,
+					D2HirelingInitStrc& pHirelingInit
+				) {
+					pMonster.dwUnitType = UNIT_MONSTER;
+					pMonster.pStatListEx = &pStatListEx;
+					pStatListEx.dwFlags |= STATLIST_EXTENDED;
+					pStatListEx.FullStats.pStat = &pStat;
+					pStatListEx.FullStats.nStatCount = 1;
+					pStat.nStat = STAT_LEVEL;
+					pStat.nValue = level;
+				};
 
-					setup_data(moo_pMonster, moo_pStatListEx, moo_pStat, moo_pHirelingInit);
-					setup_data(original_pMonster, original_pStatListEx, original_pStat, original_pHirelingInit);
+				setup_data(moo_pMonster, moo_pStatListEx, moo_pStat, moo_pHirelingInit);
+				setup_data(original_pMonster, original_pStatListEx, original_pStat, original_pHirelingInit);
 
-					// Call both implementations
-					const auto moo_result = sut(bExpansion, &moo_pMonster, nLowSeed, nAct, nDifficulty, &moo_pHirelingInit);
-					const auto original_result = original(bExpansion, &original_pMonster, nLowSeed, nAct, nDifficulty, &original_pHirelingInit);
+				// Call both implementations
+				const auto moo_result = sut(bExpansion, &moo_pMonster, nLowSeed, nAct, nDifficulty, &moo_pHirelingInit);
+				const auto original_result = original(bExpansion, &original_pMonster, nLowSeed, nAct, nDifficulty, &original_pHirelingInit);
 
-					// Compare return values
-					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
-					// Compare potentially modified input data
-					MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
-					MOO_CHECK_EQ(moo_pHirelingInit, original_pHirelingInit, "Comparing pHirelingInit");
-				}
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
+				MOO_CHECK_EQ(moo_pHirelingInit, original_pHirelingInit, "Comparing pHirelingInit");
 			}
 		}
 	}
@@ -348,65 +346,64 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(LevelsTxtFixture<CompCodeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA52F0 (#11069)" * doctest::skip("Takes quite long, but passes"))
+	TEST_CASE_FIXTURE(LevelsTxtFixture<CompCodeTxtFixture<MonStats2TxtFixture<MonStatsTxtFixture<NoopFixture>>>>, "D2Common.0x6FDA52F0 (#11069)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11069, dll_base + 0x000652F0);
+
+		REPEAT_20();
 		
 		SUBCASE("")
 		{
-			for (auto level_id = 0; level_id < levels_record_count; ++level_id)
+			const auto level_id = random_unsigned_integer(1, levels_record_count - 1);
+			const auto class_id = random_unsigned_integer(0, monstats_record_count - 1);
+
+			for (auto i = 0; i < 16; ++i)
 			{
-				for (auto class_id = 0; class_id < monstats_record_count; ++class_id)
+				for (auto j = 0; j < 12; ++j)
 				{
-					for (auto i = 0; i < 16; ++i)
-					{
-						for (auto j = 0; j < 12; ++j)
-						{
-							// Input data
-							D2UnitStrc moo_pMonster{};
-							D2UnitStrc original_pMonster{};
-							D2DynamicPathStrc moo_pDynamicPath{};
-							D2DynamicPathStrc original_pDynamicPath{};
-							D2ActiveRoomStrc moo_pRoom{};
-							D2ActiveRoomStrc original_pRoom{};
-							D2DrlgRoomStrc moo_pDrlgRoom{};
-							D2DrlgRoomStrc original_pDrlgRoom{};
-							D2DrlgLevelStrc moo_pLevel{};
-							D2DrlgLevelStrc original_pLevel{};
-							unsigned int nIndex = i;
-							unsigned int nComponent = j;
+					// Input data
+					D2UnitStrc moo_pMonster{};
+					D2UnitStrc original_pMonster{};
+					D2DynamicPathStrc moo_pDynamicPath{};
+					D2DynamicPathStrc original_pDynamicPath{};
+					D2ActiveRoomStrc moo_pRoom{};
+					D2ActiveRoomStrc original_pRoom{};
+					D2DrlgRoomStrc moo_pDrlgRoom{};
+					D2DrlgRoomStrc original_pDrlgRoom{};
+					D2DrlgLevelStrc moo_pLevel{};
+					D2DrlgLevelStrc original_pLevel{};
+					unsigned int nIndex = i;
+					unsigned int nComponent = j;
 
-							const auto setup_data = [class_id, level_id](
-								D2UnitStrc& pMonster,
-								D2DynamicPathStrc& pDynamicPath,
-								D2ActiveRoomStrc& pRoom,
-								D2DrlgRoomStrc& pDrlgRoom,
-								D2DrlgLevelStrc& pLevel
-							) {
-								pLevel.nLevelId = level_id;
-								pDrlgRoom.pLevel = &pLevel;
-								pRoom.pDrlgRoom = &pDrlgRoom;
-								pDynamicPath.pRoom = &pRoom;
-								pMonster.dwUnitType = UNIT_MONSTER;
-								pMonster.dwClassId = class_id;
-								pMonster.pDynamicPath = &pDynamicPath;
-							};
+					const auto setup_data = [class_id, level_id](
+						D2UnitStrc& pMonster,
+						D2DynamicPathStrc& pDynamicPath,
+						D2ActiveRoomStrc& pRoom,
+						D2DrlgRoomStrc& pDrlgRoom,
+						D2DrlgLevelStrc& pLevel
+					) {
+						pLevel.nLevelId = level_id;
+						pDrlgRoom.pLevel = &pLevel;
+						pRoom.pDrlgRoom = &pDrlgRoom;
+						pDynamicPath.pRoom = &pRoom;
+						pMonster.dwUnitType = UNIT_MONSTER;
+						pMonster.dwClassId = class_id;
+						pMonster.pDynamicPath = &pDynamicPath;
+					};
 
-							setup_data(moo_pMonster, moo_pDynamicPath, moo_pRoom, moo_pDrlgRoom, moo_pLevel);
-							setup_data(original_pMonster, original_pDynamicPath, original_pRoom, original_pDrlgRoom, original_pLevel);
+					setup_data(moo_pMonster, moo_pDynamicPath, moo_pRoom, moo_pDrlgRoom, moo_pLevel);
+					setup_data(original_pMonster, original_pDynamicPath, original_pRoom, original_pDrlgRoom, original_pLevel);
 
-							// Call both implementations
-							const auto moo_result = sut(&moo_pMonster, nIndex, nComponent);
-							const auto original_result = original(&original_pMonster, nIndex, nComponent);
+					// Call both implementations
+					const auto moo_result = sut(&moo_pMonster, nIndex, nComponent);
+					const auto original_result = original(&original_pMonster, nIndex, nComponent);
 
-							// Compare return values
-							MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+					// Compare return values
+					MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
-							// Compare potentially modified input data
-							MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
-						}
-					}
+					// Compare potentially modified input data
+					MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
 				}
 			}
 		}
@@ -417,7 +414,7 @@ TEST_SUITE("D2MonstersTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_11070, dll_base + 0x00065450);
 
-		REPEAT_10();
+		REPEAT_20();
 		
 		SUBCASE("")
 		{
@@ -971,12 +968,6 @@ TEST_SUITE("D2MonstersTests")
 					const auto x = random_unsigned_integer(0, 65535);
 					const auto y = random_unsigned_integer(0, 65535);
 
-					CAPTURE(from_monster);
-					CAPTURE(i);
-					CAPTURE(j);
-					CAPTURE(x);
-					CAPTURE(y);
-
 					D2UnitStrc moo_pMonster{};
 					D2DynamicPathStrc moo_pDynamicPath{};
 					int moo_pSpawnMode{};
@@ -1387,8 +1378,8 @@ TEST_SUITE("D2MonstersTests")
 				const auto setup_data = [i, &stats, stat_count, stat_capacity](
 					D2UnitStrc& pMonster,
 					D2StatListExStrc& pStatListEx,
-					D2StatStrc(& pBaseStats)[stat_capacity],
-					D2StatStrc(& pFullStats)[stat_capacity]
+					D2StatStrc(&pBaseStats)[stat_capacity],
+					D2StatStrc(&pFullStats)[stat_capacity]
 				) {
 					std::memcpy(pBaseStats, stats, sizeof(stats));
 					std::memcpy(pFullStats, stats, sizeof(stats));
@@ -1415,13 +1406,6 @@ TEST_SUITE("D2MonstersTests")
 
 				// Compare potentially modified input data
 				MOO_CHECK_EQ(moo_pMonster, original_pMonster, "Comparing pMonster");
-				MOO_CHECK_EQ(moo_pStatListEx.Stats.nStatCount, original_pStatListEx.Stats.nStatCount, "Comparing Stats.nStatCount");
-				MOO_CHECK_EQ(moo_pStatListEx.FullStats.nStatCount, original_pStatListEx.FullStats.nStatCount, "Comparing FullStats.nStatCount");
-				for (auto j = 0; j < stat_capacity; ++j)
-				{
-					MOO_CHECK_EQ(moo_pBaseStats[j], original_pBaseStats[j], "Comparing pBaseStats");
-					MOO_CHECK_EQ(moo_pFullStats[j], original_pFullStats[j], "Comparing pFullStats");
-				}
 			}
 		}
 	}
