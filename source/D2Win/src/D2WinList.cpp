@@ -364,9 +364,9 @@ int32_t __stdcall LIST_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 
 	dword_6F8FE220 = dwTickCount;
 
-	if (pList->controlHeader.field_34)
+	if (pList->controlHeader.pfCallback)
 	{
-		return pList->controlHeader.field_34(pMsg);
+		return pList->controlHeader.pfCallback(pMsg);
 	}
 
 	return 0;

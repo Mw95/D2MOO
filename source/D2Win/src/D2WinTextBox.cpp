@@ -59,7 +59,7 @@ D2WinTextBoxStrc* __fastcall D2Win_10042_TEXTBOX_Create(int32_t nX, int32_t nY, 
 		pTextBox->controlHeader.pfHandleVirtualKeyInput = TEXTBOX_HandleVirtualKeyInput;
 	}
 
-	pTextBox->controlHeader.field_34 = pfOnSelect;
+	pTextBox->controlHeader.pfCallback = pfOnSelect;
 	pTextBox->nCurrentLine = -1;
 	pTextBox->nNumColumns = 1;
 
@@ -1019,9 +1019,9 @@ int32_t __stdcall TEXTBOX_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		}
 	}
 
-	if (pTextBox->controlHeader.field_34)
+	if (pTextBox->controlHeader.pfCallback)
 	{
-		return pTextBox->controlHeader.field_34(pMsg);
+		return pTextBox->controlHeader.pfCallback(pMsg);
 	}
 
 	return 0;
@@ -1121,9 +1121,9 @@ int32_t __stdcall TEXTBOX_HandleVirtualKeyInput(SMSGHANDLER_PARAMS* pMsg)
 		D2Win_10053(pTextBox, nFirstVisibleLine);
 	}
 
-	if (hasChanged && pTextBox->controlHeader.field_34)
+	if (hasChanged && pTextBox->controlHeader.pfCallback)
 	{
-		pTextBox->controlHeader.field_34(pMsg);
+		pTextBox->controlHeader.pfCallback(pMsg);
 	}
 
 	return 0;

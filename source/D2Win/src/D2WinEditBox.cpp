@@ -137,7 +137,7 @@ D2WinEditBoxStrc* __fastcall D2Win_10070_EDITBOX_Create(int32_t nX, int32_t nY, 
 	pEditBox->controlHeader.pfHandleCharInput = nullptr;
 	pEditBox->controlHeader.pfHandleVirtualKeyInput = nullptr;
 	pEditBox->pfCharFilter = nullptr;
-	pEditBox->controlHeader.field_34 = pfHandleMouseDown;
+	pEditBox->controlHeader.pfCallback = pfHandleMouseDown;
 	pEditBox->controlHeader.pNext = nullptr;
 	pEditBox->wszText[0] = 0;
 	pEditBox->nCursorPosition = 0;
@@ -1402,9 +1402,9 @@ int32_t __stdcall EDITBOX_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 	gpLastClickedEditBox_6F8FD8B0 = pEditBox;
 	gdwLastClickTickCount_6F8FD8B4 = dwTickCount;
 
-	if (pEditBox->controlHeader.field_34)
+	if (pEditBox->controlHeader.pfCallback)
 	{
-		return pEditBox->controlHeader.field_34(pMsg);
+		return pEditBox->controlHeader.pfCallback(pMsg);
 	}
 
 	return 0;
@@ -1552,9 +1552,9 @@ int32_t __fastcall EDITBOX_SetCursorFromOffset(SMSGHANDLER_PARAMS* pMsg, int32_t
 		pEditBox->bMouseSelecting = 1;
 	}
 
-	if (pEditBox->controlHeader.field_34)
+	if (pEditBox->controlHeader.pfCallback)
 	{
-		return pEditBox->controlHeader.field_34(pMsg);
+		return pEditBox->controlHeader.pfCallback(pMsg);
 	}
 
 	return 0;

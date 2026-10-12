@@ -39,7 +39,7 @@ D2WinButtonStrc* __fastcall BUTTON_Create(int32_t nX, int32_t nY, int32_t nWidth
 		pButton->controlHeader.pfHandleVirtualKeyInput = BUTTON_HandleVirtualKeyInput;
 	}
 
-	pButton->controlHeader.field_34 = pCallback;
+	pButton->controlHeader.pfCallback = pCallback;
 	pButton->nActivationVirtualKey = nActivationVirtualKey;
 	pButton->dwButtonFlags = nFlags;
 	pButton->nBaseFrame = nBaseFrame;
@@ -53,7 +53,7 @@ D2WinButtonStrc* __fastcall BUTTON_Create(int32_t nX, int32_t nY, int32_t nWidth
 	pButton->nIsPressedFrameOffset = nCellsPerFrame;
 	if (pButton->dwButtonFlags & 0x20)
 	{
-		pButton->field_58 = 2 * nCellsPerFrame;
+		pButton->nDisabledFrameOffset = 2 * nCellsPerFrame;
 	}
 
 	pButton->pfUpdateHoverState = pfUpdateHoverState;
@@ -175,10 +175,10 @@ int32_t __fastcall BUTTON_OnMouseWheelScrolled(D2WinButtonStrc* pButton, int32_t
 	SMSGHANDLER_PARAMS msg = {};
 	msg.hWindow = (HWND)pButton;
 
-	if (pButton->controlHeader.field_34)
+	if (pButton->controlHeader.pfCallback)
 	{
 		++dword_6F8FE254;
-		pButton->controlHeader.field_34(&msg);
+		pButton->controlHeader.pfCallback(&msg);
 		--dword_6F8FE254;
 	}
 
@@ -203,7 +203,7 @@ int32_t __fastcall BUTTON_Draw(D2WinControlStrc* pControl)
 	int32_t nBaseFrame = pButton->nBaseFrame;
 	if (!(pButton->controlHeader.dwFlags & gdwBitMasks[2]) || !(pButton->controlHeader.dwFlags & gdwBitMasks[0]))
 	{
-		nBaseFrame += pButton->field_58;
+		nBaseFrame += pButton->nDisabledFrameOffset;
 	}
 	else
 	{
@@ -400,11 +400,11 @@ int32_t __stdcall BUTTON_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		D2SOUND_10039("data\\global\\sfx\\cursor\\button.wav");
 	}
 
-	if (pButton->dwButtonFlags & (BUTTONFLAG_IS_TOGGLE | 1) && pButton->controlHeader.field_34)
+	if (pButton->dwButtonFlags & (BUTTONFLAG_IS_TOGGLE | 1) && pButton->controlHeader.pfCallback)
 	{
 		D2_ASSERT(dword_6F8FE254 > 0);
 
-		pButton->controlHeader.field_34(pMsg);
+		pButton->controlHeader.pfCallback(pMsg);
 	}
 
 	return 1;
@@ -433,11 +433,11 @@ int32_t __stdcall BUTTON_HandleMouseUp(SMSGHANDLER_PARAMS* pMsg)
 	pButton->bIsPressed = 0;
 
 	int32_t nResult = 0;
-	if (pButton->bIsCallbackPending && pButton->controlHeader.field_34)
+	if (pButton->bIsCallbackPending && pButton->controlHeader.pfCallback)
 	{
 		D2_ASSERT(dword_6F8FE254 > 0);
 
-		nResult = pButton->controlHeader.field_34(pMsg);
+		nResult = pButton->controlHeader.pfCallback(pMsg);
 	}
 
 	pButton->bIsCallbackPending = 0;

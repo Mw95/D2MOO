@@ -41,7 +41,7 @@ struct D2WinControlStrc
 	int32_t(__stdcall* pfHandleMouseUp)(SMSGHANDLER_PARAMS*);				//0x28
 	int32_t(__stdcall* pfHandleCharInput)(SMSGHANDLER_PARAMS*);				//0x2C
 	int32_t(__stdcall* pfHandleVirtualKeyInput)(SMSGHANDLER_PARAMS*);		//0x30
-	int32_t(__stdcall* field_34)(SMSGHANDLER_PARAMS*);						//0x34
+	int32_t(__stdcall* pfCallback)(SMSGHANDLER_PARAMS*);					//0x34 - Control specific action (click, selection, timeout, ...)
 	int32_t(__fastcall* pfShouldMouseInputBeHandled)(D2WinControlStrc*);	//0x38
 	D2WinControlStrc* pNext;												//0x3C
 };

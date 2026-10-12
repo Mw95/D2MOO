@@ -17,9 +17,7 @@ struct D2WinListDataStrc
 	int32_t nTop;								//0x210
 	int32_t nBottom;								//0x214
 	char nHotkeyChar;									//0x218
-	char field_219;									//0x219
-	char field_21A;									//0x21A
-	char field_21B;									//0x21B
+	char pad0x219[3];								//0x219
 	int32_t nHotkeyVirtualKey;								//0x21C
 	D2WinListDataStrc* pNext;						//0x220
 };
