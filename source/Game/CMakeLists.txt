@@ -22,6 +22,12 @@ target_link_libraries(Game
 )
 set_target_properties(Game PROPERTIES OUTPUT_NAME Game.D2MOO)
 
+if(D2MOO_GAME_WITH_OPENGL)
+  target_compile_definitions(Game PRIVATE D2_HAS_OPENGL=1)
+  # The renderer is loaded at runtime by D2Gfx
+  add_dependencies(Game D2OpenGL)
+endif()
+
 if(D2MOO_WITH_STATIC_TESTS)
   target_sources(Game
     PRIVATE

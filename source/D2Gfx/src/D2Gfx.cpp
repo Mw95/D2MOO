@@ -19,8 +19,8 @@ extern int32_t gbNoWindowCreated_6FA8D848;
 extern HINSTANCE ghInstance;
 
 
-// OpenGL and Rave are not supported by this version of the game
-constexpr const char* gszDriverDllNames[NUMBER_OF_DISPLAYTYPES] = { nullptr, "D2Gdi.dll", nullptr, "D2DDraw.dll", "D2Glide.dll", nullptr, "D2Direct3D.dll", nullptr };
+// OpenGL and Rave are not supported by this version of the game, D2MOO provides its own OpenGL renderer (D2OpenGL.dll)
+constexpr const char* gszDriverDllNames[NUMBER_OF_DISPLAYTYPES] = { nullptr, "D2Gdi.dll", nullptr, "D2DDraw.dll", "D2Glide.dll", "D2OpenGL.dll", "D2Direct3D.dll", nullptr };
 
 WNDPROC gpfWndProc;
 PALETTEENTRY gpPalette_6FA8D278[256];

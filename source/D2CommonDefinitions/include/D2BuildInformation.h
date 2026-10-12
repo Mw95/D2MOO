@@ -19,7 +19,10 @@
 
 #define D2_VERSION_EXPANSION 1
 
+// The original game can not use OpenGL, but D2MOO provides an OpenGL renderer (D2OpenGL.dll)
+#if !defined(D2_HAS_OPENGL)
 #define D2_HAS_OPENGL 0
+#endif
 #define D2_HAS_RAVE 0
 
 // TODO: figure out when this was removed

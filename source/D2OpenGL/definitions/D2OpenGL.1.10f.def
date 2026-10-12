@@ -1,0 +1,3 @@
+LIBRARY D2OpenGL
+EXPORTS
+	D2OpenGL_GetGraphicsInterface		@10000 NONAME
