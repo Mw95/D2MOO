@@ -47,13 +47,13 @@
 
 //#define MISSILESTREAM_TESTS
 //#define MISSILE_TESTS
-#define UNITFINDS_TESTS
-#define UNITROOM_TESTS
+//#define UNITFINDS_TESTS
+//#define UNITROOM_TESTS
 //#define UNITS_TESTS
 
 //#define CHAT_TESTS
 //#define COLLISION_TESTS
-#define COMPOSIT_TESTS
+//#define COMPOSIT_TESTS
 //#define DATATBLS_TESTS
 //#define DUNGEON_TESTS
 //#define ENVIRONMENT_TESTS

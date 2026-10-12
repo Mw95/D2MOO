@@ -16,6 +16,7 @@
 #include <Drlg/D2DrlgDrlg.h>
 #include <Units/Units.h>
 
+#include <Fixtures/D2Lang/D2LangStringTblFixture.h>
 #include <Fixtures/DataTbls/Fixtures.h>
 
 
@@ -125,23 +126,38 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA51A0 (#11085)" * doctest::skip("D2Lang required"))
+	TEST_CASE_FIXTURE(D2LangStringTblFixture<NoopFixture>, "D2Common.0x6FDA51A0 (#11085)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetHirelingDescString, dll_base + 0x000651A0);
 
 		SUBCASE("")
 		{
+			constexpr short expected_calls[] = { 0, 0, 3371, 3372, 11090, 11088, 11089, 3377, 3376, 3375, 0 };
 			for (auto i = -1; i < 11; ++i)
 			{
 				int nId = i;
 
 				// Call both implementations
+				d2lang_string_tbl_calls.clear();
 				const auto moo_result = sut(nId);
-				const auto original_result = original(nId);
+				const auto moo_calls = d2lang_string_tbl_calls;
 
-				// Compare return values
+				d2lang_string_tbl_calls.clear();
+				const auto original_result = original(nId);
+				const auto original_calls = d2lang_string_tbl_calls;
+
+				// Compare return values (the mocked string's first character is the requested tbl index)
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare requested tbl indices
+				CHECK_EQ(moo_calls.size(), original_calls.size());
+				CHECK_EQ(moo_calls, original_calls);
+				
+				if (!moo_calls.empty())
+				{
+					CHECK_EQ(moo_calls[0], expected_calls[i + 1]);
+				}
 			}
 		}
 	}
