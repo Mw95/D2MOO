@@ -14,9 +14,7 @@ struct D2WinTextBoxLineStrc
 	Unicode* pColumns[5];							//0x00
 	int32_t nColor;								//0x14
 	char bContinued;									//0x18
-	char field_19;									//0x19
-	char field_1A;									//0x1A
-	char field_1B;									//0x1B
+	char pad0x19[3];								//0x19
 	D2WinTextBoxLineStrc* pNext;					//0x1C
 };
 

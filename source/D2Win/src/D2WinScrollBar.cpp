@@ -31,7 +31,7 @@ D2WinScrollBarStrc* __fastcall SCROLLBAR_Create(int32_t nX, int32_t nY, int32_t 
 	pScrollBar->controlHeader.pfDraw = SCROLLBAR_Draw;
 	pScrollBar->controlHeader.pfHandleMouseDown = SCROLLBAR_HandleMouseDown;
 	pScrollBar->controlHeader.pfHandleMouseUp = SCROLLBAR_HandleMouseUp;
-	pScrollBar->controlHeader.field_34 = pfOnScroll;
+	pScrollBar->controlHeader.pfCallback = pfOnScroll;
 
 	CONTROL_AppendToList(&pScrollBar->controlHeader);
 
@@ -95,7 +95,7 @@ int32_t __fastcall SCROLLBAR_SetCallback(D2WinScrollBarStrc* pScrollBar, void(__
 {
 	D2_ASSERT(pScrollBar->controlHeader.nType == D2WIN_SCROLLBAR);
 
-	pScrollBar->field_5C = pfCallback;
+	pScrollBar->pfOnScroll = pfCallback;
 	return 1;
 }
 
@@ -127,9 +127,9 @@ int32_t __fastcall SCROLLBAR_HandleMouseWheel(SMSGHANDLER_PARAMS* pMsg, D2WinScr
 		D2Win_10053(pScrollBar->pTextBox, pScrollBar->nCurrentStep);
 	}
 
-	if (pScrollBar->field_5C)
+	if (pScrollBar->pfOnScroll)
 	{
-		pScrollBar->field_5C(pMsg);
+		pScrollBar->pfOnScroll(pMsg);
 	}
 
 	return 0;
@@ -140,7 +140,7 @@ void __fastcall D2Win_10202(D2WinScrollBarStrc* pScrollBar, int32_t nPageSize)
 {
 	D2_ASSERT(pScrollBar->controlHeader.nType == D2WIN_SCROLLBAR);
 
-	pScrollBar->field_50 = nPageSize;
+	pScrollBar->nPageSize = nPageSize;
 }
 
 //D2Win.0x6F8AF300 (#10201)
@@ -148,7 +148,7 @@ int32_t __fastcall D2Win_10201(D2WinScrollBarStrc* pScrollBar)
 {
 	D2_ASSERT(pScrollBar->controlHeader.nType == D2WIN_SCROLLBAR);
 
-	return pScrollBar->field_50;
+	return pScrollBar->nPageSize;
 }
 
 //D2Win.0x6F8AF330
@@ -265,7 +265,7 @@ int32_t __stdcall SCROLLBAR_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		}
 		else
 		{
-			int32_t nStep = pScrollBar->field_50;
+			int32_t nStep = pScrollBar->nPageSize;
 			if (!nStep)
 			{
 				int32_t nDivisor = nTrackHeight / 10;
@@ -299,14 +299,14 @@ int32_t __stdcall SCROLLBAR_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		D2Win_10053(pScrollBar->pTextBox, pScrollBar->nCurrentStep);
 	}
 
-	if (pScrollBar->field_5C)
+	if (pScrollBar->pfOnScroll)
 	{
-		pScrollBar->field_5C(pMsg);
+		pScrollBar->pfOnScroll(pMsg);
 	}
 
-	if (pScrollBar->controlHeader.field_34)
+	if (pScrollBar->controlHeader.pfCallback)
 	{
-		return pScrollBar->controlHeader.field_34(pMsg);
+		return pScrollBar->controlHeader.pfCallback(pMsg);
 	}
 
 	return 0;

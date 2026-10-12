@@ -47,13 +47,13 @@ struct D2WinControlInitStrc
 	int nY;
 	int nWidth;
 	int nHeight;
-	int field_14;
-	int nStringId;
+	int nParam;								// Text offset X, animation speed, border width, ... depending on nType
+	int nStringId;							// String id, or text offset Y / draw mode depending on nType
 	D2CellFileStrc** ppCellFile;
-	int(__stdcall* field_20)(SMSGHANDLER_PARAMS*);
-	void* field_24;
-	void* field_28;
-	void* field_2C;
+	int(__stdcall* pfCallback)(SMSGHANDLER_PARAMS*);
+	void* pParam1;							// Type specific data (click rect, list items, font, ...)
+	void* pParam2;							// Type specific data (font for text controls, ...)
+	void* pParam3;							// Type specific data (control flags, ...)
 };
 #pragma pack(pop)
 
@@ -525,13 +525,13 @@ D2WinControlStrc* __stdcall CONTROL_Create(D2WinControlInitStrc* pControlInit)
 			pControlInit->nY,
 			pControlInit->nWidth,
 			pControlInit->nHeight,
-			pControlInit->field_14,
+			pControlInit->nParam,
 			pControlInit->nStringId,
 			pCellFile,
-			pControlInit->field_20,
-			(int)pControlInit->field_2C,
-			(int)pControlInit->field_28,
-			(int)pControlInit->field_24);
+			pControlInit->pfCallback,
+			(int)pControlInit->pParam3,
+			(int)pControlInit->pParam2,
+			(int)pControlInit->pParam1);
 
 	case D2WIN_EDITBOX:
 		return (D2WinControlStrc*)D2Win_10070_EDITBOX_Create(
@@ -539,13 +539,13 @@ D2WinControlStrc* __stdcall CONTROL_Create(D2WinControlInitStrc* pControlInit)
 			pControlInit->nY,
 			pControlInit->nWidth,
 			pControlInit->nHeight,
-			pControlInit->field_14,
+			pControlInit->nParam,
 			pControlInit->nStringId,
 			pCellFile,
-			(int)pControlInit->field_24,
-			pControlInit->field_20,
-			(int)pControlInit->field_2C,
-			(int)pControlInit->field_28);
+			(int)pControlInit->pParam1,
+			pControlInit->pfCallback,
+			(int)pControlInit->pParam3,
+			(int)pControlInit->pParam2);
 
 	case D2WIN_IMAGE:
 		return (D2WinControlStrc*)IMAGE2_Create(
@@ -554,9 +554,9 @@ D2WinControlStrc* __stdcall CONTROL_Create(D2WinControlInitStrc* pControlInit)
 			pControlInit->nWidth,
 			pControlInit->nHeight,
 			pCellFile,
-			(int(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->field_20,
-			(D2WinImageClickRectStrc*)pControlInit->field_24,
-			(int(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->field_28);
+			(int(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->pfCallback,
+			(D2WinImageClickRectStrc*)pControlInit->pParam1,
+			(int(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->pParam2);
 
 	case D2WIN_ANIMIMAGE:
 		return (D2WinControlStrc*)ANIMIMAGE_Create(
@@ -565,17 +565,17 @@ D2WinControlStrc* __stdcall CONTROL_Create(D2WinControlInitStrc* pControlInit)
 			pControlInit->nWidth,
 			pControlInit->nHeight,
 			pCellFile,
-			pControlInit->field_14,
-			pControlInit->field_20,
-			(D2AnimatedImageDescriptor*)pControlInit->field_24,
+			pControlInit->nParam,
+			pControlInit->pfCallback,
+			(D2AnimatedImageDescriptor*)pControlInit->pParam1,
 			(DrawMode)pControlInit->nStringId,
-			(void(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->field_28);
+			(void(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->pParam2);
 
 	case D2WIN_IMAGE2:
-		return (D2WinControlStrc*)IMAGE_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pCellFile, pControlInit->field_14, pControlInit->nStringId);
+		return (D2WinControlStrc*)IMAGE_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pCellFile, pControlInit->nParam, pControlInit->nStringId);
 
 	case D2WIN_SCROLLBAR:
-		return (D2WinControlStrc*)SCROLLBAR_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pCellFile, pControlInit->field_20);
+		return (D2WinControlStrc*)SCROLLBAR_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pCellFile, pControlInit->pfCallback);
 
 	case D2WIN_BUTTON:
 		return (D2WinControlStrc*)BUTTON_Create(
@@ -584,27 +584,27 @@ D2WinControlStrc* __stdcall CONTROL_Create(D2WinControlInitStrc* pControlInit)
 			pControlInit->nWidth,
 			pControlInit->nHeight,
 			pCellFile,
-			pControlInit->field_20,
-			pControlInit->field_14,
-			(int)pControlInit->field_24,
-			(int)pControlInit->field_2C,
+			pControlInit->pfCallback,
+			pControlInit->nParam,
+			(int)pControlInit->pParam1,
+			(int)pControlInit->pParam3,
 			pControlInit->nStringId,
-			(int(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->field_28);
+			(int(__stdcall*)(SMSGHANDLER_PARAMS*))pControlInit->pParam2);
 
 	case D2WIN_LIST:
-		return (D2WinControlStrc*)LIST_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pControlInit->field_24, (Font*)pControlInit->field_28);
+		return (D2WinControlStrc*)LIST_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pControlInit->pParam1, (Font*)pControlInit->pParam2);
 
 	case D2WIN_TIMER:
-		return (D2WinControlStrc*)TIMER_Create(pControlInit->nX, pControlInit->field_20);
+		return (D2WinControlStrc*)TIMER_Create(pControlInit->nX, pControlInit->pfCallback);
 
 	case D2WIN_SMACK:
-		return (D2WinControlStrc*)SMACK_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pControlInit->field_20);
+		return (D2WinControlStrc*)SMACK_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, pControlInit->pfCallback);
 
 	case D2WIN_PROGRESSBAR:
 		return (D2WinControlStrc*)PROGRESSBAR_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight);
 
 	case D2WIN_ACCOUNTLIST:
-		return (D2WinControlStrc*)ACCOUNTLIST_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, (int)pControlInit->field_2C, pControlInit->field_28);
+		return (D2WinControlStrc*)ACCOUNTLIST_Create(pControlInit->nX, pControlInit->nY, pControlInit->nWidth, pControlInit->nHeight, (int)pControlInit->pParam3, pControlInit->pParam2);
 
 	default:
 		break;

@@ -4,14 +4,19 @@
 
 
 #pragma pack(push, 1)
+// Context given to the renderer to decode and play a Smacker video
+struct D2WinSmackerContextStrc
+{
+	void* pRendererData[2];							//0x00 - Filled by the renderer when decoding
+	int32_t nX;										//0x08
+	int32_t nY;										//0x0C
+};
+
 struct D2WinSmackStrc
 {
 	D2WinControlStrc controlHeader;					//0x00
 	char szFileName[256];							//0x40
-	int32_t field_140;								//0x140
-	int32_t field_144;								//0x144
-	int32_t field_148;								//0x148
-	int32_t field_14C;								//0x14C
+	D2WinSmackerContextStrc smackerContext;		//0x140
 };
 #pragma pack(pop)
 
