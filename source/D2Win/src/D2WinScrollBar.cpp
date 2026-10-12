@@ -89,6 +89,16 @@ int32_t __fastcall SCROLLBAR_SetTextBox(D2WinScrollBarStrc* pScrollBar, D2WinTex
 	return 1;
 }
 
+// Unused in the original game
+//D2Win.0x6F8AF210
+int32_t __fastcall SCROLLBAR_SetCallback(D2WinScrollBarStrc* pScrollBar, void(__stdcall* pfCallback)(SMSGHANDLER_PARAMS*))
+{
+	D2_ASSERT(pScrollBar->controlHeader.nType == D2WIN_SCROLLBAR);
+
+	pScrollBar->field_5C = pfCallback;
+	return 1;
+}
+
 //D2Win.0x6F8AF240
 int32_t __fastcall sub_6F8AF240(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pScrollBar, int32_t a3)
 {

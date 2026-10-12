@@ -205,9 +205,28 @@ int32_t __fastcall BUTTON_Draw(D2WinControlStrc* pControl)
 	{
 		nBaseFrame += pButton->field_58;
 	}
-	else if (pButton->bIsPressed)
+	else
 	{
-		nBaseFrame += pButton->nIsPressedFrameOffset;
+		if (pButton->bIsPressed)
+		{
+			if (pButton->dwButtonFlags & (BUTTONFLAG_IS_TOGGLE | 1))
+			{
+				pButton->bIsCallbackPending = 1;
+			}
+			else
+			{
+				// The callback is only called if the mouse is still on the button when released
+				pButton->bIsCallbackPending = gMousePosition_6F8FE234.x >= pButton->controlHeader.nImageX
+					&& gMousePosition_6F8FE234.y >= pButton->controlHeader.nImageY - pButton->controlHeader.nHeight
+					&& gMousePosition_6F8FE234.x < pButton->controlHeader.nImageX + pButton->controlHeader.nWidth
+					&& gMousePosition_6F8FE234.y < pButton->controlHeader.nImageY;
+			}
+		}
+
+		if ((pButton->bIsPressed && pButton->bIsCallbackPending) || pButton->nActivationCounter)
+		{
+			nBaseFrame += pButton->nIsPressedFrameOffset;
+		}
 	}
 
 	if (pButton->controlHeader.pCellFile && pButton->controlHeader.dwFlags & gdwBitMasks[2])
@@ -295,7 +314,7 @@ int32_t __fastcall BUTTON_Draw(D2WinControlStrc* pControl)
 
 				int32_t nTextX = std::max((pButton->controlHeader.nWidth - D2Win_10121_GetTextWidth(wszText)) / 2, 0) + pButton->controlHeader.nImageX;
 
-				nY = nOffsetY + pButton->controlHeader.nImageY - 2 * (pButton->controlHeader.nHeight - nTextHeight) / 3;
+				nY = nOffsetY + pButton->controlHeader.nImageY - 2 * ((pButton->controlHeader.nHeight - nTextHeight) / 3);
 				int32_t nTextY = nOffsetY + pButton->controlHeader.nImageY - (pButton->controlHeader.nHeight - nTextHeight) / 3;
 				if (pButton->bIsPressed && pButton->bIsCallbackPending || pButton->nActivationCounter)
 				{

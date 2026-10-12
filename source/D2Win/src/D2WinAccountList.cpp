@@ -126,13 +126,12 @@ int32_t __fastcall ACCOUNTLIST_GetTextFromSelectedEntry(D2WinAccountListStrc* pA
 {
 	D2_ASSERT(pAccountList->controlHeader.nType == D2WIN_ACCOUNTLIST);
 
-	const char* szText = pAccountList->pSelectedDataEntry->szText;
-	if (!szText)
+	if (!pAccountList->pSelectedDataEntry)
 	{
 		return 0;
 	}
 
-	strcpy_s(szBuffer, std::size(pAccountList->pSelectedDataEntry->szText), szText);
+	strcpy_s(szBuffer, std::size(pAccountList->pSelectedDataEntry->szText), pAccountList->pSelectedDataEntry->szText);
 
 	return 1;
 }
@@ -159,8 +158,8 @@ int32_t __fastcall ACCOUNTLIST_Draw(D2WinControlStrc* pControl)
 	{
 		if (nCounter >= pAccountList->field_48 && nCounter < pAccountList->field_48 + 24)
 		{
-			const int32_t nX = nBaseX + 120 * nCounter % 6;
-			const int32_t nY = nBaseY + 20 * nCounter / 6;
+			const int32_t nX = nBaseX + 120 * (nCounter % 6);
+			const int32_t nY = nBaseY + 20 * (nCounter / 6);
 			D2GFX_DrawBox(nX, nY - 14, nX + 28, nY, 0x55u, DRAWMODE_NORMAL);
 
 			Unicode wszText[256] = {};
@@ -191,10 +190,18 @@ int32_t __stdcall ACCOUNTLIST_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		return 0;
 	}
 
+	if (!pAccountList->pDataList)
+	{
+		return 0;
+	}
+
+	const int32_t nColumn = (gMousePosition_6F8FE234.x - pAccountList->controlHeader.nImageX) / 120;
+	const int32_t nRow = (pAccountList->controlHeader.nHeight - pAccountList->controlHeader.nImageY + gMousePosition_6F8FE234.y + 4) / 20;
+
 	int32_t nCounter = 0;
 	for (D2WinAccountListDataStrc* pData = pAccountList->pDataList; pData; pData = pData->pNext)
 	{
-		if (nCounter == (gMousePosition_6F8FE234.x - pAccountList->controlHeader.nImageX) / 120 + 6 * (pAccountList->controlHeader.nHeight - pAccountList->controlHeader.nImageY + gMousePosition_6F8FE234.y + 4) / 20)
+		if (nCounter == nColumn + 6 * nRow)
 		{
 			pAccountList->pSelectedDataEntry = pData;
 			return 1;
