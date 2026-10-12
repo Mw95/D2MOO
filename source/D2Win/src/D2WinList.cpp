@@ -29,15 +29,15 @@ uint32_t dword_6F8FE220;
 D2WinListStrc* __fastcall LIST_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, void* a5, Font* pFont)
 {
 	// TODO: a5, pFont, nWidtha, v24
-	constexpr int32_t nFontHeight[] =
+	constexpr int32_t nFontHeight[NUM_FONTS] =
 	{
-		8, 16, 30, 42, 0, 0, 0, 0, 0, 0, 0
+		8, 16, 30, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	};
 
 	D2WinListStrc* pList = D2_CALLOC_STRC(D2WinListStrc);
 
 	pList->controlHeader.nType = D2WIN_LIST;
-	pList->controlHeader.nImageX = nY;
+	pList->controlHeader.nImageX = nX;
 	pList->controlHeader.nImageY = nY;
 	pList->controlHeader.nWidth = nWidth;
 	pList->controlHeader.nHeight = nHeight;
@@ -385,7 +385,7 @@ int32_t __stdcall LIST_HandleCharInput(SMSGHANDLER_PARAMS* pMsg)
 
 	for (D2WinListDataStrc* pData = pList->pDataList; pData; pData = pData->pNext)
 	{
-		if (pData->field_218 == pMsg->wParam && pData->field_204)
+		if ((uint8_t)pData->field_218 == (uint8_t)pMsg->wParam && pData->field_204)
 		{
 			return pData->field_204(pMsg);
 		}
@@ -469,7 +469,7 @@ int32_t __stdcall LIST_HandleVirtualKeyInput(SMSGHANDLER_PARAMS* pMsg)
 
 	for (D2WinListDataStrc* pData = pList->pDataList; pData; pData = pData->pNext)
 	{
-		if (pData->field_21C == pMsg->wParam && pData->field_204)
+		if ((uint16_t)pData->field_21C == pMsg->wParam && pData->field_204)
 		{
 			return pData->field_204(pMsg);
 		}
