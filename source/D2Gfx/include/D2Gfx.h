@@ -134,8 +134,8 @@ struct D2GfxHelperStrc
 	void(__fastcall* pfUnknown)(uint8_t* a1, int32_t a2, int32_t a3, uint8_t a4);
 	void(__fastcall* pfFloorTileDraw)(D2TileLibraryEntryStrc* pTileLibraryEntry, int32_t nX, int32_t nY, D2GfxLightExStrc* pLightEx);
 	void(__fastcall* pfTileDrawLit)(uint8_t* a1, int32_t a2, int32_t a3, int32_t* a4);
-	void(__fastcall* pfDrawBlendedVisTile)(int32_t a1, int32_t a2, int32_t a3, uint8_t a4);
-	void(__fastcall* pfDrawRoofTile)(int32_t a1, int32_t a2, int32_t a3, int32_t* a4, uint8_t a5);
+	void(__fastcall* pfDrawBlendedVisTile)(uint8_t* a1, int32_t a2, int32_t a3, uint8_t a4);
+	void(__fastcall* pfDrawRoofTile)(uint8_t* a1, int32_t a2, int32_t a3, int32_t* a4, uint8_t a5);
 };
 
 struct D2GraphicsInterfaceStrc

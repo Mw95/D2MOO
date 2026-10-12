@@ -6,7 +6,7 @@ EXPORTS
 	D2GFX_GetDisplayType					@10003 NONAME
 	D2GFX_CheckWindowed						@10004 NONAME
 	D2GFX_GetResolutionMode					@10005 NONAME
-;	D2GFX_HardwareAcceleratedRenderMode		@10006 NONAME
+	D2GFX_10006=D2GFX_HardwareAcceleratedRenderMode	@10006 NONAME
 	D2GFX_CheckUnitPerspective				@10007 NONAME
 	D2GFX_SetUnitPerspective				@10008 NONAME
 	D2GFX_TogglePerspective					@10009 NONAME
