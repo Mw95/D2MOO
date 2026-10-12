@@ -45,12 +45,12 @@ D2ShadowLightGammaPaletteStrc gShadowsLightGammaPalette_6F91E298;
 PALETTEENTRY gDarkenPalette_6F921398[64];
 PALETTEENTRY gStandardShiftsPalette_6F921498[13][64];
 PALETTEENTRY gTransPalette_6F922198[3][256][64];
-uint8_t byte_6F952198[256];
+uint8_t gRedTintPalette_6F952198[256];
 PALETTEENTRY gLuminancePalette_6F952298[256][64];
 uint8_t gStandardColorsPalette_6F962298[13][3];
 PALETTEENTRY gRGBAPalette_6F9622C0[256];
 uint8_t gStatesPalette_6F9626C0[128][256];
-uint8_t byte_6F96A6C0[256];
+uint8_t gBrightenPalette_6F96A6C0[256];
 uint32_t dword_6F96A7C0;
 uint32_t dword_6F96A7C4;
 
@@ -116,8 +116,8 @@ int32_t __fastcall PALETTE_LoadFiles(const char* szDatFileName, const char* szPL
 		const uint8_t green = std::min(170 * gRGBAPalette_6F9622C0[i].peGreen / 100, 255);
 		const uint8_t blue = std::min(170 * gRGBAPalette_6F9622C0[i].peBlue / 100, 255);
 
-		byte_6F96A6C0[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, red, green, blue);
-		byte_6F952198[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, gRGBAPalette_6F9622C0[i].peRed, 0, 0);
+		gBrightenPalette_6F96A6C0[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, red, green, blue);
+		gRedTintPalette_6F952198[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, gRGBAPalette_6F9622C0[i].peRed, 0, 0);
 	}
 
 	for (int32_t i = 0; i < std::size(paletteTable.transPalettes); ++i)
@@ -140,8 +140,8 @@ int32_t __fastcall PALETTE_LoadFiles(const char* szDatFileName, const char* szPL
 	paletteTable.pDarkBlendPalette = gDarkBlendPalette_6F90E298;
 	paletteTable.pDarkenPalette = gDarkenPalette_6F921398;
 	paletteTable.pStandardColorsPalette = gStandardColorsPalette_6F962298;
-	paletteTable.unk0x118 = byte_6F96A6C0;
-	paletteTable.unk0x11C = byte_6F952198;
+	paletteTable.pBrightenPalette = gBrightenPalette_6F96A6C0;
+	paletteTable.pRedTintPalette = gRedTintPalette_6F952198;
 	D2GFX_SetPaletteTables(&paletteTable);
 	D2GFX_SetPalette(gRGBAPalette_6F9622C0);
 

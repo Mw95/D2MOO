@@ -14,21 +14,21 @@ struct D2CellFileStrc;
 struct D2CharStrc
 {
 	WORD wChar;										//0x00
-	BYTE unk0x02;									//0x02
+	BYTE nReserved0x02;								//0x02 - Not read by the game
 	BYTE nWidth;									//0x03
 	BYTE nHeight;									//0x04
-	BYTE unk0x05;									//0x05
-	WORD unk0x06;									//0x06
+	BYTE nReserved0x05;								//0x05 - Not read by the game
+	WORD wReserved0x06;								//0x06 - Not read by the game
 	WORD nImageIndex;								//0x08
-	DWORD unk0x0A;									//0x0A
+	DWORD dwReserved0x0A;							//0x0A - Not read by the game
 };
 
 struct D2FontStrc
 {
 	DWORD dwHeader;									//0x00 - 'Woo!'
-	WORD unk0x04;									//0x04
-	WORD unk0x06;									//0x06
-	WORD unk0x08;									//0x08
+	WORD wVersion;									//0x04 - Not read by the game
+	WORD wReserved0x06;								//0x06 - Not read by the game
+	WORD wNumChars;									//0x08 - Number of used entries in pChars, sorted by wChar
 	BYTE nHeight;									//0x0A
 	BYTE nWidth;									//0x0B
 	D2CharStrc pChars[256];							//0x0C

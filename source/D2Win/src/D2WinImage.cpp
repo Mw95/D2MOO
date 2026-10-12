@@ -18,10 +18,10 @@
 #pragma pack(push, 1)
 struct D2CropRectStrc
 {
-	int32_t unk0x00;
-	int32_t unk0x04;
-	int32_t unk0x08;
-	int32_t unk0x0C;
+	int32_t nLeft;
+	int32_t nRight;
+	int32_t nTop;
+	int32_t nBottom;
 };
 #pragma pack(pop)
 
@@ -236,12 +236,12 @@ int32_t __fastcall IMAGE_Draw(D2WinControlStrc* pControl)
 			int32_t nClipTop = nDestTop;
 			const int32_t nSrcLeft = nSrcX[nColumn];
 			const int32_t nSrcWidth = nSrcX[nColumn + 1] - nSrcLeft;
-			destRect.unk0x04 = nDestX[nColumn + 1];
-			const int32_t nDestWidth = destRect.unk0x04 - nClipLeft;
+			destRect.nRight = nDestX[nColumn + 1];
+			const int32_t nDestWidth = destRect.nRight - nClipLeft;
 			const int32_t nDestHeight = nDestBottom - nDestTop;
-			destRect.unk0x00 = nClipLeft;
-			destRect.unk0x08 = nDestTop;
-			destRect.unk0x0C = nDestBottom;
+			destRect.nLeft = nClipLeft;
+			destRect.nTop = nDestTop;
+			destRect.nBottom = nDestBottom;
 
 			if (nSrcWidth == nDestWidth && nSrcHeight == nDestHeight)
 			{
@@ -264,17 +264,17 @@ int32_t __fastcall IMAGE_Draw(D2WinControlStrc* pControl)
 							nClipLeft = nTileLeft;
 						}
 
-						clipRect.unk0x00 = nClipLeft;
-						clipRect.unk0x04 = std::min(destRect.unk0x04, nClipLeft + nSrcWidth);
-						clipRect.unk0x08 = std::max(nClipTop, nTileTop);
-						clipRect.unk0x0C = std::min(destRect.unk0x0C, nSrcHeight + clipRect.unk0x08);
+						clipRect.nLeft = nClipLeft;
+						clipRect.nRight = std::min(destRect.nRight, nClipLeft + nSrcWidth);
+						clipRect.nTop = std::max(nClipTop, nTileTop);
+						clipRect.nBottom = std::min(destRect.nBottom, nSrcHeight + clipRect.nTop);
 
 						TEXTURE_CelDrawClipped(&gfxData, nTileX, nTileY, &clipRect, DRAWMODE_NORMAL);
 
-						nClipTop = destRect.unk0x08;
+						nClipTop = destRect.nTop;
 						nTileX += nSrcWidth;
 						nTileLeft += nSrcWidth;
-						nClipLeft = destRect.unk0x00;
+						nClipLeft = destRect.nLeft;
 					}
 
 					nTileY += nSrcHeight;

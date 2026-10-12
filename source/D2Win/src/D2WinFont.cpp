@@ -330,7 +330,7 @@ D2CharStrc* __fastcall FONT_GetCharInfoSearch(Unicode wChar)
 	D2FontCacheStrc* pFontCache = &stru_6F8FD8C0[gnFontSize_6F8BDB24];
 
 	int nMin = 0;
-	int nMax = pFontCache->pFontInfo[1]->unk0x08 - 1;
+	int nMax = pFontCache->pFontInfo[1]->wNumChars - 1;
 
 	for (int i = 0; i <= 1000 && nMin <= nMax; ++i)
 	{
