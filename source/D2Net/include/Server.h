@@ -79,7 +79,7 @@ D2NET_DLL_DECL int32_t __stdcall SERVER_SetClientGameGUID(int32_t nClientId, int
 //D2Net.0x6FC02580 (#10021)
 D2NET_DLL_DECL int32_t __stdcall SERVER_GetClientGameGUID(int32_t nClientId);
 //D2Net.0x6FC025A0
-int32_t __fastcall SERVER_EnqueuePacketToMessageList(const uint8_t* pBuffer, int32_t nBufferSize);
+int32_t __fastcall SERVER_EnqueuePacketToMessageList(const uint8_t* pBuffer, uint16_t wSize);
 //D2Net.0x6FC025F0 (#10022)
 D2NET_DLL_DECL int32_t __stdcall D2NET_10022(uint32_t dwMilliseconds);
 //D2Net.0x6FC02610 (#10028)

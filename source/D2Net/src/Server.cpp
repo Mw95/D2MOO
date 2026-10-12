@@ -474,7 +474,8 @@ int32_t __fastcall SERVER_GetClientPacketSize(D2PacketBufferStrc* pBuffer, uint3
 		sizeof(D2GSPacketClt38),
 		//sizeof(D2GSPacketClt39),
 		5, // 0x39
-		sizeof(D2GSPacketClt3A),
+		//sizeof(D2GSPacketClt3A),
+		3, // 0x3A
 		sizeof(D2GSPacketClt3B),
 		sizeof(D2GSPacketClt3C),
 		sizeof(D2GSPacketClt3D),
@@ -485,7 +486,8 @@ int32_t __fastcall SERVER_GetClientPacketSize(D2PacketBufferStrc* pBuffer, uint3
 		//sizeof(D2GSPacketClt40),
 		1, // 0x40
 		sizeof(D2GSPacketClt41),
-		sizeof(D2GSPacketClt42),
+		//sizeof(D2GSPacketClt42),
+		1, // 0x42
 		//sizeof(D2GSPacketClt43),
 		1, // 0x43
 		sizeof(D2GSPacketClt44),
@@ -578,16 +580,14 @@ int32_t __fastcall SERVER_GetClientPacketSize(D2PacketBufferStrc* pBuffer, uint3
 	{
 		if (nBufferSize < 3)
 		{
-			*pSize = 0;
-			return *pSize;
+			return 0;
 		}
 
 		const char* v7 = (const char*)&pBuffer->data[3];
 		const int32_t v8 = SStrLen(v7) + 4;
 		if (nBufferSize < v8)
 		{
-			*pSize = 0;
-			return *pSize;
+			return 0;
 		}
 
 		const char* v9 = &v7[SStrLen(v7) + 1];
@@ -595,8 +595,7 @@ int32_t __fastcall SERVER_GetClientPacketSize(D2PacketBufferStrc* pBuffer, uint3
 		const int32_t v10 = v8 + v9Len + 1;
 		if (nBufferSize < v10)
 		{
-			*pSize = 0;
-			return *pSize;
+			return 0;
 		}
 
 		const int32_t result = v10 + v9[v9Len + 1] + 1;
@@ -615,7 +614,7 @@ int32_t __fastcall SERVER_GetClientPacketSize(D2PacketBufferStrc* pBuffer, uint3
 			return 0;
 		}
 
-		*pSize = *(uint8_t*)(pBuffer + 1) + 7;
+		*pSize = pBuffer->data[1] + 7;
 		return *pSize;
 	}
 	default:
@@ -920,11 +919,11 @@ int32_t __stdcall SERVER_GetClientGameGUID(int32_t nClientId)
 }
 
 //D2Net.0x6FC025A0
-int32_t __fastcall SERVER_EnqueuePacketToMessageList(const uint8_t* pBuffer, int32_t nBufferSize)
+int32_t __fastcall SERVER_EnqueuePacketToMessageList(const uint8_t* pBuffer, uint16_t wSize)
 {
-	D2_ASSERT(nBufferSize <= MAX_MSG_SIZE);
+	D2_ASSERT(wSize <= MAX_MSG_SIZE);
 
-	return FOG_10175(gpServer, pBuffer, nBufferSize, 0) != 0;
+	return FOG_10175(gpServer, pBuffer, wSize, 0) != 0;
 }
 
 //D2Net.0x6FC025F0 (#10022)

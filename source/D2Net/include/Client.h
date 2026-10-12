@@ -12,7 +12,7 @@ DWORD __stdcall CLIENT_ConnectToHost(void* szIpAddress);
 //D2Net.0x6FC01120 (#10025)
 D2NET_DLL_DECL int32_t __stdcall D2NET_10025();
 //D2Net.0x6FC011B0 (#10000)
-D2NET_DLL_DECL void __stdcall CLIENT_Initialize(int32_t a1, const char* szIpAddress);
+D2NET_DLL_DECL int32_t __stdcall CLIENT_Initialize(int32_t a1, const char* szIpAddress);
 //D2Net.0x6FC01240 (#10001)
 D2NET_DLL_DECL void __stdcall CLIENT_Release();
 //D2Net.0x6FC01300 (#10007)
