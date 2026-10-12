@@ -21,8 +21,13 @@
 #include <Units/Units.h>
 
 #include <Fixtures/DataTbls/Fixtures.h>
+#include <Fixtures/DataTbls/DataTablesLoadFixture.h>
 
 DYNAMIC_ARRAY_TYPE(char)
+DYNAMIC_ARRAY_TYPE(short)
+DYNAMIC_ARRAY_TYPE(uint32_t)
+DYNAMIC_ARRAY_TYPE(D2StatesTxt)
+DYNAMIC_ARRAY_TYPE(D2PetTypeTxt)
 
 
 BEGIN_VISIT(D2BinFieldStrc)
@@ -30,6 +35,88 @@ BEGIN_VISIT(D2BinFieldStrc)
 	FIELD(nFieldLength)
 	FIELD(nFieldOffset)
 END_VISIT()
+
+
+namespace
+{
+	// Only the record count is compared, since the linker nodes are Fog internals.
+	// Linkers only get filled when compiling from .txt files anyway, which the tests don't do.
+	void check_linker_eq(D2TxtLinkStrc* moo_linker, D2TxtLinkStrc* original_linker, const char* context_title)
+	{
+		CAPTURE(context_title);
+		REQUIRE(moo_linker != nullptr);
+		REQUIRE(original_linker != nullptr);
+		CHECK_EQ(moo_linker->nRecords, original_linker->nRecords);
+	}
+
+	void check_short_list_eq(short* moo_list, int moo_count, short* original_list, int original_count, const char* context_title)
+	{
+		CAPTURE(context_title);
+		REQUIRE(moo_list != nullptr);
+		REQUIRE(original_list != nullptr);
+		REQUIRE_EQ(moo_count, original_count);
+		MOO_CHECK_EQ((DynamicArray<short>{ moo_list, moo_count }), (DynamicArray<short>{ original_list, original_count }), context_title);
+	}
+
+	// Compares everything set up by DATATBLS_LoadStatesTxt
+	void check_states_tables_eq(D2DataTablesStrc& moo_tables, D2DataTablesStrc& original_tables)
+	{
+		REQUIRE_EQ(moo_tables.nStatesTxtRecordCount, original_tables.nStatesTxtRecordCount);
+		REQUIRE(moo_tables.pStatesTxt != nullptr);
+		REQUIRE(original_tables.pStatesTxt != nullptr);
+		MOO_CHECK_EQ((DynamicArray<D2StatesTxt>{ moo_tables.pStatesTxt, moo_tables.nStatesTxtRecordCount }), (DynamicArray<D2StatesTxt>{ original_tables.pStatesTxt, original_tables.nStatesTxtRecordCount }), "Comparing pStatesTxt");
+
+		check_linker_eq(moo_tables.pStatesLinker, original_tables.pStatesLinker, "Comparing pStatesLinker");
+
+		const int nMaskRecordCount = (moo_tables.nStatesTxtRecordCount + 31) / 32;
+		REQUIRE(moo_tables.pStateMasks != nullptr);
+		REQUIRE(original_tables.pStateMasks != nullptr);
+		MOO_CHECK_EQ((DynamicArray<uint32_t>{ moo_tables.pStateMasks, static_cast<int>(std::size(moo_tables.fStateMasks)) * nMaskRecordCount }), (DynamicArray<uint32_t>{ original_tables.pStateMasks, static_cast<int>(std::size(original_tables.fStateMasks)) * nMaskRecordCount }), "Comparing pStateMasks");
+
+		// The masks point into pStateMasks, so compare where they point to instead of their addresses
+		for (size_t i = 0; i < std::size(moo_tables.fStateMasks); ++i)
+		{
+			CAPTURE(i);
+			CHECK_EQ(moo_tables.fStateMasks[i] - moo_tables.pStateMasks, original_tables.fStateMasks[i] - original_tables.pStateMasks);
+		}
+
+		check_short_list_eq(moo_tables.pProgressiveStates, moo_tables.nProgressiveStates, original_tables.pProgressiveStates, original_tables.nProgressiveStates, "Comparing pProgressiveStates");
+		check_short_list_eq(moo_tables.pCurseStates, moo_tables.nCurseStates, original_tables.pCurseStates, original_tables.nCurseStates, "Comparing pCurseStates");
+		check_short_list_eq(moo_tables.pTransformStates, moo_tables.nTransformStates, original_tables.pTransformStates, original_tables.nTransformStates, "Comparing pTransformStates");
+		check_short_list_eq(moo_tables.pActionStates, moo_tables.nActionStates, original_tables.pActionStates, original_tables.nActionStates, "Comparing pActionStates");
+		check_short_list_eq(moo_tables.pColourStates, moo_tables.nColourStates, original_tables.pColourStates, original_tables.nColourStates, "Comparing pColourStates");
+	}
+
+	// After unloading, the memory is gone, so only compare which pointers got reset and the remaining values
+	void check_states_tables_unloaded_eq(D2DataTablesStrc& moo_tables, D2DataTablesStrc& original_tables)
+	{
+		const auto check_null_eq = [](const void* moo_ptr, const void* original_ptr, const char* name)
+		{
+			CAPTURE(name);
+			CHECK_EQ(moo_ptr == nullptr, original_ptr == nullptr);
+		};
+
+		check_null_eq(moo_tables.pStatesTxt, original_tables.pStatesTxt, "pStatesTxt");
+		check_null_eq(moo_tables.pStatesLinker, original_tables.pStatesLinker, "pStatesLinker");
+		check_null_eq(moo_tables.pStateMasks, original_tables.pStateMasks, "pStateMasks");
+		for (size_t i = 0; i < std::size(moo_tables.fStateMasks); ++i)
+		{
+			check_null_eq(moo_tables.fStateMasks[i], original_tables.fStateMasks[i], "fStateMasks");
+		}
+		check_null_eq(moo_tables.pProgressiveStates, original_tables.pProgressiveStates, "pProgressiveStates");
+		check_null_eq(moo_tables.pCurseStates, original_tables.pCurseStates, "pCurseStates");
+		check_null_eq(moo_tables.pTransformStates, original_tables.pTransformStates, "pTransformStates");
+		check_null_eq(moo_tables.pActionStates, original_tables.pActionStates, "pActionStates");
+		check_null_eq(moo_tables.pColourStates, original_tables.pColourStates, "pColourStates");
+
+		CHECK_EQ(moo_tables.nStatesTxtRecordCount, original_tables.nStatesTxtRecordCount);
+		CHECK_EQ(moo_tables.nProgressiveStates, original_tables.nProgressiveStates);
+		CHECK_EQ(moo_tables.nCurseStates, original_tables.nCurseStates);
+		CHECK_EQ(moo_tables.nTransformStates, original_tables.nTransformStates);
+		CHECK_EQ(moo_tables.nActionStates, original_tables.nActionStates);
+		CHECK_EQ(moo_tables.nColourStates, original_tables.nColourStates);
+	}
+}
 
 
 TEST_SUITE("D2DataTblsTests")
@@ -182,16 +269,14 @@ TEST_SUITE("D2DataTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD49760" * doctest::skip("Needs MPQ archives to read from"))
+	TEST_CASE_FIXTURE(DataTablesLoadFixture<NoopFixture>, "D2Common.0x6FD49760")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_GetBinFileHandle, dll_base + 0x00009760);
 		
 		SUBCASE("")
 		{
-			// The original reads bCompileTxt from its own data tables pointer
-			const auto original_sgptDataTables = reinterpret_cast<D2DataTablesStrc**>(dll_base + 0x00096A20);
-			*original_sgptDataTables = sgptDataTables;
+			REQUIRE_MESSAGE(can_open_file("DATA\\GLOBAL\\EXCEL\\States.bin"), "data/global/excel/States.bin is missing in the working directory");
 
 			// Input data
 			void* moo_ppFileHandle{};
@@ -213,6 +298,9 @@ TEST_SUITE("D2DataTblsTests")
 			REQUIRE(moo_ppFileHandle != nullptr);
 			REQUIRE(original_ppFileHandle != nullptr);
 			MOO_CHECK_EQ((DynamicArray<char>{ static_cast<char*>(moo_ppFileHandle), moo_pSize }), (DynamicArray<char>{ static_cast<char*>(original_ppFileHandle), original_pSize }), "Comparing ppFileHandle");
+
+			D2_FREE(moo_ppFileHandle);
+			D2_FREE(original_ppFileHandle);
 		}
 	}
 	
@@ -349,46 +437,86 @@ TEST_SUITE("D2DataTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD4E500" * doctest::skip("Needs MPQ archives to load the txt files from"))
+	TEST_CASE_FIXTURE(DataTablesLoadFixture<NoopFixture>, "D2Common.0x6FD4E500")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_LoadStatesTxt, dll_base + 0x0000E500);
+		const auto original_unload = reinterpret_cast<decltype(&DATATBLS_UnloadStatesTxt)>(dll_base + 0x0000F4A0);
 		
 		SUBCASE("")
 		{
+			REQUIRE(DATATBLS_LoadFromBin);
+			REQUIRE_MESSAGE(can_open_file("DATA\\GLOBAL\\EXCEL\\States.bin"), "data/global/excel/States.bin is missing in the working directory");
+
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
 			sut(hArchive);
 			original(hArchive);
+
+			// Compare global modified state
+			check_states_tables_eq(*moo_tables, *original_tables);
+
+			// Let the original free both tables, which only works if D2MOO allocated them the same way
+			original_unload();
+			swap_tables();
+			original_unload();
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD4F4A0" * doctest::skip("Frees the loaded tables, which needs them to be allocated by Fog.dll"))
+	TEST_CASE_FIXTURE(DataTablesLoadFixture<NoopFixture>, "D2Common.0x6FD4F4A0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_UnloadStatesTxt, dll_base + 0x0000F4A0);
+		const auto original_load = reinterpret_cast<decltype(&DATATBLS_LoadStatesTxt)>(dll_base + 0x0000E500);
 		
-		SUBCASE("")
+		SUBCASE("Tables loaded by the original")
 		{
+			REQUIRE_MESSAGE(can_open_file("DATA\\GLOBAL\\EXCEL\\States.bin"), "data/global/excel/States.bin is missing in the working directory");
+
+			// Load the tables with the original implementation for both, so that D2MOO has to free what the original allocated
+			original_load(nullptr);
+			swap_tables();
+			original_load(nullptr);
+
 			// Call both implementations
 			sut();
 			original();
+
+			// Compare global modified state
+			check_states_tables_unloaded_eq(*moo_tables, *original_tables);
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD4F5A0" * doctest::skip("Needs MPQ archives to load the txt files from"))
+	TEST_CASE_FIXTURE(DataTablesLoadFixture<NoopFixture>, "D2Common.0x6FD4F5A0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_LoadPetTypeTxt, dll_base + 0x0000F5A0);
 		
 		SUBCASE("")
 		{
+			REQUIRE(DATATBLS_LoadFromBin);
+			REQUIRE_MESSAGE(can_open_file("DATA\\GLOBAL\\EXCEL\\PetType.bin"), "data/global/excel/PetType.bin is missing in the working directory");
+
 			HD2ARCHIVE hArchive{};
 
 			// Call both implementations
 			sut(hArchive);
 			original(hArchive);
+
+			// Compare global modified state
+			REQUIRE_EQ(moo_tables->nPetTypeTxtRecordCount, original_tables->nPetTypeTxtRecordCount);
+			REQUIRE(moo_tables->pPetTypeTxt != nullptr);
+			REQUIRE(original_tables->pPetTypeTxt != nullptr);
+			MOO_CHECK_EQ((DynamicArray<D2PetTypeTxt>{ moo_tables->pPetTypeTxt, moo_tables->nPetTypeTxtRecordCount }), (DynamicArray<D2PetTypeTxt>{ original_tables->pPetTypeTxt, original_tables->nPetTypeTxtRecordCount }), "Comparing pPetTypeTxt");
+			check_linker_eq(moo_tables->pPetTypeLinker, original_tables->pPetTypeLinker, "Comparing pPetTypeLinker");
+
+			// There is no dedicated unload function, DATATBLS_UnloadAllBins frees the pet types like this
+			for (D2DataTablesStrc* pTables : { moo_tables, original_tables })
+			{
+				DATATBLS_UnloadBin(pTables->pPetTypeTxt);
+				FOG_FreeLinker(pTables->pPetTypeLinker);
+			}
 		}
 	}
 	
@@ -824,16 +952,15 @@ TEST_SUITE("D2DataTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD4FD70 (#10578)" * doctest::skip("Needs MPQ archives to load the txt files from"))
+	TEST_CASE_FIXTURE(DataTablesLoadFixture<NoopFixture>, "D2Common.0x6FD4FD70 (#10578)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_CompileTxt, dll_base + 0x0000FD70);
 		
 		SUBCASE("")
 		{
-			// The original reads bCompileTxt from its own data tables pointer
-			const auto original_sgptDataTables = reinterpret_cast<D2DataTablesStrc**>(dll_base + 0x00096A20);
-			*original_sgptDataTables = sgptDataTables;
+			REQUIRE(DATATBLS_LoadFromBin);
+			REQUIRE_MESSAGE(can_open_file("DATA\\GLOBAL\\EXCEL\\PetType.bin"), "data/global/excel/PetType.bin is missing in the working directory");
 
 			// Input data
 			D2BinFieldStrc moo_pTbl{};
@@ -867,6 +994,9 @@ TEST_SUITE("D2DataTblsTests")
 			// Compare potentially modified input data
 			MOO_CHECK_EQ(moo_pTbl, original_pTbl, "Comparing pTbl");
 			MOO_CHECK_EQ(moo_pRecordCount, original_pRecordCount, "Comparing pRecordCount");
+
+			DATATBLS_UnloadBin(moo_result);
+			DATATBLS_UnloadBin(original_result);
 		}
 	}
 	

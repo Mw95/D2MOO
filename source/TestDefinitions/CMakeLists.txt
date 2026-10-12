@@ -19,6 +19,7 @@ target_sources(TestDefinitions
     include/Fixtures/DataTbls/CompCodeTxtFixture.h
     include/Fixtures/DataTbls/CompositTxtFixture.h
     include/Fixtures/DataTbls/CubeMainTxtFixture.h
+    include/Fixtures/DataTbls/DataTablesLoadFixture.h
     include/Fixtures/DataTbls/DifficultyLevelsTxtFixture.h
     include/Fixtures/DataTbls/ElemTypesTxtFixture.h
     include/Fixtures/DataTbls/EventsTxtFixture.h
