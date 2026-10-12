@@ -16,6 +16,7 @@
 #include <Drlg/D2DrlgDrlg.h>
 #include <Units/Units.h>
 
+#include <Fixtures/D2Lang/D2LangStringTblFixture.h>
 #include <Fixtures/DataTbls/Fixtures.h>
 
 
@@ -125,7 +126,7 @@ TEST_SUITE("D2MonstersTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA51A0 (#11085)" * doctest::skip("D2Lang required"))
+	TEST_CASE_FIXTURE(D2LangStringTblFixture<NoopFixture>, "D2Common.0x6FDA51A0 (#11085)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MONSTERS_GetHirelingDescString, dll_base + 0x000651A0);
@@ -137,11 +138,19 @@ TEST_SUITE("D2MonstersTests")
 				int nId = i;
 
 				// Call both implementations
+				d2lang_string_tbl_calls.clear();
 				const auto moo_result = sut(nId);
-				const auto original_result = original(nId);
+				const auto moo_calls = d2lang_string_tbl_calls;
 
-				// Compare return values
+				d2lang_string_tbl_calls.clear();
+				const auto original_result = original(nId);
+				const auto original_calls = d2lang_string_tbl_calls;
+
+				// Compare return values (the mocked string's first character is the requested tbl index)
 				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+
+				// Compare requested tbl indices
+				CHECK_MESSAGE(moo_calls == original_calls, "Comparing D2Lang tbl indices for nId = " + std::to_string(nId));
 			}
 		}
 	}
