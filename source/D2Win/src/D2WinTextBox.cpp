@@ -1023,7 +1023,9 @@ int32_t __fastcall TEXTBOX_Draw(D2WinControlStrc* pControl)
 
 		++nCounter;
 
-		if (v49 < v34)
+		// Stop when the remaining height can't fit the next line
+		D2WinTextBoxLineStrc* pNextLine = pCurrentLine->pNext;
+		if (pNextLine && v49 < v8 + (pNextLine->field_18 ? pTextBox->field_A0 : pTextBox->field_A4))
 		{
 			break;
 		}
@@ -1116,7 +1118,7 @@ int32_t __stdcall TEXTBOX_HandleVirtualKeyInput(SMSGHANDLER_PARAMS* pMsg)
 		else if (v3 < nNumLines - v9)
 		{
 			v3 = std::min(v10, nNumLines - v9);
-			v4 = std::min(v10, nNumLines - 1);
+			v4 = std::min(v9 + v3 - 1, nNumLines - 1);
 		}
 		break;
 	}
@@ -1225,12 +1227,7 @@ int32_t __fastcall D2Win_10195(D2WinTextBoxStrc* pTextBox, void(__stdcall* a2)(S
 	D2_ASSERT(pTextBox);
 	D2_ASSERT(pTextBox->controlHeader.nType == D2WIN_TEXTBOX);
 
-	D2WinScrollBarStrc* pScrollBar = pTextBox->pScrollBar;
-
-	D2_ASSERT(pScrollBar->controlHeader.nType == D2WIN_SCROLLBAR);
-
-	pScrollBar->field_5C = a2;
-	return 1;
+	return SCROLLBAR_SetCallback(pTextBox->pScrollBar, a2);
 }
 
 //D2Win.0x6F8B1AD0 (#10204)
