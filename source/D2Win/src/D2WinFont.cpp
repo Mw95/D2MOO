@@ -1,5 +1,7 @@
 #include "D2WinFont.h"
 
+#include <algorithm>
+
 #include <D2Math.h>
 
 #include <D2CMP.h>
@@ -206,7 +208,7 @@ void __fastcall sub_6F8A9E90(int a1)
 
 	wsprintfA(szPath, "%s\\%s\\", "DATA\\LOCAL", "Font");
 
-	D2_ASSERT(strlen(szFilename) + 20 < 79);
+	D2_ASSERT((int)strlen(szPath) + 20 < 79);
 
 	if (byte_6F8FE21A && a1 == 13)
 	{
@@ -368,16 +370,16 @@ int __fastcall D2Win_10123(const Unicode* wszText, int nTextLength)
 
 		if (*v4 != '\n')
 		{
-			if (v5 >= nTextLength || *v4 >= 0x100u || *v4 != 0xFF || v4[1] != 'c' || v4[2] < '0' || v4[2] >= '7')
+			if (v5 < nTextLength && *v4 < 0x100u && *v4 == 0xFF && v4[1] == 'c' && v4[2] >= '0' && v4[2] < '7')
 			{
-				v3 += dword_6F8FE20C(*v4)->nWidth;
-			}
-			else
-			{
+				// Skip color codes
 				v4 += 3;
 				v2 += 3;
 				v5 += 3;
+				continue;
 			}
+
+			v3 += dword_6F8FE20C(*v4)->nWidth;
 		}
 
 		++v4;
@@ -474,7 +476,7 @@ void __fastcall D2Win_10119_DrawCroppedText(const Unicode* wszText, int32_t nX, 
 			if (currentChar == '\n') // newline
 			{
 				nX = nLineStartX;
-				nY -= (16 * stru_6F8FD8C0[gnFontSize_6F8BDB24].pFontInfo[1]->nHeight / 10 + 1);
+				nY -= 16 * stru_6F8FD8C0[gnFontSize_6F8BDB24].pFontInfo[1]->nHeight / 10;
 			}
 			else
 			{
@@ -661,8 +663,8 @@ void __stdcall D2Win_10124()
 		v1 = sub_6F8AA910(gszFramedText_Buffer_6F8FD9F0) + 8;
 	}
 
-	const int32_t v11 = D2Clamp(v6, 0, nScreenWidth - v1);
-	const int32_t v13 = D2Clamp(v7, v5 - 5, nScreenHeight - 5);
+	const int32_t v11 = std::min(std::max(v6, 0), nScreenWidth - v1);
+	const int32_t v13 = std::min(std::max(v7, v5 - 5), nScreenHeight - 5);
 
 	if (gnFramedText_RectangleColor_6F8FE200)
 	{
@@ -1062,6 +1064,7 @@ void __fastcall D2Win_10132(const Unicode* wszText, int nX, int nY, DWORD dwColo
 	int nTextWidth = 0;
 	int nTextHeight = 0;
 	D2Win_10131_GetTextDimensions(wszText, &nTextWidth, &nTextHeight);
+	nTextWidth += 8;
 
 	nY += 2;
 
@@ -1186,9 +1189,8 @@ void __fastcall sub_6F8AB360(const Unicode* pStr, int nX, int nY, int nBoxWidth,
 		}
 	}
 
-	unsigned int v12 = nLines * dword_6F8BDB2C * stru_6F8FD8C0[gnFontSize_6F8BDB24].pFontInfo[1]->nHeight / 10;
+	const int v18 = nLines * dword_6F8BDB2C * stru_6F8FD8C0[gnFontSize_6F8BDB24].pFontInfo[1]->nHeight / 10;
 	int v13 = nY + 2;
-	int v18 = ((unsigned int)v12 >> 31) + v12;
 	int v15 = 4 * stru_6F8FD8C0[gnFontSize_6F8BDB24].pFontInfo[1]->nHeight / 10;
 
 	int nScreenWidth = 0;
