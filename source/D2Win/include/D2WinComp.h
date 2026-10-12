@@ -94,13 +94,13 @@ static_assert(sizeof(D2CompositeUnitStrc) == 0x234, "D2CompositeUnitStrc size mi
 
 
 //D2Win.0x6F8A15E0
-void __fastcall sub_6F8A15E0(D2CompositeUnitStrc* pCompositeUnit);
+void __fastcall COMP_DrawShadow(D2CompositeUnitStrc* pCompositeUnit);
 //D2Win.0x6F8A1890
-BOOL __fastcall sub_6F8A1890(D2CompositeUnitStrc* pCompositeUnit, uint32_t dwGamma);
+BOOL __fastcall COMP_Draw(D2CompositeUnitStrc* pCompositeUnit, uint32_t dwGamma);
 //D2Win.0x6F8A1D10
-BOOL __fastcall sub_6F8A1D10(D2CompositeUnitStrc* pCompositeUnit);
+BOOL __fastcall COMP_DrawName(D2CompositeUnitStrc* pCompositeUnit);
 //D2Win.0x6F8A2070
-BOOL __fastcall sub_6F8A2070(D2CompositeUnitStrc* pCompositeUnit);
+BOOL __fastcall COMP_DrawHoverInfo(D2CompositeUnitStrc* pCompositeUnit);
 //D2Win.0x6F8A2A20 (#10142)
 void __stdcall D2Win_10142_CompUnitDestroy(D2CompositeUnitStrc* pCompositeUnit, BOOL bFree);
 //D2Win.0x6F8A2BD0 (#10154)
@@ -140,7 +140,7 @@ void __stdcall D2Win_10158(D2CompositeUnitStrc* pCompositeUnit, uint8_t nEmblem,
 //D2Win.0x6F8A46E0 (#10157)
 void __stdcall D2Win_10157();
 //D2Win.0x6F8A4C10
-void __stdcall sub_6F8A4C10();
+void __stdcall COMP_InitEmblemColors();
 //D2Win.0x6F8A4C70 (#10161)
 const char* __stdcall D2Win_10161(int32_t nClass, int32_t nProgression, BOOL bHardcore, BOOL bExpansion);
 //D2Win.0x6F8A4CE0 (#10160)

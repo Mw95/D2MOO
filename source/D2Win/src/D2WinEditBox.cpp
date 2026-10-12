@@ -123,13 +123,13 @@ D2WinEditBoxStrc* __fastcall D2Win_10070_EDITBOX_Create(int32_t nX, int32_t nY, 
 
 	if (!(nEditBoxFlags & EDITBOX_MULTILINE))
 	{
-		pEditBox->controlHeader.pfDraw = sub_6F8A82D0;
-		pEditBox->controlHeader.pfHandleMouseDown = sub_6F8A9120;
+		pEditBox->controlHeader.pfDraw = EDITBOX_Draw;
+		pEditBox->controlHeader.pfHandleMouseDown = EDITBOX_HandleMouseDown;
 	}
 	else
 	{
-		pEditBox->controlHeader.pfDraw = sub_6F8A86C0;
-		pEditBox->controlHeader.pfHandleMouseDown = sub_6F8A97D0;
+		pEditBox->controlHeader.pfDraw = EDITBOX_DrawMultiline;
+		pEditBox->controlHeader.pfHandleMouseDown = EDITBOX_HandleMouseDownMultiline;
 	}
 
 	pEditBox->controlHeader.pfHandleMouseUp = EDITBOX_HandleMouseUp;
@@ -253,7 +253,7 @@ int32_t __fastcall D2Win_10074(D2WinEditBoxStrc* pEditBox, uint8_t nChar)
 
 	if (EDITBOX_HasSelection(pEditBox) && nCurrentChar != EDITBOX_CTRL_C && nCurrentChar != EDITBOX_CTRL_X && nCurrentChar != EDITBOX_CTRL_A)
 	{
-		sub_6F8A7970(pEditBox);
+		EDITBOX_DeleteSelection(pEditBox);
 	}
 
 	const int32_t nTextLength = Unicode::strlen(pEditBox->wszText);
@@ -364,7 +364,7 @@ int32_t __fastcall D2Win_10074(D2WinEditBoxStrc* pEditBox, uint8_t nChar)
 		{
 			const int32_t nSelectionMin = EDITBOX_CopySelectionToClipboard(pEditBox, wszText, szText);
 
-			sub_6F8A7970(pEditBox);
+			EDITBOX_DeleteSelection(pEditBox);
 			Unicode::strcpy(wszText, pEditBox->wszText);
 			pCursor = &wszText[nSelectionMin];
 		}
@@ -492,7 +492,7 @@ int32_t __fastcall D2Win_10074(D2WinEditBoxStrc* pEditBox, uint8_t nChar)
 
 	Unicode::strcpy(pEditBox->wszText, wszText);
 	pEditBox->nCursorPosition = pCursor - wszText;
-	sub_6F8A98A0(pEditBox);
+	EDITBOX_UpdateVisibleRange(pEditBox);
 
 	if (pEditBox->pfOnTextChanged)
 	{
@@ -503,7 +503,7 @@ int32_t __fastcall D2Win_10074(D2WinEditBoxStrc* pEditBox, uint8_t nChar)
 }
 
 //D2Win.0x6F8A7970
-void __fastcall sub_6F8A7970(D2WinEditBoxStrc* pEditBox)
+void __fastcall EDITBOX_DeleteSelection(D2WinEditBoxStrc* pEditBox)
 {
 	Unicode wszBefore[256];
 	Unicode wszAfter[256];
@@ -534,7 +534,7 @@ void __fastcall sub_6F8A7970(D2WinEditBoxStrc* pEditBox)
 }
 
 //D2Win.0x6F8A7AB0
-int32_t __fastcall sub_6F8A7AB0(D2WinEditBoxStrc* pEditBox, char nVirtualKey)
+int32_t __fastcall EDITBOX_HandleVirtualKey(D2WinEditBoxStrc* pEditBox, char nVirtualKey)
 {
 	// The character filter can modify the key
 	char nCurrentKey = nVirtualKey;
@@ -558,7 +558,7 @@ int32_t __fastcall sub_6F8A7AB0(D2WinEditBoxStrc* pEditBox, char nVirtualKey)
 	case VK_DELETE:
 		if (EDITBOX_HasSelection(pEditBox))
 		{
-			sub_6F8A7970(pEditBox);
+			EDITBOX_DeleteSelection(pEditBox);
 			bSelectionDeleted = TRUE;
 			bTextChanged = TRUE;
 			pCursor = &pEditBox->wszText[pEditBox->nCursorPosition];
@@ -720,12 +720,12 @@ int32_t __fastcall sub_6F8A7AB0(D2WinEditBoxStrc* pEditBox, char nVirtualKey)
 		{
 			int32_t nX = 0;
 			int32_t nY = 0;
-			sub_6F8A8D60(pEditBox, &nX, &nY);
+			EDITBOX_GetCursorOffset(pEditBox, &nX, &nY);
 
 			SMSGHANDLER_PARAMS msg = {};
 			msg.hWindow = (HWND)pEditBox;
 			msg.nMessage = 0;
-			sub_6F8A9410(&msg, nX, nY - D2Win_10125());
+			EDITBOX_SetCursorFromOffset(&msg, nX, nY - D2Win_10125());
 
 			pCursor = &pEditBox->wszText[pEditBox->nCursorPosition];
 		}
@@ -760,12 +760,12 @@ int32_t __fastcall sub_6F8A7AB0(D2WinEditBoxStrc* pEditBox, char nVirtualKey)
 		{
 			int32_t nX = 0;
 			int32_t nY = 0;
-			sub_6F8A8D60(pEditBox, &nX, &nY);
+			EDITBOX_GetCursorOffset(pEditBox, &nX, &nY);
 
 			SMSGHANDLER_PARAMS msg = {};
 			msg.hWindow = (HWND)pEditBox;
 			msg.nMessage = 0;
-			sub_6F8A9410(&msg, nX, nY + D2Win_10125());
+			EDITBOX_SetCursorFromOffset(&msg, nX, nY + D2Win_10125());
 
 			pCursor = &pEditBox->wszText[pEditBox->nCursorPosition];
 		}
@@ -806,7 +806,7 @@ int32_t __fastcall sub_6F8A7AB0(D2WinEditBoxStrc* pEditBox, char nVirtualKey)
 	}
 
 	pEditBox->nCursorPosition = pCursor - pEditBox->wszText;
-	sub_6F8A98A0(pEditBox);
+	EDITBOX_UpdateVisibleRange(pEditBox);
 
 	if (bTextChanged && pEditBox->pfCharFilter && !pEditBox->pfCharFilter(pEditBox, pEditBox->nCursorPosition, &nCurrentKey) && nCurrentKey != VK_BACK && nCurrentKey != VK_DELETE)
 	{
@@ -856,7 +856,7 @@ int32_t __fastcall D2Win_10075(D2WinEditBoxStrc* pEditBox, const Unicode* pText)
 	}
 
 	pEditBox->nCursorPosition = nLength;
-	sub_6F8A98A0(pEditBox);
+	EDITBOX_UpdateVisibleRange(pEditBox);
 
 	if (pEditBox->pfOnTextChanged)
 	{
@@ -889,7 +889,7 @@ void __fastcall D2Win_10080_EDITBOX_SetNextEditBox(D2WinEditBoxStrc* pEditBox, D
 }
 
 //D2Win.0x6F8A82D0
-int32_t __fastcall sub_6F8A82D0(D2WinControlStrc* pControl)
+int32_t __fastcall EDITBOX_Draw(D2WinControlStrc* pControl)
 {
 	D2WinEditBoxStrc* pEditBox = (D2WinEditBoxStrc*)pControl;
 
@@ -911,7 +911,7 @@ int32_t __fastcall sub_6F8A82D0(D2WinControlStrc* pControl)
 		SMSGHANDLER_PARAMS msg = {};
 		msg.hWindow = (HWND)pEditBox;
 		msg.nMessage = WM_LBUTTONDOWN;
-		sub_6F8A9120(&msg);
+		EDITBOX_HandleMouseDown(&msg);
 	}
 
 	Unicode wszVisibleText[300];
@@ -984,7 +984,7 @@ int32_t __fastcall sub_6F8A82D0(D2WinControlStrc* pControl)
 }
 
 //D2Win.0x6F8A86C0
-int32_t __fastcall sub_6F8A86C0(D2WinControlStrc* pControl)
+int32_t __fastcall EDITBOX_DrawMultiline(D2WinControlStrc* pControl)
 {
 	D2WinEditBoxStrc* pEditBox = (D2WinEditBoxStrc*)pControl;
 
@@ -1006,7 +1006,7 @@ int32_t __fastcall sub_6F8A86C0(D2WinControlStrc* pControl)
 		SMSGHANDLER_PARAMS msg = {};
 		msg.hWindow = (HWND)pEditBox;
 		msg.nMessage = WM_LBUTTONDOWN;
-		sub_6F8A97D0(&msg);
+		EDITBOX_HandleMouseDownMultiline(&msg);
 	}
 
 	Unicode wszText[300];
@@ -1194,7 +1194,7 @@ int32_t __fastcall sub_6F8A86C0(D2WinControlStrc* pControl)
 }
 
 //D2Win.0x6F8A8D60
-void __fastcall sub_6F8A8D60(D2WinEditBoxStrc* pEditBox, int32_t* pX, int32_t* pY)
+void __fastcall EDITBOX_GetCursorOffset(D2WinEditBoxStrc* pEditBox, int32_t* pX, int32_t* pY)
 {
 	D2_ASSERT(pEditBox);
 	D2_ASSERT(pEditBox->controlHeader.nType == D2WIN_EDITBOX);
@@ -1320,7 +1320,7 @@ void __fastcall sub_6F8A8D60(D2WinEditBoxStrc* pEditBox, int32_t* pX, int32_t* p
 }
 
 //D2Win.0x6F8A9120
-int32_t __stdcall sub_6F8A9120(SMSGHANDLER_PARAMS* pMsg)
+int32_t __stdcall EDITBOX_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 {
 	D2WinEditBoxStrc* pEditBox = (D2WinEditBoxStrc*)pMsg->hWindow;
 
@@ -1356,12 +1356,12 @@ int32_t __stdcall sub_6F8A9120(SMSGHANDLER_PARAMS* pMsg)
 				if (nX < -pEditBox->nTextOffsetX)
 				{
 					pEditBox->nCursorPosition = std::max(pEditBox->nCursorPosition - 1, 0);
-					sub_6F8A98A0(pEditBox);
+					EDITBOX_UpdateVisibleRange(pEditBox);
 				}
 				else if (nX >= pEditBox->controlHeader.nWidth - pEditBox->nTextOffsetX)
 				{
 					pEditBox->nCursorPosition = std::min(pEditBox->nCursorPosition + 1, Unicode::strlen(pEditBox->wszText) - 1);
-					sub_6F8A98A0(pEditBox);
+					EDITBOX_UpdateVisibleRange(pEditBox);
 				}
 			}
 
@@ -1428,7 +1428,7 @@ int32_t __stdcall EDITBOX_HandleMouseUp(SMSGHANDLER_PARAMS* pMsg)
 }
 
 //D2Win.0x6F8A9410
-int32_t __fastcall sub_6F8A9410(SMSGHANDLER_PARAMS* pMsg, int32_t nX, int32_t nY)
+int32_t __fastcall EDITBOX_SetCursorFromOffset(SMSGHANDLER_PARAMS* pMsg, int32_t nX, int32_t nY)
 {
 	D2WinEditBoxStrc* pEditBox = (D2WinEditBoxStrc*)pMsg->hWindow;
 
@@ -1561,14 +1561,14 @@ int32_t __fastcall sub_6F8A9410(SMSGHANDLER_PARAMS* pMsg, int32_t nX, int32_t nY
 }
 
 //D2Win.0x6F8A97D0
-int32_t __stdcall sub_6F8A97D0(SMSGHANDLER_PARAMS* pMsg)
+int32_t __stdcall EDITBOX_HandleMouseDownMultiline(SMSGHANDLER_PARAMS* pMsg)
 {
 	D2WinEditBoxStrc* pEditBox = (D2WinEditBoxStrc*)pMsg->hWindow;
 
 	D2_ASSERT(pEditBox);
 	D2_ASSERT(pEditBox->controlHeader.nType == D2WIN_EDITBOX);
 
-	return sub_6F8A9410(pMsg, gMousePosition_6F8FE234.x - pEditBox->nTextOffsetX - pEditBox->controlHeader.nImageX, gMousePosition_6F8FE234.y + pEditBox->controlHeader.nHeight - pEditBox->nTextOffsetY - pEditBox->controlHeader.nImageY);
+	return EDITBOX_SetCursorFromOffset(pMsg, gMousePosition_6F8FE234.x - pEditBox->nTextOffsetX - pEditBox->controlHeader.nImageX, gMousePosition_6F8FE234.y + pEditBox->controlHeader.nHeight - pEditBox->nTextOffsetY - pEditBox->controlHeader.nImageY);
 }
 
 //D2Win.0x6F8A9850 (#10078)
@@ -1584,7 +1584,7 @@ BOOL __stdcall D2Win_10079_IsLetter(D2WinEditBoxStrc* pEditBox, int32_t nPositio
 }
 
 //D2Win.0x6F8A98A0
-void __fastcall sub_6F8A98A0(D2WinEditBoxStrc* pEditBox)
+void __fastcall EDITBOX_UpdateVisibleRange(D2WinEditBoxStrc* pEditBox)
 {
 	D2Win_10127_SetFont(pEditBox->eFont);
 

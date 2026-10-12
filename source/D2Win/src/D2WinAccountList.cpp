@@ -13,7 +13,7 @@
 
 
 //D2Win.0x6F8A4E90 (#10162)
-D2WinAccountListStrc* __fastcall ACCOUNTLIST_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, int32_t a5, void* a6)
+D2WinAccountListStrc* __fastcall ACCOUNTLIST_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, int32_t nUnused, void* pFont)
 {
 	D2WinAccountListStrc* pAccountList = D2_CALLOC_STRC(D2WinAccountListStrc);
 
@@ -25,18 +25,18 @@ D2WinAccountListStrc* __fastcall ACCOUNTLIST_Create(int32_t nX, int32_t nY, int3
 	pAccountList->controlHeader.nHeight = nHeight;
 	pAccountList->controlHeader.pfDraw = ACCOUNTLIST_Draw;
 	pAccountList->controlHeader.pfHandleMouseDown = ACCOUNTLIST_HandleMouseDown;
-	pAccountList->field_4C = a5;
+	pAccountList->field_4C = nUnused;
 
-	if (a6)
+	if (pFont)
 	{
-		pAccountList->eFont = *(Font*)a6;
-		pAccountList->field_54 = *((DWORD*)a6 + 1);
+		pAccountList->eFont = *(Font*)pFont;
+		pAccountList->nTextColor = *((DWORD*)pFont + 1);
 		CONTROL_AppendToList(&pAccountList->controlHeader);
 	}
 	else
 	{
 		pAccountList->eFont = D2FONT_FONT16;
-		pAccountList->field_54 = 0;
+		pAccountList->nTextColor = 0;
 		CONTROL_AppendToList(&pAccountList->controlHeader);
 	}
 

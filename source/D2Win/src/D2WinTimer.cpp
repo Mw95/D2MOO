@@ -12,7 +12,7 @@ uint32_t gdwTimeoutTickCount;
 
 
 //D2Win.0x6F8B1B70
-D2WinTimerStrc* __fastcall TIMER_Create(uint32_t nTimeout, int32_t(__stdcall* a2)(SMSGHANDLER_PARAMS*))
+D2WinTimerStrc* __fastcall TIMER_Create(uint32_t nTimeout, int32_t(__stdcall* pfOnTimeout)(SMSGHANDLER_PARAMS*))
 {
 	D2WinTimerStrc* pTimer = D2_CALLOC_STRC(D2WinTimerStrc);
 
@@ -20,8 +20,8 @@ D2WinTimerStrc* __fastcall TIMER_Create(uint32_t nTimeout, int32_t(__stdcall* a2
 	pTimer->nTimeout = nTimeout;
 	pTimer->controlHeader.dwFlags |= gdwBitMasks[0] | gdwBitMasks[2];
 	pTimer->dwTickCount = GetTickCount();
-	pTimer->controlHeader.pfInitialize = sub_6F8B1C60;
-	pTimer->controlHeader.field_34 = a2;
+	pTimer->controlHeader.pfInitialize = TIMER_UpdateTimeout;
+	pTimer->controlHeader.field_34 = pfOnTimeout;
 	pTimer->controlHeader.pfHandleVirtualKeyInput = TIMER_HandleVirtualKeyInput;
 
 	CONTROL_AppendToList(&pTimer->controlHeader);
@@ -46,11 +46,11 @@ void __fastcall D2Win_10180(D2WinTimerStrc* pTimer)
 void __fastcall D2Win_10182(D2WinTimerStrc* pTimer)
 {
 	D2_ASSERT(pTimer->controlHeader.nType == D2WIN_TIMER);
-	pTimer->controlHeader.pfInitialize = sub_6F8B1CF0;
+	pTimer->controlHeader.pfInitialize = TIMER_UpdateInterval;
 }
 
 //D2Win.0x6F8B1C60
-int32_t __fastcall sub_6F8B1C60(D2WinControlStrc* pControl)
+int32_t __fastcall TIMER_UpdateTimeout(D2WinControlStrc* pControl)
 {
 	D2WinTimerStrc* pTimer = (D2WinTimerStrc*)pControl;
 
@@ -78,7 +78,7 @@ int32_t __fastcall sub_6F8B1C60(D2WinControlStrc* pControl)
 }
 
 //D2Win.0x6F8B1CF0
-int32_t __fastcall sub_6F8B1CF0(D2WinControlStrc* pControl)
+int32_t __fastcall TIMER_UpdateInterval(D2WinControlStrc* pControl)
 {
 	D2WinTimerStrc* pTimer = (D2WinTimerStrc*)pControl;
 
