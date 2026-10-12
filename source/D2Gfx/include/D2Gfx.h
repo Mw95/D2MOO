@@ -129,13 +129,13 @@ struct D2GfxSettingsStrc
 
 struct D2GfxHelperStrc
 {
-	void(__fastcall* pfFillYBufferTable)(uint8_t* ppvBits, int32_t nWidth, int32_t nHeight, int32_t a4);
-	void(__fastcall* pfDrawVisTile)(uint8_t* a1, int32_t a2, int32_t a3);
-	void(__fastcall* pfUnknown)(uint8_t* a1, int32_t a2, int32_t a3, uint8_t a4);
+	void(__fastcall* pfFillYBufferTable)(uint8_t* pBuffer, int32_t nPitch, int32_t nHeight, int32_t nUnknown);
+	void(__fastcall* pfDrawVisTile)(uint8_t* pSrc, int32_t nX, int32_t nY);
+	void(__fastcall* pfDrawFlatLitVisTile)(uint8_t* pSrc, int32_t nX, int32_t nY, uint8_t nIntensity);
 	void(__fastcall* pfFloorTileDraw)(D2TileLibraryEntryStrc* pTileLibraryEntry, int32_t nX, int32_t nY, D2GfxLightExStrc* pLightEx);
-	void(__fastcall* pfTileDrawLit)(uint8_t* a1, int32_t a2, int32_t a3, int32_t* a4);
-	void(__fastcall* pfDrawBlendedVisTile)(uint8_t* a1, int32_t a2, int32_t a3, uint8_t a4);
-	void(__fastcall* pfDrawRoofTile)(uint8_t* a1, int32_t a2, int32_t a3, int32_t* a4, uint8_t a5);
+	void(__fastcall* pfTileDrawLit)(uint8_t* pSrc, int32_t nX, int32_t nY, int32_t* pIntensities);
+	void(__fastcall* pfDrawBlendedVisTile)(uint8_t* pSrc, int32_t nX, int32_t nY, uint8_t nAlpha);
+	void(__fastcall* pfDrawRoofTile)(uint8_t* pSrc, int32_t nX, int32_t nY, int32_t* pIntensities, uint8_t nAlpha);
 };
 
 struct D2GraphicsInterfaceStrc
