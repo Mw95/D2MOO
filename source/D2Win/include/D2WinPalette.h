@@ -26,13 +26,13 @@ struct D2ShadowLightGammaPaletteStrc
 //D2Win.0x6F8AE550
 int32_t __fastcall D2Win_10177(uint8_t nAct);
 //D2Win.0x6F8AE5E0
-int32_t __fastcall sub_6F8AE5E0(const char* szDatFileName, const char* szPL2FileName);
+int32_t __fastcall PALETTE_LoadFiles(const char* szDatFileName, const char* szPL2FileName);
 //D2Win.0x6F8AE930
 uint8_t*__fastcall D2Win_10175_GetPL2Shift(int32_t nIndex);
 //D2Win.0x6F8AE940
 void __stdcall D2Win_10179();
 //D2Win.0x6F8AE9A0
-void __fastcall D2Win_10176(int32_t a1);
+void __fastcall D2Win_10176(int32_t bStartFade);
 //D2Win.0x6F8AE9F0
 int32_t __stdcall D2Win_10028(const char* pszPalDatFilename, const char* pszPalPL2Filename);
 //D2Win.0x6F8AEA80

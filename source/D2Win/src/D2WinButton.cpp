@@ -49,11 +49,11 @@ D2WinButtonStrc* __fastcall BUTTON_Create(int32_t nX, int32_t nY, int32_t nWidth
 		Unicode::strcpy(pButton->wszText, (Unicode*)D2LANG_GetStringFromTblIndex(nStringId));
 	}
 
-	const int32_t v18 = ((nWidth + 255) >> 8) * ((nHeight + 255) >> 8);
-	pButton->nIsPressedFrameOffset = v18;
+	const int32_t nCellsPerFrame = ((nWidth + 255) >> 8) * ((nHeight + 255) >> 8);
+	pButton->nIsPressedFrameOffset = nCellsPerFrame;
 	if (pButton->dwButtonFlags & 0x20)
 	{
-		pButton->field_58 = 2 * v18;
+		pButton->field_58 = 2 * nCellsPerFrame;
 	}
 
 	pButton->pfUpdateHoverState = pfUpdateHoverState;
@@ -343,7 +343,7 @@ int32_t __fastcall BUTTON_Draw(D2WinControlStrc* pControl)
 
 	if (pButton->pfUpdateHoverState)
 	{
-		if (sub_6F8AE540())
+		if (CONTROL_GetModalControlList())
 		{
 			pButton->isButtonHovered = 0;
 		}

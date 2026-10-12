@@ -17,7 +17,7 @@
 
 
 //D2Win.0x6F8AF040 (#10063)
-D2WinScrollBarStrc* __fastcall SCROLLBAR_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, D2CellFileStrc* pCellFile, int32_t(__stdcall* a6)(SMSGHANDLER_PARAMS*))
+D2WinScrollBarStrc* __fastcall SCROLLBAR_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, D2CellFileStrc* pCellFile, int32_t(__stdcall* pfOnScroll)(SMSGHANDLER_PARAMS*))
 {
 	D2WinScrollBarStrc* pScrollBar = D2_CALLOC_STRC(D2WinScrollBarStrc);
 
@@ -31,7 +31,7 @@ D2WinScrollBarStrc* __fastcall SCROLLBAR_Create(int32_t nX, int32_t nY, int32_t 
 	pScrollBar->controlHeader.pfDraw = SCROLLBAR_Draw;
 	pScrollBar->controlHeader.pfHandleMouseDown = SCROLLBAR_HandleMouseDown;
 	pScrollBar->controlHeader.pfHandleMouseUp = SCROLLBAR_HandleMouseUp;
-	pScrollBar->controlHeader.field_34 = a6;
+	pScrollBar->controlHeader.field_34 = pfOnScroll;
 
 	CONTROL_AppendToList(&pScrollBar->controlHeader);
 
@@ -100,7 +100,7 @@ int32_t __fastcall SCROLLBAR_SetCallback(D2WinScrollBarStrc* pScrollBar, void(__
 }
 
 //D2Win.0x6F8AF240
-int32_t __fastcall sub_6F8AF240(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pScrollBar, int32_t a3)
+int32_t __fastcall SCROLLBAR_HandleMouseWheel(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pScrollBar, int32_t nWheelDelta)
 {
 	D2_ASSERT(pScrollBar->controlHeader.nType == D2WIN_SCROLLBAR);
 
@@ -109,12 +109,12 @@ int32_t __fastcall sub_6F8AF240(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pS
 		return 0;
 	}
 
-	if (a3 > 0)
+	if (nWheelDelta > 0)
 	{
 		pScrollBar->bIsUpperArrowPressed = 1;
 		--pScrollBar->nCurrentStep;
 	}
-	else if (a3 < 0)
+	else if (nWheelDelta < 0)
 	{
 		pScrollBar->bIsLowerArrowPressed = 1;
 		++pScrollBar->nCurrentStep;
@@ -136,11 +136,11 @@ int32_t __fastcall sub_6F8AF240(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pS
 }
 
 //D2Win.0x6F8AF2D0 (#10202)
-void __fastcall D2Win_10202(D2WinScrollBarStrc* pScrollBar, int32_t nPosition)
+void __fastcall D2Win_10202(D2WinScrollBarStrc* pScrollBar, int32_t nPageSize)
 {
 	D2_ASSERT(pScrollBar->controlHeader.nType == D2WIN_SCROLLBAR);
 
-	pScrollBar->field_50 = nPosition;
+	pScrollBar->field_50 = nPageSize;
 }
 
 //D2Win.0x6F8AF300 (#10201)
@@ -238,12 +238,11 @@ int32_t __stdcall SCROLLBAR_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		return 0;
 	}
 
-	// TODO: v9, v12
-	const int32_t v9 = pScrollBar->controlHeader.nHeight - 30;
-	const int32_t v12 = (v9 * pScrollBar->nCurrentStep) / pScrollBar->nMaxSteps + 10;
+	const int32_t nTrackHeight = pScrollBar->controlHeader.nHeight - 30;
+	const int32_t nThumbY = (nTrackHeight * pScrollBar->nCurrentStep) / pScrollBar->nMaxSteps + 10;
 
 	const int32_t nMouseY = gMousePosition_6F8FE234.y + pScrollBar->controlHeader.nHeight - pScrollBar->controlHeader.nImageY;
-	if (nMouseY >= v12 && nMouseY <= v12 + 10)
+	if (nMouseY >= nThumbY && nMouseY <= nThumbY + 10)
 	{
 		pScrollBar->bIsStepIndicatorDragged = 1;
 	}
@@ -262,14 +261,14 @@ int32_t __stdcall SCROLLBAR_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 	{
 		if (pScrollBar->bIsStepIndicatorDragged)
 		{
-			pScrollBar->nCurrentStep = pScrollBar->nMaxSteps * (nMouseY - 11) / v9;
+			pScrollBar->nCurrentStep = pScrollBar->nMaxSteps * (nMouseY - 11) / nTrackHeight;
 		}
 		else
 		{
 			int32_t nStep = pScrollBar->field_50;
 			if (!nStep)
 			{
-				int32_t nDivisor = v9 / 10;
+				int32_t nDivisor = nTrackHeight / 10;
 				if (!nDivisor)
 				{
 					nDivisor = 1;
@@ -282,11 +281,11 @@ int32_t __stdcall SCROLLBAR_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 				}
 			}
 
-			if (nMouseY < v12)
+			if (nMouseY < nThumbY)
 			{
 				pScrollBar->nCurrentStep -= nStep;
 			}
-			else if (nMouseY > v12 + 10)
+			else if (nMouseY > nThumbY + 10)
 			{
 				pScrollBar->nCurrentStep += nStep;
 			}

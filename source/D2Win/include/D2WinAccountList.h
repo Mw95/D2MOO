@@ -21,13 +21,13 @@ struct D2WinAccountListStrc
 	int32_t field_48;								//0x48
 	int32_t field_4C;								//0x4C
 	Font eFont;										//0x50
-	int32_t field_54;								//0x54
+	int32_t nTextColor;							//0x54
 };
 #pragma pack(pop)
 
 
 //D2Win.0x6F8A4E90
-D2WinAccountListStrc* __fastcall ACCOUNTLIST_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, int32_t a5, void* a6);
+D2WinAccountListStrc* __fastcall ACCOUNTLIST_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, int32_t nUnused, void* pFont);
 //D2Win.0x6F8A4F70
 int __fastcall ACCOUNTLIST_Destroy(D2WinAccountListStrc* pAccountList);
 //D2Win.0x6F8A4FC0

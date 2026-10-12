@@ -20,13 +20,13 @@ int32_t dword_6F96A8DC;
 
 
 //D2Win.0x6F8AF710 (#10097)
-D2WinSmackStrc* __fastcall SMACK_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, int32_t(__stdcall* a5)(SMSGHANDLER_PARAMS*))
+D2WinSmackStrc* __fastcall SMACK_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, int32_t(__stdcall* pfOnClick)(SMSGHANDLER_PARAMS*))
 {
 	D2WinSmackStrc* pSmack = D2_CALLOC_STRC(D2WinSmackStrc);
 
 	pSmack->controlHeader.nType = D2WIN_SMACK;
 	pSmack->controlHeader.dwFlags |= gdwBitMasks[0] | gdwBitMasks[2];
-	pSmack->controlHeader.field_34 = a5;
+	pSmack->controlHeader.field_34 = pfOnClick;
 	pSmack->controlHeader.nImageX = nX;
 	pSmack->controlHeader.nImageY = nY;
 	pSmack->controlHeader.nWidth = nWidth;
@@ -136,7 +136,7 @@ int32_t __stdcall SMACK_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 }
 
 //D2Win.0x6F8AFA90 (#10208)
-void __fastcall D2Win_10208(int32_t a1)
+void __fastcall D2Win_10208(int32_t bReducedLineSpacing)
 {
-	dword_6F96A8DC = a1;
+	dword_6F96A8DC = bReducedLineSpacing;
 }
