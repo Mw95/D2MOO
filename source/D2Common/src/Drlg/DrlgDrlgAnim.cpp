@@ -40,7 +40,7 @@ void __fastcall DRLGANIM_InitCache(D2DrlgStrc* pDrlg, D2DrlgTileDataStrc* pTileD
 		}
 	}
 
-	const int nSize = D2CMP_10088_GetTiles(pDrlg->pTiles, 0, nStyle, nSequence, ppTileLibraryEntry, ARRAY_SIZE(ppTileLibraryEntry));
+	const int nSize = D2CMP_TileLibraryGetTiles(pDrlg->pTiles, 0, nStyle, nSequence, ppTileLibraryEntry, ARRAY_SIZE(ppTileLibraryEntry));
 	D2_ASSERT(nSize);
 	DRLGROOMTILE_InitTileData(NULL, pTileData, 0, 0, 0, ppTileLibraryEntry[0]);
 }
@@ -66,8 +66,8 @@ void __fastcall DRLGANIM_TestLoadAnimatedRoomTiles(D2DrlgRoomStrc* pDrlgRoom, D2
 				const uint8_t nStyle = nTileInfo.nTileStyle;
 				const uint8_t nSequence = nTileInfo.nTileSequence;
 
-				const int nTilesCount = D2CMP_10088_GetTiles(pDrlgRoom->pTiles, nTileType, nStyle, nSequence, ppTileLibraryEntry, ARRAY_SIZE(ppTileLibraryEntry));
-				if (nTilesCount && D2CMP_10079_GetTileFlags(ppTileLibraryEntry[0]) & TILE_FLAGS_LAVA)
+				const int nTilesCount = D2CMP_TileLibraryGetTiles(pDrlgRoom->pTiles, nTileType, nStyle, nSequence, ppTileLibraryEntry, ARRAY_SIZE(ppTileLibraryEntry));
+				if (nTilesCount && D2CMP_TileGetFlags(ppTileLibraryEntry[0]) & TILE_FLAGS_LAVA)
 				{
 					if (nTileInfo.bIsFloor)
 					{
@@ -143,7 +143,7 @@ D2TileLibraryEntryStrc* DRLGANIM_FindAnimatedTileFrame(D2TileLibraryEntryStrc** 
 {
 	for (int nEntryIndex = 0; nEntryIndex < nbTileEntries; nEntryIndex++)
 	{
-		if (D2CMP_10081_GetTileRarity(pTileLibraryEntries[nEntryIndex]) == nRarity)
+		if (D2CMP_TileGetRarity(pTileLibraryEntries[nEntryIndex]) == nRarity)
 		{
 			return pTileLibraryEntries[nEntryIndex];
 		}
@@ -172,7 +172,7 @@ void __fastcall DRLGANIM_AllocAnimationTileGrid(D2DrlgRoomStrc* pDrlgRoom, int n
 	for (int i = 0; i < nTiles; ++i)
 	{
 		D2DrlgTileDataStrc& pCurrentTileData = pTiles[i];
-		if (pCurrentTileData.pTile && D2CMP_10079_GetTileFlags(pCurrentTileData.pTile) & TILE_FLAGS_LAVA)
+		if (pCurrentTileData.pTile && D2CMP_TileGetFlags(pCurrentTileData.pTile) & TILE_FLAGS_LAVA)
 		{
 
 			const int32_t nGridIdx = GetMapTileLayer(pCurrentTileData.dwFlags);
@@ -182,7 +182,7 @@ void __fastcall DRLGANIM_AllocAnimationTileGrid(D2DrlgRoomStrc* pDrlgRoom, int n
 			const uint8_t nStyle = nPackedTileInformation.nTileStyle;
 			const uint8_t nSeq = nPackedTileInformation.nTileSequence;
 
-			int nFrames = D2CMP_10088_GetTiles(pDrlgRoom->pTiles, pCurrentTileData.nTileType, nStyle, nSeq, pTileLibraryEntries, ARRAY_SIZE(pTileLibraryEntries));
+			int nFrames = D2CMP_TileLibraryGetTiles(pDrlgRoom->pTiles, pCurrentTileData.nTileType, nStyle, nSeq, pTileLibraryEntries, ARRAY_SIZE(pTileLibraryEntries));
 
 			D2DrlgAnimTileGridStrc* pDrlgAnimTileGrid = D2_CALLOC_STRC_POOL(pDrlgRoom->pLevel->pDrlg->pMempool, D2DrlgAnimTileGridStrc);
 

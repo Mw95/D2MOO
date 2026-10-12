@@ -48,7 +48,7 @@ D2DrlgStrc* __fastcall DRLG_AllocDrlg(D2DrlgActStrc* pAct, uint8_t nActNo, HD2AR
 	{
 	case ACT_I:
 		wsprintfA(szPath, "%s\\Tiles\\Act1\\Town\\Floor.dt1", "DATA\\GLOBAL");
-		D2CMP_10087_LoadTileLibrarySlot(pDrlg->pTiles, szPath);
+		D2CMP_TileLibraryAddProject(pDrlg->pTiles, szPath);
 		break;
 	
 	case ACT_II:
@@ -65,14 +65,14 @@ D2DrlgStrc* __fastcall DRLG_AllocDrlg(D2DrlgActStrc* pAct, uint8_t nActNo, HD2AR
 		pDrlg->nBossTombLevel = LEVEL_TALRASHASTOMB1 + nBossLevelOffset;
 
 		wsprintfA(szPath, "%s\\Tiles\\Act2\\Town\\Ground.dt1", "DATA\\GLOBAL");
-		D2CMP_10087_LoadTileLibrarySlot(pDrlg->pTiles, szPath);
+		D2CMP_TileLibraryAddProject(pDrlg->pTiles, szPath);
 		break;
 	}
 	case ACT_III:
 		pDrlg->bJungleInterlink = SEED_RollRandomNumber(&pDrlg->pSeed) & 1;
 
 		wsprintfA(szPath, "%s\\Tiles\\ACT3\\Kurast\\sets.dt1", "DATA\\GLOBAL");
-		D2CMP_10087_LoadTileLibrarySlot(pDrlg->pTiles, szPath);
+		D2CMP_TileLibraryAddProject(pDrlg->pTiles, szPath);
 		break;
 	default:
 		break;

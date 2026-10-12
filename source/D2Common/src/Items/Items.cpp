@@ -3728,7 +3728,7 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 					pItemsTxtRecord = DATATBLS_GetItemsTxtRecord(pItem->dwClassId);
 					if (pItemsTxtRecord)
 					{
-						return D2CMP_MixPalette(pItemsTxtRecord->nTransform, pStatesTxtRecord->nItemTrans);
+						return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nTransform, pStatesTxtRecord->nItemTrans);
 					}
 				}
 			}
@@ -3766,11 +3766,11 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 
 				if (nTransType)
 				{
-					return D2CMP_MixPalette(pItemsTxtRecord->nInvTrans, pMagicAffixTxtRecord->nTransformColor);
+					return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nInvTrans, pMagicAffixTxtRecord->nTransformColor);
 				}
 				else
 				{
-					return D2CMP_MixPalette(pItemsTxtRecord->nTransform, pMagicAffixTxtRecord->nTransformColor);
+					return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nTransform, pMagicAffixTxtRecord->nTransformColor);
 				}
 			}
 
@@ -3796,11 +3796,11 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 
 				if (nTransType)
 				{
-					return D2CMP_MixPalette(pItemsTxtRecord->nInvTrans, pMagicAffixTxtRecord->nTransformColor);
+					return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nInvTrans, pMagicAffixTxtRecord->nTransformColor);
 				}
 				else
 				{
-					return D2CMP_MixPalette(pItemsTxtRecord->nTransform, pMagicAffixTxtRecord->nTransformColor);
+					return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nTransform, pMagicAffixTxtRecord->nTransformColor);
 				}
 			}
 
@@ -3838,7 +3838,7 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 							*pColor = (pUniqueItemsTxtRecord->nChrTransform & 31) + 32 * pItemsTxtRecord->nTransform;
 						}
 
-						return D2CMP_MixPalette(pItemsTxtRecord->nInvTrans, pUniqueItemsTxtRecord->nInvTransform);
+						return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nInvTrans, pUniqueItemsTxtRecord->nInvTransform);
 					}
 				}
 				else
@@ -3854,7 +3854,7 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 							*pColor = (pUniqueItemsTxtRecord->nChrTransform & 31) + 32 * pItemsTxtRecord->nTransform;
 						}
 
-						return D2CMP_MixPalette(pItemsTxtRecord->nTransform, pUniqueItemsTxtRecord->nChrTransform);
+						return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nTransform, pUniqueItemsTxtRecord->nChrTransform);
 					}
 				}
 			}
@@ -3890,7 +3890,7 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 							*pColor = (pSetItemsTxtRecord->nChrTransform & 31) + 32 * pItemsTxtRecord->nTransform;
 						}
 
-						return D2CMP_MixPalette(pItemsTxtRecord->nInvTrans, pSetItemsTxtRecord->nInvTransform);
+						return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nInvTrans, pSetItemsTxtRecord->nInvTransform);
 					}
 				}
 				else
@@ -3906,7 +3906,7 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 							*pColor = (pSetItemsTxtRecord->nChrTransform & 31) + 32 * pItemsTxtRecord->nTransform;
 						}
 
-						return D2CMP_MixPalette(pItemsTxtRecord->nTransform, pSetItemsTxtRecord->nChrTransform);
+						return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nTransform, pSetItemsTxtRecord->nChrTransform);
 					}
 				}
 			}
@@ -3969,11 +3969,11 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 
 								if (nTransType)
 								{
-									return D2CMP_MixPalette(pItemsTxtRecord->nInvTrans, pGemsTxtRecord->nTransForm);
+									return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nInvTrans, pGemsTxtRecord->nTransForm);
 								}
 								else
 								{
-									return D2CMP_MixPalette(pItemsTxtRecord->nTransform, pGemsTxtRecord->nTransForm);
+									return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nTransform, pGemsTxtRecord->nTransForm);
 								}
 							}
 						}
@@ -4005,11 +4005,11 @@ uint8_t* __stdcall ITEMS_GetColor(D2UnitStrc* pPlayer, D2UnitStrc* pItem, uint8_
 
 		if (nTransType)
 		{
-			return D2CMP_MixPalette(pItemsTxtRecord->nInvTrans, pAutoAffixTxtRecord->nTransformColor);
+			return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nInvTrans, pAutoAffixTxtRecord->nTransformColor);
 		}
 		else
 		{
-			return D2CMP_MixPalette(pItemsTxtRecord->nTransform, pAutoAffixTxtRecord->nTransformColor);
+			return D2CMP_PalShiftGetTransform(pItemsTxtRecord->nTransform, pAutoAffixTxtRecord->nTransformColor);
 		}
 	}
 

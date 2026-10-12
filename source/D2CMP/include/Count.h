@@ -38,7 +38,7 @@
  * 1.00: D2CMP.0x100085D0
  * 1.07 Beta: D2CMPd.0x6FC7DA50
  * 1.07: Inline or unused
- * 1.10: Inline or unused
+ * 1.10: D2CMP.0x6FDF5A60
  */
 int __fastcall CountConsecutiveFirst(const BYTE* pSrc, const BYTE* pEnd, int nMaxCount, BOOL* pbCountEqualsDist, BOOL* pbIsRemainingSame);
 

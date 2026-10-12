@@ -128,7 +128,7 @@ D2WinCommandRegisterStrc gpCommandRegister_6F8BDE28[28] =
 //D2Win.0x6F8ACC60 (#10000)
 BOOL __stdcall D2Win_CreateWindow(HINSTANCE hInstance, DisplayType nRenderMode, BOOL bWindowed, BOOL bCompress)
 {
-	D2CMP_SetCompressedDataMode(bCompress);
+	D2CMP_SetNoCompress(bCompress);
 	return D2GFX_Initialize(hInstance, D2Win_MAINWINDOW_WndProc_6F8AD9B0, nRenderMode, bWindowed);
 }
 
@@ -142,7 +142,7 @@ BOOL __stdcall D2Win_InitializeSpriteCache(BOOL bWindowed, D2GameResolutionMode 
 		return 0;
 	}
 
-	D2CMP_InitSpriteCache(0, 0x800000u, 0x7D000u, 0);
+	D2CMP_SpriteCacheInit(0, 0x800000u, 0x7D000u, 0);
 	gpBackgroundCellFile = 0;
 	gpControlList_6F8FE24C = 0;
 	dword_6F8FE250 = 0;
@@ -188,7 +188,7 @@ int __stdcall D2Win_CloseSpriteCache()
 {
 	dword_6F8FE26C = 0;
 	ghMainWindow_6F8FE23C = 0;
-	D2CMP_FlushSpriteCache(1);
+	D2CMP_SpriteCacheDestroy(1);
 	WINDOW_Destroy();
 	return 1;
 }
@@ -207,14 +207,14 @@ void __stdcall D2Win_10004(D2GameResolutionMode bForceResize)
 
 	if (bForceResize == 1)
 	{
-		D2CMP_FlushSpriteCache(1);
+		D2CMP_SpriteCacheDestroy(1);
 	}
 
 	WINDOW_EndCutScene(bForceResize);
 
 	if (bForceResize == 1)
 	{
-		D2CMP_InitSpriteCache(0, 0x800000u, 0x7D000u, 0);
+		D2CMP_SpriteCacheInit(0, 0x800000u, 0x7D000u, 0);
 	}
 }
 
@@ -270,7 +270,7 @@ int __stdcall D2Win_10005(D2GameResolutionMode nResolution)
 {
 	gnResolution_6F8FE248 = nResolution;
 
-	D2CMP_FlushSpriteCache(1);
+	D2CMP_SpriteCacheDestroy(1);
 
 	if (!WINDOW_Resize(nResolution, 0))
 	{
@@ -279,7 +279,7 @@ int __stdcall D2Win_10005(D2GameResolutionMode nResolution)
 	}
 
 	D2Win_10176(0);
-	D2CMP_InitSpriteCache(0, 0x800000u, 0x7D000u, 0);
+	D2CMP_SpriteCacheInit(0, 0x800000u, 0x7D000u, 0);
 	return 1;
 }
 
