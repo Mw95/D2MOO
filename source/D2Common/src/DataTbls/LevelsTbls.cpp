@@ -995,7 +995,7 @@ void __fastcall DATATBLS_AllocGlobalTileLibraryHash()
 
 			if (FOG_IsExpansion() || !sgptDataTables->pLvlTypesTxt[i].dwExpansion)
 			{
-				D2CMP_10087_LoadTileLibrarySlot(ppTileLibraryHash, sgptDataTables->pLvlTypesTxt[i].szFile[j]);
+				D2CMP_TileLibraryAddProject(ppTileLibraryHash, sgptDataTables->pLvlTypesTxt[i].szFile[j]);
 			}
 		}
 

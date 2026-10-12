@@ -116,8 +116,8 @@ int32_t __fastcall sub_6F8AE5E0(const char* szDatFileName, const char* szPL2File
 		const uint8_t green = std::min(170 * gRGBAPalette_6F9622C0[i].peGreen / 100, 255);
 		const uint8_t blue = std::min(170 * gRGBAPalette_6F9622C0[i].peBlue / 100, 255);
 
-		byte_6F96A6C0[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, red, green, blue);
-		byte_6F952198[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, gRGBAPalette_6F9622C0[i].peRed, 0, 0);
+		byte_6F96A6C0[i] = D2CMP_GetClosestColor(gRGBAPalette_6F9622C0, 0x100u, red, green, blue);
+		byte_6F952198[i] = D2CMP_GetClosestColor(gRGBAPalette_6F9622C0, 0x100u, gRGBAPalette_6F9622C0[i].peRed, 0, 0);
 	}
 
 	for (int32_t i = 0; i < std::size(paletteTable.transPalettes); ++i)
@@ -232,7 +232,7 @@ int32_t __stdcall D2Win_10028(const char* pszPalDatFilename, const char* pszPalP
 //D2Win.0x6F8AEA80 (#10034)
 uint8_t __stdcall D2Win_10034_MixRGB(uint8_t nRed, uint8_t nGreen, uint8_t nBlue)
 {
-	return D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, nRed, nGreen, nBlue);
+	return D2CMP_GetClosestColor(gRGBAPalette_6F9622C0, 0x100u, nRed, nGreen, nBlue);
 }
 
 //D2Win.0x6F8AEAC0 (#10178)

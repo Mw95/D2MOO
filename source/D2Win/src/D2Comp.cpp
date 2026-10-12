@@ -421,7 +421,7 @@ return 0;
 //					a2.nFrame = v7;
 //					sub_6F8A1000(v1, &a2);
 //					a2.fFlags |= 2u;
-//					if (D2CMP_10055_CacheCurrentCell(&a2, 0, 1) && (DWORD)a2.pCurrentCell)
+//					if (D2CMP_SpriteValidate(&a2, 0, 1) && (DWORD)a2.pCurrentCell)
 //					{
 //						v9 = *(DWORD*)(v1 + 20) + D2CMP_CelGetOffsetY(a2.pCurrentCell);
 //						if (v9 > v15)
