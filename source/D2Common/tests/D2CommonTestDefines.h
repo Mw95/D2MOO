@@ -41,7 +41,7 @@
 //#define IDASTAR_TESTS
 //#define PATHMISC_TESTS
 //#define PATH_TESTS
-//#define PATHUTIL_TESTS
+#define PATHUTIL_TESTS
 //#define PATHWF_TESTS
 //#define STEP_TESTS
 
