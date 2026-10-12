@@ -17,7 +17,7 @@ struct D2CofDataStrc
 	uint8_t nFrames;						//0x01
 	uint8_t nDirections;					//0x02
 	uint8_t nVersion;						//0x03
-	uint32_t unk0x04;						//0x04
+	uint32_t dwReserved;					//0x04 - Not read by the game
 	int32_t nBoundingBox[4];				//0x08
 	int32_t nAnimRate;						//0x18
 };
@@ -60,7 +60,7 @@ struct D2CompositeUnitStrc
 	uint32_t dwFlags;						//0x00
 	uint8_t nDirection;						//0x04
 	uint8_t nDirections;					//0x05
-	uint8_t unk0x06[2];						//0x06
+	uint8_t pad0x06[2];						//0x06
 	int32_t nFrame;							//0x08 - 24.8 fixed point
 	int32_t nFrames;						//0x0C
 	int32_t nAnimRate;						//0x10
@@ -76,7 +76,7 @@ struct D2CompositeUnitStrc
 	D2CellFileStrc* pEmblemCellFile;		//0xBC
 	uint8_t nEmblemColor1;					//0xC0
 	uint8_t nEmblemColor2;					//0xC1
-	uint8_t unk0xC2[2];						//0xC2
+	uint8_t pad0xC2[2];						//0xC2
 	D2CompositeUnitStrc* pNext;				//0xC4
 	D2CompositeUnitStrc* pPrev;				//0xC8
 	Unicode wszAccountName[64];				//0xCC

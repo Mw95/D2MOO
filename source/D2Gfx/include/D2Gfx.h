@@ -20,8 +20,8 @@ struct D2PaletteTableStrc
 	void* pDarkBlendPalette;
 	void* pDarkenPalette;
 	void* pStandardColorsPalette;
-	uint8_t* unk0x118;
-	uint8_t* unk0x11C;
+	uint8_t* pBrightenPalette;		// Each color brightened by 70%
+	uint8_t* pRedTintPalette;		// Each color reduced to its red component
 	PALETTEENTRY datFilePalette[256];
 };
 
