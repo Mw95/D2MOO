@@ -26,6 +26,8 @@ TEST_SUITE("PathUtilTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATHUtil_AdvanceTowardsTarget_6FDAB890, dll_base + 0x0006B890);
 		
+		REPEAT_10();
+
 		SUBCASE("")
 		{
 			// Input data
@@ -76,40 +78,143 @@ TEST_SUITE("PathUtilTests")
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FDAB940, dll_base + 0x0006B940);
 		
-		SUBCASE("Static target")
+		REPEAT_10();
+
+		SUBCASE("Static target, speed == 0")
 		{
 			for (auto unit_type : { UNIT_OBJECT, UNIT_ITEM, UNIT_TILE })
 			{
 				// Input data
 				const auto x = random_unsigned_integer(0, 65535);
 				const auto y = random_unsigned_integer(0, 65535);
+				const auto speed = 0;
 
 				D2PathPointStrc moo_pOutPathPoint{};
 				D2DynamicPathStrc moo_ptPath{};
+				D2UnitStrc moo_pTargetUnit{};
+				D2StaticPathStrc moo_pTargetStaticPath{};
 				D2PathPointStrc original_pOutPathPoint{};
 				D2DynamicPathStrc original_ptPath{};
-				D2UnitStrc moo_pTargetUnit{};
 				D2UnitStrc original_pTargetUnit{};
-				D2StaticPathStrc moo_pStaticPath{};
-				D2StaticPathStrc original_pStaticPath{};
+				D2StaticPathStrc original_pTargetStaticPath{};
 
-				const auto setup_data = [x, y, unit_type](
+				const auto setup_data = [x, y, speed, unit_type](
 					D2PathPointStrc& pOutPathPoint,
 					D2DynamicPathStrc& ptPath,
 					D2UnitStrc& pTargetUnit,
-					D2StaticPathStrc& pStaticPath
+					D2StaticPathStrc& pTargetStaticPath
 				) {
-					pStaticPath.tGameCoords.nX = x;
-					pStaticPath.tGameCoords.nY = y;
+					pTargetStaticPath.tGameCoords.nX = x;
+					pTargetStaticPath.tGameCoords.nY = y;
 					
 					pTargetUnit.dwUnitType = unit_type;
-					pTargetUnit.pStaticPath = &pStaticPath;
+					pTargetUnit.pStaticPath = &pTargetStaticPath;
 
 					ptPath.pTargetUnit = &pTargetUnit;
+					ptPath.dwSpeed = speed;
 				};
 
-				setup_data(moo_pOutPathPoint, moo_ptPath, moo_pTargetUnit, moo_pStaticPath);
-				setup_data(original_pOutPathPoint, original_ptPath, original_pTargetUnit, original_pStaticPath);
+				setup_data(moo_pOutPathPoint, moo_ptPath, moo_pTargetUnit, moo_pTargetStaticPath);
+				setup_data(original_pOutPathPoint, original_ptPath, original_pTargetUnit, original_pTargetStaticPath);
+
+				// Call both implementations
+				sut(&moo_pOutPathPoint, &moo_ptPath);
+				original(&original_pOutPathPoint, &original_ptPath);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pOutPathPoint, original_pOutPathPoint, "Comparing pOutPathPoint");
+				MOO_CHECK_EQ(moo_ptPath, original_ptPath, "Comparing ptPath");
+			}
+		}
+
+		SUBCASE("Static target, speed != 0")
+		{
+			// Invalid, since static targets can't use PATH_GetDirection(ptTarget->pDynamicPath) in PATHUtil_AdvanceTowardsTarget
+		}
+
+		SUBCASE("Dynamic target, speed == 0")
+		{
+			for (auto unit_type : { UNIT_PLAYER, UNIT_MONSTER, UNIT_MISSILE })
+			{
+				// Input data
+				const auto x = random_unsigned_integer(0, 65535);
+				const auto y = random_unsigned_integer(0, 65535);
+				const auto speed = 0;
+
+				D2PathPointStrc moo_pOutPathPoint{};
+				D2DynamicPathStrc moo_ptPath{};
+				D2UnitStrc moo_pTargetUnit{};
+				D2DynamicPathStrc moo_pTargetDynamicPath{};
+				D2PathPointStrc original_pOutPathPoint{};
+				D2DynamicPathStrc original_ptPath{};
+				D2UnitStrc original_pTargetUnit{};
+				D2DynamicPathStrc original_pTargetDynamicPath{};
+
+				const auto setup_data = [x, y, speed, unit_type](
+					D2PathPointStrc& pOutPathPoint,
+					D2DynamicPathStrc& ptPath,
+					D2UnitStrc& pTargetUnit,
+					D2DynamicPathStrc& pTargetDynamicPath
+				) {
+					pTargetDynamicPath.tGameCoords.wPosX = x;
+					pTargetDynamicPath.tGameCoords.wPosY = y;
+					
+					pTargetUnit.dwUnitType = unit_type;
+					pTargetUnit.pDynamicPath = &pTargetDynamicPath;
+
+					ptPath.pTargetUnit = &pTargetUnit;
+					ptPath.dwSpeed = speed;
+				};
+
+				setup_data(moo_pOutPathPoint, moo_ptPath, moo_pTargetUnit, moo_pTargetDynamicPath);
+				setup_data(original_pOutPathPoint, original_ptPath, original_pTargetUnit, original_pTargetDynamicPath);
+
+				// Call both implementations
+				sut(&moo_pOutPathPoint, &moo_ptPath);
+				original(&original_pOutPathPoint, &original_ptPath);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_pOutPathPoint, original_pOutPathPoint, "Comparing pOutPathPoint");
+				MOO_CHECK_EQ(moo_ptPath, original_ptPath, "Comparing ptPath");
+			}
+		}
+
+		SUBCASE("Dynamic target, speed != 0")
+		{
+			for (auto unit_type : { UNIT_PLAYER, UNIT_MONSTER, UNIT_MISSILE })
+			{
+				// Input data
+				const auto x = random_unsigned_integer(0, 65535);
+				const auto y = random_unsigned_integer(0, 65535);
+				const auto speed = random_unsigned_integer(1, 10);
+
+				D2PathPointStrc moo_pOutPathPoint{};
+				D2DynamicPathStrc moo_ptPath{};
+				D2UnitStrc moo_pTargetUnit{};
+				D2DynamicPathStrc moo_pTargetDynamicPath{};
+				D2PathPointStrc original_pOutPathPoint{};
+				D2DynamicPathStrc original_ptPath{};
+				D2UnitStrc original_pTargetUnit{};
+				D2DynamicPathStrc original_pTargetDynamicPath{};
+
+				const auto setup_data = [x, y, speed, unit_type](
+					D2PathPointStrc& pOutPathPoint,
+					D2DynamicPathStrc& ptPath,
+					D2UnitStrc& pTargetUnit,
+					D2DynamicPathStrc& pTargetDynamicPath
+				) {
+					pTargetDynamicPath.tGameCoords.wPosX = x;
+					pTargetDynamicPath.tGameCoords.wPosY = y;
+
+					pTargetUnit.dwUnitType = unit_type;
+					pTargetUnit.pDynamicPath = &pTargetDynamicPath;
+
+					ptPath.pTargetUnit = &pTargetUnit;
+					ptPath.dwSpeed = speed;
+				};
+
+				setup_data(moo_pOutPathPoint, moo_ptPath, moo_pTargetUnit, moo_pTargetDynamicPath);
+				setup_data(original_pOutPathPoint, original_ptPath, original_pTargetUnit, original_pTargetDynamicPath);
 
 				// Call both implementations
 				sut(&moo_pOutPathPoint, &moo_ptPath);

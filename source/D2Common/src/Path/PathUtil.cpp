@@ -2,59 +2,43 @@
 #include <Units/Units.h>
 #include <Fog.h>
 
-//1.10f: D2Common.0x6FDAB890
-//1.13c: D2Common.0x6FD8E080
-void __fastcall PATHUtil_AdvanceTowardsTarget_6FDAB890(D2DynamicPathStrc* ptPath)
+// Helper function
+static void __fastcall AdvanceTowardsTarget(D2DynamicPathStrc* pDynamicPath, D2PathPointStrc& PathPoint)
 {
-	D2_ASSERT(ptPath);
-	D2UnitStrc* ptTarget = ptPath->pTargetUnit;
-	D2_ASSERT(ptTarget);
-	uint8_t nDirection = PATH_GetDirection(ptTarget->pDynamicPath);
-	int nSpeed = ptPath->dwSpeed;
+	D2_ASSERT(pDynamicPath);
+	D2_ASSERT(pDynamicPath->pTargetUnit);
+
+	uint8_t nDirection = PATH_GetDirection(pDynamicPath->pTargetUnit->pDynamicPath);
+	int nSpeed = pDynamicPath->dwSpeed;
 	uint16_t v4 = (uint16_t)nSpeed << 8;
 	const float nDistance = nSpeed;
 	const uint16_t nAngleRad512 = (8 * nDirection - v4) & 0x1FF;
-	ptPath->tTargetCoord.X += (int64_t)(FOG_10083_Cos_LUT(nAngleRad512) * nDistance);
-	ptPath->tTargetCoord.Y += (int64_t)(FOG_10084_Sin_LUT(nAngleRad512) * nDistance);
+	PathPoint.X += (int64_t)(FOG_10083_Cos_LUT(nAngleRad512) * nDistance);
+	PathPoint.Y += (int64_t)(FOG_10084_Sin_LUT(nAngleRad512) * nDistance);
+}
+
+//1.10f: D2Common.0x6FDAB890
+//1.13c: D2Common.0x6FD8E080
+void __fastcall PATHUtil_AdvanceTowardsTarget_6FDAB890(D2DynamicPathStrc* pDynamicPath)
+{
+	AdvanceTowardsTarget(pDynamicPath, pDynamicPath->tTargetCoord);
 }
 
 //1.10f: D2Common.0x6FDAB940
 //1.13c: D2Common.0x6FD8E310
-//1.14d: 0x00679250
-void __fastcall sub_6FDAB940(D2PathPointStrc* pOutPathPoint, D2DynamicPathStrc* ptPath)
+void __fastcall sub_6FDAB940(D2PathPointStrc* pOutPathPoint, D2DynamicPathStrc* pDynamicPath)
 {
-	D2_ASSERT(ptPath);
-	D2_ASSERT(ptPath->pTargetUnit);
-	D2UnitStrc* pTargetUnit = ptPath->pTargetUnit;
-	D2C_UnitTypes dwTargetUnitType = (D2C_UnitTypes)pTargetUnit->dwUnitType;
+	D2_ASSERT(pDynamicPath);
+	D2_ASSERT(pDynamicPath->pTargetUnit);
 
-	if (dwTargetUnitType == UNIT_OBJECT || dwTargetUnitType == UNIT_ITEM || dwTargetUnitType == UNIT_TILE)
-	{
-		pOutPathPoint->X = pTargetUnit->pStaticPath->tGameCoords.nX;
-		pOutPathPoint->Y = pTargetUnit->pStaticPath->tGameCoords.nY;
-	}
-	else
-	{
-		if (D2DynamicPathStrc* pTargetPath = pTargetUnit->pDynamicPath)
-		{
-			pOutPathPoint->X = PATH_GetXPosition(pTargetPath);
-			pOutPathPoint->Y = PATH_GetYPosition(pTargetPath);
-		}
-		else
-		{
-			*pOutPathPoint = { 0,0 };
-		}
-	}
+	D2CoordStrc tTargetCoords = {};
+	UNITS_GetCoords(pDynamicPath->pTargetUnit, &tTargetCoords);
 
-	if (ptPath->dwSpeed)
+	pOutPathPoint->X = tTargetCoords.nX;
+	pOutPathPoint->Y = tTargetCoords.nY;
+
+	if (pDynamicPath->dwSpeed)
 	{
-		// Same lead as PATHUtil_AdvanceTowardsTarget_6FDAB890, but applied to the returned point instead of the path's target
-		const uint8_t nDirection = PATH_GetDirection(pTargetUnit->pDynamicPath);
-		const int nSpeed = ptPath->dwSpeed;
-		uint16_t v4 = (uint16_t)nSpeed << 8;
-		const float nDistance = nSpeed;
-		const uint16_t nAngleRad512 = (8 * nDirection - v4) & 0x1FF;
-		pOutPathPoint->X += (int64_t)(FOG_10083_Cos_LUT(nAngleRad512) * nDistance);
-		pOutPathPoint->Y += (int64_t)(FOG_10084_Sin_LUT(nAngleRad512) * nDistance);
+		AdvanceTowardsTarget(pDynamicPath, *pOutPathPoint);
 	}
 }
