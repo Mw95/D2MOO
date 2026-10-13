@@ -7626,7 +7626,7 @@ TEST_SUITE("UnitsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC1790 (#10363)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDC1790 (#10363)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(UNITS_TestCollisionBetweenInteractingUnits, dll_base + 0x00081790);

@@ -69,22 +69,35 @@ TEST_SUITE("D2InventoryTests")
 		}
 	};
 
-	// The items linker is not set up by the fixtures but required to look up items by code
+	// The items linker is not set up by the fixtures but required to look up items by code.
+	// The original D2Common.dll accesses its data tables directly instead of going through sgptDataTables,
+	// so the linker has to be set in its data tables as well.
 	struct ItemsLinkerScope
 	{
 		ItemsLinkerScope(const std::unique_ptr<D2ItemsTxt[]>& items_txt, int items_record_count)
 		{
-			sgptDataTables->pItemsLinker = static_cast<D2TxtLinkStrc*>(FOG_AllocLinker(__FILE__, __LINE__));
+			auto* pLinker = static_cast<D2TxtLinkStrc*>(FOG_AllocLinker(__FILE__, __LINE__));
 			for (auto i = 0; i < items_record_count; ++i)
 			{
-				FOG_10215(sgptDataTables->pItemsLinker, static_cast<int>(items_txt[i].dwCode));
+				FOG_10215(pLinker, static_cast<int>(items_txt[i].dwCode));
 			}
+
+			set_items_linker(pLinker);
 		}
 
 		~ItemsLinkerScope()
 		{
 			FOG_FreeLinker(sgptDataTables->pItemsLinker);
-			sgptDataTables->pItemsLinker = nullptr;
+			set_items_linker(nullptr);
+		}
+
+		static void set_items_linker(D2TxtLinkStrc* pLinker)
+		{
+			const auto d2common_base = reinterpret_cast<uintptr_t>(LoadLibraryA((std::filesystem::current_path() / "D2Common.dll").string().c_str()));
+			const auto offset = reinterpret_cast<uintptr_t>(&sgptDataTables->pItemsLinker) - reinterpret_cast<uintptr_t>(sgptDataTables);
+
+			sgptDataTables->pItemsLinker = pLinker;
+			*reinterpret_cast<D2TxtLinkStrc**>(d2common_base + 0x000A9608 + offset) = pLinker;
 		}
 	};
 
@@ -4273,7 +4286,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<NoopFixture>, "D2Common.0x6FD90C80 (#10287)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<NoopFixture>, "D2Common.0x6FD90C80 (#10287)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetEquippedItemByCode, dll_base + 0x00050C80);
@@ -4363,7 +4376,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<NoopFixture>, "D2Common.0x6FD90D50 (#11306)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<NoopFixture>, "D2Common.0x6FD90D50 (#11306)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(INVENTORY_GetBackPackItemByCode, dll_base + 0x00050D50);
@@ -5217,7 +5230,7 @@ TEST_SUITE("D2InventoryTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(CharStatsTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>, "D2Common.0x6FD917B0" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(CharStatsTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>, "D2Common.0x6FD917B0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD917B0, dll_base + 0x000517B0);

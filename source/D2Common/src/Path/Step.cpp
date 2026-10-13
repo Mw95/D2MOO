@@ -738,7 +738,7 @@ BOOL __stdcall D2Common_10231_Impl(D2DynamicPathStrc* pDynamicPath, D2ActiveRoom
 	{
 		pDynamicPath->dwFlags |= PATH_UNKNOWN_FLAG_0x00001;
 	}
-	PATH_RecacheRoomAtCoordIfNeeded(pDynamicPath, pRoomDest, PATH_FP16FitToCenter(tDest.X), PATH_FP16FitToCenter(tDest.Y));
+	PATH_RecacheRoomAtCoordIfNeeded(pDynamicPath, pRoomDest, PATH_ToFP16Center(tDest.X), PATH_ToFP16Center(tDest.Y));
 
 	D2_ASSERT(COORD_TEST_EQUAL(tDest, sgctZeroGameCoord) || COLLISION_GetRoomBySubTileCoordinates(pRoomDest, tDest.X, tDest.Y));
 	PATH_StopMovement(pDynamicPath);
@@ -751,7 +751,7 @@ BOOL __stdcall D2Common_10231_Impl(D2DynamicPathStrc* pDynamicPath, D2ActiveRoom
 int __stdcall D2Common_10231(D2DynamicPathStrc* pDynamicPath, D2UnitStrc* pUnit_unused, D2ActiveRoomStrc* pRooms, uint16_t nX, uint16_t nY)
 {
 	D2_MAYBE_UNUSED(pUnit_unused);
-	D2Common_10231_Impl(pDynamicPath, pRooms, D2PathPointStrc{ pDynamicPath->tGameCoords.wPosX, pDynamicPath->tGameCoords.wPosY });
+	D2Common_10231_Impl(pDynamicPath, pRooms, D2PathPointStrc{ nX, nY });
 	pDynamicPath->dwPathPoints = 0;
 	return TRUE;
 }
@@ -816,9 +816,7 @@ BOOL __stdcall D2Common_10232(D2DynamicPathStrc* pPath, D2UnitStrc* pUnit, D2Act
 	{
 		pPath->dwFlags |= PATH_UNKNOWN_FLAG_0x00001;
 	}
-#ifdef D2_VERSION_113C
-	PATH_RecacheRoomIfNeeded(pPath, PATH_ToFP16Center(nTargetX), PATH_ToFP16Center(nTargetY), pDestRoom);
-#endif
+	PATH_RecacheRoomAtCoordIfNeeded(pPath, pDestRoom, PATH_ToFP16Center(nTargetX), PATH_ToFP16Center(nTargetY));
 	D2_ASSERT(COLLISION_GetRoomBySubTileCoordinates(pDestRoom, nTargetX, nTargetY));
 	PATH_ResetMovement(pPath);
 	return TRUE;

@@ -200,6 +200,7 @@ void __stdcall PATH_AddCollisionFootprintForUnit(D2UnitStrc* pUnit)
 
 	switch (pUnit->dwUnitType)
 	{
+	case UNIT_PLAYER:
 	case UNIT_MONSTER:
 		COLLISION_SetMaskWithPattern(UNITS_GetRoom(pUnit), pCoords.nX, pCoords.nY, pUnit->pDynamicPath->dwCollisionPattern, UNITS_GetCollisionMask(pUnit));
 		break;
@@ -650,7 +651,7 @@ int __stdcall PATH_GetCollisionPatternFromMonStats2Txt(int nMonsterId)
 //D2Common.0x6FDA9250 (#11281)
 int __stdcall D2Common_11281_CollisionPatternFromSize(D2UnitStrc* pUnit, int nSize)
 {
-	if (nSize < 0 && nSize >= COLLISION_UNIT_SIZE_COUNT)
+	if (nSize < 0 || nSize >= COLLISION_UNIT_SIZE_COUNT)
 	{
 		return COLLISION_PATTERN_SMALL_UNIT_PRESENCE;
 	}

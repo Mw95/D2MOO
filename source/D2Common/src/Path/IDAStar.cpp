@@ -47,7 +47,7 @@ int __fastcall PATH_IdaStar_ComputePathWithRooms(D2DrlgCoordsStrc* pRoomCoords, 
     tContext.nCoord[0].Y = pRoomCoords->nSubtileY;
     tContext.nCoord[0].X = pRoomCoords->nSubtileX;
     tContext.nCoord[1].X = pRoomCoords->nSubtileX + pRoomCoords->nSubtileWidth;
-    tContext.nCoord[1].Y = pRoomCoords->nSubtileY + tContext.nCoord[2].Y;
+    tContext.nCoord[1].Y = pRoomCoords->nSubtileY + pRoomCoords->nSubtileHeight;
     tContext.nCoord[2].X = pRoomCoords->nSubtileWidth;
     tContext.nCoord[2].Y = pRoomCoords->nSubtileHeight;
     tContext.nStride = pRoomCoords->nSubtileWidth + 6;
@@ -246,7 +246,9 @@ D2PathIDAStarNodeStrc* __fastcall PATH_IDAStar_VisitNodes(D2PathIDAStarContextSt
         {
             const int16_t nDistanceBetweenPoints = PATH_AStar_HeuristicForNeighbor(pCurrentNode->tCoord, tNeighborCoords);
             const int16_t nNewDistanceFromStart = nDistanceBetweenPoints + pCurrentNode->nBestDistanceFromStart;
-            if (*pNeighborBestDistanceToStart == 0 || (unsigned int)nNewDistanceFromStart >= *pNeighborBestDistanceToStart )
+            // Only (re)visit the neighbor if it wasn't visited yet or if this path to it is at least as short as the best known one.
+            // Note that the best distances are kept between the iterations, so equal distances must be accepted.
+            if (*pNeighborBestDistanceToStart == 0 || (unsigned int)nNewDistanceFromStart <= (unsigned int)*pNeighborBestDistanceToStart)
             {
                 *pNeighborBestDistanceToStart = nNewDistanceFromStart;
 

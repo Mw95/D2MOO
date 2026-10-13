@@ -603,7 +603,7 @@ TEST_SUITE("StepTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDADC20 (#10231)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDADC20 (#10231)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10231, dll_base + 0x0006DC20);
@@ -621,8 +621,9 @@ TEST_SUITE("StepTests")
 			D2ActiveRoomStrc original_pRooms{};
 			D2RoomCollisionGridStrc original_pCollisionGrid{};
 			uint16_t original_pCollisionMask[16 * 16]{};
-			uint16_t nX = random_unsigned_integer(0, 65535);
-			uint16_t nY = random_unsigned_integer(0, 65535);
+			// The destination has to be inside of the room, otherwise both implementations assert
+			uint16_t nX = random_unsigned_integer(16, 31);
+			uint16_t nY = random_unsigned_integer(16, 31);
 
 			const auto setup_data = [](
 				D2DynamicPathStrc& pDynamicPath,
@@ -669,7 +670,7 @@ TEST_SUITE("StepTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDADF50 (#10232)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDADF50 (#10232)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10232, dll_base + 0x0006DF50);

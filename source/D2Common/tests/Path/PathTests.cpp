@@ -137,7 +137,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8320 (#10222)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA8320 (#10222)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AddCollisionFootprintForUnit, dll_base + 0x00068320);
@@ -698,7 +698,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA92F0 (#10214)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA92F0 (#10214)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10214, dll_base + 0x000692F0);
@@ -777,7 +777,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9480 (#10152)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA9480 (#10152)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AllocDynamicPath, dll_base + 0x00069480);
@@ -932,7 +932,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA97C0 (#10216)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA97C0 (#10216)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_10216, dll_base + 0x000697C0);
@@ -942,8 +942,13 @@ TEST_SUITE("PathTests")
 		SUBCASE("")
 		{
 			// Input data
-			const auto precision_x = random_unsigned_integer();
-			const auto precision_y = random_unsigned_integer();
+			// Keep the start and target positions close to each other (like in game), otherwise the
+			// computation of the tangent overflows and indexes out of the bounds of the lookup table
+			constexpr auto max_distance = 100;
+			int nX = random_unsigned_integer(max_distance, 65535 - max_distance);
+			int nY = random_unsigned_integer(max_distance, 65535 - max_distance);
+			const auto precision_x = (random_unsigned_integer(nX - max_distance, nX + max_distance) << 16) | random_unsigned_integer(0, 65535);
+			const auto precision_y = (random_unsigned_integer(nY - max_distance, nY + max_distance) << 16) | random_unsigned_integer(0, 65535);
 			const auto direction = random_unsigned_integer(0, 63);
 			const auto new_direction = random_unsigned_integer(0, 63);
 			const auto diff_direction = random_unsigned_integer(0, 63);
@@ -951,8 +956,6 @@ TEST_SUITE("PathTests")
 
 			D2DynamicPathStrc moo_pDynamicPath{};
 			D2DynamicPathStrc original_pDynamicPath{};
-			int nX = random_unsigned_integer(0, 65535);
-			int nY = random_unsigned_integer(0, 65535);
 			int a4 = GENERATE(TRUE, FALSE);
 
 			const auto setup_data = [precision_x, precision_y, direction, new_direction, diff_direction, flags](
@@ -3816,7 +3819,7 @@ TEST_SUITE("PathTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA6D0 (#10221)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDAA6D0 (#10221)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_AddCollisionFootprintForOptionalUnit, dll_base + 0x0006A6D0);
