@@ -33,6 +33,7 @@ target_sources(${FogImplName}
 	# Made up filename
 	src/Calc.cpp
 	src/Math.cpp
+	src/Noop.cpp
 	
 	# Headers
 	include/Fog.h
