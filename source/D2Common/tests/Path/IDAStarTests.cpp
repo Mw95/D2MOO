@@ -56,7 +56,7 @@ TEST_SUITE("IDAStarTests")
 	};
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA7970" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA7970")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_IdaStar_6FDA7970, dll_base + 0x00067970);
@@ -188,7 +188,7 @@ TEST_SUITE("IDAStarTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA7D40" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDA7D40")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(PATH_IDAStar_VisitNodes, dll_base + 0x00067D40);

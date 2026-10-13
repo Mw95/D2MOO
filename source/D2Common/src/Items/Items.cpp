@@ -3158,66 +3158,63 @@ void __stdcall ITEMS_SetSockets(D2UnitStrc* pItem, int nSockets)
 			nHeight = pItemsTxtRecord->nInvHeight;
 		}
 
-		if (nWidth * nHeight > 6)
+		if (nWidth * nHeight <= 6)
 		{
-			if (nWidth * nHeight <= 6)
-			{
-				nMaxSockets = nWidth * nHeight;
-			}
+			nMaxSockets = nWidth * nHeight;
+		}
 
-			nItemType = ITEMS_GetItemTypeFromItemId(pItem->dwClassId);
-			if (nItemType >= 0 && nItemType < sgptDataTables->nItemTypesTxtRecordCount)
+		nItemType = ITEMS_GetItemTypeFromItemId(pItem->dwClassId);
+		if (nItemType >= 0 && nItemType < sgptDataTables->nItemTypesTxtRecordCount)
+		{
+			pItemTypesTxtRecord = &sgptDataTables->pItemTypesTxt[nItemType];
+			if (pItemTypesTxtRecord)
 			{
-				pItemTypesTxtRecord = &sgptDataTables->pItemTypesTxt[nItemType];
-				if (pItemTypesTxtRecord)
+				nAllowedSockets = ITEMS_GetAllowedGemSocketsFromItemId(pItem->dwClassId);
+				nItemLevel = ITEMS_GetItemLevel(pItem);
+
+				if (nItemLevel > 25)
 				{
-					nAllowedSockets = ITEMS_GetAllowedGemSocketsFromItemId(pItem->dwClassId);
-					nItemLevel = ITEMS_GetItemLevel(pItem);
-
-					if (nItemLevel > 25)
+					if (nItemLevel > 40)
 					{
-						if (nItemLevel > 40)
-						{
-							nMaxSocks = pItemTypesTxtRecord->nMaxSock40;
-						}
-						else
-						{
-							nMaxSocks = pItemTypesTxtRecord->nMaxSock25;
-						}
+						nMaxSocks = pItemTypesTxtRecord->nMaxSock40;
 					}
 					else
 					{
-						nMaxSocks = pItemTypesTxtRecord->nMaxSock1;
-					}
-
-					if (nAllowedSockets >= nMaxSocks)
-					{
-						nAllowedSockets = nMaxSocks;
+						nMaxSocks = pItemTypesTxtRecord->nMaxSock25;
 					}
 				}
-			}
+				else
+				{
+					nMaxSocks = pItemTypesTxtRecord->nMaxSock1;
+				}
 
-			if (nMaxSockets >= nAllowedSockets)
-			{
-				nMaxSockets = nAllowedSockets;
+				if (nAllowedSockets >= nMaxSocks)
+				{
+					nAllowedSockets = nMaxSocks;
+				}
 			}
-
-			if (nSockets <= 1)
-			{
-				nSockets = 1;
-			}
-			if (nSockets >= nMaxSockets)
-			{
-				nSockets = nMaxSockets;
-			}
-
-			if (pItem->pItemData)
-			{
-				pItem->pItemData->dwItemFlags |= IFLAG_SOCKETED;
-			}
-
-			STATLIST_SetUnitStat(pItem, STAT_ITEM_NUMSOCKETS, nSockets, 0);
 		}
+
+		if (nMaxSockets >= nAllowedSockets)
+		{
+			nMaxSockets = nAllowedSockets;
+		}
+
+		if (nSockets <= 1)
+		{
+			nSockets = 1;
+		}
+		if (nSockets >= nMaxSockets)
+		{
+			nSockets = nMaxSockets;
+		}
+
+		if (pItem->pItemData)
+		{
+			pItem->pItemData->dwItemFlags |= IFLAG_SOCKETED;
+		}
+
+		STATLIST_SetUnitStat(pItem, STAT_ITEM_NUMSOCKETS, nSockets, 0);
 	}
 }
 
@@ -4056,7 +4053,7 @@ BOOL __stdcall ITEMS_IsImbueable(D2UnitStrc* pItem)
 									pInventoryItem = INVENTORY_GetNextItem(pInventoryItem);
 									if (!pInventoryItem)
 									{
-										if ((!pItem->pItemData || !(pItem->pItemData->dwItemFlags & IFLAG_SOCKETED)) && (!pItem->pItemData || (pItem->pItemData->dwQualityNo >= 4 && pItem->pItemData->dwQualityNo <= 9)))
+										if ((!pItem->pItemData || !(pItem->pItemData->dwItemFlags & IFLAG_SOCKETED)) && (!pItem->pItemData || pItem->pItemData->dwQualityNo < ITEMQUAL_MAGIC || pItem->pItemData->dwQualityNo > ITEMQUAL_TEMPERED))
 										{
 											return TRUE;
 										}
@@ -4066,7 +4063,7 @@ BOOL __stdcall ITEMS_IsImbueable(D2UnitStrc* pItem)
 							}
 							else
 							{
-								if ((!pItem->pItemData || !(pItem->pItemData->dwItemFlags & IFLAG_SOCKETED)) && (!pItem->pItemData || (pItem->pItemData->dwQualityNo >= 4 && pItem->pItemData->dwQualityNo <= 9)))
+								if ((!pItem->pItemData || !(pItem->pItemData->dwItemFlags & IFLAG_SOCKETED)) && (!pItem->pItemData || pItem->pItemData->dwQualityNo < ITEMQUAL_MAGIC || pItem->pItemData->dwQualityNo > ITEMQUAL_TEMPERED))
 								{
 									return TRUE;
 								}

@@ -844,7 +844,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>, "D2Common.0x6FD93170" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<ItemsTxtFixture<ItemTypesTxtFixture<NoopFixture>>>, "D2Common.0x6FD93170")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(sub_6FD93170, dll_base + 0x00053170);
@@ -2537,7 +2537,7 @@ TEST_SUITE("D2ItemModsTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<NoopFixture>>>, "D2Common.0x6FD95BE0 (#10859)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<PropertiesTxtFixture<NoopFixture>>>, "D2Common.0x6FD95BE0 (#10859)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMMODS_CanItemHaveMagicAffix, dll_base + 0x00055BE0);

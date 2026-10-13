@@ -1029,7 +1029,7 @@ TEST_SUITE("MissileTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(MissilesTxtFixture<SkillsTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDBA5B0 (#11217)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(MissilesTxtFixture<SkillsTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FDBA5B0 (#11217)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MISSILE_CalculateDamageData, dll_base + 0x0007A5B0);
@@ -1195,7 +1195,7 @@ TEST_SUITE("MissileTests")
 		}
 	}
 
-	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FDBADF0" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(ItemStatCostTxtFixture<NoopFixture>, "D2Common.0x6FDBADF0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(MISSILE_HasBonusStats, dll_base + 0x0007ADF0);

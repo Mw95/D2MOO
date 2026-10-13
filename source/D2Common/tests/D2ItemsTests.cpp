@@ -5110,7 +5110,7 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9D7C0 (#10818)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9D7C0 (#10818)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_SetSockets, dll_base + 0x0005D7C0);
@@ -6277,7 +6277,7 @@ TEST_SUITE("D2ItemsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9EEA0 (#10830)" * doctest::skip("Needs checking"))
+	TEST_CASE_FIXTURE(ItemsTxtFixture<ItemTypesTxtFixture<ItemStatCostTxtFixture<NoopFixture>>>, "D2Common.0x6FD9EEA0 (#10830)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(ITEMS_IsImbueable, dll_base + 0x0005EEA0);

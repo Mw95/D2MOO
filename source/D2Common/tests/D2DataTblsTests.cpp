@@ -20,6 +20,7 @@
 #include <D2DataTbls.h>
 #include <Units/Units.h>
 
+#include <Fixtures/D2Lang/D2LangStringTblFixture.h>
 #include <Fixtures/DataTbls/Fixtures.h>
 
 DYNAMIC_ARRAY_TYPE(char)
@@ -38,35 +39,49 @@ TEST_SUITE("D2DataTblsTests")
 	const auto dll_base = reinterpret_cast<uintptr_t>(LoadLibraryA((working_directory / "D2Common.dll").string().c_str()));
 
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FD494D0" * doctest::skip("Needs D2Lang to work"))
+	TEST_CASE_FIXTURE(D2LangStringTblFixture<NoopFixture>, "D2Common.0x6FD494D0")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_GetStringIdFromReferenceString, dll_base + 0x000094D0);
 		
 		SUBCASE("")
 		{
-			// Input data
-			char moo_szReference[64]{};
-			char original_szReference[64]{};
+			// An empty reference is not found by the mocked D2Lang, so the default string id is returned
+			for (const char* szInput : { "Amazon", "Sorceress", "strUniqueQuality", "" })
+			{
+				CAPTURE(szInput);
 
-			const auto setup_data = [](
-				char(&szReference)[64]
-			) {
-				strcpy_s(szReference, "Amazon");
-			};
+				// Input data
+				char moo_szReference[64]{};
+				char original_szReference[64]{};
 
-			setup_data(moo_szReference);
-			setup_data(original_szReference);
+				const auto setup_data = [szInput](
+					char(&szReference)[64]
+				) {
+					strcpy_s(szReference, szInput);
+				};
 
-			// Call both implementations
-			const auto moo_result = sut(moo_szReference);
-			const auto original_result = original(original_szReference);
+				setup_data(moo_szReference);
+				setup_data(original_szReference);
+
+				// Call both implementations
+				d2lang_tbl_index_calls.clear();
+				const auto moo_result = sut(moo_szReference);
+				const auto moo_calls = d2lang_tbl_index_calls;
+
+				d2lang_tbl_index_calls.clear();
+				const auto original_result = original(original_szReference);
+				const auto original_calls = d2lang_tbl_index_calls;
 			
-			// Compare return values
-			MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
+				// Compare return values
+				MOO_CHECK_EQ(moo_result, original_result, "Comparing results");
 
-			// Compare potentially modified input data
-			MOO_CHECK_EQ(moo_szReference, original_szReference, "Comparing szReference");
+				// Compare requested references
+				CHECK_EQ(moo_calls, original_calls);
+
+				// Compare potentially modified input data
+				MOO_CHECK_EQ(moo_szReference, original_szReference, "Comparing szReference");
+			}
 		}
 	}
 	
@@ -392,7 +407,7 @@ TEST_SUITE("D2DataTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<MissilesTxtFixture<ObjectsTxtFixture<MonStatsTxtFixture<CharStatsTxtFixture<NoopFixture>>>>>, "D2Common.0x6FD4F990 (#11298)" * doctest::skip("Needs D2Lang to work for monsters and items"))
+	TEST_CASE_FIXTURE(D2LangStringTblFixture<ItemsTxtFixture<MissilesTxtFixture<ObjectsTxtFixture<MonStatsTxtFixture<CharStatsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD4F990 (#11298)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_GetUnitNameFromUnit, dll_base + 0x0000F990);
@@ -615,7 +630,7 @@ TEST_SUITE("D2DataTblsTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(ItemsTxtFixture<MissilesTxtFixture<ObjectsTxtFixture<MonStatsTxtFixture<CharStatsTxtFixture<NoopFixture>>>>>, "D2Common.0x6FD4FB50 (#11299)" * doctest::skip("Needs D2Lang to work for monsters and items"))
+	TEST_CASE_FIXTURE(D2LangStringTblFixture<ItemsTxtFixture<MissilesTxtFixture<ObjectsTxtFixture<MonStatsTxtFixture<CharStatsTxtFixture<NoopFixture>>>>>>, "D2Common.0x6FD4FB50 (#11299)")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(DATATBLS_GetUnitNameFromUnitTypeAndClassId, dll_base + 0x0000FB50);

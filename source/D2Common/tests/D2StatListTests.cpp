@@ -1670,7 +1670,7 @@ TEST_SUITE("D2StatListTests")
 		}
 	}
 	
-	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB7050" * doctest::skip(""))
+	TEST_CASE_FIXTURE(NoopFixture, "D2Common.0x6FDB7050")
 	{
 		// Set up function pointers
 		const auto [sut, original] = make_function_pair(D2Common_STATLIST_FreeStatListImpl_6FDB7050, dll_base + 0x00077050);
@@ -1679,7 +1679,9 @@ TEST_SUITE("D2StatListTests")
 		SUBCASE("")
 		{
 			// Input data
-			uint32_t fFilter = random_unsigned_integer();
+			// The allocated stat list is not an extended one, so the flag must not be set.
+			// Otherwise the stat list would be accessed as a D2StatListExStrc beyond its allocated memory.
+			uint32_t fFilter = random_unsigned_integer() & ~STATLIST_EXTENDED;
 			uint32_t dwTimeout = random_unsigned_integer();
 			int nUnitType = random_unsigned_integer();
 			D2UnitGUID nUnitGUID = random_unsigned_integer();

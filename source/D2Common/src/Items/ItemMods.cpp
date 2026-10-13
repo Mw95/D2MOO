@@ -2659,35 +2659,38 @@ BOOL __stdcall ITEMMODS_CanItemHaveMagicAffix(D2UnitStrc* pItem, const D2MagicAf
 
 	if (ITEMS_GetItemFormat(pItem) >= 100 || !ITEMS_CheckIfStackable(pItem) && !ITEMS_CheckIfThrowable(pItem))
 	{
-		if (ITEMS_CheckIfSocketable(pItem) && ITEMS_GetMaxSockets(pItem) || pMagicAffixTxtRecord->pProperties[0].nProperty < 0 || pMagicAffixTxtRecord->pProperties[0].nProperty < sgptDataTables->nPropertiesTxtRecordCount)
+		const int nProperty = pMagicAffixTxtRecord->pProperties[0].nProperty;
+		if (nProperty >= 0 && nProperty < sgptDataTables->nPropertiesTxtRecordCount)
 		{
-			pPropertiesTxtRecord = &sgptDataTables->pPropertiesTxt[pMagicAffixTxtRecord->pProperties[0].nProperty];
-			if (pPropertiesTxtRecord && pPropertiesTxtRecord->wStat[0] != STAT_ITEM_NUMSOCKETS)
-			{
-				for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wEType); ++i)
-				{
-					if (pMagicAffixTxtRecord->wEType[i] <= 0)
-					{
-						break;
-					}
+			pPropertiesTxtRecord = &sgptDataTables->pPropertiesTxt[nProperty];
+		}
 
-					if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wEType[i]))
-					{
-						return FALSE;
-					}
+		// Affixes adding sockets can only be applied to items which can have sockets
+		if (ITEMS_CheckIfSocketable(pItem) && ITEMS_GetMaxSockets(pItem) || !pPropertiesTxtRecord || pPropertiesTxtRecord->wStat[0] != STAT_ITEM_NUMSOCKETS)
+		{
+			for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wEType); ++i)
+			{
+				if (pMagicAffixTxtRecord->wEType[i] <= 0)
+				{
+					break;
 				}
 
-				for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wIType); ++i)
+				if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wEType[i]))
 				{
-					if (pMagicAffixTxtRecord->wIType[i] <= 0)
-					{
-						break;
-					}
+					return FALSE;
+				}
+			}
 
-					if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wIType[i]))
-					{
-						return TRUE;
-					}
+			for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wIType); ++i)
+			{
+				if (pMagicAffixTxtRecord->wIType[i] <= 0)
+				{
+					break;
+				}
+
+				if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wIType[i]))
+				{
+					return TRUE;
 				}
 			}
 		}
