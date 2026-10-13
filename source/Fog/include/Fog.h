@@ -18,8 +18,8 @@ struct D2TxtLinkNodeStrc
 {
 	char szText[32];				//0x00
 	int nLinkIndex;					//0x20
-	D2TxtLinkNodeStrc* pPrevious;	//0x24
-	D2TxtLinkNodeStrc* pNext;		//0x28
+	D2TxtLinkNodeStrc* pLeft;		//0x24 Binary search tree, nodes with a lower szText
+	D2TxtLinkNodeStrc* pRight;		//0x28 Binary search tree, nodes with a greater szText
 };
 
 struct D2TxtLinkTblStrc
@@ -36,8 +36,8 @@ struct D2TxtLinkStrc
 {
 	int32_t nRecords;				//0x00
 	int32_t nAllocatedCells;		//0x04
-	D2TxtLinkTblStrc* pTbl;			//0x08
-	D2TxtLinkNodeStrc* pFirstNode;	//0x0C
+	D2TxtLinkTblStrc* pTbl;			//0x08 Sorted by code, used for code links
+	D2TxtLinkNodeStrc* pFirstNode;	//0x0C Root of the tree, used for string links
 };
 
 
@@ -251,17 +251,17 @@ D2FUNC_DLL(FOG, 10182_Return, int, __stdcall, (void*), 0x1B10)																		
 D2FUNC_DLL(FOG, 10183_Return, int, __stdcall, (void*, int), 0x7620)																					//Fog.#10183
 D2FUNC_DLL(FOG, 10186, int, __stdcall, (void*, int, int), 0x44C0)																					//Fog.#10186
 D2FUNC_DLL(FOG, 10187, int, __fastcall, (void*, int, int), 0x7630)																					//Fog.#10187
-D2FUNC_DLL(FOG, 10207, void, __stdcall, (D2BinFileStrc* pBinFile, D2BinFieldStrc* pBinField, void* pTxt, int nRecordCount, int nRecordSize), 0xAA60)//Fog.#10207
-D2FUNC_DLL(FOG, CreateBinFile, D2BinFileStrc*, __stdcall, (void* pDataBuffer, int nBufferSize), 0xA8B0)												//Fog.#10208
-D2FUNC_DLL(FOG, FreeBinFile, void, __stdcall, (D2BinFileStrc* pBinFile), 0xAA10)																	//Fog.#10209
-D2FUNC_DLL(FOG, GetRecordCountFromBinFile, int, __stdcall, (D2BinFileStrc* pBinFile), 0xAA50)														//Fog.#10210
-D2FUNC_DLL(FOG, AllocLinker, void*, __stdcall, (const char* szFile, int nLine), 0xB720)																//Fog.#10211
-D2FUNC_DLL(FOG, FreeLinker, void, __stdcall, (void* pLinker), 0xB750)																				//Fog.#10212
-D2FUNC_DLL(FOG, GetLinkIndex, int, __stdcall, (void* pLink, uint32_t dwCode, BOOL bLogError), 0xB810)												//Fog.#10213
-D2FUNC_DLL(FOG, GetStringFromLinkIndex, int, __stdcall, (void* pLinker, int nIndex, char* szString), 0xB8F0)										//Fog.#10214
-D2FUNC_DLL(FOG, 10215, int, __stdcall, (void* pBin, int a2), 0xB990)																				//Fog.#10215
-D2FUNC_DLL(FOG, 10216_AddRecordToLinkingTable, int, __stdcall, (void* pBin, const char* a2), 0xBD80)														//Fog.#10216
-D2FUNC_DLL(FOG, GetRowFromTxt, int, __stdcall, (void* pBin, char* szText, int nColumn), 0xBC20)														//Fog.#10217
+FOG_DLL_DECL void __stdcall FOG_10207(D2BinFileStrc* pBinFile, D2BinFieldStrc* pBinField, void* pTxt, int nRecordCount, int nRecordSize); // 1.10f: 0x6FF5AA60 (#10207)
+FOG_DLL_DECL D2BinFileStrc* __stdcall FOG_CreateBinFile(void* pDataBuffer, int nBufferSize); // 1.10f: 0x6FF5A8B0 (#10208)
+FOG_DLL_DECL void __stdcall FOG_FreeBinFile(D2BinFileStrc* pBinFile); // 1.10f: 0x6FF5AA10 (#10209)
+FOG_DLL_DECL int __stdcall FOG_GetRecordCountFromBinFile(D2BinFileStrc* pBinFile); // 1.10f: 0x6FF5AA50 (#10210)
+FOG_DLL_DECL void* __stdcall FOG_AllocLinker(const char* szFile, int nLine); // 1.10f: 0x6FF5B720 (#10211)
+FOG_DLL_DECL void __stdcall FOG_FreeLinker(void* pLinker); // 1.10f: 0x6FF5B750 (#10212)
+FOG_DLL_DECL int __stdcall FOG_GetLinkIndex(void* pLink, uint32_t dwCode, BOOL bLogError); // 1.10f: 0x6FF5B810 (#10213)
+FOG_DLL_DECL int __stdcall FOG_GetStringFromLinkIndex(void* pLinker, int nIndex, char* szString); // 1.10f: 0x6FF5B8F0 (#10214)
+FOG_DLL_DECL int __stdcall FOG_10215(void* pBin, int a2); // 1.10f: 0x6FF5B990 (#10215)
+FOG_DLL_DECL int __stdcall FOG_10216_AddRecordToLinkingTable(void* pBin, const char* a2); // 1.10f: 0x6FF5BD80 (#10216)
+FOG_DLL_DECL int __stdcall FOG_GetRowFromTxt(void* pBin, char* szText, int nColumn); // 1.10f: 0x6FF5BC20 (#10217)
 D2FUNC_DLL(FOG, 10218, int, __fastcall, (), 0xCC40)																									//Fog.#10218
 D2FUNC_DLL(FOG, 10219, int, __fastcall, (uint8_t*), 0xC9E0)																							//Fog.#10219
 D2FUNC_DLL(FOG, 10222, int, __fastcall, (const uint8_t*, int), 0xCC90)																				//Fog.#10222
@@ -272,7 +272,7 @@ FOG_DLL_DECL uint32_t __stdcall FOG_ComputeChecksum(void* pData, size_t dwSize);
 FOG_DLL_DECL uint32_t __stdcall FOG_PopCount(void* pData, size_t dwSize); // 1.10f: 0x6FF53970 (#10230)
 D2FUNC_DLL(FOG, 10233, void, __fastcall, (const char*, int), 0xF300)																				//Fog.#10233
 FOG_DLL_DECL uint32_t __stdcall FOG_LeadingZeroesCount(uint32_t nValue); // 1.10f: 0x6FF539A0 (#10252)
-D2FUNC_DLL(FOG, 10255, char*, __stdcall, (void* pLinker, int nId, int a3), 0xBB20)																	//Fog.#10255
+FOG_DLL_DECL char* __stdcall FOG_10255(void* pLinker, int nId, int a3); // 1.10f: 0x6FF5BB20 (#10255)
 
 
 #define D2_ALLOC(size) FOG_Alloc((size), __FILE__, __LINE__, 0)
