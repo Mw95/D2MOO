@@ -26,21 +26,22 @@ struct FSafeSock
 
 #pragma pack()
 
-D2FUNC_DLL(FOG, SOCKET_CloseSocket, int, __fastcall, (SOCKET), 0x13280)														//Fog.#10000
-D2FUNC_DLL(FOG, SOCKET_WSAStartup, BOOL, __fastcall, (), 0x13290)															//Fog.#10001
-D2FUNC_DLL(FOG, SOCKET_WSACleanup, int, __fastcall, (), 0x132C0)															//Fog.#10002
-D2FUNC_DLL(FOG, SOCKET_Connect, FSafeSock*, __fastcall, (char* szHostAddress, uint16_t nPortNumber, LPTHREAD_START_ROUTINE pThreadProc, LPVOID lpParameter, const char* szName), 0x132D0)						//Fog.#10003
-D2FUNC_DLL(FOG, SOCKET_ConnectEx, FSafeSock*, __fastcall, (char* szHostAddress, uint16_t nPortNumber, LPTHREAD_START_ROUTINE pThreadProc, LPVOID lpParameter, const char* szName, BOOL bNonBlocking), 0x132F0)	//Fog.#10004
-D2FUNC_DLL(FOG, SOCKET_Destroy, void,  __fastcall, (FSafeSock* pSafeSock), 0x13590)											//Fog.#10005
-D2FUNC_DLL(FOG, SOCKET_Receive, int, __fastcall, (FSafeSock* pSafeSock, char* pBuffer, int nBufferLength), 0x13630)			//Fog.#10006
-D2FUNC_DLL(FOG, SOCKET_Send, int, __fastcall, (FSafeSock* pSafeSock, char* pBuffer, int nBufferLength), 0x13690)			//Fog.#10007
-D2FUNC_DLL(FOG, SOCKET_Select, int,  __fastcall, (FSafeSock* pSafeSock), 0x13770)											//Fog.#10008
-D2FUNC_DLL(FOG, SOCKET_SendNoLock, int, __fastcall, (FSafeSock* pSafeSock, char* pBuffer, int nBufferLength), 0x13700)		//Fog.#10009
-D2FUNC_DLL(FOG, SOCKET_Lock, void, __fastcall, (FSafeSock* pSafeSock), 0x13750)												//Fog.#10010
-D2FUNC_DLL(FOG, SOCKET_Unlock, void, __fastcall, (FSafeSock* pSafeSock), 0x13760)											//Fog.#10011
-D2FUNC_DLL(FOG, SOCKET_GetPeerName, BOOL, __fastcall, (FSafeSock* pSafeSock, struct sockaddr* name, int* namelen), 0x13860)	//Fog.#10012
-D2FUNC_DLL(FOG, GetHostIPAddress, const char*, __fastcall, (), 0x138E0)														//Fog.#10013
-D2FUNC_DLL(FOG, inet_ntoa, const char*, __fastcall, (/*IN_ADDR, but cant due to callconv*/ULONG inaddr_S_addr), 0x13A00)	//Fog.#10014
-D2FUNC_DLL(FOG, ResolveHostIPAddress, const char*, __fastcall, (const char* szHostName), 0x13A40)							//Fog.#10015
-D2FUNC_DLL(FOG, SOCKET_GetError, BOOL, __fastcall, (FSafeSock* pSafeSock, DWORD* pFogError, int* pWSALastError), 0x13A20)	//Fog.#10016
-D2FUNC_DLL(FOG, SOCKET_SetBlockingMode, BOOL, __fastcall, (FSafeSock* pSafeSock, BOOL bNonBlocking), 0x13B20)				//Fog.#10017
+FOG_DLL_DECL int __fastcall FOG_SOCKET_CloseSocket(SOCKET); // 1.10f: 0x6FF63280 (#10000)
+FOG_DLL_DECL BOOL __fastcall FOG_SOCKET_WSAStartup(); // 1.10f: 0x6FF63290 (#10001)
+FOG_DLL_DECL int __fastcall FOG_SOCKET_WSACleanup(); // 1.10f: 0x6FF632C0 (#10002)
+FOG_DLL_DECL FSafeSock* __fastcall FOG_SOCKET_Connect(char* szHostAddress, uint16_t nPortNumber, LPTHREAD_START_ROUTINE pThreadProc, LPVOID lpParameter, const char* szName); // 1.10f: 0x6FF632D0 (#10003)
+FOG_DLL_DECL FSafeSock* __fastcall FOG_SOCKET_ConnectEx(char* szHostAddress, uint16_t nPortNumber, LPTHREAD_START_ROUTINE pThreadProc, LPVOID lpParameter, const char* szName, BOOL bNonBlocking); // 1.10f: 0x6FF632F0 (#10004)
+FOG_DLL_DECL void __fastcall FOG_SOCKET_Destroy(FSafeSock* pSafeSock); // 1.10f: 0x6FF63590 (#10005)
+FOG_DLL_DECL int __fastcall FOG_SOCKET_Receive(FSafeSock* pSafeSock, char* pBuffer, int nBufferLength); // 1.10f: 0x6FF63630 (#10006)
+FOG_DLL_DECL int __fastcall FOG_SOCKET_Send(FSafeSock* pSafeSock, char* pBuffer, int nBufferLength); // 1.10f: 0x6FF63690 (#10007)
+FOG_DLL_DECL int __fastcall FOG_SOCKET_Select(FSafeSock* pSafeSock); // 1.10f: 0x6FF63770 (#10008)
+FOG_DLL_DECL int __fastcall FOG_SOCKET_SendNoLock(FSafeSock* pSafeSock, char* pBuffer, int nBufferLength); // 1.10f: 0x6FF63700 (#10009)
+FOG_DLL_DECL void __fastcall FOG_SOCKET_Lock(FSafeSock* pSafeSock); // 1.10f: 0x6FF63750 (#10010)
+FOG_DLL_DECL void __fastcall FOG_SOCKET_Unlock(FSafeSock* pSafeSock); // 1.10f: 0x6FF63760 (#10011)
+FOG_DLL_DECL BOOL __fastcall FOG_SOCKET_GetPeerName(FSafeSock* pSafeSock, struct sockaddr* name, int* namelen); // 1.10f: 0x6FF63860 (#10012)
+FOG_DLL_DECL const char* __fastcall FOG_GetHostIPAddress(); // 1.10f: 0x6FF638E0 (#10013)
+FOG_DLL_DECL const char* __fastcall FOG_inet_ntoa(/*IN_ADDR, but cant due to callconv*/ULONG inaddr_S_addr); // 1.10f: 0x6FF63A00 (#10014)
+FOG_DLL_DECL const char* __fastcall FOG_ResolveHostIPAddress(const char* szHostName); // 1.10f: 0x6FF63A40 (#10015)
+FOG_DLL_DECL BOOL __fastcall FOG_SOCKET_GetError(FSafeSock* pSafeSock, DWORD* pFogError, int* pWSALastError); // 1.10f: 0x6FF63A20 (#10016)
+FOG_DLL_DECL BOOL __fastcall FOG_SOCKET_GetSockName(FSafeSock* pSafeSock, struct sockaddr* name, int* namelen); // 1.10f: 0x6FF638A0 (#10262)
+FOG_DLL_DECL BOOL __fastcall FOG_SOCKET_SetBlockingMode(FSafeSock* pSafeSock, BOOL bNonBlocking); // 1.10f: 0x6FF63B20 (#10017)
