@@ -254,7 +254,7 @@ void __fastcall ENVIRONMENT_UpdateTicks(D2DrlgEnvironmentStrc* pEnvironment, int
 
 			if (nActNo == ACT_III)
 			{
-				pEnvironment->nTicks += 9;
+				pEnvironment->nTicks += 8;
 			}
 		}
 	}
@@ -266,7 +266,20 @@ void __fastcall ENVIRONMENT_UpdateTicks(D2DrlgEnvironmentStrc* pEnvironment, int
 	}
 
 	const int nNextEnvCycle = (pEnvironment->nCycleIndex + 1) % NUM_ENVIRONMENT_CYCLES;
-	const D2EnvironmentCycleStrc* pNextEnvCycle = ENVIRONMENT_GetCycle(nNextEnvCycle, nActNo, pEnvironment->bEclipse);
+	// Note: unlike ENVIRONMENT_GetCycle, the act IV table is only used during an eclipse here
+	const D2EnvironmentCycleStrc* pNextEnvCycle = NULL;
+	if (!pEnvironment->bEclipse)
+	{
+		pNextEnvCycle = &gNormalEnvironmentCycle[nNextEnvCycle];
+	}
+	else if (nActNo == ACT_IV)
+	{
+		pNextEnvCycle = &gAct4EnvironmentCycle[nNextEnvCycle];
+	}
+	else
+	{
+		pNextEnvCycle = &gEclipseEnvironmentCycle[nNextEnvCycle];
+	}
 
 	if (pEnvironment->nTicks > pEnvironment->nTimeRate * pNextEnvCycle->nTicksBegin)
 	{

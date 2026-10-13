@@ -77,7 +77,7 @@ int __fastcall MISSTREAM_Return1(D2UnitStrc* pUnit1, void* pUnit2)
 
 //D2Common.0x6FDBC3C0 (#11216)
 //TODO: Variable names
-void __stdcall MISSTREAM_Update(D2UnitStrc* a1, D2UnitStrc* pMissile, int a3, int a4, int (__fastcall* pfCreate)(D2UnitStrc*, int, int, int, int, int), void (__fastcall* a6)(int))
+void __stdcall MISSTREAM_Update(D2UnitStrc* a1, D2UnitStrc* pMissile, int a3, int a4, int (__fastcall* pfCreate)(D2UnitStrc*, int, int, int, int, int, int), void (__fastcall* a6)(int))
 {
 	D2MissileStreamStrc* pStream = NULL;
 	D2PathPointStrc* pPathPoints = NULL;
@@ -95,7 +95,7 @@ void __stdcall MISSTREAM_Update(D2UnitStrc* a1, D2UnitStrc* pMissile, int a3, in
 	int v24 = 0;
 	int v27 = 0;
 	int v29 = 0;
-	char v23 = 0;
+	int nDirection = 0;
 
 	PATH_SetType(pMissile->pDynamicPath, PATHTYPE_MISSILE_STREAM);
 	D2Common_10142(pMissile->pDynamicPath, pMissile, 0);
@@ -155,12 +155,12 @@ void __stdcall MISSTREAM_Update(D2UnitStrc* a1, D2UnitStrc* pMissile, int a3, in
 			nX = pPathPoints[nIndex].X;
 			nY = pPathPoints[nIndex].Y;
 
-			v23 = PATH_ComputeDirection(pPathPoints[nIndex + 1].X, pPathPoints[nIndex + 1].Y, nX, nY);
+			nDirection = PATH_ComputeDirection(pPathPoints[nIndex + 1].X, pPathPoints[nIndex + 1].Y, nX, nY);
 			if (nCounter >= nMax && a3)
 			{
 				nCounter = 1;
 
-				pStream->unk0x00[nIndex] = pfCreate(pMissile, pStream->unk0x00[nIndex], nX, nY, v20, 1);
+				pStream->unk0x00[nIndex] = pfCreate(pMissile, pStream->unk0x00[nIndex], nX, nY, v20, 1, nDirection);
 				v20 -= a4;
 
 				if (bCreate)
@@ -179,7 +179,7 @@ void __stdcall MISSTREAM_Update(D2UnitStrc* a1, D2UnitStrc* pMissile, int a3, in
 
 					for (int i = 0; i < v24; ++i)
 					{
-						pStream->unk0x00[nIndex] = pfCreate(a1, pStream->unk0x00[nIndex], nX, nY, v20, 2);
+						pStream->unk0x00[nIndex] = pfCreate(a1, pStream->unk0x00[nIndex], nX, nY, v20, 2, nDirection);
 						v20 -= a4;
 					}
 				}
@@ -187,7 +187,7 @@ void __stdcall MISSTREAM_Update(D2UnitStrc* a1, D2UnitStrc* pMissile, int a3, in
 			else
 			{
 				++nCounter;
-				pStream->unk0x00[nIndex] = pfCreate(a1, pStream->unk0x00[nIndex], nX, nY, v20, 0);
+				pStream->unk0x00[nIndex] = pfCreate(a1, pStream->unk0x00[nIndex], nX, nY, v20, 0, nDirection);
 			}
 
 			++nIndex;
