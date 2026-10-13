@@ -31,10 +31,12 @@ target_sources(${FogImplName}
 	
 	# Made up filename
 	src/Calc.cpp
+	src/Math.cpp
 	
 	# Headers
 	include/Fog.h
 	include/D2BitManip.h
+	include/DataArrays.h
 	include/Safesock.h
 	include/System/System.h
 )
