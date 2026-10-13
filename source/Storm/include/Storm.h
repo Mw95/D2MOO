@@ -305,10 +305,10 @@ D2FUNC_DLL_NP(STORM, SFileUnloadFile, BOOL, __stdcall, (void *buffer), 0x19240);
 D2FUNC_DLL_NP(STORM, SFileLoadFileEx, int, __stdcall, (int, char *Str, int, int, int, char, LONG lDistanceToMove), 0x173e0);  //Storm.#281
 
 /// Imported by ['Fog.dll']
-D2FUNC_DLL_NP(STORM, SFilePrioritizeRequest, void, __stdcall, (int a1, int a2), 0x186f0);  //Storm.#282
+D2FUNC_DLL_NP(STORM, SFilePrioritizeRequest, void, __stdcall, (void* pRequestBuffer, int nPriority), 0x186f0);  //Storm.#282
 
 /// Imported by ['Fog.dll']
-D2FUNC_DLL_NP(STORM, SFileCancelRequest, void, __stdcall, (int a1), 0x14280);  //Storm.#283
+D2FUNC_DLL_NP(STORM, SFileCancelRequest, void, __stdcall, (void* pRequestBuffer), 0x14280);  //Storm.#283
 
 /// Imported by ['Fog.dll']
 D2FUNC_DLL_NP(STORM, SFileSetAsyncBudget, int, __stdcall, (int a1), 0x18fc0);  //Storm.#284
