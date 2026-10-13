@@ -10,12 +10,14 @@ It exports the same interface as the other renderers: ordinal `#10000` returns a
 The game is drawn exactly like `D2Gdi.dll` and `D2DDraw.dll` draw it: into an 8 bits back buffer, with the `D2CMP.dll` software cel functions and the `D2Gfx.dll` tile helpers. This keeps the output identical to the original software renderers.
 
 OpenGL is used to present the back buffer:
-- each frame is converted to 32 bits with the gamma corrected palette and uploaded to a texture drawn over the whole window, so the window can have any size,
+- each frame is uploaded as is to an 8 bits integer texture, and a fragment shader converts it with the gamma corrected palette into an offscreen frame buffer,
+- the offscreen frame buffer is scaled to the whole window with `glBlitFramebuffer` (nearest filtering when the window matches the game resolution, linear otherwise), so the window can have any size,
 - vertical synchronization uses `WGL_EXT_swap_control` when available,
 - in fullscreen mode the screen resolution is changed to the game resolution, and restored while the game is minimized,
-- Bink cutscenes are decoded to 32 bits and presented the same way.
+- Bink cutscenes are decoded to 32 bits, uploaded to the offscreen frame buffer and presented the same way.
 
-Only OpenGL 1.1 is required.
+OpenGL 3.3 (core profile) is required. The context is created with `WGL_ARB_create_context`, and the functions newer than OpenGL 1.1 are loaded at runtime (see [OglFunctions.h](../source/D2OpenGL/include/OglFunctions.h)).
+Debug builds create a debug context and trace the OpenGL debug messages when `GL_KHR_debug` is available.
 
 Like the other software renderers, it does not support the perspective mode, the colored lights (only their intensity is used) or `pfCelDrawHilight`.
 

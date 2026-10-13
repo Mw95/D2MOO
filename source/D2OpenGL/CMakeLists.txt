@@ -11,6 +11,7 @@ target_sources(${D2OpenGLImplName}
     src/OglCore.cpp
     src/OglDevice.cpp
     src/OglEngine.cpp
+    src/OglFunctions.cpp
     src/OglImports.cpp
     src/OglSmack.cpp
     src/OglSprite.cpp
@@ -21,6 +22,7 @@ target_sources(${D2OpenGLImplName}
     include/OglCore.h
     include/OglDevice.h
     include/OglEngine.h
+    include/OglFunctions.h
     include/OglImports.h
     include/OglSmack.h
     include/OglSprite.h

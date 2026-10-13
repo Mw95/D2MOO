@@ -350,19 +350,13 @@ BOOL __fastcall OGL_Blit()
         return TRUE;
     }
 
-    uint32_t* pFrame = DEVICE_GetFrameBuffer();
-    if (!pFrame)
+    if (!DEVICE_IsCreated())
     {
         return FALSE;
     }
 
-    const int32_t nPixels = gnBufferWidth * gnBufferHeight;
-    for (int32_t i = 0; i < nPixels; ++i)
-    {
-        pFrame[i] = gDisplayPalette[gpbOffscreenBuffer[i]];
-    }
-
-    DEVICE_Present();
+    // The palette is applied by the GPU
+    DEVICE_PresentIndexed(gpbOffscreenBuffer, gDisplayPalette);
     return TRUE;
 }
 

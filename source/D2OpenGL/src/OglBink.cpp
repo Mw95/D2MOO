@@ -133,7 +133,7 @@ static void BINK_PlayFile(const char* szFile, int32_t nCopyMode, void(__cdecl* p
         if (uint32_t* pFrame = DEVICE_GetFrameBuffer())
         {
             BINK_CopyToBuffer(gpBink, pFrame, gnBufferWidth * sizeof(uint32_t), gnBufferHeight, nOffsetX, nOffsetY, BINKSURFACE32);
-            DEVICE_Present();
+            DEVICE_PresentFrameBuffer();
         }
         LeaveCriticalSection(gpcsPause);
 
@@ -183,7 +183,7 @@ void __fastcall OGL_OpenSmackCutscene(const char* szFile, D2GameResolutionMode n
     if (uint32_t* pFrame = DEVICE_GetFrameBuffer())
     {
         memset(pFrame, 0, sizeof(uint32_t) * gnBufferWidth * gnBufferHeight);
-        DEVICE_Present();
+        DEVICE_PresentFrameBuffer();
     }
 
     BINK_PlayFile(szFile, nResolutionMode, (void(__cdecl*)())pfFrame);
