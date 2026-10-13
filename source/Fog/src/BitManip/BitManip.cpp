@@ -297,3 +297,114 @@ uint32_t __stdcall FOG_LeadingZeroesCount(uint32_t nValue)
 	}
 	return nBit;
 }
+
+/*
+Function:		BITMANIP_ToggleBitState
+Address:		Fog.#10121
+Notes:
+*/
+void __stdcall BITMANIP_ToggleBitState(uint8_t* pBitStream, int nBit)
+{
+	pBitStream[nBit >> 3] ^= (uint8_t)gdwBitMasks[nBit & 7];
+}
+
+static int BITMANIP_GetByteCount(int nBits)
+{
+	return (nBits + 7) / 8;
+}
+
+/*
+Function:		BITMANIP_And
+Address:		Fog.#10122
+Notes:			pDest = pBitStream1 & pBitStream2
+*/
+void __stdcall BITMANIP_And(const uint8_t* pBitStream1, const uint8_t* pBitStream2, uint8_t* pDest, int nBits)
+{
+	const int nBytes = BITMANIP_GetByteCount(nBits);
+	for (int i = 0; i < nBytes; ++i)
+	{
+		pDest[i] = pBitStream1[i] & pBitStream2[i];
+	}
+}
+
+/*
+Function:		BITMANIP_Or
+Address:		Fog.#10123
+Notes:			pDest = pBitStream1 | pBitStream2
+*/
+void __stdcall BITMANIP_Or(const uint8_t* pBitStream1, const uint8_t* pBitStream2, uint8_t* pDest, int nBits)
+{
+	const int nBytes = BITMANIP_GetByteCount(nBits);
+	for (int i = 0; i < nBytes; ++i)
+	{
+		pDest[i] = pBitStream1[i] | pBitStream2[i];
+	}
+}
+
+/*
+Function:		BITMANIP_Not
+Address:		Fog.#10124
+Notes:			pDest = ~pBitStream
+*/
+void __stdcall BITMANIP_Not(const uint8_t* pBitStream, uint8_t* pDest, int nBits)
+{
+	const int nBytes = BITMANIP_GetByteCount(nBits);
+	for (int i = 0; i < nBytes; ++i)
+	{
+		pDest[i] = ~pBitStream[i];
+	}
+}
+
+/*
+Function:		BITMANIP_Xor
+Address:		Fog.#10125
+Notes:			pDest = pBitStream1 ^ pBitStream2
+*/
+void __stdcall BITMANIP_Xor(const uint8_t* pBitStream1, const uint8_t* pBitStream2, uint8_t* pDest, int nBits)
+{
+	const int nBytes = BITMANIP_GetByteCount(nBits);
+	for (int i = 0; i < nBytes; ++i)
+	{
+		pDest[i] = pBitStream1[i] ^ pBitStream2[i];
+	}
+}
+
+/*
+Function:		BITMANIP_WriteCode
+Address:		Fog.#10132
+Notes:			Writes the code of index nCode from the table
+*/
+void __stdcall BITMANIP_WriteCode(D2BitBufferStrc* pBuffer, const D2BitCodeStrc* pCodes, int nCode)
+{
+	BITMANIP_Write(pBuffer, pCodes[nCode].dwValue, pCodes[nCode].dwBits);
+}
+
+/*
+Function:		BITMANIP_ReadTreeValue
+Address:		Fog.#10133
+Notes:			Walks a binary tree stored as an array, one bit at a time.
+				Negative entries are inner nodes, whose children are at index 2*i+2 and 2*i+3.
+				Does not check for the end of the buffer.
+*/
+int __stdcall BITMANIP_ReadTreeValue(D2BitBufferStrc* pBuffer, const int* pTree)
+{
+	int nNode = 0;
+	while (true)
+	{
+		const int nBit = (*pBuffer->pBuffer & gdwBitMasks[pBuffer->nPosBits]) >> pBuffer->nPosBits;
+		++pBuffer->nPosBits;
+		if (pBuffer->nPosBits == 8)
+		{
+			++pBuffer->pBuffer;
+			pBuffer->nPosBits = 0;
+			++pBuffer->nPos;
+		}
+
+		const int nIndex = nNode + nBit;
+		if (pTree[nIndex] >= 0)
+		{
+			return pTree[nIndex];
+		}
+		nNode = 2 * nIndex + 2;
+	}
+}

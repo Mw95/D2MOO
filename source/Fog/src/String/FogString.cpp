@@ -1,6 +1,9 @@
 #include <Fog.h>
 
+#include <Storm.h>
+
 #include <ctype.h>
+#include <cstring>
 
 // Fog.0x6FF74C28
 // CRC-16/CCITT lookup table (polynomial 0x1021)
@@ -57,4 +60,209 @@ uint16_t __stdcall FOG_ComputeStringCRC16(const char* szString)
 		nCRC = gwCRC16Table[(nCRC ^ nChar) & 0xFF] ^ (nCRC >> 2);
 	}
 	return nCRC;
+}
+
+// 1.10f: 0x6FF53E20 (#10138)
+// Capitalizes the first letter of each word and lowers the others.
+void __stdcall FOG_CapitalizeWords(char* szString)
+{
+	if (!szString)
+	{
+		return;
+	}
+
+	const int nLength = (int)strlen(szString);
+	BOOL bNewWord = TRUE;
+	for (int i = 0; i < nLength; ++i)
+	{
+		D2_ASSERTM(i < 1024, "nCount < 1024");
+		if (szString[i] == ' ')
+		{
+			bNewWord = TRUE;
+		}
+		else if (bNewWord)
+		{
+			bNewWord = FALSE;
+			szString[i] = (char)toupper(szString[i]);
+		}
+		else
+		{
+			szString[i] = (char)tolower(szString[i]);
+		}
+	}
+}
+
+// Fog.0x6FF71BB8
+// Lower case conversion table, indexed by signed characters (offset by 128).
+// The original code reads before the table for negative characters, which is the end of another table. It is kept for compatibility.
+static const uint8_t gnToLowerTable[256] =
+{
+	0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+	0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
+	0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+	0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F,
+	0x40, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F,
+	0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F,
+	0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F,
+	0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F,
+};
+
+// 1.10f: 0x6FF53EB0 (#10139)
+// Converts at most nLength characters of the string to lower case (ASCII only).
+void __fastcall FOG_ToLowerASCII(char* szString, int nLength)
+{
+	const char* pEnd = szString + nLength;
+	for (char* pCharacter = szString; *pCharacter && pCharacter < pEnd; ++pCharacter)
+	{
+		*pCharacter = (char)gnToLowerTable[(int8_t)*pCharacter + 128];
+	}
+}
+
+static char FOG_GetHexDigit(int nValue)
+{
+	return (char)(nValue < 10 ? '0' + nValue : 'A' + nValue - 10);
+}
+
+// 1.10f: 0x6FF53ED0 (#10140)
+// Copies szSource to szDest, escaping control characters (\r, \n, \t and \xHH) and optionally surrounding the result with nQuote.
+char* __fastcall FOG_EscapeString(char* szDest, const char* szSource, int nDestSize, char nQuote)
+{
+	D2_ASSERT(szDest != NULL);
+
+	if (!szSource)
+	{
+		SStrPrintf(szDest, nDestSize, (char*)"<NULL>");
+		return szDest;
+	}
+
+	if (!nDestSize)
+	{
+		return szDest;
+	}
+
+	char* pDest = szDest;
+	int nBytesLeft = nDestSize - 1;
+	if (nQuote)
+	{
+		if (nBytesLeft <= 0)
+		{
+			*pDest = '\0';
+			return szDest;
+		}
+		*pDest++ = nQuote;
+		--nBytesLeft;
+	}
+
+	while (nBytesLeft > 0)
+	{
+		const char nCharacter = *szSource;
+		if (!nCharacter)
+		{
+			break;
+		}
+
+		++szSource;
+		--nBytesLeft;
+		if (nCharacter >= ' ')
+		{
+			*pDest++ = nCharacter;
+			continue;
+		}
+
+		*pDest++ = '\\';
+		if (nBytesLeft == 0)
+		{
+			break;
+		}
+		--nBytesLeft;
+
+		if (nCharacter == '\r')
+		{
+			*pDest++ = 'r';
+		}
+		else if (nCharacter == '\n')
+		{
+			*pDest++ = 'n';
+		}
+		else if (nCharacter == '\t')
+		{
+			*pDest++ = 't';
+		}
+		else
+		{
+			if (nBytesLeft < 2)
+			{
+				break;
+			}
+			*pDest++ = 'x';
+			*pDest++ = FOG_GetHexDigit((nCharacter >> 4) & 0xF);
+			*pDest++ = FOG_GetHexDigit(nCharacter & 0xF);
+			nBytesLeft -= 2;
+		}
+	}
+
+	if (nQuote && nBytesLeft > 0)
+	{
+		*pDest++ = nQuote;
+		--nBytesLeft;
+	}
+
+	*pDest = '\0';
+	D2_ASSERT(nBytesLeft >= 0);
+	D2_ASSERT(pDest - szDest + 1 <= nDestSize);
+	return szDest;
+}
+
+// 1.10f: 0x6FF54040 (#10141)
+// Formats a number with a ',' every 3 digits. The buffer is filled with '*' if the number does not fit.
+// Note: 0 results in an empty string.
+char* __fastcall FOG_FormatNumberWithSeparators(char* szDest, uint32_t nDestSize, uint64_t nValue)
+{
+	if (nDestSize > 32)
+	{
+		nDestSize = 32;
+	}
+
+	// Digits are written in reverse order
+	char szReversed[32];
+	char* pReversed = szReversed;
+	int nDigitsInGroup = 0;
+	while (nValue)
+	{
+		if (pReversed >= &szReversed[nDestSize - 1])
+		{
+			memset(szDest, '*', nDestSize - 1);
+			szDest[nDestSize - 1] = '\0';
+			return szDest;
+		}
+
+		*pReversed++ = (char)('0' + nValue % 10);
+		nValue /= 10;
+		++nDigitsInGroup;
+		if (nDigitsInGroup == 3)
+		{
+			if (!nValue)
+			{
+				break;
+			}
+			*pReversed++ = ',';
+			nDigitsInGroup = 0;
+		}
+	}
+
+	char* pDest = szDest;
+	while (pReversed > szReversed)
+	{
+		*pDest++ = *--pReversed;
+	}
+	*pDest = '\0';
+	return szDest;
 }

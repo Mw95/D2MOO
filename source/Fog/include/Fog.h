@@ -209,6 +209,16 @@ FOG_DLL_DECL BOOL __fastcall FOG_CreatePathHierarchy(char* szPath); // 1.10f: 0x
 FOG_DLL_DECL size_t __fastcall FOG_GetSavePath(char* pPathBuffer, size_t nBufferSize); // 1.10f: 0x6FF61900 (#10115)
 FOG_DLL_DECL BOOL __fastcall FOG_GetInstallPath(char* pPathBuffer, size_t nBufferSize); // 1.10f: 0x6FF61870 (#10116)
 FOG_DLL_DECL BOOL __fastcall FOG_UseDirect(); // 1.10f: 0x6FF61A10 (#10117)
+// 1.10f: 0x6FF53E20 (#10138)
+FOG_DLL_DECL void __stdcall FOG_CapitalizeWords(char* szString);
+// 1.10f: 0x6FF53EB0 (#10139)
+FOG_DLL_DECL void __fastcall FOG_ToLowerASCII(char* szString, int nLength);
+// 1.10f: 0x6FF53ED0 (#10140)
+FOG_DLL_DECL char* __fastcall FOG_EscapeString(char* szDest, const char* szSource, int nDestSize, char nQuote);
+// 1.10f: 0x6FF54040 (#10141)
+FOG_DLL_DECL char* __fastcall FOG_FormatNumberWithSeparators(char* szDest, uint32_t nDestSize, uint64_t nValue);
+// 1.10f: 0x6FF51C00 (#10198)
+FOG_DLL_DECL void __fastcall FOG_ComputeGammaTable(int nGammaValue, void* pGammaTable, double flPercentLinear, int nGammaTableEntrySize, int nEntries, int nMaxValue);
 FOG_DLL_DECL uint16_t __stdcall FOG_ComputeStringCRC16(const char* szString); // 1.10f: 0x6FF53DB0 (#10137)
 D2FUNC_DLL(FOG, CreateNewPoolSystem, void, __cdecl, (void** pMemPoolSystem, const char* szName, uint32_t nPools, uint32_t nUnused), 0xA280)			//Fog.#10142
 D2FUNC_DLL(FOG, DestroyMemoryPoolSystem, void, __cdecl, (void* pMemoryPoolSystem), 0xA100)															//Fog.#10143
