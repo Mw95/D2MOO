@@ -263,5 +263,5 @@ UnimplementedOrdinal_10251=UnimplementedOrdinal @10251;   FOG_10251 @10251 NONAM
     DATATBLS_CalcEvaluateExpression @10253 NONAME
     DATATBLS_CompileExpression @10254 NONAME
     FOG_10255 @10255 NONAME
-UnimplementedOrdinal_10262=UnimplementedOrdinal @10262;   FOG_10262 @10262 NONAME
+    FOG_SOCKET_GetSockName @10262 NONAME
 UnimplementedOrdinal_10263=UnimplementedOrdinal @10263;   FOG_10263 @10263 NONAME
