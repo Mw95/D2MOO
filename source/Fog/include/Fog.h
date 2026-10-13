@@ -265,11 +265,11 @@ FOG_DLL_DECL int __stdcall FOG_GetStringFromLinkIndex(void* pLinker, int nIndex,
 FOG_DLL_DECL int __stdcall FOG_10215(void* pBin, int a2); // 1.10f: 0x6FF5B990 (#10215)
 FOG_DLL_DECL int __stdcall FOG_10216_AddRecordToLinkingTable(void* pBin, const char* a2); // 1.10f: 0x6FF5BD80 (#10216)
 FOG_DLL_DECL int __stdcall FOG_GetRowFromTxt(void* pBin, char* szText, int nColumn); // 1.10f: 0x6FF5BC20 (#10217)
-D2FUNC_DLL(FOG, 10218, int, __fastcall, (), 0xCC40)																									//Fog.#10218
-D2FUNC_DLL(FOG, 10219, int, __fastcall, (uint8_t*), 0xC9E0)																							//Fog.#10219
-D2FUNC_DLL(FOG, 10222, int, __fastcall, (const uint8_t*, int), 0xCC90)																				//Fog.#10222
-D2FUNC_DLL(FOG, 10223, int, __fastcall, (uint8_t*, int, const uint8_t*, int), 0xCD50)																//Fog.#10223
-D2FUNC_DLL(FOG, 10224, int, __fastcall, (char*, int, uint8_t*, int), 0xCE00)																		//Fog.#10224
+FOG_DLL_DECL int __fastcall FOG_10218(); // 1.10f: 0x6FF5CC40 (#10218) Initializes the packet compression
+FOG_DLL_DECL int __fastcall FOG_10219(uint8_t* pCodeLengths); // 1.10f: 0x6FF5C9E0 (#10219) Initializes the packet compression codes
+FOG_DLL_DECL int __fastcall FOG_10222(const uint8_t* pData, int nSize); // 1.10f: 0x6FF5CC90 (#10222) Updates the packet compression statistics
+FOG_DLL_DECL int __fastcall FOG_10223(uint8_t* pDest, int nDestSize, const uint8_t* pSrc, int nSrcSize); // 1.10f: 0x6FF5CD50 (#10223) Compresses a packet
+FOG_DLL_DECL int __fastcall FOG_10224(char* pDest, int nDestSize, uint8_t* pSrc, int nSrcSize); // 1.10f: 0x6FF5CE00 (#10224) Decompresses a packet
 FOG_DLL_DECL int __fastcall FOG_IsExpansion(); // 1.10f: 0x6FF5D730 (#10227)
 FOG_DLL_DECL uint32_t __stdcall FOG_ComputeChecksum(void* pData, size_t dwSize); // 1.10f: 0x6FF53940 (#10229)
 FOG_DLL_DECL uint32_t __stdcall FOG_PopCount(void* pData, size_t dwSize); // 1.10f: 0x6FF53970 (#10230)
