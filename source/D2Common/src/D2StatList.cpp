@@ -160,7 +160,7 @@ static int ComputeStatPercentage(int nValue, D2StatListExStrc* pStatListEx, uint
 	int nOpStatValue = sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatId).nPackedValue);
 	if (nOpStatValue)
 	{
-		return nValue * (nOpStatValue / 100.0);
+		return DATATBLS_ApplyRatio(nValue, nOpStatValue, 100);
 	}
 	return 0;
 }
@@ -274,7 +274,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 								if (nRecursiveValue)
 								{
 									int nTemp = (nShiftedVal * nRecursiveValue) >> opStatData.nOpParam;
-									nAccumulatedValue += nTemp * nPreviousOpStatValue / 100.0;
+									nAccumulatedValue += DATATBLS_ApplyRatio(nPreviousOpStatValue, nTemp, 100);
 								}
 							}
 						}
@@ -322,7 +322,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 							if (nRecursiveValue)
 							{
 								int nTemp = (nTmp * nRecursiveValue) >> opStatData.nOpParam;
-								nAccumulatedValue += nPreviousOpStatValue * nTemp / 100.0;
+								nAccumulatedValue += DATATBLS_ApplyRatio(nPreviousOpStatValue, nTemp, 100);
 							}
 						}
 					}
@@ -349,7 +349,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 				{
 					int nBaseTime = 0;
 					int nPeriodOfDay = ENVIRONMENT_GetPeriodOfDayFromAct(pStatListEx->pOwner->pDrlgAct, &nBaseTime);
-					nAccumulatedValue += nAccumulatedValue * ITEMMODS_GetByTimeAdjustment(nTmp, nPeriodOfDay, nBaseTime, NULL, NULL, NULL) / 100.0;
+					nAccumulatedValue += DATATBLS_ApplyRatio(nAccumulatedValue, ITEMMODS_GetByTimeAdjustment(nTmp, nPeriodOfDay, nBaseTime, NULL, NULL, NULL), 100);
 				}
 			}
 			break;
@@ -554,10 +554,14 @@ int __fastcall sub_6FDB64A0(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 						int nOpBase = rOpStatData.nOpBase;
 						if (nOpBase != uint16_t(-1))
 						{
-							if (D2ItemStatCostTxt* pOpItemStatCost = ITEMS_GetItemStatCostTxtRecord(nOpBase))
+							D2ItemStatCostTxt* pOpItemStatCost = ITEMS_GetItemStatCostTxtRecord(nOpBase);
+							if (pOpItemStatCost && pStatListEx->pUnit->pStatListEx)
 							{
 								int nOpStatValue = STATLIST_GetTotalStat_6FDB63E0(pStatListEx->pUnit->pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(nOpBase).nPackedValue, pOpItemStatCost);
-								bUpdate = nOpStatValue <= 0;
+								if (nOpStatValue > 0)
+								{
+									bUpdate = FALSE;
+								}
 							}
 						}
 					}
@@ -734,10 +738,22 @@ void __fastcall sub_6FDB6C10(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::
 		{
 			D2StatStrc* pStat = STATLIST_GetOrInsertStat(pParentStatList->pMemPool, &pParentStatList->FullStats, nLayer_StatId);
 
-			int nNewValue = pStat->nValue + nValue;
-			D2_ASSERTM(!(nNewValue < 0 && pItemStatCostTxtRecord->bHasOpApplyingToItem), 
-				"Original game does not set STATLIST_PERMANENT if (nNewValue <= 0), while we do when (nNewValue != 0).");
-			STATLIST_SetUnitStatNewValue(pParentStatList, &pParentStatList->FullStats, pStat, nLayer_StatId, nNewValue, pItemStatCostTxtRecord, pUnit);
+			const int nPreviousValue = pStat->nValue;
+			const int nNewValue = nPreviousValue + nValue;
+			pStat->nValue = nNewValue;
+
+			// Note: unlike STATLIST_SetUnitStatNewValue, the original only sets STATLIST_PERMANENT for positive values here
+			if (nNewValue > 0 && pItemStatCostTxtRecord->bHasOpApplyingToItem)
+			{
+				pParentStatList->dwFlags |= STATLIST_PERMANENT;
+			}
+
+			if (nNewValue == 0 && !pItemStatCostTxtRecord->nKeepZero)
+			{
+				STATLIST_RemoveStat_6FDB6A30(pParentStatList->pMemPool, &pParentStatList->FullStats, pStat);
+			}
+
+			STATLIST_NotifyUnitOfStatValueChange(pItemStatCostTxtRecord, pParentStatList, pUnit, nLayer_StatId, nPreviousValue, nNewValue);
 		}
 		if ((pParentStatList->dwFlags & STATLIST_SET) || (bStatIsDamageRelated && (pParentStatList->dwFlags & STATLIST_DYNAMIC)))
 		{
@@ -824,12 +840,8 @@ void __stdcall D2Common_ExpireStatList_6FDB6E30(D2StatListStrc* pStatList)
 		{
 			D2StatsArrayStrc* pStatsArray = STATLIST_IsExtended(pStatList) ? &pStatListEx->FullStats : &pStatList->Stats;
 
-			D2StatListExStrc* pParentStatListEx = STATLIST_StatListExCast(pParentStatList);
-			// Something looks wrong, seems like some checks were eluded in D2Common.0x6FDB6C10
-			// Or inversely, the check above is useless as pParentStatListEx is in fact always an extended statlist
-			// if it exists or when STATLIST_SET is set on the current statlist ?
-			// In any case, we add an assert here
-			D2_ASSERT(pParentStatListEx);
+			// Note: the parent is not necessarily extended, sub_6FDB6C10 handles this case by forwarding to its own parent
+			D2StatListExStrc* pParentStatListEx = static_cast<D2StatListExStrc*>(pParentStatList);
 
 			if (pStatList->dwFlags & STATLIST_DYNAMIC)
 			{
@@ -1111,7 +1123,10 @@ void __stdcall D2COMMON_10475_PostStatToStatList(D2UnitStrc* pUnit, D2StatListSt
 			if (pStatListEx)
 			{
 				pOwner = pStatListEx->pOwner;
+			}
 
+			if (pStatListEx && pStatList->dwFlags & STATLIST_PERMANENT)
+			{
 				int nCounter = 0;
 				D2SLayerStatIdStrc nLayer_StatIds[16] = {};
 				for (D2StatStrc* pCurStat = pStatListEx->FullStats.pStat; pCurStat < &pStatListEx->FullStats.pStat[pStatListEx->FullStats.nStatCount]; ++pCurStat)
@@ -1497,7 +1512,12 @@ D2StatListStrc* __stdcall D2Common_GetStateFromStatListEx_6FDB8190(D2StatListExS
 {
 	if (pStatListEx && nStateId)
 	{
-		D2StatListStrc* pStatList = STATLIST_IsExtended(pStatListEx) ? pStatListEx->pMyLastList : nullptr;
+		if (!STATLIST_IsExtended(pStatListEx))
+		{
+			return nullptr;
+		}
+
+		D2StatListStrc* pStatList = pStatListEx->pMyLastList;
 		while (pStatList && pStatList->dwStateNo != nStateId)
 		{
 			pStatList = pStatList->pPrevLink;
