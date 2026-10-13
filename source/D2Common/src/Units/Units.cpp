@@ -242,41 +242,38 @@ int __stdcall UNITS_GetUnitSizeY(D2UnitStrc* pUnit)
 	D2MonStats2Txt* pMonStats2TxtRecord = NULL;
 	D2MissilesTxt* pMissilesTxtRecord = NULL;
 
-	if (pUnit)
+	D2_ASSERT(pUnit);
+
+	switch (pUnit->dwUnitType)
 	{
-		switch (pUnit->dwUnitType)
+	case UNIT_PLAYER:
+		return 2;
+
+	case UNIT_MONSTER:
+		pMonStats2TxtRecord = UNITS_GetMonStats2TxtRecordFromMonsterId(pUnit->dwClassId);
+		if (pMonStats2TxtRecord)
 		{
-		case UNIT_PLAYER:
-			return 2;
-
-		case UNIT_MONSTER:
-			pMonStats2TxtRecord = UNITS_GetMonStats2TxtRecordFromMonsterId(pUnit->dwClassId);
-			if (pMonStats2TxtRecord)
-			{
-				return pMonStats2TxtRecord->nSizeY;
-			}
-			return 0;
-
-		case UNIT_OBJECT:
-			return pUnit->pObjectData->pObjectTxt->dwSizeY;
-
-		case UNIT_ITEM:
-			return 1;
-
-		case UNIT_MISSILE:
-			pMissilesTxtRecord = DATATBLS_GetMissilesTxtRecord(pUnit->dwClassId);
-			if (pMissilesTxtRecord)
-			{
-				return pMissilesTxtRecord->nSize;
-			}
-			return 0;
-
-		default:
-			return 0;
+			return pMonStats2TxtRecord->nSizeY;
 		}
-	}
+		return 0;
 
-	return 0;
+	case UNIT_OBJECT:
+		return pUnit->pObjectData->pObjectTxt->dwSizeY;
+
+	case UNIT_ITEM:
+		return 1;
+
+	case UNIT_MISSILE:
+		pMissilesTxtRecord = DATATBLS_GetMissilesTxtRecord(pUnit->dwClassId);
+		if (pMissilesTxtRecord)
+		{
+			return pMissilesTxtRecord->nSize;
+		}
+		return 0;
+
+	default:
+		return 0;
+	}
 }
 
 //D2Common.0x6FDBDB10 (#10333)
@@ -781,13 +778,13 @@ void __stdcall UNITS_SetAnimStartFrame(D2UnitStrc* pUnit)
 		}
 		else
 		{
-			const int nFrameDeltaDividedBy8 = wFrameDelta / 8;
+			const int nFrameDeltaDividedBy8 = wFrameDelta >> 3;
 			int uRandom = 0;
 			if (nFrameDeltaDividedBy8 > 0)
 			{
 				uRandom = SEED_RollLimitedRandomNumber(&pUnit->pSeed, nFrameDeltaDividedBy8);
 			}
-			const int newAnimSpeed = uRandom + wFrameDelta - (wFrameDelta / 16);
+			const int newAnimSpeed = uRandom + wFrameDelta - (wFrameDelta >> 4);
 			pUnit->wAnimSpeed = static_cast<int16_t>(D2Clamp(newAnimSpeed, 0, 0x7FFF));
 		}
 		break;
@@ -1318,6 +1315,7 @@ BOOL UNITS_CanAnimModeUseAttackRate(int nUnitType, int nAnimMode, D2UnitStrc* pU
 		{
 			pAnimModeModulators = &gaMonModesAnimModulators[nAnimMode];
 		}
+		break;
 
 	default:
 		return FALSE;
@@ -1330,8 +1328,11 @@ BOOL UNITS_CanAnimModeUseAttackRate(int nUnitType, int nAnimMode, D2UnitStrc* pU
 
 	if (pAnimModeModulators->bCanUseSkillAttackRate)
 	{
-		D2SkillsTxt* pSkillsRecord = DATATBLS_GetSkillsTxtRecord(UNITS_GetUsedSkill(pUnit)->pSkillsTxt->nSkillId);
-		return (pSkillsRecord->dwFlags[0] & SKILLSFLAG_USEATTACKRATE) != 0;
+		if (D2SkillStrc* pUsedSkill = UNITS_GetUsedSkill(pUnit))
+		{
+			D2SkillsTxt* pSkillsRecord = DATATBLS_GetSkillsTxtRecord(SKILLS_GetSkillIdFromSkill(pUsedSkill, __FILE__, __LINE__));
+			return (pSkillsRecord->dwFlags[0] & SKILLSFLAG_USEATTACKRATE) != 0;
+		}
 	}
 
 	return FALSE;
@@ -1528,9 +1529,9 @@ BOOL UNITS_IsAnimModeGetHit(int nUnitType, int nAnimMode)
 	switch (nUnitType)
 	{
 	case UNIT_PLAYER:
-		return nAnimMode == PLRMODE_BLOCK;
+		return nAnimMode == PLRMODE_GETHIT;
 	case UNIT_MONSTER:
-		return nAnimMode == MONMODE_BLOCK;
+		return nAnimMode == MONMODE_GETHIT;
 	default:
 		return FALSE;
 
@@ -1645,6 +1646,7 @@ BOOL UNITS_CanAnimModeUseVelocityModifier(int nUnitType, int nAnimMode, D2UnitSt
 		{
 			pAnimModeModulators = &gaMonModesAnimModulators[nAnimMode];
 		}
+		break;
 
 	default:
 		return FALSE;
@@ -2388,7 +2390,7 @@ int __stdcall UNITS_GetDefense(D2UnitStrc* pUnit)
 		return nTotalDefense;
 	}
 
-	return nTotalDefense + (int)((long long int)nTotalDefense * (long long int)nArmorOverridePercent / 100);
+	return nTotalDefense + DATATBLS_ApplyRatio(nTotalDefense, nArmorOverridePercent, 100);
 }
 
 //D2Common.0x6FDC0AC0 (#10432)
@@ -3592,7 +3594,7 @@ BOOL __stdcall UNITS_IsCorpseUseable(D2UnitStrc* pUnit)
 BOOL __stdcall UNITS_IsObjectInInteractRange(D2UnitStrc* pUnit, D2UnitStrc* pObject)
 {
 	int nSizeX2 = 0;
-	int nSizeY1 = 0;
+	int nSizeX1 = 0;
 	int nSizeY2 = 0;
 	int nX1 = 0;
 	int nY1 = 0;
@@ -3627,9 +3629,9 @@ BOOL __stdcall UNITS_IsObjectInInteractRange(D2UnitStrc* pUnit, D2UnitStrc* pObj
 	{
 		if (nX1 >= nX - 2 && nX1 <= nSizeX2 + nX + 2 && nY1 >= nY - 2 && nY1 <= nSizeY2 + nY + 2)
 		{
-			nSizeY1 = UNITS_GetUnitSizeY(pUnit);
+			nSizeX1 = UNITS_GetUnitSizeX(pUnit);
 
-			if (nSizeY1 > 2)
+			if (nSizeX1 > 2)
 			{
 				return TRUE;
 			}
