@@ -241,3 +241,59 @@ void __stdcall BITMANIP_MaskBitstate(uint8_t* pBitStream, int nBit)
 {
 	pBitStream[nBit >> 3] &= (uint8_t)gdwInvBitMasks[nBit & 7];
 }
+
+/*
+Function:		FOG_ComputeChecksum
+Address:		Fog.#10229
+Notes:			Rotates the checksum left by one bit and adds each byte.
+*/
+uint32_t __stdcall FOG_ComputeChecksum(void* pData, size_t dwSize)
+{
+	const uint8_t* pBytes = (const uint8_t*)pData;
+	uint32_t nChecksum = 0;
+	for (int i = 0; i < (int)dwSize; ++i)
+	{
+		nChecksum = (nChecksum << 1) + pBytes[i] + (nChecksum >> 31);
+	}
+	return nChecksum;
+}
+
+/*
+Function:		FOG_PopCount
+Address:		Fog.#10230
+Notes:			Returns the number of bits set in the buffer.
+*/
+uint32_t __stdcall FOG_PopCount(void* pData, size_t dwSize)
+{
+	const uint8_t* pBytes = (const uint8_t*)pData;
+	uint32_t nCount = 0;
+	for (const uint8_t* pByte = pBytes; pByte < pBytes + dwSize; ++pByte)
+	{
+		for (uint8_t nByte = *pByte; nByte; nByte &= nByte - 1)
+		{
+			++nCount;
+		}
+	}
+	return nCount;
+}
+
+/*
+Function:		FOG_LeadingZeroesCount
+Address:		Fog.#10252
+Notes:			Despite its name, returns the index of the lowest bit set (number of trailing zeroes), or -1 if nValue is 0.
+*/
+uint32_t __stdcall FOG_LeadingZeroesCount(uint32_t nValue)
+{
+	if (!nValue)
+	{
+		return (uint32_t)-1;
+	}
+
+	uint32_t nBit = 0;
+	while (!(nValue & 1))
+	{
+		nValue >>= 1;
+		++nBit;
+	}
+	return nBit;
+}
