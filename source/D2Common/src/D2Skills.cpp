@@ -186,7 +186,7 @@ int __stdcall SKILLS_GetSpecialParamValue(D2UnitStrc* pUnit, uint8_t nParamId, i
 		case 22:
 			if (nSkillLevel > 0)
 			{
-				int32_t nTemp = ((25 * pSkillsTxtRecord->wMana) + (nSkillLevel - 1) * pSkillsTxtRecord->wLevelMana);
+				int32_t nTemp = 25 * (pSkillsTxtRecord->wMana + (nSkillLevel - 1) * pSkillsTxtRecord->wLevelMana);
 				nTemp /= 2;
 				nTemp <<= pSkillsTxtRecord->nManaShift;
 				return nTemp >> 8;
@@ -1495,7 +1495,11 @@ int __stdcall SKILLS_GetUseState(D2UnitStrc* pUnit, D2SkillStrc* pSkill)
 						}
 					}
 				}
-				else if (!ITEMS_CheckIfThrowable(pItem))
+				else if (ITEMS_CheckIfThrowable(pItem))
+				{
+					bContinue = 1;
+				}
+				else
 				{
 					bContinue = STATLIST_UnitGetItemStatOrSkillStatValue(pItem, STAT_ITEM_THROWABLE, 0);
 				}
@@ -1699,7 +1703,8 @@ BOOL __fastcall sub_6FDB1070(D2UnitStrc* pUnit, D2SkillStrc* pSkill)
 					nSkillLevel = DATATBLS_GetMaxLevel(0);
 				}
 
-				return STATLIST_UnitGetStatValue(pItem, STAT_ITEM_CHARGED_SKILL, (pSkill->pSkillsTxt->nSkillId << 6) + (nSkillLevel & 0x3F)) > 0;
+				// Low byte holds the current amount of charges, high byte the max amount of charges
+				return (STATLIST_UnitGetStatValue(pItem, STAT_ITEM_CHARGED_SKILL, (pSkill->pSkillsTxt->nSkillId << 6) + (nSkillLevel & 0x3F)) & 0xFF) != 0;
 			}
 		}
 
@@ -2541,7 +2546,7 @@ int __stdcall SKILLS_GetMinPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 				if (nBonus)
 				{
-					nDamage += nDamage * nBonus / 100;
+					nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
 				}
 			}
 
@@ -2608,7 +2613,7 @@ int __stdcall SKILLS_GetMaxPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 				if (nBonus)
 				{
-					nDamage += nDamage * nBonus / 100;
+					nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
 				}
 			}
 
@@ -2638,7 +2643,7 @@ int __stdcall SKILLS_GetMinElemDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 			if (nBonus)
 			{
-				nDamage += nDamage * nBonus / 100;
+				nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
 			}
 		}
 
@@ -2700,7 +2705,7 @@ int __stdcall SKILLS_GetMaxElemDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 			if (nBonus)
 			{
-				nDamage += nDamage * nBonus / 100;
+				nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
 			}
 		}
 
@@ -2754,7 +2759,7 @@ int __stdcall SKILLS_GetElementalLength(D2UnitStrc* pUnit, int nSkillId, int nSk
 
 		if (nBonus)
 		{
-			nLength += nLength * nBonus / 100;
+			nLength += DATATBLS_ApplyRatio(nLength, nBonus, 100);
 		}
 	}
 
@@ -3217,7 +3222,7 @@ int __stdcall D2Common_11028(int a1)
 //D2Common.0x6FDB3AB0 (#11033)
 int __stdcall D2Common_11033(int nLevel, int nParam, int nMax)
 {
-	int nValue = nParam + (nMax - nParam) * 110 * nLevel / (nLevel + 6) / 100;
+	int nValue = nParam + (110 * nLevel / (nLevel + 6)) * (nMax - nParam) / 100;
 
 	if (nValue > nMax)
 	{
@@ -3595,13 +3600,13 @@ void __stdcall SKILLS_CalculateKickDamage(D2UnitStrc* pUnit, int* pMinDamage, in
 					nStrBonus = ITEMS_GetStrengthBonus(pBoots);
 					if (nStrBonus)
 					{
-						nDamagePercent += nStrBonus * STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0) / 100;
+						nDamagePercent += DATATBLS_ApplyRatio(STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0), nStrBonus, 100);
 					}
 
 					nDexBonus = ITEMS_GetDexBonus(pBoots);
 					if (nDexBonus)
 					{
-						nDamagePercent += nDexBonus * STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0) / 100;
+						nDamagePercent += DATATBLS_ApplyRatio(STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0), nDexBonus, 100);
 					}
 
 					nDamagePercent += STATLIST_UnitGetStatValue(pUnit, STAT_DAMAGEPERCENT, 0);
