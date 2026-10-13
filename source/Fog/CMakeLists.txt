@@ -38,6 +38,7 @@ target_sources(${FogImplName}
 	include/Fog.h
 	include/D2BitManip.h
 	include/DataArrays.h
+	include/IFF.h
 	include/Safesock.h
 	include/System/System.h
 )
