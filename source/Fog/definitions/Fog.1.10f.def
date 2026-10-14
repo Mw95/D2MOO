@@ -159,17 +159,17 @@ FOG_10146=FOG_10082_Noop @10146 NONAME
     FOG_GetMemoryUsage @10147 NONAME
 FOG_10148=FOG_ReturnZero @10148 NONAME
     FOG_InitializeServer @10149 NONAME
-UnimplementedOrdinal_10150=UnimplementedOrdinal @10150;   FOG_10150 @10150 NONAME
+    FOG_QServerAddPort @10150 NONAME
     FOG_SetMaxClientsPerGame @10151 NONAME
     FOG_10152 @10152 NONAME
-UnimplementedOrdinal_10153=UnimplementedOrdinal @10153;   FOG_10153 @10153 NONAME
+    FOG_QServerBroadcast @10153 NONAME
     FOG_WaitForSingleObject @10154 NONAME
-UnimplementedOrdinal_10155=UnimplementedOrdinal @10155;   FOG_10155 @10155 NONAME
+    FOG_QServerClearMessages @10155 NONAME
     FOG_10156 @10156 NONAME
     FOG_10157 @10157 NONAME
     FOG_10158 @10158 NONAME
     FOG_10159 @10159 NONAME
-UnimplementedOrdinal_10160=UnimplementedOrdinal @10160;   FOG_10160 @10160 NONAME
+    FOG_QServerGetClientPeerIP @10160 NONAME
     FOG_10161 @10161 NONAME
     FOG_10162 @10162 NONAME
     FOG_10163 @10163 NONAME
@@ -181,7 +181,7 @@ FOG_10167=FOG_Noop_Stdcall3 @10167 NONAME
     FOG_10171 @10171 NONAME
     FOG_10172 @10172 NONAME
     FOG_10173 @10173 NONAME
-UnimplementedOrdinal_10174=UnimplementedOrdinal @10174;   FOG_10174 @10174 NONAME
+    FOG_QServerIsLocal @10174 NONAME
     FOG_10175 @10175 NONAME
     FOG_IsWindowsNT @10176 NONAME
     FOG_10177 @10177 NONAME
@@ -191,11 +191,11 @@ UnimplementedOrdinal_10174=UnimplementedOrdinal @10174;   FOG_10174 @10174 NONAM
     FOG_10181 @10181 NONAME
     FOG_10182_Return @10182 NONAME
     FOG_10183_Return @10183 NONAME
-UnimplementedOrdinal_10184=UnimplementedOrdinal @10184;   FOG_10184 @10184 NONAME
-UnimplementedOrdinal_10185=UnimplementedOrdinal @10185;   FOG_10185 @10185 NONAME
+    FOG_QServerGetMessageCount @10184 NONAME
+    FOG_QServerSetConfig @10185 NONAME
     FOG_10186 @10186 NONAME
     FOG_10187 @10187 NONAME
-UnimplementedOrdinal_10188=UnimplementedOrdinal @10188;   FOG_10188 @10188 NONAME
+    FOG_QServerIsWhitelisted @10188 NONAME
     FOG_XSha1 @10189 NONAME
     FOG_LogCPUInfo @10190 NONAME
     FOG_IsSlowCPU @10191 NONAME

@@ -229,33 +229,54 @@ FOG_DLL_DECL void __cdecl FOG_CreateNewPoolSystem(void** pMemPoolSystem, const c
 FOG_DLL_DECL void __cdecl FOG_DestroyMemoryPoolSystem(void* pMemoryPoolSystem); // 1.10f: 0x6FF5A100 (#10143)
 FOG_DLL_DECL void __cdecl FOG_SetMemoryPoolSystemMode(void* pMemoryPoolSystem, BOOL bFreePoolAlloc); // 1.10f: 0x6FF5A4A0 (#10145)
 FOG_DLL_DECL DWORD __cdecl FOG_GetMemoryUsage(void*); // 1.10f: 0x6FF5A4E0 (#10147)
-D2FUNC_DLL(FOG, InitializeServer, QServer*, __stdcall, (int, int, int, int, void*, void*, void*, void*), 0x4150)									//Fog.#10149
-D2FUNC_DLL(FOG, SetMaxClientsPerGame, int, __stdcall, (QServer*, int), 0x4970)																		//Fog.#10151
-D2FUNC_DLL(FOG, 10152, int, __stdcall, (void*, const uint8_t*, int), 0x44F0)																		//Fog.#10152
-D2FUNC_DLL(FOG, WaitForSingleObject, int, __stdcall, (void*, int), 0x4A60)																			//Fog.#10154
-D2FUNC_DLL(FOG, 10156, int, __stdcall, (void*, int, uint8_t*, int), 0x59D0)																			//Fog.#10156
-D2FUNC_DLL(FOG, 10157, int, __stdcall, (void*, int, const uint8_t*, int), 0x5EA0)																	//Fog.#10157
-D2FUNC_DLL(FOG, 10158, int, __stdcall, (void*, int), 0x6210)																						//Fog.#10158
-D2FUNC_DLL(FOG, 10159, int, __stdcall, (void*, int, char*, int), 0x6180)																			//Fog.#10159
-D2FUNC_DLL(FOG, 10161, int, __stdcall, (void*, int), 0x6310)																						//Fog.#10161
-D2FUNC_DLL(FOG, 10162, int, __stdcall, (void*, int, const char*, int), 0x6380)																		//Fog.#10162
-D2FUNC_DLL(FOG, 10163, int, __stdcall, (void*, int, const char*, int), 0x66E0)																		//Fog.#10163
-D2FUNC_DLL(FOG, 10164, int, __stdcall, (void*, int, int, int), 0x69D0)																				//Fog.#10164
-D2FUNC_DLL(FOG, 10165, int, __stdcall, (void*, int, const char*, int), 0x6A10)																		//Fog.#10165
-D2FUNC_DLL(FOG, 10166, int, __stdcall, (void*, int, int, int), 0x6C90)																				//Fog.#10166
-D2FUNC_DLL(FOG, 10170, int, __stdcall, (void*, int), 0x6F70)																						//Fog.#10170
-D2FUNC_DLL(FOG, 10171, int, __stdcall, (void*, void*), 0x6FB0)																						//Fog.#10171
-D2FUNC_DLL(FOG, 10172, int, __stdcall, (void*, int, int), 0x6FD0)																					//Fog.#10172
-D2FUNC_DLL(FOG, 10173, int, __stdcall, (void*, int), 0x7040)																						//Fog.#10173
-D2FUNC_DLL(FOG, 10175, int, __stdcall, (void*, const uint8_t*, int, int), 0x7420)																	//Fog.#10175
-D2FUNC_DLL(FOG, 10177, int, __stdcall, (void*, int), 0x5E60)																						//Fog.#10177
-D2FUNC_DLL(FOG, SetHackListEnabled, int, __stdcall, (QServer* pServer, BOOL bHacklistEnabled), 0x75A0)												//Fog.#10178
-D2FUNC_DLL(FOG, 10180, int, __stdcall, (void*), 0x4920)																								//Fog.#10180
-D2FUNC_DLL(FOG, 10181, int, __stdcall, (void*, const uint8_t*, int, int), 0x75C0)																	//Fog.#10181
+FOG_DLL_DECL QServer* __stdcall FOG_InitializeServer(int nMode, int nMessageQueues, int nPort, BOOL bDisableNT, void* pfValidatePacket, void* pfOnConnect, void* pfOnDisconnect, void* pfLocalSend); // 1.10f: 0x6FF54150 (#10149)
+// Sets the maximum number of connections from the same IP
+FOG_DLL_DECL int __stdcall FOG_SetMaxClientsPerGame(QServer* pServer, int nMaxClients); // 1.10f: 0x6FF54970 (#10151)
+// Sends a last message to all the clients, then destroys the server
+FOG_DLL_DECL int __stdcall FOG_10152(QServer* pServer, const uint8_t* pData, int nSize); // 1.10f: 0x6FF544F0 (#10152)
+// Waits for messages to be received, only for Windows 98
+FOG_DLL_DECL int __stdcall FOG_WaitForSingleObject(QServer* pServer, int nMilliseconds); // 1.10f: 0x6FF54A60 (#10154)
+// Pops a message of the queue. pBuffer receives the client id followed by the message, the size of the message is returned.
+FOG_DLL_DECL int __stdcall FOG_10156(QServer* pServer, int nMessageType, uint8_t* pBuffer, int nBufferSize); // 1.10f: 0x6FF559D0 (#10156)
+// Sends data to the client
+FOG_DLL_DECL int __stdcall FOG_10157(QServer* pServer, int nClientId, const uint8_t* pData, int nSize); // 1.10f: 0x6FF55EA0 (#10157)
+// Returns the IP of the client
+FOG_DLL_DECL int __stdcall FOG_10158(QServer* pServer, int nClientId); // 1.10f: 0x6FF56210 (#10158)
+// Writes the IP of the client as a string
+FOG_DLL_DECL int __stdcall FOG_10159(QServer* pServer, int nClientId, char* szBuffer, int nBufferSize); // 1.10f: 0x6FF56180 (#10159)
+// Returns the socket of the client
+FOG_DLL_DECL int __stdcall FOG_10161(QServer* pServer, int nClientId); // 1.10f: 0x6FF56310 (#10161)
+// Disconnects the client and bans its IP
+FOG_DLL_DECL int __stdcall FOG_10162(QServer* pServer, int nClientId, const char* szFile, int nLine); // 1.10f: 0x6FF56380 (#10162)
+// Bans the IP, and disconnects the client using it
+FOG_DLL_DECL int __stdcall FOG_10163(QServer* pServer, int nIP, const char* szFile, int nLine); // 1.10f: 0x6FF566E0 (#10163)
+// Removes the IP from the hack list
+FOG_DLL_DECL int __stdcall FOG_10164(QServer* pServer, int nIP, int a3, int a4); // 1.10f: 0x6FF569D0 (#10164)
+// Disconnects the client
+FOG_DLL_DECL int __stdcall FOG_10165(QServer* pServer, int nClientId, const char* szFile, int nLine); // 1.10f: 0x6FF56A10 (#10165)
+// Disconnects the client using the IP
+FOG_DLL_DECL int __stdcall FOG_10166(QServer* pServer, int nIP, int a3, int a4); // 1.10f: 0x6FF56C90 (#10166)
+// Sets the function called when an IP is added to the hack list: void __fastcall(uint32_t nIP, const char* szFile, int nLine)
+FOG_DLL_DECL int __stdcall FOG_10170(QServer* pServer, int pfHackListCallback); // 1.10f: 0x6FF56F70 (#10170)
+FOG_DLL_DECL int __stdcall FOG_10171(QServer* pServer, void* pfCallback); // 1.10f: 0x6FF56FB0 (#10171)
+// Sets the user data of the client, given to the packet validation callback
+FOG_DLL_DECL int __stdcall FOG_10172(QServer* pServer, int nClientId, int nUserData); // 1.10f: 0x6FF56FD0 (#10172)
+FOG_DLL_DECL int __stdcall FOG_10173(QServer* pServer, int nClientId); // 1.10f: 0x6FF57040 (#10173)
+// Queues a message as if it was received from the client
+FOG_DLL_DECL int __stdcall FOG_10175(QServer* pServer, const uint8_t* pData, int nSize, int nClientId); // 1.10f: 0x6FF57420 (#10175)
+// Waits for messages to be received
+FOG_DLL_DECL int __stdcall FOG_10177(QServer* pServer, int nMilliseconds); // 1.10f: 0x6FF55E60 (#10177)
+FOG_DLL_DECL int __stdcall FOG_SetHackListEnabled(QServer* pServer, BOOL bHackListEnabled); // 1.10f: 0x6FF575A0 (#10178)
+// Returns the number of clients
+FOG_DLL_DECL int __stdcall FOG_10180(QServer* pServer); // 1.10f: 0x6FF54920 (#10180)
+// Returns the number of queued messages
+FOG_DLL_DECL int __stdcall FOG_10181(QServer* pServer); // 1.10f: 0x6FF575C0 (#10181)
 FOG_DLL_DECL int __stdcall FOG_10182_Return(void*); // 1.10f: 0x6FF51B10 (#10182)
 FOG_DLL_DECL int __stdcall FOG_10183_Return(void*, int); // 1.10f: 0x6FF57620 (#10183)
-D2FUNC_DLL(FOG, 10186, int, __stdcall, (void*, int, int), 0x44C0)																					//Fog.#10186
-D2FUNC_DLL(FOG, 10187, int, __fastcall, (void*, int, int), 0x7630)																					//Fog.#10187
+// Returns the flag of the port, and sets it if nValue is not 0
+FOG_DLL_DECL int __stdcall FOG_10186(QServer* pServer, int nPortIndex, int nValue); // 1.10f: 0x6FF544C0 (#10186)
+// Adds a network to the whitelist, nAddress is in network byte order
+FOG_DLL_DECL int __fastcall FOG_10187(QServer* pServer, int nMaskBits, int nAddress); // 1.10f: 0x6FF57630 (#10187)
 FOG_DLL_DECL void __stdcall FOG_10207(D2BinFileStrc* pBinFile, D2BinFieldStrc* pBinField, void* pTxt, int nRecordCount, int nRecordSize); // 1.10f: 0x6FF5AA60 (#10207)
 FOG_DLL_DECL D2BinFileStrc* __stdcall FOG_CreateBinFile(void* pDataBuffer, int nBufferSize); // 1.10f: 0x6FF5A8B0 (#10208)
 FOG_DLL_DECL void __stdcall FOG_FreeBinFile(D2BinFileStrc* pBinFile); // 1.10f: 0x6FF5AA10 (#10209)

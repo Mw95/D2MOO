@@ -46,6 +46,7 @@ target_sources(${FogImplName}
 	include/ErrorManager.h
 	include/Exceptions.h
 	include/LogManager.h
+	include/QServer/QServer.h
 	include/Safesock.h
 	include/System/System.h
 )

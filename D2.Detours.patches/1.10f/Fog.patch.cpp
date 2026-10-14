@@ -178,17 +178,17 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetMemoryUsage @10147
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10148 @10148
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_InitializeServer @10149
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10150 @10150
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerAddPort @10150
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_SetMaxClientsPerGame @10151
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10152 @10152
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10153 @10153
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerBroadcast @10153
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_WaitForSingleObject @10154
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10155 @10155
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerClearMessages @10155
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10156 @10156
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10157 @10157
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10158 @10158
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10159 @10159
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10160 @10160
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerGetClientPeerIP @10160
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10161 @10161
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10162 @10162
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10163 @10163
@@ -202,7 +202,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10171 @10171
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10172 @10172
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10173 @10173
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10174 @10174
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerIsLocal @10174
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10175 @10175
     PatchAction::FunctionReplaceOriginalByPatch,       //   FOG_IsWindowsNT @10176
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10177 @10177
@@ -212,11 +212,11 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10181 @10181
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10182_Return @10182
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10183_Return @10183
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10184 @10184
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10185 @10185
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerGetMessageCount @10184
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerSetConfig @10185
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10186 @10186
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10187 @10187
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10188 @10188
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerIsWhitelisted @10188
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_XSha1 @10189
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_LogCPUInfo @10190
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IsSlowCPU @10191
