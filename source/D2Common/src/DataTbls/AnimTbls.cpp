@@ -108,6 +108,7 @@ void __stdcall DATATBLS_UnitAnimInfoDebugSet(D2UnitStrc* pUnit, int nAnimSpeed)
 	if (D2AnimDataRecordStrc* pRecord = DATATBLS_GetAnimDataRecordFromPath(szPath))
 	{
 		pRecord->dwAnimSpeed = nAnimSpeed;
+		return;
 	}
 	FOG_DisplayHalt("DataTablesUnitAnimInfoDebugSet", __FILE__, __LINE__);
 	exit(-1);
@@ -123,14 +124,15 @@ BOOL __stdcall DATATBLS_GetAnimDataInfo(char* szPath, int* pOutLength, int* pOut
 
 		for (uint32_t i = 0; i < pRecord->dwFrames; ++i)
 		{
-			if (pRecord->pFrameFlags[i] || i >= D2AnimDataRecordStrc::MAX_FRAME_FLAGS)
+			if (i >= D2AnimDataRecordStrc::MAX_FRAME_FLAGS || pRecord->pFrameFlags[i])
 			{
 				*pOutFirstFrameTagged = i;
 				return TRUE;
 			}
 		}
 
-		*pOutFirstFrameTagged = 0;
+		// No tagged frame found: the original returns the frame count
+		*pOutFirstFrameTagged = pRecord->dwFrames;
 		return TRUE;
 	}
 

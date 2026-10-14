@@ -189,7 +189,7 @@ D2ObjModeDataTbl* __fastcall DATATBLS_GetObjMode_TypeDataTables()
 //D2Common.0x6FD73180 (#10646)
 D2PlrModeTypeTxt* __stdcall DATATBLS_GetPlrModeTypeTxtRecord(int nIndex, int bGetMode)
 {
-	if (nIndex >= sgptDataTables->pPlrModeDataTables.nPlrModeTypeTxtRecordCount)
+	if ((unsigned int)nIndex >= (unsigned int)sgptDataTables->pPlrModeDataTables.nPlrModeTypeTxtRecordCount)
 	{
 		return NULL;
 	}
@@ -214,7 +214,7 @@ D2PlrModeTypeTxt* __stdcall DATATBLS_GetPlrModeTypeTxtRecord(int nIndex, int bGe
 //D2Common.0x6FD73230 (#10647)
 D2MonModeTxt* __stdcall DATATBLS_GetMonModeTxtRecord(int nIndex, int bGetMode)
 {
-	if (nIndex >= sgptDataTables->pMonModeDataTables.nMonModeTxtRecordCount)
+	if ((unsigned int)nIndex >= (unsigned int)sgptDataTables->pMonModeDataTables.nMonModeTxtRecordCount)
 	{
 		return NULL;
 	}
@@ -237,7 +237,7 @@ D2MonModeTxt* __stdcall DATATBLS_GetMonModeTxtRecord(int nIndex, int bGetMode)
 //D2Common.0x6FD732B0 (#10648)
 D2ObjModeTypeTxt* __stdcall DATATBLS_GetObjModeTypeTxtRecord(int nIndex, int bGetMode)
 {
-	if (nIndex >= sgptDataTables->pObjModeDataTables.nObjModeTypeTxtRecordCount)
+	if ((unsigned int)nIndex >= (unsigned int)sgptDataTables->pObjModeDataTables.nObjModeTypeTxtRecordCount)
 	{
 		return NULL;
 	}
