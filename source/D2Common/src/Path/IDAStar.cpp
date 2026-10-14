@@ -47,7 +47,7 @@ int __fastcall PATH_IdaStar_ComputePathWithRooms(D2DrlgCoordsStrc* pRoomCoords, 
     tContext.nCoord[0].Y = pRoomCoords->nSubtileY;
     tContext.nCoord[0].X = pRoomCoords->nSubtileX;
     tContext.nCoord[1].X = pRoomCoords->nSubtileX + pRoomCoords->nSubtileWidth;
-    tContext.nCoord[1].Y = pRoomCoords->nSubtileY + tContext.nCoord[2].Y;
+    tContext.nCoord[1].Y = pRoomCoords->nSubtileY + pRoomCoords->nSubtileHeight;
     tContext.nCoord[2].X = pRoomCoords->nSubtileWidth;
     tContext.nCoord[2].Y = pRoomCoords->nSubtileHeight;
     tContext.nStride = pRoomCoords->nSubtileWidth + 6;
@@ -93,7 +93,7 @@ int __fastcall PATH_IdaStar_ComputePathWithRooms(D2DrlgCoordsStrc* pRoomCoords, 
     case PATHTYPE_IDASTAR:
         nFScoreCutoff = tStartNode.nHeuristicDistanceToTarget;
         nMaxFScore = pPathInfo->nMinimumFScoreToEvaluate;
-        if (nMaxFScore > pPathInfo->nMinimumFScoreToEvaluate)
+        if (tStartNode.nHeuristicDistanceToTarget > nMaxFScore)
         {
             nMaxFScore = tStartNode.nHeuristicDistanceToTarget;
         }
@@ -246,7 +246,7 @@ D2PathIDAStarNodeStrc* __fastcall PATH_IDAStar_VisitNodes(D2PathIDAStarContextSt
         {
             const int16_t nDistanceBetweenPoints = PATH_AStar_HeuristicForNeighbor(pCurrentNode->tCoord, tNeighborCoords);
             const int16_t nNewDistanceFromStart = nDistanceBetweenPoints + pCurrentNode->nBestDistanceFromStart;
-            if (*pNeighborBestDistanceToStart == 0 || (unsigned int)nNewDistanceFromStart >= *pNeighborBestDistanceToStart )
+            if (*pNeighborBestDistanceToStart == 0 || (unsigned int)*pNeighborBestDistanceToStart >= (unsigned int)nNewDistanceFromStart )
             {
                 *pNeighborBestDistanceToStart = nNewDistanceFromStart;
 

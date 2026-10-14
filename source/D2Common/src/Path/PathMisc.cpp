@@ -247,7 +247,7 @@ BOOL PATH_PreparePathTargetForPathUpdate(D2PathInfoStrc* pPathInfo)
 		if (PATH_CheckTestDirForCollisions(pPathInfo, pTestDir, aTestDirPathPoints, &nFreeOfCollisionDirectionIndex))
 		{
 			pPathInfo->tTargetCoord = aTestDirPathPoints[nFreeOfCollisionDirectionIndex];
-			if (pPathInfo->tStartCoord == aTestDirPathPoints[0])
+			if (pPathInfo->tStartCoord == pPathInfo->tTargetCoord)
 			{
 				return 0;
 			}
@@ -881,9 +881,10 @@ void __fastcall sub_6FDAB7D0(int* pTestDir, int nUnused, D2PathPointStrc pPoint1
 	D2_MAYBE_UNUSED(nUnused);
 	int nIndex = sub_6FDAB6A0(pPoint1, pPoint2);
 
-	pTestDir[0] = byte_6FDD2288[nIndex].unk0x00;
-	pTestDir[1] = byte_6FDD2288[nIndex].unk0x01;
-	pTestDir[2] = byte_6FDD2288[nIndex].unk0x02;
+	// Original zero-extends the bytes, so -1 becomes PATH_DIR_NULL (255)
+	pTestDir[0] = (uint8_t)byte_6FDD2288[nIndex].unk0x00;
+	pTestDir[1] = (uint8_t)byte_6FDD2288[nIndex].unk0x01;
+	pTestDir[2] = (uint8_t)byte_6FDD2288[nIndex].unk0x02;
 }
 
 //D2Common.0x6FDABA50
@@ -977,6 +978,7 @@ int __fastcall PATH_SimplifyToLines_6FDAC170(D2PathPointStrc* pOutPathPoints, D2
 		}
 		if (nCurrentPointIdx < nbTempPoints)
 			pOutPathPoints[nbOutPoints++] = pInputPoints[nCurrentPointIdx];
+		return nbOutPoints;
 	}
 	else if (nbTempPoints == 1)
 	{
@@ -1132,7 +1134,7 @@ void sub_6FD5CEB0(D2DynamicPathStrc* pDynamicPath, int nBaseVelocity)
 		{
 			const int nOldVelocity = pDynamicPath->dwMaxVelocity;
 			pDynamicPath->dwVelocity = nAcceleration + pDynamicPath->dwVelocity;
-			if (pDynamicPath->dwVelocity >= nOldVelocity)
+			if (pDynamicPath->dwVelocity > nOldVelocity)
 			{
 				pDynamicPath->dwVelocity = nOldVelocity;
 				pDynamicPath->dwAcceleration = 0;
@@ -1180,20 +1182,20 @@ BOOL sub_6FD5DB70(D2DynamicPathStrc* pDynamicPath)
 	D2PathPointStrc a3;
 	sub_6FDAB940(&a3, pDynamicPath);
 
-	if (pTargetUnit)
+	bool bTargetMovedTooFar = false;
+	if (pTargetUnit->dwUnitType == UNIT_PLAYER || pTargetUnit->dwUnitType == UNIT_MONSTER)
 	{
-		if (pTargetUnit->dwUnitType == UNIT_PLAYER || pTargetUnit->dwUnitType == UNIT_MONSTER)
+		const int nAbsDiffX = std::abs(pDynamicPath->tPrevTargetCoord.X - a3.X);
+		const int nAbsDiffY = std::abs(pDynamicPath->tPrevTargetCoord.Y - a3.Y);
+		bTargetMovedTooFar = nAbsDiffX > 5 || nAbsDiffY > 5;
+	}
+	// Note: for non player/monster targets, the original also only repaths when the path is finished
+	if (!bTargetMovedTooFar)
+	{
+		if (pDynamicPath->dwCurrentPointIdx < pDynamicPath->dwPathPoints
+			|| pDynamicPath->tFinalTargetCoord == pDynamicPath->tGameCoords.ToPathPoint() )
 		{
-			const int nAbsDiffX = std::abs(pDynamicPath->tPrevTargetCoord.X - a3.X);
-			const int nAbsDiffY = std::abs(pDynamicPath->tPrevTargetCoord.Y - a3.Y);
-			if (nAbsDiffX <= 5 && nAbsDiffY <= 5)
-			{
-				if (pDynamicPath->dwCurrentPointIdx < pDynamicPath->dwPathPoints
-					|| pDynamicPath->tFinalTargetCoord == pDynamicPath->tGameCoords.ToPathPoint() )
-				{
-					return TRUE;
-				}
-			}
+			return TRUE;
 		}
 	}
 	return D2Common_10236(pDynamicPath->pUnit, TRUE);

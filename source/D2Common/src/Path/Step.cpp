@@ -751,7 +751,7 @@ BOOL __stdcall D2Common_10231_Impl(D2DynamicPathStrc* pDynamicPath, D2ActiveRoom
 int __stdcall D2Common_10231(D2DynamicPathStrc* pDynamicPath, D2UnitStrc* pUnit_unused, D2ActiveRoomStrc* pRooms, uint16_t nX, uint16_t nY)
 {
 	D2_MAYBE_UNUSED(pUnit_unused);
-	D2Common_10231_Impl(pDynamicPath, pRooms, D2PathPointStrc{ pDynamicPath->tGameCoords.wPosX, pDynamicPath->tGameCoords.wPosY });
+	D2Common_10231_Impl(pDynamicPath, pRooms, D2PathPointStrc{ nX, nY });
 	pDynamicPath->dwPathPoints = 0;
 	return TRUE;
 }
@@ -816,9 +816,7 @@ BOOL __stdcall D2Common_10232(D2DynamicPathStrc* pPath, D2UnitStrc* pUnit, D2Act
 	{
 		pPath->dwFlags |= PATH_UNKNOWN_FLAG_0x00001;
 	}
-#ifdef D2_VERSION_113C
-	PATH_RecacheRoomIfNeeded(pPath, PATH_ToFP16Center(nTargetX), PATH_ToFP16Center(nTargetY), pDestRoom);
-#endif
+	PATH_RecacheRoomAtCoordIfNeeded(pPath, pDestRoom, PATH_ToFP16Center(nTargetX), PATH_ToFP16Center(nTargetY));
 	D2_ASSERT(COLLISION_GetRoomBySubTileCoordinates(pDestRoom, nTargetX, nTargetY));
 	PATH_ResetMovement(pPath);
 	return TRUE;
@@ -891,21 +889,9 @@ void __stdcall D2Common_10235_PATH_UpdateRiderPath(D2UnitStrc* pRiderUnit, D2Uni
 	// Rider was in a different room than the mount at some point
 	if (pRiderPath->pUnit && (pRiderPath->dwFlags & PATH_UNKNOWN_FLAG_0x00001))
 	{
-		// Try finding room from rider's current room list
-		D2ActiveRoomStrc* pRidersUpToDateRoom = COLLISION_GetRoomBySubTileCoordinates(pRiderPath->pRoom, pRiderPath->tGameCoords.wPosX, pRiderPath->tGameCoords.wPosY);
-
-		if (!pRidersUpToDateRoom)
-		{
-			// If not in the rider's current room list, try with the mount's room list
-			pRidersUpToDateRoom = COLLISION_GetRoomBySubTileCoordinates(pMountRoom, pRiderPath->tGameCoords.wPosX, pRiderPath->tGameCoords.wPosY);
-			// If not found and it is a missile, just end its path
-			if (!pRidersUpToDateRoom && (pRiderPath->dwFlags & PATH_MISSILE_MASK))
-			{
-				pRiderPath->dwPathPoints = 0;
-				return;
-			}
-		}
-
-		PATHMISC_SetRoom(pRiderPath, pRidersUpToDateRoom);
+		// Does nothing if the rider's current room already contains its position,
+		// otherwise looks in the rider's room list, then the mount's room list.
+		// If not found and it is a missile, its path is ended.
+		PATH_RecacheRoom(pRiderPath, pMountRoom);
 	}
 }

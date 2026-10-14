@@ -63,7 +63,7 @@ void __fastcall D2Common_COLLISION_FirstFn_6FD41000(D2ActiveRoomStrc* pRoom, D2D
 
 						nIndex = pCollisionGrid->pRoomCoords.nSubtileWidth * nCappedY;
 
-						for (int nYCounter = nCappedX; nYCounter < nY + 5; ++nYCounter)
+						for (int nYCounter = nCappedY; nYCounter < nY + 5; ++nYCounter)
 						{
 							pCollisionMask = &pCollisionGrid->pCollisionMask[nIndex];
 							for (int nXCounter = nCappedX; nXCounter < nX + 5; ++nXCounter)
