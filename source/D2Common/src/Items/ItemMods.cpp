@@ -609,7 +609,7 @@ BOOL __stdcall ITEMMODS_UpdateItemWithSkillCharges(D2UnitStrc* pItem, int nSkill
 	int nShiftedValue = 0;
 	int nValue = 0;
 	int nLayer = 0;
-	uint8_t v11 = 0;
+	int v11 = 0;
 
 	if (pItem && pItem->dwUnitType == UNIT_ITEM)
 	{
@@ -2466,7 +2466,9 @@ void __stdcall ITEMMODS_AssignProperty(int nType, D2UnitStrc* a2, D2UnitStrc* pI
 		{
 #define MAX_UNIQUE_ITEM_PROPERTIES 12
 			D2_ASSERT(nMod < MAX_UNIQUE_ITEM_PROPERTIES && nMod >= 0);
-			return;
+
+			pProperty = &((D2QualityItemsTxt*)pMods)->pProperties[nMod];
+			break;
 		}
 
 		case PROPMODE_GEM:
@@ -2617,12 +2619,14 @@ void __fastcall ITEMMODS_UpdateFullSetBoni(D2UnitStrc* pUnit, D2UnitStrc* pItem,
 						nItems = 0;
 					}
 
-					if (nItems >= pSetsTxtRecord->nSetItems - 1)
+					// Partial boni use the count clamped to nSetItems - 1, the full set check uses the unclamped count
+					int nPartialItems = nItems;
+					if (nPartialItems >= pSetsTxtRecord->nSetItems - 1)
 					{
-						nItems = pSetsTxtRecord->nSetItems - 1;
+						nPartialItems = pSetsTxtRecord->nSetItems - 1;
 					}
 
-					for (int i = 0; i < 2 * (nItems - 1); ++i)
+					for (int i = 0; i < 2 * (nPartialItems - 1); ++i)
 					{
 						pProperty = &pSetsTxtRecord->pBoni2[i];
 
@@ -2659,35 +2663,44 @@ BOOL __stdcall ITEMMODS_CanItemHaveMagicAffix(D2UnitStrc* pItem, const D2MagicAf
 
 	if (ITEMS_GetItemFormat(pItem) >= 100 || !ITEMS_CheckIfStackable(pItem) && !ITEMS_CheckIfThrowable(pItem))
 	{
-		if (ITEMS_CheckIfSocketable(pItem) && ITEMS_GetMaxSockets(pItem) || pMagicAffixTxtRecord->pProperties[0].nProperty < 0 || pMagicAffixTxtRecord->pProperties[0].nProperty < sgptDataTables->nPropertiesTxtRecordCount)
+		// The socket property check is skipped for socketable items with sockets and for affixes without a first property
+		BOOL bCanApply = TRUE;
+		if (!(ITEMS_CheckIfSocketable(pItem) && ITEMS_GetMaxSockets(pItem)) && pMagicAffixTxtRecord->pProperties[0].nProperty >= 0)
 		{
-			pPropertiesTxtRecord = &sgptDataTables->pPropertiesTxt[pMagicAffixTxtRecord->pProperties[0].nProperty];
-			if (pPropertiesTxtRecord && pPropertiesTxtRecord->wStat[0] != STAT_ITEM_NUMSOCKETS)
+			pPropertiesTxtRecord = NULL;
+			if (pMagicAffixTxtRecord->pProperties[0].nProperty < sgptDataTables->nPropertiesTxtRecordCount)
 			{
-				for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wEType); ++i)
-				{
-					if (pMagicAffixTxtRecord->wEType[i] <= 0)
-					{
-						break;
-					}
+				pPropertiesTxtRecord = &sgptDataTables->pPropertiesTxt[pMagicAffixTxtRecord->pProperties[0].nProperty];
+			}
 
-					if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wEType[i]))
-					{
-						return FALSE;
-					}
+			bCanApply = pPropertiesTxtRecord && pPropertiesTxtRecord->wStat[0] != STAT_ITEM_NUMSOCKETS;
+		}
+
+		if (bCanApply)
+		{
+			for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wEType); ++i)
+			{
+				if (pMagicAffixTxtRecord->wEType[i] <= 0)
+				{
+					break;
 				}
 
-				for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wIType); ++i)
+				if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wEType[i]))
 				{
-					if (pMagicAffixTxtRecord->wIType[i] <= 0)
-					{
-						break;
-					}
+					return FALSE;
+				}
+			}
 
-					if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wIType[i]))
-					{
-						return TRUE;
-					}
+			for (int i = 0; i < ARRAY_SIZE(pMagicAffixTxtRecord->wIType); ++i)
+			{
+				if (pMagicAffixTxtRecord->wIType[i] <= 0)
+				{
+					break;
+				}
+
+				if (ITEMS_CheckItemTypeId(pItem, pMagicAffixTxtRecord->wIType[i]))
+				{
+					return TRUE;
 				}
 			}
 		}
@@ -3590,7 +3603,7 @@ int __fastcall ITEMMODS_PropertyFunc10(int nType, D2UnitStrc* pUnit, D2UnitStrc*
 
 	if (nValue)
 	{
-		return ITEMMODS_AddPropertyToItemStatList(nType, pUnit, pItem, pProperty, nSet, nStatId, pProperty->nLayer % 3 + 8 * pProperty->nLayer / 3, nValue, nState, fStatList, a11);
+		return ITEMMODS_AddPropertyToItemStatList(nType, pUnit, pItem, pProperty, nSet, nStatId, pProperty->nLayer % 3 + 8 * (pProperty->nLayer / 3), nValue, nState, fStatList, a11);
 	}
 
 	nMin = pProperty->nMin;
@@ -3627,7 +3640,7 @@ int __fastcall ITEMMODS_PropertyFunc10(int nType, D2UnitStrc* pUnit, D2UnitStrc*
 		return 0;
 	}
 
-	return ITEMMODS_AddPropertyToItemStatList(nType, pUnit, pItem, pProperty, nSet, nStatId, pProperty->nLayer % 3 + 8 * pProperty->nLayer / 3, nMin, nState, fStatList, a11);
+	return ITEMMODS_AddPropertyToItemStatList(nType, pUnit, pItem, pProperty, nSet, nStatId, pProperty->nLayer % 3 + 8 * (pProperty->nLayer / 3), nMin, nState, fStatList, a11);
 }
 
 //D2Common.0x6FD972E0
@@ -3717,7 +3730,11 @@ int __fastcall ITEMMODS_PropertyFunc14(int nType, D2UnitStrc* pUnit, D2UnitStrc*
 	ITEMS_GetDimensions(pItem, &nWidth, &nHeight, __FILE__, __LINE__);
 
 	nMaxSockets = nWidth * nHeight;
-	if (nMaxSockets <= 0)
+	if (nMaxSockets > 6)
+	{
+		nMaxSockets = 6;
+	}
+	else if (nMaxSockets <= 0)
 	{
 		return 0;
 	}
