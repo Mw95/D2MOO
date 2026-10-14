@@ -152,7 +152,7 @@ typedef int (*D2ExceptionCallback)();
 
 FOG_DLL_DECL const char* __cdecl FOG_csprintf(char* szDest, const char* szFormat, ...); // 1.10f: 0x6FF5DD90 (#10018)
 D2FUNC_DLL(FOG, InitErrorMgr, void, __fastcall, (const char* szProgramName, D2ExceptionCallback pExceptionCallback, const char* szVersion, BOOL bLogToFile), 0xE1B0)	//Fog.#10019
-D2FUNC_DLL(FOG, SetLogPrefix, int, __fastcall, (const char* szLogPrefix), 0xE1A0)																	//Fog.#10021
+FOG_DLL_DECL int __fastcall FOG_SetLogPrefix(const char* szLogPrefix); // 1.10f: 0x6FF5E1A0 (#10021)
 D2FUNC_DLL(FOG, GetSystemInfo, void*, __cdecl, (), 0xDF20)																							//Fog.#10022
 D2FUNC_DLL(FOG, DisplayAssert, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED30)											//Fog.#10023
 D2FUNC_DLL(FOG, DisplayHalt, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED60)												//Fog.#10024
@@ -160,12 +160,12 @@ D2FUNC_DLL(FOG, DisplayWarning, void, __cdecl, (const char* szMsg, const char* s
 D2FUNC_DLL(FOG, 10028, void, __cdecl, (int nCategory, const char* szFile, int nLine, const char* szFormat, ...), 0xF100)		//Fog.#10028
 D2FUNC_DLL(FOG, DisplayError, void, __cdecl, (int nCategory, const char* szMsg, const char* szFile, int nLine), 0xEDF0)								//Fog.#10026
 // Log to default logfile with date and `\n` at end of message
-D2FUNC_DLL(FOG, Trace, void, __cdecl, (const char* szFormat, ...), 0x120A0)																			//Fog.#10029
+FOG_DLL_DECL void __cdecl FOG_Trace(const char* szFormat, ...); // 1.10f: 0x6FF620A0 (#10029)
 // Log to file. Will be prefixed with "D2" and suffixed by date. Log includes date prefix and `\n` at end of message.
-D2FUNC_DLL(FOG, TraceF, void, __cdecl, (const char* pFileSubName, const char* szFormat, ...), 0x120E0)												//Fog.#10030
+FOG_DLL_DECL void __cdecl FOG_TraceF(const char* pFileSubName, const char* szFormat, ...); // 1.10f: 0x6FF620E0 (#10030)
 // Append to the default logfile. No date nor '\n'.
-D2FUNC_DLL(FOG, TraceAppend, void, __cdecl, (const char* szFormat, ...), 0x12180)																	//Fog.#10031
-D2FUNC_DLL(FOG, TraceMemory, void, __cdecl, (const char* pFileSubName, const char* szMessage, void* pMemory, size_t nByteCount, BOOL bLogOffset, BOOL bNoCopy, BOOL bNoASCII), 0x12210) //Fog.#10032
+FOG_DLL_DECL void __cdecl FOG_TraceAppend(const char* szFormat, ...); // 1.10f: 0x6FF62180 (#10031)
+FOG_DLL_DECL void __cdecl FOG_TraceMemory(const char* pFileSubName, const char* szMessage, void* pMemory, size_t nByteCount, BOOL bLogOffset, BOOL bNoCopy, BOOL bNoASCII); // 1.10f: 0x6FF62210 (#10032)
 D2FUNC_DLL(FOG, CrashDeadlockDetected, void, __fastcall, (HANDLE hThreadToWalk), 0xFA10)															//Fog.#10033
 D2FUNC_DLL(FOG, CrashDumpThread, void, __fastcall, (HANDLE hThreadToWalk), 0xF950)																	//Fog.#10034
 D2FUNC_DLL(FOG, IsHandlingError, BOOL, __cdecl, (), 0xF2A0)																							//Fog.#10039
