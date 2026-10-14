@@ -3405,7 +3405,7 @@ int __fastcall ITEMMODS_PropertyFunc07(int nType, D2UnitStrc* pUnit, D2UnitStrc*
 			nMaxDamage = pItemsTxtRecord->nMaxDam;
 		}
 
-		nBonus = nMin * (long long int)nMaxDamage / 100;
+		nBonus = DATATBLS_ApplyRatio(nMaxDamage, nMin, 100);
 
 		if (ITEMS_CheckItemTypeId(pItem, ITEMTYPE_WEAPON) && nMaxDamage + nBonus <= nMaxDamage)
 		{

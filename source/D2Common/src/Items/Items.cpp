@@ -1091,9 +1091,8 @@ BOOL __stdcall ITEMS_CheckRequirements(D2UnitStrc* pItem, D2UnitStrc* pUnit, BOO
 	int nReqDexBonus = 0;
 	if (int nReqPctBonus = STATLIST_UnitGetItemStatOrSkillStatValue(pItem, STAT_ITEM_REQ_PERCENT, 0))
 	{
-		// It seems the original game has some additional logic to handle overflow here
-		nReqStrBonus = nBaseReqStr * int64_t(nReqPctBonus) / 100;
-		nReqDexBonus = nBaseReqDex * int64_t(nReqPctBonus) / 100;
+		nReqStrBonus = DATATBLS_ApplyRatio(nBaseReqStr, nReqPctBonus, 100);
+		nReqDexBonus = DATATBLS_ApplyRatio(nBaseReqDex, nReqPctBonus, 100);
 	}
 
 	if (pItemData && pItemData->dwItemFlags & IFLAG_ETHEREAL)
