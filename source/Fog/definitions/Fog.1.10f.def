@@ -29,25 +29,25 @@ UnimplementedOrdinal ;   FOG_10264 @10264 ;gqwCriticalS
     FOG_SOCKET_SetBlockingMode @10017 NONAME
     FOG_csprintf @10018 NONAME
     FOG_InitErrorMgr @10019 NONAME
-UnimplementedOrdinal_10020=UnimplementedOrdinal @10020;   FOG_10020 @10020 NONAME
+    FOG_10020 @10020 NONAME
     FOG_SetLogPrefix @10021 NONAME
     FOG_GetSystemInfo @10022 NONAME
     FOG_DisplayAssert @10023 NONAME
     FOG_DisplayHalt @10024 NONAME
     FOG_DisplayWarning @10025 NONAME
     FOG_DisplayError @10026 NONAME
-UnimplementedOrdinal_10027=UnimplementedOrdinal @10027;   FOG_10027 @10027 NONAME
-UnimplementedOrdinal_10028=UnimplementedOrdinal @10028;   FOG_10028 @10028 NONAME
+    FOG_DisplayDeadlock @10027 NONAME
+    FOG_10028 @10028 NONAME
     FOG_Trace @10029 NONAME
     FOG_TraceF @10030 NONAME
     FOG_TraceAppend @10031 NONAME
     FOG_TraceMemory @10032 NONAME
     FOG_CrashDeadlockDetected @10033 NONAME
-UnimplementedOrdinal_10034=UnimplementedOrdinal @10034;   FOG_CrashDumpThread @10034 NONAME
-UnimplementedOrdinal_10035=UnimplementedOrdinal @10035;   FOG_10035 @10035 NONAME
-UnimplementedOrdinal_10036=UnimplementedOrdinal @10036;   FOG_10036 @10036 NONAME
-UnimplementedOrdinal_10037=UnimplementedOrdinal @10037;   FOG_10037 @10037 NONAME
-UnimplementedOrdinal_10038=UnimplementedOrdinal @10038;   FOG_10038 @10038 NONAME
+    FOG_CrashDumpThread @10034 NONAME
+    FOG_10035 @10035 NONAME
+    FOG_10036 @10036 NONAME
+    FOG_10037 @10037 NONAME
+    FOG_10038 @10038 NONAME
     FOG_IsHandlingError @10039 NONAME
     FOG_FlushLogs @10040 NONAME
     FOG_EnableMemoryPools @10041 NONAME
@@ -61,7 +61,7 @@ FOG_10048=FOG_10082_Noop @10048 NONAME
 FOG_10049=FOG_10082_Noop @10049 NONAME
    FOG_10050_EnterCriticalSection @10050 NONAME
     FOG_LeaveCriticalSection @10051 NONAME
-UnimplementedOrdinal_10052=UnimplementedOrdinal @10052;   FOG_10052 @10052 NONAME
+    FOG_UnhandledExceptionFilter @10052 NONAME
 FOG_10053=FOG_10082_Noop @10053 NONAME
 FOG_10054=FOG_10082_Noop @10054 NONAME
     FOG_10055_GetSyncTime @10055 NONAME
@@ -197,8 +197,8 @@ UnimplementedOrdinal_10185=UnimplementedOrdinal @10185;   FOG_10185 @10185 NONAM
     FOG_10187 @10187 NONAME
 UnimplementedOrdinal_10188=UnimplementedOrdinal @10188;   FOG_10188 @10188 NONAME
     FOG_XSha1 @10189 NONAME
-UnimplementedOrdinal_10190=UnimplementedOrdinal @10190;   FOG_10190 @10190 NONAME
-UnimplementedOrdinal_10191=UnimplementedOrdinal @10191;   FOG_10191 @10191 NONAME
+    FOG_LogCPUInfo @10190 NONAME
+    FOG_IsSlowCPU @10191 NONAME
 FOG_10192=FOG_ReturnZero @10192 NONAME
 FOG_10193=FOG_Noop_Stdcall3 @10193 NONAME
 FOG_10194=FOG_10082_Noop @10194 NONAME
@@ -233,7 +233,7 @@ FOG_10221=FOG_10082_Noop @10221 NONAME
     FOG_10223 @10223 NONAME
     FOG_10224 @10224 NONAME
 FOG_10225=FOG_10082_Noop @10225 NONAME
-UnimplementedOrdinal_10226=UnimplementedOrdinal @10226;   FOG_10226 @10226 NONAME
+    FOG_PrintErrorHeader @10226 NONAME
     FOG_IsExpansion @10227 NONAME
 FOG_10228=FOG_10183_Return @10228 NONAME
     FOG_ComputeChecksum @10229 NONAME
@@ -244,7 +244,7 @@ FOG_10232=FOG_10082_Noop @10232 NONAME
     FOG_GetLogFileSize @10234 NONAME
     FOG_ReadLogFile @10235 NONAME
 FOG_10236=FOG_Noop_Stdcall6 @10236 NONAME
-UnimplementedOrdinal_10237=UnimplementedOrdinal @10237;   FOG_10237 @10237 NONAME
+    FOG_QuickStackWalk @10237 NONAME
     FOG_TraceFAppend @10238 NONAME
     FOG_GetModuleDirectory @10239 NONAME
 FOG_10240=FOG_10082_Noop @10240 NONAME
@@ -264,4 +264,4 @@ FOG_10251=FOG_10082_Noop @10251 NONAME
     DATATBLS_CompileExpression @10254 NONAME
     FOG_10255 @10255 NONAME
     FOG_SOCKET_GetSockName @10262 NONAME
-UnimplementedOrdinal_10263=UnimplementedOrdinal @10263;   FOG_10263 @10263 NONAME
+    FOG_ReadCrashDumpSummary @10263 NONAME

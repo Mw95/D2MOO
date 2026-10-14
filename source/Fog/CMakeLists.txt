@@ -43,6 +43,8 @@ target_sources(${FogImplName}
 	include/IFF.h
 	include/Sha1.h
 	include/Mem/Mem.h
+	include/ErrorManager.h
+	include/Exceptions.h
 	include/LogManager.h
 	include/Safesock.h
 	include/System/System.h
