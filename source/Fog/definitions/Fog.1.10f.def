@@ -49,7 +49,7 @@ UnimplementedOrdinal_10036=UnimplementedOrdinal @10036;   FOG_10036 @10036 NONAM
 UnimplementedOrdinal_10037=UnimplementedOrdinal @10037;   FOG_10037 @10037 NONAME
 UnimplementedOrdinal_10038=UnimplementedOrdinal @10038;   FOG_10038 @10038 NONAME
     FOG_IsHandlingError @10039 NONAME
-UnimplementedOrdinal_10040=UnimplementedOrdinal @10040;   FOG_10040 @10040 NONAME
+    FOG_FlushLogs @10040 NONAME
     FOG_EnableMemoryPools @10041 NONAME
     FOG_Alloc @10042 NONAME
     FOG_Free @10043 NONAME
@@ -241,11 +241,11 @@ FOG_10228=FOG_10183_Return @10228 NONAME
     FOG_GetShortSourceFilePath @10231 NONAME
 FOG_10232=FOG_10082_Noop @10232 NONAME
     FOG_10233 @10233 NONAME
-UnimplementedOrdinal_10234=UnimplementedOrdinal @10234;   FOG_10234 @10234 NONAME
-UnimplementedOrdinal_10235=UnimplementedOrdinal @10235;   FOG_10235 @10235 NONAME
+    FOG_GetLogFileSize @10234 NONAME
+    FOG_ReadLogFile @10235 NONAME
 FOG_10236=FOG_Noop_Stdcall6 @10236 NONAME
 UnimplementedOrdinal_10237=UnimplementedOrdinal @10237;   FOG_10237 @10237 NONAME
-UnimplementedOrdinal_10238=UnimplementedOrdinal @10238;   FOG_10238 @10238 NONAME
+    FOG_TraceFAppend @10238 NONAME
     FOG_GetModuleDirectory @10239 NONAME
 FOG_10240=FOG_10082_Noop @10240 NONAME
 FOG_10241=FOG_10082_Noop @10241 NONAME
