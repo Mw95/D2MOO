@@ -60,7 +60,7 @@ UnimplementedOrdinal_10041=UnimplementedOrdinal @10041;   FOG_10041 @10041 NONAM
 FOG_10048=FOG_10082_Noop @10048 NONAME
 FOG_10049=FOG_10082_Noop @10049 NONAME
    FOG_10050_EnterCriticalSection @10050 NONAME
-UnimplementedOrdinal_10051=UnimplementedOrdinal @10051;   FOG_10051 @10051 NONAME
+    FOG_LeaveCriticalSection @10051 NONAME
 UnimplementedOrdinal_10052=UnimplementedOrdinal @10052;   FOG_10052 @10052 NONAME
 FOG_10053=FOG_10082_Noop @10053 NONAME
 FOG_10054=FOG_10082_Noop @10054 NONAME
@@ -196,7 +196,7 @@ UnimplementedOrdinal_10185=UnimplementedOrdinal @10185;   FOG_10185 @10185 NONAM
     FOG_10186 @10186 NONAME
     FOG_10187 @10187 NONAME
 UnimplementedOrdinal_10188=UnimplementedOrdinal @10188;   FOG_10188 @10188 NONAME
-UnimplementedOrdinal_10189=UnimplementedOrdinal @10189;   FOG_10189 @10189 NONAME
+    FOG_XSha1 @10189 NONAME
 UnimplementedOrdinal_10190=UnimplementedOrdinal @10190;   FOG_10190 @10190 NONAME
 UnimplementedOrdinal_10191=UnimplementedOrdinal @10191;   FOG_10191 @10191 NONAME
 FOG_10192=FOG_ReturnZero @10192 NONAME
@@ -238,7 +238,7 @@ UnimplementedOrdinal_10226=UnimplementedOrdinal @10226;   FOG_10226 @10226 NONAM
 FOG_10228=FOG_10183_Return @10228 NONAME
     FOG_ComputeChecksum @10229 NONAME
     FOG_PopCount @10230 NONAME
-UnimplementedOrdinal_10231=UnimplementedOrdinal @10231;   FOG_10231 @10231 NONAME
+    FOG_GetShortSourceFilePath @10231 NONAME
 FOG_10232=FOG_10082_Noop @10232 NONAME
     FOG_10233 @10233 NONAME
 UnimplementedOrdinal_10234=UnimplementedOrdinal @10234;   FOG_10234 @10234 NONAME
@@ -255,9 +255,9 @@ UnimplementedOrdinal_10244=UnimplementedOrdinal @10244;   FOG_10244 @10244 NONAM
 UnimplementedOrdinal_10245=UnimplementedOrdinal @10245;   FOG_10245 @10245 NONAME
 UnimplementedOrdinal_10246=UnimplementedOrdinal @10246;   FOG_10246 @10246 NONAME
 UnimplementedOrdinal_10247=UnimplementedOrdinal @10247;   FOG_10247 @10247 NONAME
-UnimplementedOrdinal_10248=UnimplementedOrdinal @10248;   FOG_10248 @10248 NONAME
-UnimplementedOrdinal_10249=UnimplementedOrdinal @10249;   FOG_10249 @10249 NONAME
-UnimplementedOrdinal_10250=UnimplementedOrdinal @10250;   FOG_10250 @10250 NONAME
+    FOG_Sha1Initialize @10248 NONAME
+    FOG_Sha1Update @10249 NONAME
+    FOG_Sha1Finalize @10250 NONAME
 FOG_10251=FOG_10082_Noop @10251 NONAME
     FOG_LeadingZeroesCount @10252 NONAME
     DATATBLS_CalcEvaluateExpression @10253 NONAME

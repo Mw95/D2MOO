@@ -150,7 +150,7 @@ struct QServer;
 
 typedef int (*D2ExceptionCallback)();
 
-D2FUNC_DLL(FOG, csprintf, const char*, __cdecl, (char* szDest, const char* szFormat, ...), 0xDD90)													//Fog.#10018
+FOG_DLL_DECL const char* __cdecl FOG_csprintf(char* szDest, const char* szFormat, ...); // 1.10f: 0x6FF5DD90 (#10018)
 D2FUNC_DLL(FOG, InitErrorMgr, void, __fastcall, (const char* szProgramName, D2ExceptionCallback pExceptionCallback, const char* szVersion, BOOL bLogToFile), 0xE1B0)	//Fog.#10019
 D2FUNC_DLL(FOG, SetLogPrefix, int, __fastcall, (const char* szLogPrefix), 0xE1A0)																	//Fog.#10021
 D2FUNC_DLL(FOG, GetSystemInfo, void*, __cdecl, (), 0xDF20)																							//Fog.#10022
@@ -174,7 +174,7 @@ D2FUNC_DLL(FOG, Realloc, void, __fastcall, (void* pMemory, int nSize, const char
 D2FUNC_DLL(FOG, AllocPool, void*, __fastcall, (void* pMemPool, int nSize, const char* szFile, int nLine, int n0), 0x8FF0)							//Fog.#10045
 D2FUNC_DLL(FOG, FreePool, void, __fastcall, (void* pMemPool, void* pFree, const char* szFile, int nLine, int n0), 0x9030)							//Fog.#10046
 D2FUNC_DLL(FOG, ReallocPool, void*, __fastcall, (void* pMemPool, void* pMemory, int nSize, const char* szFile, int nLine, int n0), 0x9060)			//Fog.#10047
-D2FUNC_DLL(FOG, 10050_EnterCriticalSection, void, __fastcall, (_Acquires_lock_(*_Curr_) CRITICAL_SECTION* pCriticalSection, int nLine), 0xDC20)		//Fog.#10050
+FOG_DLL_DECL void __fastcall FOG_10050_EnterCriticalSection(_Acquires_lock_(*_Curr_) CRITICAL_SECTION* pCriticalSection, int nLine); // 1.10f: 0x6FF5DC20 (#10050)
 FOG_DLL_DECL int32_t __fastcall FOG_10055_GetSyncTime(); // 1.10f: 0x6FF5A690 (#10055)
 // Noop, same as 10048, 10049, 10053, 10054, 10146, 10194, 10195, 10196, 10197, 10220, 10221, 10225, 10232, 10240, 10241, 10242, 10243, 10251
 FOG_DLL_DECL void __fastcall FOG_10082_Noop(); // 1.10f: 0x6FF51DE0 (#10082)
@@ -270,6 +270,8 @@ FOG_DLL_DECL int __fastcall FOG_10219(uint8_t* pCodeLengths); // 1.10f: 0x6FF5C9
 FOG_DLL_DECL int __fastcall FOG_10222(const uint8_t* pData, int nSize); // 1.10f: 0x6FF5CC90 (#10222) Updates the packet compression statistics
 FOG_DLL_DECL int __fastcall FOG_10223(uint8_t* pDest, int nDestSize, const uint8_t* pSrc, int nSrcSize); // 1.10f: 0x6FF5CD50 (#10223) Compresses a packet
 FOG_DLL_DECL int __fastcall FOG_10224(char* pDest, int nDestSize, uint8_t* pSrc, int nSrcSize); // 1.10f: 0x6FF5CE00 (#10224) Decompresses a packet
+// 1.10f: 0x6FF5F2B0 (#10231)
+FOG_DLL_DECL const char* __fastcall FOG_GetShortSourceFilePath(const char* szFilePath);
 FOG_DLL_DECL int __fastcall FOG_IsExpansion(); // 1.10f: 0x6FF5D730 (#10227)
 FOG_DLL_DECL uint32_t __stdcall FOG_ComputeChecksum(void* pData, size_t dwSize); // 1.10f: 0x6FF53940 (#10229)
 FOG_DLL_DECL uint32_t __stdcall FOG_PopCount(void* pData, size_t dwSize); // 1.10f: 0x6FF53970 (#10230)

@@ -16,7 +16,6 @@ target_sources(${FogImplName}
 	src/D2QSSocket.cpp
 	src/DataArrays.cpp
 	src/ErrorManager.cpp
-	src/ErrorManager.cpp
 	src/Excel/Excel.cpp
 	src/Exceptions.cpp
 	src/Gamma.cpp
@@ -34,6 +33,7 @@ target_sources(${FogImplName}
 	src/Calc.cpp
 	src/Math.cpp
 	src/Huffman.cpp
+	src/Sha1.cpp
 	src/Noop.cpp
 	
 	# Headers
@@ -41,6 +41,7 @@ target_sources(${FogImplName}
 	include/D2BitManip.h
 	include/DataArrays.h
 	include/IFF.h
+	include/Sha1.h
 	include/Safesock.h
 	include/System/System.h
 )
