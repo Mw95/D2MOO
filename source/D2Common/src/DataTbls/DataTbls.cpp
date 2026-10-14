@@ -329,7 +329,7 @@ void __fastcall DATATBLS_LoadStatesTxt(HD2ARCHIVE hArchive)
 		FOG_DisplayWarning("Exceeded maximum allowable number of states", __FILE__, __LINE__);
 	}
 
-	sgptDataTables->pStateMasks = (uint32_t*)D2_CALLOC_POOL(nullptr, ARRAY_SIZE(sgptDataTables->fStateMasks) * sizeof(uint32_t) * (sgptDataTables->nStatesTxtRecordCount + 31) / 32);
+	sgptDataTables->pStateMasks = (uint32_t*)D2_CALLOC_POOL(nullptr, ARRAY_SIZE(sgptDataTables->fStateMasks) * sizeof(uint32_t) * ((sgptDataTables->nStatesTxtRecordCount + 31) / 32));
 	
 	for (int i = 0; i < ARRAY_SIZE(sgptDataTables->fStateMasks); ++i)
 	{
@@ -501,7 +501,7 @@ char* __stdcall DATATBLS_GetUnitNameFromUnit(D2UnitStrc* pUnit, char* szName)
 	}
 	else
 	{
-		printf(szName, "NULL Unit");
+		strcpy_s(szName, 64, "NULL Unit");
 	}
 
 	return szName;
@@ -579,7 +579,7 @@ char* __stdcall DATATBLS_GetUnitNameFromUnitTypeAndClassId(int nUnitType, int nC
 		break;
 
 	default:
-		sprintf_s(szName, 64, "Invalid Unit");
+		sprintf_s(szName, 64, "Invalid Unit Type");
 		break;
 	}
 
