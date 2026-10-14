@@ -44,7 +44,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_csprintf @10018
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_InitErrorMgr @10019
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10020 @10020
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10021 @10021
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_SetLogPrefix @10021
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetSystemInfo @10022
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DisplayAssert @10023
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DisplayHalt @10024
@@ -53,8 +53,8 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10027 @10027
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10028 @10028
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Trace @10029
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10030 @10030
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10031 @10031
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_TraceF @10030
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_TraceAppend @10031
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_TraceMemory @10032
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CrashDeadlockDetected @10033
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CrashDumpThread @10034
@@ -62,7 +62,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10036 @10036
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10037 @10037
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10038 @10038
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10039 @10039
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IsHandlingError @10039
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10040 @10040
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10041 @10041
 #ifdef REPLACE_FOG_ALLOCS_BY_MALLOC
@@ -79,23 +79,23 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10048 @10048
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10049 @10049
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10050_EnterCriticalSection @10050
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10051 @10051
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetMemoryUsage @10052
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_LeaveCriticalSection @10051
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10052 @10052
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10053 @10053
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10054 @10054
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10055_GetSyncTime @10055
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10056 @10056
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10057 @10057
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetSaveDiskFreeSpace @10056
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetGlobalMemoryStatus @10057
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10058 @10058
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10059 @10059
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10060 @10060
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10061 @10061
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10062 @10062
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10063 @10063
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10064 @10064
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10065 @10065
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10066 @10066
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10067 @10067
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetTickCount @10059
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayCreate @10060
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayDestroy @10061
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayInitialize @10062
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayClear @10063
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayAllocElement @10064
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayFreeElement @10065
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayGetElementChecked @10066
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayGetElement @10067
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10068 @10068
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10069 @10069
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10070 @10070
@@ -110,7 +110,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10079 @10079
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10080 @10080
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10081 @10081
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10082 @10082
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10082_Noop @10082
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10083_Cos_LUT @10083
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10084_Sin_LUT @10084
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Decode14BitsFromString @10085
@@ -135,47 +135,47 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_FReadFile @10104
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_FGetFileSize @10105
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_FSetFilePointer @10106
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10107 @10107
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10108 @10108
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10109 @10109
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10110 @10110
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10111 @10111
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10112 @10112
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10113 @10113
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10114 @10114
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CreateFileA @10107
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DeleteFileA @10108
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CloseFile @10109
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_ReadFile @10110
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_WriteFile @10111
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_SetFilePointer @10112
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_AppendBackslash @10113
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CreatePathHierarchy @10114
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetSavePath @10115
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10116 @10116
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10117 @10117
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetInstallPath @10116
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_UseDirect @10117
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_SetBitState        @10118
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_GetBitState        @10119
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_MaskBitstate       @10120
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10121 @10121
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10122 @10122
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10123 @10123
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10124 @10124
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10125 @10125
+    PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_ToggleBitState @10121
+    PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_And @10122
+    PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_Or @10123
+    PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_Not @10124
+    PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_Xor @10125
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_Initialize         @10126
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_GetSize            @10127
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_Write              @10128
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_ReadSigned         @10129
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_Read               @10130
     PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_GoToNextByte       @10131
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10132 @10132
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10133 @10133
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10134 @10134
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10135 @10135
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10136 @10136
+    PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_WriteCode @10132
+    PatchAction::FunctionReplacePatchByOriginal,       //   BITMANIP_ReadTreeValue @10133
+    PatchAction::FunctionReplacePatchByOriginal,       //   STRPACK_Initialize @10134
+    PatchAction::FunctionReplacePatchByOriginal,       //   STRPACK_PackString @10135
+    PatchAction::FunctionReplacePatchByOriginal,       //   STRPACK_UnpackString @10136
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_ComputeStringCRC16 @10137
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10138 @10138
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10139 @10139
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10140 @10140
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10141 @10141
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CapitalizeWords @10138
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_ToLowerASCII @10139
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_EscapeString @10140
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_FormatNumberWithSeparators @10141
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CreateNewPoolSystem @10142
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DestroyMemoryPoolSystem @10143
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10144 @10144
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10145 @10145
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_SetMemoryPoolSystemMode @10145
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10146 @10146
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10147 @10147
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetMemoryUsage @10147
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10148 @10148
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_InitializeServer @10149
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10150 @10150
@@ -217,7 +217,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10186 @10186
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10187 @10187
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10188 @10188
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10189 @10189
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_XSha1 @10189
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10190 @10190
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10191 @10191
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10192 @10192
@@ -226,15 +226,15 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10195 @10195
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10196 @10196
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10197 @10197
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10198 @10198
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10199 @10199
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10200 @10200
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10201 @10201
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10202 @10202
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10203 @10203
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10204 @10204
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10205 @10205
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10206 @10206
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_ComputeGammaTable @10198
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFReadBond @10199
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFCreateBond @10200
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFWriteBond @10201
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFFreeBond @10202
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFAddBondEntry @10203
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFAddBondEntryByName @10204
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFGetBondEntry @10205
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_IFFGetBondEntryByName @10206
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10207 @10207
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_CreateBinFile @10208
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_FreeBinFile @10209
@@ -259,7 +259,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10228 @10228
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_ComputeChecksum @10229
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_PopCount @10230
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10231 @10231
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetShortSourceFilePath @10231
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10232 @10232
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10233 @10233
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10234 @10234
@@ -267,7 +267,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10236 @10236
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10237 @10237
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10238 @10238
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10239 @10239
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetModuleDirectory @10239
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10240 @10240
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10241 @10241
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10242 @10242
@@ -276,15 +276,15 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10245 @10245
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10246 @10246
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10247 @10247
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10248 @10248
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10249 @10249
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10250 @10250
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Sha1Initialize @10248
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Sha1Update @10249
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Sha1Finalize @10250
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10251 @10251
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_LeadingZeroesCount @10252
     PatchAction::FunctionReplaceOriginalByPatch, /*C*/ //   DATATBLS_CalcEvaluateExpression @10253
     PatchAction::FunctionReplaceOriginalByPatch, /*C*/ //   DATATBLS_CompileExpression @10254
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10255 @10255
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10262 @10262
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_SOCKET_GetSockName @10262
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10263 @10263
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10256 @10256 
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10257 @10257 
