@@ -385,3 +385,16 @@ void __fastcall FOG_GetModuleDirectory(char* pPathBuffer, size_t nBufferSize)
 {
 	SYSTEM_GetModuleDirectory(pPathBuffer, nBufferSize);
 }
+
+// 1.10f: 0x6FF5DC20 (#10050)
+// nLine is only used for debugging purposes
+void __fastcall FOG_10050_EnterCriticalSection(CRITICAL_SECTION* pCriticalSection, int nLine)
+{
+	EnterCriticalSection(pCriticalSection);
+}
+
+// 1.10f: 0x6FF5DC40 (#10051)
+void __fastcall FOG_LeaveCriticalSection(CRITICAL_SECTION* pCriticalSection, int nLine)
+{
+	LeaveCriticalSection(pCriticalSection);
+}

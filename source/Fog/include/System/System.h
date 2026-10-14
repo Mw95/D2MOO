@@ -11,6 +11,8 @@
 // 1.10f: Inlined in 0x6FF5A5C0
 void SYSTEM_InitializeSyncTime();
 
+// 1.10f: 0x6FF5DC40 (#10051)
+FOG_DLL_DECL void __fastcall FOG_LeaveCriticalSection(CRITICAL_SECTION* pCriticalSection, int nLine);
 // 1.10f: 0x6FF5A760 (#10056)
 FOG_DLL_DECL uint64_t __stdcall FOG_GetSaveDiskFreeSpace();
 // 1.10f: 0x6FF5A840 (#10057)
