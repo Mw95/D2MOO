@@ -1537,3 +1537,47 @@ BOOL __fastcall FOG_QServerIsWhitelisted(QServer* pServer, uint32_t nIP)
 {
 	return QSERVER_IsInWhitelist(pServer, nIP);
 }
+
+// Inlined
+// Calls pfGetter on the client while holding its lock, returns 0 if the client was not found
+template<typename T, typename Getter>
+static T QSERVER_GetClientValue(QServer* pServer, int nClientId, Getter pfGetter)
+{
+	CRITICAL_SECTION* pBucketLock = QSERVER_GetClientLock(pServer, nClientId);
+	EnterCriticalSection(pBucketLock);
+	for (D2QSClientStrc* pClient = pServer->pClientHash[nClientId & pServer->nClientHashMask]; pClient; pClient = pClient->pNext)
+	{
+		if (pClient->nClientId == nClientId)
+		{
+			const T nValue = pfGetter(pClient);
+			LeaveCriticalSection(pBucketLock);
+			return nValue;
+		}
+	}
+	LeaveCriticalSection(pBucketLock);
+	return 0;
+}
+
+// 1.10f: 0x6FF55F70 (#10244)
+uint32_t __stdcall FOG_QServerGetClientLocalIP(QServer* pServer, int nClientId)
+{
+	return QSERVER_GetClientValue<uint32_t>(pServer, nClientId, [](const D2QSClientStrc* pClient) { return (uint32_t)pClient->tLocalAddress.sin_addr.s_addr; });
+}
+
+// 1.10f: 0x6FF55FF0 (#10245)
+uint16_t __stdcall FOG_QServerGetClientLocalPort(QServer* pServer, int nClientId)
+{
+	return QSERVER_GetClientValue<uint16_t>(pServer, nClientId, [](const D2QSClientStrc* pClient) { return (uint16_t)ntohs(pClient->tLocalAddress.sin_port); });
+}
+
+// 1.10f: 0x6FF56070 (#10246)
+uint32_t __stdcall FOG_QServerGetClientRemoteIP(QServer* pServer, int nClientId)
+{
+	return QSERVER_GetClientValue<uint32_t>(pServer, nClientId, [](const D2QSClientStrc* pClient) { return (uint32_t)pClient->tPeerAddress.sin_addr.s_addr; });
+}
+
+// 1.10f: 0x6FF560F0 (#10247)
+uint16_t __stdcall FOG_QServerGetClientRemotePort(QServer* pServer, int nClientId)
+{
+	return QSERVER_GetClientValue<uint16_t>(pServer, nClientId, [](const D2QSClientStrc* pClient) { return (uint16_t)ntohs(pClient->tPeerAddress.sin_port); });
+}

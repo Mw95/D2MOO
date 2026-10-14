@@ -266,3 +266,13 @@ FOG_DLL_DECL BOOL __stdcall FOG_QServerIsLocal(QServer* pServer);
 FOG_DLL_DECL int __stdcall FOG_QServerGetMessageCount(QServer* pServer, int nMessageType);
 // 1.10f: 0x6FF57680 (#10188)
 FOG_DLL_DECL BOOL __fastcall FOG_QServerIsWhitelisted(QServer* pServer, uint32_t nIP);
+// 1.10f: 0x6FF55F70 (#10244)
+// Address of the server side of the connection (NT only)
+FOG_DLL_DECL uint32_t __stdcall FOG_QServerGetClientLocalIP(QServer* pServer, int nClientId);
+// 1.10f: 0x6FF55FF0 (#10245)
+FOG_DLL_DECL uint16_t __stdcall FOG_QServerGetClientLocalPort(QServer* pServer, int nClientId);
+// 1.10f: 0x6FF56070 (#10246)
+// Address of the client side of the connection (NT only)
+FOG_DLL_DECL uint32_t __stdcall FOG_QServerGetClientRemoteIP(QServer* pServer, int nClientId);
+// 1.10f: 0x6FF560F0 (#10247)
+FOG_DLL_DECL uint16_t __stdcall FOG_QServerGetClientRemotePort(QServer* pServer, int nClientId);
