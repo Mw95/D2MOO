@@ -96,19 +96,19 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayFreeElement @10065
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayGetElementChecked @10066
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayGetElement @10067
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10068 @10068
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10069 @10069
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10070 @10070
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10071 @10071
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10072 @10072
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10073 @10073
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10074 @10074
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10075 @10075
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10076 @10076
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10077 @10077
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10078 @10078
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10079 @10079
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10080 @10080
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketCreate @10068
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketDestroy @10069
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketSend @10070
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketSendRaw @10071
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketReceive @10072
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketConnect @10073
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketConnectAsync @10074
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketDisconnect @10075
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketWaitForMessage @10076
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketSetDispatcher @10077
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketSetHeaderFormat @10078
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketGetSafeSock @10079
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_D2QSSocketSignal @10080
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10081 @10081
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10082_Noop @10082
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10083_Cos_LUT @10083
@@ -272,10 +272,10 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10241 @10241
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10242 @10242
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10243 @10243
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10244 @10244
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10245 @10245
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10246 @10246
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10247 @10247
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerGetClientLocalIP @10244
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerGetClientLocalPort @10245
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerGetClientRemoteIP @10246
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_QServerGetClientRemotePort @10247
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Sha1Initialize @10248
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Sha1Update @10249
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_Sha1Finalize @10250

@@ -39,6 +39,7 @@ target_sources(${FogImplName}
 	# Headers
 	include/Fog.h
 	include/D2BitManip.h
+	include/D2QS.h
 	include/DataArrays.h
 	include/IFF.h
 	include/Sha1.h
