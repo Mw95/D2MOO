@@ -5,11 +5,25 @@
 
 #include <Fog.h>
 
+#define PERFORMANCE_MAX_ACCUMULATORS 0x1000
+
 #pragma pack(1)
+struct D2PerformanceAccumulatorStrc		// sizeof 0x18
+{
+	uint32_t unk0x00;						// 0x00
+	uint32_t unk0x04;						// 0x04
+	uint64_t nTime;							// 0x08 Reset by FOG_ResetPerformanceAccumulators
+	uint64_t unk0x10;						// 0x10
+};
 #pragma pack()
 
 // 1.10f: Inlined in 0x6FF5A5C0
 void SYSTEM_InitializeSyncTime();
+// 1.10f: 0x6FF5A520
+void SYSTEM_InitializePerformanceCounters();
+
+// 1.10f: 0x6FF5A580 (#10058)
+FOG_DLL_DECL void __cdecl FOG_ResetPerformanceAccumulators();
 
 // 1.10f: 0x6FF5DC40 (#10051)
 FOG_DLL_DECL void __fastcall FOG_LeaveCriticalSection(CRITICAL_SECTION* pCriticalSection, int nLine);

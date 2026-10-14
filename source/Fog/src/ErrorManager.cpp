@@ -561,7 +561,7 @@ void __fastcall FOG_InitErrorMgr(const char* szProgramName, D2ExceptionCallback 
 	FOG_CreateNewPoolSystem(nullptr, "Global Pool System", 0x40000, 0x8000);
 	SetUnhandledExceptionFilter(FOG_UnhandledExceptionFilter);
 
-	// TODO: 0x6FF5A520 initializes the performance counters
+	SYSTEM_InitializePerformanceCounters();
 
 	for (int i = 0; i < 32; ++i)
 	{

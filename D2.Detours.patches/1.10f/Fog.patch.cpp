@@ -86,7 +86,7 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10055_GetSyncTime @10055
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetSaveDiskFreeSpace @10056
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetGlobalMemoryStatus @10057
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10058 @10058
+    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_ResetPerformanceAccumulators @10058
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_GetTickCount @10059
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayCreate @10060
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_DataArrayDestroy @10061
@@ -196,8 +196,8 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10165 @10165
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10166 @10166
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10167 @10167
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10168 @10168 
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10169 @10169 
+    PatchAction::FunctionReplacePatchByOriginal,       //   PERFORMANCE_ACCUMULATOR @10168
+    PatchAction::FunctionReplacePatchByOriginal,       //   PERFORMANCE_ACCUMULATOR_INDEX @10169
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10170 @10170
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10171 @10171
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10172 @10172
@@ -286,13 +286,13 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10255 @10255
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_SOCKET_GetSockName @10262
     PatchAction::FunctionReplacePatchByOriginal,       //   FOG_ReadCrashDumpSummary @10263
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10256 @10256 
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10257 @10257 
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10258 @10258 
+    PatchAction::FunctionReplacePatchByOriginal,       //   PERFORMANCE_FREQUENCY_TICKS_PER_MICROSEC @10256
+    PatchAction::FunctionReplacePatchByOriginal,       //   PERFORMANCE_FREQUENCY_TICKS_PER_MILLISEC @10257
+    PatchAction::FunctionReplacePatchByOriginal,       //   gcsCriticalSectionTimer @10258
     PatchAction::FunctionReplacePatchByOriginal,       //   gdwBitMasks                 @10259
     PatchAction::FunctionReplacePatchByOriginal,       //   gdwInvBitMasks              @10260
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10261 @10261 
-    PatchAction::FunctionReplacePatchByOriginal,       //   FOG_10264 @10264 
+    PatchAction::FunctionReplacePatchByOriginal,       //   gfTimeCriticalSections @10261
+    PatchAction::FunctionReplacePatchByOriginal,       //   gqwCriticalSectionTimer @10264 
 
 };
 
