@@ -1,0 +1,25 @@
+LIBRARY		Bnclient
+EXPORTS
+	??4BNGatewayAccess@@QAEAAV0@ABV0@@Z					@1
+	?CurGateway@BNGatewayAccess@@QAGHXZ					@2
+	?DNS@BNGatewayAccess@@QAGPADH@Z						@3
+	?FindKey@BNGatewayAccess@@AAEPADPAD0@Z				@4
+	?FindSection@BNGatewayAccess@@AAEPADPAD0@Z			@5
+	?GMT@BNGatewayAccess@@QAGHH@Z						@6
+	?GetBattlenetGatewayList@BNGatewayAccess@@AAEXXZ	@7
+	?GetBattlenetRealmsList@BNGatewayAccess@@AAEXXZ		@8
+	?GetGatewayList@BNGatewayAccess@@AAEXPBD@Z			@9
+	?GetSystemTimeZone@BNGatewayAccess@@AAEHXZ			@10
+	?Load@BNGatewayAccess@@QAGXXZ						@11
+	?Name@BNGatewayAccess@@QAGPADH@Z					@12
+	?Nth@BNGatewayAccess@@AAEPADH@Z						@13
+	?NumGateways@BNGatewayAccess@@QAGHXZ				@14
+	?PickClosestZone@BNGatewayAccess@@AAEXH@Z			@15
+	?Realm@BNGatewayAccess@@QAGPADH@Z					@16
+	?SaveAndUnload@BNGatewayAccess@@QAGXXZ				@17
+	?SetCurGateway@BNGatewayAccess@@QAGXH@Z				@18
+	?SkipEOL@BNGatewayAccess@@AAEPADPAD0@Z				@19
+	?SkipToEOL@BNGatewayAccess@@AAEPADPAD0@Z			@20
+	?UpdateGatewaysFromIni@BNGatewayAccess@@QAGXPAD@Z	@21
+	?WriteDefaultGatewayList@BNGatewayAccess@@AAEXXZ	@22
+	QueryInterface										@23
