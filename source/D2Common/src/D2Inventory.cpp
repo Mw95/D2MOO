@@ -588,7 +588,17 @@ BOOL __stdcall INVENTORY_PlaceItemInSocket(D2InventoryStrc* pInventory, D2UnitSt
 		return FALSE;
 	}
 
-	if (!pInventory->pOwner || pInventory->pOwner->dwUnitType != UNIT_ITEM)
+	if (!pInventory->pOwner)
+	{
+		return TRUE;
+	}
+
+	if (!pItem || pItem->dwUnitType != UNIT_ITEM)
+	{
+		return FALSE;
+	}
+
+	if (pInventory->pOwner->dwUnitType != UNIT_ITEM)
 	{
 		return TRUE;
 	}
@@ -1153,7 +1163,9 @@ BOOL __stdcall INVENTORY_CanItemBePlaced(D2InventoryStrc* pInventory, D2UnitStrc
 		{
 			if (nX >= pInventoryGrid->nGridWidth)
 			{
-				return FALSE;
+				// The original only stops scanning this row, the remaining rows still update the hovered items
+				bFree = FALSE;
+				break;
 			}
 
 			D2UnitStrc* pCurrentItem = pInventoryGrid->ppItems[nX + nY * pInventoryGrid->nGridWidth];
@@ -2064,7 +2076,7 @@ BOOL __stdcall INVENTORY_CheckForItemInTradeInventory(D2InventoryStrc* pInventor
 //D2Common.0x6FD909F0 (#10283)
 void __stdcall INVENTORY_AddItemToTradeInventory(D2InventoryStrc* pInventory, D2UnitStrc* pItem)
 {
-	if (INVENTORY_UnitIsItem(pItem))
+	if (INVENTORY_GetPtrIfValid(pInventory) && INVENTORY_UnitIsItem(pItem))
 	{
 		if (INVENTORY_CheckForItemInTradeInventory(pInventory, pItem->dwUnitId))
 		{
@@ -2795,10 +2807,11 @@ void __fastcall INVENTORY_InitializeComponentArray()
 			}
 
 			BOOL bNeedsToBeAdded = FALSE;
-			if (ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_WEAPON)
+			if ((ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_WEAPON)
 				|| ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_ARMOR)
 				|| ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_ANY_SHIELD)
-				|| ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_HELM) && !ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_CIRCLET))
+				|| ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_HELM))
+				&& !ITEMS_CheckType(pItemsTxtRecord->wType[0], ITEMTYPE_CIRCLET))
 			{
 				bNeedsToBeAdded = TRUE;
 			}
