@@ -157,6 +157,7 @@ D2FUNC_DLL(FOG, GetSystemInfo, void*, __cdecl, (), 0xDF20)																						
 D2FUNC_DLL(FOG, DisplayAssert, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED30)											//Fog.#10023
 D2FUNC_DLL(FOG, DisplayHalt, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED60)												//Fog.#10024
 D2FUNC_DLL(FOG, DisplayWarning, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED90)											//Fog.#10025
+D2FUNC_DLL(FOG, 10028, void, __cdecl, (int nCategory, const char* szFile, int nLine, const char* szFormat, ...), 0xF100)		//Fog.#10028
 D2FUNC_DLL(FOG, DisplayError, void, __cdecl, (int nCategory, const char* szMsg, const char* szFile, int nLine), 0xEDF0)								//Fog.#10026
 // Log to default logfile with date and `\n` at end of message
 D2FUNC_DLL(FOG, Trace, void, __cdecl, (const char* szFormat, ...), 0x120A0)																			//Fog.#10029
@@ -168,12 +169,12 @@ D2FUNC_DLL(FOG, TraceMemory, void, __cdecl, (const char* pFileSubName, const cha
 D2FUNC_DLL(FOG, CrashDeadlockDetected, void, __fastcall, (HANDLE hThreadToWalk), 0xFA10)															//Fog.#10033
 D2FUNC_DLL(FOG, CrashDumpThread, void, __fastcall, (HANDLE hThreadToWalk), 0xF950)																	//Fog.#10034
 D2FUNC_DLL(FOG, IsHandlingError, BOOL, __cdecl, (), 0xF2A0)																							//Fog.#10039
-D2FUNC_DLL(FOG, Alloc, void*, __fastcall, (int nSize, const char* szFile, int nLine, int n0), 0x8F50)												//Fog.#10042
-D2FUNC_DLL(FOG, Free, void, __fastcall, (void* pFree, const char* szFile, int nLine, int n0), 0x8F90)												//Fog.#10043
-D2FUNC_DLL(FOG, Realloc, void*, __fastcall, (void* pMemory, int nSize, const char* szFile, int nLine, int n0), 0x8FB0)								//Fog.#10044
-D2FUNC_DLL(FOG, AllocPool, void*, __fastcall, (void* pMemPool, int nSize, const char* szFile, int nLine, int n0), 0x8FF0)							//Fog.#10045
-D2FUNC_DLL(FOG, FreePool, void, __fastcall, (void* pMemPool, void* pFree, const char* szFile, int nLine, int n0), 0x9030)							//Fog.#10046
-D2FUNC_DLL(FOG, ReallocPool, void*, __fastcall, (void* pMemPool, void* pMemory, int nSize, const char* szFile, int nLine, int n0), 0x9060)			//Fog.#10047
+FOG_DLL_DECL void* __fastcall FOG_Alloc(int nSize, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF58F50 (#10042)
+FOG_DLL_DECL void __fastcall FOG_Free(void* pFree, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF58F90 (#10043)
+FOG_DLL_DECL void* __fastcall FOG_Realloc(void* pMemory, int nSize, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF58FB0 (#10044)
+FOG_DLL_DECL void* __fastcall FOG_AllocPool(void* pMemPool, int nSize, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF58FF0 (#10045)
+FOG_DLL_DECL void __fastcall FOG_FreePool(void* pMemPool, void* pFree, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF59030 (#10046)
+FOG_DLL_DECL void* __fastcall FOG_ReallocPool(void* pMemPool, void* pMemory, int nSize, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF59060 (#10047)
 FOG_DLL_DECL void __fastcall FOG_10050_EnterCriticalSection(_Acquires_lock_(*_Curr_) CRITICAL_SECTION* pCriticalSection, int nLine); // 1.10f: 0x6FF5DC20 (#10050)
 FOG_DLL_DECL int32_t __fastcall FOG_10055_GetSyncTime(); // 1.10f: 0x6FF5A690 (#10055)
 // Noop, same as 10048, 10049, 10053, 10054, 10146, 10194, 10195, 10196, 10197, 10220, 10221, 10225, 10232, 10240, 10241, 10242, 10243, 10251
@@ -223,10 +224,10 @@ FOG_DLL_DECL char* __fastcall FOG_FormatNumberWithSeparators(char* szDest, uint3
 // 1.10f: 0x6FF51C00 (#10198)
 FOG_DLL_DECL void __fastcall FOG_ComputeGammaTable(int nGammaValue, void* pGammaTable, double flPercentLinear, int nGammaTableEntrySize, int nEntries, int nMaxValue);
 FOG_DLL_DECL uint16_t __stdcall FOG_ComputeStringCRC16(const char* szString); // 1.10f: 0x6FF53DB0 (#10137)
-D2FUNC_DLL(FOG, CreateNewPoolSystem, void, __cdecl, (void** pMemPoolSystem, const char* szName, uint32_t nPools, uint32_t nUnused), 0xA280)			//Fog.#10142
-D2FUNC_DLL(FOG, DestroyMemoryPoolSystem, void, __cdecl, (void* pMemoryPoolSystem), 0xA100)															//Fog.#10143
-D2FUNC_DLL(FOG, SetMemoryPoolSystemMode, void, __cdecl, (void* pMemoryPoolSystem, BOOL bFreePoolAlloc), 0xA4A0)										//Fog.#10145
-D2FUNC_DLL(FOG, GetMemoryUsage, DWORD, __cdecl, (void*), 0xA4E0)																					//Fog.#10147
+FOG_DLL_DECL void __cdecl FOG_CreateNewPoolSystem(void** pMemPoolSystem, const char* szName, uint32_t nPools, uint32_t nUnused); // 1.10f: 0x6FF5A280 (#10142)
+FOG_DLL_DECL void __cdecl FOG_DestroyMemoryPoolSystem(void* pMemoryPoolSystem); // 1.10f: 0x6FF5A100 (#10143)
+FOG_DLL_DECL void __cdecl FOG_SetMemoryPoolSystemMode(void* pMemoryPoolSystem, BOOL bFreePoolAlloc); // 1.10f: 0x6FF5A4A0 (#10145)
+FOG_DLL_DECL DWORD __cdecl FOG_GetMemoryUsage(void*); // 1.10f: 0x6FF5A4E0 (#10147)
 D2FUNC_DLL(FOG, InitializeServer, QServer*, __stdcall, (int, int, int, int, void*, void*, void*, void*), 0x4150)									//Fog.#10149
 D2FUNC_DLL(FOG, SetMaxClientsPerGame, int, __stdcall, (QServer*, int), 0x4970)																		//Fog.#10151
 D2FUNC_DLL(FOG, 10152, int, __stdcall, (void*, const uint8_t*, int), 0x44F0)																		//Fog.#10152
