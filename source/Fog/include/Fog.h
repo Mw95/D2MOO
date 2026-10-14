@@ -151,14 +151,15 @@ struct QServer;
 typedef int (*D2ExceptionCallback)();
 
 FOG_DLL_DECL const char* __cdecl FOG_csprintf(char* szDest, const char* szFormat, ...); // 1.10f: 0x6FF5DD90 (#10018)
-D2FUNC_DLL(FOG, InitErrorMgr, void, __fastcall, (const char* szProgramName, D2ExceptionCallback pExceptionCallback, const char* szVersion, BOOL bLogToFile), 0xE1B0)	//Fog.#10019
+FOG_DLL_DECL void __fastcall FOG_InitErrorMgr(const char* szProgramName, D2ExceptionCallback pExceptionCallback, const char* szVersion, BOOL bLogToFile); // 1.10f: 0x6FF5E1B0 (#10019)
 FOG_DLL_DECL int __fastcall FOG_SetLogPrefix(const char* szLogPrefix); // 1.10f: 0x6FF5E1A0 (#10021)
-D2FUNC_DLL(FOG, GetSystemInfo, void*, __cdecl, (), 0xDF20)																							//Fog.#10022
-D2FUNC_DLL(FOG, DisplayAssert, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED30)											//Fog.#10023
-D2FUNC_DLL(FOG, DisplayHalt, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED60)												//Fog.#10024
-D2FUNC_DLL(FOG, DisplayWarning, void, __cdecl, (const char* szMsg, const char* szFile, int nLine), 0xED90)											//Fog.#10025
-D2FUNC_DLL(FOG, 10028, void, __cdecl, (int nCategory, const char* szFile, int nLine, const char* szFormat, ...), 0xF100)		//Fog.#10028
-D2FUNC_DLL(FOG, DisplayError, void, __cdecl, (int nCategory, const char* szMsg, const char* szFile, int nLine), 0xEDF0)								//Fog.#10026
+FOG_DLL_DECL void* __cdecl FOG_GetSystemInfo(); // 1.10f: 0x6FF5DF20 (#10022)
+FOG_DLL_DECL void __cdecl FOG_DisplayAssert(const char* szMsg, const char* szFile, int nLine); // 1.10f: 0x6FF5ED30 (#10023)
+FOG_DLL_DECL void __cdecl FOG_DisplayHalt(const char* szMsg, const char* szFile, int nLine); // 1.10f: 0x6FF5ED60 (#10024)
+FOG_DLL_DECL void __cdecl FOG_DisplayWarning(const char* szMsg, const char* szFile, int nLine); // 1.10f: 0x6FF5ED90 (#10025)
+// For ERRCATEGORY_DEADLOCK (10), szFile is the handle of the deadlocked thread
+FOG_DLL_DECL void __cdecl FOG_10028(int nCategory, const char* szFile, int nLine, const char* szFormat, ...); // 1.10f: 0x6FF5F100 (#10028)
+FOG_DLL_DECL void __cdecl FOG_DisplayError(int nCategory, const char* szMsg, const char* szFile, int nLine); // 1.10f: 0x6FF5EDF0 (#10026)
 // Log to default logfile with date and `\n` at end of message
 FOG_DLL_DECL void __cdecl FOG_Trace(const char* szFormat, ...); // 1.10f: 0x6FF620A0 (#10029)
 // Log to file. Will be prefixed with "D2" and suffixed by date. Log includes date prefix and `\n` at end of message.
@@ -166,9 +167,9 @@ FOG_DLL_DECL void __cdecl FOG_TraceF(const char* pFileSubName, const char* szFor
 // Append to the default logfile. No date nor '\n'.
 FOG_DLL_DECL void __cdecl FOG_TraceAppend(const char* szFormat, ...); // 1.10f: 0x6FF62180 (#10031)
 FOG_DLL_DECL void __cdecl FOG_TraceMemory(const char* pFileSubName, const char* szMessage, void* pMemory, size_t nByteCount, BOOL bLogOffset, BOOL bNoCopy, BOOL bNoASCII); // 1.10f: 0x6FF62210 (#10032)
-D2FUNC_DLL(FOG, CrashDeadlockDetected, void, __fastcall, (HANDLE hThreadToWalk), 0xFA10)															//Fog.#10033
-D2FUNC_DLL(FOG, CrashDumpThread, void, __fastcall, (HANDLE hThreadToWalk), 0xF950)																	//Fog.#10034
-D2FUNC_DLL(FOG, IsHandlingError, BOOL, __cdecl, (), 0xF2A0)																							//Fog.#10039
+FOG_DLL_DECL void __fastcall FOG_CrashDeadlockDetected(HANDLE hThreadToWalk); // 1.10f: 0x6FF5FA10 (#10033)
+FOG_DLL_DECL void __fastcall FOG_CrashDumpThread(HANDLE hThreadToWalk); // 1.10f: 0x6FF5F950 (#10034)
+FOG_DLL_DECL BOOL __cdecl FOG_IsHandlingError(); // 1.10f: 0x6FF5F2A0 (#10039)
 FOG_DLL_DECL void* __fastcall FOG_Alloc(int nSize, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF58F50 (#10042)
 FOG_DLL_DECL void __fastcall FOG_Free(void* pFree, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF58F90 (#10043)
 FOG_DLL_DECL void* __fastcall FOG_Realloc(void* pMemory, int nSize, const char* szFile, int nLine, int n0); // 1.10f: 0x6FF58FB0 (#10044)
@@ -276,7 +277,8 @@ FOG_DLL_DECL const char* __fastcall FOG_GetShortSourceFilePath(const char* szFil
 FOG_DLL_DECL int __fastcall FOG_IsExpansion(); // 1.10f: 0x6FF5D730 (#10227)
 FOG_DLL_DECL uint32_t __stdcall FOG_ComputeChecksum(void* pData, size_t dwSize); // 1.10f: 0x6FF53940 (#10229)
 FOG_DLL_DECL uint32_t __stdcall FOG_PopCount(void* pData, size_t dwSize); // 1.10f: 0x6FF53970 (#10230)
-D2FUNC_DLL(FOG, 10233, void, __fastcall, (const char*, int), 0xF300)																				//Fog.#10233
+// Releases the symbols loaded by FOG_QuickStackWalk, the parameters are unused
+FOG_DLL_DECL void __fastcall FOG_10233(const char* szModuleName, BOOL bLoad); // 1.10f: 0x6FF5F300 (#10233)
 // Note: despite its name, returns the index of the lowest bit set, or -1 if nValue is 0
 FOG_DLL_DECL uint32_t __stdcall FOG_LeadingZeroesCount(uint32_t nValue); // 1.10f: 0x6FF539A0 (#10252)
 FOG_DLL_DECL char* __stdcall FOG_10255(void* pLinker, int nId, int a3); // 1.10f: 0x6FF5BB20 (#10255)
