@@ -166,11 +166,11 @@ D2FUNC_DLL(FOG, TraceF, void, __cdecl, (const char* pFileSubName, const char* sz
 D2FUNC_DLL(FOG, TraceAppend, void, __cdecl, (const char* szFormat, ...), 0x12180)																	//Fog.#10031
 D2FUNC_DLL(FOG, TraceMemory, void, __cdecl, (const char* pFileSubName, const char* szMessage, void* pMemory, size_t nByteCount, BOOL bLogOffset, BOOL bNoCopy, BOOL bNoASCII), 0x12210) //Fog.#10032
 D2FUNC_DLL(FOG, CrashDeadlockDetected, void, __fastcall, (HANDLE hThreadToWalk), 0xFA10)															//Fog.#10033
-D2FUNC_DLL(FOG, CrashDumpThread, void, __fastcall, (HANDLE hThreadToWalk), 0x1DE0)																	//Fog.#10034
+D2FUNC_DLL(FOG, CrashDumpThread, void, __fastcall, (HANDLE hThreadToWalk), 0xF950)																	//Fog.#10034
 D2FUNC_DLL(FOG, IsHandlingError, BOOL, __cdecl, (), 0xF2A0)																							//Fog.#10039
 D2FUNC_DLL(FOG, Alloc, void*, __fastcall, (int nSize, const char* szFile, int nLine, int n0), 0x8F50)												//Fog.#10042
 D2FUNC_DLL(FOG, Free, void, __fastcall, (void* pFree, const char* szFile, int nLine, int n0), 0x8F90)												//Fog.#10043
-D2FUNC_DLL(FOG, Realloc, void, __fastcall, (void* pMemory, int nSize, const char* szFile, int nLine, int n0), 0x8F90)								//Fog.#10044
+D2FUNC_DLL(FOG, Realloc, void*, __fastcall, (void* pMemory, int nSize, const char* szFile, int nLine, int n0), 0x8FB0)								//Fog.#10044
 D2FUNC_DLL(FOG, AllocPool, void*, __fastcall, (void* pMemPool, int nSize, const char* szFile, int nLine, int n0), 0x8FF0)							//Fog.#10045
 D2FUNC_DLL(FOG, FreePool, void, __fastcall, (void* pMemPool, void* pFree, const char* szFile, int nLine, int n0), 0x9030)							//Fog.#10046
 D2FUNC_DLL(FOG, ReallocPool, void*, __fastcall, (void* pMemPool, void* pMemory, int nSize, const char* szFile, int nLine, int n0), 0x9060)			//Fog.#10047
@@ -276,6 +276,7 @@ FOG_DLL_DECL int __fastcall FOG_IsExpansion(); // 1.10f: 0x6FF5D730 (#10227)
 FOG_DLL_DECL uint32_t __stdcall FOG_ComputeChecksum(void* pData, size_t dwSize); // 1.10f: 0x6FF53940 (#10229)
 FOG_DLL_DECL uint32_t __stdcall FOG_PopCount(void* pData, size_t dwSize); // 1.10f: 0x6FF53970 (#10230)
 D2FUNC_DLL(FOG, 10233, void, __fastcall, (const char*, int), 0xF300)																				//Fog.#10233
+// Note: despite its name, returns the index of the lowest bit set, or -1 if nValue is 0
 FOG_DLL_DECL uint32_t __stdcall FOG_LeadingZeroesCount(uint32_t nValue); // 1.10f: 0x6FF539A0 (#10252)
 FOG_DLL_DECL char* __stdcall FOG_10255(void* pLinker, int nId, int a3); // 1.10f: 0x6FF5BB20 (#10255)
 
