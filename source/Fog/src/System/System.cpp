@@ -398,3 +398,52 @@ void __fastcall FOG_LeaveCriticalSection(CRITICAL_SECTION* pCriticalSection, int
 {
 	LeaveCriticalSection(pCriticalSection);
 }
+
+// Fog.0x6FF86DA8
+static DWORD gdwPerformanceStartTime;
+
+// Fog.0x6FF86DAC (#10257)
+extern "C" DWORD PERFORMANCE_FREQUENCY_TICKS_PER_MILLISEC;
+DWORD PERFORMANCE_FREQUENCY_TICKS_PER_MILLISEC;
+// Fog.0x6FF86DB0 (#10256)
+extern "C" DWORD PERFORMANCE_FREQUENCY_TICKS_PER_MICROSEC;
+DWORD PERFORMANCE_FREQUENCY_TICKS_PER_MICROSEC;
+// Fog.0x6FF86DB8 (#10168)
+extern "C" D2PerformanceAccumulatorStrc PERFORMANCE_ACCUMULATOR[PERFORMANCE_MAX_ACCUMULATORS];
+D2PerformanceAccumulatorStrc PERFORMANCE_ACCUMULATOR[PERFORMANCE_MAX_ACCUMULATORS];
+// Fog.0x6FF9EDB8 (#10169)
+// Number of used accumulators
+extern "C" DWORD PERFORMANCE_ACCUMULATOR_INDEX;
+DWORD PERFORMANCE_ACCUMULATOR_INDEX;
+
+// Fog.0x6FF9FE18 (#10261)
+extern "C" BOOL gfTimeCriticalSections;
+BOOL gfTimeCriticalSections;
+// Fog.0x6FF9FE1C (#10258)
+extern "C" CRITICAL_SECTION gcsCriticalSectionTimer;
+CRITICAL_SECTION gcsCriticalSectionTimer;
+// Fog.0x6FF9FE20 (#10264)
+extern "C" uint64_t gqwCriticalSectionTimer;
+uint64_t gqwCriticalSectionTimer;
+
+// 1.10f: 0x6FF5A520
+void SYSTEM_InitializePerformanceCounters()
+{
+	LARGE_INTEGER nFrequency;
+	QueryPerformanceFrequency(&nFrequency);
+	PERFORMANCE_FREQUENCY_TICKS_PER_MILLISEC = (DWORD)(nFrequency.QuadPart / 1000);
+	PERFORMANCE_FREQUENCY_TICKS_PER_MICROSEC = (DWORD)(nFrequency.QuadPart / 1000000);
+	memset(PERFORMANCE_ACCUMULATOR, 0, sizeof(PERFORMANCE_ACCUMULATOR));
+	gdwPerformanceStartTime = GetTickCount();
+}
+
+// 1.10f: 0x6FF5A580 (#10058)
+// Resets the time of the used accumulators
+void __cdecl FOG_ResetPerformanceAccumulators()
+{
+	for (DWORD i = 0; i < PERFORMANCE_ACCUMULATOR_INDEX; ++i)
+	{
+		PERFORMANCE_ACCUMULATOR[i].nTime = 0;
+	}
+	gdwPerformanceStartTime = GetTickCount();
+}
