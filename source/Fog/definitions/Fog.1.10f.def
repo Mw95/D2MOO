@@ -50,7 +50,7 @@ UnimplementedOrdinal_10037=UnimplementedOrdinal @10037;   FOG_10037 @10037 NONAM
 UnimplementedOrdinal_10038=UnimplementedOrdinal @10038;   FOG_10038 @10038 NONAME
     FOG_IsHandlingError @10039 NONAME
 UnimplementedOrdinal_10040=UnimplementedOrdinal @10040;   FOG_10040 @10040 NONAME
-UnimplementedOrdinal_10041=UnimplementedOrdinal @10041;   FOG_10041 @10041 NONAME
+    FOG_EnableMemoryPools @10041 NONAME
     FOG_Alloc @10042 NONAME
     FOG_Free @10043 NONAME
     FOG_Realloc @10044 NONAME
@@ -153,7 +153,7 @@ FOG_10098=FOG_ReturnZero @10098 NONAME
     FOG_FormatNumberWithSeparators @10141 NONAME
     FOG_CreateNewPoolSystem @10142 NONAME
     FOG_DestroyMemoryPoolSystem @10143 NONAME
-UnimplementedOrdinal_10144=UnimplementedOrdinal @10144;   FOG_10144 @10144 NONAME
+    FOG_CompactMemoryPoolSystem @10144 NONAME
 	FOG_SetMemoryPoolSystemMode @10145;   FOG_10145 @10145 NONAME
 FOG_10146=FOG_10082_Noop @10146 NONAME
     FOG_GetMemoryUsage @10147 NONAME
