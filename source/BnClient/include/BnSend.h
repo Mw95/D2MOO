@@ -42,7 +42,7 @@ BOOL __fastcall BNSEND_ChangePassword(const char* szAccountName, const char* szO
 void __fastcall BNSEND_StoreRealmList(const uint8_t* pData, uint32_t nSize);
 void __fastcall BNSEND_StoreAdUrl(const uint8_t* pData, uint32_t nSize);
 const char* __fastcall BNSEND_QueryAdUrl(uint32_t nAdId);
-void* __stdcall BNSEND_QueryRealms();
+void* __fastcall BNSEND_QueryRealms(int32_t nUnused);
 void __fastcall BNSEND_StoreChannelList(const uint8_t* pData, uint32_t nSize);
 void __stdcall BNSEND_FreeChannelList();
 void* __fastcall BNSEND_GetChannelList(BOOL bClassic);

@@ -10,6 +10,8 @@ enum BnLogCommand
 	BNLOG_COMMAND_INDENT = 2,
 };
 
-void __fastcall BNLOG_SetUnused(int32_t nValue);
+struct D2ConfigStrc;
+
+void __fastcall BNLOG_Initialize(D2ConfigStrc* pConfig);
 int __cdecl BNLOG_Command(int nCommand, int nValue);
 void __cdecl BNLOG_Printf(const char* szFormat, ...);

@@ -9,7 +9,7 @@
 #include <Storm.h>
 
 
-int32_t gnBnLogUnused;
+D2ConfigStrc* gpBnLogConfig;
 CRITICAL_SECTION gtBnLogLock;
 HANDLE ghBnLog;
 
@@ -51,9 +51,10 @@ static const struct BnLogStaticInitializer
 } gtBnLogStaticInitializer;
 
 //Bnclient.0x6FF0ABF0
-void __fastcall BNLOG_SetUnused(int32_t nValue)
+// Stores the D2ConfigStrc passed by D2Launch, it is never read
+void __fastcall BNLOG_Initialize(D2ConfigStrc* pConfig)
 {
-	gnBnLogUnused = nValue;
+	gpBnLogConfig = pConfig;
 }
 
 //Bnclient.0x6FF0AC60

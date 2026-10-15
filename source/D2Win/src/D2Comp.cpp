@@ -1763,7 +1763,7 @@ void __stdcall D2Win_10159(D2CellFileStrc* pSquelchCelFile, D2CellFileStrc* pSel
 //D2Win.0x6F8A3390 (#10144)
 //TODO: ...
 //1.14d: 0x005066C0
-void __stdcall D2Win_10144(unsigned int nUnitIndex, int nMode, BYTE* pComponents, BYTE* pComponentsColors)
+D2CompositeUnitStrc* __stdcall D2Win_10144(unsigned int nUnitIndex, int nMode, BYTE* pComponents, BYTE* pComponentsColors)
 {
 	//D2CompositeUnitStrc* v4; // esi@1
 	//D2GfxInfoStrc* v5; // eax@4
@@ -1865,6 +1865,9 @@ void __stdcall D2Win_10144(unsigned int nUnitIndex, int nMode, BYTE* pComponents
 	//		dword_6F8FD650->unk0xC8 = v4;
 	//	dword_6F8FD650 = v4;
 	//}
+
+	// TODO: Should return the new composite unit
+	return nullptr;
 }
 
 //D2Win.0x6F8A3570

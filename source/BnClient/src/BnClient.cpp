@@ -16,7 +16,7 @@ extern "C" BNCLIENT_DLL_DECL BnClientInterface* __cdecl QueryInterface();
 //Bnclient.0x6FF19E70
 static BnClientInterface gtBnClientInterface =
 {
-	BNLOG_SetUnused,
+	BNLOG_Initialize,
 	BNET_OpenBNetConnection,
 	BNET_Logon,
 	BNET_GetLogonInfo,

@@ -374,7 +374,8 @@ const char* __fastcall BNSEND_QueryAdUrl(uint32_t nAdId)
 }
 
 //Bnclient.0x6FF07510
-void* __stdcall BNSEND_QueryRealms()
+// nUnused is passed in ecx by D2Launch (always 0) and overwritten right away
+void* __fastcall BNSEND_QueryRealms(int32_t nUnused)
 {
 	BNRECV_ResetMessage(SID_QUERYREALMS2);
 	if (!BNET_SendPacket(SID_QUERYREALMS2, nullptr, 0))

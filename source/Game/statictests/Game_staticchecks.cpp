@@ -4,6 +4,10 @@
 
 // Thanks to galaxyhaxz for providing the base to work on ! https://github.com/galaxyhaxz/d2src
 #ifdef D2_VERSION_110F
+static_assert(offsetof(D2ConfigStrc, szAccountName) == 0x88, "");
+static_assert(offsetof(D2ConfigStrc, szAccountPassword) == 0xA0, "");
+static_assert(offsetof(D2ConfigStrc, szName) == 0xB8, "");
+static_assert(offsetof(D2ConfigStrc, pComInterface) == 0x21F, "");
 static_assert(offsetof(D2ConfigStrc, szCharacterRealm) == 0x227, "");
 static_assert(offsetof(D2ConfigStrc, szGamePassword) == 0x23F, "");
 

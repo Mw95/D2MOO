@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+struct D2ConfigStrc;
+
 #pragma pack(push, 1)
 
 struct S2C_Packet_SID_LOGONREALMEX
@@ -19,8 +21,15 @@ struct S2C_Packet_SID_LOGONREALMEX
 
 struct RealmLogonInformation
 {
-	uint32_t nSize;
+	uint32_t nSize;						// Equal to 8 if the logon failed
 	S2C_Packet_SID_LOGONREALMEX tPacket;
+};
+
+// Values returned by BnClientInterface::GetDownloadStatus besides the 0..100 progress
+enum BnClientDownloadStatus
+{
+	BNPATCH_DONE = 101,
+	BNPATCH_NOT_NEEDED = 102,
 };
 
 struct BnMessQueueErrorInfo
@@ -37,7 +46,7 @@ using BnNewsDoneCallback = void(__cdecl*)();
 // Returned by BnClient.dll's QueryInterface()
 struct BnClientInterface
 {
-	void(__fastcall* SetUnused)(int32_t nValue);																					//0x00
+	void(__fastcall* Initialize)(D2ConfigStrc* pConfig);																	//0x00 Bnclient only stores the pointer, it is never read
 	HANDLE(__stdcall* OpenBNetConnection)();																						//0x04
 	BOOL(__fastcall* Logon)(const char* szAccountName, const char* szPassword);														//0x08
 	BOOL(__stdcall* GetLogonInfo)();																								//0x0C
@@ -53,7 +62,7 @@ struct BnClientInterface
 	BOOL(__fastcall* RefreshGame)(const char* szGameName, const char* szPassword, const char* szStatstring, uint32_t nGameType);		//0x34
 	void*(__fastcall* GetGamesList)(const char* szGameName, const char* szPassword, uint32_t nUnused1, uint32_t nUnused2);			//0x38
 	BOOL(__fastcall* NotifyJoinedGame)(const char* szGameName, const char* szPassword);												//0x3C
-	void*(__stdcall* SendRealmList)();																								//0x40
+	void*(__fastcall* SendRealmList)(int32_t nUnused);																			//0x40 D2Launch passes 0 in ecx, Bnclient ignores it
 	RealmLogonInformation*(__fastcall* LogonRealm)(const char* szRealmName, const char* szRealmPassword);							//0x44
 	BOOL(__fastcall* RunUpgrade)(BOOL* pbQuit);																						//0x48
 	int32_t(__stdcall* GetDownloadStatus)();																						//0x4C
