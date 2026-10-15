@@ -30,6 +30,12 @@ struct D2TblNodeStrc
 
 #pragma pack()
 
+// Loads the string tables (string.tbl, expansionstring.tbl, patchstring.tbl)
+D2FUNC_DLL(D2LANG, 10000, BOOL, __fastcall, (void* hArchive, BOOL bUnused), 0x0000/*TODO*/)					//D2LANG.#10000
+// Frees the string tables
+D2FUNC_DLL(D2LANG, 10001, void, __fastcall, (), 0x0000/*TODO*/)												//D2LANG.#10001
+// Copies the 3 letters code of the current language (such as "ENG") to szLanguage
+D2FUNC_DLL(D2LANG, 10006, void, __stdcall, (char* szLanguage, int32_t nType), 0x0000/*TODO*/)					//D2LANG.#10006
 D2FUNC_DLL(D2LANG, GetStringByReferenceString, const Unicode*, __fastcall, (char* string), 0x3BC0)			//D2LANG.#10003
 //1.14d: Game.0x524A30
 D2FUNC_DLL(D2LANG, GetStringFromTblIndex, const Unicode*, __fastcall, (short index), 0x3740)					//D2LANG.#10004

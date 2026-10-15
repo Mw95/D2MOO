@@ -263,7 +263,7 @@ D2FUNC_DLL_NP(STORM, SFileOpenArchive, BOOL, __stdcall, (char *szName, int nPrio
 D2FUNC_DLL_NP(STORM, SFileOpenFile, int, __stdcall, (char *Str, int), 0x17ed0);  //Storm.#267
 
 /// Imported by ['D2Launch.dll', 'D2Direct3D.dll', 'D2Glide.dll', 'D2DDraw.dll', 'D2Client.dll']
-D2FUNC_DLL_NP(STORM, SFileOpenFileEx, int, __stdcall, (int, char *Str, char, int), 0x17ef0);  //Storm.#268
+D2FUNC_DLL_NP(STORM, SFileOpenFileEx, BOOL, __stdcall, (HSARCHIVE hArchive, const char* szFileName, uint32_t dwSearchScope, HANDLE* phFile), 0x17ef0);  //Storm.#268
 
 /// Not imported by any .dll
 D2FUNC_DLL_NP(STORM, SFileReadFile, int, __stdcall, (int, int, int, int, LONG lDistanceToMove), 0x188e0);  //Storm.#269
