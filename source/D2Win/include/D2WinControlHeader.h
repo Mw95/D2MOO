@@ -45,4 +45,22 @@ struct D2WinControlStrc
 	int32_t(__fastcall* pfShouldMouseInputBeHandled)(D2WinControlStrc*);	//0x38
 	D2WinControlStrc* pNext;												//0x3C
 };
+
+// Describes a control to be created by CONTROL_Create
+struct D2WinControlInitStrc
+{
+	int nType;													//0x00 D2ControlTypes
+	int nX;														//0x04
+	int nY;														//0x08
+	int nWidth;													//0x0C
+	int nHeight;												//0x10
+	int field_14;												//0x14
+	int nStringId;												//0x18
+	D2CellFileStrc** ppCellFile;								//0x1C
+	int(__stdcall* field_20)(SMSGHANDLER_PARAMS*);				//0x20
+	void* field_24;												//0x24
+	void* field_28;												//0x28
+	int32_t field_2C;											//0x2C
+};
+
 #pragma pack(pop)

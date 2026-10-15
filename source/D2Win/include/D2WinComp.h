@@ -117,4 +117,20 @@ inline void sub_6F8A2070(void*)
 {
 }
 void __stdcall D2Win_10142_CompUnitDestroy(D2CompositeUnitStrc* pCompositeUnit, int a2);
+//D2Win.0x6F8A2C50 (#10143)
+BOOL __fastcall D2Win_10143(D2CompositeUnitStrc* pCompositeUnit, int nMode);
+//D2Win.0x6F8A3390 (#10144)
+D2CompositeUnitStrc* __stdcall D2Win_10144(unsigned int nUnitIndex, int nMode, BYTE* pComponents, BYTE* pComponentsColors);
+//D2Win.0x6F8A4440 (#10149)
+void __stdcall D2Win_10149(D2CompositeUnitStrc* pCompositeUnit, uint8_t a2);
+//D2Win.0x6F8A44F0 (#10151)
+void __stdcall D2Win_10151(D2CompositeUnitStrc* pCompositeUnit, int a2);
+//D2Win.0x6F8A4540 (#10152)
+void __stdcall D2Win_10152(D2CompositeUnitStrc* pCompositeUnit, int nX);
+//D2Win.0x6F8A4570 (#10153)
+void __stdcall D2Win_10153(D2CompositeUnitStrc* pCompositeUnit, int nY);
+//D2Win.0x6F8A45D0 (#10156)
+void __stdcall D2Win_10156(D2CompositeUnitStrc* pCompositeUnit, int nFlags);
+//D2Win.0x6F8A4C70 (#10161)
+const char* __stdcall D2Win_10161(int a1, int a2, int a3, BOOL bSoftCore);
 const char* __stdcall D2Win_10160_GetPlayerTitle(int a1, int a2, BOOL bSoftCore);

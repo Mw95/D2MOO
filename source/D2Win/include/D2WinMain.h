@@ -27,7 +27,7 @@ D2WIN_DLL_DECL int __fastcall D2Win_10015();
 //D2Win.0x6F8ACDB0 (#10002)
 D2WIN_DLL_DECL int __stdcall D2Win_CloseSpriteCache();
 //D2Win.0x6F8ACDD0 (#10003)
-D2WIN_DLL_DECL void __stdcall D2Win_10003();
+D2WIN_DLL_DECL BOOL __stdcall D2Win_10003();
 //D2Win.0x6F8ACDE0 (#10004)
 D2WIN_DLL_DECL void __stdcall D2Win_10004(BOOL bForceResize);
 //D2Win.0x6F8ACE20 (#10016)

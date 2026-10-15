@@ -12,6 +12,12 @@ enum D2EditBoxFlags
 };
 
 
+struct D2WinEditBoxStrc;
+
+// Returns 0 if the character should be rejected
+typedef int32_t(__stdcall* D2WinEditBoxCharFilter)(D2WinEditBoxStrc* pEditBox, int32_t nPosition, char* pChar);
+
+
 #pragma pack(push, 1)
 struct D2WinEditBoxStrc
 {
@@ -27,7 +33,7 @@ struct D2WinEditBoxStrc
 	int32_t field_25C;								//0x25C
 	uint32_t dwEditBoxFlags;						//0x260
 	int32_t field_264;								//0x264
-	int32_t field_268;								//0x268
+	D2WinEditBoxCharFilter pfCharFilter;			//0x268
 	void(__stdcall* field_26C)(int32_t);			//0x26C
 	Font eFont;										//0x270
 	int32_t nTextColor;								//0x274
@@ -43,7 +49,7 @@ D2WinEditBoxStrc* __fastcall D2Win_10070_EDITBOX_Create(int32_t nX, int32_t nY, 
 //D2Win.0x6F8A6DC0
 int __fastcall D2Win_10071_EDITBOX_Destroy(D2WinEditBoxStrc* pEditBox);
 //D2Win.0x6F8A6E10
-void __fastcall D2Win_10072(D2WinEditBoxStrc* pEditBox, int32_t a2);
+void __fastcall D2Win_10072(D2WinEditBoxStrc* pEditBox, D2WinEditBoxCharFilter pfCharFilter);
 //D2Win.0x6F8A6E60
 void __fastcall D2Win_10073(D2WinEditBoxStrc* pEditBox, void(__stdcall* a2)(int32_t));
 //D2Win.0x6F8A6EB0

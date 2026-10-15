@@ -70,7 +70,8 @@ struct D2ConfigStrc
 	uint8_t bAssassin;
 #endif
 	uint8_t bInvincible;
-	uint8_t _0082[48];
+	char szAccountName[24];
+	char szAccountPassword[24];
 	char szName[24];
 	char szRealm[24];
 	D2CharacterPreviewInfoStrc tCharPreviewInfo;

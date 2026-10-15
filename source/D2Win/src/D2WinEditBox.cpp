@@ -83,12 +83,12 @@ int32_t __fastcall D2Win_10071_EDITBOX_Destroy(D2WinEditBoxStrc* pEditBox)
 }
 
 //D2Win.0x6F8A6E10 (#10072)
-void __fastcall D2Win_10072(D2WinEditBoxStrc* pEditBox, int32_t a2)
+void __fastcall D2Win_10072(D2WinEditBoxStrc* pEditBox, D2WinEditBoxCharFilter pfCharFilter)
 {
 	D2_ASSERT(pEditBox);
 	D2_ASSERT(pEditBox->controlHeader.nType == D2WIN_EDITBOX);
 
-	pEditBox->field_268 = a2;
+	pEditBox->pfCharFilter = pfCharFilter;
 }
 
 //D2Win.0x6F8A6E60 (#10073)

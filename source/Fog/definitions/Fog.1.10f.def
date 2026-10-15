@@ -119,11 +119,11 @@ UnimplementedOrdinal_10098=UnimplementedOrdinal @10098;   FOG_10098 @10098 NONAM
     FOG_CreateFileA @10107 NONAME
     FOG_DeleteFileA @10108 NONAME
     FOG_CloseFile @10109 NONAME
-UnimplementedOrdinal_10110=UnimplementedOrdinal @10110;   FOG_10110 @10110 NONAME
-UnimplementedOrdinal_10111=UnimplementedOrdinal @10111;   FOG_10111 @10111 NONAME
-UnimplementedOrdinal_10112=UnimplementedOrdinal @10112;   FOG_10112 @10112 NONAME
+    FOG_ReadFile @10110 NONAME
+    FOG_WriteFile @10111 NONAME
+    FOG_SetFilePointer @10112 NONAME
 UnimplementedOrdinal_10113=UnimplementedOrdinal @10113;   FOG_10113 @10113 NONAME
-UnimplementedOrdinal_10114=UnimplementedOrdinal @10114;   FOG_10114 @10114 NONAME
+    FOG_CreatePathHierarchy @10114 NONAME
     FOG_GetSavePath @10115 NONAME
     FOG_GetInstallPath @10116 NONAME
     FOG_UseDirect @10117 NONAME
@@ -198,7 +198,7 @@ UnimplementedOrdinal_10185=UnimplementedOrdinal @10185;   FOG_10185 @10185 NONAM
 UnimplementedOrdinal_10188=UnimplementedOrdinal @10188;   FOG_10188 @10188 NONAME
 UnimplementedOrdinal_10189=UnimplementedOrdinal @10189;   FOG_10189 @10189 NONAME
 UnimplementedOrdinal_10190=UnimplementedOrdinal @10190;   FOG_10190 @10190 NONAME
-UnimplementedOrdinal_10191=UnimplementedOrdinal @10191;   FOG_10191 @10191 NONAME
+    FOG_10191 @10191 NONAME
 UnimplementedOrdinal_10192=UnimplementedOrdinal @10192;   FOG_10192 @10192 NONAME
 UnimplementedOrdinal_10193=UnimplementedOrdinal @10193;   FOG_10193 @10193 NONAME
 UnimplementedOrdinal_10194=UnimplementedOrdinal @10194;   FOG_10194 @10194 NONAME
