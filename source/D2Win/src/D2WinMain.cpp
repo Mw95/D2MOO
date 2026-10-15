@@ -73,7 +73,7 @@ int32_t dword_6F8BDE18;
 void* dword_6F8FE260;
 int32_t gbIsMouseButtonPressed;
 int32_t dword_6F8FE288;
-void* dword_6F8FE284;
+int32_t dword_6F8FE284;
 D2WinControlStrc* dword_6F8FE264;
 int32_t dword_6F8BDE20;
 int32_t dword_6F8FE278;
@@ -1127,18 +1127,18 @@ void __stdcall D2Win_COMMANDS_ActivateApp_6F8ADC40(SMSGHANDLER_PARAMS* pMsg)
 			D2Win_10176(1);
 		}
 
-		D2SOUND_10049(dword_6F8FE284);
+		D2SOUND_SetMusicVolumeSetting(dword_6F8FE284);
 		dword_6F8FE288 = 0;
 	}
 	else
 	{
 		if (!dword_6F8FE288)
 		{
-			dword_6F8FE284 = D2SOUND_10048();
+			dword_6F8FE284 = D2SOUND_GetMusicVolumeSetting();
 		}
 
 		dword_6F8FE288 = 1;
-		D2SOUND_10049(0);
+		D2SOUND_SetMusicVolumeSetting(0);
 		WINDOW_SetPaused(1);
 	}
 
@@ -1207,20 +1207,20 @@ void __stdcall D2Win_COMMANDS_Snapshot_6F8ADE70(SMSGHANDLER_PARAMS* pMsg)
 //D2Win.0x6F8AE020
 void __stdcall D2Win_COMMANDS_KeyF1_6F8AE020(SMSGHANDLER_PARAMS* pMsg)
 {
-	if (!dword_6F8FE274 || !D2SOUND_10066())
+	if (!dword_6F8FE274 || !D2SOUND_AreFastSoundsInitialized())
 	{
 		return;
 	}
 
-	if (D2SOUND_10069())
+	if (D2SOUND_GetOptionsMusicSetting())
 	{
-		D2SOUND_10065();
-		D2SOUND_10070(0);
+		D2SOUND_FadeOutMusic();
+		D2SOUND_SetOptionsMusicSetting(0);
 	}
 	else
 	{
-		D2SOUND_10034(1);
-		D2SOUND_10070(1);
+		D2SOUND_SetRandomMusic(1);
+		D2SOUND_SetOptionsMusicSetting(1);
 	}
 
 	pMsg->bUseResult = 1;

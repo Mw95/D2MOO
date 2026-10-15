@@ -378,7 +378,7 @@ int32_t __stdcall BUTTON_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 
 	if (!(pButton->dwButtonFlags & BUTTONFLAG_SKIP_SOUND))
 	{
-		D2SOUND_10039("data\\global\\sfx\\cursor\\button.wav");
+		D2SOUND_PlayFastSound("data\\global\\sfx\\cursor\\button.wav");
 	}
 
 	if (pButton->dwButtonFlags & (BUTTONFLAG_IS_TOGGLE | 1) && pButton->controlHeader.field_34)
