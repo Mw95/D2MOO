@@ -89,7 +89,7 @@ struct D2MCPCreateGameInfoStrc			// sizeof 0x47
 	char szGameName[16];				// 0x00
 	char szGamePassword[16];			// 0x10
 	char szGameDescription[32];			// 0x20
-	uint32_t dwDifficulty;				// 0x40
+	uint32_t dwFlags;					// 0x40 Difficulty in bits 12-14 (set by D2Multi)
 	uint8_t nUnk0x44;					// 0x44 Sent as is
 	uint8_t nLevelDifference;			// 0x45 Maximum level difference with the game creator
 	uint8_t nMaxPlayers;				// 0x46
@@ -99,7 +99,7 @@ struct D2MCPCreateGameInfoStrc			// sizeof 0x47
 struct D2MCPGameListRequestStrc			// sizeof 0x18
 {
 	char szSearchString[20];			// 0x00
-	uint32_t dwUnk0x14;					// 0x14 Sent as is
+	uint32_t dwFlags;					// 0x14 Sent as is, D2Multi sets 0x800 for hardcore characters
 };
 
 // Filled by MCP_GAMELIST (one game per message) and MCP_GAMEINFO responses, see D2MCPClientGetGameInfo
@@ -144,7 +144,8 @@ using MCPLadderDataCallback = void(__fastcall*)(int32_t nStartingPosition, int32
 // Called once a ladder response is complete, before the MCPLadderDataCallback calls
 using MCPLadderDataBeginCallback = void(__fastcall*)();
 // Receives the message of the day, pData is not guaranteed to be null terminated
-using MCPMotdCallback = void(__fastcall*)(uint8_t nUnk, uint32_t nSize, const uint8_t* pData);
+// nId is the byte following the message id, zero extended. D2Multi uses it to sort the messages.
+using MCPMotdCallback = void(__fastcall*)(int32_t nId, uint32_t nSize, const uint8_t* pData);
 
 // Connection
 // Starts the connection thread (if not already started) and returns its handle. The thread exit code is FALSE if the connection

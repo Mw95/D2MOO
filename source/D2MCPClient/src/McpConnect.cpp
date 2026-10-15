@@ -194,7 +194,7 @@ struct D2MCPLadderDataHeaderStrc
 struct D2MCPMotdMsgStrc
 {
 	uint8_t nMessageId;		// 0x00
-	uint8_t nUnk;			// 0x01
+	uint8_t nId;			// 0x01
 	uint8_t pData[1];		// 0x02
 };
 
@@ -1035,7 +1035,7 @@ static BOOL __fastcall FROMMCP_Motd(const uint8_t* pMessage, uint32_t nMessageSi
 	if (gpMCPMotdCallback)
 	{
 		const D2MCPMotdMsgStrc* pMsg = (const D2MCPMotdMsgStrc*)pMessage;
-		gpMCPMotdCallback(pMsg->nUnk, nMessageSize - offsetof(D2MCPMotdMsgStrc, pData), pMsg->pData);
+		gpMCPMotdCallback(pMsg->nId, nMessageSize - offsetof(D2MCPMotdMsgStrc, pData), pMsg->pData);
 	}
 
 	return TRUE;

@@ -129,7 +129,7 @@ int32_t __fastcall EDITBOX_PlaceMultiLineCaret(SMSGHANDLER_PARAMS* pMsg, int32_t
 int __stdcall sub_6F8A97D0(SMSGHANDLER_PARAMS* pMsg);
 //D2Win.0x6F8A9850
 //1.14d: 0x004FE770
-BOOL __stdcall D2Win_10078_IsNumber(int32_t nUnused1, int32_t nUnused2, char* szChar);
+BOOL __stdcall D2Win_10078_IsNumber(D2WinEditBoxStrc* pUnused, int32_t nUnused, char* szChar);
 //D2Win.0x6F8A9870
 //1.14d: 0x004FE790
 BOOL __stdcall D2Win_10079_IsLetter(int nUnused1, int nUnused2, char* szChar);

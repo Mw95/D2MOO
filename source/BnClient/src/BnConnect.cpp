@@ -663,14 +663,14 @@ BOOL __fastcall BNET_GetChangePasswordResult(int32_t* pResult)
 }
 
 //Bnclient.0x6FF01E10
-BOOL __fastcall BNET_EnterChat(const char* szCharacterName, const char* szStatstring, const char* szAccountName, const char* szChannel, uint32_t nFlags)
+BOOL __fastcall BNET_EnterChat(const char* szCharacterName, const char* szStatstring, int32_t nUnused, const char* szChannel, uint32_t nFlags)
 {
 	const BOOL bClassic = nFlags & 1;
 
 	BNNEWS_SetProduct(bClassic);
 
 	BNRECV_ResetMessage(SID_ENTERCHAT);
-	BNSEND_EnterChat(szCharacterName, szStatstring, szAccountName);
+	BNSEND_EnterChat(szCharacterName, szStatstring, nUnused);
 
 	if (nFlags & 2)
 	{

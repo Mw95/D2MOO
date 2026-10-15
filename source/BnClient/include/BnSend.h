@@ -47,7 +47,7 @@ void __fastcall BNSEND_StoreChannelList(const uint8_t* pData, uint32_t nSize);
 void __stdcall BNSEND_FreeChannelList();
 void* __fastcall BNSEND_GetChannelList(BOOL bClassic);
 BOOL __fastcall BNSEND_JoinChannel(const char* szChannel, BOOL bForced, BOOL bClassic);
-BOOL __fastcall BNSEND_EnterChat(const char* szCharacterName, const char* szStatstring, const char* szUnused);
+BOOL __fastcall BNSEND_EnterChat(const char* szCharacterName, const char* szStatstring, int32_t nUnused);
 BOOL __stdcall BNSEND_LeaveChat();
 BOOL __fastcall BNSEND_ChatCommand(const char* szText);
 BOOL __stdcall BNSEND_CheckAd();

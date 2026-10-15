@@ -1,7 +1,9 @@
 
 D2MOO_prepare_targets(D2MCPClient)
 
-target_link_libraries(${D2MCPClientImplName} PRIVATE D2CommonDefinitions Fog Storm)
+target_link_libraries(${D2MCPClientImplName} PRIVATE Fog Storm)
+
+target_link_libraries(${D2MCPClientImplName} PUBLIC D2CommonDefinitions)
 
 target_sources(${D2MCPClientImplName}
   PRIVATE

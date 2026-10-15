@@ -460,7 +460,7 @@ BOOL __fastcall BNSEND_JoinChannel(const char* szChannel, BOOL bForced, BOOL bCl
 }
 
 //Bnclient.0x6FF076D0
-BOOL __fastcall BNSEND_EnterChat(const char* szCharacterName, const char* szStatstring, const char* szUnused)
+BOOL __fastcall BNSEND_EnterChat(const char* szCharacterName, const char* szStatstring, int32_t nUnused)
 {
 	uint32_t nProductId = BNSEND_GetProductId();
 	BNET_SendPacket(SID_GETCHANNELLIST, &nProductId, sizeof(nProductId));

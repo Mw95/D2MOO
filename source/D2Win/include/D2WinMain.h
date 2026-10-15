@@ -8,8 +8,8 @@
 
 struct D2CellFileStrc;
 struct D2WinEditBoxStrc;
-struct D2WinControlInitStrc;
 struct D2WinControlStrc;
+struct D2WinControlInitStrc;
 struct SMSGHANDLER_PARAMS;
 
 //1.10f: D2Win.0x6F8FE234

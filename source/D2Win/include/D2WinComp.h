@@ -150,3 +150,15 @@ void __stdcall D2Win_10153(D2CompositeUnitStrc* pCompositeUnit, int nY);
 void __stdcall D2Win_10156(D2CompositeUnitStrc* pCompositeUnit, int nFlags);
 //D2Win.0x6F8A4C70 (#10161)
 const char* __stdcall D2Win_10161(int a1, int a2, int a3, BOOL bSoftCore);
+//D2Win.0x6F8A4260 (#10145)
+void __stdcall D2Win_10145(D2CompositeUnitStrc* pCompositeUnit, unsigned int nUnitIndex, int nMode, BYTE* a4, BYTE* a5);
+//(#10146)
+void __stdcall D2Win_10146();
+//D2Win.0x6F8A2BD0 (#10154)
+void __stdcall D2Win_10154(D2CompositeUnitStrc* pCompositeUnit, const Unicode* a2, const Unicode* a3, const Unicode* a4, const Unicode* a5, int a6, int a7);
+//(#10155)
+int __stdcall D2Win_10155(D2CompositeUnitStrc* pCompositeUnit);
+//D2Win.0x6F8A3360 (#10159)
+void __stdcall D2Win_10159(D2CellFileStrc* pSquelchCelFile, D2CellFileStrc* pSelectedCelFile);
+//(#10169)
+int __stdcall D2Win_10169(D2CompositeUnitStrc* pCompositeUnit);

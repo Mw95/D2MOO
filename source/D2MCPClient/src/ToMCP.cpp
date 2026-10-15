@@ -41,7 +41,7 @@ struct D2MCPCreateGameMsgStrc
 {
 	uint8_t nMessageId;							// 0x00
 	uint16_t nRequestId;						// 0x01
-	uint32_t dwDifficulty;						// 0x03
+	uint32_t dwFlags;							// 0x03
 	uint8_t nUnk0x07;							// 0x07
 	uint8_t nLevelDifference;					// 0x08
 	uint8_t nMaxPlayers;						// 0x09
@@ -190,7 +190,7 @@ BOOL __fastcall D2MCPClientCreateGame(const D2MCPCreateGameInfoStrc* pCreateGame
 	D2MCPCreateGameMsgStrc tMsg{};
 	tMsg.nMessageId = MCP_CREATEGAME;
 	tMsg.nRequestId = nRequestId;
-	tMsg.dwDifficulty = pCreateGameInfo->dwDifficulty;
+	tMsg.dwFlags = pCreateGameInfo->dwFlags;
 	tMsg.nUnk0x07 = pCreateGameInfo->nUnk0x44;
 	tMsg.nLevelDifference = pCreateGameInfo->nLevelDifference;
 	tMsg.nMaxPlayers = pCreateGameInfo->nMaxPlayers;
@@ -233,7 +233,7 @@ BOOL __fastcall D2MCPClientRequestGameList(const D2MCPGameListRequestStrc* pRequ
 	D2MCPGameListMsgStrc tMsg{};
 	tMsg.nMessageId = MCP_GAMELIST;
 	tMsg.nRequestId = nRequestId;
-	tMsg.dwUnk0x03 = pRequest->dwUnk0x14;
+	tMsg.dwUnk0x03 = pRequest->dwFlags;
 	gnMCPPendingRequestId = nRequestId;
 
 	uint32_t dwSize = 0;

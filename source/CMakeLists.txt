@@ -15,6 +15,7 @@ add_subdirectory(D2Win)
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
   add_subdirectory(D2Launch)
 endif()
+add_subdirectory(D2Multi)
 add_subdirectory(D2Debugger)
 add_subdirectory(Game)
 

@@ -40,8 +40,9 @@ struct BnMessQueueErrorInfo
 
 class BNGatewayAccess;
 
-using BnNewsItemCallback = void(__fastcall*)(uint32_t nTimestamp, const char* szText);
-using BnNewsDoneCallback = void(__cdecl*)();
+// The return values are ignored (D2Multi returns 1)
+using BnNewsItemCallback = int32_t(__fastcall*)(uint32_t nTimestamp, const char* szText);
+using BnNewsDoneCallback = int32_t(__fastcall*)();
 
 // Returned by BnClient.dll's QueryInterface()
 struct BnClientInterface
@@ -67,7 +68,7 @@ struct BnClientInterface
 	BOOL(__fastcall* RunUpgrade)(BOOL* pbQuit);																						//0x48
 	int32_t(__stdcall* GetDownloadStatus)();																						//0x4C
 	BOOL(__fastcall* StartPatch)(const char* szPatchFiles, uint32_t nSize);															//0x50
-	BOOL(__fastcall* EnterChat)(const char* szCharacterName, const char* szStatstring, const char* szAccountName, const char* szChannel, uint32_t nFlags);	//0x54
+	BOOL(__fastcall* EnterChat)(const char* szCharacterName, const char* szStatstring, int32_t nUnused, const char* szChannel, uint32_t nFlags);	//0x54
 	BOOL(__stdcall* LeaveChat)();																									//0x58
 	int(__stdcall* GetVersion)();																									//0x5C
 	BOOL(__fastcall* CreateAccount)(const char* szAccountName, const char* szPassword);												//0x60

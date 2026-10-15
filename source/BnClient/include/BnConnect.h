@@ -55,7 +55,7 @@ BOOL __fastcall BNET_CreateAccount(const char* szAccountName, const char* szPass
 BOOL __fastcall BNET_GetCreateAccountResult(int32_t* pResult);
 BOOL __fastcall BNET_ChangePassword(const char* szAccountName, const char* szOldPassword, const char* szNewPassword);
 BOOL __fastcall BNET_GetChangePasswordResult(int32_t* pResult);
-BOOL __fastcall BNET_EnterChat(const char* szCharacterName, const char* szStatstring, const char* szAccountName, const char* szChannel, uint32_t nFlags);
+BOOL __fastcall BNET_EnterChat(const char* szCharacterName, const char* szStatstring, int32_t nUnused, const char* szChannel, uint32_t nFlags);
 BOOL __stdcall BNET_LeaveChat();
 BOOL __stdcall BNET_CloseBNetConnection();
 int __fastcall BNET_SendPacket(uint8_t nMessageId, const void* pData, uint32_t nSize);

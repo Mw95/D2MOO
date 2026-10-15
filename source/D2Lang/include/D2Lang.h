@@ -39,5 +39,6 @@ D2FUNC_DLL(D2LANG, 10006, void, __stdcall, (char* szLanguage, int32_t nType), 0x
 D2FUNC_DLL(D2LANG, GetStringByReferenceString, const Unicode*, __fastcall, (char* string), 0x3BC0)			//D2LANG.#10003
 //1.14d: Game.0x524A30
 D2FUNC_DLL(D2LANG, GetStringFromTblIndex, const Unicode*, __fastcall, (short index), 0x3740)					//D2LANG.#10004
+D2FUNC_DLL(D2LANG, 10012, void, __stdcall, (Unicode* pUnicode, uint32_t nValueLow, uint32_t nValueHigh, int nMaxLength), 0x0000/*TODO*/)	//D2LANG.#10012 Groups the digits of a 64bits value
 D2FUNC_DLL(D2LANG, GetTblIndex, short, __stdcall, (char* szReference, const Unicode** pUnicode), 0x3960)		//D2LANG.#10013
 

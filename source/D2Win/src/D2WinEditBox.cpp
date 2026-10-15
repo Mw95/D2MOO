@@ -1682,7 +1682,7 @@ int32_t __stdcall sub_6F8A97D0(SMSGHANDLER_PARAMS* pMsg)
 
 //D2Win.0x6F8A9850 (#10078)
 //1.14d: 0x004FE770
-BOOL __stdcall D2Win_10078_IsNumber(int32_t nUnused1, int32_t nUnused2, char* szChar)
+BOOL __stdcall D2Win_10078_IsNumber(D2WinEditBoxStrc* pUnused, int32_t nUnused, char* szChar)
 {
 	return *szChar >= '0' && *szChar <= '9';
 }
