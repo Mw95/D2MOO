@@ -223,23 +223,26 @@ D2FUNC_DLL_NP(STORM, SFileCloseFile, BOOL, __stdcall, (HANDLE hFile), 0x14900); 
 /// Not imported by any .dll
 D2FUNC_DLL_NP(STORM, SFileDdaBegin, int, __stdcall, (HANDLE hFile, int a2, int a3), 0x14b30);  //Storm.#254
 
+// SFileDdaBeginEx flags
+constexpr uint32_t SFILE_DDA_LOOP = 0x40000;
+
 /// Imported by ['D2sound.dll']
-D2FUNC_DLL_NP(STORM, SFileDdaBeginEx, int, __stdcall, (HANDLE hFile, signed int a2, unsigned int a3, unsigned __int32 lDistanceToMove, signed int a5, signed int a6, int a7), 0x14b60);  //Storm.#255
+D2FUNC_DLL_NP(STORM, SFileDdaBeginEx, BOOL, __stdcall, (HSFILE hFile, uint32_t dwBufferSize, uint32_t dwFlags, uint32_t dwOffset, int32_t nVolume, int32_t nPan, void* pDirectSoundBuffer), 0x14b60);  //Storm.#255
 
 /// Imported by ['D2sound.dll']
 D2FUNC_DLL_NP(STORM, SFileDdaDestroy, BOOL, __cdecl, (), 0x167f0);  //Storm.#256
 
 /// Imported by ['D2sound.dll']
-D2FUNC_DLL_NP(STORM, SFileDdaEnd, BOOL, __stdcall, (HANDLE directsound), 0x16a00);  //Storm.#257
+D2FUNC_DLL_NP(STORM, SFileDdaEnd, BOOL, __stdcall, (HSFILE hFile), 0x16a00);  //Storm.#257
 
 /// Imported by ['D2sound.dll']
-D2FUNC_DLL_NP(STORM, SFileDdaGetPos, BOOL, __stdcall, (int a1, int a2, int a3), 0x16b30);  //Storm.#258
+D2FUNC_DLL_NP(STORM, SFileDdaGetPos, BOOL, __stdcall, (HSFILE hFile, uint32_t* pdwPosition, uint32_t* pdwMaxPosition), 0x16b30);  //Storm.#258
 
 /// Not imported by any .dll
 D2FUNC_DLL_NP(STORM, SFileDdaGetVolume, BOOL, __stdcall, (int a1, int a2, int a3), 0x16be0);  //Storm.#259
 
 /// Imported by ['D2sound.dll']
-D2FUNC_DLL_NP(STORM, SFileDdaInitialize, BOOL, __stdcall, (HANDLE directsound), 0x16cd0);  //Storm.#260
+D2FUNC_DLL_NP(STORM, SFileDdaInitialize, BOOL, __stdcall, (void* pDirectSound), 0x16cd0);  //Storm.#260
 
 /// Not imported by any .dll
 D2FUNC_DLL_NP(STORM, SFileDdaSetVolume, BOOL, __stdcall, (HANDLE directsound, signed int bigvolume, signed int volume), 0x16d00);  //Storm.#261
