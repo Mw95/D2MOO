@@ -1,0 +1,3 @@
+LIBRARY		D2Multi
+EXPORTS
+	QueryInterface							@1

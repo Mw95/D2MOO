@@ -16,6 +16,9 @@ D2FUNC_DLL(D2SOUND, OpenSoundSystem, void, __fastcall, (BOOL bExpansion), 0x10E0
 #endif
 D2FUNC_DLL(D2SOUND, CloseSoundSystem, void, __fastcall, (), 0x21C0)									//D2Sound.#10001
 D2FUNC_DLL(D2SOUND, 10034, void, __fastcall, (int), 0x4D60)											//D2Sound.#10034
+D2FUNC_DLL(D2SOUND, 10036, void, __fastcall, (), 0x0000/*TODO*/)											//D2Sound.#10036
+D2FUNC_DLL(D2SOUND, 10037, void, __fastcall, (), 0x0000/*TODO*/)											//D2Sound.#10037
+D2FUNC_DLL(D2SOUND, 10038, void, __fastcall, (const char* szSoundFile), 0x0000/*TODO*/)							//D2Sound.#10038
 D2FUNC_DLL(D2SOUND, 10039, void, __fastcall, (const char*), 0x2800)									//D2Sound.#10039
 D2FUNC_DLL(D2SOUND, 10048, void*, __fastcall, (), 0x2B30)											//D2Sound.#10048
 D2FUNC_DLL(D2SOUND, 10049, void, __fastcall, (void*), 0x2B40)										//D2Sound.#10049

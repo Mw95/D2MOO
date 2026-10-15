@@ -120,7 +120,7 @@ UnimplementedOrdinal_10098=UnimplementedOrdinal @10098;   FOG_10098 @10098 NONAM
     FOG_DeleteFileA @10108 NONAME
     FOG_CloseFile @10109 NONAME
 UnimplementedOrdinal_10110=UnimplementedOrdinal @10110;   FOG_10110 @10110 NONAME
-UnimplementedOrdinal_10111=UnimplementedOrdinal @10111;   FOG_10111 @10111 NONAME
+    FOG_WriteFile @10111 NONAME
 UnimplementedOrdinal_10112=UnimplementedOrdinal @10112;   FOG_10112 @10112 NONAME
 UnimplementedOrdinal_10113=UnimplementedOrdinal @10113;   FOG_10113 @10113 NONAME
 UnimplementedOrdinal_10114=UnimplementedOrdinal @10114;   FOG_10114 @10114 NONAME
@@ -147,7 +147,7 @@ UnimplementedOrdinal_10134=UnimplementedOrdinal @10134;   FOG_10134 @10134 NONAM
 UnimplementedOrdinal_10135=UnimplementedOrdinal @10135;   FOG_10135 @10135 NONAME
 UnimplementedOrdinal_10136=UnimplementedOrdinal @10136;   FOG_10136 @10136 NONAME
     FOG_ComputeStringCRC16 @10137 NONAME
-UnimplementedOrdinal_10138=UnimplementedOrdinal @10138;   FOG_10138 @10138 NONAME
+    FOG_10138 @10138 NONAME
 UnimplementedOrdinal_10139=UnimplementedOrdinal @10139;   FOG_10139 @10139 NONAME
 UnimplementedOrdinal_10140=UnimplementedOrdinal @10140;   FOG_10140 @10140 NONAME
 UnimplementedOrdinal_10141=UnimplementedOrdinal @10141;   FOG_10141 @10141 NONAME
