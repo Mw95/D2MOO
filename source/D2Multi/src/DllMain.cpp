@@ -1,0 +1,41 @@
+#include <Windows.h>
+
+#include <D2StrTable.h>
+#include <D2WinMain.h>
+
+#include "ChatDlg.h"
+
+
+HINSTANCE ghInstance_6F9C2B40;
+
+//D2Multi.0x6F9AF2D0
+BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	// Move some of the controls for traditional Chinese. This is done for every call, whatever the reason.
+	if (STRTABLE_GetLanguage() == LANGUAGE_CHINESETWN)
+	{
+		gaControlInits_6F9BC138[CTRLINIT_LADDERMENU_TITLE].nY = 98;
+		gaControlInits_6F9BC138[CTRLINIT_LADDER_TITLE].nY = 98;
+		gaControlInits_6F9BC138[CTRLINIT_HELP_TITLE].nY = 101;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_LEVELDIFF_LABEL].nY = 337;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_LEVELDIFF_SUFFIX].nY = 337;
+		gaControlInits_6F9BC138[CTRLINIT_CHANNELDLG_TITLE].nY = 101;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_NORMAL_LABEL].nY = 375;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_NIGHTMARE_LABEL].nY = 375;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_HELL_LABEL].nY = 375;
+		gaControlInits_6F9BC138[CTRLINIT_JOIN_NAME_LABEL].nY = 116;
+		gaControlInits_6F9BC138[CTRLINIT_JOIN_PASSWORD_LABEL].nY = 116;
+		gaControlInits_6F9BC138[CTRLINIT_CHANNELDLG_NAME_LABEL].nY = 130;
+		gaControlInits_6F9BC138[CTRLINIT_CHANNELDLG_LIST_LABEL].nY = 182;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_TITLE].nY = 96;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_NAME_LABEL].nY = 129;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_PASSWORD_LABEL].nY = 183;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_DESCRIPTION_LABEL].nY = 238;
+		gaControlInits_6F9BC138[CTRLINIT_CREATE_MAXPLAYERS_LABEL].nY = 301;
+		gaControlInits_6F9BC138[CTRLINIT_JOIN_TITLE].nY = 96;
+		gaControlInits_6F9BC138[CTRLINIT_JOIN_GAMELIST_LABEL].nY = 205;
+	}
+
+	ghInstance_6F9C2B40 = hinstDLL;
+	return TRUE;
+}

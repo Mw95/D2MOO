@@ -70,7 +70,7 @@ struct D2ConfigStrc
 	uint8_t bAssassin;
 #endif
 	uint8_t bInvincible;
-	uint8_t _0082[48];
+	char szAccountName[48];		// Battle.net account name
 	char szName[24];
 	char szRealm[24];
 	D2CharacterPreviewInfoStrc tCharPreviewInfo;
