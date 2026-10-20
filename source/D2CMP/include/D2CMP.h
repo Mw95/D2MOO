@@ -183,3 +183,23 @@ D2FUNC_DLL(D2CMP, 10088_GetTiles, int, __stdcall, (D2TileLibraryHashStrc** ppTil
 D2FUNC_DLL(D2CMP, MixPalette, uint8_t*, __stdcall, (uint8_t nTrans, int nColor), 0xB760)																				//D2Cmp.#10098
 D2FUNC_DLL(D2CMP, SpriteFreeAsyncLoads, void, __stdcall, (), 0xE000)																									//D2Cmp.#10099
 D2FUNC_DLL(D2CMP, TileFreeAsyncLoads, void, __stdcall, (), 0xE860)																										//D2Cmp.#10102
+
+// Used by D2Client, signatures inferred from D2Client call sites
+D2FUNC_DLL(D2CMP, 10019, int32_t, __stdcall, (int32_t, int32_t, int32_t, int32_t), 0x0000/*TODO*/)	//D2Cmp.#10019
+D2FUNC_DLL(D2CMP, 10022, void, __stdcall, (int32_t, int32_t), 0x0000/*TODO*/)	//D2Cmp.#10022
+D2FUNC_DLL(D2CMP, 10055, int32_t, __stdcall, (int32_t, int32_t, int32_t), 0x0000/*TODO*/)	//D2Cmp.#10055
+D2FUNC_DLL(D2CMP, 10056, int32_t, __fastcall, (int32_t, int32_t, int32_t), 0x0000/*TODO*/)	//D2Cmp.#10056
+D2FUNC_DLL(D2CMP, 10057, int32_t, __stdcall, (), 0x0000/*TODO*/)	//D2Cmp.#10057
+D2FUNC_DLL(D2CMP, 10058, int32_t, __fastcall, (int32_t, int32_t, int32_t, int32_t, int32_t), 0x0000/*TODO*/)	//D2Cmp.#10058
+D2FUNC_DLL(D2CMP, 10060, int32_t, __stdcall, (int32_t), 0x0000/*TODO*/)	//D2Cmp.#10060
+D2FUNC_DLL(D2CMP, 10061, int32_t, __stdcall, (), 0x0000/*TODO*/)	//D2Cmp.#10061
+D2FUNC_DLL(D2CMP, 10063, int32_t, __stdcall, (int32_t), 0x0000/*TODO*/)	//D2Cmp.#10063
+D2FUNC_DLL(D2CMP, 10064, int32_t, __stdcall, (), 0x0000/*TODO*/)	//D2Cmp.#10064
+D2FUNC_DLL(D2CMP, 10084, int32_t, __stdcall, (int32_t), 0x0000/*TODO*/)	//D2Cmp.#10084
+D2FUNC_DLL(D2CMP, 10089, void, __stdcall, (void* pMemPool, int32_t nSize), 0x0000/*TODO*/)	//D2Cmp.#10089
+D2FUNC_DLL(D2CMP, 10090, void, __stdcall, (void* pMemPool), 0x0000/*TODO*/)	//D2Cmp.#10090
+D2FUNC_DLL(D2CMP, 10092, void, __stdcall, (int32_t* a1, int32_t* a2, int32_t* a3, int32_t* a4), 0x0000/*TODO*/)	//D2Cmp.#10092
+D2FUNC_DLL(D2CMP, 10093, void, __stdcall, (), 0x0000/*TODO*/)	//D2Cmp.#10093
+D2FUNC_DLL(D2CMP, 10095, int32_t, __stdcall, (int32_t, int32_t), 0x0000/*TODO*/)	//D2Cmp.#10095
+D2FUNC_DLL(D2CMP, 10096, void, __stdcall, (), 0x0000/*TODO*/)	//D2Cmp.#10096
+D2FUNC_DLL(D2CMP, 10097, void, __stdcall, (int32_t), 0x0000/*TODO*/)	//D2Cmp.#10097

@@ -264,6 +264,21 @@ D2FUNC_DLL(FOG, 10233, void, __fastcall, (const char*, int), 0xF300)												
 D2FUNC_DLL(FOG, LeadingZeroesCount, uint32_t, __stdcall, (uint32_t nValue), 0x39A0)																	//Fog.#10252
 D2FUNC_DLL(FOG, 10255, char*, __stdcall, (void* pLinker, int nId, int a3), 0xBB20)																	//Fog.#10255
 
+// Used by D2Client, signatures inferred from D2Client call sites
+D2FUNC_DLL(FOG, 10060, int32_t, __fastcall, (int32_t, int32_t, int32_t), 0x0000/*TODO*/)	//Fog.#10060
+D2FUNC_DLL(FOG, 10061, void, __fastcall, (int32_t), 0x0000/*TODO*/)	//Fog.#10061
+D2FUNC_DLL(FOG, 10062, int32_t, __fastcall, (int32_t), 0x0000/*TODO*/)	//Fog.#10062
+D2FUNC_DLL(FOG, 10063, int32_t, __fastcall, (int32_t), 0x0000/*TODO*/)	//Fog.#10063
+D2FUNC_DLL(FOG, 10064, int32_t, __fastcall, (int32_t), 0x0000/*TODO*/)	//Fog.#10064
+D2FUNC_DLL(FOG, 10065, void, __fastcall, (int32_t, int32_t), 0x0000/*TODO*/)	//Fog.#10065
+D2FUNC_DLL(FOG, 10098, int32_t, __stdcall, (), 0x0000/*TODO*/)	//Fog.#10098
+D2FUNC_DLL(FOG, 10110, int32_t, __fastcall, (int32_t, int32_t, int32_t, int32_t, int32_t), 0x0000/*TODO*/)	//Fog.#10110
+D2FUNC_DLL(FOG, 10111, int32_t, __fastcall, (int32_t, int32_t, int32_t, int32_t, int32_t), 0x0000/*TODO*/)	//Fog.#10111
+D2FUNC_DLL(FOG, 10112, void, __fastcall, (int32_t, int32_t), 0x0000/*TODO*/)	//Fog.#10112
+D2FUNC_DLL(FOG, 10114, void, __fastcall, (int32_t), 0x0000/*TODO*/)	//Fog.#10114
+D2FUNC_DLL(FOG, 10144, void, __cdecl, (int32_t), 0x0000/*TODO*/)	//Fog.#10144
+D2FUNC_DLL(FOG, 10191, int32_t, __stdcall, (), 0x0000/*TODO*/)	//Fog.#10191
+
 
 #define D2_ALLOC(size) FOG_Alloc((size), __FILE__, __LINE__, 0)
 #define D2_CALLOC(size) memset(FOG_Alloc(size, __FILE__, __LINE__, 0), 0x00, size)

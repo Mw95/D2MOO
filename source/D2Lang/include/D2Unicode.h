@@ -34,6 +34,12 @@
 
 #include "D2Lang.h"
 
+// Language identifier used by Unicode::Personalize, see D2C_Language
+enum ELANGUAGE
+{
+	ELANGUAGE_ENGLISH = 0,
+};
+
 /*
 * This type must be struct in order to make certain functions'
 * mangled names the same as the ones in D2Lang.
@@ -319,6 +325,20 @@ struct D2LANG_DLL_DECL Unicode {
    * D2Lang.0x6FC11090 (#10025) ?isAlpha@Unicode@@QBEHXZ
    */
   BOOL isAlpha() const;
+
+  /**
+   * Builds a personalized version of a string using a player name.
+   *
+   * D2Lang.#10018 ?Personalize@Unicode@@SIXPAU1@PBU1@1HW4ELANGUAGE@@@Z
+   */
+  static void __fastcall Personalize(Unicode* dest, const Unicode* src, const Unicode* name, int count, ELANGUAGE language);
+
+  /**
+   * Returns the number of characters of the first count bytes of an UTF-8 string.
+   *
+   * D2Lang.#10057 ?unicodenwidth@Unicode@@SIIPBDH@Z
+   */
+  static unsigned int __fastcall unicodenwidth(const char* str, int count);
 
   // D2Lang.0x6FC11A30 (#10027) ?isLineBreak@Unicode@@SIHPBU1@I@Z
   static BOOL __fastcall isLineBreak(const Unicode* str, size_t count);

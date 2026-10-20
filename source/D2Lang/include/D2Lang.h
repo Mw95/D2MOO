@@ -35,3 +35,8 @@ D2FUNC_DLL(D2LANG, GetStringByReferenceString, const Unicode*, __fastcall, (char
 D2FUNC_DLL(D2LANG, GetStringFromTblIndex, const Unicode*, __fastcall, (short index), 0x3740)					//D2LANG.#10004
 D2FUNC_DLL(D2LANG, GetTblIndex, short, __stdcall, (char* szReference, const Unicode** pUnicode), 0x3960)		//D2LANG.#10013
 
+// Used by D2Client, signatures inferred from D2Client call sites
+D2FUNC_DLL(D2LANG, 10000, int32_t, __fastcall, (void* hArchive, int32_t a2, int32_t bExpansion), 0x0000/*TODO*/)	//D2LANG.#10000
+D2FUNC_DLL(D2LANG, 10001, void, __stdcall, (), 0x0000/*TODO*/)	//D2LANG.#10001
+D2FUNC_DLL(D2LANG, 10006, void, __stdcall, (char* szLanguageCode, int32_t a2), 0x0000/*TODO*/)	//D2LANG.#10006
+

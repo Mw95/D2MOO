@@ -404,3 +404,24 @@ Unicode* __fastcall Unicode::strstr(
 
   return (Unicode*)&str[i_str];
 }
+
+// D2Lang.#10018
+// TODO: The original implementation adapts the string to the language (possessive forms), this only copies the source string.
+void __fastcall Unicode::Personalize(Unicode* dest, const Unicode* src, const Unicode* name, int count, ELANGUAGE language)
+{
+  Unicode::strncpy(dest, src, count);
+}
+
+// D2Lang.#10057
+unsigned int __fastcall Unicode::unicodenwidth(const char* str, int count)
+{
+  unsigned int width = 0;
+  for (int i = 0; i < count && str[i] != '\0'; ++i)
+  {
+    if ((static_cast<unsigned char>(str[i]) & 0xC0) != 0x80)
+    {
+      ++width;
+    }
+  }
+  return width;
+}
