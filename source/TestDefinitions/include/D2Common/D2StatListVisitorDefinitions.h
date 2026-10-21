@@ -8,7 +8,12 @@
 #include <TypeRegistration.h>
 
 
+#include <D2DataTbls.h>
 #include <D2StatList.h>
+
+
+// StatFlags holds two bit arrays (one bit per state) whose size depends on the loaded states.txt (see STATLIST_AllocStatListEx)
+DEFINE_DYNAMIC_ARRAY_COUNT("D2StatListExStrc.StatFlags", 2 * ((sgptDataTables->nStatesTxtRecordCount + 31) / 32))
 
 
 BEGIN_VISIT(D2SLayerStatIdStrc)
@@ -71,7 +76,7 @@ BEGIN_VISIT(D2StatListExStrc)
 	POINTER(pOwner)
 	OBJECT(FullStats)
 	OBJECT(ModStats)
-	//DYNAMIC_ARRAY(StatFlags)
+	DYNAMIC_ARRAY_KEY(StatFlags, "D2StatListExStrc.StatFlags")
 	FIELD(pfOnValueChanged)
 	//OMIT(pGame)
 END_VISIT()
