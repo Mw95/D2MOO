@@ -388,4 +388,107 @@ TEST_SUITE("DiffVisitorTests")
 		CHECK_EQ(context.differences.size(), std::size(expected_output));
 		CHECK_EQ(context.differences, expected_output);
 	}
+
+	TEST_CASE("CompareWith() compares dynamic arrays with a registered count correctly")
+	{
+		uint32_t flags1[4]{ 1, 2, 3, 4 };
+		uint32_t flags2[4]{ 1, 5, 3, 6 };
+
+		TestDataWithExternalCountDynamicArray test_data1{ 7, flags1 };
+		TestDataWithExternalCountDynamicArray test_data2{ 7, flags2 };
+
+		SUBCASE("Uses the registered count")
+		{
+			REGISTER_DYNAMIC_ARRAY_COUNT("TestDataWithExternalCountDynamicArray.flags", 3)
+
+			DiffContext context("Comparing TestDataWithExternalCountDynamicArray");
+			DiffVisitor<TestDataWithExternalCountDynamicArray> diff_visitor(test_data1, context);
+			diff_visitor.CompareWith(test_data2);
+
+			const auto expected_output = std::vector<DifferenceDescriptor>{
+				{
+					DifferenceType::Field,
+					"flags[1]",
+					"2",
+					"5"
+				},
+			};
+
+			CHECK_EQ(context.differences.size(), std::size(expected_output));
+			CHECK_EQ(context.differences, expected_output);
+		}
+
+		SUBCASE("Reports a difference if only one array is null")
+		{
+			REGISTER_DYNAMIC_ARRAY_COUNT("TestDataWithExternalCountDynamicArray.flags", 4)
+
+			test_data2.flags = nullptr;
+
+			DiffContext context("Comparing TestDataWithExternalCountDynamicArray");
+			DiffVisitor<TestDataWithExternalCountDynamicArray> diff_visitor(test_data1, context);
+			diff_visitor.CompareWith(test_data2);
+
+			REQUIRE_EQ(context.differences.size(), 1);
+			CHECK_EQ(context.differences[0].type, DifferenceType::Pointer);
+			CHECK_EQ(context.differences[0].field_name, "flags");
+		}
+
+		SUBCASE("Skips null arrays without a registered count")
+		{
+			DynamicArrayCountRegistry::Instance().Unregister("TestDataWithExternalCountDynamicArray.flags");
+
+			test_data1.flags = nullptr;
+			test_data2.flags = nullptr;
+
+			DiffContext context("Comparing TestDataWithExternalCountDynamicArray");
+			DiffVisitor<TestDataWithExternalCountDynamicArray> diff_visitor(test_data1, context);
+			diff_visitor.CompareWith(test_data2);
+
+			CHECK(context.differences.empty());
+		}
+
+		SUBCASE("Throws if no count is registered")
+		{
+			DynamicArrayCountRegistry::Instance().Unregister("TestDataWithExternalCountDynamicArray.flags");
+
+			DiffContext context("Comparing TestDataWithExternalCountDynamicArray");
+			DiffVisitor<TestDataWithExternalCountDynamicArray> diff_visitor(test_data1, context);
+
+			CHECK_THROWS_AS(diff_visitor.CompareWith(test_data2), std::runtime_error);
+		}
+
+		DynamicArrayCountRegistry::Instance().Unregister("TestDataWithExternalCountDynamicArray.flags");
+	}
+
+	TEST_CASE("CompareWith() evaluates counts defined with DEFINE_DYNAMIC_ARRAY_COUNT lazily")
+	{
+		uint32_t flags1[3]{ 1, 2, 3 };
+		uint32_t flags2[3]{ 1, 2, 4 };
+
+		TestDataWithLazyCountDynamicArray test_data1{ flags1 };
+		TestDataWithLazyCountDynamicArray test_data2{ flags2 };
+
+		{
+			g_test_data_flag_count = 2;
+
+			DiffContext context("Comparing TestDataWithLazyCountDynamicArray");
+			DiffVisitor<TestDataWithLazyCountDynamicArray> diff_visitor(test_data1, context);
+			diff_visitor.CompareWith(test_data2);
+
+			CHECK(context.differences.empty());
+		}
+
+		{
+			g_test_data_flag_count = 3;
+
+			DiffContext context("Comparing TestDataWithLazyCountDynamicArray");
+			DiffVisitor<TestDataWithLazyCountDynamicArray> diff_visitor(test_data1, context);
+			diff_visitor.CompareWith(test_data2);
+
+			REQUIRE_EQ(context.differences.size(), 1);
+			CHECK_EQ(context.differences[0].field_name, "flags[2]");
+		}
+
+		g_test_data_flag_count = 0;
+	}
 }

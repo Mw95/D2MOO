@@ -8,6 +8,7 @@
 #include <functional>
 #include <ostream>
 #include <string>
+#include <string_view>
 #include <sstream>
 #include <type_traits>
 #include <vector>
@@ -187,6 +188,43 @@ public:
 				child_visitor.CompareWith(*other_ptr);
 			}
 		);
+	}
+
+	// Shadows FieldVisitor::DynamicArrayWithRegisteredCount() to report a difference when only one of the arrays is null
+	template<auto PointerMember>
+	void DynamicArrayWithRegisteredCount(T& other, const char* name, std::string_view count_key)
+	{
+		auto* other_ptr = other.*PointerMember;
+		auto* object_ptr = m_object.*PointerMember;
+
+		if (other_ptr == nullptr || object_ptr == nullptr)
+		{
+			if (other_ptr != object_ptr)
+			{
+				std::string field_name;
+				if (m_parent_name != "")
+				{
+					field_name = m_parent_name + "->" + name;
+				}
+				else
+				{
+					field_name = name;
+				}
+
+				std::stringstream object_stream;
+				object_stream << std::hex << "0x" << reinterpret_cast<uintptr_t>(object_ptr);
+
+				std::stringstream other_stream;
+				other_stream << std::hex << "0x" << reinterpret_cast<uintptr_t>(other_ptr);
+
+				const auto difference_descriptor = DifferenceDescriptor{ DifferenceType::Pointer, field_name, object_stream.str(), other_stream.str() };
+				m_context.differences.push_back(difference_descriptor);
+			}
+
+			return;
+		}
+
+		FieldVisitor<DiffVisitor<T>>::template DynamicArrayWithRegisteredCount<PointerMember>(other, name, count_key);
 	}
 
 	template<auto Member, typename T, size_t Rank>
