@@ -6,6 +6,7 @@ add_library(VisitorFramework STATIC
   include/DifferenceType.h
   include/DiffContext.h
   include/DiffVisitor.h
+  include/DynamicArrayCountRegistry.h
   include/FieldVisitor.h
   include/Macros.h
   include/ObjectRegistry.h
@@ -21,6 +22,7 @@ add_library(VisitorFramework STATIC
   src/BinaryReader.cpp
   src/BinaryWriter.cpp
   src/DifferenceDescriptor.cpp
+  src/DynamicArrayCountRegistry.cpp
   src/ObjectRegistry.cpp
   src/PointerFixups.cpp
   src/TypeRegistry.cpp

@@ -178,6 +178,30 @@ BEGIN_VISIT(TestDataWithDynamicArray)
 	FIELD(count)
 END_VISIT()
 
+struct TestDataWithExternalCountDynamicArray
+{
+	int x;
+	uint32_t* flags;
+};
+
+BEGIN_VISIT(TestDataWithExternalCountDynamicArray)
+	FIELD(x)
+	DYNAMIC_ARRAY_KEY(flags, "TestDataWithExternalCountDynamicArray.flags")
+END_VISIT()
+
+inline size_t g_test_data_flag_count = 0;
+
+struct TestDataWithLazyCountDynamicArray
+{
+	uint32_t* flags;
+};
+
+DEFINE_DYNAMIC_ARRAY_COUNT("TestDataWithLazyCountDynamicArray.flags", g_test_data_flag_count)
+
+BEGIN_VISIT(TestDataWithLazyCountDynamicArray)
+	DYNAMIC_ARRAY_KEY(flags, "TestDataWithLazyCountDynamicArray.flags")
+END_VISIT()
+
 struct TestDataWith2DArray
 {
 	int x;
