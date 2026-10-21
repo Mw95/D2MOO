@@ -11,6 +11,7 @@ add_library(VisitorFramework STATIC
   include/Macros.h
   include/ObjectRegistry.h
   include/PointerFixups.h
+  include/SerializationFormat.h
   include/Serializer.h
   include/TestComparator.h
   include/TypeId.h

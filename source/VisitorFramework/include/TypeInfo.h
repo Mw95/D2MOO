@@ -13,6 +13,8 @@ struct TypeInfo
 
 	void* (*Allocate)();
 
+	void (*Destroy)(void*);
+
 	void (*VisitWithSerializer)(Serializer&, void*);
 
 	void (*VisitWithDeserializer)(Deserializer&, void*);

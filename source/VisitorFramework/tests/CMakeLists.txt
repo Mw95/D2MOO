@@ -22,6 +22,7 @@ target_sources(VisitorFrameworkTests
     ObjectRegistryTests.cpp
     PointerFixupsTests.cpp
     SerializerTests.cpp
+    SerializationRoundTripTests.cpp
 )    
 
 add_test(

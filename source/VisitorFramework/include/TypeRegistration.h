@@ -12,9 +12,15 @@
 template<typename T>
 struct TypeRegistration
 {
+	// Value-initialized, so members which are not visited (e.g. OMIT) are zeroed instead of left indeterminate
 	static void* Allocate()
 	{
-		return new T;
+		return new T();
+	}
+
+	static void Destroy(void* object)
+	{
+		delete static_cast<T*>(object);
 	}
 
 	static void VisitWithSerializer(Serializer& serializer, void* object)
@@ -32,6 +38,7 @@ struct TypeRegistration
 		const auto typeInfo = TypeInfo{
 			TypeId_v<T>,
 			Allocate,
+			Destroy,
 			VisitWithSerializer,
 			VisitWithDeserializer
 		};
