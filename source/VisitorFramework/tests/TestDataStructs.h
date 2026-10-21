@@ -223,3 +223,113 @@ BEGIN_VISIT(TestDataWith3DArray)
 	FIELD(x)
 	ARRAY(arr)
 END_VISIT()
+
+// Like BEGIN_VISIT(), but without a TestComparator, for types the DiffVisitor does not support (const pointers, enum array elements)
+#define BEGIN_SERIALIZATION_VISIT(TYPE)																	\
+template<>																								\
+struct TypeId<TYPE>																						\
+{																										\
+	static constexpr uint64_t value = fnv1a(#TYPE);														\
+};																										\
+const auto _##TYPE##_Registered = TypeRegistration<TYPE>::Registered;									\
+template<>																								\
+struct VisitorTraits<TYPE>																				\
+{																										\
+	using Self = TYPE;																					\
+	template<class Visitor>																				\
+	static void Visit(Visitor& visitor, TYPE& object)													\
+	{
+
+struct TestDataWithCountBeforeDynamicArray
+{
+	int count;
+	TestData* x;
+};
+
+BEGIN_VISIT(TestDataWithCountBeforeDynamicArray)
+	FIELD(count)
+	DYNAMIC_ARRAY(x, count)
+END_VISIT()
+
+struct TestDataWithDynamicPointerArray
+{
+	TestData** items;
+	uint16_t count;
+};
+
+BEGIN_VISIT(TestDataWithDynamicPointerArray)
+	DYNAMIC_ARRAY(items, count)
+	FIELD(count)
+END_VISIT()
+
+struct TestDataWith2DPointerArray
+{
+	TestData* grid[2][2];
+};
+
+BEGIN_VISIT(TestDataWith2DPointerArray)
+	ARRAY(grid)
+END_VISIT()
+
+struct TestDataWithConstPointer
+{
+	const TestData* data;
+};
+
+BEGIN_SERIALIZATION_VISIT(TestDataWithConstPointer)
+	POINTER(data)
+END_VISIT()
+
+// inner and inner_ptr share the same address, but are distinct objects of different types
+struct TestDataWithInteriorPointer
+{
+	TestData inner;
+	TestData* inner_ptr;
+};
+
+BEGIN_VISIT(TestDataWithInteriorPointer)
+	OBJECT(inner)
+	POINTER(inner_ptr)
+END_VISIT()
+
+struct TestDataWithOmittedField
+{
+	int x;
+	int omitted;
+};
+
+BEGIN_VISIT(TestDataWithOmittedField)
+	FIELD(x)
+	OMIT(omitted)
+END_VISIT()
+
+struct LinkedListNode
+{
+	int value;
+	LinkedListNode* next;
+};
+
+BEGIN_VISIT(LinkedListNode)
+	FIELD(value)
+	POINTER(next)
+END_VISIT()
+
+enum class TestEnum : uint8_t
+{
+	First = 1,
+	Second = 2,
+	Third = 3,
+};
+
+struct TestDataWithEnumArray
+{
+	TestEnum values[3];
+	TestEnum* dynamic_values;
+	int dynamic_count;
+};
+
+BEGIN_SERIALIZATION_VISIT(TestDataWithEnumArray)
+	ARRAY(values)
+	DYNAMIC_ARRAY(dynamic_values, dynamic_count)
+	FIELD(dynamic_count)
+END_VISIT()

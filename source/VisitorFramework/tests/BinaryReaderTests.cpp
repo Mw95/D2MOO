@@ -1,5 +1,6 @@
 #include <doctest.h>
 
+#include <cstdint>
 #include <iterator>
 #include <stdexcept>
 

@@ -13,9 +13,9 @@ void* ObjectRegistry::FindObject(ObjectRegistry::ObjectID object_id) const
 	return it == m_idToEntry.end() ? nullptr : it->second.object;
 }
 
-ObjectRegistry::ObjectID ObjectRegistry::FindObjectId(void* object)
+ObjectRegistry::ObjectID ObjectRegistry::FindObjectId(const void* object, uint64_t type_id) const
 {
-	const auto it = m_pointerToID.find(object);
+	const auto it = m_pointerToID.find(Key{ object, type_id });
 
 	if (it != m_pointerToID.end())
 	{

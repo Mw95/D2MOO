@@ -1,11 +1,34 @@
 #include <doctest.h>
 
 #include <cstdint>
+#include <cstring>
+#include <stdexcept>
+#include <vector>
 
 #include "BinaryWriter.h"
+#include "DynamicArrayCountRegistry.h"
+#include "SerializationFormat.h"
 #include "Serializer.h"
 #include "TestDataStructs.h"
 #include "TypeId.h"
+
+
+namespace
+{
+	void AppendTypeId(std::vector<uint32_t>& buffer, uint64_t type_id)
+	{
+		buffer.push_back(static_cast<uint32_t>(type_id));
+		buffer.push_back(static_cast<uint32_t>(type_id >> 32));
+	}
+
+	void CheckBufferEquals(const BinaryWriter& writer, const std::vector<uint32_t>& expected_output)
+	{
+		const auto& buffer = writer.Buffer();
+
+		REQUIRE_EQ(buffer.size(), expected_output.size() * sizeof(uint32_t));
+		CHECK_EQ(memcmp(buffer.data(), expected_output.data(), buffer.size()), 0);
+	}
+}
 
 
 TEST_SUITE("SerializerTests")
@@ -25,7 +48,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			12, // Object type data position
+			1, // Object count
+			16, // Type table offset
 			5, // Object 1 x
 			((uint32_t*)&type_id)[0], // Object 1 TypeID
 			((uint32_t*)&type_id)[1], // Object 1 TypeID
@@ -52,7 +76,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			20,// Object type data position
+			2, // Object count
+			24, // Type table offset
 			7, // Object 1 x
 			2, // Object 1 simple pointer object ID
 			5, // Object 2 x
@@ -91,7 +116,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			64,// Object type data position
+			5, // Object count
+			68, // Type table offset
 
 			2, // Object 1 b pointer object ID
 			3, // Object 1 c pointer object ID
@@ -143,7 +169,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			32,// Object type data position
+			1, // Object count
+			36, // Type table offset
 			7, // Object 1 x
 			1,2,3,4,5, // Object 1 arr
 			((uint32_t*)&type_id)[0], // Object 1 TypeID
@@ -169,7 +196,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			52,// Object type data position
+			1, // Object count
+			56, // Type table offset
 			7, // Object 1 x
 			1,2,2,3,3,4,4,5,5,6, // Object 1 arr
 			((uint32_t*)&type_id)[0], // Object 1 TypeID
@@ -195,7 +223,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			20,// Object type data position
+			1, // Object count
+			24, // Type table offset
 			7, // Object 1 x
 			1,2, // Object 1 y
 			((uint32_t*)&type_id)[0], // Object 1 TypeID
@@ -223,7 +252,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			16,// Object type data position
+			1, // Object count
+			20, // Type table offset
 			0, // Object 1 x
 			11, // Object 1 y
 			((uint32_t*)&type_id)[0], // Object 1 TypeID
@@ -253,7 +283,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			24,// Object type data position
+			2, // Object count
+			28, // Type table offset
 			1, // Object 1 x
 			2, // Object 1 z pointer object ID
 			42, // Object 2 x
@@ -291,7 +322,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			48,// Object type data position
+			4, // Object count
+			52, // Type table offset
 			1, // Object 1 x
 			2, // Object 1 z pointer object ID
 			3,
@@ -319,7 +351,6 @@ TEST_SUITE("SerializerTests")
 	TEST_CASE("Serialize() serializes TestDataWithDynamicArray correctly")
 	{
 		const auto type_id1 = TypeId_v<TestDataWithDynamicArray>;
-		const auto type_id2 = TypeId_v<TestData>;
 
 		TestData arr[3] = { { 42, 43 }, { 44, 45 }, { 46, 47 } };
 		TestDataWithDynamicArray test_data_with_dynamic_array{};
@@ -335,9 +366,11 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			36, // Object type data position
-			42, // Object 2 x
-			43, // Object 2 y
+			1, // Object count
+			44, // Type table offset
+			3, // Object 1 x element count
+			42, // Object 1 x[0].x
+			43, // Object 1 x[0].y
 			44,
 			45,
 			46,
@@ -366,7 +399,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			36,// Object type data position
+			1, // Object count
+			40, // Type table offset
 			42,
 			1, // Object 1 x
 			2, // Object 1 z pointer object ID
@@ -397,7 +431,8 @@ TEST_SUITE("SerializerTests")
 
 		const uint32_t expected_output[] = {
 			'MOO ',
-			108,// Object type data position
+			1, // Object count
+			112, // Type table offset
 			42,
 			1, // Object 1 x
 			2, // Object 1 z pointer object ID
@@ -429,5 +464,284 @@ TEST_SUITE("SerializerTests")
 
 		CHECK_EQ(buffer.size(), sizeof(expected_output));
 		CHECK_EQ(memcmp(buffer.data(), expected_output, sizeof(expected_output)), 0);
+	}
+
+	TEST_CASE("Serialize() throws on null root object")
+	{
+		SimpleTestData* root = nullptr;
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		CHECK_THROWS_AS(serializer.Serialize(root), std::runtime_error);
+	}
+
+	TEST_CASE("Serialize() throws on unregistered type IDs")
+	{
+		SimpleTestData simple_test_data{ 5 };
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		CHECK_THROWS_AS(serializer.Serialize(&simple_test_data, 0x1234567890ABCDEFull), std::runtime_error);
+	}
+
+	TEST_CASE("Serialize() uses the type ID of the root type by default")
+	{
+		SimpleTestData simple_test_data{ 5 };
+
+		BinaryWriter explicit_writer;
+		Serializer(explicit_writer).Serialize(&simple_test_data, TypeId_v<SimpleTestData>);
+
+		BinaryWriter default_writer;
+		Serializer(default_writer).Serialize(&simple_test_data);
+
+		CHECK_EQ(explicit_writer.Buffer(), default_writer.Buffer());
+	}
+
+	TEST_CASE("Serialize() writes null pointers as object ID 0")
+	{
+		TestDataWithPointer test_data_with_pointer{ 7, nullptr };
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data_with_pointer);
+
+		std::vector<uint32_t> expected_output = {
+			'MOO ',
+			1, // Object count
+			20, // Type table offset
+			7, // Object 1 x
+			0, // Object 1 simple pointer object ID (nullptr)
+		};
+		AppendTypeId(expected_output, TypeId_v<TestDataWithPointer>);
+
+		CheckBufferEquals(writer, expected_output);
+	}
+
+	TEST_CASE("Serialize() writes objects referenced multiple times only once")
+	{
+		TestData a{ 42, 43 };
+		TestDataWithPointerArray test_data_with_pointer_array{};
+		test_data_with_pointer_array.x = 1;
+		test_data_with_pointer_array.y[0] = &a;
+		test_data_with_pointer_array.y[1] = nullptr;
+		test_data_with_pointer_array.y[2] = &a;
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data_with_pointer_array);
+
+		std::vector<uint32_t> expected_output = {
+			'MOO ',
+			2, // Object count
+			36, // Type table offset
+			1, // Object 1 x
+			2, // Object 1 y[0] pointer object ID
+			0, // Object 1 y[1] pointer object ID (nullptr)
+			2, // Object 1 y[2] pointer object ID
+			42, // Object 2 x
+			43, // Object 2 y
+		};
+		AppendTypeId(expected_output, TypeId_v<TestDataWithPointerArray>);
+		AppendTypeId(expected_output, TypeId_v<TestData>);
+
+		CheckBufferEquals(writer, expected_output);
+	}
+
+	TEST_CASE("Serialize() serializes a pointer to the first member of an object as a separate object")
+	{
+		TestDataWithInteriorPointer test_data_with_interior_pointer{ { 1, 2 }, nullptr };
+		test_data_with_interior_pointer.inner_ptr = &test_data_with_interior_pointer.inner;
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data_with_interior_pointer);
+
+		std::vector<uint32_t> expected_output = {
+			'MOO ',
+			2, // Object count
+			32, // Type table offset
+			1, // Object 1 inner.x
+			2, // Object 1 inner.y
+			2, // Object 1 inner_ptr pointer object ID
+			1, // Object 2 x
+			2, // Object 2 y
+		};
+		AppendTypeId(expected_output, TypeId_v<TestDataWithInteriorPointer>);
+		AppendTypeId(expected_output, TypeId_v<TestData>);
+
+		CheckBufferEquals(writer, expected_output);
+	}
+
+	TEST_CASE("Serialize() writes null dynamic arrays as NullArrayCount")
+	{
+		TestDataWithDynamicArray test_data_with_dynamic_array{};
+		test_data_with_dynamic_array.x = nullptr;
+		test_data_with_dynamic_array.count = 5;
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data_with_dynamic_array);
+
+		std::vector<uint32_t> expected_output = {
+			'MOO ',
+			1, // Object count
+			20, // Type table offset
+			SerializationFormat::NullArrayCount, // Object 1 x (nullptr)
+			5, // Object 1 count
+		};
+		AppendTypeId(expected_output, TypeId_v<TestDataWithDynamicArray>);
+
+		CheckBufferEquals(writer, expected_output);
+	}
+
+	TEST_CASE("Serialize() writes dynamic arrays with a negative count as empty")
+	{
+		TestData arr[1] = { { 42, 43 } };
+		TestDataWithDynamicArray test_data_with_dynamic_array{};
+		test_data_with_dynamic_array.x = arr;
+		test_data_with_dynamic_array.count = -1;
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data_with_dynamic_array);
+
+		std::vector<uint32_t> expected_output = {
+			'MOO ',
+			1, // Object count
+			20, // Type table offset
+			0, // Object 1 x element count
+			0xFFFFFFFF, // Object 1 count (-1)
+		};
+		AppendTypeId(expected_output, TypeId_v<TestDataWithDynamicArray>);
+
+		CheckBufferEquals(writer, expected_output);
+	}
+
+	TEST_CASE("Serialize() writes the registered count of dynamic arrays")
+	{
+		constexpr auto count_key = "TestDataWithExternalCountDynamicArray.flags";
+
+		uint32_t flags[2] = { 10, 11 };
+		TestDataWithExternalCountDynamicArray test_data{ 7, flags };
+
+		REGISTER_DYNAMIC_ARRAY_COUNT(count_key, 2);
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data);
+
+		DynamicArrayCountRegistry::Instance().Unregister(count_key);
+
+		std::vector<uint32_t> expected_output = {
+			'MOO ',
+			1, // Object count
+			28, // Type table offset
+			7, // Object 1 x
+			2, // Object 1 flags element count
+			10, // Object 1 flags[0]
+			11, // Object 1 flags[1]
+		};
+		AppendTypeId(expected_output, TypeId_v<TestDataWithExternalCountDynamicArray>);
+
+		CheckBufferEquals(writer, expected_output);
+	}
+
+	TEST_CASE("Serialize() does not need a registered count for null dynamic arrays")
+	{
+		TestDataWithExternalCountDynamicArray test_data{ 7, nullptr };
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data);
+
+		std::vector<uint32_t> expected_output = {
+			'MOO ',
+			1, // Object count
+			20, // Type table offset
+			7, // Object 1 x
+			SerializationFormat::NullArrayCount, // Object 1 flags (nullptr)
+		};
+		AppendTypeId(expected_output, TypeId_v<TestDataWithExternalCountDynamicArray>);
+
+		CheckBufferEquals(writer, expected_output);
+	}
+
+	TEST_CASE("Serialize() serializes enum array elements")
+	{
+		TestEnum dynamic_values[2] = { TestEnum::Third, TestEnum::First };
+		TestDataWithEnumArray test_data{ { TestEnum::First, TestEnum::Second, TestEnum::Third }, dynamic_values, 2 };
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&test_data);
+
+		const auto& buffer = writer.Buffer();
+
+		const uint8_t expected_data[] = {
+			1, 2, 3, // values
+			2, 0, 0, 0, // dynamic_values element count
+			3, 1, // dynamic_values
+			2, 0, 0, 0, // dynamic_count
+		};
+
+		REQUIRE_EQ(buffer.size(), sizeof(SerializationFormat::Header) + sizeof(expected_data) + sizeof(uint64_t));
+		CHECK_EQ(memcmp(buffer.data() + sizeof(SerializationFormat::Header), expected_data, sizeof(expected_data)), 0);
+	}
+
+	TEST_CASE("Serialize() produces the same output when the Serializer is reused")
+	{
+		A a{ 10, nullptr };
+		B b{ &a, 20 };
+		C c{ &b, 30, 40 };
+		D d{ &a, &b, 50 };
+		E e{ &b, &c, &d, 60 };
+
+		a.e = &e;
+
+		BinaryWriter writer;
+		Serializer serializer(writer);
+
+		serializer.Serialize(&e);
+
+		const auto first_output = writer.Buffer();
+
+		writer.Clear();
+
+		serializer.Serialize(&e);
+
+		CHECK_EQ(writer.Buffer(), first_output);
+	}
+
+	TEST_CASE("Serialize() writes offsets relative to the start of the block")
+	{
+		SimpleTestData simple_test_data{ 5 };
+
+		BinaryWriter writer;
+		writer.Write<uint32_t>(0xDEADBEEF);
+
+		Serializer serializer(writer);
+
+		serializer.Serialize(&simple_test_data);
+
+		std::vector<uint32_t> expected_output = {
+			0xDEADBEEF,
+			'MOO ',
+			1, // Object count
+			16, // Type table offset
+			5, // Object 1 x
+		};
+		AppendTypeId(expected_output, TypeId_v<SimpleTestData>);
+
+		CheckBufferEquals(writer, expected_output);
 	}
 }
