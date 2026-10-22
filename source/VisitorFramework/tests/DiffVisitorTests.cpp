@@ -341,6 +341,141 @@ TEST_SUITE("DiffVisitorTests")
 		CHECK_EQ(context.differences, expected_output);
 	}
 
+	TEST_CASE("CompareWith() reports a difference when only one dynamic array is null")
+	{
+		TestData d2[2]{};
+
+		TestDataWithDynamicArray test_data_with_dynamic_array1{ nullptr, 2 };
+		TestDataWithDynamicArray test_data_with_dynamic_array2{ d2, 2 };
+
+		DiffContext context("Comparing TestDataWithDynamicArray");
+		DiffVisitor<TestDataWithDynamicArray> diff_visitor(test_data_with_dynamic_array1, context, "test_data_with_dynamic_array");
+		diff_visitor.CompareWith(test_data_with_dynamic_array2);
+
+		std::stringstream formatted_ptr;
+		formatted_ptr << std::hex << "0x" << reinterpret_cast<uintptr_t>(&d2[0]);
+
+		const auto expected_output = std::vector<DifferenceDescriptor>{
+			{
+				DifferenceType::Pointer,
+				"test_data_with_dynamic_array->x",
+				"0x0",
+				formatted_ptr.str()
+			},
+		};
+
+		CHECK_EQ(context.differences.size(), std::size(expected_output));
+		CHECK_EQ(context.differences, expected_output);
+	}
+
+	TEST_CASE("CompareWith() ignores the count of null dynamic arrays")
+	{
+		TestDataWithDynamicArray test_data_with_dynamic_array1{ nullptr, 3 };
+		TestDataWithDynamicArray test_data_with_dynamic_array2{ nullptr, 3 };
+
+		DiffContext context("Comparing TestDataWithDynamicArray");
+		DiffVisitor<TestDataWithDynamicArray> diff_visitor(test_data_with_dynamic_array1, context, "test_data_with_dynamic_array");
+		diff_visitor.CompareWith(test_data_with_dynamic_array2);
+
+		CHECK(context.differences.empty());
+	}
+
+	TEST_CASE("CompareWith() compares only the common elements of dynamic arrays with different counts")
+	{
+		SUBCASE("First array is shorter")
+		{
+			TestData d1[1]{ { 1, 2 } };
+			TestData d2[3]{ { 1, 3 }, { 4, 5 }, { 6, 7 } };
+
+			TestDataWithDynamicArray test_data_with_dynamic_array1{ d1, 1 };
+			TestDataWithDynamicArray test_data_with_dynamic_array2{ d2, 3 };
+
+			DiffContext context("Comparing TestDataWithDynamicArray");
+			DiffVisitor<TestDataWithDynamicArray> diff_visitor(test_data_with_dynamic_array1, context, "test_data_with_dynamic_array");
+			diff_visitor.CompareWith(test_data_with_dynamic_array2);
+
+			const auto expected_output = std::vector<DifferenceDescriptor>{
+				{
+					DifferenceType::Field,
+					"test_data_with_dynamic_array->x",
+					"1 elements",
+					"3 elements"
+				},
+				{
+					DifferenceType::Field,
+					"test_data_with_dynamic_array->count",
+					"1",
+					"3"
+				},
+				{
+					DifferenceType::Field,
+					"test_data_with_dynamic_array->x[0]->y",
+					"2",
+					"3"
+				},
+			};
+
+			CHECK_EQ(context.differences.size(), std::size(expected_output));
+			CHECK_EQ(context.differences, expected_output);
+		}
+
+		SUBCASE("Second array is shorter")
+		{
+			TestData d1[3]{ { 1, 2 }, { 4, 5 }, { 6, 7 } };
+			TestData d2[1]{ { 1, 2 } };
+
+			TestDataWithDynamicArray test_data_with_dynamic_array1{ d1, 3 };
+			TestDataWithDynamicArray test_data_with_dynamic_array2{ d2, 1 };
+
+			DiffContext context("Comparing TestDataWithDynamicArray");
+			DiffVisitor<TestDataWithDynamicArray> diff_visitor(test_data_with_dynamic_array1, context, "test_data_with_dynamic_array");
+			diff_visitor.CompareWith(test_data_with_dynamic_array2);
+
+			const auto expected_output = std::vector<DifferenceDescriptor>{
+				{
+					DifferenceType::Field,
+					"test_data_with_dynamic_array->x",
+					"3 elements",
+					"1 elements"
+				},
+				{
+					DifferenceType::Field,
+					"test_data_with_dynamic_array->count",
+					"3",
+					"1"
+				},
+			};
+
+			CHECK_EQ(context.differences.size(), std::size(expected_output));
+			CHECK_EQ(context.differences, expected_output);
+		}
+
+		SUBCASE("Negative counts are treated as empty arrays")
+		{
+			TestData d1[1]{ { 1, 2 } };
+			TestData d2[1]{ { 3, 4 } };
+
+			TestDataWithDynamicArray test_data_with_dynamic_array1{ d1, -1 };
+			TestDataWithDynamicArray test_data_with_dynamic_array2{ d2, 0 };
+
+			DiffContext context("Comparing TestDataWithDynamicArray");
+			DiffVisitor<TestDataWithDynamicArray> diff_visitor(test_data_with_dynamic_array1, context, "test_data_with_dynamic_array");
+			diff_visitor.CompareWith(test_data_with_dynamic_array2);
+
+			const auto expected_output = std::vector<DifferenceDescriptor>{
+				{
+					DifferenceType::Field,
+					"test_data_with_dynamic_array->count",
+					"-1",
+					"0"
+				},
+			};
+
+			CHECK_EQ(context.differences.size(), std::size(expected_output));
+			CHECK_EQ(context.differences, expected_output);
+		}
+	}
+
 	TEST_CASE("CompareWith() compares TestDataWith2DArray correctly")
 	{
 		TestDataWith2DArray test_data_with_2d_array1{ 1, { { 4, 5, 6 }, { 7, 8, 9 } } };
