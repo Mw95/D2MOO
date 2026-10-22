@@ -915,4 +915,29 @@ TEST_SUITE("DiffVisitorTests")
 		CHECK_EQ(context.differences.size(), std::size(expected_output));
 		CHECK(context.differences == expected_output);
 	}
+
+	TEST_CASE("CompareWith() compares objects behind const pointers")
+	{
+		const TestData data1{ 1, 2 };
+		const TestData data2{ 1, 3 };
+
+		TestDataWithConstPointer test_data1{ &data1 };
+		TestDataWithConstPointer test_data2{ &data2 };
+
+		DiffContext context("Comparing TestDataWithConstPointer");
+		DiffVisitor<TestDataWithConstPointer> diff_visitor(test_data1, context, "test_data");
+		diff_visitor.CompareWith(test_data2);
+
+		const auto expected_output = std::vector<DifferenceDescriptor>{
+			{
+				DifferenceType::Field,
+				"test_data->data->y",
+				"2",
+				"3"
+			},
+		};
+
+		CHECK_EQ(context.differences.size(), std::size(expected_output));
+		CHECK_EQ(context.differences, expected_output);
+	}
 }
