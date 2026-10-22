@@ -2,6 +2,8 @@
 
 #include <cstdint>
 #include <limits>
+#include <string>
+#include <vector>
 
 #include "DiffVisitor.h"
 #include "TestDataStructs.h"
@@ -873,5 +875,44 @@ TEST_SUITE("DiffVisitorTests")
 
 		CHECK_EQ(context.differences.size(), std::size(expected_output));
 		CHECK_EQ(context.differences, expected_output);
+	}
+
+	TEST_CASE("CompareWith() compares long pointer chains")
+	{
+		constexpr int node_count = 100000;
+
+		std::vector<LinkedListNode> nodes1(node_count);
+		std::vector<LinkedListNode> nodes2(node_count);
+
+		for (int i = 0; i < node_count; ++i)
+		{
+			nodes1[i] = { i, i + 1 < node_count ? &nodes1[i + 1] : nullptr };
+			nodes2[i] = { i, i + 1 < node_count ? &nodes2[i + 1] : nullptr };
+		}
+
+		nodes2[node_count - 1].value = -1;
+
+		DiffContext context("Comparing LinkedListNode");
+		DiffVisitor<LinkedListNode> diff_visitor(nodes1[0], context, "node");
+		diff_visitor.CompareWith(nodes2[0]);
+
+		std::string expected_field_name = "node";
+		for (int i = 1; i < node_count; ++i)
+		{
+			expected_field_name += "->next";
+		}
+		expected_field_name += "->value";
+
+		const auto expected_output = std::vector<DifferenceDescriptor>{
+			{
+				DifferenceType::Field,
+				expected_field_name,
+				std::to_string(node_count - 1),
+				"-1"
+			},
+		};
+
+		CHECK_EQ(context.differences.size(), std::size(expected_output));
+		CHECK(context.differences == expected_output);
 	}
 }
