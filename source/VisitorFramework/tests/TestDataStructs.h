@@ -324,6 +324,33 @@ BEGIN_VISIT(TestDataWithTwoPointers)
 	POINTER(b)
 END_VISIT()
 
+struct TestDataWithValueTypes
+{
+	float f;
+	double d;
+	uint64_t u64;
+	int64_t i64;
+	uint32_t u32;
+	uint8_t u8;
+	char c;
+	bool flag;
+	uint8_t bytes[2];
+	float floats[2];
+};
+
+BEGIN_VISIT(TestDataWithValueTypes)
+	FIELD(f)
+	FIELD(d)
+	FIELD(u64)
+	FIELD(i64)
+	FIELD(u32)
+	FIELD(u8)
+	FIELD(c)
+	FIELD(flag)
+	ARRAY(bytes)
+	ARRAY(floats)
+END_VISIT()
+
 struct TestDataWithOmittedField
 {
 	int x;
