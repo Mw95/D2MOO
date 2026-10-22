@@ -1,6 +1,7 @@
 #include <doctest.h>
 
 #include <cstdint>
+#include <limits>
 
 #include "DiffVisitor.h"
 #include "TestDataStructs.h"
@@ -754,6 +755,120 @@ TEST_SUITE("DiffVisitorTests")
 				"1",
 				"2"
 			},
+		};
+
+		CHECK_EQ(context.differences.size(), std::size(expected_output));
+		CHECK_EQ(context.differences, expected_output);
+	}
+
+	TEST_CASE("CompareWith() compares floating point values with a tolerance")
+	{
+		const auto nan = std::numeric_limits<float>::quiet_NaN();
+		const auto infinity = std::numeric_limits<double>::infinity();
+
+		TestDataWithValueTypes test_data1{};
+		TestDataWithValueTypes test_data2{};
+
+		DiffContext context("Comparing TestDataWithValueTypes");
+		DiffVisitor<TestDataWithValueTypes> diff_visitor(test_data1, context);
+
+		SUBCASE("Values within the tolerance are equal")
+		{
+			test_data1.f = 1.0f;
+			test_data2.f = 1.00001f;
+			test_data1.floats[0] = 1.0f;
+			test_data2.floats[0] = 1.00001f;
+
+			diff_visitor.CompareWith(test_data2);
+
+			CHECK(context.differences.empty());
+		}
+
+		SUBCASE("NaN equals only NaN")
+		{
+			test_data1.f = nan;
+			test_data2.f = 1.0f;
+			test_data1.floats[0] = 1.0f;
+			test_data2.floats[0] = nan;
+			test_data1.floats[1] = nan;
+			test_data2.floats[1] = nan;
+
+			diff_visitor.CompareWith(test_data2);
+
+			REQUIRE_EQ(context.differences.size(), 2);
+			CHECK_EQ(context.differences[0].field_name, "f");
+			CHECK_EQ(context.differences[0].other_value, "1");
+			CHECK_EQ(context.differences[1].field_name, "floats[0]");
+			CHECK_EQ(context.differences[1].object_value, "1");
+		}
+
+		SUBCASE("Infinities")
+		{
+			test_data1.d = infinity;
+			test_data2.d = infinity;
+
+			SUBCASE("Equal infinities are equal")
+			{
+				diff_visitor.CompareWith(test_data2);
+
+				CHECK(context.differences.empty());
+			}
+
+			SUBCASE("Opposite infinities are different")
+			{
+				test_data2.d = -infinity;
+
+				diff_visitor.CompareWith(test_data2);
+
+				REQUIRE_EQ(context.differences.size(), 1);
+				CHECK_EQ(context.differences[0].field_name, "d");
+			}
+		}
+
+		SUBCASE("Large values are printed with enough digits to tell them apart")
+		{
+			test_data1.f = 123456.1f;
+			test_data2.f = 123456.2f;
+
+			diff_visitor.CompareWith(test_data2);
+
+			REQUIRE_EQ(context.differences.size(), 1);
+			CHECK_NE(context.differences[0].object_value, context.differences[0].other_value);
+		}
+	}
+
+	TEST_CASE("CompareWith() prints integer values without truncating or printing characters")
+	{
+		TestDataWithValueTypes test_data1{};
+		TestDataWithValueTypes test_data2{};
+
+		test_data1.u64 = 0x100000001ull;
+		test_data2.u64 = 0x200000001ull;
+		test_data1.i64 = -5000000000ll;
+		test_data2.i64 = 1;
+		test_data1.u32 = 4000000000u;
+		test_data2.u32 = 1;
+		test_data1.u8 = 200;
+		test_data2.u8 = 1;
+		test_data1.c = 'A';
+		test_data2.c = 'B';
+		test_data1.flag = true;
+		test_data2.flag = false;
+		test_data1.bytes[1] = 2;
+		test_data2.bytes[1] = 3;
+
+		DiffContext context("Comparing TestDataWithValueTypes");
+		DiffVisitor<TestDataWithValueTypes> diff_visitor(test_data1, context);
+		diff_visitor.CompareWith(test_data2);
+
+		const auto expected_output = std::vector<DifferenceDescriptor>{
+			{ DifferenceType::Field, "u64", "4294967297", "8589934593" },
+			{ DifferenceType::Field, "i64", "-5000000000", "1" },
+			{ DifferenceType::Field, "u32", "4000000000", "1" },
+			{ DifferenceType::Field, "u8", "200", "1" },
+			{ DifferenceType::Field, "c", "65", "66" },
+			{ DifferenceType::Field, "flag", "1", "0" },
+			{ DifferenceType::Field, "bytes[1]", "2", "3" },
 		};
 
 		CHECK_EQ(context.differences.size(), std::size(expected_output));
