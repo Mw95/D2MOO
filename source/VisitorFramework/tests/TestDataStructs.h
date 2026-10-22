@@ -292,6 +292,38 @@ BEGIN_VISIT(TestDataWithInteriorPointer)
 	POINTER(inner_ptr)
 END_VISIT()
 
+// inner shares its address with the containing object
+struct TestDataWithFirstMemberObject
+{
+	TestData inner;
+	int z;
+};
+
+BEGIN_VISIT(TestDataWithFirstMemberObject)
+	OBJECT(inner)
+	FIELD(z)
+END_VISIT()
+
+struct TestDataWithPointerToFirstMemberObject
+{
+	TestDataWithFirstMemberObject* object;
+};
+
+BEGIN_VISIT(TestDataWithPointerToFirstMemberObject)
+	POINTER(object)
+END_VISIT()
+
+struct TestDataWithTwoPointers
+{
+	TestData* a;
+	TestData* b;
+};
+
+BEGIN_VISIT(TestDataWithTwoPointers)
+	POINTER(a)
+	POINTER(b)
+END_VISIT()
+
 struct TestDataWithOmittedField
 {
 	int x;
