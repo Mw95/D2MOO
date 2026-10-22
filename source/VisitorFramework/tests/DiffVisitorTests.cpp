@@ -1,5 +1,7 @@
 #include <doctest.h>
 
+#include <cstdint>
+
 #include "DiffVisitor.h"
 #include "TestDataStructs.h"
 
@@ -65,7 +67,7 @@ TEST_SUITE("DiffVisitorTests")
 		diff_visitor.CompareWith(test_data2);
 
 		std::stringstream formatted_ptr;
-		formatted_ptr << std::hex << "0x" << (int)(test_data1.simple);
+		formatted_ptr << std::hex << "0x" << reinterpret_cast<uintptr_t>(test_data1.simple);
 
 		const auto expected_output = std::vector<DifferenceDescriptor>{
 			{
@@ -227,7 +229,7 @@ TEST_SUITE("DiffVisitorTests")
 		diff_visitor.CompareWith(test_data_with_pointer_array2);
 
 		std::stringstream formatted_ptr;
-		formatted_ptr << std::hex << "0x" << (int)(&d3);
+		formatted_ptr << std::hex << "0x" << reinterpret_cast<uintptr_t>(&d3);
 
 		const auto expected_output = std::vector<DifferenceDescriptor>{
 			{
@@ -256,7 +258,7 @@ TEST_SUITE("DiffVisitorTests")
 		diff_visitor.CompareWith(test_data_with_pointer_array2);
 
 		std::stringstream formatted_ptr;
-		formatted_ptr << std::hex << "0x" << (int)(&d3);
+		formatted_ptr << std::hex << "0x" << reinterpret_cast<uintptr_t>(&d3);
 
 		const auto expected_output = std::vector<DifferenceDescriptor>{
 			{
