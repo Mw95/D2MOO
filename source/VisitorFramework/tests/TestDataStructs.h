@@ -224,22 +224,6 @@ BEGIN_VISIT(TestDataWith3DArray)
 	ARRAY(arr)
 END_VISIT()
 
-// Like BEGIN_VISIT(), but without a TestComparator, for types the DiffVisitor does not support (enum array elements)
-#define BEGIN_SERIALIZATION_VISIT(TYPE)																	\
-template<>																								\
-struct TypeId<TYPE>																						\
-{																										\
-	static constexpr uint64_t value = fnv1a(#TYPE);														\
-};																										\
-const auto _##TYPE##_Registered = TypeRegistration<TYPE>::Registered;									\
-template<>																								\
-struct VisitorTraits<TYPE>																				\
-{																										\
-	using Self = TYPE;																					\
-	template<class Visitor>																				\
-	static void Visit(Visitor& visitor, TYPE& object)													\
-	{
-
 struct TestDataWithCountBeforeDynamicArray
 {
 	int count;
@@ -387,8 +371,41 @@ struct TestDataWithEnumArray
 	int dynamic_count;
 };
 
-BEGIN_SERIALIZATION_VISIT(TestDataWithEnumArray)
+BEGIN_VISIT(TestDataWithEnumArray)
 	ARRAY(values)
 	DYNAMIC_ARRAY(dynamic_values, dynamic_count)
 	FIELD(dynamic_count)
+END_VISIT()
+
+enum class TestScopedEnum : uint16_t
+{
+	First = 1,
+	Large = 300,
+};
+
+struct TestPlainStruct
+{
+	uint16_t a;
+	uint8_t b;
+	uint8_t c;
+};
+
+using TestCallback = int(*)(int);
+
+// Fields without VisitorTraits which are neither arithmetic nor printable with operator<<
+struct TestDataWithFieldTypes
+{
+	TestScopedEnum scoped_enum;
+	TestPlainStruct plain;
+	float floats[2];
+	char name[4];
+	TestCallback callback;
+};
+
+BEGIN_VISIT(TestDataWithFieldTypes)
+	FIELD(scoped_enum)
+	FIELD(plain)
+	FIELD(floats)
+	FIELD(name)
+	FIELD(callback)
 END_VISIT()
