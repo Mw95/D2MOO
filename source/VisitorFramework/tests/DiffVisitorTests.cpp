@@ -940,4 +940,75 @@ TEST_SUITE("DiffVisitorTests")
 		CHECK_EQ(context.differences.size(), std::size(expected_output));
 		CHECK_EQ(context.differences, expected_output);
 	}
+
+	TEST_CASE("CompareWith() compares and prints fields of any trivially copyable type")
+	{
+		struct Callbacks
+		{
+			static int First(int value) { return value; }
+			static int Second(int value) { return value + 1; }
+		};
+
+		TestDataWithFieldTypes test_data1{ TestScopedEnum::First, { 1, 2, 3 }, { 1.0f, 2.0f }, { 'a', 'b', 'c', 'd' }, &Callbacks::First };
+		TestDataWithFieldTypes test_data2 = test_data1;
+
+		DiffContext context("Comparing TestDataWithFieldTypes");
+		DiffVisitor<TestDataWithFieldTypes> diff_visitor(test_data1, context);
+
+		SUBCASE("Equal values")
+		{
+			// Floating point arrays are compared element-wise with the usual tolerance
+			test_data2.floats[0] = 1.00001f;
+
+			diff_visitor.CompareWith(test_data2);
+
+			CHECK(context.differences.empty());
+		}
+
+		SUBCASE("Different values")
+		{
+			test_data2.scoped_enum = TestScopedEnum::Large;
+			test_data2.plain.c = 4;
+			test_data2.floats[1] = 3.0f;
+			test_data2.name[3] = 'e';
+			test_data2.callback = &Callbacks::Second;
+
+			diff_visitor.CompareWith(test_data2);
+
+			REQUIRE_EQ(context.differences.size(), 5);
+
+			CHECK_EQ(context.differences[0], DifferenceDescriptor{ DifferenceType::Field, "scoped_enum", "1", "300" });
+			CHECK_EQ(context.differences[1], DifferenceDescriptor{ DifferenceType::Field, "plain", "01 00 02 03", "01 00 02 04" });
+			CHECK_EQ(context.differences[2], DifferenceDescriptor{ DifferenceType::Field, "floats", "{ 1, 2 }", "{ 1, 3 }" });
+			// Character arrays are not printed as strings, as they may not be null-terminated
+			CHECK_EQ(context.differences[3], DifferenceDescriptor{ DifferenceType::Field, "name", "{ 97, 98, 99, 100 }", "{ 97, 98, 99, 101 }" });
+
+			// Function pointers are printed as addresses instead of as a bool
+			CHECK_EQ(context.differences[4].field_name, "callback");
+			CHECK_EQ(context.differences[4].object_value.rfind("0x", 0), 0);
+			CHECK_EQ(context.differences[4].other_value.rfind("0x", 0), 0);
+			CHECK_NE(context.differences[4].object_value, context.differences[4].other_value);
+		}
+	}
+
+	TEST_CASE("CompareWith() compares enum array elements")
+	{
+		TestEnum dynamic_values1[2] = { TestEnum::First, TestEnum::Second };
+		TestEnum dynamic_values2[2] = { TestEnum::First, TestEnum::Third };
+
+		TestDataWithEnumArray test_data1{ { TestEnum::First, TestEnum::Second, TestEnum::Third }, dynamic_values1, 2 };
+		TestDataWithEnumArray test_data2{ { TestEnum::First, TestEnum::Third, TestEnum::Third }, dynamic_values2, 2 };
+
+		DiffContext context("Comparing TestDataWithEnumArray");
+		DiffVisitor<TestDataWithEnumArray> diff_visitor(test_data1, context);
+		diff_visitor.CompareWith(test_data2);
+
+		const auto expected_output = std::vector<DifferenceDescriptor>{
+			{ DifferenceType::Field, "values[1]", "2", "3" },
+			{ DifferenceType::Field, "dynamic_values[1]", "2", "3" },
+		};
+
+		CHECK_EQ(context.differences.size(), std::size(expected_output));
+		CHECK_EQ(context.differences, expected_output);
+	}
 }

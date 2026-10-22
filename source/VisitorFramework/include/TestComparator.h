@@ -1,6 +1,9 @@
 #pragma once
 
 
+#include <cmath>
+#include <cstddef>
+#include <cstring>
 #include <sstream>
 #include <string>
 
