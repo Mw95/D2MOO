@@ -628,4 +628,135 @@ TEST_SUITE("DiffVisitorTests")
 
 		g_test_data_flag_count = 0;
 	}
+
+	TEST_CASE("CompareWith() compares an object member which shares its address with the containing object")
+	{
+		TestDataWithFirstMemberObject object1{ { 1, 2 }, 3 };
+		TestDataWithFirstMemberObject object2{ { 1, 5 }, 3 };
+
+		TestDataWithPointerToFirstMemberObject test_data1{ &object1 };
+		TestDataWithPointerToFirstMemberObject test_data2{ &object2 };
+
+		DiffContext context("Comparing TestDataWithPointerToFirstMemberObject");
+		DiffVisitor<TestDataWithPointerToFirstMemberObject> diff_visitor(test_data1, context, "test_data");
+		diff_visitor.CompareWith(test_data2);
+
+		const auto expected_output = std::vector<DifferenceDescriptor>{
+			{
+				DifferenceType::Field,
+				"test_data->object->inner->y",
+				"2",
+				"5"
+			},
+		};
+
+		CHECK_EQ(context.differences.size(), std::size(expected_output));
+		CHECK_EQ(context.differences, expected_output);
+	}
+
+	TEST_CASE("CompareWith() reports objects which are shared on one side only")
+	{
+		TestData x{ 1, 2 };
+		TestData y{ 1, 2 };
+		TestData z{ 1, 2 };
+
+		const auto format_pointer = [](const void* pointer)
+		{
+			std::stringstream stream;
+			stream << std::hex << "0x" << reinterpret_cast<uintptr_t>(pointer);
+			return stream.str();
+		};
+
+		SUBCASE("Shared in the first object")
+		{
+			TestDataWithTwoPointers test_data1{ &x, &x };
+			TestDataWithTwoPointers test_data2{ &y, &z };
+
+			DiffContext context("Comparing TestDataWithTwoPointers");
+			DiffVisitor<TestDataWithTwoPointers> diff_visitor(test_data1, context, "test_data");
+			diff_visitor.CompareWith(test_data2);
+
+			const auto expected_output = std::vector<DifferenceDescriptor>{
+				{
+					DifferenceType::Pointer,
+					"test_data->b",
+					format_pointer(&x) + " (compared with " + format_pointer(&y) + " before)",
+					format_pointer(&z)
+				},
+			};
+
+			CHECK_EQ(context.differences.size(), std::size(expected_output));
+			CHECK_EQ(context.differences, expected_output);
+		}
+
+		SUBCASE("Shared in the second object")
+		{
+			TestDataWithTwoPointers test_data1{ &x, &y };
+			TestDataWithTwoPointers test_data2{ &z, &z };
+
+			DiffContext context("Comparing TestDataWithTwoPointers");
+			DiffVisitor<TestDataWithTwoPointers> diff_visitor(test_data1, context, "test_data");
+			diff_visitor.CompareWith(test_data2);
+
+			const auto expected_output = std::vector<DifferenceDescriptor>{
+				{
+					DifferenceType::Pointer,
+					"test_data->b",
+					format_pointer(&y),
+					format_pointer(&z) + " (compared with " + format_pointer(&x) + " before)"
+				},
+			};
+
+			CHECK_EQ(context.differences.size(), std::size(expected_output));
+			CHECK_EQ(context.differences, expected_output);
+		}
+
+		SUBCASE("Shared in both objects")
+		{
+			TestDataWithTwoPointers test_data1{ &x, &x };
+			TestDataWithTwoPointers test_data2{ &y, &y };
+
+			DiffContext context("Comparing TestDataWithTwoPointers");
+			DiffVisitor<TestDataWithTwoPointers> diff_visitor(test_data1, context, "test_data");
+			diff_visitor.CompareWith(test_data2);
+
+			CHECK(context.differences.empty());
+		}
+
+		SUBCASE("Same object on both sides")
+		{
+			TestDataWithTwoPointers test_data1{ &x, &x };
+			TestDataWithTwoPointers test_data2{ &x, &x };
+
+			DiffContext context("Comparing TestDataWithTwoPointers");
+			DiffVisitor<TestDataWithTwoPointers> diff_visitor(test_data1, context, "test_data");
+			diff_visitor.CompareWith(test_data2);
+
+			CHECK(context.differences.empty());
+		}
+	}
+
+	TEST_CASE("CompareWith() does not compare the root object again when it is referenced by a pointer")
+	{
+		LinkedListNode node1{ 1, nullptr };
+		LinkedListNode node2{ 2, nullptr };
+		node1.next = &node1;
+		node2.next = &node2;
+
+		DiffContext context("Comparing LinkedListNode");
+		DiffVisitor<LinkedListNode> diff_visitor(node1, context, "node");
+		diff_visitor.CompareWith(node2);
+
+		const auto expected_output = std::vector<DifferenceDescriptor>{
+			{
+				DifferenceType::Field,
+				"node->value",
+				"1",
+				"2"
+			},
+		};
+
+		CHECK_EQ(context.differences.size(), std::size(expected_output));
+		CHECK_EQ(context.differences, expected_output);
+	}
 }
