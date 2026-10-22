@@ -224,7 +224,7 @@ BEGIN_VISIT(TestDataWith3DArray)
 	ARRAY(arr)
 END_VISIT()
 
-// Like BEGIN_VISIT(), but without a TestComparator, for types the DiffVisitor does not support (const pointers, enum array elements)
+// Like BEGIN_VISIT(), but without a TestComparator, for types the DiffVisitor does not support (enum array elements)
 #define BEGIN_SERIALIZATION_VISIT(TYPE)																	\
 template<>																								\
 struct TypeId<TYPE>																						\
@@ -276,7 +276,7 @@ struct TestDataWithConstPointer
 	const TestData* data;
 };
 
-BEGIN_SERIALIZATION_VISIT(TestDataWithConstPointer)
+BEGIN_VISIT(TestDataWithConstPointer)
 	POINTER(data)
 END_VISIT()
 
