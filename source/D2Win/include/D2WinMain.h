@@ -41,7 +41,7 @@ D2WIN_DLL_DECL int __stdcall BACKGROUND_SetCellFile(D2CellFileStrc* pCellFile);
 //D2Win.0x6F8ACF50 (#10011)
 D2WIN_DLL_DECL int __stdcall CURSOR_SetCellFile(D2CellFileStrc* pCellFile);
 //D2Win.0x6F8ACF70 (#10010)
-D2WIN_DLL_DECL void __stdcall D2Win_10010(int(*a1)());
+D2WIN_DLL_DECL void __stdcall D2Win_10010(int(*pfOnQuit)());
 //D2Win.0x6F8ACF80 (#10009)
 D2WIN_DLL_DECL int __stdcall D2Win_10009();
 //D2Win.0x6F8ACF90 (#10008)
@@ -59,7 +59,7 @@ signed int __stdcall CONTROL_RemoveFromList(D2WinControlStrc* pControl);
 //D2Win.0x6F8AD260 (#10017)
 D2WIN_DLL_DECL D2WinControlStrc* __stdcall CONTROL_Create(D2WinControlInitStrc* pControlInit);
 //D2Win.0x6F8AD450 (#10018)
-D2WIN_DLL_DECL int __stdcall CONTROL_Destroy(void*a1);
+D2WIN_DLL_DECL int __stdcall CONTROL_Destroy(void* ppControl);
 //D2Win.0x6F8AD570 (#10025)
 D2WIN_DLL_DECL void __fastcall D2Win_10025_CONTROL_ToggleFirstFlag(D2WinControlStrc* pControl, int bSet);
 //D2Win.0x6F8AD5A0 (#10024)
@@ -101,16 +101,16 @@ void __stdcall D2Win_COMMANDS_MouseButton_6F8AE070(SMSGHANDLER_PARAMS* pMsg);
 //D2Win.0x6F8AE220
 void __stdcall D2Win_COMMANDS_MouseWheel_6F8AE220(SMSGHANDLER_PARAMS* pMsg);
 //D2Win.0x6F8AE4A0 (#10029)
-D2WIN_DLL_DECL void __stdcall D2Win_10029(int a1);
+D2WIN_DLL_DECL void __stdcall D2Win_10029(int bShowCursor);
 //D2Win.0x6F8AE4B0 (#10030)
 D2WIN_DLL_DECL void __stdcall D2Win_10030_CONTROL_ToggleFourthFlag(D2WinControlStrc* pControl, int bSet);
 //D2Win.0x6F8AE4F0 (#10031)
-D2WIN_DLL_DECL void __stdcall D2Win_10031(void* a1);
+D2WIN_DLL_DECL void __stdcall D2Win_10031(void* pCancelButton);
 //D2Win.0x6F8AE500 (#10032)
 D2WIN_DLL_DECL int __stdcall D2Win_IsMouseButtonPressed();
 //D2Win.0x6F8AE510 (#10033)
-D2WIN_DLL_DECL signed int __stdcall D2Win_10033(D2WinControlStrc* a1, int a2);
+D2WIN_DLL_DECL signed int __stdcall D2Win_10033(D2WinControlStrc* pModalControlList, int bDimBackground);
 //D2Win.0x6F8AE530 (#10035)
 D2WIN_DLL_DECL int __stdcall CONTROL_GetType(D2WinControlStrc* pControl);
 //D2Win.0x6F8AE540
-D2WinControlStrc* __stdcall sub_6F8AE540();
+D2WinControlStrc* __stdcall CONTROL_GetModalControlList();

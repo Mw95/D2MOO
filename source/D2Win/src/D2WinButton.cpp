@@ -39,7 +39,7 @@ D2WinButtonStrc* __fastcall BUTTON_Create(int32_t nX, int32_t nY, int32_t nWidth
 		pButton->controlHeader.pfHandleVirtualKeyInput = BUTTON_HandleVirtualKeyInput;
 	}
 
-	pButton->controlHeader.field_34 = pCallback;
+	pButton->controlHeader.pfCallback = pCallback;
 	pButton->nActivationVirtualKey = nActivationVirtualKey;
 	pButton->dwButtonFlags = nFlags;
 	pButton->nBaseFrame = nBaseFrame;
@@ -49,11 +49,11 @@ D2WinButtonStrc* __fastcall BUTTON_Create(int32_t nX, int32_t nY, int32_t nWidth
 		Unicode::strcpy(pButton->wszText, (Unicode*)D2LANG_GetStringFromTblIndex(nStringId));
 	}
 
-	const int32_t v18 = ((nWidth + 255) >> 8) * ((nHeight + 255) >> 8);
-	pButton->nIsPressedFrameOffset = v18;
+	const int32_t nCellsPerFrame = ((nWidth + 255) >> 8) * ((nHeight + 255) >> 8);
+	pButton->nIsPressedFrameOffset = nCellsPerFrame;
 	if (pButton->dwButtonFlags & 0x20)
 	{
-		pButton->field_58 = 2 * v18;
+		pButton->nDisabledFrameOffset = 2 * nCellsPerFrame;
 	}
 
 	pButton->pfUpdateHoverState = pfUpdateHoverState;
@@ -175,10 +175,10 @@ int32_t __fastcall BUTTON_OnMouseWheelScrolled(D2WinButtonStrc* pButton, int32_t
 	SMSGHANDLER_PARAMS msg = {};
 	msg.hWindow = (HWND)pButton;
 
-	if (pButton->controlHeader.field_34)
+	if (pButton->controlHeader.pfCallback)
 	{
 		++dword_6F8FE254;
-		pButton->controlHeader.field_34(&msg);
+		pButton->controlHeader.pfCallback(&msg);
 		--dword_6F8FE254;
 	}
 
@@ -203,11 +203,30 @@ int32_t __fastcall BUTTON_Draw(D2WinControlStrc* pControl)
 	int32_t nBaseFrame = pButton->nBaseFrame;
 	if (!(pButton->controlHeader.dwFlags & gdwBitMasks[2]) || !(pButton->controlHeader.dwFlags & gdwBitMasks[0]))
 	{
-		nBaseFrame += pButton->field_58;
+		nBaseFrame += pButton->nDisabledFrameOffset;
 	}
-	else if (pButton->bIsPressed)
+	else
 	{
-		nBaseFrame += pButton->nIsPressedFrameOffset;
+		if (pButton->bIsPressed)
+		{
+			if (pButton->dwButtonFlags & (BUTTONFLAG_IS_TOGGLE | 1))
+			{
+				pButton->bIsCallbackPending = 1;
+			}
+			else
+			{
+				// The callback is only called if the mouse is still on the button when released
+				pButton->bIsCallbackPending = gMousePosition_6F8FE234.x >= pButton->controlHeader.nImageX
+					&& gMousePosition_6F8FE234.y >= pButton->controlHeader.nImageY - pButton->controlHeader.nHeight
+					&& gMousePosition_6F8FE234.x < pButton->controlHeader.nImageX + pButton->controlHeader.nWidth
+					&& gMousePosition_6F8FE234.y < pButton->controlHeader.nImageY;
+			}
+		}
+
+		if ((pButton->bIsPressed && pButton->bIsCallbackPending) || pButton->nActivationCounter)
+		{
+			nBaseFrame += pButton->nIsPressedFrameOffset;
+		}
 	}
 
 	if (pButton->controlHeader.pCellFile && pButton->controlHeader.dwFlags & gdwBitMasks[2])
@@ -295,7 +314,7 @@ int32_t __fastcall BUTTON_Draw(D2WinControlStrc* pControl)
 
 				int32_t nTextX = std::max((pButton->controlHeader.nWidth - D2Win_10121_GetTextWidth(wszText)) / 2, 0) + pButton->controlHeader.nImageX;
 
-				nY = nOffsetY + pButton->controlHeader.nImageY - 2 * (pButton->controlHeader.nHeight - nTextHeight) / 3;
+				nY = nOffsetY + pButton->controlHeader.nImageY - 2 * ((pButton->controlHeader.nHeight - nTextHeight) / 3);
 				int32_t nTextY = nOffsetY + pButton->controlHeader.nImageY - (pButton->controlHeader.nHeight - nTextHeight) / 3;
 				if (pButton->bIsPressed && pButton->bIsCallbackPending || pButton->nActivationCounter)
 				{
@@ -324,7 +343,7 @@ int32_t __fastcall BUTTON_Draw(D2WinControlStrc* pControl)
 
 	if (pButton->pfUpdateHoverState)
 	{
-		if (sub_6F8AE540())
+		if (CONTROL_GetModalControlList())
 		{
 			pButton->isButtonHovered = 0;
 		}
@@ -381,11 +400,11 @@ int32_t __stdcall BUTTON_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		D2SOUND_10039("data\\global\\sfx\\cursor\\button.wav");
 	}
 
-	if (pButton->dwButtonFlags & (BUTTONFLAG_IS_TOGGLE | 1) && pButton->controlHeader.field_34)
+	if (pButton->dwButtonFlags & (BUTTONFLAG_IS_TOGGLE | 1) && pButton->controlHeader.pfCallback)
 	{
 		D2_ASSERT(dword_6F8FE254 > 0);
 
-		pButton->controlHeader.field_34(pMsg);
+		pButton->controlHeader.pfCallback(pMsg);
 	}
 
 	return 1;
@@ -414,11 +433,11 @@ int32_t __stdcall BUTTON_HandleMouseUp(SMSGHANDLER_PARAMS* pMsg)
 	pButton->bIsPressed = 0;
 
 	int32_t nResult = 0;
-	if (pButton->bIsCallbackPending && pButton->controlHeader.field_34)
+	if (pButton->bIsCallbackPending && pButton->controlHeader.pfCallback)
 	{
 		D2_ASSERT(dword_6F8FE254 > 0);
 
-		nResult = pButton->controlHeader.field_34(pMsg);
+		nResult = pButton->controlHeader.pfCallback(pMsg);
 	}
 
 	pButton->bIsCallbackPending = 0;

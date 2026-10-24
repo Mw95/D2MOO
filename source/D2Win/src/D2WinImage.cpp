@@ -18,16 +18,16 @@
 #pragma pack(push, 1)
 struct D2CropRectStrc
 {
-	int32_t unk0x00;
-	int32_t unk0x04;
-	int32_t unk0x08;
-	int32_t unk0x0C;
+	int32_t nLeft;
+	int32_t nRight;
+	int32_t nTop;
+	int32_t nBottom;
 };
 #pragma pack(pop)
 
 
 //D2Win.0x6F8ABA90 (#10084)
-D2WinImage2Strc* __fastcall IMAGE2_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, D2CellFileStrc* pCellFile, int32_t(__stdcall* a6)(SMSGHANDLER_PARAMS*), D2WinImageClickRectStrc* pClickRect, int32_t(__stdcall* pfHandleVirtualKeyInput)(SMSGHANDLER_PARAMS*))
+D2WinImage2Strc* __fastcall IMAGE2_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, D2CellFileStrc* pCellFile, int32_t(__stdcall* pfOnClick)(SMSGHANDLER_PARAMS*), D2WinImageClickRectStrc* pClickRect, int32_t(__stdcall* pfHandleVirtualKeyInput)(SMSGHANDLER_PARAMS*))
 {
 	D2WinImage2Strc* pImage = D2_CALLOC_STRC(D2WinImage2Strc);
 
@@ -41,7 +41,7 @@ D2WinImage2Strc* __fastcall IMAGE2_Create(int32_t nX, int32_t nY, int32_t nWidth
 	pImage->controlHeader.pfDraw = IMAGE2_Draw;
 	pImage->controlHeader.pfHandleMouseDown = IMAGE2_HandleMouseDown;
 	pImage->controlHeader.pfHandleVirtualKeyInput = pfHandleVirtualKeyInput;
-	pImage->controlHeader.field_34 = a6;
+	pImage->controlHeader.pfCallback = pfOnClick;
 	pImage->eDrawMode = DRAWMODE_NORMAL;
 	pImage->pClickRect = pClickRect;
 
@@ -57,7 +57,7 @@ int32_t __fastcall IMAGE_Destroy(D2WinControlStrc* pControl)
 }
 
 //D2Win.0x6F8ABB40
-D2WinImageStrc* __fastcall IMAGE_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, D2CellFileStrc* pCellFile, int32_t a6, int32_t a7)
+D2WinImageStrc* __fastcall IMAGE_Create(int32_t nX, int32_t nY, int32_t nWidth, int32_t nHeight, D2CellFileStrc* pCellFile, int32_t nBorderWidth, int32_t nBorderHeight)
 {
 	D2WinImageStrc* pImage = D2_CALLOC_STRC(D2WinImageStrc);
 
@@ -71,8 +71,8 @@ D2WinImageStrc* __fastcall IMAGE_Create(int32_t nX, int32_t nY, int32_t nWidth, 
 	pImage->controlHeader.pfDraw = IMAGE_Draw;
 	pImage->controlHeader.pfHandleMouseDown = IMAGE2_HandleMouseDown;
 	pImage->eDrawMode = DRAWMODE_NORMAL;
-	pImage->field_4C = a6;
-	pImage->field_50 = a7;
+	pImage->nBorderWidth = nBorderWidth;
+	pImage->nBorderHeight = nBorderHeight;
 
 	CONTROL_AppendToList(&pImage->controlHeader);
 
@@ -179,7 +179,7 @@ int32_t __fastcall IMAGE_Draw(D2WinControlStrc* pControl)
 {
 	D2WinImageStrc* pImage = (D2WinImageStrc*)pControl;
 
-	//TODO: Names
+	// Draws the 256x256 cell as a 9-slice: the corners keep their size, the edges and the center are tiled
 	D2_ASSERT(pImage->controlHeader.nType == D2WIN_IMAGE);
 
 	D2GfxDataStrc gfxData = {};
@@ -187,98 +187,98 @@ int32_t __fastcall IMAGE_Draw(D2WinControlStrc* pControl)
 	gfxData.nDirection = 0;
 	gfxData.nFrame = 0;
 
-	const int32_t v51[4] =
+	const int32_t nDestY[4] =
 	{ 
 		pImage->controlHeader.nImageY - pImage->controlHeader.nHeight,
-		pImage->controlHeader.nImageY - pImage->controlHeader.nHeight + pImage->field_50,
-		pImage->controlHeader.nImageY - pImage->field_50,
+		pImage->controlHeader.nImageY - pImage->controlHeader.nHeight + pImage->nBorderHeight,
+		pImage->controlHeader.nImageY - pImage->nBorderHeight,
 		pImage->controlHeader.nImageY
 	};
 
-	const int32_t v55[4] =
+	const int32_t nDestX[4] =
 	{
 		pImage->controlHeader.nImageX,
-		pImage->controlHeader.nImageX + pImage->field_4C,
-		pImage->controlHeader.nImageX + pImage->controlHeader.nWidth - pImage->field_4C,
+		pImage->controlHeader.nImageX + pImage->nBorderWidth,
+		pImage->controlHeader.nImageX + pImage->controlHeader.nWidth - pImage->nBorderWidth,
 		pImage->controlHeader.nImageX + pImage->controlHeader.nWidth
 	};
 
-	const int32_t v59[4] =
+	const int32_t nSrcX[4] =
 	{
 		0,
-		pImage->field_4C,
-		256 - pImage->field_4C,
+		pImage->nBorderWidth,
+		256 - pImage->nBorderWidth,
 		256
 	};
 
-	const int32_t v63[4] =
+	const int32_t nSrcY[4] =
 	{
 		0,
-		pImage->field_50,
-		256 - pImage->field_50,
+		pImage->nBorderHeight,
+		256 - pImage->nBorderHeight,
 		256
 	};
 
-	D2CropRectStrc v37 = {};
-	D2CropRectStrc v41 = {};
+	D2CropRectStrc destRect = {};
+	D2CropRectStrc clipRect = {};
 
-	for (int32_t v10 = 0; v10 < 3; ++v10)
+	for (int32_t nRow = 0; nRow < 3; ++nRow)
 	{
-		const int32_t v45 = v51[v10 + 1];
-		const int32_t v47 = v51[v10];
-		const int32_t v49 = v63[v10];
-		const int32_t v50 = v63[v10 + 1];
-		const int32_t v31 = v50 - v49;
+		const int32_t nDestBottom = nDestY[nRow + 1];
+		const int32_t nDestTop = nDestY[nRow];
+		const int32_t nSrcTop = nSrcY[nRow];
+		const int32_t nSrcBottom = nSrcY[nRow + 1];
+		const int32_t nSrcHeight = nSrcBottom - nSrcTop;
 
-		for (int32_t v6 = 0; v6 < 3; ++v6)
+		for (int32_t nColumn = 0; nColumn < 3; ++nColumn)
 		{
-			int32_t v15 = v55[v6];
-			int32_t v16 = v47;
-			const int32_t v48 = v59[v6];
-			const int32_t v18 = v59[v6 + 1] - v48;
-			v37.unk0x04 = v55[v6 + 1];
-			const int32_t v19 = v37.unk0x04 - v15;
-			const int32_t v20 = v45 - v47;
-			v37.unk0x00 = v15;
-			v37.unk0x08 = v47;
-			v37.unk0x0C = v45;
+			int32_t nClipLeft = nDestX[nColumn];
+			int32_t nClipTop = nDestTop;
+			const int32_t nSrcLeft = nSrcX[nColumn];
+			const int32_t nSrcWidth = nSrcX[nColumn + 1] - nSrcLeft;
+			destRect.nRight = nDestX[nColumn + 1];
+			const int32_t nDestWidth = destRect.nRight - nClipLeft;
+			const int32_t nDestHeight = nDestBottom - nDestTop;
+			destRect.nLeft = nClipLeft;
+			destRect.nTop = nDestTop;
+			destRect.nBottom = nDestBottom;
 
-			if (v18 == v19 && v31 == v20)
+			if (nSrcWidth == nDestWidth && nSrcHeight == nDestHeight)
 			{
-				TEXTURE_CelDrawClipped(&gfxData, v15 - v48, v45 - v50 + 256, &v37, DRAWMODE_NORMAL);
+				TEXTURE_CelDrawClipped(&gfxData, nClipLeft - nSrcLeft, nDestBottom - nSrcBottom + 256, &destRect, DRAWMODE_NORMAL);
 			}
 			else
 			{
-				const int32_t v46 = (v19 + v18 - 1) / v18;
-				int32_t v21 = v47 - v49 + 256;
-				const int32_t v36 = (v20 + v31 - 1) / v31;
-				int32_t v30 = v49 + v21 - 256;
-				for (int32_t j = 0; j < v36; ++j)
+				const int32_t nTilesX = (nDestWidth + nSrcWidth - 1) / nSrcWidth;
+				int32_t nTileY = nDestTop - nSrcTop + 256;
+				const int32_t nTilesY = (nDestHeight + nSrcHeight - 1) / nSrcHeight;
+				int32_t nTileTop = nSrcTop + nTileY - 256;
+				for (int32_t nTileRow = 0; nTileRow < nTilesY; ++nTileRow)
 				{
-					int32_t v22 = v15 - v48;
-					int32_t v23 = v15;
-					for (int32_t i = 0; i < v46; ++i)
+					int32_t nTileX = nClipLeft - nSrcLeft;
+					int32_t nTileLeft = nClipLeft;
+					for (int32_t nTileColumn = 0; nTileColumn < nTilesX; ++nTileColumn)
 					{
-						if (v15 <= v23)
+						if (nClipLeft <= nTileLeft)
 						{
-							v15 = v23;
+							nClipLeft = nTileLeft;
 						}
 
-						v41.unk0x00 = v15;
-						v41.unk0x04 = std::min(v37.unk0x04, v15 + v18);
-						v41.unk0x08 = std::max(v16, v30);
-						v41.unk0x0C = std::min(v37.unk0x0C, v31 + v41.unk0x08);
+						clipRect.nLeft = nClipLeft;
+						clipRect.nRight = std::min(destRect.nRight, nClipLeft + nSrcWidth);
+						clipRect.nTop = std::max(nClipTop, nTileTop);
+						clipRect.nBottom = std::min(destRect.nBottom, nSrcHeight + clipRect.nTop);
 
-						TEXTURE_CelDrawClipped(&gfxData, v22, v21, &v41, DRAWMODE_NORMAL);
+						TEXTURE_CelDrawClipped(&gfxData, nTileX, nTileY, &clipRect, DRAWMODE_NORMAL);
 
-						v16 = v37.unk0x08;
-						v22 += v18;
-						v23 += v18;
-						v15 = v37.unk0x00;
+						nClipTop = destRect.nTop;
+						nTileX += nSrcWidth;
+						nTileLeft += nSrcWidth;
+						nClipLeft = destRect.nLeft;
 					}
 
-					v21 += v31;
-					v30 += v31;
+					nTileY += nSrcHeight;
+					nTileTop += nSrcHeight;
 				}
 			}
 		}
@@ -313,9 +313,9 @@ int32_t __stdcall IMAGE2_HandleMouseDown(SMSGHANDLER_PARAMS* pMsg)
 		++pClickRect;
 	}
 
-	if (pImage->controlHeader.field_34)
+	if (pImage->controlHeader.pfCallback)
 	{
-		return pImage->controlHeader.field_34(pMsg);
+		return pImage->controlHeader.pfCallback(pMsg);
 	}
 
 	return 0;

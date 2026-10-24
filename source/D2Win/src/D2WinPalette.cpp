@@ -45,12 +45,12 @@ D2ShadowLightGammaPaletteStrc gShadowsLightGammaPalette_6F91E298;
 PALETTEENTRY gDarkenPalette_6F921398[64];
 PALETTEENTRY gStandardShiftsPalette_6F921498[13][64];
 PALETTEENTRY gTransPalette_6F922198[3][256][64];
-uint8_t byte_6F952198[256];
+uint8_t gRedTintPalette_6F952198[256];
 PALETTEENTRY gLuminancePalette_6F952298[256][64];
 uint8_t gStandardColorsPalette_6F962298[13][3];
 PALETTEENTRY gRGBAPalette_6F9622C0[256];
 uint8_t gStatesPalette_6F9626C0[128][256];
-uint8_t byte_6F96A6C0[256];
+uint8_t gBrightenPalette_6F96A6C0[256];
 uint32_t dword_6F96A7C0;
 uint32_t dword_6F96A7C4;
 
@@ -70,7 +70,7 @@ int32_t __fastcall D2Win_10177(uint8_t nAct)
 	sprintf_s(szDatFilename, "%s\\palette\\act%d\\%s", "DATA\\GLOBAL", nActNo, "pal.dat");
 	sprintf_s(szPL2Filename, "%s\\palette\\act%d\\%s", "DATA\\GLOBAL", nActNo, "pal.pl2");
 
-	const int32_t nResult = sub_6F8AE5E0(szDatFilename, szPL2Filename);
+	const int32_t nResult = PALETTE_LoadFiles(szDatFilename, szPL2Filename);
 
 	D2GFX_SetPalette(gRGBAPalette_6F9622C0);
 
@@ -78,7 +78,7 @@ int32_t __fastcall D2Win_10177(uint8_t nAct)
 }
 
 //D2Win.0x6F8AE5E0
-int32_t __fastcall sub_6F8AE5E0(const char* szDatFileName, const char* szPL2FileName)
+int32_t __fastcall PALETTE_LoadFiles(const char* szDatFileName, const char* szPL2FileName)
 {
 	D2PaletteTableStrc paletteTable = {};
 
@@ -116,8 +116,8 @@ int32_t __fastcall sub_6F8AE5E0(const char* szDatFileName, const char* szPL2File
 		const uint8_t green = std::min(170 * gRGBAPalette_6F9622C0[i].peGreen / 100, 255);
 		const uint8_t blue = std::min(170 * gRGBAPalette_6F9622C0[i].peBlue / 100, 255);
 
-		byte_6F96A6C0[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, red, green, blue);
-		byte_6F952198[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, gRGBAPalette_6F9622C0[i].peRed, 0, 0);
+		gBrightenPalette_6F96A6C0[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, red, green, blue);
+		gRedTintPalette_6F952198[i] = D2CMP_GetNearestPaletteIndex(gRGBAPalette_6F9622C0, 0x100u, gRGBAPalette_6F9622C0[i].peRed, 0, 0);
 	}
 
 	for (int32_t i = 0; i < std::size(paletteTable.transPalettes); ++i)
@@ -140,8 +140,8 @@ int32_t __fastcall sub_6F8AE5E0(const char* szDatFileName, const char* szPL2File
 	paletteTable.pDarkBlendPalette = gDarkBlendPalette_6F90E298;
 	paletteTable.pDarkenPalette = gDarkenPalette_6F921398;
 	paletteTable.pStandardColorsPalette = gStandardColorsPalette_6F962298;
-	paletteTable.unk0x118 = byte_6F96A6C0;
-	paletteTable.unk0x11C = byte_6F952198;
+	paletteTable.pBrightenPalette = gBrightenPalette_6F96A6C0;
+	paletteTable.pRedTintPalette = gRedTintPalette_6F952198;
 	D2GFX_SetPaletteTables(&paletteTable);
 	D2GFX_SetPalette(gRGBAPalette_6F9622C0);
 
@@ -189,9 +189,9 @@ void __stdcall D2Win_10179()
 }
 
 //D2Win.0x6F8AE9A0 (#10176)
-void __fastcall D2Win_10176(int32_t a1)
+void __fastcall D2Win_10176(int32_t bStartFade)
 {
-	if (a1)
+	if (bStartFade)
 	{
 		dword_6F96A7C0 = 1;
 		dword_6F96A7C4 = GetTickCount();
@@ -212,8 +212,8 @@ int32_t __stdcall D2Win_10028(const char* pszPalDatFilename, const char* pszPalP
 {
 	if (pszPalDatFilename)
 	{
-		sub_6F8AE5E0(pszPalDatFilename, pszPalPL2Filename);
-		sub_6F8A4C10();
+		PALETTE_LoadFiles(pszPalDatFilename, pszPalPL2Filename);
+		COMP_InitEmblemColors();
 		return 1;
 	}
 
@@ -223,8 +223,8 @@ int32_t __stdcall D2Win_10028(const char* pszPalDatFilename, const char* pszPalP
 	wsprintfA(szPalDatFilename, "%s\\%s", "DATA\\GLOBAL", "palette\\act1\\pal.dat");
 	wsprintfA(szPalPL2Filename, "%s\\%s", "DATA\\GLOBAL", "palette\\act1\\pal.pl2");
 
-	sub_6F8AE5E0(szPalDatFilename, szPalPL2Filename);
-	sub_6F8A4C10();
+	PALETTE_LoadFiles(szPalDatFilename, szPalPL2Filename);
+	COMP_InitEmblemColors();
 
 	return 1;
 }

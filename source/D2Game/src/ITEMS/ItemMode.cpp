@@ -4773,8 +4773,18 @@ int32_t __fastcall sub_6FC49AE0(D2GameStrc* pGame, D2UnitStrc* pUnit, int32_t nS
 
     if (ITEMS_GetSuffixId(pScroll, 0) != ITEMS_GetSuffixId(pBook, 0))
     {
+#ifdef NO_BUG_FIX
+        // Original game asserts and terminates the whole game server here.
+        // Both GUIDs come straight from packet 0x29, so any client could crash the game
+        // by asking to put a Town Portal scroll into a Tome of Identify.
         FOG_DisplayAssert("0", __FILE__, __LINE__);
         exit(-1);
+#else
+        // The pickup path never gets here since INVENTORY_FindFillableBook already matches the suffix,
+        // so only a client-built packet 0x29 can: reject it like the other invalid inputs above.
+        *a5 = 1;
+        return 0;
+#endif
     }
 
     const int32_t nQuantity = STATLIST_UnitGetStatValue(pBook, STAT_QUANTITY, 0);
@@ -5169,10 +5179,10 @@ int32_t __fastcall D2GAME_Transmogrify_6FC4A660(D2GameStrc* pGame, D2UnitStrc* p
 }
 
 //D2Game.0x6FC4A9B0
-int32_t __fastcall sub_6FC4A9B0(D2GameStrc* pGame, D2UnitStrc* pUnit, D2UnitStrc* pItem, uint8_t nBodyLoc)
+int32_t __fastcall sub_6FC4A9B0(D2GameStrc* pGame, D2UnitStrc* pUnit, D2UnitStrc* pItem, uint8_t bSkipRequirementCheck)
 {
-    int32_t a3 = 0;
-    if (!sub_6FC42F20(pUnit, pItem, &a3, nBodyLoc))
+    int32_t nBodyLoc = 0;
+    if (!sub_6FC42F20(pUnit, pItem, &nBodyLoc, bSkipRequirementCheck))
     {
         return 0;
     }

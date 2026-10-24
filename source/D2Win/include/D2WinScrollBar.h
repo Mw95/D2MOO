@@ -13,16 +13,16 @@ struct D2WinScrollBarStrc
 	int32_t bIsLowerArrowPressed;					//0x44
 	int32_t nMaxSteps;								//0x48
 	int32_t nCurrentStep;							//0x4C
-	int32_t field_50;								//0x50
+	int32_t nPageSize;								//0x50 - Number of visible steps
 	D2WinTextBoxStrc* pTextBox;						//0x54
 	int32_t bIsStepIndicatorDragged;				//0x58
-	void(__stdcall* field_5C)(SMSGHANDLER_PARAMS*);		//0x5C
+	void(__stdcall* pfOnScroll)(SMSGHANDLER_PARAMS*);		//0x5C
 };
 #pragma pack(pop)
 
 
 //D2Win.0x6F8AF040
-D2WinScrollBarStrc* __fastcall SCROLLBAR_Create(int nX, int nY, int nWidth, int nHeight, D2CellFileStrc* pCellFile, int(__stdcall* a6)(SMSGHANDLER_PARAMS*));
+D2WinScrollBarStrc* __fastcall SCROLLBAR_Create(int nX, int nY, int nWidth, int nHeight, D2CellFileStrc* pCellFile, int(__stdcall* pfOnScroll)(SMSGHANDLER_PARAMS*));
 //D2Win.0x6F8B1BF0
 int __fastcall SCROLLBAR_Destroy(D2WinControlStrc* pControl);
 //D2Win.0x6F8AF100
@@ -35,10 +35,12 @@ int32_t __fastcall SCROLLBAR_SetCurrentStep(D2WinScrollBarStrc* pScrollBar, int3
 int __fastcall SCROLLBAR_GetCurrentStep(D2WinScrollBarStrc* pScrollBar);
 //D2Win.0x6F8AF1E0
 int __fastcall SCROLLBAR_SetTextBox(D2WinScrollBarStrc* pScrollBar, D2WinTextBoxStrc* pTextBox);
+//D2Win.0x6F8AF210
+int32_t __fastcall SCROLLBAR_SetCallback(D2WinScrollBarStrc* pScrollBar, void(__stdcall* pfCallback)(SMSGHANDLER_PARAMS*));
 //D2Win.0x6F8AF240
-int __fastcall sub_6F8AF240(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pScrollBar, int a3);
+int __fastcall SCROLLBAR_HandleMouseWheel(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pScrollBar, int nWheelDelta);
 //D2Win.0x6F8AF2D0
-void __fastcall D2Win_10202(D2WinScrollBarStrc* pScrollBar, int nPosition);
+void __fastcall D2Win_10202(D2WinScrollBarStrc* pScrollBar, int nPageSize);
 //D2Win.0x6F8AF300
 int __fastcall D2Win_10201(D2WinScrollBarStrc* pScrollBar);
 //D2Win.0x6F8AF330
