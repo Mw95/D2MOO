@@ -4,6 +4,10 @@
 
 #include <Fog.h>
 
+#define XFAULT_IMPL
+#define XFAULT_MODULE_NAME "D2Gfx.DLL"
+#include <Fault.h>
+
 #include "CmnSubtile.h"
 #include "DisplayType.h"
 #include "Window.h"
@@ -15,7 +19,8 @@ extern int32_t gbNoWindowCreated_6FA8D848;
 extern HINSTANCE ghInstance;
 
 
-constexpr const char* gszDriverDllNames[NUMBER_OF_DISPLAYTYPES] = { "", "D2Gdi.dll", "", "D2DDraw.dll", "D2Glide.dll", "D2OpenGL.dll", "D2Direct3D.dll", "D2Rave.dll" };
+// OpenGL and Rave are not supported by this version of the game
+constexpr const char* gszDriverDllNames[NUMBER_OF_DISPLAYTYPES] = { nullptr, "D2Gdi.dll", nullptr, "D2DDraw.dll", "D2Glide.dll", nullptr, "D2Direct3D.dll", nullptr };
 
 WNDPROC gpfWndProc;
 PALETTEENTRY gpPalette_6FA8D278[256];
@@ -24,6 +29,7 @@ HMODULE ghRenderModule;
 D2GraphicsInterfaceStrc* gpGraphicsInterface;
 DisplayType gnDisplayType;
 int32_t gnViewMatrixAdjust_6FA8D254;
+int32_t gbInDebugBreak_6FA8D854;
 
 D2GfxSettingsStrc gGfxSettings = { 0, 1, 0, 155, 1, 1 };
 
@@ -31,7 +37,7 @@ constexpr D2GfxHelperStrc gpGfxHelpers =
 {
     D2GFX_FillYBufferTable_6FA71010,
     D2GFX_DrawVisTile_6FA72730,
-    sub_6FA72900,
+    D2GFX_DrawFlatLitVisTile_6FA72900,
     D2GFX_FloorTileDraw_6FA73410,
     TILE_TileDrawLit_6FA729D0,
     D2GFX_DrawBlendedVisTile_6FA72B80,
@@ -55,18 +61,19 @@ int32_t __stdcall D2GFX_Initialize(HINSTANCE hInstance, WNDPROC pfWndProc, Displ
     wndClass.cbWndExtra = 0;
     wndClass.hInstance = hInstance;
     wndClass.hIcon = (HICON)LoadImageA(ghInstance, (LPCSTR)(FOG_IsExpansion() ? 103 : 102), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
-    wndClass.hCursor = LoadCursorA(nullptr, (LPCSTR)0x7F00);
+    wndClass.hCursor = LoadCursorA(nullptr, IDC_ARROW);
     wndClass.lpszMenuName = nullptr;
     wndClass.lpszClassName = "Diablo II";
-    wndClass.hbrBackground = (HBRUSH)GetStockObject(COLOR_WINDOW);
+    wndClass.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 
     if (!RegisterClassA(&wndClass))
     {
-    	//if (sub_6FA750A7(GetLastError()))
-    	//{
-    	//	__debugbreak();
-    	//	dword_6FA8D854 = 0;
-    	//}
+        if (XFaultBreakableError(GetLastError()))
+        {
+            gbInDebugBreak_6FA8D854 = 1;
+            __debugbreak();
+            gbInDebugBreak_6FA8D854 = 0;
+        }
         return 0;
     }
 
@@ -77,7 +84,7 @@ int32_t __stdcall D2GFX_Initialize(HINSTANCE hInstance, WNDPROC pfWndProc, Displ
     gnDisplayType = nDisplayType;
     gbIsWindowed = bWindowed;
 
-    if (nDisplayType < 0 || nDisplayType >= std::size(gszDriverDllNames))
+    if (nDisplayType < 0 || nDisplayType >= std::size(gszDriverDllNames) || !gszDriverDllNames[nDisplayType])
     {
         FOG_Trace("Unsupported video mode - %d", nDisplayType);
         return 0;
@@ -109,7 +116,8 @@ int32_t __stdcall D2GFX_Initialize(HINSTANCE hInstance, WNDPROC pfWndProc, Displ
 
     if (!gpGraphicsInterface->pfDetect(hInstance))
     {
-        //Fog_10028(9, 0, 0, "%s", "Error 1: Diablo II is unable to proceed.  Please run D2VidTst and try again.");
+        // TODO: Fog.#10028 is not implemented yet
+        //FOG_10028(9, 0, 0, "%s", "Error 1: Diablo II is unable to proceed.  Please run D2VidTst and try again.");
         return 0;
     }
 
@@ -424,7 +432,7 @@ void __stdcall D2GFX_SetPalette(PALETTEENTRY* pPalette)
 void __stdcall D2GFX_SetPaletteTables(D2PaletteTableStrc* pPaletteTables)
 {
     gpGraphicsInterface->pfSetPaletteTables(pPaletteTables);
-    sub_6FA71070(pPaletteTables);
+    D2GFX_SetPaletteTables_6FA71070(pPaletteTables);
 }
 
 //D2Gfx.0x6FA73ED0 (#10050)

@@ -4,6 +4,7 @@
 
 #include <shellapi.h>
 
+#include <Fault.h>
 #include <Fog.h>
 
 #include "CmnSubtile.h"
@@ -12,19 +13,50 @@
 
 
 extern DisplayType gnDisplayType;
+extern int32_t gbInDebugBreak_6FA8D854;
 
 
 HWND ghWnd;
 int32_t gbIsWindowed;
 D2GameResolutionMode gnResolutionMode;
-//int32_t dword_6FA8D740;
 D2WindowPlacementStrc gWindowPlacement[4];
-int32_t gbCursorDisplayed;
+int32_t gnWindowBorderHeight_6FA8D740;
+char gszResolutionErrorBuffer_6FA8D748[256];
+int32_t gbCursorDisplayed = 1;
 int32_t gbNoWindowCreated_6FA8D848;
 int32_t gbPaused_6FA8D84C;
 int32_t gbWindowState_6FA8D850;
 HINSTANCE ghInstance;
 
+
+// Inlined in the original dll
+static void WINDOW_GetResolutionRect(D2GameResolutionMode nResolution, RECT* pRect)
+{
+    *pRect = {};
+
+    switch (nResolution)
+    {
+    case D2GAMERES_640x480:
+        pRect->right = 640;
+        pRect->bottom = 480;
+        break;
+
+    case D2GAMERES_800x600:
+    case NUM_GAME_RESOLUTIONS:
+        pRect->right = 800;
+        pRect->bottom = 600;
+        break;
+
+    case D2GAMERES_1344x700:
+        pRect->right = 1344;
+        pRect->bottom = 700;
+        break;
+
+    default:
+        FOG_DisplayHalt(FOG_csprintf(gszResolutionErrorBuffer_6FA8D748, "Unknown resolution %d", nResolution), __FILE__, __LINE__);
+        exit(-1);
+    }
+}
 
 //D2Gfx.0x6FA74450 (#10023)
 int32_t __stdcall WINDOW_Create(int32_t bWindowed, D2GameResolutionMode nResolution)
@@ -42,32 +74,8 @@ int32_t __stdcall WINDOW_Create(int32_t bWindowed, D2GameResolutionMode nResolut
     gnResolutionMode = nResolution;
 
     RECT rect = {};
-
-    switch (nResolution)
-    {
-    case D2GAMERES_640x480:
-        rect.right = 640;
-        rect.bottom = 480;
-        break;
-
-    case D2GAMERES_800x600:
-    case NUM_GAME_RESOLUTIONS:
-        rect.right = 800;
-        rect.bottom = 600;
-        break;
-
-    case D2GAMERES_1344x700:
-        rect.right = 1344;
-        rect.bottom = 700;
-        break;
-
-    default:
-        static char szLocalBuffer[256];
-        FOG_DisplayHalt(FOG_csprintf(szLocalBuffer, "Unknown resolution %d", nResolution), __FILE__, __LINE__);
-        exit(-1);
-    }
-
-    //dword_6FA8D740 = Rect.bottom;
+    WINDOW_GetResolutionRect(nResolution, &rect);
+    gnWindowBorderHeight_6FA8D740 = rect.bottom;
 
     uint32_t dwStyle = 0;
     if (bWindowed == 1)
@@ -87,8 +95,7 @@ int32_t __stdcall WINDOW_Create(int32_t bWindowed, D2GameResolutionMode nResolut
 
     int32_t nWidth = rect.right - rect.left;
     int32_t nHeight = rect.bottom - rect.top;
-    
-    //dword_6FA8D740 = nHeight - dword_6FA8D740;
+    gnWindowBorderHeight_6FA8D740 = nHeight - gnWindowBorderHeight_6FA8D740;
 
     int32_t nX = 0;
     int32_t nY = 0;
@@ -98,16 +105,16 @@ int32_t __stdcall WINDOW_Create(int32_t bWindowed, D2GameResolutionMode nResolut
         RECT desktopRect = {};
         GetClientRect(GetDesktopWindow(), &desktopRect);
 
-        nX = std::max((desktopRect.right - nWidth) / 2, 0l);
-        nY = std::max((desktopRect.bottom - nHeight)  / 2, 0l);
+        nX = std::max((desktopRect.right - nWidth) >> 1, 0l);
+        nY = std::max((desktopRect.bottom - nHeight) >> 1, 0l);
     }
     else if (gnDisplayType == DISPLAYTYPE_GLIDE)
     {
-        nWidth = std::max(GetSystemMetrics(0), 800);
-        nHeight = std::max(GetSystemMetrics(1), 600);
+        nWidth = std::max(GetSystemMetrics(SM_CXSCREEN), 800);
+        nHeight = std::max(GetSystemMetrics(SM_CYSCREEN), 600);
     }
 
-    if (GetSystemMetrics(0) < 800)
+    if (GetSystemMetrics(SM_CXSCREEN) < 800)
     {
         DEVMODEA deviceMode = {};
         deviceMode.dmSize = sizeof(DEVMODEA);
@@ -121,14 +128,16 @@ int32_t __stdcall WINDOW_Create(int32_t bWindowed, D2GameResolutionMode nResolut
     ghWnd = CreateWindowExA(WS_EX_APPWINDOW | WS_EX_TOPMOST, "Diablo II", "Diablo II", dwStyle, nX, nY, nWidth, nHeight, nullptr, nullptr, ghInstance, nullptr);
     if (!ghWnd)
     {
-        //if (!sub_6FA750A7(GetLastError()))
-        //    return 0;
-        //__debugbreak();
-        //dword_6FA8D854 = 0;
+        if (XFaultBreakableError(GetLastError()))
+        {
+            gbInDebugBreak_6FA8D854 = 1;
+            __debugbreak();
+            gbInDebugBreak_6FA8D854 = 0;
+        }
         return 0;
     }
 
-    ShowWindow(ghWnd, 1);
+    ShowWindow(ghWnd, SW_SHOWNORMAL);
     UpdateWindow(ghWnd);
     SetFocus(ghWnd);
     GdiSetBatchLimit(1u);
@@ -139,27 +148,26 @@ int32_t __stdcall WINDOW_Create(int32_t bWindowed, D2GameResolutionMode nResolut
         gbCursorDisplayed = 0;
     }
 
-    if (gpGraphicsInterface->pfCreateSurface(ghWnd, gnResolutionMode))
+    const int32_t bResult = gpGraphicsInterface->pfCreateSurface(ghWnd, gnResolutionMode);
+    if (!bResult)
     {
-        D2GFX_SetContrastAndGamma_6FA710C0();
-        SetWindowPos(ghWnd, HWND_NOTOPMOST, 0, 0, nWidth, nHeight, SWP_NOMOVE);
-        return 1;
+        gbNoWindowCreated_6FA8D848 = 1;
+        if (!gbCursorDisplayed)
+        {
+            while (ShowCursor(1) < 0);
+            gbCursorDisplayed = 1;
+        }
+
+        if (ghWnd)
+        {
+            DestroyWindow(ghWnd);
+            ghWnd = nullptr;
+        }
     }
 
-    gbNoWindowCreated_6FA8D848 = 1;
-    if (!gbCursorDisplayed)
-    {
-        while (ShowCursor(1) < 0);
-        gbCursorDisplayed = 1;
-    }
-
-    if (ghWnd)
-    {
-        DestroyWindow(ghWnd);
-        ghWnd = nullptr;
-    }
-
-    return 0;
+    D2GFX_SetContrastAndGamma_6FA710C0();
+    SetWindowPos(ghWnd, HWND_NOTOPMOST, 0, 0, nWidth, nHeight, SWP_NOMOVE);
+    return bResult;
 }
 
 //D2Gfx.0x6FA74820 (#10024)
@@ -317,37 +325,14 @@ int32_t __stdcall WINDOW_Resize(D2GameResolutionMode nResolution, int32_t bForce
     if (gbIsWindowed == 1)
     {
         RECT Rect = {};
-
-        switch (nResolution)
-        {
-        case 0:
-            Rect.right = 640;
-            Rect.bottom = 480;
-            break;
-
-        case 1:
-        case 2:
-            Rect.right = 800;
-            Rect.bottom = 600;
-            break;
-
-        case 3:
-            Rect.right = 1344;
-            Rect.bottom = 700;
-            break;
-
-        default:
-            //FOG_DisplayHalt(Fog_10018(&unk_6FA8D748, "Unknown resolution %d", nResolution), __FILE__, __LINE__);
-            exit(-1);
-        }
-
-        //dword_6FA8D740 = Rect.bottom;
+        WINDOW_GetResolutionRect(nResolution, &Rect);
+        gnWindowBorderHeight_6FA8D740 = Rect.bottom;
 
         AdjustWindowRectEx(&Rect, WS_CAPTION, 0, WS_EX_APPWINDOW);
 
         const int32_t nWidth = Rect.right - Rect.left;
         const int32_t nHeight = Rect.bottom - Rect.top;
-        //dword_6FA8D740 = nHeight - dword_6FA8D740;
+        gnWindowBorderHeight_6FA8D740 = nHeight - gnWindowBorderHeight_6FA8D740;
 
         RECT ClientRect = {};
         GetClientRect(GetDesktopWindow(), &ClientRect);
@@ -384,7 +369,7 @@ void __stdcall WINDOW_EndCutScene(D2GameResolutionMode nResolution)
         gbWindowState_6FA8D850 = gbPaused_6FA8D84C;
         if (gbPaused_6FA8D84C)
         {
-            ShowWindow(ghWnd, 6);
+            ShowWindow(ghWnd, SW_MINIMIZE);
             WINDOW_ShowAll();
             while (ShowCursor(1) < 0);
         }
@@ -478,7 +463,7 @@ void __stdcall WINDOW_UpdatePlacement()
 
         D2WindowPlacementStrc* pWindowPlacement = &gWindowPlacement[i];
 
-        pWindowPlacement->hWnd = (HWND)SHAppBarMessage(7u, &pData);
+        pWindowPlacement->hWnd = (HWND)SHAppBarMessage(ABM_GETAUTOHIDEBAR, &pData);
 
         if (pWindowPlacement->hWnd)
         {

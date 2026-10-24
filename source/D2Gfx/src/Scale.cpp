@@ -8,8 +8,8 @@
 #include "D2Gfx.h"
 
 
-int32_t gnChangedScaleFactor;
-int32_t gnScaleFactor;
+int32_t gnChangedScaleFactor = 256;
+int32_t gnScaleFactor = 256;
 int32_t gnPerspectiveScaleX;
 int32_t gnPerspectiveScaleY;
 

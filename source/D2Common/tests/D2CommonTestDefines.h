@@ -41,7 +41,7 @@
 //#define IDASTAR_TESTS
 //#define PATHMISC_TESTS
 //#define PATH_TESTS
-#define PATHUTIL_TESTS
+//#define PATHUTIL_TESTS
 //#define PATHWF_TESTS
 //#define STEP_TESTS
 
@@ -64,7 +64,7 @@
 //#define QUESTRECORD_TESTS
 //#define SEED_TESTS
 //#define SKILLS_TESTS
-//#define STATES_TESTS
-//#define STATLIST_TESTS
+#define STATES_TESTS
+#define STATLIST_TESTS
 //#define TEXT_TESTS
 //#define WAYPOINTS_TESTS
