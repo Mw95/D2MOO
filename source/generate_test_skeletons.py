@@ -68,7 +68,7 @@ FUNCTION_RE = re.compile(
     r'''
     ^\s*
     (?:
-        (?:D2GAME_DLL_DECL|D2COMMON_DLL_DECL)
+        [A-Z0-9]+_DLL_DECL
         \s+
     )?
     (?P<return_type>.+?)
@@ -509,6 +509,24 @@ def parameter_setup_lines(function):
 
     return (lines, moo_arguments, original_arguments, comparison_lines, function_pointer_parameters)
 
+def read_source_ordinals(source_paths):
+    """
+    Map function addresses to ordinals using the address comments of source files.
+    Used when the header comments don't contain the ordinals.
+    """
+    ordinals = {}
+
+    for source_path in source_paths:
+        with open(source_path, "r", encoding="utf-8", errors="replace") as f:
+            for line in f:
+                m = COMMENT_RE.match(line) or VERSIONED_COMMENT_RE.match(line)
+
+                if m and m.group("ordinal") is not None:
+                    ordinals[int(m.group("address"), 16)] = int(m.group("ordinal"))
+
+    return ordinals
+
+
 def generate_test(function, dll_base_address):
     offset = function.address - int(dll_base_address, 16)
 
@@ -596,7 +614,11 @@ def main():
 
     parser.add_argument("output", help="Output cpp file")
 
+    parser.add_argument("--sources", nargs="*", default=[], help="Source files whose address comments provide ordinals missing from the header")
+
     args = parser.parse_args()
+
+    source_ordinals = read_source_ordinals(args.sources)
 
     functions = []
 
@@ -654,6 +676,9 @@ def main():
             if not m:
                 pending_comment = None
                 continue
+
+            if pending_comment[2] is None:
+                pending_comment = (pending_comment[0], pending_comment[1], source_ordinals.get(pending_comment[1]))
 
             function = parse_function(
                 pending_comment[0],

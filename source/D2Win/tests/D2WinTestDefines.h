@@ -1,0 +1,20 @@
+#pragma once
+
+#define ACCOUNTLIST_TESTS
+#define ANIMIMAGE_TESTS
+#define ARCHIVE_TESTS
+#define BUTTON_TESTS
+#define COMP_TESTS
+#define EDITBOX_TESTS
+#define FONT_TESTS
+#define IMAGE_TESTS
+#define LIST_TESTS
+#define MAIN_TESTS
+#define PALETTE_TESTS
+#define POPUP_TESTS
+#define PROGRESSBAR_TESTS
+#define SCROLLBAR_TESTS
+#define SMACK_TESTS
+#define TEXTBOX_TESTS
+#define TIMER_TESTS
+#define WREGISTER_TESTS

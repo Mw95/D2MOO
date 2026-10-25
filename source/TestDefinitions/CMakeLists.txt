@@ -73,6 +73,8 @@ target_sources(TestDefinitions
 
     include/Fixtures/D2Lang/D2LangStringTblFixture.h
 
+    include/Fixtures/D2Win/D2WinFixtures.h
+
     include/Fixtures/UnitWithStatFlagsFixture.h
 
     include/D2CommonDefinitions/D2PacketDefVisitorDefinitions.h
@@ -192,6 +194,26 @@ target_sources(TestDefinitions
     include/D2Game/UNIT/SUnitNpcVisitorDefinitions.h
     include/D2Game/UNIT/SUnitProxyVisitorDefinitions.h
     include/D2Game/D2PacketVisitorDefinitions.h
+
+    include/D2WinTestDefinitions.h
+    include/D2Lang/D2UnicodeVisitorDefinitions.h
+    include/D2Win/D2WinAccountListVisitorDefinitions.h
+    include/D2Win/D2WinAnimImageVisitorDefinitions.h
+    include/D2Win/D2WinButtonVisitorDefinitions.h
+    include/D2Win/D2WinCompVisitorDefinitions.h
+    include/D2Win/D2WinControlHeaderVisitorDefinitions.h
+    include/D2Win/D2WinEditBoxVisitorDefinitions.h
+    include/D2Win/D2WinFontVisitorDefinitions.h
+    include/D2Win/D2WinImageVisitorDefinitions.h
+    include/D2Win/D2WinListVisitorDefinitions.h
+    include/D2Win/D2WinPaletteVisitorDefinitions.h
+    include/D2Win/D2WinPopUpVisitorDefinitions.h
+    include/D2Win/D2WinProgressBarVisitorDefinitions.h
+    include/D2Win/D2WinScrollBarVisitorDefinitions.h
+    include/D2Win/D2WinSmackVisitorDefinitions.h
+    include/D2Win/D2WinTextBoxVisitorDefinitions.h
+    include/D2Win/D2WinTimerVisitorDefinitions.h
+    include/D2Win/D2WRegisterVisitorDefinitions.h
 )
 target_include_directories(TestDefinitions PUBLIC include)
 target_link_libraries(TestDefinitions PRIVATE D2CommonDefinitions D2Common VisitorFramework)

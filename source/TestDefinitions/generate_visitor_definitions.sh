@@ -179,3 +179,23 @@ python ..\\generate_visitor_definitions.py ..\\D2Game\\include\\UNIT\\SUnitProxy
 # General
 
 python ..\\generate_visitor_definitions.py ..\\D2Game\\include\\D2Packet.h .\\include\\D2Game\\D2PacketVisitorDefinitions.h
+
+# D2Win
+
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinAccountList.h .\\include\\D2Win\\D2WinAccountListVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinAnimImage.h .\\include\\D2Win\\D2WinAnimImageVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinButton.h .\\include\\D2Win\\D2WinButtonVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinComp.h .\\include\\D2Win\\D2WinCompVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinControlHeader.h .\\include\\D2Win\\D2WinControlHeaderVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinEditBox.h .\\include\\D2Win\\D2WinEditBoxVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinFont.h .\\include\\D2Win\\D2WinFontVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinImage.h .\\include\\D2Win\\D2WinImageVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinList.h .\\include\\D2Win\\D2WinListVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinPalette.h .\\include\\D2Win\\D2WinPaletteVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinPopUp.h .\\include\\D2Win\\D2WinPopUpVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinProgressBar.h .\\include\\D2Win\\D2WinProgressBarVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinScrollBar.h .\\include\\D2Win\\D2WinScrollBarVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinSmack.h .\\include\\D2Win\\D2WinSmackVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinTextBox.h .\\include\\D2Win\\D2WinTextBoxVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WinTimer.h .\\include\\D2Win\\D2WinTimerVisitorDefinitions.h
+python ..\\generate_visitor_definitions.py ..\\D2Win\\include\\D2WRegister.h .\\include\\D2Win\\D2WRegisterVisitorDefinitions.h
