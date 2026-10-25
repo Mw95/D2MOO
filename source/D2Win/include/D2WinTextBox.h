@@ -89,7 +89,7 @@ Unicode* __fastcall D2Win_10196(D2WinTextBoxStrc* pTextBox, int nLineNum, int nC
 //D2Win.0x6F8B0DC0
 void __fastcall D2Win_10056(D2WinTextBoxStrc* pTextBox, int nNumColumns);
 //D2Win.0x6F8B0E60
-void __fastcall D2Win_10059(D2WinTextBoxStrc* pTextBox, int nColumn, Unicode* pColumn);
+void __fastcall D2Win_10059(D2WinTextBoxStrc* pTextBox, int nColumn, int nOffset);
 //D2Win.0x6F8B0EE0
 void __fastcall D2Win_10060(D2WinTextBoxStrc* pTextBox, int nColumn, int nFlags);
 //D2Win.0x6F8B0F60

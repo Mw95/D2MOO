@@ -14,8 +14,9 @@
 #include <D2WinList.h>
 
 
+// NOTE: The entries are not zero-initialized, so only the strings in wszText can be compared (see the tests)
 BEGIN_VISIT(D2WinListDataStrc)
-	ARRAY(wszText)
+	//ARRAY(wszText)
 	FIELD(nTextWidth)
 	FIELD(pfOnSelect)
 	FIELD(nLeft)

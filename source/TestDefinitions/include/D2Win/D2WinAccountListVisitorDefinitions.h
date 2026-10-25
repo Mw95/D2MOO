@@ -14,8 +14,9 @@
 #include <D2WinAccountList.h>
 
 
+// NOTE: The entries are not zero-initialized, so only the strings in szText can be compared (see the tests)
 BEGIN_VISIT(D2WinAccountListDataStrc)
-	ARRAY(szText)
+	//ARRAY(szText)
 	//ARRAY(pad0x32)
 	POINTER(pNext)
 END_VISIT()
