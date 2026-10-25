@@ -1118,7 +1118,7 @@ void __fastcall D2Win_10133(const Unicode* pText, int nX, int nY, DWORD dwColor,
 	FONT_DrawTextEx(pText, nX, nY - 2, nRectWidth, nPaletteShift, 1);
 }
 
-//D2Win.0x6F8AB260 (#1031)
+//D2Win.0x6F8AB260 (#10131)
 void __fastcall D2Win_10131_GetTextDimensions(const Unicode* pText, int* pWidth, int* pHeight)
 {
 	*pWidth = FONT_GetMaxLineWidth(pText);
