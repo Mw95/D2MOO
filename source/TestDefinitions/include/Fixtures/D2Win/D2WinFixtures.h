@@ -196,7 +196,20 @@ struct D2WinCallLog
 			<< ", nMaxDirections=" << pData->nMaxDirections
 			<< ", fFlags=" << pData->fFlags
 			<< ", nComponent=" << static_cast<int>(pData->nComponent)
-			<< " }";
+			<< ", nUnitType=" << pData->nUnitType
+			<< ", nUnitIndex=" << pData->nUnitIndex
+			<< ", nMode=" << pData->nMode
+			<< ", dwName=\"";
+		for (const uint32_t dwToken : pData->dwName)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				const char c = static_cast<char>(dwToken >> (8 * i));
+				stream << (c >= 0x20 && c < 0x7F ? c : '?');
+			}
+		}
+
+		stream << "\" }";
 		return stream.str();
 	}
 
@@ -610,6 +623,12 @@ struct D2WinMock
 	static BOOL __stdcall D2CMP_10055(D2GfxDataStrc* pData, int32_t a2, BOOL a3)
 	{
 		record("D2CMP_10055", D2WinCallLog::describe(pData), a2, a3);
+		// The loaded cell is only checked for null by D2Win
+		if (bLoadCellResult)
+		{
+			pData->pCurrentCell = reinterpret_cast<D2GfxCellStrc*>(pData);
+		}
+
 		return bLoadCellResult;
 	}
 

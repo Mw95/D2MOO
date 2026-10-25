@@ -8,9 +8,27 @@
 
 struct D2CellFileStrc;
 struct D2WinEditBoxStrc;
-struct D2WinControlInitStrc;
 struct D2WinControlStrc;
 struct SMSGHANDLER_PARAMS;
+
+#pragma pack(push, 1)
+struct D2WinControlInitStrc
+{
+	int nType;
+	int nX;
+	int nY;
+	int nWidth;
+	int nHeight;
+	int nParam;								// Text offset X, animation speed, border width, ... depending on nType
+	int nStringId;							// String id, or text offset Y / draw mode depending on nType
+	D2CellFileStrc** ppCellFile;
+	int(__stdcall* pfCallback)(SMSGHANDLER_PARAMS*);
+	void* pParam1;							// Type specific data (click rect, list items, font, ...)
+	void* pParam2;							// Type specific data (font for text controls, ...)
+	void* pParam3;							// Type specific data (control flags, ...)
+};
+#pragma pack(pop)
+
 
 extern POINT gMousePosition_6F8FE234;
 extern int32_t dword_6F8FE254;
