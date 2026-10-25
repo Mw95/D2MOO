@@ -320,11 +320,12 @@ public:
 		{
 			if (other_el != object_el)
 			{
+				// Unary plus so that (unsigned) char elements are printed as numbers
 				std::stringstream object_stream;
-				object_stream << object_el;
+				object_stream << +object_el;
 
 				std::stringstream other_stream;
-				other_stream << other_el;
+				other_stream << +other_el;
 
 				const auto difference_descriptor = DifferenceDescriptor{ DifferenceType::Field, field_name, object_stream.str(), other_stream.str() };
 

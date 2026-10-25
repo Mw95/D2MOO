@@ -3,6 +3,7 @@ add_library(TestDefinitions STATIC src/TestDefinitions.cpp)
 target_sources(TestDefinitions
   PRIVATE
     include/TestDefinitions.h
+    include/D2GfxTestDefinitions.h
     include/DynamicArray.h
     include/EqualityMacros.h
     include/RepetitionMacros.h
@@ -71,6 +72,11 @@ target_sources(TestDefinitions
     include/Fixtures/DataTbls/UniqueSuffixTxtFixture.h
     include/Fixtures/DataTbls/UniqueTitleTxtFixture.h
 
+    include/Fixtures/D2Gfx/D2GfxGlobalsFixture.h
+    include/Fixtures/D2Gfx/D2GfxOriginalDll.h
+    include/Fixtures/D2Gfx/D2GfxSoftwareRendererFixture.h
+    include/Fixtures/D2Gfx/D2GraphicsInterfaceMockFixture.h
+
     include/Fixtures/D2Lang/D2LangStringTblFixture.h
 
     include/Fixtures/UnitWithStatFlagsFixture.h
@@ -128,6 +134,9 @@ target_sources(TestDefinitions
     include/D2Common/D2TextVisitorDefinitions.h
     include/D2Common/D2WaypointsVisitorDefinitions.h
     
+    include/D2Gfx/CmnSubtileVisitorDefinitions.h
+    include/D2Gfx/D2GfxVisitorDefinitions.h
+
     include/D2Game/AI/AiGeneralVisitorDefinitions.h
     include/D2Game/AI/AiTacticsVisitorDefinitions.h
     include/D2Game/AI/AiUtilVisitorDefinitions.h
