@@ -73,6 +73,8 @@ target_sources(TestDefinitions
 
     include/Fixtures/D2Lang/D2LangStringTblFixture.h
 
+    include/Fixtures/D2Net/D2NetFogMockFixture.h
+
     include/Fixtures/UnitWithStatFlagsFixture.h
 
     include/D2CommonDefinitions/D2PacketDefVisitorDefinitions.h
@@ -192,6 +194,8 @@ target_sources(TestDefinitions
     include/D2Game/UNIT/SUnitNpcVisitorDefinitions.h
     include/D2Game/UNIT/SUnitProxyVisitorDefinitions.h
     include/D2Game/D2PacketVisitorDefinitions.h
+
+    include/D2Net/PacketVisitorDefinitions.h
 )
 target_include_directories(TestDefinitions PUBLIC include)
 target_link_libraries(TestDefinitions PRIVATE D2CommonDefinitions D2Common VisitorFramework)
