@@ -14,10 +14,12 @@
 #include <Storm/String.hpp>
 
 
+// Copy of the parameters given to D2MCPClientConnect, used by the connection thread
 //D2MCPClient.0x6FA02D08
 static D2MCPConnectInfoStrc gtMCPConnectInfo;
 //D2MCPClient.0x6FA02E54
 static HANDLE ghMCPConnectionThread;
+// Signaled when the answer to MCP_STARTUP is received
 //D2MCPClient.0x6FA03014
 static HANDLE ghMCPStartupEvent;
 //D2MCPClient.0x6FA02D00
@@ -40,6 +42,7 @@ static D2MCPGameInfoStrc gtMCPGameInfo;
 //D2MCPClient.0x6FA0301C
 static D2MCPCharListStrc* gpMCPCharList;
 
+// Strings of the last MCP_MSG_0E message
 //D2MCPClient.0x6FA02CDC
 static char gszMCPMsg0EString1[36];
 //D2MCPClient.0x6FA02FEC
@@ -79,6 +82,7 @@ static MCPLadderDataBeginCallback gpMCPLadderDataBeginCallback;
 //D2MCPClient.0x6FA02C68
 static MCPMotdCallback gpMCPMotdCallback;
 
+// Reassembly of the MCP_REQUESTLADDERDATA answer, which may be split in several messages
 //D2MCPClient.0x6F9FAC58
 // The original buffer is 0x8000 bytes, but the server may announce up to 0xFFFF bytes of data.
 static uint8_t gMCPLadderDataBuffer[UINT16_MAX + 1];
@@ -90,12 +94,16 @@ static int32_t gnMCPLadderDataReceivedSize;
 
 #pragma pack(push, 1)
 
+// Messages received from the server
+
+// Generic answer only containing a result, also used by MCP_CREATEQUEUE for the queue position
 struct D2MCPResultMsgStrc
 {
 	uint8_t nMessageId;		// 0x00
 	uint32_t nResult;		// 0x01
 };
 
+// MCP_CHARDELETE answer
 struct D2MCPRequestResultMsgStrc
 {
 	uint8_t nMessageId;		// 0x00
@@ -121,6 +129,7 @@ struct D2MCPJoinGameResponseMsgStrc
 	uint32_t nResult;		// 0x0F
 };
 
+// One game of the MCP_GAMELIST answer
 struct D2MCPGameListResponseMsgStrc
 {
 	uint8_t nMessageId;		// 0x00
@@ -146,6 +155,7 @@ struct D2MCPGameInfoResponseMsgStrc
 	char szStrings[1];			// 0x2F Game description, then the players names
 };
 
+// MCP_MSG_08/MCP_MSG_09 answers, forwarded to their callbacks
 struct D2MCPRequestDataMsgStrc
 {
 	uint8_t nMessageId;		// 0x00
@@ -162,16 +172,18 @@ struct D2MCPMsg10ResponseMsgStrc
 	uint32_t nResult;		// 0x0D
 };
 
+// One chunk of the MCP_REQUESTLADDERDATA answer. A message with all sizes set to 0 means there is no data.
 struct D2MCPLadderDataMsgStrc
 {
 	uint8_t nMessageId;			// 0x00
 	uint8_t nLadderType;		// 0x01
-	uint16_t nTotalSize;		// 0x02
-	uint16_t nChunkSize;		// 0x04
-	uint16_t nChunkOffset;		// 0x06
+	uint16_t nTotalSize;		// 0x02 Size of the whole answer
+	uint16_t nChunkSize;		// 0x04 Size of pData
+	uint16_t nChunkOffset;		// 0x06 Offset of pData in the whole answer
 	uint8_t pData[1];			// 0x08
 };
 
+// The reassembled ladder answer is made of blocks starting with this header, followed by nEntries entries of (12 + nNameSize) bytes
 struct D2MCPLadderDataHeaderStrc
 {
 	int32_t nStartingPosition;	// 0x00
@@ -195,6 +207,9 @@ using MCPConnectionMessageHandler = BOOL(__fastcall*)(const uint8_t* pMessage, u
 static DWORD __stdcall MCP_ConnectionThread(void* pParameter);
 
 
+// Connection
+
+
 //D2MCPClient.0x6F9F17D0 (#10000)
 HANDLE __stdcall D2MCPClientConnect(const D2MCPConnectInfoStrc* pConnectInfo)
 {
@@ -208,6 +223,8 @@ HANDLE __stdcall D2MCPClientConnect(const D2MCPConnectInfoStrc* pConnectInfo)
 	return ghMCPConnectionThread;
 }
 
+// Connects to the realm server and logs in with MCP_STARTUP.
+// Returns FALSE if the connection could not be established, otherwise TRUE with the outcome of MCP_STARTUP in the last error.
 //D2MCPClient.0x6F9F1810
 static DWORD __stdcall MCP_ConnectionThread(void* pParameter)
 {
@@ -241,7 +258,7 @@ static DWORD __stdcall MCP_ConnectionThread(void* pParameter)
 		return FALSE;
 	}
 
-	// Select the MCP protocol
+	// The first byte sent to the realm server selects the protocol, 1 being MCP
 	const uint8_t nProtocol = 1;
 	FOG_10071_ClientSendRaw(pConnection, &nProtocol, sizeof(nProtocol));
 
@@ -256,7 +273,7 @@ static DWORD __stdcall MCP_ConnectionThread(void* pParameter)
 		return TRUE;
 	}
 
-	// Wait for the server to answer to MCP_STARTUP, at most 60 seconds
+	// Wait for the server to answer to MCP_STARTUP (FROMMCP_Startup signals the event), at most 60 seconds or until disconnected
 	const DWORD nTimeout = GetTickCount() + 60000;
 	while (true)
 	{
@@ -353,6 +370,8 @@ HANDLE __cdecl D2MCPClientGetConnectionThread()
 }
 
 
+// Callbacks
+
 //D2MCPClient.0x6F9F1780 (#10011)
 void __fastcall D2MCPClientSetMsg08Callback(MCPRequestCallback pCallback)
 {
@@ -378,6 +397,8 @@ void __fastcall D2MCPClientSetMotdCallback(MCPMotdCallback pCallback)
 	gpMCPMotdCallback = pCallback;
 }
 
+
+// State accessors
 
 //D2MCPClient.0x6F9F1AB0 (#10046)
 uint32_t __cdecl D2MCPClientGetLastError()
@@ -644,13 +665,16 @@ void __stdcall D2MCPClientSetCharUpgradeReceived(BOOL bReceived)
 
 
 // Message handlers
+// They all receive the whole message (including its id). Only some of them validate it, returning FALSE if it is malformed.
 
+// Message 0x00
 //D2MCPClient.0x6F9F1010
 static BOOL __fastcall FROMMCP_Ignore(const uint8_t* pMessage, uint32_t nMessageSize)
 {
 	return TRUE;
 }
 
+// Called from the network thread, see MCP_DispatchConnectionMessage
 //D2MCPClient.0x6F9F1020
 static BOOL __fastcall FROMMCP_Startup(const uint8_t* pMessage, uint32_t nMessageSize)
 {
@@ -710,6 +734,7 @@ static BOOL __fastcall FROMMCP_JoinGame(const uint8_t* pMessage, uint32_t nMessa
 	return TRUE;
 }
 
+// The server sends one message per game matching the request
 //D2MCPClient.0x6F9F1140
 static BOOL __fastcall FROMMCP_GameList(const uint8_t* pMessage, uint32_t nMessageSize)
 {
@@ -863,6 +888,7 @@ static BOOL __fastcall FROMMCP_Msg0D(const uint8_t* pMessage, uint32_t nMessageS
 	return TRUE;
 }
 
+// Unsolicited message containing two strings
 //D2MCPClient.0x6F9F1430
 static BOOL __fastcall FROMMCP_Msg0E(const uint8_t* pMessage, uint32_t nMessageSize)
 {
@@ -880,6 +906,7 @@ static BOOL __fastcall FROMMCP_Msg0F(const uint8_t* pMessage, uint32_t nMessageS
 	return TRUE;
 }
 
+// Same as FROMMCP_JoinGame, without request id and also setting a "received" flag
 //D2MCPClient.0x6F9F14A0
 static BOOL __fastcall FROMMCP_Msg10(const uint8_t* pMessage, uint32_t nMessageSize)
 {
@@ -905,6 +932,7 @@ static BOOL __fastcall FROMMCP_Msg10(const uint8_t* pMessage, uint32_t nMessageS
 	return TRUE;
 }
 
+// Reassembles the ladder answer, then calls the ladder callback for each of its blocks
 //D2MCPClient.0x6F9F1520
 static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMessageSize)
 {
@@ -1012,6 +1040,7 @@ static BOOL __fastcall FROMMCP_Motd(const uint8_t* pMessage, uint32_t nMessageSi
 	return TRUE;
 }
 
+// Sent while waiting in the game creation queue
 //D2MCPClient.0x6F9F16C0
 static BOOL __fastcall FROMMCP_CreateQueue(const uint8_t* pMessage, uint32_t nMessageSize)
 {
@@ -1035,6 +1064,7 @@ static BOOL __fastcall FROMMCP_CharUpgrade(const uint8_t* pMessage, uint32_t nMe
 	return TRUE;
 }
 
+// Handlers of the messages polled by D2MCPClientProcessMessages
 //D2MCPClient.0x6F9F8040
 static const MCPMessageHandler gpMCPMessageHandlers[NUM_MCP_MESSAGES] = {
 	FROMMCP_Ignore,			// 0x00
@@ -1065,6 +1095,7 @@ static const MCPMessageHandler gpMCPMessageHandlers[NUM_MCP_MESSAGES] = {
 	FROMMCP_CharList,		// 0x19 MCP_CHARLIST2
 };
 
+// Handlers of the messages handled directly on the network thread
 //D2MCPClient.0x6F9F80A8
 static const MCPConnectionMessageHandler gpMCPConnectionMessageHandlers[NUM_MCP_MESSAGES] = {
 	nullptr,				// 0x00
