@@ -136,10 +136,10 @@ struct D2MCPGameInfoResponseMsgStrc
 	uint8_t nMessageId;			// 0x00
 	uint16_t nRequestId;		// 0x01
 	int32_t nStatus;			// 0x03
-	uint32_t dwUnk0x07;			// 0x07
+	uint32_t dwUptime;			// 0x07
 	uint8_t nUnk0x0B;			// 0x0B
 	uint8_t nUnk0x0C;			// 0x0C
-	uint8_t nUnk0x0D;			// 0x0D
+	uint8_t nMaxPlayers;		// 0x0D
 	uint8_t nPlayers;			// 0x0E
 	uint8_t nPlayerClass[16];	// 0x0F
 	uint8_t nPlayerLevel[16];	// 0x1F
@@ -167,16 +167,16 @@ struct D2MCPLadderDataMsgStrc
 	uint8_t nMessageId;			// 0x00
 	uint8_t nLadderType;		// 0x01
 	uint16_t nTotalSize;		// 0x02
-	uint16_t nCurrentSize;		// 0x04
-	uint16_t nReceivedSize;		// 0x06
+	uint16_t nChunkSize;		// 0x04
+	uint16_t nChunkOffset;		// 0x06
 	uint8_t pData[1];			// 0x08
 };
 
 struct D2MCPLadderDataHeaderStrc
 {
-	int32_t nUnk0;			// 0x00
-	int32_t nEntries;		// 0x04
-	int32_t nEntrySize;		// 0x08
+	int32_t nStartingPosition;	// 0x00
+	int32_t nEntries;			// 0x04
+	int32_t nNameSize;			// 0x08
 };
 
 struct D2MCPMotdMsgStrc
@@ -758,10 +758,10 @@ static BOOL __fastcall FROMMCP_GameInfo(const uint8_t* pMessage, uint32_t nMessa
 	gtMCPGameInfo.nRequestId = gnMCPPendingRequestId;
 	gtMCPGameInfo.nStatus = pMsg->nStatus;
 	gtMCPGameInfo.nPlayers = pMsg->nPlayers;
-	gtMCPGameInfo.dwUnk0x0C = pMsg->dwUnk0x07;
+	gtMCPGameInfo.dwUptime = pMsg->dwUptime;
 	gtMCPGameInfo.nUnk0x10 = pMsg->nUnk0x0B;
 	gtMCPGameInfo.nUnk0x11 = pMsg->nUnk0x0C;
-	gtMCPGameInfo.nUnk0x12 = pMsg->nUnk0x0D;
+	gtMCPGameInfo.nMaxPlayers = pMsg->nMaxPlayers;
 
 	if (pMsg->nStatus == -1)
 	{
@@ -914,7 +914,7 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 	}
 
 	const D2MCPLadderDataMsgStrc* pMsg = (const D2MCPLadderDataMsgStrc*)pMessage;
-	if (!pMsg->nTotalSize && !pMsg->nCurrentSize && !pMsg->nReceivedSize)
+	if (!pMsg->nTotalSize && !pMsg->nChunkSize && !pMsg->nChunkOffset)
 	{
 		// The original game calls the callback without checking it first
 		if (gpMCPLadderDataCallback)
@@ -933,21 +933,21 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 	}
 
 	// The original game does not check that the chunk is actually part of the message, and would read past the receive buffer
-	if (pMsg->nCurrentSize > nMessageSize - offsetof(D2MCPLadderDataMsgStrc, pData))
+	if (pMsg->nChunkSize > nMessageSize - offsetof(D2MCPLadderDataMsgStrc, pData))
 	{
 		return FALSE;
 	}
 
 	gnMCPLadderDataTotalSize = pMsg->nTotalSize;
-	gnMCPLadderDataReceivedSize = pMsg->nReceivedSize;
+	gnMCPLadderDataReceivedSize = pMsg->nChunkOffset;
 
-	const int32_t nReceivedSize = pMsg->nCurrentSize + pMsg->nReceivedSize;
+	const int32_t nReceivedSize = pMsg->nChunkSize + pMsg->nChunkOffset;
 	if (nReceivedSize > gnMCPLadderDataTotalSize)
 	{
 		return FALSE;
 	}
 
-	std::memcpy(&gMCPLadderDataBuffer[pMsg->nReceivedSize], pMsg->pData, pMsg->nCurrentSize);
+	std::memcpy(&gMCPLadderDataBuffer[pMsg->nChunkOffset], pMsg->pData, pMsg->nChunkSize);
 	gnMCPLadderDataReceivedSize = nReceivedSize;
 	if (nReceivedSize < gnMCPLadderDataTotalSize)
 	{
@@ -969,14 +969,14 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 		pData += sizeof(D2MCPLadderDataHeaderStrc);
 		gnMCPLadderDataTotalSize -= sizeof(D2MCPLadderDataHeaderStrc);
 
-		if (pHeader->nEntries < 0 || pHeader->nEntrySize < 0
-			|| pHeader->nEntries > 256 || pHeader->nEntrySize > 16
-			|| pHeader->nUnk0 > 2000)
+		if (pHeader->nEntries < 0 || pHeader->nNameSize < 0
+			|| pHeader->nEntries > 256 || pHeader->nNameSize > 16
+			|| pHeader->nStartingPosition > 2000)
 		{
 			break;
 		}
 
-		const int32_t nEntriesSize = (pHeader->nEntrySize + 12) * pHeader->nEntries;
+		const int32_t nEntriesSize = (pHeader->nNameSize + 12) * pHeader->nEntries;
 		if (nEntriesSize > gnMCPLadderDataTotalSize)
 		{
 			break;
@@ -984,7 +984,7 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 
 		if (gpMCPLadderDataCallback)
 		{
-			gpMCPLadderDataCallback(pHeader->nUnk0, pHeader->nEntries, pHeader->nEntrySize, pMsg->nLadderType, pData);
+			gpMCPLadderDataCallback(pHeader->nStartingPosition, pHeader->nEntries, pHeader->nNameSize, pMsg->nLadderType, pData);
 		}
 
 		pData += nEntriesSize;
