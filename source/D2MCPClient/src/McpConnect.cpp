@@ -450,34 +450,46 @@ void __stdcall D2MCPClientSetCharacterList(const uint8_t* pMessage, uint32_t nMe
 	gpMCPCharList = (D2MCPCharListStrc*)D2_ALLOC(nMessageSize);
 	std::memcpy(gpMCPCharList, pMessage, nMessageSize);
 
-	D2MCPCharListStrc* pMcp = gpMCPCharList;
+	// The data comes from the server, so the original asserts are only verified (D2_ASSERT is an optimization hint in release builds).
+	// The original game also does not check that the message is large enough before reading the header.
+	if (nMessageSize < sizeof(D2MCPCharListStrc))
+	{
+		return;
+	}
+
+	const D2MCPCharListStrc* pMcp = gpMCPCharList;
 	if (pMessage[0] == MCP_CHARLIST)
 	{
-		D2_ASSERT(pMcp->count < 256);
-		D2_ASSERT(pMcp->firstChar < 256);
-		D2_ASSERT(pMcp->totalChars < 256);
-		D2_ASSERT(pMcp->maxCharsAllowed < 256);
+		D2_VERIFY(pMcp->count < 256);
+		D2_VERIFY(pMcp->firstChar < 256);
+		D2_VERIFY(pMcp->totalChars < 256);
+		D2_VERIFY(pMcp->maxCharsAllowed < 256);
 	}
 	else if (pMessage[0] == MCP_CHARLIST2)
 	{
-		D2_ASSERT(pMcp->count < 256);
-		D2_ASSERT(pMcp->firstChar < 256);
-		D2_ASSERT(pMcp->totalChars < 256);
-		D2_ASSERT(pMcp->maxCharsAllowed < 256);
+		D2_VERIFY(pMcp->count < 256);
+		D2_VERIFY(pMcp->firstChar < 256);
+		D2_VERIFY(pMcp->totalChars < 256);
+		D2_VERIFY(pMcp->maxCharsAllowed < 256);
 
 		// Entries are a DWORD followed by the character name and its stats string.
-		// The original game walks them without using the result.
+		// The original game walks them without using the result, and without stopping at the end of the message.
 		const char* pEntry = (const char*)pMcp + sizeof(D2MCPCharListStrc);
-		for (int i = 0; i < pMcp->maxCharsAllowed; ++i)
+		const char* pEnd = (const char*)pMcp + nMessageSize;
+		for (int i = 0; i < pMcp->maxCharsAllowed && pEntry + sizeof(uint32_t) < pEnd; ++i)
 		{
 			pEntry += sizeof(uint32_t);
-			pEntry += strlen(pEntry) + 1;
-			pEntry += strlen(pEntry) + 1;
+			pEntry += strnlen(pEntry, pEnd - pEntry) + 1;
+			if (pEntry >= pEnd)
+			{
+				break;
+			}
+			pEntry += strnlen(pEntry, pEnd - pEntry) + 1;
 		}
 	}
 	else
 	{
-		D2_ASSERT(!"Bad verb in McpClientSetCharacterList");
+		D2_VERIFY(!"Bad verb in McpClientSetCharacterList");
 	}
 }
 
@@ -920,6 +932,12 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 		return FALSE;
 	}
 
+	// The original game does not check that the chunk is actually part of the message, and would read past the receive buffer
+	if (pMsg->nCurrentSize > nMessageSize - offsetof(D2MCPLadderDataMsgStrc, pData))
+	{
+		return FALSE;
+	}
+
 	gnMCPLadderDataTotalSize = pMsg->nTotalSize;
 	gnMCPLadderDataReceivedSize = pMsg->nReceivedSize;
 
@@ -942,8 +960,10 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 		gpMCPLadderDataBeginCallback();
 	}
 
+	// The original game uses a do/while loop testing gnMCPLadderDataTotalSize > 0, which reads a partial header past the end of the data
+	// when less than sizeof(D2MCPLadderDataHeaderStrc) bytes remain (the following checks would always fail and end the loop anyway).
 	const uint8_t* pData = gMCPLadderDataBuffer;
-	do
+	while (gnMCPLadderDataTotalSize >= (int32_t)sizeof(D2MCPLadderDataHeaderStrc))
 	{
 		const D2MCPLadderDataHeaderStrc* pHeader = (const D2MCPLadderDataHeaderStrc*)pData;
 		pData += sizeof(D2MCPLadderDataHeaderStrc);
@@ -970,7 +990,6 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 		pData += nEntriesSize;
 		gnMCPLadderDataTotalSize -= nEntriesSize;
 	}
-	while (gnMCPLadderDataTotalSize > 0);
 
 	gnMCPLadderDataTotalSize = 0;
 	return TRUE;
