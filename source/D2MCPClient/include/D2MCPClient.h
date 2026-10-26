@@ -92,10 +92,10 @@ struct D2MCPGameInfoStrc				// sizeof 0x18C
 	uint16_t nRequestId;				// 0x04
 	uint16_t pad0x06;					// 0x06
 	uint32_t dwIndex;					// 0x08
-	uint32_t dwUnk0x0C;					// 0x0C
+	uint32_t dwUptime;					// 0x0C
 	uint8_t nUnk0x10;					// 0x10
 	uint8_t nUnk0x11;					// 0x11
-	uint8_t nUnk0x12;					// 0x12
+	uint8_t nMaxPlayers;				// 0x12
 	uint8_t pad0x13;					// 0x13
 	uint32_t nPlayers;					// 0x14
 	int32_t nStatus;					// 0x18
@@ -120,7 +120,7 @@ struct D2MCPCharListStrc
 #pragma pack(pop)
 
 using MCPRequestCallback = void(__fastcall*)(uint16_t nRequestId, const uint8_t* pData);
-using MCPLadderDataCallback = void(__fastcall*)(int32_t nUnk0, int32_t nEntries, int32_t nEntrySize, uint8_t nLadderType, const uint8_t* pEntries);
+using MCPLadderDataCallback = void(__fastcall*)(int32_t nStartingPosition, int32_t nEntries, int32_t nNameSize, uint8_t nLadderType, const uint8_t* pEntries);
 using MCPLadderDataBeginCallback = void(__fastcall*)();
 using MCPMotdCallback = void(__fastcall*)(uint8_t nUnk, uint32_t nSize, const uint8_t* pData);
 
