@@ -493,6 +493,7 @@ BOOL __stdcall D2MCPClientGetMsg0EStrings(char* szString1, char* szString2)
 //D2MCPClient.0x6F9F1BC0 (#10039)
 void __stdcall D2MCPClientSetMsg0EStrings(BOOL bReceived, const char* szString1, const char* szString2)
 {
+	// The original game uses an unbounded strcpy here
 	SStrCopy(gszMCPMsg0EString1, szString1, sizeof(gszMCPMsg0EString1));
 	SStrCopy(gszMCPMsg0EString2, szString2, sizeof(gszMCPMsg0EString2));
 	gbMCPMsg0EReceived = bReceived;
@@ -727,6 +728,7 @@ static BOOL __fastcall FROMMCP_GameList(const uint8_t* pMessage, uint32_t nMessa
 	const char* szGameName = pMsg->szStrings;
 	const char* szGameDescription = szGameName + strlen(szGameName) + 1;
 	const char* pEnd = szGameDescription + strlen(szGameDescription) + 1;
+	// The original game uses unbounded strcpy calls here
 	SStrCopy(gtMCPGameInfo.szGameName, szGameName, sizeof(gtMCPGameInfo.szGameName));
 	SStrCopy(gtMCPGameInfo.szGameDescription, szGameDescription, sizeof(gtMCPGameInfo.szGameDescription));
 	gtMCPGameInfo.bMoreData = (uint32_t)(pEnd - (const char*)pMessage) < nMessageSize;
@@ -762,6 +764,7 @@ static BOOL __fastcall FROMMCP_GameInfo(const uint8_t* pMessage, uint32_t nMessa
 		return TRUE;
 	}
 
+	// The original game uses unbounded strcpy calls for all the strings of this message
 	const char* szString = pMsg->szStrings;
 	SStrCopy(gtMCPGameInfo.szGameDescription, szString, sizeof(gtMCPGameInfo.szGameDescription));
 	szString += strlen(szString) + 1;
@@ -902,6 +905,7 @@ static BOOL __fastcall FROMMCP_LadderData(const uint8_t* pMessage, uint32_t nMes
 	const D2MCPLadderDataMsgStrc* pMsg = (const D2MCPLadderDataMsgStrc*)pMessage;
 	if (!pMsg->nTotalSize && !pMsg->nCurrentSize && !pMsg->nReceivedSize)
 	{
+		// The original game calls the callback without checking it first
 		if (gpMCPLadderDataCallback)
 		{
 			gpMCPLadderDataCallback(0, 0, 0, 0, nullptr);
