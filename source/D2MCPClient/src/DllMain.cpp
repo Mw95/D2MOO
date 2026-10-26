@@ -2,6 +2,7 @@
 
 
 // NOLINTBEGIN(bugprone-branch-clone)
+//D2MCPClient.0x6F9F1000
 BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	switch (fdwReason)
