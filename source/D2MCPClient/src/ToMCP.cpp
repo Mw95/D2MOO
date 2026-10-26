@@ -14,6 +14,9 @@
 #include <Storm/String.hpp>
 
 
+// Messages sent to the server.
+// Strings are packed one after the other at the end of the message, which is only sent up to the last string terminator.
+
 #pragma pack(push, 1)
 
 struct D2MCPStartupMsgStrc
@@ -53,6 +56,7 @@ struct D2MCPGameListMsgStrc
 	char szStrings[MCP_MESSAGE_BUFFER_SIZE];	// 0x07
 };
 
+// Used by MCP_JOINGAME, MCP_GAMEINFO, MCP_MSG_08, MCP_MSG_09 and MCP_CHARDELETE
 struct D2MCPRequestStringsMsgStrc
 {
 	uint8_t nMessageId;							// 0x00
@@ -60,6 +64,7 @@ struct D2MCPRequestStringsMsgStrc
 	char szStrings[MCP_MESSAGE_BUFFER_SIZE];	// 0x03
 };
 
+// Used by MCP_CHARLOGON, MCP_MSG_0B, MCP_MSG_0C and MCP_CHARUPGRADE
 struct D2MCPStringsMsgStrc
 {
 	uint8_t nMessageId;							// 0x00
@@ -76,7 +81,7 @@ struct D2MCPLadderDataRequestMsgStrc
 struct D2MCPCharListRequestMsgStrc
 {
 	uint8_t nMessageId;							// 0x00
-	uint32_t nCharacters;						// 0x01
+	uint32_t nCharacters;						// 0x01 Maximum number of characters to list
 };
 
 struct D2MCPCharRankMsgStrc
@@ -99,6 +104,7 @@ static void TOMCP_PackString(char* pStrings, const char* szString, uint32_t* lpd
 	std::memcpy(&pStrings[*lpdwSize - nLength], szString, nLength);
 }
 
+// Helpers factorizing the original code, which inlines them in every function
 static BOOL TOMCP_Send(const void* pMessage, uint32_t dwSize)
 {
 	return FOG_10070_ClientSendMessage(gpMCPConnection, pMessage, dwSize);
@@ -129,6 +135,7 @@ BOOL __fastcall TOMCP_Startup(const D2MCPConnectInfoStrc* pConnectInfo)
 	return TOMCP_Send(&tMsg, dwSize);
 }
 
+// Also resets the "char create received" flag
 //D2MCPClient.0x6F9F2020
 static BOOL __fastcall TOMCP_CharCreate(const char* szCharName, uint32_t nClass, uint16_t nFlags)
 {
@@ -174,6 +181,7 @@ BOOL __stdcall D2MCPClientCharLogon(const char* szCharName)
 	return TOMCP_CharLogon(szCharName);
 }
 
+// Also resets the game token, set again by FROMMCP_CreateGame
 //D2MCPClient.0x6F9F2180 (#10004)
 BOOL __fastcall D2MCPClientCreateGame(const D2MCPCreateGameInfoStrc* pCreateGameInfo, uint16_t nRequestId)
 {
@@ -250,6 +258,7 @@ BOOL __fastcall D2MCPClientRequestGameInfo(const char* szGameName, uint16_t nReq
 	return TOMCP_Send(&tMsg, dwSize);
 }
 
+// Sends a message containing a request id and a string. Contrary to other requests, the pending request id is set last.
 static BOOL TOMCP_SendRequestString(uint8_t nMessageId, const char* szString, uint16_t nRequestId)
 {
 	D2MCPClientSetLastError(MCPCLIENT_ERROR_NONE);
@@ -279,6 +288,7 @@ BOOL __fastcall D2MCPClientSendMsg09(const char* szString, uint16_t nRequestId)
 	return TOMCP_SendRequestString(MCP_MSG_09, szString, nRequestId);
 }
 
+// Contrary to other requests, the name is copied with SStrCopy, without assert on the size
 //D2MCPClient.0x6F9F2680 (#10021)
 BOOL __fastcall D2MCPClientCharDelete(const char* szCharName, uint16_t nRequestId)
 {
@@ -365,6 +375,7 @@ BOOL __fastcall D2MCPClientCancelGameCreate()
 	return TOMCP_SendMessageId(MCP_CANCELGAMECREATE);
 }
 
+// Requests the character list with MCP_CHARLIST2, for up to 8 characters
 //D2MCPClient.0x6F9F29F0 (#10056)
 BOOL __fastcall D2MCPClientRequestCharList()
 {
@@ -393,6 +404,7 @@ BOOL __fastcall D2MCPClientCharRank(const char* szCharName, uint32_t dwUnk1, uin
 	return TOMCP_Send(&tMsg, dwSize);
 }
 
+// Converts a classic character to expansion. The name is copied with SStrCopy, without assert on the size.
 //D2MCPClient.0x6F9F26E0 (#10062)
 BOOL __fastcall D2MCPClientCharUpgrade(const char* szCharName)
 {
