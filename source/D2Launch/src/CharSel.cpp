@@ -24,7 +24,6 @@
 #include "SaveLoad.h"
 
 
-constexpr int32_t CHARSEL_MAX_VISIBLE_SLOTS = 8;
 
 //D2Launch.0x6FA3B880
 D2WinControlStrc* sgpRealmSelectOkButton;

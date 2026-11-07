@@ -11,7 +11,7 @@
 #include <ComCallback.h>
 
 #include "D2MultiTestFixtures.h"
-#include "D2MultiWinMocks.h"
+#include <D2WinRecorder.h>
 
 
 extern D2MultiChannelUserStrc* gpChannelUsers_6F9C2B1C;

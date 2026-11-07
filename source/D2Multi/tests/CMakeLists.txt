@@ -4,7 +4,6 @@
 add_executable(D2MultiTests
   D2MultiTests.cpp
   D2MultiTestFixtures.h
-  D2MultiWinMocks.h
 )
 
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")

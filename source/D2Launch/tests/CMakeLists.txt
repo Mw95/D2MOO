@@ -9,6 +9,7 @@ add_executable(D2LaunchTests
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
   target_sources(D2LaunchTests
     PRIVATE
+      D2LaunchCharListTests.cpp
       D2LaunchCharSelTests.cpp
       D2LaunchDataTests.cpp
       D2LaunchFilterTests.cpp

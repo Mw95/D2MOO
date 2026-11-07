@@ -1,5 +1,6 @@
 add_library(TestUtilities STATIC 
   include/D2LangStringMocks.h
+  include/D2WinRecorder.h
   include/BigUnsigned.h
   include/FogEncodingMocks.h
   include/FogMemoryMocks.h

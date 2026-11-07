@@ -8,6 +8,9 @@
 
 struct SMSGHANDLER_PARAMS;
 
+// Maximum number of character slots shown on the selection screen
+constexpr int32_t CHARSEL_MAX_VISIBLE_SLOTS = 8;
+
 enum D2CharSelNodeType
 {
 	CHARSELNODE_CHARACTER = 0,		// eCharacter

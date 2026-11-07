@@ -14,10 +14,12 @@
 #include <D2WinMain.h>
 #include <D2WinTextBox.h>
 
-#include <ImportHooks.h>
+#include <D2WinImage.h>
+
+#include "ImportHooks.h"
 
 
-// Recording replacements of the D2Win functions used by the D2Multi user interface.
+// Recording replacements of the D2Win functions used by the D2Launch and D2Multi user interfaces.
 // Composite units are fake objects, and every call is logged as text with the units and controls replaced by names,
 // so that the logs of both implementations can be compared.
 struct D2WinRecorder
@@ -230,6 +232,49 @@ struct D2WinRecorder
 		log.push_back("SetEnabled " + name(pControl) + " " + std::to_string(bEnabled));
 	}
 
+	// D2Win.#10143
+	static BOOL __fastcall SetMode(D2CompositeUnitStrc* pUnit, int nMode)
+	{
+		log.push_back("SetMode " + name(pUnit) + " " + std::to_string(nMode));
+		unit(pUnit)->nMode = nMode;
+		return TRUE;
+	}
+
+	// D2Win.#10161
+	static const char* __stdcall GetTitle(int a1, int a2, int a3, BOOL bSoftCore)
+	{
+		static std::string szTitle;
+		szTitle = "Title" + std::to_string(a1) + "/" + std::to_string(a2) + "/" + std::to_string(a3) + "/" + std::to_string(bSoftCore);
+		return szTitle.c_str();
+	}
+
+	// D2Win.#10027
+	static void __fastcall SetVisible(D2WinControlStrc* pControl, int bVisible)
+	{
+		log.push_back("SetVisible " + name(pControl) + " " + std::to_string(bVisible));
+	}
+
+	// D2Win.#10087
+	static int32_t __stdcall SetImageCoordinates(D2WinImageStrc* pImage, int32_t nX, int32_t nY)
+	{
+		log.push_back("SetImageCoordinates " + name(pImage) + " " + std::to_string(nX) + " " + std::to_string(nY));
+		return 1;
+	}
+
+	// D2Win.#10046
+	static BOOL __fastcall AddText(D2WinTextBoxStrc* pTextBox, const char* szText, int32_t nColor)
+	{
+		log.push_back("AddText " + name(pTextBox) + " [" + std::string(szText ? szText : "(null)") + "] " + std::to_string(nColor));
+		return TRUE;
+	}
+
+	// D2Win.#10062
+	static BOOL __fastcall SetLineGaps(D2WinTextBoxStrc* pTextBox, int32_t nWrappedLineGap, int32_t nLineGap)
+	{
+		log.push_back("SetLineGaps " + name(pTextBox) + " " + std::to_string(nWrappedLineGap) + " " + std::to_string(nLineGap));
+		return TRUE;
+	}
+
 	// D2Win.#10047
 	static BOOL __fastcall ClearText(D2WinTextBoxStrc* pTextBox)
 	{
@@ -273,5 +318,11 @@ inline void hook_d2win_recorder(ImportHooks& hooks)
 	hook(10047, reinterpret_cast<void*>(&D2Win_10047), reinterpret_cast<const void*>(&D2WinRecorder::ClearText));
 	hook(10051, reinterpret_cast<void*>(&D2Win_10051), reinterpret_cast<const void*>(&D2WinRecorder::AddLine));
 	hook(10077, reinterpret_cast<void*>(&D2Win_10077_EDITBOX_GetText), reinterpret_cast<const void*>(&D2WinRecorder::GetEditBoxText));
+	hook(10143, reinterpret_cast<void*>(&D2Win_10143), reinterpret_cast<const void*>(&D2WinRecorder::SetMode));
+	hook(10161, reinterpret_cast<void*>(&D2Win_10161), reinterpret_cast<const void*>(&D2WinRecorder::GetTitle));
+	hook(10027, reinterpret_cast<void*>(&CONTROL_SetVisible), reinterpret_cast<const void*>(&D2WinRecorder::SetVisible));
+	hook(10087, reinterpret_cast<void*>(&IMAGE_SetCoordinates), reinterpret_cast<const void*>(&D2WinRecorder::SetImageCoordinates));
+	hook(10046, reinterpret_cast<void*>(&D2Win_10046), reinterpret_cast<const void*>(&D2WinRecorder::AddText));
+	hook(10062, reinterpret_cast<void*>(&D2Win_10062), reinterpret_cast<const void*>(&D2WinRecorder::SetLineGaps));
 	D2WinRecorder::reset();
 }
