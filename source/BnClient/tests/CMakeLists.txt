@@ -10,6 +10,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
   target_sources(BnclientTests
     PRIVATE
       BnclientCryptoTests.cpp
+      BnclientMessQueueTests.cpp
   )
 endif()
 

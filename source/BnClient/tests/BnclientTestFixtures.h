@@ -13,6 +13,8 @@
 #include <NoOpFixture.h>
 #include <StormMocks.h>
 
+#include <BnMessQueue.h>
+
 
 //1.10f Image base: 0x6FF00000
 constexpr uintptr_t BnclientImageBase = 0x6FF00000;
@@ -50,6 +52,17 @@ auto make_bnclient_pair(Function& function, uintptr_t nAddress)
 	return make_function_pair(function, original_bnclient_address(nAddress));
 }
 
+// The D2MOO implementation is linked into the test executable, so its DllMain is not called
+inline void initialize_moo_bnclient()
+{
+	static const bool bInitialized = []()
+	{
+		BNMESSQUEUE_Initialize();
+		return true;
+	}();
+	(void)bInitialized;
+}
+
 // Replaces the Storm and Fog memory functions, which are only stubs in D2MOO
 template<class Fixture>
 struct BnclientStormFixture : Fixture
@@ -58,6 +71,7 @@ struct BnclientStormFixture : Fixture
 
 	BnclientStormFixture()
 	{
+		initialize_moo_bnclient();
 		hook_storm_mocks(hooks);
 		hook_fog_memory_mocks(hooks);
 	}
