@@ -9,6 +9,7 @@
 #include <deque>
 #include <filesystem>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 #include <Windows.h>
@@ -174,6 +175,8 @@ struct McpFogMock
 	{
 		FClientConnection* pConnection;
 		std::vector<uint8_t> data;
+
+		bool operator==(const SentMessage& other) const { return pConnection == other.pConnection && data == other.data; }
 	};
 
 	static inline std::vector<SentMessage> sent;
@@ -182,10 +185,96 @@ struct McpFogMock
 	static inline std::vector<FClientConnection*> receive_connections;
 	static inline std::vector<ULONG> inet_ntoa_calls;
 
+	// Connection management, used by the connection thread of D2MCPClientConnect
+	struct CreateCall
+	{
+		std::string szIpAddress;
+		int nPort;
+		std::string szName;
+
+		bool operator==(const CreateCall& other) const { return szIpAddress == other.szIpAddress && nPort == other.nPort && szName == other.szName; }
+	};
+
+	static inline FClientConnection* const pMockConnection = reinterpret_cast<FClientConnection*>(0x0BADC0DE);
+	static inline FSafeSock tMockSafeSock = {};
+	static inline std::vector<CreateCall> create_calls;
+	static inline std::vector<FClientConnection*> close_calls;
+	static inline std::vector<FClientConnection*> destroy_calls;
+	static inline std::vector<FClientConnection*> start_calls;
+	static inline std::vector<SentMessage> sent_raw;
+	static inline FClientConnectionMessageCallback pMessageCallback = nullptr;
+	static inline void* pMessageCallbackUserData = nullptr;
+	// Returned by ClientGetSafeSock, nullptr when the connection failed
+	static inline FSafeSock* pSafeSock = nullptr;
+	static inline DWORD nFogError = 0;
+	static inline BOOL bPeerNameResult = TRUE;
+	// When set, MCP_STARTUP is answered right away with this result through the message callback
+	static inline bool bAnswerStartup = false;
+	static inline uint32_t nStartupResult = 0;
+
+	static FClientConnection* __stdcall ClientCreate(const char* szIpAddress, int nPort, const char* szName)
+	{
+		create_calls.push_back({ szIpAddress ? szIpAddress : "", nPort, szName ? szName : "" });
+		return pMockConnection;
+	}
+
+	static void __stdcall ClientClose(FClientConnection* pConnection)
+	{
+		close_calls.push_back(pConnection);
+	}
+
+	static void __stdcall ClientDestroy(FClientConnection* pConnection)
+	{
+		destroy_calls.push_back(pConnection);
+	}
+
+	static void __stdcall ClientStart(FClientConnection* pConnection)
+	{
+		start_calls.push_back(pConnection);
+	}
+
+	static void __stdcall ClientSetMessageCallback(FClientConnection* pConnection, FClientConnectionMessageCallback pCallback, void* pUserData)
+	{
+		pMessageCallback = pCallback;
+		pMessageCallbackUserData = pUserData;
+	}
+
+	static FSafeSock* __stdcall ClientGetSafeSock(FClientConnection* pConnection)
+	{
+		return pConnection ? pSafeSock : nullptr;
+	}
+
+	static BOOL __fastcall SocketGetError(FSafeSock* pSock, DWORD* pFogError, int* pWSALastError)
+	{
+		*pFogError = nFogError;
+		*pWSALastError = nFogError ? 10061 : 0;
+		return TRUE;
+	}
+
+	static BOOL __fastcall SocketGetPeerName(FSafeSock* pSock, struct sockaddr* pName, int* pNameLength)
+	{
+		return bPeerNameResult;
+	}
+
+	static BOOL __stdcall ClientSendRaw(FClientConnection* pConnection, const void* pData, uint32_t nDataSize)
+	{
+		const auto pBytes = static_cast<const uint8_t*>(pData);
+		sent_raw.push_back({ pConnection, std::vector<uint8_t>(pBytes, pBytes + nDataSize) });
+		return TRUE;
+	}
+
 	static BOOL __stdcall ClientSendMessage(FClientConnection* pConnection, const void* pMessage, uint32_t nMessageSize)
 	{
 		const auto pBytes = static_cast<const uint8_t*>(pMessage);
 		sent.push_back({ pConnection, std::vector<uint8_t>(pBytes, pBytes + nMessageSize) });
+
+		if (bAnswerStartup && nMessageSize && pBytes[0] == MCP_STARTUP && pMessageCallback)
+		{
+			uint8_t answer[5] = { MCP_STARTUP };
+			std::memcpy(&answer[1], &nStartupResult, sizeof(nStartupResult));
+			pMessageCallback(answer, sizeof(answer), pMessageCallbackUserData);
+		}
+
 		return send_result;
 	}
 
@@ -256,6 +345,18 @@ struct McpFogMock
 		receive_queue.clear();
 		receive_connections.clear();
 		inet_ntoa_calls.clear();
+		create_calls.clear();
+		close_calls.clear();
+		destroy_calls.clear();
+		start_calls.clear();
+		sent_raw.clear();
+		pMessageCallback = nullptr;
+		pMessageCallbackUserData = nullptr;
+		pSafeSock = nullptr;
+		nFogError = 0;
+		bPeerNameResult = TRUE;
+		bAnswerStartup = false;
+		nStartupResult = 0;
 	}
 };
 
@@ -267,10 +368,19 @@ struct McpFogFixture : Fixture
 
 	McpFogFixture()
 	{
-		fog_hooks.reserve(16);
+		fog_hooks.reserve(32);
 		hook(10070, reinterpret_cast<void*>(&FOG_10070_ClientSendMessage), reinterpret_cast<const void*>(&McpFogMock::ClientSendMessage));
 		hook(10072, reinterpret_cast<void*>(&FOG_10072_ClientReceive), reinterpret_cast<const void*>(&McpFogMock::ClientReceive));
 		hook(10014, reinterpret_cast<void*>(&FOG_inet_ntoa), reinterpret_cast<const void*>(&McpFogMock::inet_ntoa));
+		hook(10012, reinterpret_cast<void*>(&FOG_SOCKET_GetPeerName), reinterpret_cast<const void*>(&McpFogMock::SocketGetPeerName));
+		hook(10016, reinterpret_cast<void*>(&FOG_SOCKET_GetError), reinterpret_cast<const void*>(&McpFogMock::SocketGetError));
+		hook(10068, reinterpret_cast<void*>(&FOG_10068_ClientCreate), reinterpret_cast<const void*>(&McpFogMock::ClientCreate));
+		hook(10069, reinterpret_cast<void*>(&FOG_10069_ClientClose), reinterpret_cast<const void*>(&McpFogMock::ClientClose));
+		hook(10071, reinterpret_cast<void*>(&FOG_10071_ClientSendRaw), reinterpret_cast<const void*>(&McpFogMock::ClientSendRaw));
+		hook(10073, reinterpret_cast<void*>(&FOG_10073_ClientStart), reinterpret_cast<const void*>(&McpFogMock::ClientStart));
+		hook(10075, reinterpret_cast<void*>(&FOG_10075_ClientDestroy), reinterpret_cast<const void*>(&McpFogMock::ClientDestroy));
+		hook(10077, reinterpret_cast<void*>(&FOG_10077_ClientSetMessageCallback), reinterpret_cast<const void*>(&McpFogMock::ClientSetMessageCallback));
+		hook(10079, reinterpret_cast<void*>(&FOG_10079_ClientGetSafeSock), reinterpret_cast<const void*>(&McpFogMock::ClientGetSafeSock));
 		// Memory is allocated by one implementation and may be freed by the other one
 		hook(10042, reinterpret_cast<void*>(&FOG_Alloc), reinterpret_cast<const void*>(&McpFogMock::Alloc));
 		hook(10043, reinterpret_cast<void*>(&FOG_Free), reinterpret_cast<const void*>(&McpFogMock::Free));
