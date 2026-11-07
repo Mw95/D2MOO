@@ -17,13 +17,12 @@
 #include <StormMocks.h>
 
 #include <D2Lang.h>
+#include <D2Launch.h>
 #include <D2Unicode.h>
 #include <Fog.h>
 #include <D2WinEditBox.h>
 
 
-//1.10f Image base: 0x6FA10000
-constexpr uintptr_t D2LaunchImageBase = 0x6FA10000;
 
 inline HMODULE get_original_d2launch()
 {
