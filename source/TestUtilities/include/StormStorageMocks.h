@@ -34,6 +34,9 @@ struct StormStorageMock
 	static inline std::map<std::string, std::vector<uint8_t>> files;
 	// Every write and deletion, in order
 	static inline std::vector<RegistryWrite> registry_writes;
+	// Every file name passed to SFileLoadFile, in order
+	static inline std::vector<std::string> file_requests;
+	static inline size_t nUnloadedFiles = 0;
 
 	static std::string lowercase(std::string szString)
 	{
@@ -158,6 +161,7 @@ struct StormStorageMock
 	// Storm.#279, the buffer is followed by nExtraBytes + 1 zeroes
 	static BOOL __stdcall SFileLoadFile(const char* szFileName, void** ppBuffer, uint32_t* pSize, uint32_t nExtraBytes, LPOVERLAPPED lpOverlapped)
 	{
+		file_requests.emplace_back(szFileName);
 		*ppBuffer = nullptr;
 		if (pSize)
 		{
@@ -184,6 +188,7 @@ struct StormStorageMock
 	static BOOL __stdcall SFileUnloadFile(void* buffer)
 	{
 		std::free(buffer);
+		++nUnloadedFiles;
 		return TRUE;
 	}
 
@@ -192,6 +197,8 @@ struct StormStorageMock
 		registry.clear();
 		files.clear();
 		registry_writes.clear();
+		file_requests.clear();
+		nUnloadedFiles = 0;
 	}
 };
 
