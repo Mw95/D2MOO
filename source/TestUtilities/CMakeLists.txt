@@ -1,5 +1,6 @@
 add_library(TestUtilities STATIC 
   include/D2LangStringMocks.h
+  include/BigUnsigned.h
   include/FogEncodingMocks.h
   include/FogMemoryMocks.h
   include/FunctionPair.h
@@ -10,6 +11,7 @@ add_library(TestUtilities STATIC
   include/NoOpFixture.h
   include/RandomUnsignedInteger.h
   include/ReadBinFile.h
+  include/StormBigMocks.h
   include/StormMocks.h
   include/StormStorageMocks.h
   include/TestUtilities.h
