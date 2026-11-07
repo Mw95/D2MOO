@@ -1,10 +1,13 @@
 add_library(TestUtilities STATIC 
+  include/FogMemoryMocks.h
   include/FunctionPair.h
+  include/ImportHooks.h
   include/InlineHook.h
   include/LoadBaseAddress.h
   include/NoOpFixture.h
   include/RandomUnsignedInteger.h
   include/ReadBinFile.h
+  include/StormMocks.h
   include/TestUtilities.h
 
   src/RandomUnsignedInteger.cpp

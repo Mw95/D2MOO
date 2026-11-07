@@ -14,8 +14,11 @@
 
 #include <Windows.h>
 
+#include <FogMemoryMocks.h>
+#include <ImportHooks.h>
 #include <InlineHook.h>
 #include <NoOpFixture.h>
+#include <StormMocks.h>
 #include <Fog.h>
 #include <Safesock.h>
 #include <Storm.h>
@@ -167,7 +170,7 @@ void for_each_api(Test&& test)
 }
 
 
-// Replaces the Fog.dll functions used by D2MCPClient (client connection, inet_ntoa and memory) and its Storm.dll string functions, for both the D2MOO implementation and the original D2MCPClient.dll.
+// Replaces the Fog.dll client connection functions and inet_ntoa used by D2MCPClient, for both the D2MOO implementation and the original D2MCPClient.dll.
 // Sent messages are recorded, received messages are taken from `receive_queue`.
 struct McpFogMock
 {
@@ -304,40 +307,6 @@ struct McpFogMock
 		return szAddress;
 	}
 
-	static void* __fastcall Alloc(int nSize, const char* szFile, int nLine, int n0)
-	{
-		return std::malloc(nSize);
-	}
-
-	static void __fastcall Free(void* pMemory, const char* szFile, int nLine, int n0)
-	{
-		std::free(pMemory);
-	}
-
-	// Storm.#501
-	static size_t __stdcall SStrCopy(char* szDest, const char* szSource, size_t nDestSize)
-	{
-		if (nDestSize == 0)
-		{
-			return 0;
-		}
-
-		size_t nLength = 0;
-		while (nLength + 1 < nDestSize && szSource[nLength])
-		{
-			szDest[nLength] = szSource[nLength];
-			++nLength;
-		}
-		szDest[nLength] = '\0';
-		return nLength;
-	}
-
-	// Storm.#506
-	static size_t __stdcall SStrLen(const char* szString)
-	{
-		return std::strlen(szString);
-	}
-
 	static void reset()
 	{
 		sent.clear();
@@ -363,30 +332,26 @@ struct McpFogMock
 template<class Fixture>
 struct McpFogFixture : Fixture
 {
-	std::vector<InlineHook> fog_hooks;
-	std::vector<void*> hooked_targets;
+	ImportHooks hooks{ get_original_d2mcpclient() };
 
 	McpFogFixture()
 	{
-		fog_hooks.reserve(32);
-		hook(10070, reinterpret_cast<void*>(&FOG_10070_ClientSendMessage), reinterpret_cast<const void*>(&McpFogMock::ClientSendMessage));
-		hook(10072, reinterpret_cast<void*>(&FOG_10072_ClientReceive), reinterpret_cast<const void*>(&McpFogMock::ClientReceive));
-		hook(10014, reinterpret_cast<void*>(&FOG_inet_ntoa), reinterpret_cast<const void*>(&McpFogMock::inet_ntoa));
-		hook(10012, reinterpret_cast<void*>(&FOG_SOCKET_GetPeerName), reinterpret_cast<const void*>(&McpFogMock::SocketGetPeerName));
-		hook(10016, reinterpret_cast<void*>(&FOG_SOCKET_GetError), reinterpret_cast<const void*>(&McpFogMock::SocketGetError));
-		hook(10068, reinterpret_cast<void*>(&FOG_10068_ClientCreate), reinterpret_cast<const void*>(&McpFogMock::ClientCreate));
-		hook(10069, reinterpret_cast<void*>(&FOG_10069_ClientClose), reinterpret_cast<const void*>(&McpFogMock::ClientClose));
-		hook(10071, reinterpret_cast<void*>(&FOG_10071_ClientSendRaw), reinterpret_cast<const void*>(&McpFogMock::ClientSendRaw));
-		hook(10073, reinterpret_cast<void*>(&FOG_10073_ClientStart), reinterpret_cast<const void*>(&McpFogMock::ClientStart));
-		hook(10075, reinterpret_cast<void*>(&FOG_10075_ClientDestroy), reinterpret_cast<const void*>(&McpFogMock::ClientDestroy));
-		hook(10077, reinterpret_cast<void*>(&FOG_10077_ClientSetMessageCallback), reinterpret_cast<const void*>(&McpFogMock::ClientSetMessageCallback));
-		hook(10079, reinterpret_cast<void*>(&FOG_10079_ClientGetSafeSock), reinterpret_cast<const void*>(&McpFogMock::ClientGetSafeSock));
+		hook_fog(10070, &FOG_10070_ClientSendMessage, &McpFogMock::ClientSendMessage);
+		hook_fog(10072, &FOG_10072_ClientReceive, &McpFogMock::ClientReceive);
+		hook_fog(10014, &FOG_inet_ntoa, &McpFogMock::inet_ntoa);
+		hook_fog(10012, &FOG_SOCKET_GetPeerName, &McpFogMock::SocketGetPeerName);
+		hook_fog(10016, &FOG_SOCKET_GetError, &McpFogMock::SocketGetError);
+		hook_fog(10068, &FOG_10068_ClientCreate, &McpFogMock::ClientCreate);
+		hook_fog(10069, &FOG_10069_ClientClose, &McpFogMock::ClientClose);
+		hook_fog(10071, &FOG_10071_ClientSendRaw, &McpFogMock::ClientSendRaw);
+		hook_fog(10073, &FOG_10073_ClientStart, &McpFogMock::ClientStart);
+		hook_fog(10075, &FOG_10075_ClientDestroy, &McpFogMock::ClientDestroy);
+		hook_fog(10077, &FOG_10077_ClientSetMessageCallback, &McpFogMock::ClientSetMessageCallback);
+		hook_fog(10079, &FOG_10079_ClientGetSafeSock, &McpFogMock::ClientGetSafeSock);
 		// Memory is allocated by one implementation and may be freed by the other one
-		hook(10042, reinterpret_cast<void*>(&FOG_Alloc), reinterpret_cast<const void*>(&McpFogMock::Alloc));
-		hook(10043, reinterpret_cast<void*>(&FOG_Free), reinterpret_cast<const void*>(&McpFogMock::Free));
+		hook_fog_memory_mocks(hooks);
 		// D2MOO's Storm.dll only has stubs
-		hook(501, reinterpret_cast<void*>(&::SStrCopy), reinterpret_cast<const void*>(&McpFogMock::SStrCopy), "Storm.dll");
-		hook(506, reinterpret_cast<void*>(&::SStrLen), reinterpret_cast<const void*>(&McpFogMock::SStrLen), "Storm.dll");
+		hook_storm_mocks(hooks);
 		McpFogMock::reset();
 	}
 
@@ -396,23 +361,10 @@ struct McpFogFixture : Fixture
 	}
 
 private:
-	// Hooks the function called by the D2MOO implementation, and the one the original dll imports if it is a different one
-	// (it is the same when D2MOO's Fog.dll was loaded first)
-	void hook(WORD nOrdinal, void* pMooTarget, const void* pReplacement, const char* szDllName = "Fog.dll")
+	// The mock must have the same signature as the function it replaces
+	template<typename Function>
+	void hook_fog(WORD nOrdinal, Function* pMooTarget, Function* pReplacement)
 	{
-		void* pOriginalTarget = find_imported_function_by_ordinal(get_original_d2mcpclient(), szDllName, nOrdinal);
-		if (pOriginalTarget == nullptr)
-		{
-			throw std::runtime_error("McpFogFixture: the original D2MCPClient.dll does not import this ordinal");
-		}
-
-		for (void* pTarget : { pMooTarget, pOriginalTarget })
-		{
-			if (std::find(hooked_targets.begin(), hooked_targets.end(), pTarget) == hooked_targets.end())
-			{
-				fog_hooks.emplace_back(pTarget, pReplacement);
-				hooked_targets.push_back(pTarget);
-			}
-		}
+		hooks.hook("Fog.dll", nOrdinal, reinterpret_cast<void*>(pMooTarget), reinterpret_cast<const void*>(pReplacement));
 	}
 };
