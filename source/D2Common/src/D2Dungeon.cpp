@@ -1064,7 +1064,12 @@ BOOL __stdcall DUNGEON_IsRoomInTown(D2ActiveRoomStrc* pRoom)
 	if (pRoom)
 	{
 		// Mod: a safe zone room counts as town (no monsters, town skill/damage rules, stash).
-		return DRLG_IsTownLevel(DRLGROOM_GetLevelId(pRoom->pDrlgRoom)) || DRLGSAFEZONE_IsDrlgRoomSafeZone(pRoom->pDrlgRoom);
+		if (DRLG_IsTownLevel(DRLGROOM_GetLevelId(pRoom->pDrlgRoom)))
+		{
+			return TRUE;
+		}
+
+		return DRLGSAFEZONE_IsDrlgRoomSafeZone(pRoom->pDrlgRoom) && !DRLGSAFEZONE_IsTownOverrideActive();
 	}
 
 	return FALSE;
@@ -1082,6 +1087,19 @@ BOOL __stdcall DUNGEON_IsRoomSafeZone(D2ActiveRoomStrc* pRoom)
 int __stdcall DUNGEON_GetSafeZonePresetIdFromRoom(D2ActiveRoomStrc* pRoom)
 {
 	return pRoom ? DRLGSAFEZONE_GetSafeZonePresetId(pRoom->pDrlgRoom) : -1;
+}
+
+//D2Common.#11312
+void __stdcall DUNGEON_SetSafeZoneTownOverride(BOOL bEnable)
+{
+	if (bEnable)
+	{
+		DRLGSAFEZONE_PushTownOverride();
+	}
+	else
+	{
+		DRLGSAFEZONE_PopTownOverride();
+	}
 }
 
 //D2Common.#11310

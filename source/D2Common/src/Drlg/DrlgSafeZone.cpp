@@ -218,6 +218,26 @@ BOOL __fastcall DRLGSAFEZONE_IsDrlgRoomSafeZone(D2DrlgRoomStrc* pDrlgRoom)
 	return DRLGSAFEZONE_GetSafeZonePresetId(pDrlgRoom) != -1;
 }
 
+static thread_local int sgnTownOverrideDepth = 0;
+
+void __fastcall DRLGSAFEZONE_PushTownOverride()
+{
+	++sgnTownOverrideDepth;
+}
+
+void __fastcall DRLGSAFEZONE_PopTownOverride()
+{
+	if (sgnTownOverrideDepth > 0)
+	{
+		--sgnTownOverrideDepth;
+	}
+}
+
+BOOL __fastcall DRLGSAFEZONE_IsTownOverrideActive()
+{
+	return sgnTownOverrideDepth > 0;
+}
+
 // Answers the preset to place in pLevel, or LVLPREST_NONE. Rolls the level's seed only when the level has a
 // safe zone configured, so levels without one are generated exactly as in the original game.
 static int DRLGSAFEZONE_RollPreset(D2DrlgLevelStrc* pLevel)

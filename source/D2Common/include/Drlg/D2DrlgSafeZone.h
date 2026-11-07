@@ -59,6 +59,12 @@ BOOL __fastcall DRLGSAFEZONE_IsSafeZonePreset(int nLvlPrestId);
 int __fastcall DRLGSAFEZONE_GetSafeZonePresetId(D2DrlgRoomStrc* pDrlgRoom);
 BOOL __fastcall DRLGSAFEZONE_IsDrlgRoomSafeZone(D2DrlgRoomStrc* pDrlgRoom);
 
+// While the calling thread holds an override (DRLGSAFEZONE_PushTownOverride), safe zones do not count as town for
+// DUNGEON_IsRoomInTown. Used to let Town Portal be cast inside a safe zone. Calls nest.
+void __fastcall DRLGSAFEZONE_PushTownOverride();
+void __fastcall DRLGSAFEZONE_PopTownOverride();
+BOOL __fastcall DRLGSAFEZONE_IsTownOverrideActive();
+
 // Called by DRLGOUTDOORS_GenerateLevel once the act specific presets have been placed.
 void __fastcall DRLGSAFEZONE_SpawnOutdoorSafeZone(D2DrlgLevelStrc* pLevel);
 // Called by DRLGMAZE_GenerateLevel once the maze layout and its special rooms are in place.

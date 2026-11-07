@@ -158,6 +158,10 @@ D2COMMON_DLL_DECL BOOL __stdcall DUNGEON_IsRoomSafeZone(D2ActiveRoomStrc* pRoom)
 // LvlPrest id of the safe zone the room belongs to, -1 if none.
 //D2Common.#11309
 D2COMMON_DLL_DECL int __stdcall DUNGEON_GetSafeZonePresetIdFromRoom(D2ActiveRoomStrc* pRoom);
+// TRUE: until the matching FALSE call, safe zones do not count as town for DUNGEON_IsRoomInTown on the calling
+// thread (calls nest). Lets D2Game's Town Portal cast run inside a safe zone.
+//D2Common.#11312
+D2COMMON_DLL_DECL void __stdcall DUNGEON_SetSafeZoneTownOverride(BOOL bEnable);
 // LvlPrest.txt EntryName resolved through the string tables, NULL if not set.
 //D2Common.#11310
 D2COMMON_DLL_DECL const Unicode* __stdcall DUNGEON_GetSafeZoneEntryName(int nLvlPrestId);

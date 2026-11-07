@@ -65,7 +65,9 @@ Act 5 lava levels.
 
 ## Exports
 
-These exist only in the D2MOO `D2Common.dll` (they are not in the original's export table), by name and ordinal:
+These exist only in the D2MOO `D2Common.dll` (they are not in the original's export table), by name and ordinal.
+Another DLL cannot import them by ordinal from `D2Common.dll` (the loader binds that name to the original): look
+them up with `GetProcAddress` on the loaded modules named `D2Common.dll`, as the D2Game patch and D2Client do.
 
 | Ordinal | Function |
 |---------|----------|
@@ -73,9 +75,16 @@ These exist only in the D2MOO `D2Common.dll` (they are not in the original's exp
 | 11309 | `int __stdcall DUNGEON_GetSafeZonePresetIdFromRoom(D2ActiveRoomStrc* pRoom)` (-1 if none) |
 | 11310 | `const Unicode* __stdcall DUNGEON_GetSafeZoneEntryName(int nLvlPrestId)` (NULL if none) |
 | 11311 | `const char* __stdcall DUNGEON_GetSafeZoneEntryFile(int nLvlPrestId)` (NULL if none) |
+| 11312 | `void __stdcall DUNGEON_SetSafeZoneTownOverride(BOOL bEnable)` (nesting, per thread) |
+
+## Town Portal
+
+The original Town Portal cast (`SKILLITEM_pSpell02_CastPortal`, D2Game 0x6FD02C80) refuses to open a portal in
+town. `D2.Detours.patches/1.10f/D2Game.patch.cpp` wraps it: the original runs with
+`DUNGEON_SetSafeZoneTownOverride(TRUE)` held, so for that call a safe zone does not count as town. A portal opened in
+a safe zone leads to the act's town and back, like anywhere else in the level; real towns still refuse.
 
 ## Known limits
 
 - Monster ranged attacks fired from outside still reach players inside, as in towns. Walls in the `.ds1` are
   what keep monsters from walking through the zone; the town rule only stops them from targeting points inside it.
-- Town Portal cannot be cast inside the zone yet (it is a town room, and the skill has no `InTown`).

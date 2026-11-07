@@ -1313,3 +1313,4 @@ EXPORTS
 	DUNGEON_GetSafeZonePresetIdFromRoom									@11309
 	DUNGEON_GetSafeZoneEntryName										@11310
 	DUNGEON_GetSafeZoneEntryFile										@11311
+	DUNGEON_SetSafeZoneTownOverride										@11312
