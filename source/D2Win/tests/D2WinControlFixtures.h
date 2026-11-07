@@ -70,9 +70,8 @@ inline const ControlGlobals& original_control_globals()
 
 inline const ControlGlobals* const both_control_globals[] = { &moo_control_globals(), &original_control_globals() };
 
-// Saves the control globals of both implementations and restores them at the end of the test
-template<class Fixture>
-struct D2WinControlFixture : D2WinFixture<Fixture>
+// Saves the control globals of both implementations and restores them when destroyed
+struct ControlGlobalsGuard
 {
 	struct Saved
 	{
@@ -89,7 +88,7 @@ struct D2WinControlFixture : D2WinFixture<Fixture>
 	};
 	Saved saved[2];
 
-	D2WinControlFixture()
+	ControlGlobalsGuard()
 	{
 		for (int i = 0; i < 2; ++i)
 		{
@@ -99,7 +98,7 @@ struct D2WinControlFixture : D2WinFixture<Fixture>
 		}
 	}
 
-	~D2WinControlFixture()
+	~ControlGlobalsGuard()
 	{
 		for (int i = 0; i < 2; ++i)
 		{
@@ -116,6 +115,13 @@ struct D2WinControlFixture : D2WinFixture<Fixture>
 			*globals.pMousePosition = saved[i].mousePosition;
 		}
 	}
+};
+
+// Saves the control globals of both implementations and restores them at the end of the test
+template<class Fixture>
+struct D2WinControlFixture : D2WinFixture<Fixture>
+{
+	ControlGlobalsGuard controlGlobalsGuard;
 };
 
 // State of the control lists, the controls being given by their indices

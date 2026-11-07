@@ -15,6 +15,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
       D2WinControlTests.cpp
       D2WinFontTests.cpp
       D2WinSimpleControlTests.cpp
+      D2WinTextBoxTests.cpp
   )
 endif()
 
