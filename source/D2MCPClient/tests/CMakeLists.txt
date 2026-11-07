@@ -10,6 +10,7 @@ add_executable(D2MCPClientTests
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
   target_sources(D2MCPClientTests
     PRIVATE
+      D2MCPClientRequestTests.cpp
       D2MCPClientStateTests.cpp
   )
 endif()
