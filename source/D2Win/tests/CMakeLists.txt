@@ -5,6 +5,7 @@ add_executable(D2WinTests
   D2WinTests.cpp
   D2WinTestFixtures.h
   D2WinControlFixtures.h
+  D2WinFontFixtures.h
 )
 
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
@@ -12,6 +13,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
     PRIVATE
       D2WinButtonTests.cpp
       D2WinControlTests.cpp
+      D2WinFontTests.cpp
       D2WinSimpleControlTests.cpp
   )
 endif()
