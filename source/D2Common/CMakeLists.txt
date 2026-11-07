@@ -33,6 +33,7 @@ target_sources(${D2CommonImplName}
     src/DataTbls/OverlayTbls.cpp
     src/DataTbls/SequenceTbls.cpp
     src/DataTbls/SkillsTbls.cpp
+    src/DataTbls/SubQuestTbls.cpp
     src/DataTbls/TokenTbls.cpp
     src/DataTbls/TransformTbls.cpp
 
@@ -53,6 +54,7 @@ target_sources(${D2CommonImplName}
     include/DataTbls/OverlayTbls.h
     include/DataTbls/SequenceTbls.h
     include/DataTbls/SkillsTbls.h
+    include/DataTbls/SubQuestTbls.h
     include/DataTbls/TokenTbls.h
     include/DataTbls/TransformTbls.h
 

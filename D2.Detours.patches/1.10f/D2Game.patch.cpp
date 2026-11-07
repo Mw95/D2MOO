@@ -113,6 +113,12 @@ static ExtraPatchAction extraPatchActions[] = {
     { MODPATCH_ADDR_HANDLEDIALOGMESSAGE - D2GameImageBase, (void*)&MODPATCH_HandleDialogMessage, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalHandleDialogMessage },
     { MODPATCH_ADDR_REPAIR - D2GameImageBase, (void*)&MODPATCH_Repair, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalRepair },
     { MODPATCH_ADDR_HEAL - D2GameImageBase, (void*)&MODPATCH_Heal, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalHeal },
+    { MODPATCH_ADDR_PARSEKILL - D2GameImageBase, (void*)&MODPATCH_ParseKill, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalParseKill },
+    { MODPATCH_ADDR_CHANGELEVEL - D2GameImageBase, (void*)&MODPATCH_ChangeLevel, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalChangeLevel },
+    { MODPATCH_ADDR_ITEMPICKEDUP - D2GameImageBase, (void*)&MODPATCH_ItemPickedUp, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalItemPickedUp },
+    { MODPATCH_ADDR_NPCACTIVATE - D2GameImageBase, (void*)&MODPATCH_NPCActivate, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalNPCActivate },
+    { MODPATCH_ADDR_CREATESAVEFILE - D2GameImageBase, (void*)&MODPATCH_CreateSaveFile, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalCreateSaveFile },
+    { MODPATCH_ADDR_PROCESSSAVEFILE - D2GameImageBase, (void*)&MODPATCH_ProcessSaveFile, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalProcessSaveFile },
     { 0, 0, PatchAction::Ignore}, // Here because we need at least one element in the array
 };
 

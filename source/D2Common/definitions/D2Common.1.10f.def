@@ -1317,3 +1317,7 @@ EXPORTS
 	; Mod: custom NPCs (not in the original D2Common.dll)
 	DATATBLS_GetCustomNpcRecord											@11313
 	DATATBLS_ListCustomNpcs												@11314
+	; Mod: subquests (not in the original D2Common.dll)
+	DATATBLS_GetSubQuestCount											@11315
+	DATATBLS_GetSubQuestRecord											@11316
+	DATATBLS_GetSubQuestRecordById										@11317

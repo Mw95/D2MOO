@@ -286,6 +286,7 @@ target_sources(${D2GameImplName}
 target_sources(${D2GameImplName}
   PRIVATE
     src/MOD/ModPatches.cpp
+    src/MOD/SubQuests.cpp
 
     include/MOD/ModPatches.h
 )

@@ -13,6 +13,14 @@
 
 struct D2GameStrc;
 struct D2UnitStrc;
+struct D2ClientStrc;
+struct D2ActiveRoomStrc;
+struct D2TextHeaderStrc;
+
+// A function of the original D2Game.dll by its 1.10f address (the loaded D2Game.dll that is not this patch DLL).
+void* __fastcall MODPATCH_GetOriginalD2GameAddress(uint32_t nAddress);
+// An export that only the D2MOO D2Common.dll has, looked up among the loaded modules named D2Common.dll; nullptr without it.
+FARPROC __fastcall MODPATCH_FindD2CommonExport(const char* szExportName);
 
 constexpr uint32_t MODPATCH_ADDR_CASTPORTAL = 0x6FD02C80;				// SKILLITEM_pSpell02_CastPortal
 constexpr uint32_t MODPATCH_ADDR_INITIALIZENPCCONTROL = 0x6FCCBA30;		// SUNITPROXY_InitializeNpcControl
@@ -36,3 +44,29 @@ extern void* gpfnOriginalRepair;
 
 void __fastcall MODPATCH_Heal(D2GameStrc* pGame, D2UnitStrc* pUnit, D2UnitStrc* pNpc);
 extern void* gpfnOriginalHeal;
+
+// Subquests (see doc/SubQuests.md, source/D2Game/src/MOD/SubQuests.cpp).
+constexpr uint32_t MODPATCH_ADDR_PARSEKILL = 0x6FC940B0;				// QUESTS_ParseKill
+constexpr uint32_t MODPATCH_ADDR_CHANGELEVEL = 0x6FC94290;				// QUESTS_ChangeLevel
+constexpr uint32_t MODPATCH_ADDR_ITEMPICKEDUP = 0x6FC94520;				// QUESTS_ItemPickedUp
+constexpr uint32_t MODPATCH_ADDR_NPCACTIVATE = 0x6FC944B0;				// QUESTS_NPCActivate
+constexpr uint32_t MODPATCH_ADDR_CREATESAVEFILE = 0x6FC8D940;			// PLRSAVE2_CreateSaveFile
+constexpr uint32_t MODPATCH_ADDR_PROCESSSAVEFILE = 0x6FC8EF20;			// PLRSAVE2_ProcessSaveFile
+
+void __fastcall MODPATCH_ParseKill(D2GameStrc* pGame, D2UnitStrc* pDefender, D2UnitStrc* pAttacker);
+extern void* gpfnOriginalParseKill;
+
+void __fastcall MODPATCH_ChangeLevel(D2GameStrc* pGame, int32_t nOldLevelId, int32_t nTargetLevelId, D2UnitStrc* pUnit);
+extern void* gpfnOriginalChangeLevel;
+
+void __fastcall MODPATCH_ItemPickedUp(D2GameStrc* pGame, D2UnitStrc* pPlayer, D2UnitStrc* pItem);
+extern void* gpfnOriginalItemPickedUp;
+
+void __fastcall MODPATCH_NPCActivate(D2ClientStrc* pClient, D2UnitStrc* pPlayer, D2UnitStrc* pTarget, D2TextHeaderStrc* pTextControl);
+extern void* gpfnOriginalNPCActivate;
+
+int32_t __fastcall MODPATCH_CreateSaveFile(D2GameStrc* pGame, D2UnitStrc* pPlayer, uint8_t* pData, uint32_t* pSize, uint32_t nMaxSize, int32_t bUseTradeInventory, int32_t nUnused);
+extern void* gpfnOriginalCreateSaveFile;
+
+int32_t __fastcall MODPATCH_ProcessSaveFile(D2GameStrc* pGame, D2ClientStrc* pClient, uint8_t* pSaveFile, uint32_t nSize, D2UnitStrc** ppPlayer, D2ActiveRoomStrc* pRoomArg, int32_t nXArg, int32_t nYArg);
+extern void* gpfnOriginalProcessSaveFile;

@@ -74,7 +74,7 @@ static HMODULE MODPATCH_FindModule(const wchar_t* szModuleName, AcceptFn pfnAcce
 
 // An export that only the D2MOO D2Common.dll has. The loader binds the name D2Common.dll to the original, so it is
 // looked up among all loaded modules of that name.
-static FARPROC MODPATCH_FindD2CommonExport(const char* szExportName)
+FARPROC __fastcall MODPATCH_FindD2CommonExport(const char* szExportName)
 {
 	FARPROC pResult = nullptr;
 	MODPATCH_FindModule(L"D2Common.dll", [&](HMODULE hModule)
@@ -85,9 +85,7 @@ static FARPROC MODPATCH_FindD2CommonExport(const char* szExportName)
 	return pResult;
 }
 
-// A function of the original D2Game.dll by its 1.10f address: the loaded D2Game.dll that is not this patch DLL.
-template<typename T>
-static T MODPATCH_GetOriginalD2GameFunction(uint32_t nAddress)
+void* __fastcall MODPATCH_GetOriginalD2GameAddress(uint32_t nAddress)
 {
 	static HMODULE hOriginalD2Game = nullptr;
 	if (!hOriginalD2Game)
@@ -98,7 +96,13 @@ static T MODPATCH_GetOriginalD2GameFunction(uint32_t nAddress)
 		D2_ASSERT(hOriginalD2Game);
 	}
 
-	return (T)((uintptr_t)hOriginalD2Game + (nAddress - MODPATCH_D2GAME_IMAGE_BASE));
+	return (void*)((uintptr_t)hOriginalD2Game + (nAddress - MODPATCH_D2GAME_IMAGE_BASE));
+}
+
+template<typename T>
+static T MODPATCH_GetOriginalD2GameFunction(uint32_t nAddress)
+{
+	return (T)MODPATCH_GetOriginalD2GameAddress(nAddress);
 }
 
 static const D2CustomNpcTxt* MODPATCH_GetCustomNpc(D2UnitStrc* pUnit)
