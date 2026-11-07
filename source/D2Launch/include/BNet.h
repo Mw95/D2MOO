@@ -5,41 +5,13 @@
 
 #include <D2Config.h>
 #include <BnClient.h>
+#include <BNetGW.h>
 
 struct SMSGHANDLER_PARAMS;
 
 extern HMODULE ghBnClient;
 extern BnClientInterface* gptComInt;
 extern char gszEmptyString[];
-
-#pragma pack(push, 1)
-// First fields of Bnclient's BNGatewayAccess (see BnClient/include/BNetGW.h), which D2Launch reads directly
-struct D2BnGatewayAccessHeaderStrc
-{
-	char szEmpty[4];							//0x00
-	BOOL bDirty;								//0x04
-	int32_t nGateways;							//0x08
-	int32_t nCurrentGateway;					//0x0C 1-based index
-};
-#pragma pack(pop)
-
-// Inlined in the original game
-inline int32_t BNGATEWAY_GetNumGateways(BNGatewayAccess* pGatewayAccess)
-{
-	return reinterpret_cast<D2BnGatewayAccessHeaderStrc*>(pGatewayAccess)->nGateways;
-}
-
-// Inlined in the original game
-inline int32_t BNGATEWAY_GetCurGateway(BNGatewayAccess* pGatewayAccess)
-{
-	return reinterpret_cast<D2BnGatewayAccessHeaderStrc*>(pGatewayAccess)->nCurrentGateway;
-}
-
-// Wrappers around the member functions of BNGatewayAccess exported by Bnclient.dll
-void __fastcall BNGATEWAY_SaveAndUnload(BNGatewayAccess* pGatewayAccess);
-const char* __fastcall BNGATEWAY_GetRealm(BNGatewayAccess* pGatewayAccess, int32_t nGateway);
-const char* __fastcall BNGATEWAY_GetName(BNGatewayAccess* pGatewayAccess, int32_t nGateway);
-void __fastcall BNGATEWAY_SetCurGateway(BNGatewayAccess* pGatewayAccess, int32_t nGateway);
 
 //D2Launch.0x6FA11000
 BOOL __fastcall BNET_LoadBnClient(D2ConfigStrc* ptParams);

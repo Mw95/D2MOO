@@ -225,6 +225,7 @@ HANDLE __stdcall D2MCPClientConnect(const D2MCPConnectInfoStrc* pConnectInfo)
 
 // Connects to the realm server and logs in with MCP_STARTUP.
 // Returns FALSE if the connection could not be established, otherwise TRUE with the outcome of MCP_STARTUP in the last error.
+// Note: the original is __cdecl (plain ret) and cast to LPTHREAD_START_ROUTINE, which leaves the parameter on the stack
 //D2MCPClient.0x6F9F1810
 static DWORD __stdcall MCP_ConnectionThread(void* pParameter)
 {

@@ -359,7 +359,7 @@ static void CHARSEL_SelectPreferredRealm()
 	}
 
 	BNGatewayAccess* pGatewayAccess = gptComInt->GetBnGatewayAccess();
-	SStrCopy(sgszPreferredRealmName, BNGATEWAY_GetRealm(pGatewayAccess, BNGATEWAY_GetCurGateway(pGatewayAccess)), 0x7FFFFFFF);
+	SStrCopy(sgszPreferredRealmName, pGatewayAccess->Realm(pGatewayAccess->m_nCurrentGateway), 0x7FFFFFFF);
 	SRegSaveString("Diablo II", "Preferred Realm", 0, sgszPreferredRealmName);
 
 	for (int32_t i = 0; i < MENU_GetRealmCount(); ++i)

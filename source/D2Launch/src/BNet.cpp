@@ -67,38 +67,6 @@ D2WinControlStrc* sgpResetPasswordOkButton;
 char gszEmptyString[] = "";
 
 
-// Helper function, Bnclient.dll exports the BNGatewayAccess member functions by name
-template<typename T>
-static T BNGATEWAY_GetFunction(const char* szMangledName)
-{
-	return reinterpret_cast<T>(GetProcAddress(ghBnClient ? ghBnClient : GetModuleHandleA("Bnclient.dll"), szMangledName));
-}
-
-void __fastcall BNGATEWAY_SaveAndUnload(BNGatewayAccess* pGatewayAccess)
-{
-	static const auto pfSaveAndUnload = BNGATEWAY_GetFunction<void(__stdcall*)(BNGatewayAccess*)>("?SaveAndUnload@BNGatewayAccess@@QAGXXZ");
-	pfSaveAndUnload(pGatewayAccess);
-}
-
-const char* __fastcall BNGATEWAY_GetRealm(BNGatewayAccess* pGatewayAccess, int32_t nGateway)
-{
-	static const auto pfRealm = BNGATEWAY_GetFunction<char*(__stdcall*)(BNGatewayAccess*, int32_t)>("?Realm@BNGatewayAccess@@QAGPADH@Z");
-	return pfRealm(pGatewayAccess, nGateway);
-}
-
-const char* __fastcall BNGATEWAY_GetName(BNGatewayAccess* pGatewayAccess, int32_t nGateway)
-{
-	static const auto pfName = BNGATEWAY_GetFunction<char*(__stdcall*)(BNGatewayAccess*, int32_t)>("?Name@BNGatewayAccess@@QAGPADH@Z");
-	return pfName(pGatewayAccess, nGateway);
-}
-
-void __fastcall BNGATEWAY_SetCurGateway(BNGatewayAccess* pGatewayAccess, int32_t nGateway)
-{
-	static const auto pfSetCurGateway = BNGATEWAY_GetFunction<void(__stdcall*)(BNGatewayAccess*, int32_t)>("?SetCurGateway@BNGatewayAccess@@QAGXH@Z");
-	pfSetCurGateway(pGatewayAccess, nGateway);
-}
-
-
 // Helper function, inlined in the original game
 static BOOL BNET_IsValidEmailAddress(const char* szEmail)
 {
@@ -310,7 +278,7 @@ BOOL __fastcall BNET_Connect()
 			D2Win_CloseSpriteCache();
 			gptComInt->CloseBNetConnection();
 			sgfConnecting = FALSE;
-			BNGATEWAY_SaveAndUnload(gptComInt->GetBnGatewayAccess());
+			gptComInt->GetBnGatewayAccess()->SaveAndUnload();
 			TerminateProcess(GetCurrentProcess(), 0);
 			return FALSE;
 		}

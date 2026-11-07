@@ -711,7 +711,7 @@ D2MultiChannelUserStrc* __fastcall COMCALLBACK_AddUser(const char* szUserName, c
 		if (!strcmp(COMCALLBACK_SkipCharacterName(pUser->szUserName), COMCALLBACK_SkipCharacterName(szUserName)))
 		{
 			pUser->dwChatFlags = nFlags;
-			const uint8_t nClass = COMCALLBACK_ParseStatstring(pUser, szStatstring, nFlags);
+			const uint8_t nClass = COMCALLBACK_ParseStatstring(pUser, szUserName, szStatstring, nFlags);
 			SStrCopy(pUser->szUserName, szUserName, INT_MAX);
 			COMCALLBACK_SetupCompositeUnit(pUser, nClass);
 			return pUser;
@@ -723,7 +723,7 @@ D2MultiChannelUserStrc* __fastcall COMCALLBACK_AddUser(const char* szUserName, c
 	strcpy(pUser->szUserName, szUserName);
 	pUser->dwChatFlags = nFlags;
 
-	uint8_t nClass = COMCALLBACK_ParseStatstring(pUser, szStatstring, nFlags);
+	uint8_t nClass = COMCALLBACK_ParseStatstring(pUser, szUserName, szStatstring, nFlags);
 
 	int32_t nMode = 5;
 	if ((pUser->nCharacterFlags & D2MULTI_SAVEFLAG_HARDCORE) && !(pUser->nCharacterFlags & D2MULTI_SAVEFLAG_DEAD) && !(pUser->dwChatFlags & CHATUSERFLAG_CHANNELOPERATOR) && (FOG_IsExpansion() || nClass < 5))
@@ -817,8 +817,9 @@ static void COMCALLBACK_FillComponents(uint8_t* pDestination, const char* pSourc
 	}
 }
 
+// szUserName is passed in edx by every caller but never read
 //D2Multi.0x6F9AC970
-uint8_t __fastcall COMCALLBACK_ParseStatstring(D2MultiChannelUserStrc* pUser, const char* szStatstring, uint32_t nFlags)
+uint8_t __fastcall COMCALLBACK_ParseStatstring(D2MultiChannelUserStrc* pUser, const char* szUserName, const char* szStatstring, uint32_t nFlags)
 {
 	const int32_t nLength = strlen(szStatstring);
 	pUser->nCharacterFlags = 0;
@@ -1206,7 +1207,7 @@ int32_t __fastcall COMCALLBACK_OnUserFlags(uint32_t nFlags, uint32_t nPing, cons
 		if (!strcmp(pUser->szUserName, szUserName))
 		{
 			pUser->dwChatFlags = nFlags;
-			const uint8_t nClass = COMCALLBACK_ParseStatstring(pUser, szStatstring, nFlags);
+			const uint8_t nClass = COMCALLBACK_ParseStatstring(pUser, szUserName, szStatstring, nFlags);
 			SStrCopy(pUser->szUserName, szUserName, INT_MAX);
 			COMCALLBACK_SetupCompositeUnit(pUser, nClass);
 			return 1;

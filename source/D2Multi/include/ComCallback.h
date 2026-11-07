@@ -114,7 +114,7 @@ int32_t __fastcall COMCALLBACK_OnShowUser(uint32_t nFlags, uint32_t nPing, const
 //D2Multi.0x6F9AC590
 D2MultiChannelUserStrc* __fastcall COMCALLBACK_AddUser(const char* szUserName, const char* szStatstring, uint32_t nFlags);
 //D2Multi.0x6F9AC970
-uint8_t __fastcall COMCALLBACK_ParseStatstring(D2MultiChannelUserStrc* pUser, const char* szStatstring, uint32_t nFlags);
+uint8_t __fastcall COMCALLBACK_ParseStatstring(D2MultiChannelUserStrc* pUser, const char* szUserName, const char* szStatstring, uint32_t nFlags);
 //D2Multi.0x6F9ACD50
 void __fastcall COMCALLBACK_UpdateUserDescription(D2MultiChannelUserStrc* pUser);
 //D2Multi.0x6F9ACF10

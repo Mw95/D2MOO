@@ -9,6 +9,7 @@
 #include <ctime>
 
 #include <Fog.h>
+#include <D2Lang.h>
 #include <Storm.h>
 
 #include "BnConnect.h"
@@ -958,7 +959,7 @@ BOOL __stdcall BNSEND_AuthInfo()
 	tPacket.nPlatformId = 'IX86';
 	tPacket.nProductId = BNSEND_GetProductId();
 	tPacket.nVersion = 10;
-	D2LANG_GetLanguageCode((char*)&tPacket.nProductLanguage, 3);
+	D2LANG_10006((char*)&tPacket.nProductLanguage, 3);
 
 	sockaddr_in tLocalAddress;
 	int nLocalAddressLength = sizeof(tLocalAddress);

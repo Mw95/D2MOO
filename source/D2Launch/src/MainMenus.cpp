@@ -3776,10 +3776,10 @@ int32_t __stdcall MENU_ShowGatewaySelectionCallback(SMSGHANDLER_PARAMS* pMsg)
 	MENU_CreateChild(76);
 
 	BNGatewayAccess* pGatewayAccess = gptComInt->GetBnGatewayAccess();
-	const int32_t nCurrentGateway = BNGATEWAY_GetCurGateway(pGatewayAccess);
-	for (int32_t i = 1; i <= BNGATEWAY_GetNumGateways(pGatewayAccess); ++i)
+	const int32_t nCurrentGateway = pGatewayAccess->m_nCurrentGateway;
+	for (int32_t i = 1; i <= pGatewayAccess->m_nNumGateways; ++i)
 	{
-		D2Win_10045(sgpGatewayListTextBox, BNGATEWAY_GetName(pGatewayAccess, i));
+		D2Win_10045(sgpGatewayListTextBox, pGatewayAccess->Name(i));
 	}
 
 	const int32_t nTopLine = D2Win_10054(sgpGatewayListTextBox);
@@ -3836,8 +3836,8 @@ static void MENU_SelectGateway()
 	const int32_t nLine = D2Win_10049(sgpGatewayListTextBox);
 	if (nLine != -1)
 	{
-		BNGATEWAY_SetCurGateway(pGatewayAccess, nLine + 1);
-		SRegSaveString("Diablo II", "Preferred Realm", 0, BNGATEWAY_GetRealm(pGatewayAccess, nLine + 1));
+		pGatewayAccess->SetCurGateway(nLine + 1);
+		SRegSaveString("Diablo II", "Preferred Realm", 0, pGatewayAccess->Realm(nLine + 1));
 	}
 
 	MENU_DestroyChildren();
@@ -3880,7 +3880,7 @@ void __fastcall MENU_UpdateGatewayButton()
 	Unicode wszText[256];
 
 	BNGatewayAccess* pGatewayAccess = gptComInt->GetBnGatewayAccess();
-	SStrCopy(szGatewayName, BNGATEWAY_GetName(pGatewayAccess, BNGATEWAY_GetCurGateway(pGatewayAccess)), sizeof(szGatewayName));
+	SStrCopy(szGatewayName, pGatewayAccess->Name(pGatewayAccess->m_nCurrentGateway), sizeof(szGatewayName));
 	Unicode::toUnicode(wszGatewayName, szGatewayName, std::size(wszGatewayName));
 	Unicode::strcpy(wszFormat, D2LANG_GetStringFromTblIndex(11049));
 	std::fill(std::begin(wszText), std::end(wszText), Unicode(0));

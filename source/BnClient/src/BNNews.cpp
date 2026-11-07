@@ -41,6 +41,7 @@ NewsTable::~NewsTable()
 	}
 }
 
+// 0x6FF06D50 is actually the compiler generated scalar deleting destructor, called with 0 (no delete) by BNNEWS_LoadBNetNews
 //Bnclient.0x6FF06D50
 void NewsTable::Clear()
 {

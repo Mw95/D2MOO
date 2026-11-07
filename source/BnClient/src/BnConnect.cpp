@@ -414,6 +414,7 @@ void __fastcall BNET_GetGatewayHost(char* szHost, int nSize)
 	}
 }
 
+// Note: the original is __cdecl (plain ret) and cast to LPTHREAD_START_ROUTINE, which leaves the parameter on the stack
 //Bnclient.0x6FF01930
 static DWORD __stdcall BattleConnectFastest(void* pParam)
 {

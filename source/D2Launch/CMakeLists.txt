@@ -11,6 +11,7 @@ target_link_libraries(${D2LaunchImplName}
     D2Net
     D2Sound
     D2MCPClient
+    Bnclient
     D2Win
   PUBLIC
     D2CommonDefinitions

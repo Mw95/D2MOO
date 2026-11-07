@@ -1,6 +1,6 @@
 D2MOO_prepare_targets(Bnclient)
 
-target_link_libraries(${BnclientImplName} PRIVATE D2CommonDefinitions Fog Storm wsock32 user32)
+target_link_libraries(${BnclientImplName} PRIVATE D2CommonDefinitions Fog Storm D2Lang wsock32 user32)
 
 target_sources(${BnclientImplName}
   PRIVATE
