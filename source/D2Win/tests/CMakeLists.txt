@@ -10,6 +10,7 @@ add_executable(D2WinTests
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
   target_sources(D2WinTests
     PRIVATE
+      D2WinButtonTests.cpp
       D2WinControlTests.cpp
       D2WinSimpleControlTests.cpp
   )
