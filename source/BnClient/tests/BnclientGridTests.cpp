@@ -8,6 +8,9 @@
 
 #include <StormStorageMocks.h>
 
+#include <RandomUnsignedInteger.h>
+
+#include <BnSend.h>
 #include <Grid.h>
 
 #include "BnclientTestFixtures.h"
@@ -204,6 +207,27 @@ struct GridKeysFixture : BnclientSendFixture<Fixture>
 		StormStorageMock::reset();
 	}
 };
+
+// Random CD keys with a valid checksum
+std::vector<std::string> valid_cd_keys(size_t nCount)
+{
+	static const char szAlphabet[] = "246789BCDEFGHJKMNPRTVWXZ";
+	std::vector<std::string> keys;
+	while (keys.size() < nCount)
+	{
+		std::string szKey(16, ' ');
+		for (char& c : szKey)
+		{
+			c = szAlphabet[random_unsigned_integer(0, sizeof(szAlphabet) - 2)];
+		}
+		uint32_t nProduct, nPublic, nPrivate;
+		if (BNCDKEY_Decode(szKey.c_str(), &nProduct, &nPublic, &nPrivate))
+		{
+			keys.push_back(szKey);
+		}
+	}
+	return keys;
+}
 }
 
 
@@ -275,5 +299,113 @@ TEST_SUITE("BnclientGridTests")
 		const LoadResult invalid = load_keys(original_grid_keys_api(), cases[5].files, TRUE);
 		CHECK_EQ(invalid.szCDKey, std::string(100, 'x'));
 		CHECK_FALSE(invalid.bHasOwner);
+	}
+
+	TEST_CASE_FIXTURE(GridKeysFixture<NoOpFixture>, "Bnclient.0x6FF07070")
+	{
+		const auto [sut, original] = make_bnclient_pair(BNCDKEY_Validate, 0x6FF07070);
+
+		const std::string szPassword = key_file_password();
+		const auto keys = valid_cd_keys(2);
+		const auto key_file = [&szPassword](const std::string& szKey) { return encrypt_key_file(szKey + '\0', szPassword); };
+		const std::string szInvalidKey = "BBBBBBBBBBBBBBBB";
+
+		// The name of the expansion key file is obfuscated, it is taken from the requests of the original dll
+		StormStorageMock::reset();
+		BnSendMock::bExpansion = TRUE;
+		original();
+		REQUIRE_EQ(StormStorageMock::file_requests.size(), 5);
+		const std::string szCDKeyXPFile = StormStorageMock::lowercase(StormStorageMock::file_requests[4]);
+		std::free(*original_grid_keys_api().ppCDKeyXP);
+		*original_grid_keys_api().ppCDKeyXP = nullptr;
+
+		struct Case
+		{
+			const char* szName;
+			std::map<std::string, std::vector<uint8_t>> files;
+			BOOL bExpansion;
+		};
+
+		const Case cases[] = {
+			{ "No key", {}, FALSE },
+			{ "Valid key", { { "font\\font.gid", key_file(keys[0]) } }, FALSE },
+			{ "Invalid key", { { "font\\font.gid", key_file(szInvalidKey) } }, FALSE },
+			{ "Expansion without key", { { "font\\font.gid", key_file(keys[0]) } }, TRUE },
+			{ "Expansion with valid keys", { { "font\\font.gid", key_file(keys[0]) }, { szCDKeyXPFile, key_file(keys[1]) } }, TRUE },
+			{ "Expansion with invalid key", { { "font\\font.gid", key_file(keys[0]) }, { szCDKeyXPFile, key_file(szInvalidKey) } }, TRUE },
+			{ "Expansion with invalid classic key", { { "font\\font.gid", key_file(szInvalidKey) }, { szCDKeyXPFile, key_file(keys[1]) } }, TRUE },
+		};
+
+		for (const Case& testCase : cases)
+		{
+			CAPTURE(testCase.szName);
+			std::vector<BOOL> results;
+			for (const auto& [validate, api] : { std::make_pair(sut, &moo_grid_keys_api()), std::make_pair(original, &original_grid_keys_api()) })
+			{
+				StormStorageMock::reset();
+				StormStorageMock::files = testCase.files;
+				BnSendMock::bExpansion = testCase.bExpansion;
+				results.push_back(validate());
+				// The keys are unloaded
+				CHECK_EQ(*api->ppCDKey, nullptr);
+				CHECK_EQ(*api->ppOwner, nullptr);
+				std::free(*api->ppCDKeyXP);
+				*api->ppCDKeyXP = nullptr;
+			}
+			CHECK_EQ(results[0], results[1]);
+		}
+
+		StormStorageMock::reset();
+		StormStorageMock::files = cases[5].files;
+		BnSendMock::bExpansion = TRUE;
+		CHECK_EQ(sut(), TRUE);
+		std::free(sgpCDKeyXP);
+		sgpCDKeyXP = nullptr;
+	}
+
+	TEST_CASE_FIXTURE(BnclientStormFixture<NoOpFixture>, "Bnclient.0x6FF070E0")
+	{
+		const auto [sut, original] = make_bnclient_pair(BNCDKEY_ComputeKeyInfo, 0x6FF070E0);
+		const auto [moo_set_token, original_set_token] = make_bnclient_pair(BNSEND_SetServerToken, 0x6FF07180);
+
+		auto keys = valid_cd_keys(4);
+		keys.push_back("BBBBBBBBBBBBBBBB");
+
+		for (const std::string& szKey : keys)
+		{
+			for (const uint32_t nServerToken : { 0u, 0x12345678u, 0xFFFFFFFFu })
+			{
+				for (const uint32_t nClientToken : { 0u, 0xDEADBEEFu })
+				{
+					for (const int nKeyIndex : { 0, 1 })
+					{
+						CAPTURE(szKey);
+						CAPTURE(nServerToken);
+						CAPTURE(nClientToken);
+						CAPTURE(nKeyIndex);
+
+						std::vector<char> key(szKey.begin(), szKey.end());
+						key.push_back('\0');
+						std::vector<BOOL> results;
+						std::vector<std::vector<uint8_t>> infos;
+						for (const auto& [compute, set_token, api] : { std::make_tuple(sut, moo_set_token, &moo_grid_keys_api()), std::make_tuple(original, original_set_token, &original_grid_keys_api()) })
+						{
+							char** ppKey = nKeyIndex ? api->ppCDKeyXP : api->ppCDKey;
+							*ppKey = key.data();
+							set_token(nServerToken);
+
+							std::vector<uint8_t> info(sizeof(BnCDKeyInfo), 0xCC);
+							results.push_back(compute(reinterpret_cast<BnCDKeyInfo*>(info.data()), nClientToken, nKeyIndex));
+							infos.push_back(info);
+							*ppKey = nullptr;
+							set_token(0);
+						}
+
+						CHECK_EQ(results[0], results[1]);
+						CHECK_MESSAGE(infos[0] == infos[1], "Comparing the key info");
+					}
+				}
+			}
+		}
 	}
 }
