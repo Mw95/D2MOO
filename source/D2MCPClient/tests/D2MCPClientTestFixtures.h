@@ -106,6 +106,10 @@ struct McpClientApi
 	uint32_t* pGameToken;
 };
 
+// Accessors of the "received" flags
+using GetFlag = BOOL(__cdecl* McpClientApi::*)();
+using SetFlag = void(__stdcall* McpClientApi::*)(BOOL);
+
 inline HMODULE get_original_d2mcpclient()
 {
 	static const HMODULE module = []()

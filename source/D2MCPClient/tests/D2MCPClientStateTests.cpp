@@ -11,9 +11,6 @@
 
 namespace
 {
-using GetFlag = BOOL(__cdecl* McpClientApi::*)();
-using SetFlag = void(__stdcall* McpClientApi::*)(BOOL);
-
 // Sets the flag with `set` then reads it back with `get`, on both implementations
 void check_flag_round_trip(SetFlag set, GetFlag get)
 {
