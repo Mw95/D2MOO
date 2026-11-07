@@ -12,6 +12,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
       D2MultiChatTests.cpp
       D2MultiDataTests.cpp
       D2MultiGateTests.cpp
+      D2MultiLadderTests.cpp
       D2MultiMotdTests.cpp
       D2MultiTextTests.cpp
       D2MultiUserListTests.cpp
