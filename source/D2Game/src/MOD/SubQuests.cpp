@@ -9,6 +9,7 @@
 #include <D2StatList.h>
 #include <D2Text.h>
 #include <D2Unicode.h>
+#include <DataTbls/MonsterTbls.h>
 #include <DataTbls/SubQuestTbls.h>
 #include <Fog.h>
 #include <Units/Player.h>
@@ -39,6 +40,8 @@ void* gpfnOriginalItemPickedUp = nullptr;
 void* gpfnOriginalNPCActivate = nullptr;
 void* gpfnOriginalCreateSaveFile = nullptr;
 void* gpfnOriginalProcessSaveFile = nullptr;
+void* gpfnOriginalOperateHandler = nullptr;
+void* gpfnOriginalHandleChatMessage = nullptr;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Original functions and D2MOO D2Common exports
@@ -53,6 +56,8 @@ static constexpr uint32_t SUBQUEST_ADDR_CREATEITEM = 0x6FC95DF0;			// QUESTS_Cre
 static constexpr uint32_t SUBQUEST_ADDR_DELETEITEM = 0x6FC94A50;			// QUESTS_DeleteItem
 static constexpr uint32_t SUBQUEST_ADDR_LEVELUP = 0x6FC7EC00;				// PLAYERSTATS_LevelUp
 static constexpr uint32_t SUBQUEST_ADDR_SENDPACKET26 = 0x6FC3DDF0;			// D2GAME_PACKETS_SendPacket0x26_ServerMessage_6FC3DDF0
+static constexpr uint32_t SUBQUEST_ADDR_DROPTC = 0x6FC51360;				// D2GAME_DropTC_6FC51360
+static constexpr uint32_t SUBQUEST_ADDR_GETSERVERUNIT = 0x6FCBBB00;			// SUNIT_GetServerUnit
 
 using ParseKillFn = void(__fastcall*)(D2GameStrc*, D2UnitStrc*, D2UnitStrc*);
 using ChangeLevelFn = void(__fastcall*)(D2GameStrc*, int32_t, int32_t, D2UnitStrc*);
@@ -70,6 +75,10 @@ using CreateItemFn = D2UnitStrc*(__fastcall*)(D2GameStrc*, D2UnitStrc*, uint32_t
 using DeleteItemFn = void(__fastcall*)(D2GameStrc*, D2UnitStrc*, uint32_t);
 using LevelUpFn = void(__fastcall*)(D2GameStrc*, D2UnitStrc*);
 using SendPacket26Fn = void(__fastcall*)(D2ClientStrc*, D2GSPacketSrv26*);
+using DropTCFn = void(__fastcall*)(D2GameStrc*, D2UnitStrc*, D2UnitStrc*, D2TCExShortStrc*, int32_t, int32_t, int32_t, D2UnitStrc**, int32_t*, int32_t);
+using GetServerUnitFn = D2UnitStrc*(__fastcall*)(D2GameStrc*, int32_t, int32_t);
+using OperateHandlerFn = int32_t(__fastcall*)(D2GameStrc*, D2UnitStrc*, int32_t, int32_t, int32_t*);
+using ChatMessageFn = int32_t(__fastcall*)(D2GameStrc*, D2UnitStrc*, void*, int32_t);
 
 using GetSubQuestCountFn = int(__stdcall*)();
 using GetSubQuestRecordFn = const D2SubQuestTxt*(__stdcall*)(int);
@@ -109,6 +118,9 @@ enum D2SubQuestState : uint8_t
 	SUBQUESTSTATE_ACTIVE = 1,		// given, goal not reached
 	SUBQUESTSTATE_READY = 2,		// goal reached, to be turned in (item goals: announced, counted again on turn-in)
 	SUBQUESTSTATE_DONE = 3,			// turned in and rewarded
+
+	SUBQUESTSTATE_MASK = 0x7F,
+	SUBQUESTSTATE_COMPLETED_FLAG = 0x80,	// set once turned in, kept while a Repeatable subquest is under way again
 };
 
 struct D2SubQuestProgress
@@ -116,6 +128,17 @@ struct D2SubQuestProgress
 	uint8_t nState = SUBQUESTSTATE_NONE;
 	uint16_t nCounter = 0;
 };
+
+static uint8_t SUBQUEST_StateOf(const D2SubQuestProgress& tProgress)
+{
+	return tProgress.nState & SUBQUESTSTATE_MASK;
+}
+
+// Sets the state and keeps the completed-before flag.
+static void SUBQUEST_SetState(D2SubQuestProgress& tProgress, uint8_t nState)
+{
+	tProgress.nState = (tProgress.nState & SUBQUESTSTATE_COMPLETED_FLAG) | nState;
+}
 
 struct D2PlayerSubQuests
 {
@@ -145,7 +168,21 @@ static uint8_t SUBQUEST_GetState(D2GameStrc* pGame, D2UnitStrc* pPlayer, const D
 
 	const auto& tProgress = itPlayer->second.tProgress[SUBQUEST_GetDifficulty(pGame)];
 	auto it = tProgress.find((uint16_t)pRecord->dwId);
-	return it != tProgress.end() ? it->second.nState : SUBQUESTSTATE_NONE;
+	return it != tProgress.end() ? it->second.nState & SUBQUESTSTATE_MASK : SUBQUESTSTATE_NONE;
+}
+
+// Whether the player has turned the subquest in at least once (in this difficulty).
+static bool SUBQUEST_HasCompleted(D2GameStrc* pGame, D2UnitStrc* pPlayer, const D2SubQuestTxt* pRecord)
+{
+	auto itPlayer = sgPlayerSubQuests.find(pPlayer);
+	if (itPlayer == sgPlayerSubQuests.end())
+	{
+		return false;
+	}
+
+	const auto& tProgress = itPlayer->second.tProgress[SUBQUEST_GetDifficulty(pGame)];
+	auto it = tProgress.find((uint16_t)pRecord->dwId);
+	return it != tProgress.end() && ((it->second.nState & SUBQUESTSTATE_COMPLETED_FLAG) || (it->second.nState & SUBQUESTSTATE_MASK) == SUBQUESTSTATE_DONE);
 }
 
 // Calls pfnVisit(pRecord, tProgress) for each of the player's subquests in this difficulty that are under way.
@@ -160,7 +197,8 @@ static void SUBQUEST_ForEachActive(D2GameStrc* pGame, D2UnitStrc* pPlayer, Visit
 
 	for (auto& [nId, tProgress] : itPlayer->second.tProgress[SUBQUEST_GetDifficulty(pGame)])
 	{
-		if (tProgress.nState == SUBQUESTSTATE_ACTIVE || tProgress.nState == SUBQUESTSTATE_READY)
+		const uint8_t nState = SUBQUEST_StateOf(tProgress);
+		if (nState == SUBQUESTSTATE_ACTIVE || nState == SUBQUESTSTATE_READY)
 		{
 			if (const D2SubQuestTxt* pRecord = SUBQUEST_GetRecordById(nId))
 			{
@@ -258,7 +296,7 @@ static void SUBQUEST_Say(D2TextHeaderStrc* pTextControl, int16_t nTblIndex)
 
 static void SUBQUEST_SetGoalReached(D2UnitStrc* pPlayer, const D2SubQuestTxt* pRecord, D2SubQuestProgress& tProgress)
 {
-	tProgress.nState = SUBQUESTSTATE_READY;
+	SUBQUEST_SetState(tProgress, SUBQUESTSTATE_READY);
 	SUBQUEST_SendStatusMessage(pPlayer, pRecord, "SubQuestReady", "Subquest goal reached, return to the quest giver");
 }
 
@@ -338,7 +376,7 @@ static void SUBQUEST_GiveGold(D2UnitStrc* pPlayer, int32_t nGold)
 	}
 }
 
-static void SUBQUEST_GiveRewards(D2GameStrc* pGame, D2UnitStrc* pPlayer, const D2SubQuestTxt* pRecord)
+static void SUBQUEST_GiveRewards(D2GameStrc* pGame, D2UnitStrc* pPlayer, D2UnitStrc* pNpc, const D2SubQuestTxt* pRecord)
 {
 	const uint8_t nDifficulty = SUBQUEST_GetDifficulty(pGame);
 
@@ -360,6 +398,23 @@ static void SUBQUEST_GiveRewards(D2GameStrc* pGame, D2UnitStrc* pPlayer, const D
 		const int32_t nItemLevel = pRecord->nRewardItemLevel > 0 ? pRecord->nRewardItemLevel : STATLIST_UnitGetStatValue(pPlayer, STAT_LEVEL, 0);
 		const uint8_t nQuality = (uint8_t)(pRecord->nRewardItemQuality > 0 ? pRecord->nRewardItemQuality : ITEMQUAL_NORMAL);
 		SUBQUEST_Original<CreateItemFn>(SUBQUEST_ADDR_CREATEITEM)(pGame, pPlayer, pRecord->dwRewardItemCode, nItemLevel, nQuality, 1);
+	}
+
+	// A treasure class drops like a monster's loot, at the giver's feet (the drop needs a unit to drop from), always
+	// (its NoDrop is ignored), at the item level of RewardItemLevel or the character's.
+	if (pRecord->szRewardTC[0] && pNpc)
+	{
+		char szTreasureClass[32] = {};
+		strncpy_s(szTreasureClass, pRecord->szRewardTC, _TRUNCATE);
+		if (D2TCExShortStrc* pTreasureClass = DATATBLS_GetTreasureClassExRecordFromName(szTreasureClass))
+		{
+			const int32_t nItemLevel = pRecord->nRewardItemLevel > 0 ? pRecord->nRewardItemLevel : STATLIST_UnitGetStatValue(pPlayer, STAT_LEVEL, 0);
+			SUBQUEST_Original<DropTCFn>(SUBQUEST_ADDR_DROPTC)(pGame, pNpc, pPlayer, pTreasureClass, 0, nItemLevel, 1, nullptr, nullptr, 0);
+		}
+		else
+		{
+			FOG_Trace("Subquest %u: RewardTC '%s' is not in TreasureClassEx.txt", pRecord->dwId, pRecord->szRewardTC);
+		}
 	}
 }
 
@@ -383,7 +438,7 @@ static bool SUBQUEST_CanOffer(D2GameStrc* pGame, D2UnitStrc* pPlayer, const D2Su
 	if (pRecord->dwReqSubQuest)
 	{
 		const D2SubQuestTxt* pRequired = SUBQUEST_GetRecordById(pRecord->dwReqSubQuest);
-		if (!pRequired || SUBQUEST_GetState(pGame, pPlayer, pRequired) != SUBQUESTSTATE_DONE)
+		if (!pRequired || !SUBQUEST_HasCompleted(pGame, pPlayer, pRequired))
 		{
 			return false;
 		}
@@ -421,7 +476,7 @@ static void SUBQUEST_TalkToGiver(D2GameStrc* pGame, D2UnitStrc* pPlayer, D2UnitS
 
 		if (!bGoalReached)
 		{
-			tProgress.nState = SUBQUESTSTATE_ACTIVE;
+			SUBQUEST_SetState(tProgress, SUBQUESTSTATE_ACTIVE);
 			SUBQUEST_Say(pTextControl, pRecord->nTextProgressTbl);
 			return;
 		}
@@ -434,8 +489,9 @@ static void SUBQUEST_TalkToGiver(D2GameStrc* pGame, D2UnitStrc* pPlayer, D2UnitS
 			}
 		}
 
-		tProgress.nState = SUBQUESTSTATE_DONE;
-		SUBQUEST_GiveRewards(pGame, pPlayer, pRecord);
+		SUBQUEST_SetState(tProgress, SUBQUESTSTATE_DONE);
+		tProgress.nState |= SUBQUESTSTATE_COMPLETED_FLAG;
+		SUBQUEST_GiveRewards(pGame, pPlayer, pNpc, pRecord);
 		SUBQUEST_Say(pTextControl, pRecord->nTextDoneTbl);
 		SUBQUEST_SendStatusMessage(pPlayer, pRecord, "SubQuestDone", "Subquest completed");
 		return;
@@ -445,13 +501,20 @@ static void SUBQUEST_TalkToGiver(D2GameStrc* pGame, D2UnitStrc* pPlayer, D2UnitS
 	for (int i = 0; i < nCount; ++i)
 	{
 		const D2SubQuestTxt* pRecord = SUBQUEST_GetRecord(i);
-		if (!pRecord || pRecord->nGiver != (int32_t)pNpc->dwClassId || SUBQUEST_GetState(pGame, pPlayer, pRecord) != SUBQUESTSTATE_NONE || !SUBQUEST_CanOffer(pGame, pPlayer, pRecord))
+		if (!pRecord || pRecord->nGiver != (int32_t)pNpc->dwClassId || !SUBQUEST_CanOffer(pGame, pPlayer, pRecord))
+		{
+			continue;
+		}
+
+		// New, or turned in and Repeatable.
+		const uint8_t nState = SUBQUEST_GetState(pGame, pPlayer, pRecord);
+		if (nState != SUBQUESTSTATE_NONE && !(nState == SUBQUESTSTATE_DONE && pRecord->dwRepeatable))
 		{
 			continue;
 		}
 
 		D2SubQuestProgress& tProgress = SUBQUEST_GetProgress(pGame, pPlayer, pRecord);
-		tProgress.nState = SUBQUESTSTATE_ACTIVE;
+		SUBQUEST_SetState(tProgress, SUBQUESTSTATE_ACTIVE);
 		tProgress.nCounter = 0;
 		SUBQUEST_Say(pTextControl, pRecord->nTextOfferTbl);
 		SUBQUEST_SendStatusMessage(pPlayer, pRecord, "SubQuestNew", "New subquest");
@@ -494,7 +557,7 @@ static void SUBQUEST_OnMonsterKilled(D2GameStrc* pGame, D2UnitStrc* pKiller, D2U
 
 		SUBQUEST_ForEachActive(pGame, pPlayer, [&](const D2SubQuestTxt* pRecord, D2SubQuestProgress& tProgress)
 		{
-			if (tProgress.nState != SUBQUESTSTATE_ACTIVE)
+			if (SUBQUEST_StateOf(tProgress) != SUBQUESTSTATE_ACTIVE)
 			{
 				return;
 			}
@@ -572,7 +635,7 @@ void __fastcall MODPATCH_ChangeLevel(D2GameStrc* pGame, int32_t nOldLevelId, int
 	std::lock_guard<std::recursive_mutex> lock(sgSubQuestMutex);
 	SUBQUEST_ForEachActive(pGame, pUnit, [&](const D2SubQuestTxt* pRecord, D2SubQuestProgress& tProgress)
 	{
-		if (tProgress.nState != SUBQUESTSTATE_ACTIVE || pRecord->nGoalLevel != nTargetLevelId)
+		if (SUBQUEST_StateOf(tProgress) != SUBQUESTSTATE_ACTIVE || pRecord->nGoalLevel != nTargetLevelId)
 		{
 			return;
 		}
@@ -605,7 +668,7 @@ void __fastcall MODPATCH_ItemPickedUp(D2GameStrc* pGame, D2UnitStrc* pPlayer, D2
 	std::lock_guard<std::recursive_mutex> lock(sgSubQuestMutex);
 	SUBQUEST_ForEachActive(pGame, pPlayer, [&](const D2SubQuestTxt* pRecord, D2SubQuestProgress& tProgress)
 	{
-		if (pRecord->nGoalType != SUBQUESTGOAL_ITEM || pRecord->dwGoalItemCode != dwCode || tProgress.nState != SUBQUESTSTATE_ACTIVE)
+		if (pRecord->nGoalType != SUBQUESTGOAL_ITEM || pRecord->dwGoalItemCode != dwCode || SUBQUEST_StateOf(tProgress) != SUBQUESTSTATE_ACTIVE)
 		{
 			return;
 		}
@@ -637,13 +700,112 @@ void __fastcall MODPATCH_NPCActivate(D2ClientStrc* pClient, D2UnitStrc* pPlayer,
 
 	SUBQUEST_ForEachActive(pGame, pPlayer, [&](const D2SubQuestTxt* pRecord, D2SubQuestProgress& tProgress)
 	{
-		if (pRecord->nGoalType == SUBQUESTGOAL_TALK && tProgress.nState == SUBQUESTSTATE_ACTIVE && pRecord->nGoalMonster == (int32_t)pTarget->dwClassId)
+		if (pRecord->nGoalType == SUBQUESTGOAL_TALK && SUBQUEST_StateOf(tProgress) == SUBQUESTSTATE_ACTIVE && pRecord->nGoalMonster == (int32_t)pTarget->dwClassId)
 		{
 			SUBQUEST_SetGoalReached(pPlayer, pRecord, tProgress);
 		}
 	});
 
 	SUBQUEST_TalkToGiver(pGame, pPlayer, pTarget, pTextControl);
+}
+
+// An object goal: the player operated an object of that class (in that level).
+int32_t __fastcall MODPATCH_OperateHandler(D2GameStrc* pGame, D2UnitStrc* pPlayer, int32_t nObjectType, int32_t nObjectGUID, int32_t* pResult)
+{
+	// The object is looked up before the original runs: operating some objects removes them.
+	D2UnitStrc* pObject = pGame ? SUBQUEST_Original<GetServerUnitFn>(SUBQUEST_ADDR_GETSERVERUNIT)(pGame, nObjectType, nObjectGUID) : nullptr;
+	const int32_t nObjectClassId = pObject ? (int32_t)pObject->dwClassId : -1;
+	const int32_t nObjectLevelId = SUBQUEST_GetUnitLevelId(pObject);
+
+	const int32_t nOperated = ((OperateHandlerFn)gpfnOriginalOperateHandler)(pGame, pPlayer, nObjectType, nObjectGUID, pResult);
+
+	if (!nOperated || nObjectClassId < 0 || !pPlayer || pPlayer->dwUnitType != UNIT_PLAYER || !SUBQUEST_GetCount())
+	{
+		return nOperated;
+	}
+
+	std::lock_guard<std::recursive_mutex> lock(sgSubQuestMutex);
+	SUBQUEST_ForEachActive(pGame, pPlayer, [&](const D2SubQuestTxt* pRecord, D2SubQuestProgress& tProgress)
+	{
+		if (pRecord->nGoalType == SUBQUESTGOAL_OBJECT && SUBQUEST_StateOf(tProgress) == SUBQUESTSTATE_ACTIVE && pRecord->nGoalObject == nObjectClassId
+			&& (pRecord->nGoalLevel <= 0 || pRecord->nGoalLevel == nObjectLevelId))
+		{
+			SUBQUEST_SetGoalReached(pPlayer, pRecord, tProgress);
+		}
+	});
+
+	return nOperated;
+}
+
+// The player's subquests under way in this difficulty, one chat line each.
+static void SUBQUEST_SendList(D2GameStrc* pGame, D2UnitStrc* pPlayer)
+{
+	char szLine[256];
+	SUBQUEST_GetKeyedText(szLine, sizeof(szLine), "SubQuestList", "Subquests under way:");
+	SUBQUEST_SendMessage(pPlayer, szLine);
+
+	bool bAny = false;
+	SUBQUEST_ForEachActive(pGame, pPlayer, [&](const D2SubQuestTxt* pRecord, D2SubQuestProgress& tProgress)
+	{
+		bAny = true;
+
+		char szName[128];
+		char szState[128];
+		SUBQUEST_GetName(szName, sizeof(szName), pRecord);
+
+		if (SUBQUEST_StateOf(tProgress) == SUBQUESTSTATE_READY && pRecord->nGoalType != SUBQUESTGOAL_ITEM)
+		{
+			SUBQUEST_GetKeyedText(szState, sizeof(szState), "SubQuestListReady", "return to the quest giver");
+			snprintf(szLine, sizeof(szLine), "  %s: %s", szName, szState);
+		}
+		else if (pRecord->nGoalType == SUBQUESTGOAL_KILL)
+		{
+			snprintf(szLine, sizeof(szLine), "  %s: %d/%d", szName, (int32_t)tProgress.nCounter, pRecord->nGoalCount);
+		}
+		else if (pRecord->nGoalType == SUBQUESTGOAL_ITEM)
+		{
+			snprintf(szLine, sizeof(szLine), "  %s: %d/%d", szName, std::min(SUBQUEST_CountItems(pPlayer, pRecord->dwGoalItemCode), pRecord->nGoalCount), pRecord->nGoalCount);
+		}
+		else
+		{
+			snprintf(szLine, sizeof(szLine), "  %s", szName);
+		}
+		SUBQUEST_SendMessage(pPlayer, szLine);
+	});
+
+	if (!bAny)
+	{
+		SUBQUEST_GetKeyedText(szLine, sizeof(szLine), "SubQuestListNone", "  none");
+		SUBQUEST_SendMessage(pPlayer, szLine);
+	}
+}
+
+// The chat line ".subquests" (or ".sq") lists the player's subquests instead of being said. Slash commands would not
+// do: the client hands those to Battle.net and never sends them.
+int32_t __fastcall MODPATCH_HandleChatMessage(D2GameStrc* pGame, D2UnitStrc* pUnit, void* pPacket, int32_t nSize)
+{
+	if (pGame && pUnit && pUnit->dwUnitType == UNIT_PLAYER && pPacket && nSize > (int32_t)offsetof(D2GSPacketClt15, szMessage) && SUBQUEST_GetCount())
+	{
+		const D2GSPacketClt15* pChat = (const D2GSPacketClt15*)pPacket;
+
+		char szMessage[32] = {};
+		const int32_t nAvailable = std::min<int32_t>(nSize - (int32_t)offsetof(D2GSPacketClt15, szMessage), (int32_t)sizeof(szMessage) - 1);
+		memcpy(szMessage, pChat->szMessage, nAvailable);
+		szMessage[nAvailable] = 0;
+		for (int32_t i = (int32_t)strlen(szMessage) - 1; i >= 0 && (szMessage[i] == ' ' || szMessage[i] == '\t'); --i)
+		{
+			szMessage[i] = 0;
+		}
+
+		if (pChat->nMessageType == 1 && (!_stricmp(szMessage, ".subquests") || !_stricmp(szMessage, ".sq")))
+		{
+			std::lock_guard<std::recursive_mutex> lock(sgSubQuestMutex);
+			SUBQUEST_SendList(pGame, pUnit);
+			return 0;
+		}
+	}
+
+	return ((ChatMessageFn)gpfnOriginalHandleChatMessage)(pGame, pUnit, pPacket, nSize);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -788,7 +950,7 @@ static bool SUBQUEST_ReadSaveBlock(const uint8_t* pSaveFile, uint32_t nSize, D2P
 			memcpy(&tEntry.nCounter, pRead, sizeof(tEntry.nCounter));
 			pRead += sizeof(tEntry.nCounter);
 
-			if (tEntry.nState <= SUBQUESTSTATE_DONE)
+			if ((tEntry.nState & SUBQUESTSTATE_MASK) <= SUBQUESTSTATE_DONE)
 			{
 				tProgress[nId] = tEntry;
 			}

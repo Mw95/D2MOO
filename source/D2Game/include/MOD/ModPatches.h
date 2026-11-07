@@ -70,3 +70,12 @@ extern void* gpfnOriginalCreateSaveFile;
 
 int32_t __fastcall MODPATCH_ProcessSaveFile(D2GameStrc* pGame, D2ClientStrc* pClient, uint8_t* pSaveFile, uint32_t nSize, D2UnitStrc** ppPlayer, D2ActiveRoomStrc* pRoomArg, int32_t nXArg, int32_t nYArg);
 extern void* gpfnOriginalProcessSaveFile;
+
+constexpr uint32_t MODPATCH_ADDR_OPERATEHANDLER = 0x6FC789C0;			// OBJECTS_OperateHandler
+constexpr uint32_t MODPATCH_ADDR_HANDLECHATMESSAGE = 0x6FC84950;		// D2GAME_PACKETCALLBACK_Rcv0x15_HandleChatMessage_6FC84950
+
+int32_t __fastcall MODPATCH_OperateHandler(D2GameStrc* pGame, D2UnitStrc* pPlayer, int32_t nObjectType, int32_t nObjectGUID, int32_t* pResult);
+extern void* gpfnOriginalOperateHandler;
+
+int32_t __fastcall MODPATCH_HandleChatMessage(D2GameStrc* pGame, D2UnitStrc* pUnit, void* pPacket, int32_t nSize);
+extern void* gpfnOriginalHandleChatMessage;

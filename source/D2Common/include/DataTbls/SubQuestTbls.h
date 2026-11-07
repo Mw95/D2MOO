@@ -15,6 +15,7 @@ enum D2SubQuestGoalType : uint8_t
 	SUBQUESTGOAL_ITEM = 3,		// "item":  bring GoalCount items of code GoalItem to the giver (taken away with TakeItems=1)
 	SUBQUESTGOAL_LEVEL = 4,		// "level": enter GoalLevel
 	SUBQUESTGOAL_TALK = 5,		// "talk":  talk to the NPC of MonStats row GoalMonster
+	SUBQUESTGOAL_OBJECT = 6,	// "object": operate an object of Objects.txt row GoalObject, in GoalLevel when set
 };
 
 #pragma pack(1)
@@ -27,7 +28,7 @@ struct D2SubQuestTxt
 	int32_t nReqQuest;						// ReqQuest: vanilla quest (D2Quests id) that must be completed first, 0 for none
 	uint32_t dwReqSubQuest;					// ReqSubQuest: Id of a subquest that must be completed first, 0 for none
 	int32_t nReqLevel;						// ReqLevel: minimum character level
-	char szGoal[8];							// Goal: kill, boss, item, level or talk
+	char szGoal[8];							// Goal: kill, boss, item, level, talk or object
 	int32_t nGoalMonster;					// GoalMonster
 	int32_t nGoalSuperUnique;				// GoalSuperUnique
 	int32_t nGoalLevel;						// GoalLevel
@@ -45,6 +46,9 @@ struct D2SubQuestTxt
 	int32_t nRewardItemLevel;				// RewardItemLevel: 0 for the character's level
 	int32_t nStatPoints;					// StatPoints
 	int32_t nSkillPoints;					// SkillPoints
+	uint32_t dwRepeatable;					// Repeatable: 1 lets the giver offer it again once turned in
+	char szRewardTC[32];					// RewardTC: TreasureClassEx.txt row dropped at the giver's feet, empty for none
+	int32_t nGoalObject;					// GoalObject: Objects.txt row (object goal)
 
 	// Resolved after loading
 	uint8_t nGoalType;						// D2SubQuestGoalType

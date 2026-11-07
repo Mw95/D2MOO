@@ -62,6 +62,7 @@ static uint8_t DATATBLS_ParseSubQuestGoal(const char* szGoal)
 		{ "item", SUBQUESTGOAL_ITEM },
 		{ "level", SUBQUESTGOAL_LEVEL },
 		{ "talk", SUBQUESTGOAL_TALK },
+		{ "object", SUBQUESTGOAL_OBJECT },
 	};
 
 	for (const auto& tGoal : tGoals)
@@ -117,6 +118,9 @@ static void DATATBLS_EnsureSubQuestsLoaded()
 		{ "RewardItemLevel", TXTFIELD_DWORD, 0, offsetof(D2SubQuestTxt, nRewardItemLevel), NULL },
 		{ "StatPoints", TXTFIELD_DWORD, 0, offsetof(D2SubQuestTxt, nStatPoints), NULL },
 		{ "SkillPoints", TXTFIELD_DWORD, 0, offsetof(D2SubQuestTxt, nSkillPoints), NULL },
+		{ "Repeatable", TXTFIELD_DWORD, 0, offsetof(D2SubQuestTxt, dwRepeatable), NULL },
+		{ "RewardTC", TXTFIELD_ASCII, 31, offsetof(D2SubQuestTxt, szRewardTC), NULL },
+		{ "GoalObject", TXTFIELD_DWORD, 0, offsetof(D2SubQuestTxt, nGoalObject), NULL },
 		{ "end", TXTFIELD_NONE, 0, 0, NULL },
 	};
 

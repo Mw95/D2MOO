@@ -119,6 +119,8 @@ static ExtraPatchAction extraPatchActions[] = {
     { MODPATCH_ADDR_NPCACTIVATE - D2GameImageBase, (void*)&MODPATCH_NPCActivate, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalNPCActivate },
     { MODPATCH_ADDR_CREATESAVEFILE - D2GameImageBase, (void*)&MODPATCH_CreateSaveFile, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalCreateSaveFile },
     { MODPATCH_ADDR_PROCESSSAVEFILE - D2GameImageBase, (void*)&MODPATCH_ProcessSaveFile, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalProcessSaveFile },
+    { MODPATCH_ADDR_OPERATEHANDLER - D2GameImageBase, (void*)&MODPATCH_OperateHandler, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalOperateHandler },
+    { MODPATCH_ADDR_HANDLECHATMESSAGE - D2GameImageBase, (void*)&MODPATCH_HandleChatMessage, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalHandleChatMessage },
     { 0, 0, PatchAction::Ignore}, // Here because we need at least one element in the array
 };
 
