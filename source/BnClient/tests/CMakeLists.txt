@@ -9,6 +9,7 @@ add_executable(BnclientTests
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
   target_sources(BnclientTests
     PRIVATE
+      BnclientCacheTests.cpp
       BnclientCryptoTests.cpp
       BnclientGatewayTests.cpp
       BnclientGridTests.cpp
