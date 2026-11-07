@@ -23,41 +23,6 @@
 
 
 #pragma pack(push, 1)
-// Layout of the ItemTypes.txt records, D2Win only loads a few columns
-struct D2CompItemTypesTxt
-{
-	char szCode[4];							//0x00
-	int16_t nEquiv1;						//0x04
-	int16_t nEquiv2;						//0x06
-	uint8_t nRepair;						//0x08
-	uint8_t nBody;							//0x09
-	uint8_t nBodyLoc1;						//0x0A
-	uint8_t nBodyLoc2;						//0x0B
-	uint16_t wShoots;						//0x0C
-	uint16_t wQuiver;						//0x0E
-	uint8_t nThrowable;						//0x10
-	uint8_t nReload;						//0x11
-	uint8_t nReEquip;						//0x12
-	uint8_t nAutoStack;						//0x13
-	uint8_t nMagic;							//0x14
-	uint8_t nRare;							//0x15
-	uint8_t nNormal;						//0x16
-	uint8_t nCharm;							//0x17
-	uint8_t nGem;							//0x18
-	uint8_t nBeltable;						//0x19
-	uint8_t nMaxSock1;						//0x1A
-	uint8_t nMaxSock25;						//0x1B
-	uint8_t nMaxSock40;						//0x1C
-	uint8_t nTreasureClass;					//0x1D
-	uint8_t nRarity;						//0x1E
-	uint8_t nStaffMods;						//0x1F
-	uint8_t nCostFormula;					//0x20
-	uint8_t nClass;							//0x21
-	uint8_t nStorePage;						//0x22
-	uint8_t nVarInvGfx;						//0x23
-	char szInvGfx[6][32];					//0x24
-};
-
 // Layout of the Weapons.txt/Armor.txt/Misc.txt records, D2Win only loads a few columns
 struct D2CompItemsTxt
 {
@@ -184,13 +149,6 @@ struct D2CompItemDataTbl
 	int32_t nMiscTxtRecordCount;			//0x1C
 };
 
-struct D2CompItemStrc
-{
-	uint32_t dwCode;						//0x00
-	uint32_t nHitClass;						//0x04
-	int32_t nItemType;						//0x08
-};
-
 struct D2CompHitClassMappingStrc
 {
 	uint32_t dwToken;						//0x00
@@ -205,7 +163,6 @@ struct D2CompExtraDataStringStrc
 };
 #pragma pack(pop)
 
-static_assert(sizeof(D2CompItemTypesTxt) == 0xE4, "D2CompItemTypesTxt size mismatch");
 static_assert(sizeof(D2CompItemsTxt) == 0x1A8, "D2CompItemsTxt size mismatch");
 
 
@@ -641,16 +598,10 @@ BOOL gbComponentTablesInitialized_6F8FD674;
 char byte_6F8FD678[4];
 
 
-//D2Win.0x6F8A32B0
-BOOL __stdcall COMP_IsItemTypeEquivalent(int32_t nItemType, int32_t nRequiredItemType);
 //D2Win.0x6F8A3570
 int __fastcall COMP_ValidateAnimation(D2CompositeUnitStrc* pCompositeUnit);
 //D2Win.0x6F8A3680
 void __stdcall COMP_LoadItemPalettes();
-//D2Win.0x6F8A3DC0
-uint32_t __fastcall COMP_GetWeaponClassTokenIndex(const uint8_t* pComponents, uint32_t nClass);
-//D2Win.0x6F8A4020
-void __fastcall COMP_RemapComponent(int32_t nComponent, uint8_t* pComponent);
 //D2Win.0x6F8A4B10
 void __fastcall COMP_LoadItemPalette(const char* szPaletteName, int32_t nPaletteIndex);
 
