@@ -156,17 +156,18 @@ TEST_SUITE("D2WinFontTests")
 		{
 			for (bool bFindCharInfo : { false, true })
 			{
-				install_fonts(bFindCharInfo);
 				std::vector<std::string> states[2];
 				for (int i = 0; i < 2; ++i)
 				{
+					TickCountMock::dwTickCount = 5000 << 10;
+					install_fonts(bFindCharInfo);
 					const FontGlobals& globals = font_globals(i);
 					*globals.pbSwitchCharInfoLookup = bSwitch;
 					DWORD dwTick = 5000 << 10;
 					for (Font nFont : sequence)
 					{
-						// Advances by about 100 shifted ticks, so that no font is unloaded
-						dwTick += 100 << 10;
+						// Advances by 50 shifted ticks, the fonts are only unloaded after 600 (the fake fonts can't be freed)
+						dwTick += 50 << 10;
 						TickCountMock::dwTickCount = dwTick;
 						const Font nOld = (i == 0 ? sut : original)(nFont);
 

@@ -13,6 +13,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
     PRIVATE
       D2WinButtonTests.cpp
       D2WinControlTests.cpp
+      D2WinEditBoxTests.cpp
       D2WinFontTests.cpp
       D2WinSimpleControlTests.cpp
       D2WinTextBoxTests.cpp
