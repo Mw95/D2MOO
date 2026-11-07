@@ -13,6 +13,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
       D2MultiDataTests.cpp
       D2MultiMotdTests.cpp
       D2MultiTextTests.cpp
+      D2MultiUserTests.cpp
   )
 endif()
 
