@@ -142,8 +142,8 @@ int32_t __fastcall PALETTE_LoadPaletteFiles(const char* szDatFileName, const cha
 	paletteTable.pDarkBlendPalette = gDarkBlendPalette_6F90E298;
 	paletteTable.pDarkenPalette = gDarkenPalette_6F921398;
 	paletteTable.pStandardColorsPalette = gStandardColorsPalette_6F962298;
-	paletteTable.unk0x118 = byte_6F96A6C0;
-	paletteTable.unk0x11C = byte_6F952198;
+	paletteTable.pBrightenPalette = byte_6F96A6C0;
+	paletteTable.pRedTintPalette = byte_6F952198;
 	D2GFX_SetPaletteTables(&paletteTable);
 	D2GFX_SetPalette(gRGBAPalette_6F9622C0);
 

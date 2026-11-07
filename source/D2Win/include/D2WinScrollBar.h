@@ -42,6 +42,8 @@ int __fastcall SCROLLBAR_GetCurrentStep(D2WinScrollBarStrc* pScrollBar);
 //D2Win.0x6F8AF1E0
 //1.14d: 0x00507FD0
 int __fastcall SCROLLBAR_SetTextBox(D2WinScrollBarStrc* pScrollBar, D2WinTextBoxStrc* pTextBox);
+//D2Win.0x6F8AF210
+int32_t __fastcall SCROLLBAR_SetStepChangeCallback(D2WinScrollBarStrc* pScrollBar, void(__stdcall* pfOnStepChange)(SMSGHANDLER_PARAMS*));
 //D2Win.0x6F8AF240
 //1.14d: 0x00508030
 int __fastcall sub_6F8AF240(SMSGHANDLER_PARAMS* pMsg, D2WinScrollBarStrc* pScrollBar, int a3);

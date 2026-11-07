@@ -171,6 +171,8 @@ D2FUNC_DLL(D2CMP, GetGfxFileExtension, const char*, __stdcall, (BOOL bAllowCompr
 D2FUNC_DLL(D2CMP, InitSpriteCache, void, __stdcall, (void* pMemPool, int dwSpriteCacheSize, int dwSize, unsigned int dwMemoryOverride), 0xB9F0)							//D2Cmp.#10052
 D2FUNC_DLL(D2CMP, FlushSpriteCache, void, __stdcall, (BOOL bRealloc), 0xBBF0)																							//D2Cmp.#10053
 D2FUNC_DLL(D2CMP, SetCompressedDataMode, void, __stdcall, (BOOL bAllowCompressedMode), 0xB9C0)																			//D2Cmp.#10054
+// Offset unknown. Loads the current cell of pData into the sprite cache, returns FALSE on failure
+D2FUNC_DLL(D2CMP, 10055, BOOL, __stdcall, (D2GfxDataStrc* pData, int32_t a2, BOOL a3), 0)																			//D2Cmp.#10055
 D2FUNC_DLL(D2CMP, 10077_GetTileType, int, __stdcall, (D2TileLibraryEntryStrc* pTileLibraryEntry), 0xFFF0)																//D2Cmp.#10077
 D2FUNC_DLL(D2CMP, 10078_GetTileStyle, int, __stdcall, (D2TileLibraryEntryStrc* pTileLibraryEntry), 0xFF30)																//D2Cmp.#10078
 // Material flags

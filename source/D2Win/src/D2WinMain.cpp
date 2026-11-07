@@ -421,7 +421,8 @@ int __stdcall D2Win_RunMessageLoop(void(__stdcall* pfOnFrame)(DWORD))
 
 			gpFocusedEditBox = gpNextFocusedEditBox;
 
-			DWORD dwSleepMillis = std::min(nSleepMillis, 20);
+			// Unsigned comparison, negative values are clamped to 20 as well
+			DWORD dwSleepMillis = std::min<DWORD>(nSleepMillis, 20);
 
 			if (dword_6F8BDE20)
 			{
@@ -675,7 +676,6 @@ D2WinControlStrc* __stdcall CONTROL_Create(D2WinControlInitStrc* pControlInit)
 //1.14d: 0x004F95C0
 int __stdcall CONTROL_Destroy(void* ppControl)
 {
-	//TODO: result
 	int result = 0;
 
 	if (ppControl)
@@ -749,7 +749,7 @@ int __stdcall CONTROL_Destroy(void* ppControl)
 		}
 	}
 
-	return 0;
+	return result;
 }
 
 //D2Win.0x6F8AD570 (#10025)
@@ -816,8 +816,9 @@ BOOL __stdcall CONTROL_MouseInsideRect(const RECT* pRect)
 //1.14d: 0x004FA6B0
 void __stdcall D2Win_COMMANDS_MouseMove_6F8AD670(SMSGHANDLER_PARAMS* pMsg)
 {
-	int nX = (int)(int16_t)LOWORD(pMsg->lParam); // GET_X_LPARAM
-	int nY = (int)(int16_t)HIWORD(pMsg->lParam); // GET_Y_LPARAM
+	// The original game does not sign-extend the coordinates
+	int nX = LOWORD(pMsg->lParam);
+	int nY = HIWORD(pMsg->lParam);
 
 	int nScreenWidth = 0;
 	int nScreenHeight = 0;
@@ -911,20 +912,20 @@ void __stdcall D2Win_UpdateAndDraw()
 			}
 		}
 
-		for (void* i = D2Win_10147(); i; i = D2Win_10148(i))
+		for (D2CompositeUnitStrc* i = D2Win_10147(); i; i = D2Win_10148(i))
 		{
-			sub_6F8A15E0(i);
+			COMP_DrawShadow(i);
 		}
 
-		for (void* i = D2Win_10147(); i; i = D2Win_10148(i))
+		for (D2CompositeUnitStrc* i = D2Win_10147(); i; i = D2Win_10148(i))
 		{
-			sub_6F8A1890(i, -1);
+			COMP_Draw(i, -1);
 		}
 
-		for (void* i = D2Win_10147(); i; i = D2Win_10148(i))
+		for (D2CompositeUnitStrc* i = D2Win_10147(); i; i = D2Win_10148(i))
 		{
-			sub_6F8A1D10(i);
-			sub_6F8A2070(i);
+			COMP_DrawName(i);
+			COMP_DrawHoverInfo(i);
 		}
 
 		if (dword_6F8FE278)
@@ -1075,16 +1076,19 @@ void __stdcall D2Win_COMMANDS_Escape_6F8ADB10(SMSGHANDLER_PARAMS* pMsg)
 {
 	if (gpEscapeButton)
 	{
-		for (D2WinControlStrc* pControl = dword_6F8FE264; pControl; pControl = pControl->pNext)
+		// When there is no control list override, the button is always clicked
+		D2WinControlStrc* pControl = dword_6F8FE264;
+		while (pControl && pControl != gpEscapeButton)
 		{
-			if (pControl == gpEscapeButton)
-			{
-				pMsg->hWindow = (HWND)gpEscapeButton;
-				BUTTON_SimulateClick(pMsg);
-				SMsgBreakHandlerChain(pMsg);
-				// Should we return SMsgBreakHandlerChain's result?
-				return;
-			}
+			pControl = pControl->pNext;
+		}
+
+		if (!dword_6F8FE264 || pControl)
+		{
+			pMsg->hWindow = (HWND)gpEscapeButton;
+			BUTTON_SimulateClick(pMsg);
+			SMsgBreakHandlerChain(pMsg);
+			return;
 		}
 	}
 
@@ -1333,8 +1337,9 @@ void __stdcall D2Win_COMMANDS_MouseButton_6F8AE070(SMSGHANDLER_PARAMS* pMsg)
 
 		while (pControl)
 		{
-			if ((pControl->pfShouldMouseInputBeHandled && pControl->pfShouldMouseInputBeHandled(pControl))
-				|| (gMousePosition_6F8FE234.x >= pControl->nImageX && gMousePosition_6F8FE234.y >= pControl->nImageY - pControl->nHeight
+			// The custom hit test replaces the default rectangle check
+			if (pControl->pfShouldMouseInputBeHandled ? pControl->pfShouldMouseInputBeHandled(pControl)
+				: (gMousePosition_6F8FE234.x >= pControl->nImageX && gMousePosition_6F8FE234.y >= pControl->nImageY - pControl->nHeight
 					&& gMousePosition_6F8FE234.x < pControl->nImageX + pControl->nWidth && gMousePosition_6F8FE234.y < pControl->nImageY))
 			{
 				pMsg->hWindow = (HWND)pControl;
