@@ -231,6 +231,21 @@ enum D2MultiControlInit
 };
 
 #pragma pack(push, 1)
+// Index of the font used by a text control (and an unused padding)
+struct D2MultiTextStyleStrc
+{
+	int32_t nFont;
+	int32_t nUnused;
+};
+
+// Position of the scrollbar attached to a text box
+struct D2MultiScrollBarInfoStrc
+{
+	int32_t nX;
+	int32_t nY;
+	int32_t nHeight;
+};
+
 // Message queued for the chat text box. Filled from the Battle.net threads, emptied by the main loop.
 struct D2MultiMessageStrc
 {
