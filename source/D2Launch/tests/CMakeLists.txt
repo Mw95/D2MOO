@@ -12,6 +12,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
       D2LaunchCharSelTests.cpp
       D2LaunchDataTests.cpp
       D2LaunchFilterTests.cpp
+      D2LaunchMenuTests.cpp
       D2LaunchSaveTests.cpp
   )
 endif()
