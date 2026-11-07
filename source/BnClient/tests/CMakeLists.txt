@@ -12,6 +12,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
       BnclientCryptoTests.cpp
       BnclientMessQueueTests.cpp
       BnclientRecvTests.cpp
+      BnclientSendTests.cpp
   )
 endif()
 
