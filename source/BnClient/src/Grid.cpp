@@ -17,7 +17,9 @@ char* sgpCDKeyXP;
 char* sgpCDKey;
 uint32_t gnGridCDKeySize;
 char* sgpOwner;
+//Bnclient.0x6FF1DBD8
 uint16_t gaGridKeys[GRID_SLOTS][GRID_IDEA_KEYLEN];
+//Bnclient.0x6FF1DD10
 GridHashContext gaGridHashes[GRID_SLOTS];
 
 BOOL gbGridFirstLoad = TRUE;

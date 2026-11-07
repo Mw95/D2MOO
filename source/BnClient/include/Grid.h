@@ -18,6 +18,11 @@ struct GridHashContext
 };
 #pragma pack(pop)
 
+//Bnclient.0x6FF1DBD8
+extern uint16_t gaGridKeys[GRID_SLOTS][GRID_IDEA_KEYLEN];
+//Bnclient.0x6FF1DD10
+extern GridHashContext gaGridHashes[GRID_SLOTS];
+
 uint16_t __fastcall GRID_IDEAMulInv(uint16_t x);
 void __fastcall GRID_IDEAInvertKey(const uint16_t* pEncryptionKey, uint16_t* pDecryptionKey);
 void __fastcall GRID_IDEACipher(const uint16_t* pInput, uint16_t* pOutput, const uint16_t* pKey);

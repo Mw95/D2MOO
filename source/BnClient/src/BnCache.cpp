@@ -16,6 +16,7 @@
 CRITICAL_SECTION gtBnCacheLock;
 BnCacheHeader* gpBnCacheHeader;
 BnCacheBlockEntry* gpBnCacheBlockTable;
+//Bnclient.0x6FF1DB80
 uint32_t* gpBnCacheCryptTable;
 BnCacheHashEntry* gpBnCacheHashTable;
 BOOL gbBnCacheOpen;

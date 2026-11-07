@@ -66,6 +66,9 @@ void __stdcall BNCACHE_Close();
 BOOL __fastcall BNCACHE_FreeFile(void* pBuffer, uint32_t nSize);
 BOOL __stdcall BNCACHE_Open();
 BOOL __fastcall BNCACHE_LoadFile(const char* szFileName, FILETIME* pFileTime, void** ppBuffer, uint32_t* pSize);
+//Bnclient.0x6FF1DB80 Created by BNCACHE_Open
+extern uint32_t* gpBnCacheCryptTable;
+
 uint32_t __fastcall BNCACHE_HashString(const char* szString, uint32_t nHashType);
 BOOL __fastcall BNCACHE_StoreFile(const char* szFileName, const void* pData, uint32_t nSize, const FILETIME* pFileTime, uint32_t nMinLifetime, uint32_t nMaxLifetime);
 uint32_t __fastcall BNCACHE_FindHashEntry(const char* szFileName, uint32_t nLocale);
