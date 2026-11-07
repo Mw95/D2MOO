@@ -9,6 +9,7 @@ add_executable(D2MultiTests
 if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
   target_sources(D2MultiTests
     PRIVATE
+      D2MultiChatTests.cpp
       D2MultiDataTests.cpp
       D2MultiTextTests.cpp
   )
