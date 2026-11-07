@@ -1,7 +1,10 @@
 #pragma once
 
 
+#include <algorithm>
 #include <cctype>
+#include <cstdarg>
+#include <cstdio>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -108,6 +111,20 @@ struct StormMock
 		return Str;
 	}
 
+	// Storm.#578
+	static int __cdecl SStrPrintf(char* DstBuf, size_t MaxCount, char* Format, ...)
+	{
+		va_list args;
+		va_start(args, Format);
+		const int nResult = std::vsnprintf(DstBuf, MaxCount, Format, args);
+		va_end(args);
+		if (MaxCount)
+		{
+			DstBuf[MaxCount - 1] = '\0';
+		}
+		return nResult < 0 ? (int)MaxCount - 1 : std::min(nResult, (int)MaxCount - 1);
+	}
+
 	// Storm.#571
 	static const char* __stdcall SStrChr(const char* string, char c)
 	{
@@ -135,6 +152,7 @@ inline void hook_storm_mocks(ImportHooks& hooks)
 	hooks.hook("Storm.dll", 508, reinterpret_cast<void*>(&::SStrCmp), reinterpret_cast<const void*>(&StormMock::SStrCmp), false);
 	hooks.hook("Storm.dll", 509, reinterpret_cast<void*>(&::SStrCmpI), reinterpret_cast<const void*>(&StormMock::SStrCmpI), false);
 	hooks.hook("Storm.dll", 510, reinterpret_cast<void*>(&::SStrUpper), reinterpret_cast<const void*>(&StormMock::SStrUpper), false);
+	hooks.hook("Storm.dll", 578, reinterpret_cast<void*>(&::SStrPrintf), reinterpret_cast<const void*>(&StormMock::SStrPrintf), false);
 	hooks.hook("Storm.dll", 571, reinterpret_cast<void*>(&::SStrChr), reinterpret_cast<const void*>(&StormMock::SStrChr), false);
 	hooks.hook("Storm.dll", 572, reinterpret_cast<void*>(&::SStrChrR), reinterpret_cast<const void*>(&StormMock::SStrChrR), false);
 }
