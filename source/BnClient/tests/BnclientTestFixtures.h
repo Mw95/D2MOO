@@ -13,7 +13,10 @@
 #include <NoOpFixture.h>
 #include <StormMocks.h>
 
+#include <BnConnect.h>
 #include <BnMessQueue.h>
+#include <BnRecv.h>
+#include <BnSend.h>
 
 
 //1.10f Image base: 0x6FF00000
@@ -50,6 +53,75 @@ template<typename Function>
 auto make_bnclient_pair(Function& function, uintptr_t nAddress)
 {
 	return make_function_pair(function, original_bnclient_address(nAddress));
+}
+
+// Stateful functions tested through sequences of calls, with their address in the original 1.10f Bnclient.dll
+#define BNCLIENT_TESTED_FUNCTIONS(X)						\
+	X(BNMESSQUEUE_PushData,				0x6FF06320)		\
+	X(BNMESSQUEUE_PushString,			0x6FF063F0)		\
+	X(BNMESSQUEUE_Read,					0x6FF064A0)		\
+	X(BNMESSQUEUE_Clear,				0x6FF06530)		\
+	X(BNMESSQUEUE_SetErrorIfNone,		0x6FF06580)		\
+	X(BNMESSQUEUE_SetError,				0x6FF065B0)		\
+	X(BNMESSQUEUE_SetErrorText,			0x6FF065E0)		\
+	X(BNMESSQUEUE_GetLastError,			0x6FF06610)		\
+	X(BNMESSQUEUE_PeekLastError,		0x6FF06670)		\
+	X(BNRECV_DispatchMessage,			0x6FF032A0)		\
+	X(BNRECV_SetDisconnected,			0x6FF022D0)		\
+	X(BNRECV_IsDisconnected,			0x6FF022E0)		\
+	X(BNRECV_GetCreateAccountResult,	0x6FF022F0)		\
+	X(BNRECV_GetChangePasswordResult,	0x6FF02300)		\
+	X(BNRECV_ResetAllMessages,			0x6FF02310)		\
+	X(BNRECV_WasMessageReceived,		0x6FF023D0)		\
+	X(BNRECV_ResetMessage,				0x6FF023E0)		\
+	X(BNRECV_GetMessageResult,			0x6FF02400)		\
+	X(BNSEND_SetServerToken,			0x6FF07180)		\
+	X(BNSEND_GetServerToken,			0x6FF07190)		\
+	X(BNSEND_SetLogonType,				0x6FF071A0)		\
+	X(BNSEND_GetLogonType,				0x6FF071B0)		\
+	X(BNET_SetUniqueName,				0x6FF01000)		\
+	X(BNET_GetUniqueName,				0x6FF01020)		\
+	X(BNET_IsEmailRequested,			0x6FF022A0)		\
+	X(BNET_SetEmailRequested,			0x6FF022B0)
+
+// The functions of one implementation (D2MOO or the original dll), so that tests can run the same scenario on both
+struct BnclientApi
+{
+	const char* szName;
+
+#define BNCLIENT_API_MEMBER(NAME, ADDRESS) decltype(&NAME) NAME;
+	BNCLIENT_TESTED_FUNCTIONS(BNCLIENT_API_MEMBER)
+#undef BNCLIENT_API_MEMBER
+};
+
+inline const BnclientApi& moo_api()
+{
+	static const BnclientApi api = {
+		"MOO",
+#define BNCLIENT_API_MOO(NAME, ADDRESS) &NAME,
+		BNCLIENT_TESTED_FUNCTIONS(BNCLIENT_API_MOO)
+#undef BNCLIENT_API_MOO
+	};
+	return api;
+}
+
+inline const BnclientApi& original_api()
+{
+	static const BnclientApi api = {
+		"Original",
+#define BNCLIENT_API_ORIGINAL(NAME, ADDRESS) reinterpret_cast<decltype(&NAME)>(original_bnclient_address(ADDRESS)),
+		BNCLIENT_TESTED_FUNCTIONS(BNCLIENT_API_ORIGINAL)
+#undef BNCLIENT_API_ORIGINAL
+	};
+	return api;
+}
+
+// Runs `test` with the D2MOO implementation, then with the original one
+template<typename Test>
+void for_each_api(Test&& test)
+{
+	test(moo_api());
+	test(original_api());
 }
 
 // The D2MOO implementation is linked into the test executable, so its DllMain is not called
