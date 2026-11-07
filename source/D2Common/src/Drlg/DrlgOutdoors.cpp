@@ -13,6 +13,7 @@
 #include "Drlg/D2DrlgOutSiege.h"
 #include "Drlg/D2DrlgOutWild.h"
 #include "Drlg/D2DrlgPreset.h"
+#include "Drlg/D2DrlgSafeZone.h"
 #include "Drlg/D2DrlgTileSub.h"
 #include "D2Seed.h"
 #include <DataTbls/LevelsIds.h>
@@ -791,6 +792,9 @@ void __fastcall DRLGOUTDOORS_GenerateLevel(D2DrlgLevelStrc* pLevel)
 	default:
 		break;
 	}
+
+	// Mod: town-like safe zone (Levels.txt SafeZoneChance/SafeZonePreset). Rolls nothing when not configured.
+	DRLGSAFEZONE_SpawnOutdoorSafeZone(pLevel);
 
 	switch (pLevel->nLevelType)
 	{

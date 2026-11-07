@@ -3,6 +3,8 @@
 #include "D2CommonDefinitions.h"
 #include <Drlg/D2DrlgDrlg.h>
 
+struct Unicode;
+
 #pragma pack(1)
 
 
@@ -148,6 +150,20 @@ D2COMMON_DLL_DECL D2DrlgRoomStrc* __fastcall DUNGEON_GetRoomExFromRoom(D2ActiveR
 D2COMMON_DLL_DECL BOOL __stdcall DUNGEON_IsTownLevelId(int nLevelId);
 //D2Common.0x6FD8D0E0 (#10082)
 D2COMMON_DLL_DECL BOOL __stdcall DUNGEON_IsRoomInTown(D2ActiveRoomStrc* pRoom);
+
+// Mod: town-like safe zones inside regular levels (see Drlg/D2DrlgSafeZone.h). Not part of the original game,
+// exported by name only from the D2MOO D2Common.dll.
+//D2Common.#11308
+D2COMMON_DLL_DECL BOOL __stdcall DUNGEON_IsRoomSafeZone(D2ActiveRoomStrc* pRoom);
+// LvlPrest id of the safe zone the room belongs to, -1 if none.
+//D2Common.#11309
+D2COMMON_DLL_DECL int __stdcall DUNGEON_GetSafeZonePresetIdFromRoom(D2ActiveRoomStrc* pRoom);
+// LvlPrest.txt EntryName resolved through the string tables, NULL if not set.
+//D2Common.#11310
+D2COMMON_DLL_DECL const Unicode* __stdcall DUNGEON_GetSafeZoneEntryName(int nLvlPrestId);
+// LvlPrest.txt EntryFile, NULL if not set.
+//D2Common.#11311
+D2COMMON_DLL_DECL const char* __stdcall DUNGEON_GetSafeZoneEntryFile(int nLvlPrestId);
 //D2Common.0x6FD8D100 (#10083)
 D2COMMON_DLL_DECL int __stdcall D2COMMON_10083_Return0(D2ActiveRoomStrc* pRoom);
 //D2Common.0x6FD8D130 (#10084)

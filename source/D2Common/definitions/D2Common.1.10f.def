@@ -1308,3 +1308,8 @@ EXPORTS
 	STATLIST_GetFullStatsCountFromUnit									@11305
 	INVENTORY_GetBackPackItemByCode										@11306
 	UNITS_IsObjectInInteractRange										@11307
+	; Mod: safe zones (not in the original D2Common.dll)
+	DUNGEON_IsRoomSafeZone												@11308
+	DUNGEON_GetSafeZonePresetIdFromRoom									@11309
+	DUNGEON_GetSafeZoneEntryName										@11310
+	DUNGEON_GetSafeZoneEntryFile										@11311

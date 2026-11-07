@@ -10,6 +10,7 @@
 #include "Drlg/D2DrlgDrlgRoom.h"
 #include "Drlg/D2DrlgDrlgWarp.h"
 #include "Drlg/D2DrlgPreset.h"
+#include "Drlg/D2DrlgSafeZone.h"
 #include "D2Environment.h"
 #include "Units/UnitRoom.h"
 #include "Units/Units.h"
@@ -1062,10 +1063,49 @@ BOOL __stdcall DUNGEON_IsRoomInTown(D2ActiveRoomStrc* pRoom)
 {
 	if (pRoom)
 	{
-		return DRLG_IsTownLevel(DRLGROOM_GetLevelId(pRoom->pDrlgRoom));
+		// Mod: a safe zone room counts as town (no monsters, town skill/damage rules, stash).
+		return DRLG_IsTownLevel(DRLGROOM_GetLevelId(pRoom->pDrlgRoom)) || DRLGSAFEZONE_IsDrlgRoomSafeZone(pRoom->pDrlgRoom);
 	}
 
 	return FALSE;
+}
+
+// Mod: safe zone exports, not part of the original game.
+
+//D2Common.#11308
+BOOL __stdcall DUNGEON_IsRoomSafeZone(D2ActiveRoomStrc* pRoom)
+{
+	return pRoom && DRLGSAFEZONE_IsDrlgRoomSafeZone(pRoom->pDrlgRoom);
+}
+
+//D2Common.#11309
+int __stdcall DUNGEON_GetSafeZonePresetIdFromRoom(D2ActiveRoomStrc* pRoom)
+{
+	return pRoom ? DRLGSAFEZONE_GetSafeZonePresetId(pRoom->pDrlgRoom) : -1;
+}
+
+//D2Common.#11310
+const Unicode* __stdcall DUNGEON_GetSafeZoneEntryName(int nLvlPrestId)
+{
+	const D2SafeZonePresetTxt* pRecord = DRLGSAFEZONE_GetPresetRecord(nLvlPrestId);
+	if (pRecord && pRecord->dwSafeZone && pRecord->wszEntryName[0])
+	{
+		return pRecord->wszEntryName;
+	}
+
+	return nullptr;
+}
+
+//D2Common.#11311
+const char* __stdcall DUNGEON_GetSafeZoneEntryFile(int nLvlPrestId)
+{
+	const D2SafeZonePresetTxt* pRecord = DRLGSAFEZONE_GetPresetRecord(nLvlPrestId);
+	if (pRecord && pRecord->dwSafeZone && pRecord->szEntryFile[0])
+	{
+		return pRecord->szEntryFile;
+	}
+
+	return nullptr;
 }
 
 //D2Common.0x6FD8D100 (#10083)

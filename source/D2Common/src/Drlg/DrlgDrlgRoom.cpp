@@ -7,6 +7,7 @@
 #include "Drlg/D2DrlgOutRoom.h"
 #include "Drlg/D2DrlgPreset.h"
 #include "Drlg/D2DrlgRoomTile.h"
+#include "Drlg/D2DrlgSafeZone.h"
 #include "D2Dungeon.h"
 #include "D2Seed.h"
 #include "DataTbls/LevelsIds.h"
@@ -562,7 +563,8 @@ int __fastcall DRLGROOM_GetLevelIdFromPopulatedRoom(D2DrlgRoomStrc* pDrlgRoom)
 		FOG_DisplayWarning("ptRoom", __FILE__, __LINE__);
 	}
 
-	if (pDrlgRoom->dwFlags & DRLGROOMFLAG_POPULATION_ZERO)
+	// Mod: safe zones are never populated, like towns.
+	if (pDrlgRoom->dwFlags & DRLGROOMFLAG_POPULATION_ZERO || DRLGSAFEZONE_IsDrlgRoomSafeZone(pDrlgRoom))
 	{
 		return 0;
 	}

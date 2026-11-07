@@ -83,6 +83,7 @@ target_sources(${D2CommonImplName}
     src/Drlg/DrlgOutWild.cpp
     src/Drlg/DrlgPreset.cpp
     src/Drlg/DrlgRoomTile.cpp
+    src/Drlg/DrlgSafeZone.cpp
     src/Drlg/DrlgTileSub.cpp
 
     include/Drlg/D2DrlgActivate.h
@@ -103,6 +104,7 @@ target_sources(${D2CommonImplName}
     include/Drlg/D2DrlgOutWild.h
     include/Drlg/D2DrlgPreset.h
     include/Drlg/D2DrlgRoomTile.h
+    include/Drlg/D2DrlgSafeZone.h
     include/Drlg/D2DrlgTileSub.h
 )
 

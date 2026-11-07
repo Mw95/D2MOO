@@ -4,6 +4,7 @@
 #include "Drlg/D2DrlgDrlg.h"
 #include "Drlg/D2DrlgDrlgRoom.h"
 #include "Drlg/D2DrlgPreset.h"
+#include "Drlg/D2DrlgSafeZone.h"
 #include "D2Seed.h"
 #include <DataTbls/LevelsIds.h>
 
@@ -894,6 +895,9 @@ void __fastcall DRLGMAZE_GenerateLevel(D2DrlgLevelStrc* pLevel)
 		exit(-1);
 		return;
 	}
+
+	// Mod: town-like safe zone (Levels.txt SafeZoneChance/SafeZonePreset). Rolls nothing when not configured.
+	DRLGSAFEZONE_SpawnMazeSafeZone(pLevel);
 
 	if (pLevel->nLevelId == LEVEL_BARRACKS)
 	{
