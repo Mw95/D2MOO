@@ -11,6 +11,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
     PRIVATE
       D2MultiChatTests.cpp
       D2MultiDataTests.cpp
+      D2MultiMotdTests.cpp
       D2MultiTextTests.cpp
   )
 endif()
