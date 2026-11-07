@@ -11,6 +11,7 @@ if(D2MOO_ORDINALS_VERSION STREQUAL "1.10f")
     PRIVATE
       BnclientCacheTests.cpp
       BnclientCryptoTests.cpp
+      BnclientDownloadTests.cpp
       BnclientGatewayTests.cpp
       BnclientGridTests.cpp
       BnclientInterfaceTests.cpp

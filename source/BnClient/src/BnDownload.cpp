@@ -24,11 +24,16 @@
 
 
 BOOL gbBnDownloadCancel;
+//Bnclient.0x6FF1D584
 int32_t gnBnDownloadStatus;
+//Bnclient.0x6FF1D588
 CRITICAL_SECTION gtBnDownloadLock;
+//Bnclient.0x6FF1D5A0
 char gszBnVersionFile[MAX_PATH];
 volatile LONG gnBnActiveDownloads;
+//Bnclient.0x6FF1D6A8
 char gszBnPatchFiles[256];
+//Bnclient.0x6FF1D7A8
 char gszBnVersionFormula[MAX_PATH];
 
 
