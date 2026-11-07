@@ -1321,3 +1321,5 @@ EXPORTS
 	DATATBLS_GetSubQuestCount											@11315
 	DATATBLS_GetSubQuestRecord											@11316
 	DATATBLS_GetSubQuestRecordById										@11317
+	; Mod: custom NPC gossip (not in the original D2Common.dll)
+	DATATBLS_GetCustomNpcGossip											@11318
