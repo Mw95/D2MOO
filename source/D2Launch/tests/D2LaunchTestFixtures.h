@@ -10,6 +10,8 @@
 
 #include <Windows.h>
 
+#include <D2LangStringMocks.h>
+#include <FogEncodingMocks.h>
 #include <FogMemoryMocks.h>
 #include <FunctionPair.h>
 #include <ImportHooks.h>
@@ -71,24 +73,9 @@ struct D2LaunchStormFixture : Fixture
 };
 
 
-// D2LANG_GetStringFromTblIndex returns a string made of the index, D2Win_10077_EDITBOX_GetText returns the text of a fake edit box
+// D2Win_10077_EDITBOX_GetText returns the text of a fake edit box
 struct D2LaunchUiMock
 {
-	static inline Unicode wszStrings[0x10000][8];
-	static inline std::vector<short> string_calls;
-
-	static const Unicode* __fastcall GetStringFromTblIndex(short nIndex)
-	{
-		string_calls.push_back(nIndex);
-		Unicode* wszString = wszStrings[(uint16_t)nIndex];
-		const std::string szString = "#" + std::to_string((uint16_t)nIndex);
-		for (size_t i = 0; i <= szString.size(); ++i)
-		{
-			wszString[i] = (Unicode)(uint16_t)szString.c_str()[i];
-		}
-		return wszString;
-	}
-
 	// The tests pass a pointer to a Unicode string as the edit box
 	static const Unicode* __fastcall EditBoxGetText(D2WinEditBoxStrc* pEditBox)
 	{
@@ -101,9 +88,8 @@ struct D2LaunchUiFixture : D2LaunchStormFixture<Fixture>
 {
 	D2LaunchUiFixture()
 	{
-		this->hooks.hook("D2Lang.dll", 10004, reinterpret_cast<void*>(&D2LANG_GetStringFromTblIndex), reinterpret_cast<const void*>(&D2LaunchUiMock::GetStringFromTblIndex));
+		hook_d2lang_string_mocks(this->hooks);
 		this->hooks.hook("D2Win.dll", 10077, reinterpret_cast<void*>(&D2Win_10077_EDITBOX_GetText), reinterpret_cast<const void*>(&D2LaunchUiMock::EditBoxGetText));
-		D2LaunchUiMock::string_calls.clear();
 	}
 };
 
@@ -163,13 +149,6 @@ struct D2LaunchFileMock
 		return nChecksum;
 	}
 
-	// Stores 14 bits in two bytes, 7 bits each with the high bit set
-	static void __stdcall Encode14BitsToString(uint16_t* p2Characters, uint32_t value)
-	{
-		uint8_t* pBytes = reinterpret_cast<uint8_t*>(p2Characters);
-		pBytes[0] = (uint8_t)((value & 0x7F) | 0x80);
-		pBytes[1] = (uint8_t)(((value >> 7) & 0x7F) | 0x80);
-	}
 };
 
 template<class Fixture>
@@ -192,7 +171,7 @@ struct D2LaunchFileFixture : D2LaunchStormFixture<Fixture>
 		hook_fog(10112, &FOG_SetFilePointer, &D2LaunchFileMock::SetFilePointer);
 		hook_fog(10114, &FOG_CreatePathHierarchy, &D2LaunchFileMock::CreatePathHierarchy);
 		hook_fog(10229, &FOG_ComputeChecksum, &D2LaunchFileMock::ComputeChecksum);
-		hook_fog(10086, &FOG_Encode14BitsToString, &D2LaunchFileMock::Encode14BitsToString);
+		hook_fog_encoding_mocks(this->hooks);
 	}
 
 	~D2LaunchFileFixture()

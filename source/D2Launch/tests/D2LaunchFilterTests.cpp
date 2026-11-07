@@ -111,13 +111,13 @@ TEST_SUITE("D2LaunchFilterTests")
 			CAPTURE(nClass);
 			Unicode moo_buffer[32] = { (Unicode)'x', 0 }, original_buffer[32] = { (Unicode)'x', 0 };
 
-			D2LaunchUiMock::string_calls.clear();
+			D2LangStringMock::calls.clear();
 			const Unicode* moo_result = sut(moo_buffer, (uint8_t)nClass);
-			const auto moo_calls = D2LaunchUiMock::string_calls;
+			const auto moo_calls = D2LangStringMock::calls;
 
-			D2LaunchUiMock::string_calls.clear();
+			D2LangStringMock::calls.clear();
 			const Unicode* original_result = original(original_buffer, (uint8_t)nClass);
-			const auto original_calls = D2LaunchUiMock::string_calls;
+			const auto original_calls = D2LangStringMock::calls;
 
 			CHECK_EQ(moo_calls, original_calls);
 			CHECK_EQ(moo_result == moo_buffer, original_result == original_buffer);

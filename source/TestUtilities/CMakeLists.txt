@@ -1,4 +1,6 @@
 add_library(TestUtilities STATIC 
+  include/D2LangStringMocks.h
+  include/FogEncodingMocks.h
   include/FogMemoryMocks.h
   include/FunctionPair.h
   include/ImportHooks.h
