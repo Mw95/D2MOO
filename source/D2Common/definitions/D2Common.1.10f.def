@@ -1314,3 +1314,6 @@ EXPORTS
 	DUNGEON_GetSafeZoneEntryName										@11310
 	DUNGEON_GetSafeZoneEntryFile										@11311
 	DUNGEON_SetSafeZoneTownOverride										@11312
+	; Mod: custom NPCs (not in the original D2Common.dll)
+	DATATBLS_GetCustomNpcRecord											@11313
+	DATATBLS_ListCustomNpcs												@11314

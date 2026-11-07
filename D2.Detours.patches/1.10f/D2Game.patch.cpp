@@ -1,9 +1,6 @@
 #include <DetoursPatch.h>
 
-#include <Windows.h>
-#include <TlHelp32.h>
-#include <cstdint>
-#include <cwchar>
+#include <MOD/ModPatches.h>
 
 //#define DISABLE_ALL_PATCHES
 
@@ -108,61 +105,16 @@ PatchAction __cdecl GetPatchAction(int ordinal)
 
 static const int D2GameImageBase = 0x6FC30000;
 
-// Mod: safe zones (see doc/SafeZones.md).
-// Safe zones count as town, and the original Town Portal cast (SKILLITEM_pSpell02_CastPortal) refuses to open a
-// portal in town. This wrapper runs the original with D2Common's safe zone town override held, so a portal can be
-// opened inside a safe zone while real towns keep refusing.
-// The override lives in the D2MOO D2Common.dll only (it is not in the original's export table), so it is looked up
-// at run time among the loaded modules named D2Common.dll.
-static FARPROC SAFEZONE_FindD2CommonExport(const char* szExportName)
-{
-    FARPROC pResult = nullptr;
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
-    if (hSnapshot == INVALID_HANDLE_VALUE)
-    {
-        return nullptr;
-    }
-
-    MODULEENTRY32W tModule = {};
-    tModule.dwSize = sizeof(tModule);
-    for (BOOL bFound = Module32FirstW(hSnapshot, &tModule); bFound && !pResult; bFound = Module32NextW(hSnapshot, &tModule))
-    {
-        if (!_wcsicmp(tModule.szModule, L"D2Common.dll"))
-        {
-            pResult = GetProcAddress(tModule.hModule, szExportName);
-        }
-    }
-
-    CloseHandle(hSnapshot);
-    return pResult;
-}
-
-using SafeZoneTownOverrideFn = void(__stdcall*)(BOOL);
-using CastPortalFn = int32_t(__fastcall*)(void* pGame, void* pUnit, void* pItem, void* pTarget, int32_t nX, int32_t nY, int32_t nSkillId);
-
-static int32_t __fastcall SAFEZONE_CastPortal(void* pGame, void* pUnit, void* pItem, void* pTarget, int32_t nX, int32_t nY, int32_t nSkillId);
-
+// Mod: safe zones and custom NPCs (doc/SafeZones.md, doc/CustomNpcs.md). Each wrapper runs the original through the
+// pointer named last, which D2.Detours fills, and adds the mod's behaviour around it (source/D2Game/src/MOD/ModPatches.cpp).
 static ExtraPatchAction extraPatchActions[] = {    
-    // SKILLITEM_pSpell02_CastPortal
-    { 0x6FD02C80 - D2GameImageBase, (void*)&SAFEZONE_CastPortal, PatchAction::FunctionReplaceOriginalByPatch },
+    { MODPATCH_ADDR_CASTPORTAL - D2GameImageBase, (void*)&MODPATCH_CastPortal, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalCastPortal },
+    { MODPATCH_ADDR_INITIALIZENPCCONTROL - D2GameImageBase, (void*)&MODPATCH_InitializeNpcControl, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalInitializeNpcControl },
+    { MODPATCH_ADDR_HANDLEDIALOGMESSAGE - D2GameImageBase, (void*)&MODPATCH_HandleDialogMessage, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalHandleDialogMessage },
+    { MODPATCH_ADDR_REPAIR - D2GameImageBase, (void*)&MODPATCH_Repair, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalRepair },
+    { MODPATCH_ADDR_HEAL - D2GameImageBase, (void*)&MODPATCH_Heal, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalHeal },
     { 0, 0, PatchAction::Ignore}, // Here because we need at least one element in the array
 };
-
-static int32_t __fastcall SAFEZONE_CastPortal(void* pGame, void* pUnit, void* pItem, void* pTarget, int32_t nX, int32_t nY, int32_t nSkillId)
-{
-    static SafeZoneTownOverrideFn pSetOverride = (SafeZoneTownOverrideFn)SAFEZONE_FindD2CommonExport("DUNGEON_SetSafeZoneTownOverride");
-
-    CastPortalFn pOriginal = (CastPortalFn)extraPatchActions[0].detouredPatchedFunctionPointer;
-    if (!pSetOverride)
-    {
-        return pOriginal(pGame, pUnit, pItem, pTarget, nX, nY, nSkillId);
-    }
-
-    pSetOverride(TRUE);
-    const int32_t nResult = pOriginal(pGame, pUnit, pItem, pTarget, nX, nY, nSkillId);
-    pSetOverride(FALSE);
-    return nResult;
-}
 
 __declspec(dllexport)
 constexpr int __cdecl GetExtraPatchActionsCount() { 

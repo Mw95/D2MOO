@@ -19,7 +19,9 @@ target_sources(${D2CommonImplName}
     src/DataTbls/AnimTbls.cpp
     src/DataTbls/ArenaTbls.cpp
     src/DataTbls/BeltsTbls.cpp
+    src/DataTbls/CustomNpcTbls.cpp
     src/DataTbls/DataTbls.cpp
+    src/DataTbls/ExtraTxtColumns.cpp
     src/DataTbls/FieldTbls.cpp
     src/DataTbls/HoradricCube.cpp
     src/DataTbls/InvTbls.cpp
@@ -37,7 +39,9 @@ target_sources(${D2CommonImplName}
     include/DataTbls/AnimTbls.h
     include/DataTbls/ArenaTbls.h
     include/DataTbls/BeltsTbls.h
+    include/DataTbls/CustomNpcTbls.h
     include/DataTbls/DataTbls.h
+    include/DataTbls/ExtraTxtColumns.h
     include/DataTbls/FieldTbls.h
     include/DataTbls/HoradricCube.h
     include/DataTbls/InvTbls.h

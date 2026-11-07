@@ -282,6 +282,14 @@ target_sources(${D2GameImplName}
 )
 
 # Unit
+# Mod: detours of original D2Game functions for safe zones and custom NPCs (not part of the original game)
+target_sources(${D2GameImplName}
+  PRIVATE
+    src/MOD/ModPatches.cpp
+
+    include/MOD/ModPatches.h
+)
+
 target_sources(${D2GameImplName}
   PRIVATE
     src/UNIT/Friendly.cpp
