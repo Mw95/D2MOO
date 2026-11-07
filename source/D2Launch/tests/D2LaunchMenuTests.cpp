@@ -8,6 +8,8 @@
 
 #include <StormStorageMocks.h>
 
+#include <BNet.h>
+#include <CharSel.h>
 #include <MainMenus.h>
 
 #include "D2LaunchTestFixtures.h"
@@ -15,6 +17,9 @@
 
 extern D2ShardStrc** sgptShardArray;
 extern int32_t sgnShardListSize;
+extern BOOL sgbConnectionCancelled;
+extern BOOL sgbLoggedIn;
+extern char sgszPreferredRealmName[256];
 
 
 namespace
@@ -231,5 +236,50 @@ TEST_SUITE("D2LaunchMenuTests")
 		CHECK_EQ(sut(), TRUE);
 		StormStorageMock::set_registry_string("Diablo II", "Aux Battle.net", "1.2.3.144");
 		CHECK_EQ(sut(), FALSE);
+	}
+
+	TEST_CASE("D2Launch.0x6FA110E0 / D2Launch.0x6FA110F0 / D2Launch.0x6FA11100 / D2Launch.0x6FA11110")
+	{
+		const auto [moo_cancel, original_cancel] = make_d2launch_pair(BNET_CancelConnection, 0x6FA110E0);
+		const auto [moo_reset, original_reset] = make_d2launch_pair(BNET_ResetConnectionCancelled, 0x6FA110F0);
+		const auto [moo_is_cancelled, original_is_cancelled] = make_d2launch_pair(BNET_IsConnectionCancelled, 0x6FA11100);
+		const auto [moo_is_logged_in, original_is_logged_in] = make_d2launch_pair(BNET_IsLoggedIn, 0x6FA11110);
+
+		BOOL* pbOriginalCancelled = original_d2launch_global<BOOL>(0x6FA3B808);
+		BOOL* pbOriginalLoggedIn = original_d2launch_global<BOOL>(0x6FA3B80C);
+		const BOOL bMooCancelled = sgbConnectionCancelled, bOriginalCancelled = *pbOriginalCancelled;
+		const BOOL bMooLoggedIn = sgbLoggedIn, bOriginalLoggedIn = *pbOriginalLoggedIn;
+
+		sgbConnectionCancelled = 7;
+		*pbOriginalCancelled = 7;
+		CHECK_EQ(moo_is_cancelled(), original_is_cancelled());
+		moo_cancel();
+		original_cancel();
+		CHECK_EQ(sgbConnectionCancelled, *pbOriginalCancelled);
+		CHECK_EQ(moo_is_cancelled(), original_is_cancelled());
+		CHECK_EQ(moo_is_cancelled(), TRUE);
+		moo_reset();
+		original_reset();
+		CHECK_EQ(sgbConnectionCancelled, *pbOriginalCancelled);
+		CHECK_EQ(moo_is_cancelled(), FALSE);
+
+		for (const BOOL bLoggedIn : { FALSE, TRUE, 5 })
+		{
+			sgbLoggedIn = bLoggedIn;
+			*pbOriginalLoggedIn = bLoggedIn;
+			CHECK_EQ(moo_is_logged_in(), original_is_logged_in());
+		}
+
+		sgbConnectionCancelled = bMooCancelled;
+		*pbOriginalCancelled = bOriginalCancelled;
+		sgbLoggedIn = bMooLoggedIn;
+		*pbOriginalLoggedIn = bOriginalLoggedIn;
+	}
+
+	TEST_CASE("D2Launch.0x6FA13AE0")
+	{
+		const auto [sut, original] = make_d2launch_pair(CHARSEL_GetPreferredRealmName, 0x6FA13AE0);
+		CHECK_EQ(sut(), sgszPreferredRealmName);
+		CHECK_EQ(reinterpret_cast<uintptr_t>(original()), original_d2launch_address(0x6FA3C7D8));
 	}
 }
