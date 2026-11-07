@@ -121,7 +121,7 @@ int32_t sgnLocalSaveFileCount;
 //D2Launch.0x6FA3CA88
 D2RealmCharListCacheStrc* sgpRealmCharListCache;
 //D2Launch.0x6FA3CA8C
-DWORD sgdwLastClickTickCount;
+DWORD sgdwCharacterLastClickTickCount;
 
 //D2Launch.0x6FA33218
 int32_t sgnSelectedIndex = -1;
@@ -1336,12 +1336,12 @@ int32_t __stdcall CHARSEL_CharacterSlotClickCallback(SMSGHANDLER_PARAMS* pMsg)
 	if (pMsg->nMessage == WM_LBUTTONDOWN)
 	{
 		const DWORD dwTickCount = GetTickCount();
-		if (sgnSelectedIndex != -1 && sgnSelectedIndex == nPreviousSelectedIndex && dwTickCount - sgdwLastClickTickCount < 500)
+		if (sgnSelectedIndex != -1 && sgnSelectedIndex == nPreviousSelectedIndex && dwTickCount - sgdwCharacterLastClickTickCount < 500)
 		{
 			return CHARSEL_OkCallback(pMsg);
 		}
 
-		sgdwLastClickTickCount = dwTickCount;
+		sgdwCharacterLastClickTickCount = dwTickCount;
 	}
 
 	return CHARSEL_UpdateSelection();

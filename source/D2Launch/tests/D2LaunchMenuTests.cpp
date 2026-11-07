@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include <ImportTablePatch.h>
 #include <StormStorageMocks.h>
 
 #include <BNet.h>
@@ -20,6 +21,9 @@ extern int32_t sgnShardListSize;
 extern BOOL sgbConnectionCancelled;
 extern BOOL sgbLoggedIn;
 extern char sgszPreferredRealmName[256];
+extern DWORD sgdwLastClickTickCount;
+extern int32_t sgnLastClickX;
+extern int32_t sgnLastClickY;
 
 
 namespace
@@ -84,6 +88,24 @@ D2ShardStrc** make_shard_array(const std::vector<std::pair<const char*, const ch
 	}
 	return ppShards;
 }
+
+// Tick count and cursor position seen by both implementations
+struct InputMock
+{
+	static inline DWORD dwTickCount = 0;
+	static inline POINT tCursor = {};
+
+	static DWORD WINAPI GetTickCount()
+	{
+		return dwTickCount;
+	}
+
+	static BOOL WINAPI GetCursorPos(LPPOINT pPoint)
+	{
+		*pPoint = tCursor;
+		return TRUE;
+	}
+};
 }
 
 
@@ -281,5 +303,71 @@ TEST_SUITE("D2LaunchMenuTests")
 		const auto [sut, original] = make_d2launch_pair(CHARSEL_GetPreferredRealmName, 0x6FA13AE0);
 		CHECK_EQ(sut(), sgszPreferredRealmName);
 		CHECK_EQ(reinterpret_cast<uintptr_t>(original()), original_d2launch_address(0x6FA3C7D8));
+	}
+
+	TEST_CASE("D2Launch.0x6FA22240")
+	{
+		const auto [sut, original] = make_d2launch_pair(MENU_IsDoubleClick, 0x6FA22240);
+
+		ImportTablePatch patches;
+		patches.patch_both(get_original_d2launch(), "KERNEL32.dll", "GetTickCount", reinterpret_cast<const void*>(&InputMock::GetTickCount));
+		patches.patch_both(get_original_d2launch(), "USER32.dll", "GetCursorPos", reinterpret_cast<const void*>(&InputMock::GetCursorPos));
+
+		struct ClickGlobals
+		{
+			DWORD* pdwTickCount;
+			int32_t* pnX;
+			int32_t* pnY;
+		};
+		const ClickGlobals moo_globals = { &sgdwLastClickTickCount, &sgnLastClickX, &sgnLastClickY };
+		const ClickGlobals original_globals = { original_d2launch_global<DWORD>(0x6FA3D104), original_d2launch_global<int32_t>(0x6FA3D108), original_d2launch_global<int32_t>(0x6FA3D10C) };
+
+		const DWORD nTicks[] = { 0, 1, 300, 301, 0x7FFFFFFF, 0x80000000, 0x80000130, 0xFFFFFF00, 0xFFFFFFFF };
+		const POINT points[] = { { 0, 0 }, { 4, 0 }, { 2, 2 }, { 3, 2 }, { -4, 0 }, { 0, 5 }, { 1000, -1000 } };
+
+		for (const UINT nMessage : { (UINT)WM_LBUTTONDOWN, (UINT)WM_LBUTTONUP, (UINT)WM_LBUTTONDBLCLK })
+		{
+			for (const DWORD nLastTick : nTicks)
+			{
+				for (const DWORD nTick : nTicks)
+				{
+					for (const POINT& tPoint : points)
+					{
+						CAPTURE(nMessage);
+						CAPTURE(nLastTick);
+						CAPTURE(nTick);
+						CAPTURE(tPoint.x);
+						CAPTURE(tPoint.y);
+
+						InputMock::dwTickCount = nTick;
+						InputMock::tCursor = tPoint;
+
+						std::vector<std::vector<int64_t>> results;
+						for (const auto& [is_double_click, pGlobals] : { std::make_pair(sut, &moo_globals), std::make_pair(original, &original_globals) })
+						{
+							*pGlobals->pdwTickCount = nLastTick;
+							*pGlobals->pnX = 1;
+							*pGlobals->pnY = 1;
+							SMSGHANDLER_PARAMS tMsg = {};
+							tMsg.nMessage = nMessage;
+							const BOOL bResult = is_double_click(&tMsg);
+							results.push_back({ bResult, *pGlobals->pdwTickCount, *pGlobals->pnX, *pGlobals->pnY });
+						}
+						CHECK_EQ(results[0], results[1]);
+					}
+				}
+			}
+		}
+
+		// A second click at the same place soon after the first one
+		sgdwLastClickTickCount = 0;
+		InputMock::dwTickCount = 1000;
+		InputMock::tCursor = { 10, 10 };
+		SMSGHANDLER_PARAMS tMsg = {};
+		tMsg.nMessage = WM_LBUTTONDOWN;
+		CHECK_EQ(sut(&tMsg), FALSE);
+		InputMock::dwTickCount = 1200;
+		InputMock::tCursor = { 11, 12 };
+		CHECK_EQ(sut(&tMsg), TRUE);
 	}
 }

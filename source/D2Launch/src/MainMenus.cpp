@@ -3806,7 +3806,8 @@ static BOOL MENU_CheckDoubleClick(SMSGHANDLER_PARAMS* pMsg)
 
 	BOOL bDoubleClick = pMsg->nMessage == WM_LBUTTONDOWN;
 	const DWORD dwTickCount = GetTickCount();
-	if (dwTickCount - sgdwLastClickTickCount > 300)
+	// Signed comparison, a click with an older tick count than the previous one is still a double click
+	if ((int32_t)(dwTickCount - sgdwLastClickTickCount) > 300)
 	{
 		bDoubleClick = FALSE;
 	}
