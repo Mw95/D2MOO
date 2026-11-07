@@ -72,6 +72,17 @@ struct StormMock
 		return length;
 	}
 
+	// Storm.#502. Not Storm's algorithm, but deterministic, case insensitive and seeded like it
+	static DWORD __stdcall SStrHash(const char* string, unsigned __int32 flags, unsigned __int32 Seed)
+	{
+		uint32_t nHash = Seed ? Seed : 0x811C9DC5;
+		for (const char* pChar = string; pChar && *pChar; ++pChar)
+		{
+			nHash = (nHash ^ (uint8_t)std::toupper((unsigned char)*pChar)) * 0x01000193;
+		}
+		return nHash;
+	}
+
 	// Storm.#503, max_length being the size of the base buffer
 	static int __stdcall SStrNCat(char* base, const char* append, int max_length)
 	{
@@ -147,6 +158,7 @@ inline void hook_storm_mocks(ImportHooks& hooks)
 	hooks.hook("Storm.dll", 492, reinterpret_cast<void*>(&::SMemFill), reinterpret_cast<const void*>(&StormMock::SMemFill), false);
 	hooks.hook("Storm.dll", 494, reinterpret_cast<void*>(&::SMemZero), reinterpret_cast<const void*>(&StormMock::SMemZero), false);
 	hooks.hook("Storm.dll", 501, reinterpret_cast<void*>(&::SStrCopy), reinterpret_cast<const void*>(&StormMock::SStrCopy), false);
+	hooks.hook("Storm.dll", 502, reinterpret_cast<void*>(&::SStrHash), reinterpret_cast<const void*>(&StormMock::SStrHash), false);
 	hooks.hook("Storm.dll", 503, reinterpret_cast<void*>(&::SStrNCat), reinterpret_cast<const void*>(&StormMock::SStrNCat), false);
 	hooks.hook("Storm.dll", 506, reinterpret_cast<void*>(&::SStrLen), reinterpret_cast<const void*>(&StormMock::SStrLen), false);
 	hooks.hook("Storm.dll", 508, reinterpret_cast<void*>(&::SStrCmp), reinterpret_cast<const void*>(&StormMock::SStrCmp), false);
