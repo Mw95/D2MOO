@@ -8,6 +8,7 @@ add_library(TestUtilities STATIC
   include/RandomUnsignedInteger.h
   include/ReadBinFile.h
   include/StormMocks.h
+  include/StormStorageMocks.h
   include/TestUtilities.h
 
   src/RandomUnsignedInteger.cpp
