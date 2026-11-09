@@ -17,6 +17,8 @@
 
 
 void* gpfnOriginalNpcHandleDialogMessage = nullptr;
+void* gpfnOriginalSendPacket0x9D = nullptr;
+void* gpfnOriginalSendGroundToCursor = nullptr;
 
 
 BOOL __fastcall NPC_OffersItemAppearance(int32_t nNpcClassId)
@@ -147,8 +149,96 @@ int32_t __fastcall NPC_HandleItemAppearanceRequest(D2GameStrc* pGame, D2UnitStrc
     return 0;
 }
 
+// One chat packet per non-empty chunk of the collection, of a type the modified client takes for itself and shows
+// nobody: "IA<chunk>:<8 hex digits>".
+void __fastcall NPC_SendItemAppearanceCollection(D2GameStrc* pGame, D2UnitStrc* pPlayer)
+{
+    D2ClientStrc* pClient = pPlayer ? SUNIT_GetClientFromPlayer(pPlayer, __FILE__, __LINE__) : nullptr;
+    if (!pClient)
+    {
+        return;
+    }
+
+    for (int32_t nChunk = 0; nChunk < ITEMAPPEARANCE_UNLOCK_CHUNKS; ++nChunk)
+    {
+        const uint32_t dwChunk = ITEMAPPEARANCE_GetUnlockChunk(pPlayer, nChunk);
+        if (!dwChunk)
+        {
+            continue;
+        }
+
+        D2GSPacketSrv26 packet26 = {};
+        packet26.nHeader = 0x26;
+        packet26.nMessageType = ITEMAPPEARANCE_CHAT_MESSAGE_TYPE;
+        packet26.nUnitType = UNIT_PLAYER;
+        packet26.dwUnitGUID = pPlayer->dwUnitId;
+        wsprintfA(packet26.szMessage, "IA%d:%08X", nChunk, dwChunk);
+        D2GAME_PACKETS_SendPacket0x26_ServerMessage_6FC3DDF0(pClient, &packet26);
+    }
+}
+
+// The character holds pItem: its base type joins the collection. Only for the owner's own client, so a broadcast of
+// the same item action to the others does not count it again.
+void __fastcall NPC_UnlockItemAppearanceFromPacket(D2ClientStrc* pClient, D2UnitStrc* pUnit, D2UnitStrc* pItem)
+{
+    if (!pClient || !pUnit || pUnit->dwUnitType != UNIT_PLAYER || !pItem || pItem->dwUnitType != UNIT_ITEM)
+    {
+        return;
+    }
+
+    if (SUNIT_GetClientFromPlayer(pUnit, __FILE__, __LINE__) == pClient)
+    {
+        ITEMAPPEARANCE_UnlockLook(pUnit, pItem->dwClassId);
+    }
+}
+
+void __fastcall D2GAME_SendPacket0x9D_WithAppearanceUnlock(D2ClientStrc* pClient, D2UnitStrc* pUnit, D2UnitStrc* pItem, char nAction, DWORD dwFlag, int32_t bGamble)
+{
+    if (gpfnOriginalSendPacket0x9D)
+    {
+        using SendPacket0x9DFn = void(__fastcall*)(D2ClientStrc*, D2UnitStrc*, D2UnitStrc*, char, DWORD, int32_t);
+        reinterpret_cast<SendPacket0x9DFn>(gpfnOriginalSendPacket0x9D)(pClient, pUnit, pItem, nAction, dwFlag, bGamble);
+        if (!bGamble)
+        {
+            NPC_UnlockItemAppearanceFromPacket(pClient, pUnit, pItem);
+        }
+    }
+    else
+    {
+        // The D2MOO function unlocks by itself.
+        D2GAME_SendPacket0x9D_6FC3E6F0(pClient, pUnit, pItem, nAction, dwFlag, bGamble);
+    }
+}
+
+void __fastcall D2GAME_SendGroundToCursor_WithAppearanceUnlock(D2ClientStrc* pClient, D2UnitStrc* pPlayer, D2UnitStrc* pItem, DWORD dwFlags)
+{
+    if (gpfnOriginalSendGroundToCursor)
+    {
+        using SendGroundToCursorFn = void(__fastcall*)(D2ClientStrc*, D2UnitStrc*, D2UnitStrc*, DWORD);
+        reinterpret_cast<SendGroundToCursorFn>(gpfnOriginalSendGroundToCursor)(pClient, pPlayer, pItem, dwFlags);
+        NPC_UnlockItemAppearanceFromPacket(pClient, pPlayer, pItem);
+    }
+    else
+    {
+        // The D2MOO function unlocks by itself.
+        D2GAME_SendP0x9C_ItemAction_GroundToCursor_6FC3E870(pClient, pPlayer, pItem, dwFlags);
+    }
+}
+
 int32_t __fastcall NPC_HandleDialogMessageWithAppearance(D2GameStrc* pGame, D2UnitStrc* pPlayer, int32_t nType, int32_t nNpcGUID, int32_t nItemGUID)
 {
+    if (ITEMAPPEARANCE_IsSyncAction((uint32_t)nType))
+    {
+        D2UnitStrc* pNpc = SUNIT_GetServerUnit(pGame, UNIT_MONSTER, nNpcGUID);
+        if (!pPlayer || pPlayer->dwUnitType != UNIT_PLAYER || !pNpc || pNpc->dwUnitType != UNIT_MONSTER || !NPC_OffersItemAppearance(pNpc->dwClassId))
+        {
+            return 3;
+        }
+
+        NPC_SendItemAppearanceCollection(pGame, pPlayer);
+        return 0;
+    }
+
     if (ITEMAPPEARANCE_IsAction((uint32_t)nType))
     {
         return NPC_HandleItemAppearanceRequest(pGame, pPlayer, (uint32_t)nType, nNpcGUID, nItemGUID);

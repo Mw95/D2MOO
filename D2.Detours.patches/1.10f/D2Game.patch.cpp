@@ -126,6 +126,11 @@ static ExtraPatchAction extraPatchActions[] = {
     { 0x6FC44410 - D2GameImageBase, &D2GAME_PlaceItem_6FC44410, PatchAction::FunctionReplacePatchByOriginal },
     { 0x6FC4BF00 - D2GameImageBase, &D2GAME_GetFreeSpaceEx_6FC4BF00, PatchAction::FunctionReplacePatchByOriginal },
     { 0x6FC52260 - D2GameImageBase, &D2GAME_DropItem_6FC52260, PatchAction::FunctionReplacePatchByOriginal },
+    // Item appearance collection: the item packets that tell an owner it holds an item unlock that base type, and the
+    // collection is sent back to the client in chat packets.
+    { 0x6FC3E6F0 - D2GameImageBase, &D2GAME_SendPacket0x9D_WithAppearanceUnlock, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalSendPacket0x9D },
+    { 0x6FC3E870 - D2GameImageBase, &D2GAME_SendGroundToCursor_WithAppearanceUnlock, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalSendGroundToCursor },
+    { 0x6FC3DDF0 - D2GameImageBase, &D2GAME_PACKETS_SendPacket0x26_ServerMessage_6FC3DDF0, PatchAction::FunctionReplacePatchByOriginal },
 #endif
     { 0, 0, PatchAction::Ignore}, // Here because we need at least one element in the array
 };

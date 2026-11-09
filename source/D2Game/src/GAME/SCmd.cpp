@@ -33,6 +33,7 @@
 #include "SKILLS/Skills.h"
 #include "UNIT/Party.h"
 #include "UNIT/SUnit.h"
+#include "UNIT/SUnitNpcAppearance.h"
 
 
 // Helper function
@@ -1570,6 +1571,12 @@ void __fastcall D2GAME_SendPacket0x9D_6FC3E6F0(D2ClientStrc* pClient, D2UnitStrc
             D2GAME_SendPacket0x9D_6FC3E6F0(pClient, pItem, INVENTORY_UnitIsItem(i), ITEMACTION_ITEMINSOCKET, nFlags, 0);
         }
     }
+
+    // Item appearance collection: the owner holds the item (doc/ItemAppearance.md).
+    if (!bGamble)
+    {
+        NPC_UnlockItemAppearanceFromPacket(pClient, pUnit, pItem);
+    }
 }
 
 //D2Game.0x6FC3E850
@@ -1588,6 +1595,9 @@ void __fastcall D2GAME_SendP0x9C_ItemAction_GroundToCursor_6FC3E870(D2ClientStrc
     UNITS_SetXForStaticUnit(pItem, 0);
     UNITS_SetYForStaticUnit(pItem, 0);
     D2GAME_SendPacket0x9C_6FC3E570(pClient, pItem, ITEMACTION_GROUNDTOCURSOR, dwFlags, 0);
+
+    // Item appearance collection: the player holds the item (doc/ItemAppearance.md).
+    NPC_UnlockItemAppearanceFromPacket(pClient, pPlayer, pItem);
 }
 
 //D2Game.0x6FC3E8E0

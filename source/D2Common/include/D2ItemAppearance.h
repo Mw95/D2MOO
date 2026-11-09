@@ -45,6 +45,61 @@ inline bool ITEMAPPEARANCE_IsAction(uint32_t nAction)
 	return (nAction & ITEMAPPEARANCE_ACTION_FLAG) != 0;
 }
 
+// Collection: a look can only be chosen once the character has held an item of that base type. Which ones it has
+// is the player stat STAT_ITEM_APPEARANCE_UNLOCKED (an ItemStatCost row appended after item_appearance): one bit per
+// items.txt row, 32 rows per value, the value's index in the stat's parameter. Saved in the .d2s like every stat
+// with CSvBits (CSvBits 32, CSvParam 6), never sent as a stat update: player stat packets carry 8-bit stat ids.
+constexpr int STAT_ITEM_APPEARANCE_UNLOCKED = 360;
+constexpr int ITEMAPPEARANCE_UNLOCK_CHUNKS = 32; // 32 * 32 = 1024 items.txt rows; CSvParam 6 is read signed, so 0..31
+constexpr int ITEMAPPEARANCE_UNLOCK_MAX_ROWS = ITEMAPPEARANCE_UNLOCK_CHUNKS * 32;
+
+// Packet 0x38 with this action (bit 30 set, which no look action has) asks for the collection: the server answers
+// with one chat packet 0x26 of type ITEMAPPEARANCE_CHAT_MESSAGE_TYPE per non-empty chunk, "IA<chunk>:<8 hex digits>".
+constexpr uint32_t ITEMAPPEARANCE_ACTION_SYNC = 0xC0000000u;
+constexpr uint8_t ITEMAPPEARANCE_CHAT_MESSAGE_TYPE = 0xA7;
+
+inline bool ITEMAPPEARANCE_IsSyncAction(uint32_t nAction)
+{
+	return (nAction & ITEMAPPEARANCE_ACTION_SYNC) == ITEMAPPEARANCE_ACTION_SYNC;
+}
+
+inline uint32_t ITEMAPPEARANCE_GetUnlockChunk(D2UnitStrc* pPlayer, int nChunk)
+{
+	if (!pPlayer || pPlayer->dwUnitType != UNIT_PLAYER || nChunk < 0 || nChunk >= ITEMAPPEARANCE_UNLOCK_CHUNKS)
+	{
+		return 0;
+	}
+	return (uint32_t)STATLIST_GetUnitBaseStat(pPlayer, STAT_ITEM_APPEARANCE_UNLOCKED, (uint16_t)nChunk);
+}
+
+inline bool ITEMAPPEARANCE_IsLookUnlocked(D2UnitStrc* pPlayer, int nClassId)
+{
+	if (nClassId < 0 || nClassId >= ITEMAPPEARANCE_UNLOCK_MAX_ROWS)
+	{
+		return false;
+	}
+	return (ITEMAPPEARANCE_GetUnlockChunk(pPlayer, nClassId / 32) & (1u << (nClassId % 32))) != 0;
+}
+
+// Marks the row as held by the character. True when it was not before.
+inline bool ITEMAPPEARANCE_UnlockLook(D2UnitStrc* pPlayer, int nClassId)
+{
+	if (!pPlayer || pPlayer->dwUnitType != UNIT_PLAYER || nClassId < 0 || nClassId >= ITEMAPPEARANCE_UNLOCK_MAX_ROWS)
+	{
+		return false;
+	}
+
+	const uint32_t dwChunk = ITEMAPPEARANCE_GetUnlockChunk(pPlayer, nClassId / 32);
+	const uint32_t dwBit = 1u << (nClassId % 32);
+	if (dwChunk & dwBit)
+	{
+		return false;
+	}
+
+	STATLIST_SetUnitStat(pPlayer, STAT_ITEM_APPEARANCE_UNLOCKED, (int)(dwChunk | dwBit), (uint16_t)(nClassId / 32));
+	return true;
+}
+
 inline int ITEMAPPEARANCE_GetLookClassIdFromAction(uint32_t nAction)
 {
 	return (int)(nAction & ITEMAPPEARANCE_ACTION_LOOK_MASK);
@@ -66,6 +121,7 @@ enum D2ItemAppearanceResult
 	ITEMAPPEARANCE_ERR_CLASS_RESTRICTED, // the look is class specific and not of the player's class
 	ITEMAPPEARANCE_ERR_SAME_LOOK,        // the item already looks like that: nothing would change
 	ITEMAPPEARANCE_ERR_EXPANSION,        // an expansion item's look in a classic game (its graphics may not be there)
+	ITEMAPPEARANCE_ERR_LOCKED,           // the character has never held an item of that base type
 };
 
 // Is this items.txt row drawn on the character as a composit layer?
@@ -272,6 +328,11 @@ inline D2ItemAppearanceResult ITEMAPPEARANCE_CanApplyLook(D2UnitStrc* pPlayer, D
 			return ITEMAPPEARANCE_ERR_NO_GRAPHIC;
 		}
 		return ITEMAPPEARANCE_GetStoredClassId(pItem) >= 0 ? ITEMAPPEARANCE_OK : ITEMAPPEARANCE_ERR_SAME_LOOK;
+	}
+
+	if (!ITEMAPPEARANCE_IsLookUnlocked(pPlayer, nLookClassId))
+	{
+		return ITEMAPPEARANCE_ERR_LOCKED;
 	}
 
 	const D2ItemAppearanceResult nLook = ITEMAPPEARANCE_CheckLookRecord(pLookRecord, pPlayer->dwClassId, bExpansion);

@@ -26,6 +26,30 @@ Leave every other column empty or `0`. Without this row the stat cannot be saved
 
 Item stats only go to clients for identified items. That is why only identified items can be changed.
 
+### Collection: the `item_appearance_unlocked` stat
+
+On this branch a look can only be chosen once the character has held an item of that base type. Append a second
+row after `item_appearance`:
+
+| Column      | Value                      | Why |
+|-------------|----------------------------|-----|
+| Stat        | `item_appearance_unlocked` | |
+| ID          | `360`                      | `STAT_ITEM_APPEARANCE_UNLOCKED` |
+| CSvBits     | `32`                       | one bit per items.txt row, 32 rows per value |
+| CSvParam    | `6`                        | the value's index (0 to 31, so 1024 rows). The loader reads it signed, hence 6 bits. |
+| Saved, Send Bits, Send Other, fCallback | empty | never send it as a stat update: those packets have 8-bit stat ids |
+
+The stat is saved in the .d2s like every stat with `CSvBits`, so the save format doesn't change. A character
+gains a base type when the server tells its client that it holds such an item, which covers:
+
+* picking up, buying, gambling, rewards, cube and NPC outputs and trades;
+* the items loaded from the save.
+
+Technically: packet `0x9D` to the owner, or `0x9C` ground-to-cursor.
+When the client opens Transmogrify it sends packet `0x38` with `nAction = 0xC0000000`. The server answers with one
+chat packet `0x26` of type `0xA7` per non-empty chunk, message `IA<chunk>:<8 hex digits>`. The modified client takes
+these for itself and does not show them.
+
 ## Rules
 
 * The item to change must be identified.
@@ -38,6 +62,7 @@ Item stats only go to clients for identified items. That is why only identified 
 * Class-specific looks (barbarian helms, druid pelts, paladin shields, shrunken heads, claws, orbs, amazon
   weapons) are only allowed for their own class, since their graphics may only exist in that class' folder.
 * Expansion bases (items.txt `version` 100) are not offered in classic games, whose MPQs may lack their graphics.
+* On the collection branch, the look's base type must be unlocked (see above).
 * A look that draws the same as the item's current one is refused. Body armour compares the six armour
   components; everything else compares `alternategfx`, or `code` when that is empty.
 * Cost: `item level * 100` gold (from inventory gold, then the stash). Restoring the item's own look costs
