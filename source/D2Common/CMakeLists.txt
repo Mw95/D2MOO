@@ -187,6 +187,7 @@ target_sources(${D2CommonImplName}
     include/D2Dungeon.h
     include/D2Environment.h
     include/D2Inventory.h
+    include/D2ItemAppearance.h
     include/D2ItemMods.h
     include/D2Items.h
     include/D2Log.h
