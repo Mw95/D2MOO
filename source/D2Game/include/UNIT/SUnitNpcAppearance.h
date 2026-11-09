@@ -14,7 +14,7 @@ extern void* gpfnOriginalNpcHandleDialogMessage;
 BOOL __fastcall NPC_OffersItemAppearance(int32_t nNpcClassId);
 
 // Handles client packet 0x38 with an ITEMAPPEARANCE action: the item on the cursor (nItemGUID) gets the look of the
-// donor whose GUID the action carries. Answers with packet 0x58 action 6 (done) or 7 (refused). Return values are
+// items.txt row the action carries (its own row restores its own look). Answers with packet 0x58 action 6 (done) or 7 (refused). Return values are
 // those of the packet handlers: 0 handled, 3 the request cannot come from a regular client.
 int32_t __fastcall NPC_HandleItemAppearanceRequest(D2GameStrc* pGame, D2UnitStrc* pPlayer, uint32_t nAction, int32_t nNpcGUID, int32_t nItemGUID);
 

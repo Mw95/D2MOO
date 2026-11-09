@@ -4,7 +4,7 @@
 // every other property of its own. See doc/ItemAppearance.md.
 //
 // The look is stored on the item as the stat STAT_ITEM_APPEARANCE (a row appended to ItemStatCost.txt), whose
-// value is the donor's items.txt row + 1 (0 means "own look", and a stat of value 0 is never saved or sent).
+// value is the chosen look's items.txt row + 1 (0 means "own look", and a stat of value 0 is never saved or sent).
 // Because it is an ordinary saved and sent stat:
 //  - old saves keep loading, and saves with the stat load in a game without the row only if the row exists,
 //  - other clients receive it with the item's bitstream (packets 0x9C/0x9D), as for every stat of an
@@ -13,7 +13,7 @@
 // Only the composit graphic is affected: the gfx token of helms, weapons and shields (items.txt alternategfx or
 // code), and the six armour components of body armour. The colour (palette transform), the weapon class (COF and
 // AnimData, so attack speed and action frames) and everything else still come from the item's own row. That is
-// why a donor must share the item's weapon class: DCC files only exist for the weapon classes an item can use.
+// why a look must share the item's weapon class: DCC files only exist for the weapon classes an item can use.
 //
 // Everything here is inline and only uses D2Common exports that exist in the original 1.10f D2Common.dll, so it
 // can be used from any D2MOO module, whether the caller runs patched into the original game or not.
@@ -35,24 +35,24 @@ constexpr int ITEMAPPEARANCE_GOLD_PER_ILVL = 100;
 constexpr int ITEMAPPEARANCE_RESTORE_COST_PERCENT = 50;
 
 // Packet 0x38 (NPC item action) carries the request: nItemGUID is the item to change (on the cursor, as for the
-// other anvil services), and nAction is ITEMAPPEARANCE_ACTION_FLAG | the donor's GUID. A donor GUID equal to the
-// item's own GUID restores the item's own look. The vanilla actions are 0..3, and item GUIDs never reach bit 31.
+// other anvil services), and nAction is ITEMAPPEARANCE_ACTION_FLAG | the items.txt row of the chosen look. The item's
+// own row restores its own look. The vanilla actions are 0..3.
 constexpr uint32_t ITEMAPPEARANCE_ACTION_FLAG = 0x80000000u;
-constexpr uint32_t ITEMAPPEARANCE_ACTION_GUID_MASK = 0x7FFFFFFFu;
+constexpr uint32_t ITEMAPPEARANCE_ACTION_LOOK_MASK = 0x0000FFFFu;
 
 inline bool ITEMAPPEARANCE_IsAction(uint32_t nAction)
 {
 	return (nAction & ITEMAPPEARANCE_ACTION_FLAG) != 0;
 }
 
-inline D2UnitGUID ITEMAPPEARANCE_GetDonorGUIDFromAction(uint32_t nAction)
+inline int ITEMAPPEARANCE_GetLookClassIdFromAction(uint32_t nAction)
 {
-	return (D2UnitGUID)(nAction & ITEMAPPEARANCE_ACTION_GUID_MASK);
+	return (int)(nAction & ITEMAPPEARANCE_ACTION_LOOK_MASK);
 }
 
-inline uint32_t ITEMAPPEARANCE_MakeAction(D2UnitGUID nDonorGUID)
+inline uint32_t ITEMAPPEARANCE_MakeAction(int nLookClassId)
 {
-	return ITEMAPPEARANCE_ACTION_FLAG | ((uint32_t)nDonorGUID & ITEMAPPEARANCE_ACTION_GUID_MASK);
+	return ITEMAPPEARANCE_ACTION_FLAG | ((uint32_t)nLookClassId & ITEMAPPEARANCE_ACTION_LOOK_MASK);
 }
 
 enum D2ItemAppearanceResult
@@ -60,11 +60,12 @@ enum D2ItemAppearanceResult
 	ITEMAPPEARANCE_OK = 0,
 	ITEMAPPEARANCE_ERR_INVALID,          // not an item, or no items.txt row
 	ITEMAPPEARANCE_ERR_UNIDENTIFIED,     // the item to change is not identified (its stats are not sent to clients)
-	ITEMAPPEARANCE_ERR_NO_GRAPHIC,       // the item or donor is not drawn on the character (rings, gloves, circlets...)
+	ITEMAPPEARANCE_ERR_NO_GRAPHIC,       // the item or look is not drawn on the character (rings, gloves, circlets...)
 	ITEMAPPEARANCE_ERR_SLOT_MISMATCH,    // not drawn on the same composit layer
 	ITEMAPPEARANCE_ERR_WEAPON_CLASS,     // weapons with a different weapon class (one- or two-handed)
-	ITEMAPPEARANCE_ERR_CLASS_RESTRICTED, // the donor is class specific and not of the player's class
-	ITEMAPPEARANCE_ERR_SAME_LOOK,        // the donor already looks like the item: nothing would change
+	ITEMAPPEARANCE_ERR_CLASS_RESTRICTED, // the look is class specific and not of the player's class
+	ITEMAPPEARANCE_ERR_SAME_LOOK,        // the item already looks like that: nothing would change
+	ITEMAPPEARANCE_ERR_EXPANSION,        // an expansion item's look in a classic game (its graphics may not be there)
 };
 
 // Is this items.txt row drawn on the character as a composit layer?
@@ -79,33 +80,33 @@ inline bool ITEMAPPEARANCE_RecordHasGraphic(const D2ItemsTxt* pRecord)
 	return !ITEMS_CheckType(pRecord->wType[0], ITEMTYPE_CIRCLET);
 }
 
-// Can the row pDonor be drawn in place of the row pItem? Shape only: no player or item state is looked at.
-inline D2ItemAppearanceResult ITEMAPPEARANCE_CheckRecords(const D2ItemsTxt* pItem, const D2ItemsTxt* pDonor)
+// Can the row pLook be drawn in place of the row pItem? Shape only: no player or item state is looked at.
+inline D2ItemAppearanceResult ITEMAPPEARANCE_CheckRecords(const D2ItemsTxt* pItem, const D2ItemsTxt* pLook)
 {
-	if (!pItem || !pDonor)
+	if (!pItem || !pLook)
 	{
 		return ITEMAPPEARANCE_ERR_INVALID;
 	}
 
-	if (!ITEMAPPEARANCE_RecordHasGraphic(pItem) || !ITEMAPPEARANCE_RecordHasGraphic(pDonor))
+	if (!ITEMAPPEARANCE_RecordHasGraphic(pItem) || !ITEMAPPEARANCE_RecordHasGraphic(pLook))
 	{
 		return ITEMAPPEARANCE_ERR_NO_GRAPHIC;
 	}
 
-	if (pItem->nComponent != pDonor->nComponent)
+	if (pItem->nComponent != pLook->nComponent)
 	{
 		return ITEMAPPEARANCE_ERR_SLOT_MISMATCH;
 	}
 
 	const bool bItemIsWeapon = ITEMS_CheckType(pItem->wType[0], ITEMTYPE_WEAPON) != 0;
-	const bool bDonorIsWeapon = ITEMS_CheckType(pDonor->wType[0], ITEMTYPE_WEAPON) != 0;
-	if (bItemIsWeapon != bDonorIsWeapon)
+	const bool bLookIsWeapon = ITEMS_CheckType(pLook->wType[0], ITEMTYPE_WEAPON) != 0;
+	if (bItemIsWeapon != bLookIsWeapon)
 	{
 		return ITEMAPPEARANCE_ERR_SLOT_MISMATCH;
 	}
 
-	// The weapon class picks the COF and the AnimData record; the donor's DCCs must exist for it.
-	if (bItemIsWeapon && (pItem->dwWeapClass != pDonor->dwWeapClass || pItem->dwWeapClass2Hand != pDonor->dwWeapClass2Hand))
+	// The weapon class picks the COF and the AnimData record; the look's DCCs must exist for it.
+	if (bItemIsWeapon && (pItem->dwWeapClass != pLook->dwWeapClass || pItem->dwWeapClass2Hand != pLook->dwWeapClass2Hand))
 	{
 		return ITEMAPPEARANCE_ERR_WEAPON_CLASS;
 	}
@@ -113,7 +114,7 @@ inline D2ItemAppearanceResult ITEMAPPEARANCE_CheckRecords(const D2ItemsTxt* pIte
 	return ITEMAPPEARANCE_OK;
 }
 
-// The donor row stored on the item, or -1 for none.
+// The look row stored on the item, or -1 for none.
 inline int ITEMAPPEARANCE_GetStoredClassId(D2UnitStrc* pItem)
 {
 	if (!pItem || pItem->dwUnitType != UNIT_ITEM)
@@ -131,7 +132,7 @@ inline int ITEMAPPEARANCE_GetStoredClassId(D2UnitStrc* pItem)
 	return nValue > 0 ? nValue - 1 : -1;
 }
 
-// The items.txt row the item is drawn with: the stored donor when it is still compatible (the txt files may have
+// The items.txt row the item is drawn with: the stored look when it is still compatible (the txt files may have
 // changed since it was stored), else the item's own.
 inline int ITEMAPPEARANCE_GetDisplayClassId(D2UnitStrc* pItem)
 {
@@ -140,12 +141,12 @@ inline int ITEMAPPEARANCE_GetDisplayClassId(D2UnitStrc* pItem)
 		return -1;
 	}
 
-	const int nDonorClassId = ITEMAPPEARANCE_GetStoredClassId(pItem);
-	if (nDonorClassId >= 0 && nDonorClassId != (int)pItem->dwClassId)
+	const int nLookClassId = ITEMAPPEARANCE_GetStoredClassId(pItem);
+	if (nLookClassId >= 0 && nLookClassId != (int)pItem->dwClassId)
 	{
-		if (ITEMAPPEARANCE_CheckRecords(DATATBLS_GetItemsTxtRecord(pItem->dwClassId), DATATBLS_GetItemsTxtRecord(nDonorClassId)) == ITEMAPPEARANCE_OK)
+		if (ITEMAPPEARANCE_CheckRecords(DATATBLS_GetItemsTxtRecord(pItem->dwClassId), DATATBLS_GetItemsTxtRecord(nLookClassId)) == ITEMAPPEARANCE_OK)
 		{
-			return nDonorClassId;
+			return nLookClassId;
 		}
 	}
 
@@ -170,17 +171,91 @@ inline uint32_t ITEMAPPEARANCE_GetDisplayAltGfx(D2UnitStrc* pItem)
 	return pRecord->dwAlternateGfx ? pRecord->dwAlternateGfx : pRecord->dwCode;
 }
 
-// Full check of a request: may pPlayer give pItem the look of pDonor? pDonor == pItem restores the own look.
-inline D2ItemAppearanceResult ITEMAPPEARANCE_CanApply(D2UnitStrc* pPlayer, D2UnitStrc* pItem, D2UnitStrc* pDonor)
+// The class a row is reserved for (item type's Class column), or PCLASS_INVALID.
+inline int ITEMAPPEARANCE_GetRecordClass(const D2ItemsTxt* pRecord)
 {
-	if (!pItem || pItem->dwUnitType != UNIT_ITEM || !pDonor || pDonor->dwUnitType != UNIT_ITEM)
+	if (!pRecord || pRecord->wType[0] < 0 || pRecord->wType[0] >= sgptDataTables->nItemTypesTxtRecordCount)
+	{
+		return PCLASS_INVALID;
+	}
+
+	const int nClass = sgptDataTables->pItemTypesTxt[pRecord->wType[0]].nClass;
+	return nClass < NUMBER_OF_PLAYERCLASSES ? nClass : PCLASS_INVALID;
+}
+
+// Do two rows draw the same? Body armour is drawn from its six armour components, everything else from its gfx
+// token (alternategfx, else code). Many exceptional and elite rows reuse the normal row's graphic.
+inline bool ITEMAPPEARANCE_HaveSameGraphic(const D2ItemsTxt* pFirst, const D2ItemsTxt* pSecond)
+{
+	if (!pFirst || !pSecond)
+	{
+		return false;
+	}
+
+	if (pFirst == pSecond)
+	{
+		return true;
+	}
+
+	if (ITEMS_CheckType(pFirst->wType[0], ITEMTYPE_ARMOR))
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			if (pFirst->nArmorComp[i] != pSecond->nArmorComp[i])
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	const uint32_t dwFirst = pFirst->dwAlternateGfx ? pFirst->dwAlternateGfx : pFirst->dwCode;
+	const uint32_t dwSecond = pSecond->dwAlternateGfx ? pSecond->dwAlternateGfx : pSecond->dwCode;
+	return dwFirst == dwSecond;
+}
+
+// May the row be offered as a look to a player of class nPlayerClass, in a game with or without the expansion?
+// Shape only: whether it fits a given item is ITEMAPPEARANCE_CheckRecords.
+inline D2ItemAppearanceResult ITEMAPPEARANCE_CheckLookRecord(const D2ItemsTxt* pLook, int nPlayerClass, bool bExpansion)
+{
+	if (!pLook)
+	{
+		return ITEMAPPEARANCE_ERR_INVALID;
+	}
+
+	if (!ITEMAPPEARANCE_RecordHasGraphic(pLook))
+	{
+		return ITEMAPPEARANCE_ERR_NO_GRAPHIC;
+	}
+
+	if (!bExpansion && pLook->wVersion >= 100)
+	{
+		return ITEMAPPEARANCE_ERR_EXPANSION;
+	}
+
+	// Class specific graphics (barbarian helms, druid pelts, paladin shields, shrunken heads, claws, orbs,
+	// amazon weapons) may only exist in their own class' folder.
+	const int nLookClass = ITEMAPPEARANCE_GetRecordClass(pLook);
+	if (nLookClass != PCLASS_INVALID && nLookClass != nPlayerClass)
+	{
+		return ITEMAPPEARANCE_ERR_CLASS_RESTRICTED;
+	}
+
+	return ITEMAPPEARANCE_OK;
+}
+
+// Full check of a request: may pPlayer give pItem the look of the items.txt row nLookClassId? The item's own row
+// restores its own look.
+inline D2ItemAppearanceResult ITEMAPPEARANCE_CanApplyLook(D2UnitStrc* pPlayer, D2UnitStrc* pItem, int nLookClassId, bool bExpansion)
+{
+	if (!pPlayer || pPlayer->dwUnitType != UNIT_PLAYER || !pItem || pItem->dwUnitType != UNIT_ITEM)
 	{
 		return ITEMAPPEARANCE_ERR_INVALID;
 	}
 
 	const D2ItemsTxt* pItemRecord = DATATBLS_GetItemsTxtRecord(pItem->dwClassId);
-	const D2ItemsTxt* pDonorRecord = DATATBLS_GetItemsTxtRecord(pDonor->dwClassId);
-	if (!pItemRecord || !pDonorRecord)
+	const D2ItemsTxt* pLookRecord = nLookClassId >= 0 ? DATATBLS_GetItemsTxtRecord(nLookClassId) : nullptr;
+	if (!pItemRecord || !pLookRecord)
 	{
 		return ITEMAPPEARANCE_ERR_INVALID;
 	}
@@ -190,7 +265,7 @@ inline D2ItemAppearanceResult ITEMAPPEARANCE_CanApply(D2UnitStrc* pPlayer, D2Uni
 		return ITEMAPPEARANCE_ERR_UNIDENTIFIED;
 	}
 
-	if (pItem == pDonor)
+	if (nLookClassId == (int)pItem->dwClassId)
 	{
 		if (!ITEMAPPEARANCE_RecordHasGraphic(pItemRecord))
 		{
@@ -199,21 +274,19 @@ inline D2ItemAppearanceResult ITEMAPPEARANCE_CanApply(D2UnitStrc* pPlayer, D2Uni
 		return ITEMAPPEARANCE_GetStoredClassId(pItem) >= 0 ? ITEMAPPEARANCE_OK : ITEMAPPEARANCE_ERR_SAME_LOOK;
 	}
 
-	const D2ItemAppearanceResult nShape = ITEMAPPEARANCE_CheckRecords(pItemRecord, pDonorRecord);
+	const D2ItemAppearanceResult nLook = ITEMAPPEARANCE_CheckLookRecord(pLookRecord, pPlayer->dwClassId, bExpansion);
+	if (nLook != ITEMAPPEARANCE_OK)
+	{
+		return nLook;
+	}
+
+	const D2ItemAppearanceResult nShape = ITEMAPPEARANCE_CheckRecords(pItemRecord, pLookRecord);
 	if (nShape != ITEMAPPEARANCE_OK)
 	{
 		return nShape;
 	}
 
-	// Class specific graphics (barbarian helms, druid pelts, paladin shields, shrunken heads, claws, orbs,
-	// amazon weapons) may only exist in their own class' folder.
-	const int nDonorClass = ITEMS_GetClassOfClassSpecificItem(pDonor);
-	if (nDonorClass != PCLASS_INVALID && (!pPlayer || pPlayer->dwUnitType != UNIT_PLAYER || nDonorClass != (int)pPlayer->dwClassId))
-	{
-		return ITEMAPPEARANCE_ERR_CLASS_RESTRICTED;
-	}
-
-	if (ITEMAPPEARANCE_GetDisplayClassId(pItem) == (int)pDonor->dwClassId)
+	if (ITEMAPPEARANCE_HaveSameGraphic(ITEMAPPEARANCE_GetDisplayRecord(pItem), pLookRecord))
 	{
 		return ITEMAPPEARANCE_ERR_SAME_LOOK;
 	}
@@ -234,12 +307,12 @@ inline int ITEMAPPEARANCE_GetCost(D2UnitStrc* pItem, bool bRestore)
 	return bRestore ? nCost * ITEMAPPEARANCE_RESTORE_COST_PERCENT / 100 : nCost;
 }
 
-// The value to store for a donor row (0 removes the stat).
-inline int ITEMAPPEARANCE_GetStatValueForClassId(D2UnitStrc* pItem, int nDonorClassId)
+// The value to store for a look row (0 removes the stat).
+inline int ITEMAPPEARANCE_GetStatValueForClassId(D2UnitStrc* pItem, int nLookClassId)
 {
-	if (!pItem || nDonorClassId < 0 || nDonorClassId == (int)pItem->dwClassId)
+	if (!pItem || nLookClassId < 0 || nLookClassId == (int)pItem->dwClassId)
 	{
 		return 0;
 	}
-	return nDonorClassId + 1;
+	return nLookClassId + 1;
 }

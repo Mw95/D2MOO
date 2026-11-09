@@ -87,24 +87,14 @@ int32_t __fastcall NPC_HandleItemAppearanceRequest(D2GameStrc* pGame, D2UnitStrc
 
     D2ClientStrc* pClient = SUNIT_GetClientFromPlayer(pPlayer, __FILE__, __LINE__);
 
-    // The donor stays where it is; it must be the player's own: in the inventory, the stash or worn.
-    const D2UnitGUID nDonorGUID = ITEMAPPEARANCE_GetDonorGUIDFromAction(nAction);
-    D2UnitStrc* pDonor = pItem;
-    if (nDonorGUID != pItem->dwUnitId)
-    {
-        pDonor = SUNIT_GetServerUnit(pGame, UNIT_ITEM, nDonorGUID);
-        if (!pDonor || pDonor->dwUnitType != UNIT_ITEM || !INVENTORY_CompareWithItemsParentInventory(pPlayer->pInventory, pDonor))
-        {
-            return NPC_RefuseItemAppearance(pGame, pPlayer, pClient, nNpcGUID, nItemGUID);
-        }
-    }
-
-    if (ITEMAPPEARANCE_CanApply(pPlayer, pItem, pDonor) != ITEMAPPEARANCE_OK)
+    // The look is an items.txt row the player chose from the client's list; the item's own row restores its look.
+    const int32_t nLookClassId = ITEMAPPEARANCE_GetLookClassIdFromAction(nAction);
+    if (ITEMAPPEARANCE_CanApplyLook(pPlayer, pItem, nLookClassId, pGame->bExpansion != 0) != ITEMAPPEARANCE_OK)
     {
         return NPC_RefuseItemAppearance(pGame, pPlayer, pClient, nNpcGUID, nItemGUID);
     }
 
-    const bool bRestore = pDonor == pItem;
+    const bool bRestore = nLookClassId == (int32_t)pItem->dwClassId;
     const int32_t nCost = ITEMAPPEARANCE_GetCost(pItem, bRestore);
     const int32_t nGold = STATLIST_UnitGetStatValue(pPlayer, STAT_GOLD, 0);
     const int32_t nGoldBank = STATLIST_UnitGetStatValue(pPlayer, STAT_GOLDBANK, 0);
@@ -121,7 +111,7 @@ int32_t __fastcall NPC_HandleItemAppearanceRequest(D2GameStrc* pGame, D2UnitStrc
         return NPC_RefuseItemAppearance(pGame, pPlayer, pClient, nNpcGUID, nItemGUID);
     }
 
-    NPC_SetItemAppearanceStat(pOutput, ITEMAPPEARANCE_GetStatValueForClassId(pOutput, bRestore ? -1 : (int32_t)pDonor->dwClassId));
+    NPC_SetItemAppearanceStat(pOutput, ITEMAPPEARANCE_GetStatValueForClassId(pOutput, bRestore ? -1 : nLookClassId));
 
     if (!D2GAME_RemoveItemIfOnCursor_6FC49760(pGame, pPlayer, pItem))
     {
