@@ -544,6 +544,29 @@ int32_t __fastcall PLRTRADE_CreateUberFinalePortal(D2GameStrc* pGame, D2UnitStrc
 
 //1.10: D2Game.0x6FC90010
 //1.14d: 0x00565AB0
+// Not in the original game: the recipe that added properties to a cube output, written as STAT_D2MOO_ITEM_CRAFTRECIPE in the item's magic
+// list so that a client can show the ranges of those properties. Nothing is written when itemstatcost.txt has no row for the stat.
+static void __fastcall PLRTRADE_RecordCraftRecipe(D2UnitStrc* pItem, const D2CubeMainTxt* pCubeMainTxt, int32_t nOutput)
+{
+    if (!pItem || !SKILLS_GetItemStatCostTxtRecord(STAT_D2MOO_ITEM_CRAFTRECIPE))
+    {
+        return;
+    }
+
+    const int32_t nRecordCount = DATATBLS_GetCubemainTxtRecordCount();
+    for (int32_t nRecipe = 0; nRecipe < nRecordCount; ++nRecipe)
+    {
+        if (DATATBLS_GetCubemainTxtRecord(nRecipe) == pCubeMainTxt)
+        {
+            if (D2StatListStrc* pMagicList = STATLIST_GetStatListFromUnitStateAndFlag(pItem, 0, STATLIST_MAGIC))
+            {
+                STATLIST_SetStatIfListIsValid(pMagicList, STAT_D2MOO_ITEM_CRAFTRECIPE, ((nRecipe + 1) << 2) | nOutput, 0);
+            }
+            return;
+        }
+    }
+}
+
 void __fastcall PLRTRADE_CreateCubeOutputs(D2GameStrc* pGame, D2UnitStrc* pUnit, D2CubeMainTxt* pCubeMainTxt, D2CubeItemStrc* pCubeItem)
 {
     using CubeOutputFunc = int32_t(__fastcall*)(D2GameStrc*, D2UnitStrc*);
@@ -845,6 +868,7 @@ void __fastcall PLRTRADE_CreateCubeOutputs(D2GameStrc* pGame, D2UnitStrc* pUnit,
 
             if (bAddCraftStats)
             {
+                int32_t bAddedCraftProperty = 0;
                 for (int32_t i = 0; i < 5; ++i)
                 {
                     if (pCubeOutput->pParam[i].nMod >= 0)
@@ -857,8 +881,14 @@ void __fastcall PLRTRADE_CreateCubeOutputs(D2GameStrc* pGame, D2UnitStrc* pUnit,
                             itemProperty.nMin = pCubeOutput->pParam[i].nModMin;
                             itemProperty.nMax = pCubeOutput->pParam[i].nModMax;
                             ITEMMODS_AddCraftPropertyList(pCurrentOutput, &itemProperty, pGame->bExpansion);
+                            bAddedCraftProperty = 1;
                         }
                     }
+                }
+
+                if (bAddedCraftProperty)
+                {
+                    PLRTRADE_RecordCraftRecipe(pCurrentOutput, pCubeMainTxt, nCounter);
                 }
             }
 

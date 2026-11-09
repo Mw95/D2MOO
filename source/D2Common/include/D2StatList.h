@@ -372,6 +372,13 @@ enum D2C_ItemStats
 	STAT_PASSIVE_MAG_PIERCE,
 };
 
+// Not a stat of the original game: D2Game writes it on an item a cube recipe adds properties to, so that a client can name the recipe and
+// show the ranges of the properties it rolled. The value is (cubemain.txt row + 1) << 2 | output index (0..2), in the item's magic list.
+// It needs an itemstatcost.txt row at this id, after the last 1.10 stat (passive_mag_pierce, 358), with Save Bits wide enough for the value
+// (14 holds every row up to 4094) and no description; without that row nothing is written.
+// D2Client's ItemRanges.h reads it as ITEMRANGES_STAT_CRAFTRECIPE.
+constexpr int STAT_D2MOO_ITEM_CRAFTRECIPE = STAT_PASSIVE_MAG_PIERCE + 1;
+
 enum D2C_PropertyModes
 {
 	PROPMODE_AFFIX,
