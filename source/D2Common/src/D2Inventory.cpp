@@ -5,6 +5,7 @@
 #include <DataTbls/MonsterIds.h>
 #include "D2Dungeon.h"
 #include "D2Items.h"
+#include "D2ItemAppearance.h"
 #include "D2Monsters.h"
 #include "D2StatList.h"
 #include "Units/UnitRoom.h"
@@ -2748,7 +2749,11 @@ void __stdcall INVENTORY_GetItemSaveGfxInfo(D2UnitStrc* pPlayer, uint8_t* pCompo
 
 					INVENTORY_InitializeComponentArray();
 
-					const int nIndex = INVENTORY_GetComponentArrayIndexFromItemsTxtRecord(pItemsTxtRecord);
+					// Item appearance: the preview shows the look the item was given, see D2ItemAppearance.h.
+					D2ItemsTxt* pDisplayTxtRecord = ITEMAPPEARANCE_GetDisplayRecord(pItem);
+					D2_ASSERT(pDisplayTxtRecord);
+
+					const int nIndex = INVENTORY_GetComponentArrayIndexFromItemsTxtRecord(pDisplayTxtRecord);
 
 					if (nIndex >= ARRAY_SIZE(gTxtComponentItemTypeMap))
 					{
@@ -2789,10 +2794,14 @@ void __stdcall INVENTORY_GetItemSaveGfxInfo(D2UnitStrc* pPlayer, uint8_t* pCompo
 			}
 			else if (nBodyLoc == BODYLOC_TORSO)
 			{
+				// Item appearance: the armour components of the look the item was given, see D2ItemAppearance.h.
+				const D2ItemsTxt* pDisplayTxtRecord = ITEMAPPEARANCE_GetDisplayRecord(pItem);
+				D2_ASSERT(pDisplayTxtRecord);
+
 				uint8_t pArmorComponents[6] = {};
 				for(int i = 0; i < 6; ++i)
 				{
-					pArmorComponents[i] = pItemsTxtRecord->nArmorComp[i];
+					pArmorComponents[i] = pDisplayTxtRecord->nArmorComp[i];
 				}
 
 				for (int i = 0; i < NUM_COMPONENTS; ++i)
@@ -2946,7 +2955,7 @@ void __fastcall sub_6FD917B0(D2UnitStrc* pUnit, uint8_t* a2, uint8_t* pColor, D2
 				D2UnitStrc* pCompositItem = INVENTORY_GetCompositItem(pUnit->pInventory, COMPOSIT_RIGHTHAND);
 				if (pCompositItem)
 				{
-					D2ItemsTxt* pItemsTxtRecord = DATATBLS_GetItemsTxtRecord(pCompositItem->dwClassId);
+					D2ItemsTxt* pItemsTxtRecord = ITEMAPPEARANCE_GetDisplayRecord(pCompositItem); // Item appearance, see D2ItemAppearance.h.
 					D2_ASSERT(pItemsTxtRecord);
 
 					INVENTORY_InitializeComponentArray();

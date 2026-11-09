@@ -339,7 +339,8 @@ static PatchAction patchActions[GetOrdinalCount()] = {
     PatchAction::FunctionReplaceOriginalByPatch, /*C*/ //   INVENTORY_FreeCorpse                                                @10295
     PatchAction::FunctionReplaceOriginalByPatch, /*C*/ //   INVENTORY_GetFirstCorpse                                            @10296
     PatchAction::FunctionReplaceOriginalByPatch, /*C*/ //   INVENTORY_GetCorpseCount                                            @10297
-    PatchAction::FunctionReplacePatchByOriginal,       //   INVENTORY_GetItemSaveGfxInfo                                        @10298
+    // Item appearance: the save header and character-select preview show the look an item was given (doc/ItemAppearance.md).
+    PatchAction::FunctionReplaceOriginalByPatch,       //   INVENTORY_GetItemSaveGfxInfo                                        @10298
     PatchAction::FunctionReplacePatchByOriginal,       //   D2Common_10299                                                      @10299
     PatchAction::FunctionReplaceOriginalByPatch, /*C*/ //   INVENTORY_RemoveAllItems                                            @10300
     PatchAction::Ignore,                         /*C*/ //   D2COMMON_10301_Return0                                              @10301
