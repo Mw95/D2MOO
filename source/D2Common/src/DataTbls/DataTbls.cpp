@@ -6,6 +6,7 @@
 #include <D2Lang.h>
 
 #include "D2DataTbls.h"
+#include "D2Inventory.h"
 #include "D2States.h"
 #include "Units/Units.h"
 
@@ -1003,6 +1004,19 @@ void __fastcall DATATBLS_LoadSomeTxts(HD2ARCHIVE hArchive)
 
 		sgptDataTables->pBodyLocsLinker = (D2TxtLinkStrc*)FOG_AllocLinker(__FILE__, __LINE__);
 		sgptDataTables->pBodyLocsTxt = (D2BodyLocsTxt*)DATATBLS_CompileTxt(hArchive, "bodylocs", pBodyLocsTbl, &nRecordCount, sizeof(D2BodyLocsTxt));
+
+		// DIFFERENCE: not in the original game. A row's index in bodylocs.txt is the body location it names, so the "clok" row must be
+		// row 13 (BODYLOC_CLOAK); a bodylocs.txt without rows for the two weapon-switch slots would make it 11 instead.
+		{
+			constexpr uint32_t dwCloakCode = 'c' | ('l' << 8) | ('o' << 16) | ('k' << 24);
+			for (int i = 0; i < nRecordCount; ++i)
+			{
+				if (sgptDataTables->pBodyLocsTxt[i].dwCode == dwCloakCode && i != BODYLOC_CLOAK)
+				{
+					FOG_DisplayWarning("bodylocs.txt: the \"clok\" row must be the 14th data row (body location 13); see doc/AddedEquipmentSlots.md", __FILE__, __LINE__);
+				}
+			}
+		}
 
 		sgptDataTables->pStorePageLinker = (D2TxtLinkStrc*)FOG_AllocLinker(__FILE__, __LINE__);
 		sgptDataTables->pStorePageTxt = (D2StorePageTxt*)DATATBLS_CompileTxt(hArchive, "storepage", pStorePageTbl, &nRecordCount, sizeof(D2StorePageTxt));

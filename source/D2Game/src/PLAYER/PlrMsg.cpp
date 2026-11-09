@@ -2068,7 +2068,7 @@ int32_t __fastcall D2GAME_PACKETCALLBACK_Rcv0x1A_EquipItem_6FC85280(D2GameStrc* 
         D2UnitStrc* pItem = SUNIT_GetServerUnit(pGame, UNIT_ITEM, nItemGUID);
         if (pItem && pItem->dwAnimMode == IMODE_ONCURSOR && INVENTORY_GetCursorItem(pUnit->pInventory) == pItem)
         {
-            if (nBodyLoc > 0 && nBodyLoc < 11)
+            if (INVENTORY_IsCursorEquipBodyLoc(nBodyLoc))
             {
                 int32_t a6 = 0;
                 if (ITEMMODE_EquipCursorItem(pGame, pUnit, nItemGUID, nBodyLoc, 0, &a6) || !a6)
@@ -2141,7 +2141,7 @@ int32_t __fastcall D2GAME_PACKETCALLBACK_Rcv0x1C_RemoveBodyItem_6FC854B0(D2GameS
     if (nSize == 3)
     {
         const uint16_t nBodyLoc = *(uint16_t*)((char*)pPacket + 1);
-        if (nBodyLoc > 0 && nBodyLoc < 11)
+        if (INVENTORY_IsCursorEquipBodyLoc(nBodyLoc))
         {
             D2UnitStrc* pItem = INVENTORY_GetItemFromBodyLoc(pUnit->pInventory, nBodyLoc);
             if (PLAYER_CanModifyInventory(pGame, pUnit, pItem) && (nBodyLoc != BODYLOC_BELT || PLRTRADE_IsTradeInventoryEmpty(pGame, pUnit)))
@@ -2176,7 +2176,7 @@ int32_t __fastcall D2GAME_PACKETCALLBACK_Rcv0x1D_SwapCursorItemWithBody_6FC85550
         D2UnitStrc* pItem = SUNIT_GetServerUnit(pGame, UNIT_ITEM, nItemGUID);
         if (pItem && pItem->dwAnimMode == 4 && INVENTORY_GetCursorItem(pUnit->pInventory) == pItem)
         {
-            if (nBodyLoc > 0 && nBodyLoc < 11)
+            if (INVENTORY_IsCursorEquipBodyLoc(nBodyLoc))
             {
                 if (INVENTORY_GetItemFromBodyLoc(pUnit->pInventory, nBodyLoc))
                 {

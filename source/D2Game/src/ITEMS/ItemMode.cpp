@@ -2016,8 +2016,13 @@ void __fastcall D2GAME_ITEMS_UpdateInventoryItems_6FC44A90(D2GameStrc* pGame, D2
         pItem = INVENTORY_GetNextItem(pItem);
     }
 
-    for (int32_t i = 0; i < 11; ++i)
+    for (int32_t i = 0; i < NUM_BODYLOC; ++i) // DIFFERENCE: the original walks 0..10; BODYLOC_CLOAK is added
     {
+        if (!INVENTORY_IsActiveBodyLoc(i))
+        {
+            continue;
+        }
+
         D2UnitStrc* pBodyLocItem = INVENTORY_GetItemFromBodyLoc(pUnit->pInventory, i);
         if (pBodyLocItem
             && (!ITEMS_CheckItemFlag(pBodyLocItem, IFLAG_BROKEN, __LINE__, __FILE__) || STATLIST_GetOwner(pBodyLocItem, 0))
@@ -2062,8 +2067,13 @@ void __fastcall D2GAME_ITEMS_UpdateInventoryItems_6FC44A90(D2GameStrc* pGame, D2
     {
         bContinue = 0;
         
-        for (int32_t i = 0; i < 11; ++i)
+        for (int32_t i = 0; i < NUM_BODYLOC; ++i) // DIFFERENCE: the original walks 0..10; BODYLOC_CLOAK is added
         {
+            if (!INVENTORY_IsActiveBodyLoc(i))
+            {
+                continue;
+            }
+
             D2UnitStrc* pBodyLocItem = INVENTORY_GetItemFromBodyLoc(pUnit->pInventory, i);
             if (pBodyLocItem
                 && !ITEMS_CheckItemFlag(pBodyLocItem, IFLAG_BROKEN, __LINE__, __FILE__)
@@ -2113,8 +2123,13 @@ void __fastcall D2GAME_ITEMS_UpdateInventoryItems_6FC44A90(D2GameStrc* pGame, D2
     }
     while (bContinue);
 
-    for (int32_t i = 0; i < 11; ++i)
+    for (int32_t i = 0; i < NUM_BODYLOC; ++i) // DIFFERENCE: the original walks 0..10; BODYLOC_CLOAK is added
     {
+        if (!INVENTORY_IsActiveBodyLoc(i))
+        {
+            continue;
+        }
+
         D2UnitStrc* pBodyLocItem = INVENTORY_GetItemFromBodyLoc(pUnit->pInventory, i);
         if (pBodyLocItem
             && ITEMS_GetItemQuality(pBodyLocItem) == ITEMQUAL_SET
@@ -5463,7 +5478,7 @@ int32_t __fastcall ITEMMODE_RecoverCorpseItems(D2GameStrc* pGame, D2UnitStrc* pP
     {
         bItemRemoved = 0;
         nCounter = 0;
-        for (int32_t i = 1; i < 13; ++i)
+        for (int32_t i = 1; i < NUM_BODYLOC; ++i) // DIFFERENCE: the original stops at 13
         {
             int32_t nBodyLoc = i;
             D2UnitStrc* pCorpseItem = INVENTORY_GetItemFromBodyLoc(pCorpseInventory, i);

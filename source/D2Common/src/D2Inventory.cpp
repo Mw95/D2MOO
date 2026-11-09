@@ -20,7 +20,8 @@ struct D2InventoryComponentItemTypeStrc
 
 //D2Common.0x6FDE2310
 //1.14d: 0x0074479C
-D2InventoryGridInfoStrc gBodyLocInventoryGridInfo = { 13, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+// DIFFERENCE: the original grid is 13 wide; it is NUM_BODYLOC wide so the added body locations have a cell.
+D2InventoryGridInfoStrc gBodyLocInventoryGridInfo = { NUM_BODYLOC, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 //D2Common.0x6FDE2328
 //1.14d: 0x007447B4
 D2InventoryGridInfoStrc gBeltInventoryGridInfo = { 16, 1, 0, 0, 0, 0, 0, 0, 0, 0 };

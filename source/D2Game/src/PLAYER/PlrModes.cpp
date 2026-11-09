@@ -451,7 +451,7 @@ D2UnitStrc* __fastcall PLRMODE_CreateDeadBody(D2GameStrc* pGame, D2UnitStrc* pUn
 
     if (INVENTORY_GetCorpseCount(pUnit->pInventory) > 15)
     {
-        for (int32_t nBodyLoc = -1; nBodyLoc < 13; ++nBodyLoc)
+        for (int32_t nBodyLoc = -1; nBodyLoc < NUM_BODYLOC; ++nBodyLoc) // DIFFERENCE: the original stops at 13
         {
             D2UnitStrc* pItem = nullptr;
             if (nBodyLoc == -1)
@@ -528,7 +528,7 @@ D2UnitStrc* __fastcall PLRMODE_CreateDeadBody(D2GameStrc* pGame, D2UnitStrc* pUn
 
     INVENTORY_SetOwnerId(pDeadBody->pInventory, pUnit->dwUnitId);
 
-    for (int32_t nBodyLoc = -1; nBodyLoc < 13; ++nBodyLoc)
+    for (int32_t nBodyLoc = -1; nBodyLoc < NUM_BODYLOC; ++nBodyLoc) // DIFFERENCE: the original stops at 13
     {
         D2UnitStrc* pItem = nullptr;
         if (nBodyLoc == -1)

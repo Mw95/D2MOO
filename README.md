@@ -47,6 +47,10 @@ Otherwise have a look at the [Advanced build and run](./doc/AdvancedBuildAndRun.
 
 An embryo of documentation is available in the repository's [doc](./doc/) folder.
 
+This fork adds an equipment slot the original game does not have (a cloak, body location 13); see
+[Added equipment slots](./doc/AddedEquipmentSlots.md) for the data changes it needs. Code that differs from the original for it is
+marked `DIFFERENCE:`.
+
 ## D2MOO Debugger (Experimental!)
 
 Start the game with the `-debug` argument.

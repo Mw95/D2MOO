@@ -2312,7 +2312,8 @@ void __fastcall SUNITDMG_DrainItemDurability(D2GameStrc* pGame, D2UnitStrc* pAtt
 {
 	//1.10f: D2Game.0x6FD3F2A0
 	//1.14d: 0x00732B90
-	constexpr D2DurabilityLossStrc sgDurabilityLossWeights[7] =
+	// DIFFERENCE: BODYLOC_CLOAK is added (the original table has 7 entries), which also widens the roll below.
+	constexpr D2DurabilityLossStrc sgDurabilityLossWeights[] =
 	{
 		{ BODYLOC_HEAD, 3 },
 		{ BODYLOC_TORSO, 5 },
@@ -2321,6 +2322,7 @@ void __fastcall SUNITDMG_DrainItemDurability(D2GameStrc* pGame, D2UnitStrc* pAtt
 		{ BODYLOC_BELT, 2 },
 		{ BODYLOC_FEET, 2 },
 		{ BODYLOC_GLOVES, 2 },
+		{ BODYLOC_CLOAK, 2 },
 	};
 
 	D2DamageStrc* pDamage = SUNITDMG_GetDamageFromUnits(pAttacker, pDefender);
@@ -2370,7 +2372,7 @@ void __fastcall SUNITDMG_DrainItemDurability(D2GameStrc* pGame, D2UnitStrc* pAtt
 
 		if (pDefender->dwUnitType == UNIT_PLAYER && pDefender->pInventory)
 		{
-			D2UnitStrc* pItems[7] = {};
+			D2UnitStrc* pItems[std::size(sgDurabilityLossWeights)] = {};
 			int32_t nTotalWeight = 0;
 			for (int32_t i = 0; i < std::size(sgDurabilityLossWeights); ++i)
 			{

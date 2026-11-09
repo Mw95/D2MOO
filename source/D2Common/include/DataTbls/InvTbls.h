@@ -44,8 +44,12 @@ enum D2InventoryComponent
 	INV_COMP_BELT,
 	INV_COMP_FEET,
 	INV_COMP_GLOVES,
-	NUM_INV_COMPS
+	NUM_INV_COMPS,
 
+	// DIFFERENCE: not in the original game. Components past NUM_INV_COMPS are not part of D2InventoryTxt (whose size must match
+	// the shipped inventory.bin); they are held in a side table filled by DATATBLS_LoadInventoryTxt.
+	INV_COMP_CLOAK = NUM_INV_COMPS,
+	NUM_INV_COMPS_EXTENDED
 };
 struct D2InventoryTxt
 {

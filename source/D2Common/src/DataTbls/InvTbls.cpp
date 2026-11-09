@@ -1,5 +1,82 @@
 #include <DataTbls/InvTbls.h>
 #include <D2DataTbls.h>
+#include <Archive.h>
+
+// DIFFERENCE: not in the original game. The cloak slot's rectangle for every inventory.txt record. It is read from the optional
+// inventory.txt columns cloakLeft/cloakRight/cloakTop/cloakBottom/cloakWidth/cloakHeight when the tables are compiled from .txt,
+// and otherwise (or when the columns are absent or zero) placed left of the helm, mirroring the amulet across it.
+static D2InvCompGridStrc gInventoryCloakComponents[NUM_INVENTORY_PAGE_STATS * NUM_GAME_RESOLUTIONS];
+
+static void DATATBLS_SetDefaultCloakComponent(const D2InventoryTxt* pRecord, D2InvCompGridStrc* pCloak)
+{
+	const D2InvCompGridStrc& tHead = pRecord->pComponents[INV_COMP_HEAD];
+	const D2InvCompGridStrc& tNeck = pRecord->pComponents[INV_COMP_NECK];
+
+	*pCloak = {};
+	if (tHead.nWidth == 0 || tHead.nHeight == 0 || tHead.rect.nRight <= tHead.rect.nLeft)
+	{
+		return; // A page without equipment slots (trade, stash, cube...)
+	}
+
+	const int32_t nWidth = tHead.rect.nRight - tHead.rect.nLeft;
+	int32_t nGap = tNeck.rect.nLeft - tHead.rect.nRight;
+	if (tNeck.nWidth == 0 || nGap < 0)
+	{
+		nGap = 17;
+	}
+
+	pCloak->rect.nRight = tHead.rect.nLeft - nGap;
+	pCloak->rect.nLeft = pCloak->rect.nRight - nWidth;
+	pCloak->rect.nTop = tHead.rect.nTop;
+	pCloak->rect.nBottom = tHead.rect.nBottom;
+	pCloak->nWidth = tHead.nWidth;
+	pCloak->nHeight = tHead.nHeight;
+}
+
+static void DATATBLS_LoadInventoryCloakComponents(HD2ARCHIVE hArchive)
+{
+	const int nRecordCount = sgptDataTables->nInventoryTxtRecordCount;
+	memset(gInventoryCloakComponents, 0x00, sizeof(gInventoryCloakComponents));
+
+	if (!DATATBLS_LoadFromBin || sgptDataTables->bCompileTxt)
+	{
+		// The .bin written by DATATBLS_CompileTxt keeps the original record size, so the extra columns can only be read from the .txt.
+		D2BinFieldStrc pCloakTbl[] =
+		{
+			{ "cloakLeft", TXTFIELD_DWORD, 0, 0, NULL },
+			{ "cloakRight", TXTFIELD_DWORD, 0, 4, NULL },
+			{ "cloakTop", TXTFIELD_DWORD, 0, 8, NULL },
+			{ "cloakBottom", TXTFIELD_DWORD, 0, 12, NULL },
+			{ "cloakWidth", TXTFIELD_BYTE, 0, 16, NULL },
+			{ "cloakHeight", TXTFIELD_BYTE, 0, 17, NULL },
+			{ "end", TXTFIELD_NONE, 0, 0, NULL },
+		};
+
+		char szFilePath[MAX_PATH] = {};
+		wsprintfA(szFilePath, "%s\\%s%s", "DATA\\GLOBAL\\EXCEL", "inventory", ".txt");
+
+		size_t dwDataSize = 0;
+		void* pData = ARCHIVE_ALLOC_BUFFER_AND_READ_FILE_TO_IT(hArchive, szFilePath, &dwDataSize);
+		if (pData)
+		{
+			D2BinFileStrc* pBinFile = FOG_CreateBinFile(pData, dwDataSize);
+			if (FOG_GetRecordCountFromBinFile(pBinFile) == nRecordCount)
+			{
+				FOG_10207(pBinFile, pCloakTbl, gInventoryCloakComponents, nRecordCount, sizeof(D2InvCompGridStrc));
+			}
+			FOG_FreeBinFile(pBinFile);
+		}
+	}
+
+	for (int i = 0; i < nRecordCount; ++i)
+	{
+		D2InvCompGridStrc* pCloak = &gInventoryCloakComponents[i];
+		if (pCloak->nWidth == 0 || pCloak->nHeight == 0 || pCloak->rect.nRight <= pCloak->rect.nLeft || pCloak->rect.nBottom <= pCloak->rect.nTop)
+		{
+			DATATBLS_SetDefaultCloakComponent(&sgptDataTables->pInventoryTxt[i], pCloak);
+		}
+	}
+}
 
 //D2Common.0x6FD542D0
 //1.14d: 0x0065B660
@@ -84,6 +161,8 @@ void __fastcall DATATBLS_LoadInventoryTxt(HD2ARCHIVE hArchive)
 
 	sgptDataTables->pInventoryTxt = (D2InventoryTxt*)DATATBLS_CompileTxt(hArchive, "inventory", pTbl, &sgptDataTables->nInventoryTxtRecordCount, sizeof(D2InventoryTxt));
 	D2_ASSERT(sgptDataTables->nInventoryTxtRecordCount == NUM_INVENTORY_PAGE_STATS * NUM_GAME_RESOLUTIONS);
+
+	DATATBLS_LoadInventoryCloakComponents(hArchive);
 }
 
 //D2Common.0x6FD54F10
@@ -137,6 +216,13 @@ void __stdcall DATATBLS_GetInventoryComponentGrid(int nInventoryTxtId, int bHigh
 
 	const D2InventoryTxt* pInventoryTxtRecord = &sgptDataTables->pInventoryTxt[nIndex];
 	D2_ASSERT(pInventoryTxtRecord);
+
+	// DIFFERENCE: components past NUM_INV_COMPS come from the side table.
+	if (nComponent == INV_COMP_CLOAK)
+	{
+		memcpy(pInvCompGrid, &gInventoryCloakComponents[nIndex], sizeof(D2InvCompGridStrc));
+		return;
+	}
 
 	const D2InvCompGridStrc* ptBodyStats = &pInventoryTxtRecord->pComponents[nComponent];
 	D2_ASSERT(ptBodyStats);
