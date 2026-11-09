@@ -1,5 +1,12 @@
 #include <DetoursPatch.h>
 
+#include <UNIT/SUnitNpcAppearance.h>
+#include <UNIT/SUnit.h>
+#include <GAME/SCmd.h>
+#include <ITEMS/ItemMode.h>
+#include <ITEMS/Items.h>
+#include <PLAYER/PlrTrade.h>
+
 //#define DISABLE_ALL_PATCHES
 
 #if defined(__clang__)
@@ -104,6 +111,22 @@ PatchAction __cdecl GetPatchAction(int ordinal)
 static const int D2GameImageBase = 0x6FC30000;
 
 static ExtraPatchAction extraPatchActions[] = {    
+#ifdef D2_VERSION_110F
+    // Item appearance (doc/ItemAppearance.md): the appearance request of packet 0x38 is handled in front of the original
+    // NPC_HandleDialogMessage, which gets every other request.
+    { 0x6FCC9F40 - D2GameImageBase, &NPC_HandleDialogMessageWithAppearance, PatchAction::FunctionReplaceOriginalByPatch, &gpfnOriginalNpcHandleDialogMessage },
+    // The D2Game functions the handler uses run the original's code, so the original's state is used throughout.
+    { 0x6FCBBB00 - D2GameImageBase, &SUNIT_GetServerUnit, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FCBC2E0 - D2GameImageBase, &SUNIT_GetClientFromPlayer, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC3F520 - D2GameImageBase, &D2GAME_SendPacket0x58_6FC3F520, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC44030 - D2GameImageBase, &ITEMMODE_DropCursorItem, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC51070 - D2GameImageBase, &ITEMS_Duplicate, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC49760 - D2GameImageBase, &D2GAME_RemoveItemIfOnCursor_6FC49760, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC92890 - D2GameImageBase, &PLRTRADE_AddGold, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC44410 - D2GameImageBase, &D2GAME_PlaceItem_6FC44410, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC4BF00 - D2GameImageBase, &D2GAME_GetFreeSpaceEx_6FC4BF00, PatchAction::FunctionReplacePatchByOriginal },
+    { 0x6FC52260 - D2GameImageBase, &D2GAME_DropItem_6FC52260, PatchAction::FunctionReplacePatchByOriginal },
+#endif
     { 0, 0, PatchAction::Ignore}, // Here because we need at least one element in the array
 };
 

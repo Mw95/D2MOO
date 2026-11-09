@@ -36,7 +36,8 @@ Item stats only go to clients for identified items. That is why only identified 
 * Body armour copies the donor's six armour components (`rArm`, `lArm`, `Torso`, `Legs`, `rSPad`, `lSPad`).
 * Class-specific donors (barbarian helms, druid pelts, paladin shields, shrunken heads, claws, orbs, amazon
   weapons) are only allowed for their own class, since their graphics may only exist in that class' folder.
-* The donor must be in the player's inventory, stash or cube. It is **kept**.
+* The donor must be one of the player's own items: in the inventory or the stash, or worn. It cannot be in the
+  Horadric Cube. It is **kept**.
 * Cost: `item level * 100` gold (from inventory gold, then the stash). Restoring the item's own look costs
   half of that.
 
@@ -56,6 +57,9 @@ the new stat in the inventory, then sends `0x58` action 6 (done) or 7 (refused).
 
 D2MOO normally runs its D2Game code patched into the original `D2Game.dll`, with every function using the
 original. `D2Game.patch.cpp` replaces only `NPC_HandleDialogMessage` (`0x6FCC9F40`) with
-`NPC_HandleDialogMessageWithAppearance`. That wrapper handles the appearance request and passes every other
-request to the original function. The character-select preview needs D2Common `#10298`
+`NPC_HandleDialogMessageWithAppearance` (`source/D2Game/src/UNIT/SUnitNpcAppearance.cpp`). That wrapper handles
+the appearance request and passes every other request to the original function. The D2Game helpers the handler
+calls (finding units, sending packet 0x58, duplicating and placing the item, taking the gold) are redirected to
+the original's code, so they work on the original's state. When the D2MOO D2Game runs on its own, packet 0x38
+goes through the same wrapper. The character-select preview needs D2Common `#10298`
 (`INVENTORY_GetItemSaveGfxInfo`) to be patched in as well.

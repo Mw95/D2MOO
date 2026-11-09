@@ -292,6 +292,7 @@ target_sources(${D2GameImplName}
     src/UNIT/SUnitInactive.cpp
     src/UNIT/SUnitMsg.cpp
     src/UNIT/SUnitNpc.cpp
+    src/UNIT/SUnitNpcAppearance.cpp
     src/UNIT/SUnitProxy.cpp
 
     include/UNIT/Friendly.h
@@ -302,6 +303,7 @@ target_sources(${D2GameImplName}
     include/UNIT/SUnitInactive.h
     include/UNIT/SUnitMsg.h
     include/UNIT/SUnitNpc.h
+    include/UNIT/SUnitNpcAppearance.h
     include/UNIT/SUnitProxy.h
 )
 

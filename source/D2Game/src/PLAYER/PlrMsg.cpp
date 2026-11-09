@@ -56,6 +56,7 @@
 #include "SKILLS/Skills.h"
 #include "UNIT/SUnit.h"
 #include "UNIT/SUnitNpc.h"
+#include "UNIT/SUnitNpcAppearance.h"
 
 
 typedef int32_t(__fastcall* SERVERPACKETCALLBACK)(D2GameStrc* pGame, D2UnitStrc* pUnit, void* pPacket, int nPacketSize);
@@ -2974,7 +2975,8 @@ int32_t __fastcall D2GAME_PACKETCALLBACK_Rcv0x38_EntityAction_6FC86CB0(D2GameStr
                     return 1;
                 }
 
-                return NPC_HandleDialogMessage(pGame, pUnit, pPacket38->nAction, nNpcGUID, pPacket38->nItemGUID);
+                // Item appearance requests share this packet, see doc/ItemAppearance.md.
+                return NPC_HandleDialogMessageWithAppearance(pGame, pUnit, pPacket38->nAction, nNpcGUID, pPacket38->nItemGUID);
             }
 
             return 2;
