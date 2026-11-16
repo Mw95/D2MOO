@@ -84,13 +84,15 @@ void __cdecl Unicode::sprintf(
   va_list args;
   va_start(args, format);
 
-  Unicode percent_sign[2] = { L'%' };
+  Unicode percent_sign[2] = { L'%', L'\0' };
+  const Unicode* strstr_result = NULL;
 
   for (int i_format = 0; format[i_format].ch != L'\0'; i_format += 2) {
     unsigned short conversion_specifier = L'\0';
-    Unicode* strstr_result = Unicode::strstr(&format[i_format], percent_sign);
-    if (strstr_result != NULL) {
-      conversion_specifier = strstr_result[1];
+    const Unicode* next_percent_sign = Unicode::strstr(&format[i_format], percent_sign);
+    if (next_percent_sign != NULL) {
+      strstr_result = next_percent_sign;
+      conversion_specifier = next_percent_sign[1];
     }
 
     /*
@@ -98,9 +100,13 @@ void __cdecl Unicode::sprintf(
      * found, then copy the remaining string.
      */
     while (&format[i_format] != strstr_result
-        && format[i_format].ch != L'\0'
-        && i_buffer < buffer_size) {
-      
+        && format[i_format].ch != L'\0') {
+      if (i_buffer >= buffer_size) {
+        buffer[i_buffer - 1].ch = L'\0';
+        va_end(args);
+        return;
+      }
+
       buffer[i_buffer] = format[i_format];
 
       ++i_format;
@@ -121,10 +127,15 @@ void __cdecl Unicode::sprintf(
 
     D2_ASSERT(strstr_result != NULL);
 
+    /*
+     * Note: every conversion specifier consumes an argument, including
+     * %%. The converted values are copied along with their null
+     * terminator.
+     */
     switch (conversion_specifier) {
       case L'\0': {
         /*
-         * No conversion specifier found or % is the last character.
+         * % is the last character.
          */
         Unicode::strcpy(&buffer[i_buffer], percent_sign);
         va_end(args);
@@ -132,6 +143,8 @@ void __cdecl Unicode::sprintf(
       }
 
       case L'%': {
+        (void)va_arg(args, int);
+
         if (i_buffer + 1 >= buffer_size) {
           va_end(args);
           return;
@@ -156,13 +169,7 @@ void __cdecl Unicode::sprintf(
         Unicode itoa_unicode[15];
         Unicode::toUnicode(itoa_unicode, itoa_buffer, 15);
 
-        int itoa_length;
-        for (itoa_length = 0;
-            itoa_unicode[itoa_length].ch != L'\0';
-            ++itoa_length) {
-          /* Left empty on purpose. */
-        }
-
+        int itoa_length = Unicode::strlen(itoa_unicode);
         if ((i_buffer + itoa_length + 1) >= buffer_size) {
           va_end(args);
           return;
@@ -176,31 +183,30 @@ void __cdecl Unicode::sprintf(
 
       case L's': {
         const Unicode* arg_string = va_arg(args, const Unicode*);
-        if (arg_string == NULL || arg_string[0].ch == L'\0') {
-          buffer[i_buffer] = L'\0';
-          va_end(args);
-          return;
-        }
-
         const int arg_s_length = Unicode::strlen(arg_string);
 
-        if (arg_s_length == 0 || (i_buffer + arg_s_length) >= buffer_size) {
-          Unicode::strncat(
-              &buffer[i_buffer],
-              arg_string,
-              buffer_size - (i_buffer + 1));
+        if (arg_s_length == 0 || (i_buffer + arg_s_length + 1) >= buffer_size) {
+          /*
+           * Append as much of the string as possible, then stop.
+           *
+           * Vanilla bug: The original appends to the end of the string
+           * starting at buffer[i_buffer], which is not null-terminated
+           * after copying literal characters from the format, and
+           * dereferences a NULL argument. Here the buffer is terminated
+           * at i_buffer first, and NULL is treated as an empty string.
+           */
+          buffer[i_buffer].ch = L'\0';
+          if (arg_string != NULL) {
+            Unicode::strncat(
+                &buffer[i_buffer],
+                arg_string,
+                buffer_size - (i_buffer + 1));
+          }
           va_end(args);
           return;
         }
 
-        for (int i_arg_s = 0; ; ++i_arg_s) {
-          buffer[i_buffer + i_arg_s] = arg_string[i_arg_s];
-
-          if (arg_string[i_arg_s + 1] == L'\0') {
-            break;
-          }
-        }
-
+        Unicode::strcpy(&buffer[i_buffer], arg_string);
         i_buffer += arg_s_length;
 
         break;

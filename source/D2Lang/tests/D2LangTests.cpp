@@ -134,6 +134,19 @@ TEST_CASE("Unicode::sprintf")
         Unicode::sprintf(4, dest, D2_USTR(L"%s"), D2_USTR(L"Diablo"));
         CHECK(wcscmp((wchar_t*)dest, L"Dia") == 0);
     }    
+    SUBCASE("% consumes an argument")
+    {
+        Unicode dest[256];
+        Unicode::sprintf(256, dest, D2_USTR(L"%d%%%d"), 1, 2, 3);
+        CHECK(wcscmp((wchar_t*)dest, L"1%3") == 0);
+    }
+    SUBCASE("Ends with string is null-terminated")
+    {
+        Unicode dest[256];
+        for (Unicode& ch : dest) ch = L'X';
+        Unicode::sprintf(256, dest, D2_USTR(L"a%s"), D2_USTR(L"bc"));
+        CHECK(wcscmp((wchar_t*)dest, L"abc") == 0);
+    }
     SUBCASE("Ends with %")
     {
         Unicode dest[256];
