@@ -1,0 +1,12 @@
+LIBRARY Fog.dll
+EXPORTS
+    fDisplayAssert @10023 NONAME
+    fDisplayHalt @10024 NONAME
+    fDisplayError @10026 NONAME
+    fTrace @10029 NONAME
+    fAlloc = @fAlloc@16 @10042 NONAME
+    fFree = @fFree@16 @10043 NONAME
+    fFOpenFile = @fFOpenFile@8 @10102 NONAME
+    fFCloseFile = @fFCloseFile@4 @10103 NONAME
+    fFReadFile = @fFReadFile@28 @10104 NONAME
+    fFGetFileSize = @fFGetFileSize@8 @10105 NONAME

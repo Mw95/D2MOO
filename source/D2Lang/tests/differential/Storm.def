@@ -1,0 +1,6 @@
+LIBRARY Storm.dll
+EXPORTS
+    sFileGetFileName = sFileGetFileName@12 @276 NONAME
+    sMemAlloc = sMemAlloc@16 @401 NONAME
+    sMemFree = sMemFree@16 @403 NONAME
+    sUniConvertUTF8to16 = sUniConvertUTF8to16@24 @904 NONAME
