@@ -37,6 +37,13 @@
 struct HD2ARCHIVE__;
 
 /*
+ * Language type used by the original exports. It has the same values as
+ * D2C_Language, but must be a distinct type to get the same mangled
+ * names as the original D2Lang.
+ */
+enum ELANGUAGE : int {};
+
+/*
 * This type must be struct in order to make certain functions'
 * mangled names the same as the ones in D2Lang.
 */
@@ -113,6 +120,35 @@ struct D2LANG_DLL_DECL Unicode {
    * D2Lang.0x6FC113F0 (#10034) ?strcat@Unicode@@SIPAU1@PAU1@PBU1@@Z
    */
   static Unicode* __fastcall strcat(Unicode* dest, const Unicode* src);
+
+  /**
+   * Writes into dest a string combining a (player) name and a text,
+   * such as "Name's text" in English, according to the grammar of the
+   * given language (a D2C_Language value):
+   * - English: "Name's text", or "Names' text" if the name ends with 's'
+   * - Spanish: "text de Name"
+   * - German: "Names text", or "Name' text" if the name ends with 's' or 'z'
+   * - French: "text de Name", or "text d'Name" if the name starts with a
+   *   lowercase vowel
+   * - Italian: "text di Name"
+   * - Polish: "text(Name) "
+   * - Other languages: "(Name) text"
+   *
+   * If the result could be longer than maxLength (that is, if the name
+   * and text lengths plus 5 exceed it), dest is set to text if text is
+   * shorter than maxLength, and left untouched otherwise.
+   *
+   * Vanilla bug: In English and German, the character before name is
+   * read if name is empty.
+   *
+   * 1.10: D2Lang.0x6FC11D50 (#10018) ?Personalize@Unicode@@SIXPAU1@PBU1@1HW4ELANGUAGE@@@Z
+   */
+  static void __fastcall Personalize(
+      Unicode* dest,
+      const Unicode* name,
+      const Unicode* text,
+      int maxLength,
+      ELANGUAGE language);
 
   /**
    * Returns the first occurrence of a character in a null-terminated

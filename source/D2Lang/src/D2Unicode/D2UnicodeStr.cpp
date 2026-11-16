@@ -30,6 +30,9 @@
 
 #include <assert.h>
 #include <ctype.h>
+#include <string.h>
+
+#include <D2Constants.h>
 
 #include "Fog.h"
 
@@ -513,5 +516,105 @@ Unicode* __fastcall Unicode::strstri(const Unicode* str, const Unicode* substr) 
     }
 
     ++str;
+  }
+}
+
+/**
+ * Returns whether the character is one of the characters of the
+ * null-terminated string.
+ *
+ * 1.10: Inline in Unicode::Personalize
+ */
+static BOOL IsOneOf(Unicode ch, const char* szCharacters) {
+  Unicode characters[20] = {};
+  Unicode::win2Unicode(characters, szCharacters, ARRAY_SIZE(characters));
+
+  const int nCharacters = Unicode::strlen(characters);
+  for (int i = 0; i < nCharacters; ++i) {
+    if (ch.ch == characters[i].ch) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+void __fastcall Unicode::Personalize(
+    Unicode* dest,
+    const Unicode* name,
+    const Unicode* text,
+    int maxLength,
+    ELANGUAGE language) {
+  const int nNameLength = Unicode::strlen(name);
+  const int nTextLength = Unicode::strlen(text);
+  if (nNameLength + nTextLength + 5 > maxLength) {
+    if (nTextLength < maxLength) {
+      Unicode::strcpy(dest, text);
+    }
+    return;
+  }
+
+  Unicode separator[10] = {};
+
+  const int nLanguage = language;
+  switch (nLanguage) {
+    case LANGUAGE_ENGLISH:
+    case LANGUAGE_ENGLISHKOR: {
+      Unicode::strcpy(dest, name);
+      const char* szSuffix = IsOneOf(name[nNameLength - 1], "s") ? "' " : "'s ";
+      Unicode::win2Unicode(separator, szSuffix, ::strlen(szSuffix));
+      Unicode::strcat(dest, separator);
+      Unicode::strcat(dest, text);
+      return;
+    }
+
+    case LANGUAGE_GERMAN: {
+      Unicode::strcpy(dest, name);
+      const char* szSuffix = IsOneOf(name[nNameLength - 1], "sz") ? "' " : "s ";
+      Unicode::win2Unicode(separator, szSuffix, ::strlen(szSuffix));
+      Unicode::strcat(dest, separator);
+      Unicode::strcat(dest, text);
+      return;
+    }
+
+    case LANGUAGE_SPANISH:
+    case LANGUAGE_FRENCH:
+    case LANGUAGE_ITALIAN: {
+      Unicode::strcpy(dest, text);
+      const char* szSeparator = " de ";
+      if (nLanguage == LANGUAGE_ITALIAN) {
+        szSeparator = " di ";
+      } else if (nLanguage == LANGUAGE_FRENCH && IsOneOf(name[0], "aeiou")) {
+        szSeparator = " d'";
+      }
+      Unicode::win2Unicode(separator, szSeparator, ::strlen(szSeparator));
+      Unicode::strcat(dest, separator);
+      Unicode::strcat(dest, name);
+      return;
+    }
+
+    case LANGUAGE_POLISH: {
+      Unicode::strcpy(dest, text);
+      Unicode::win2Unicode(separator, "(", 2);
+      Unicode::strcat(dest, separator);
+      Unicode::strcat(dest, name);
+      Unicode::win2Unicode(separator, ")", 2);
+      Unicode::strcat(dest, separator);
+      Unicode::win2Unicode(separator, " ", 2);
+      Unicode::strcat(dest, separator);
+      return;
+    }
+
+    default: {
+      Unicode::win2Unicode(separator, "(", 2);
+      Unicode::strcpy(dest, separator);
+      Unicode::strcat(dest, name);
+      Unicode::win2Unicode(separator, ")", 2);
+      Unicode::strcat(dest, separator);
+      Unicode::win2Unicode(separator, " ", 2);
+      Unicode::strcat(dest, separator);
+      Unicode::strcat(dest, text);
+      return;
+    }
   }
 }

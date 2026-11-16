@@ -4,6 +4,8 @@
 #include <D2Unicode.h>
 #include <D2StrTable.h>
 
+#include <string>
+
 #define D2_USTR(widestr) (const Unicode*)widestr
 
 TEST_CASE("Unicode::directionality")
@@ -735,4 +737,30 @@ TEST_CASE("Unicode sys map fallbacks")
     char sys[16];
     Unicode::unicode2Sys(sys, D2_USTR(L"Diablo"), 16);
     CHECK(strcmp(sys, "Diablo") == 0);
+}
+
+TEST_CASE("Unicode::Personalize")
+{
+    Unicode dest[64];
+    auto personalize = [&](const wchar_t* name, D2C_Language language) {
+        Unicode::Personalize(dest, D2_USTR(name), D2_USTR(L"Sword"), 64, (ELANGUAGE)language);
+        return std::wstring((const wchar_t*)dest);
+    };
+    CHECK(personalize(L"Bob", LANGUAGE_ENGLISH) == L"Bob's Sword");
+    CHECK(personalize(L"Bobs", LANGUAGE_ENGLISH) == L"Bobs' Sword");
+    CHECK(personalize(L"Bob", LANGUAGE_GERMAN) == L"Bobs Sword");
+    CHECK(personalize(L"Hans", LANGUAGE_GERMAN) == L"Hans' Sword");
+    CHECK(personalize(L"Bob", LANGUAGE_SPANISH) == L"Sword de Bob");
+    CHECK(personalize(L"Bob", LANGUAGE_FRENCH) == L"Sword de Bob");
+    CHECK(personalize(L"alice", LANGUAGE_FRENCH) == L"Sword d'alice");
+    CHECK(personalize(L"Bob", LANGUAGE_ITALIAN) == L"Sword di Bob");
+    CHECK(personalize(L"Bob", LANGUAGE_POLISH) == L"Sword(Bob) ");
+    CHECK(personalize(L"Bob", LANGUAGE_JAPANESE) == L"(Bob) Sword");
+
+    SUBCASE("Too long")
+    {
+        for (Unicode& ch : dest) ch = L'X';
+        Unicode::Personalize(dest, D2_USTR(L"Bob"), D2_USTR(L"Sword"), 12, (ELANGUAGE)LANGUAGE_ENGLISH);
+        CHECK(std::wstring((const wchar_t*)dest) == L"Sword");
+    }
 }
