@@ -162,6 +162,37 @@ struct D2LANG_DLL_DECL Unicode {
   static int __fastcall strnicmp(const Unicode* str1, const Unicode* str2, size_t count);
 
   /**
+   * Compares two null-terminated strings using the D2Lang collation
+   * order, for at most count characters. Characters below 0x100 are
+   * compared by their collation weight (letters with diacritics sort
+   * next to their base letter, case is ignored); other characters are
+   * compared by their code unit. Returns a negative value, zero or a
+   * positive value. If both strings collate equally, the result of
+   * strnicmp is returned as a tie breaker.
+   *
+   * 1.10: D2Lang.0x6FC122B0 (#10043) ?strncoll@Unicode@@SIHPBU1@0H@Z
+   */
+  static int __fastcall strncoll(const Unicode* str1, const Unicode* str2, int count);
+
+  /**
+   * Same as strncoll, without a character limit.
+   *
+   * 1.10: D2Lang.0x6FC111E0 (#10037) ?strcoll@Unicode@@SIHPBU1@0@Z
+   */
+  static int __fastcall strcoll(const Unicode* str1, const Unicode* str2);
+
+  /**
+   * Case-insensitive version of strstr. Returns NULL if either string
+   * is NULL or if the substring could not be found.
+   *
+   * Vanilla bug: If str is empty but substr is not, the character
+   * after the null terminator of str is read.
+   *
+   * 1.10: D2Lang.0x6FC114E0 (#10047) ?strstri@Unicode@@SIPAU1@PBU1@0@Z
+   */
+  static Unicode* __fastcall strstri(const Unicode* str, const Unicode* substr);
+
+  /**
    * Returns the length of the null-terminated string. If the string
    * pointer is NULL, the function returns 0;
    *
@@ -319,6 +350,14 @@ struct D2LANG_DLL_DECL Unicode {
    * D2Lang.0x6FC11090 (#10025) ?isAlpha@Unicode@@QBEHXZ
    */
   BOOL isAlpha() const;
+
+  /**
+   * Returns FALSE if this character is in the Hebrew (0x590-0x5FF) or
+   * Arabic (0x600-0x6FF) blocks, TRUE otherwise.
+   *
+   * 1.10: D2Lang.0x6FC11A00 (#10026) ?isLeftToRight@Unicode@@QBEHXZ
+   */
+  BOOL isLeftToRight() const;
 
   // D2Lang.0x6FC11A30 (#10027) ?isLineBreak@Unicode@@SIHPBU1@I@Z
   static BOOL __fastcall isLineBreak(const Unicode* str, size_t count);

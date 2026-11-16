@@ -268,6 +268,20 @@ BOOL Unicode::isAlpha() const {
   return (isASCII() && ::isalpha((char)this->ch));
 }
 
+BOOL Unicode::isLeftToRight() const {
+  // Hebrew
+  if (this->ch >= 0x590 && this->ch <= 0x5FF) {
+    return FALSE;
+  }
+
+  // Arabic
+  if (this->ch >= 0x600 && this->ch <= 0x6FF) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 BOOL __fastcall Unicode::isLineBreak(const Unicode* str, size_t count)
 {
     if (!count)

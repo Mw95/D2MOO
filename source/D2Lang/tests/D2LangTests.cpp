@@ -444,6 +444,52 @@ TEST_CASE("Unicode::strstr")
     }
 }
 
+TEST_CASE("Unicode::strstri")
+{
+    const Unicode* str = D2_USTR(L"Diablo II Lord of Destruction");
+    CHECK(Unicode::strstri(str, D2_USTR(L"lord")) == str + 10);
+    CHECK(Unicode::strstri(str, D2_USTR(L"DIABLO")) == str);
+    CHECK(Unicode::strstri(str, D2_USTR(L"destructION")) == str + 18);
+    CHECK(Unicode::strstri(str, D2_USTR(L"Baal")) == nullptr);
+    CHECK(Unicode::strstri(str, D2_USTR(L"destructions")) == nullptr);
+    CHECK(Unicode::strstri(D2_USTR(L"aaab"), D2_USTR(L"AAB")) == D2_USTR(L"aaab") + 1);
+    CHECK(Unicode::strstri(nullptr, D2_USTR(L"a")) == nullptr);
+    CHECK(Unicode::strstri(str, nullptr) == nullptr);
+}
+
+TEST_CASE("Unicode::strcoll")
+{
+    CHECK(Unicode::strcoll(D2_USTR(L"abc"), D2_USTR(L"abc")) == 0);
+    CHECK(Unicode::strcoll(D2_USTR(L"abc"), D2_USTR(L"abd")) < 0);
+    CHECK(Unicode::strcoll(D2_USTR(L"abd"), D2_USTR(L"abc")) > 0);
+    // Case is ignored by the collation table
+    CHECK(Unicode::strcoll(D2_USTR(L"ABC"), D2_USTR(L"abc")) == 0);
+    // Accented letters collate with their base letter, before the next letter
+    CHECK(Unicode::strcoll(D2_USTR(L"\u00E9a"), D2_USTR(L"eb")) < 0);
+    CHECK(Unicode::strcoll(D2_USTR(L"\u00E9"), D2_USTR(L"f")) < 0);
+    // Prefix
+    CHECK(Unicode::strcoll(D2_USTR(L"ab"), D2_USTR(L"abc")) < 0);
+    CHECK(Unicode::strcoll(D2_USTR(L"abc"), D2_USTR(L"ab")) > 0);
+    CHECK(Unicode::strcoll(D2_USTR(L""), D2_USTR(L"a")) < 0);
+}
+
+TEST_CASE("Unicode::strncoll")
+{
+    CHECK(Unicode::strncoll(D2_USTR(L"abc"), D2_USTR(L"abd"), 2) == 0);
+    CHECK(Unicode::strncoll(D2_USTR(L"abc"), D2_USTR(L"abd"), 3) < 0);
+}
+
+TEST_CASE("Unicode::isLeftToRight")
+{
+    CHECK(Unicode(L'a').isLeftToRight());
+    CHECK(Unicode(0x58F).isLeftToRight());
+    CHECK_FALSE(Unicode(0x590).isLeftToRight());
+    CHECK_FALSE(Unicode(0x5FF).isLeftToRight());
+    CHECK_FALSE(Unicode(0x600).isLeftToRight());
+    CHECK_FALSE(Unicode(0x6FF).isLeftToRight());
+    CHECK(Unicode(0x700).isLeftToRight());
+}
+
 TEST_CASE("Unicode::toLower")
 {
     SUBCASE("Upper to lower")
