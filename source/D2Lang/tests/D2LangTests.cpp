@@ -799,3 +799,14 @@ TEST_CASE("STR_GroupUint64DigitsWithSuffix")
     STR_GroupUint64DigitsWithSuffix(dest, 1234567, 7);
     CHECK(wcscmp((wchar_t*)dest, L"*") == 0);
 }
+
+TEST_CASE("Unicode::toUnicode code points beyond the BMP")
+{
+    // Code points beyond 0xFFFF are decoded and truncated to 16 bits, like the original
+    Unicode dest[8];
+    Unicode::toUnicode(dest, "a\xF0\x9F\x98\x80" "b", 8);
+    CHECK(dest[0].ch == L'a');
+    CHECK(dest[1].ch == 0xF600);
+    CHECK(dest[2].ch == L'b');
+    CHECK(dest[3].ch == 0);
+}

@@ -94,6 +94,8 @@ static int UnicodeCharToUtf8CodePoint(char* dest, unsigned short ch) {
  * Converts one or more UTF-8 code point to a single UCS-2 character.
  * Returns the number of UTF-8 code units that were converted.
  *
+ * Code points beyond 0xFFFF are truncated to their 16 lowest bits.
+ *
  * 1.10: Inline
  * 1.13D: D2Lang.0x6FC08C40
  */
@@ -102,19 +104,19 @@ static int Utf8CodePointToUnicodeChar(Unicode* dest, const char* src, int count)
     return -1;
   }
 
-  uint16_t ucs2 = uint8_t(src[0]);
+  int code_point = uint8_t(src[0]);
 
   for (int i = 0; sgUtf8ConvertTable[i].leading_unusable_bits != 0; ++i) {
     uint16_t leading_bits = sgUtf8ConvertTable[i].leading_unusable_bits
-        & src[0];
+        & uint8_t(src[0]);
 
     if (leading_bits == sgUtf8ConvertTable[i].leading_bits) {
-      ucs2 &= sgUtf8ConvertTable[i].last_code_point;
-      if (ucs2 < sgUtf8ConvertTable[i].first_code_point) {
+      code_point &= sgUtf8ConvertTable[i].last_code_point;
+      if (code_point < sgUtf8ConvertTable[i].first_code_point) {
         return -1;
       }
 
-      dest->ch = ucs2;
+      dest->ch = (unsigned short)code_point;
       return i + 1;
     }
 
@@ -126,12 +128,12 @@ static int Utf8CodePointToUnicodeChar(Unicode* dest, const char* src, int count)
      * Check if the trailing bytes are valid:
      * 10XX'XXXX
      */
-    uint8_t trailing_bits = src[i + 1] ^ 0x80u;
-    if ((trailing_bits & (unsigned char)0xC0) != 0) {
+    uint8_t trailing_bits = uint8_t(src[i + 1]) ^ 0x80u;
+    if ((trailing_bits & 0xC0u) != 0) {
       return -1;
     }
 
-    ucs2 = (ucs2 << 6) | trailing_bits;
+    code_point = (code_point << 6) | trailing_bits;
   }
 
   return -1;
@@ -247,50 +249,14 @@ unsigned int __fastcall Unicode::utfnwidth(const Unicode* str, int count) {
 }
 
 /**
- * Same as Utf8CodePointToUnicodeChar, but the decoded code point is not
- * truncated to 16 bits before it is validated.
- *
- * 1.10: Inline in Unicode::unicodenwidth
- */
-static int GetUtf8CodePointLength(const char* src, int count) {
-  int code_point = uint8_t(src[0]);
-
-  for (int i = 0; sgUtf8ConvertTable[i].leading_unusable_bits != 0; ++i) {
-    uint16_t leading_bits = sgUtf8ConvertTable[i].leading_unusable_bits
-        & uint8_t(src[0]);
-
-    if (leading_bits == sgUtf8ConvertTable[i].leading_bits) {
-      if ((code_point & sgUtf8ConvertTable[i].last_code_point)
-          < sgUtf8ConvertTable[i].first_code_point) {
-        return -1;
-      }
-
-      return i + 1;
-    }
-
-    if ((i + 1) >= count) {
-      return -1;
-    }
-
-    uint8_t trailing_bits = uint8_t(src[i + 1]) ^ 0x80u;
-    if ((trailing_bits & 0xC0u) != 0) {
-      return -1;
-    }
-
-    code_point = (code_point << 6) | trailing_bits;
-  }
-
-  return -1;
-}
-
-/**
  * 1.10: D2Lang.0x6FC12CD0 (#10057)
  */
 unsigned int __fastcall Unicode::unicodenwidth(const char* str, int count) {
   unsigned int width = 0;
 
   while (count > 0 && *str != '\0') {
-    int num_code_units = GetUtf8CodePointLength(str, count);
+    Unicode decoded;
+    int num_code_units = Utf8CodePointToUnicodeChar(&decoded, str, count);
     if (num_code_units == -1) {
       // Skip the invalid byte.
       ++str;
