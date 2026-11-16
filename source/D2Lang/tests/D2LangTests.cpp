@@ -473,6 +473,20 @@ TEST_CASE("Unicode::strcoll")
     CHECK(Unicode::strcoll(D2_USTR(L""), D2_USTR(L"a")) < 0);
 }
 
+TEST_CASE("Unicode::strnicmp")
+{
+    CHECK(Unicode::strnicmp(D2_USTR(L"abc"), D2_USTR(L"ABC"), 3) == 0);
+    CHECK(Unicode::strnicmp(D2_USTR(L"abc"), D2_USTR(L"abd"), 3) == -1);
+    CHECK(Unicode::strnicmp(D2_USTR(L"abd"), D2_USTR(L"ABC"), 3) == 1);
+    CHECK(Unicode::strnicmp(D2_USTR(L"abc"), D2_USTR(L"abd"), 2) == 0);
+    // Vanilla bug: prefixes compare equal
+    CHECK(Unicode::strnicmp(D2_USTR(L"ab"), D2_USTR(L"abc"), 3) == 0);
+    CHECK(Unicode::strnicmp(D2_USTR(L"abc"), D2_USTR(L"ab"), 3) == 0);
+    // Vanilla bug: the first character is compared even if count is 0
+    CHECK(Unicode::strnicmp(D2_USTR(L"a"), D2_USTR(L"b"), 0) == -1);
+    CHECK(Unicode::strnicmp(D2_USTR(L""), D2_USTR(L"a"), 3) == -1);
+}
+
 TEST_CASE("Unicode::strncoll")
 {
     CHECK(Unicode::strncoll(D2_USTR(L"abc"), D2_USTR(L"abd"), 2) == 0);

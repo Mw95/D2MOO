@@ -289,25 +289,34 @@ int __fastcall Unicode::stricmp(const Unicode* str1, const Unicode* str2) {
 }
 
 int __fastcall Unicode::strnicmp(const Unicode* str1, const Unicode* str2, size_t count) {
-    /*
-     * This loop does not run beyond the end of either string. If the
-     * end of only one string is reached, then a comparison between '\0'
-     * to a different character is made, and a return is guaranteed to
-     * happen.
-     */
-    for (size_t i = 0; (str1[i].ch != L'\0') || (str2[i].ch != L'\0') && count != 0; ++i, count--) {
-        Unicode ch1_upper = str1[i].toUpper();
-        Unicode ch2_upper = str2[i].toUpper();
+  /*
+   * Faithful to the original: the uppercase characters being compared
+   * are loaded before the pointers are advanced, so the comparison
+   * lags one character behind the end-of-string checks.
+   *
+   * Vanilla bug: If one string is a prefix of the other string, then
+   * 0 is returned. If count is 0, the first characters are still
+   * compared.
+   */
+  unsigned short ch1_upper = str1->toUpper().ch;
+  unsigned short ch2_upper = str2->toUpper().ch;
 
-        if (ch1_upper.ch < ch2_upper.ch) {
-            return -1;
-        }
-        else if (ch1_upper.ch > ch2_upper.ch) {
-            return 1;
-        }
-    }
+  if (str1->ch != L'\0') {
+    do {
+      if (str2->ch == L'\0' || count-- == 0 || ch1_upper != ch2_upper) {
+        break;
+      }
 
-    return 0;
+      ch1_upper = (str1++)->toUpper().ch;
+      ch2_upper = (str2++)->toUpper().ch;
+    } while (str1->ch != L'\0');
+  }
+
+  if (ch1_upper < ch2_upper) {
+    return -1;
+  }
+
+  return (ch1_upper > ch2_upper) ? 1 : 0;
 }
 
 int __fastcall Unicode::strlen(const Unicode* str) {

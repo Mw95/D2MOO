@@ -151,11 +151,15 @@ struct D2LANG_DLL_DECL Unicode {
 
   /**
    * Performs lexicographical, case-insensitive comparison between two
-   * null-terminated strings. Returns -1, 0, or 1, depending on the
-   * results of the comparison.
+   * null-terminated strings, up to count characters. Returns -1, 0,
+   * or 1, depending on the results of the comparison.
    *
    * If either string is the NULL pointer, then the behavior is
    * undefined.
+   *
+   * Vanilla bug: If one string is a prefix of the other string, then
+   * 0 is returned. If count is 0, the first characters are still
+   * compared.
    *
    * D2Lang.0x6FC11310 (#10045) ?strnicmp@Unicode@@SIHPBU1@0I@Z
    */
