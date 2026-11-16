@@ -8,6 +8,7 @@ target_sources(${D2LangImplName}
     src/D2Crc16.cpp
     src/D2Unicode/D2UnicodeChar.cpp
     src/D2Unicode/D2UnicodeStr.cpp
+    src/D2Unicode/D2UnicodeSys.cpp
     src/D2Unicode/D2UnicodeUtf.cpp
     src/D2Unicode/D2UnicodeWin.cpp
     src/D2StrTable.cpp

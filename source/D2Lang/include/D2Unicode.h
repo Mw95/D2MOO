@@ -34,6 +34,8 @@
 
 #include "D2Lang.h"
 
+struct HD2ARCHIVE__;
+
 /*
 * This type must be struct in order to make certain functions'
 * mangled names the same as the ones in D2Lang.
@@ -314,6 +316,85 @@ struct D2LANG_DLL_DECL Unicode {
    */
   static char* __fastcall toUtf(char* dest, const Unicode* src, int count);
   
+  /**
+   * Returns the number of UTF-8 code units needed to encode up to
+   * count characters of the null-terminated string.
+   *
+   * 1.10: D2Lang.0x6FC12C30 (#10060) ?utfnwidth@Unicode@@SIIPBU1@H@Z
+   */
+  static unsigned int __fastcall utfnwidth(const Unicode* str, int count);
+
+  /**
+   * Returns the number of characters encoded in the first count bytes
+   * of the null-terminated UTF-8 string. Invalid sequences are
+   * skipped one byte at a time and are not counted.
+   *
+   * 1.10: D2Lang.0x6FC12CD0 (#10057) ?unicodenwidth@Unicode@@SIIPBDH@Z
+   */
+  static unsigned int __fastcall unicodenwidth(const char* str, int count);
+
+  /**
+   * Loads the mapping between the system code page and Unicode (a
+   * "KAMAP" file, for example data\local\font\JPN\default.map), used
+   * by sys2Unicode, unicode2Sys, sysWidth and unicodeWidth. Returns
+   * FALSE if the file is not a valid map.
+   *
+   * 1.10: D2Lang.0x6FC123E0 (#10032) ?loadSysMap@Unicode@@SIHPAUHD2ARCHIVE__@@PBD@Z
+   */
+  static BOOL __fastcall loadSysMap(HD2ARCHIVE__* hArchive, const char* szFileName);
+
+  /**
+   * Frees the system code page map loaded by loadSysMap.
+   *
+   * 1.10: D2Lang.0x6FC12370 (#10058) ?unloadSysMap@Unicode@@SIXXZ
+   */
+  static void __fastcall unloadSysMap();
+
+  /**
+   * Converts a null-terminated string in the system code page into a
+   * UCS-2 string of at most count characters, using the map loaded by
+   * loadSysMap. Characters missing from the map are skipped. Falls
+   * back to win2Unicode if no map is loaded.
+   *
+   * Vanilla bug: No null terminator is written if count characters
+   * have been converted. A lead byte right before the null terminator
+   * consumes the terminator, and reading continues past it.
+   *
+   * 1.10: D2Lang.0x6FC12650 (#10048) ?sys2Unicode@Unicode@@SIPAU1@PAU1@PBDH@Z
+   */
+  static Unicode* __fastcall sys2Unicode(Unicode* dest, const char* src, int count);
+
+  /**
+   * Converts a null-terminated UCS-2 string into the system code page,
+   * using the map loaded by loadSysMap. Characters missing from the
+   * map are skipped. Falls back to unicode2Win if no map is loaded.
+   *
+   * Vanilla bug: Double-byte characters can write one byte past
+   * count, and no null terminator is written if count bytes have been
+   * written.
+   *
+   * 1.10: D2Lang.0x6FC127C0 (#10054) ?unicode2Sys@Unicode@@SIPADPADPBU1@H@Z
+   */
+  static char* __fastcall unicode2Sys(char* dest, const Unicode* src, int count);
+
+  /**
+   * Returns the number of bytes needed to store up to count characters
+   * of the string in the system code page. Returns the length of the
+   * string if no map is loaded.
+   *
+   * 1.10: D2Lang.0x6FC128D0 (#10049) ?sysWidth@Unicode@@SIKPBU1@H@Z
+   */
+  static unsigned long __fastcall sysWidth(const Unicode* str, int count);
+
+  /**
+   * Returns the number of characters in the first count bytes of a
+   * string in the system code page. Returns the length of the string
+   * if no map is loaded.
+   *
+   * 1.10: D2Lang.0x6FC129B0 (#10056) ?unicodeWidth@Unicode@@SIKPBDH@Z
+   */
+  static unsigned long __fastcall unicodeWidth(const char* str, int count);
+
   //1.10f: D2Lang.0x6FC11B30 (#10059) ?utf8ToUnicode@Unicode@@SIPAU1@PAU1@PBDH@Z
   static Unicode* __fastcall utf8ToUnicode(Unicode* dest, char const* src, int count);
 
@@ -396,6 +477,14 @@ struct D2LANG_DLL_DECL Unicode {
    * D2Lang.0x6FC110B0 (#10052) ?toUpper@Unicode@@QBE?AU1@XZ
    */
   Unicode toUpper() const;
+
+  /**
+   * Returns the number of UTF-8 code units needed to encode this
+   * character.
+   *
+   * 1.10: D2Lang.0x6FC12DB0 (#10061) ?utfwidth@Unicode@@QBEHXZ
+   */
+  int utfwidth() const;
 
  private:
   /**

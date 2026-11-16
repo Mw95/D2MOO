@@ -697,3 +697,42 @@ TEST_CASE("STR_GroupUintDigits")
         CHECK(wcscmp((wchar_t*)dest, L"*") == 0);
     }
 }
+
+TEST_CASE("Unicode::utfwidth")
+{
+    CHECK(Unicode(L'a').utfwidth() == 1);
+    CHECK(Unicode(0xE9).utfwidth() == 2);
+    CHECK(Unicode(0x3042).utfwidth() == 3);
+}
+
+TEST_CASE("Unicode::utfnwidth")
+{
+    CHECK(Unicode::utfnwidth(D2_USTR(L"a\u00E9\u3042"), 10) == 6);
+    CHECK(Unicode::utfnwidth(D2_USTR(L"a\u00E9\u3042"), 2) == 3);
+    CHECK(Unicode::utfnwidth(D2_USTR(L""), 10) == 0);
+}
+
+TEST_CASE("Unicode::unicodenwidth")
+{
+    CHECK(Unicode::unicodenwidth("a\xC3\xA9\xE3\x81\x82", 10) == 3);
+    CHECK(Unicode::unicodenwidth("a\xC3\xA9\xE3\x81\x82", 3) == 2);
+    // Characters outside of the BMP are counted too
+    CHECK(Unicode::unicodenwidth("\xF0\x90\x80\x80", 10) == 1);
+    // Invalid bytes are skipped
+    CHECK(Unicode::unicodenwidth("\x80\x80a", 10) == 1);
+}
+
+TEST_CASE("Unicode sys map fallbacks")
+{
+    // Without a loaded sys map, the functions behave like their Windows-1252/strlen counterparts
+    CHECK(Unicode::sysWidth(D2_USTR(L"Diablo"), 2) == 6);
+    CHECK(Unicode::unicodeWidth("Diablo", 2) == 6);
+
+    Unicode unicode[16];
+    Unicode::sys2Unicode(unicode, "Diablo", 16);
+    CHECK(wcscmp((wchar_t*)unicode, L"Diablo") == 0);
+
+    char sys[16];
+    Unicode::unicode2Sys(sys, D2_USTR(L"Diablo"), 16);
+    CHECK(strcmp(sys, "Diablo") == 0);
+}

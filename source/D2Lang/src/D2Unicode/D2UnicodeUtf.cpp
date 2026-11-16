@@ -226,3 +226,95 @@ Unicode* __fastcall Unicode::utf8ToUnicode(Unicode* dest, const char* src, int c
         dest[i].ch = 0;
     return dest;
 }
+
+/**
+ * 1.10: D2Lang.0x6FC12C30 (#10060)
+ */
+unsigned int __fastcall Unicode::utfnwidth(const Unicode* str, int count) {
+  unsigned int width = 0;
+
+  for (int i = 0; str[i].ch != L'\0' && i < count; ++i) {
+    char utf8[8];
+    int num_code_units = UnicodeCharToUtf8CodePoint(utf8, str[i].ch);
+    if (num_code_units == -1) {
+      break;
+    }
+
+    width += num_code_units;
+  }
+
+  return width;
+}
+
+/**
+ * Same as Utf8CodePointToUnicodeChar, but the decoded code point is not
+ * truncated to 16 bits before it is validated.
+ *
+ * 1.10: Inline in Unicode::unicodenwidth
+ */
+static int GetUtf8CodePointLength(const char* src, int count) {
+  int code_point = uint8_t(src[0]);
+
+  for (int i = 0; sgUtf8ConvertTable[i].leading_unusable_bits != 0; ++i) {
+    uint16_t leading_bits = sgUtf8ConvertTable[i].leading_unusable_bits
+        & uint8_t(src[0]);
+
+    if (leading_bits == sgUtf8ConvertTable[i].leading_bits) {
+      if ((code_point & sgUtf8ConvertTable[i].last_code_point)
+          < sgUtf8ConvertTable[i].first_code_point) {
+        return -1;
+      }
+
+      return i + 1;
+    }
+
+    if ((i + 1) >= count) {
+      return -1;
+    }
+
+    uint8_t trailing_bits = uint8_t(src[i + 1]) ^ 0x80u;
+    if ((trailing_bits & 0xC0u) != 0) {
+      return -1;
+    }
+
+    code_point = (code_point << 6) | trailing_bits;
+  }
+
+  return -1;
+}
+
+/**
+ * 1.10: D2Lang.0x6FC12CD0 (#10057)
+ */
+unsigned int __fastcall Unicode::unicodenwidth(const char* str, int count) {
+  unsigned int width = 0;
+
+  while (count > 0 && *str != '\0') {
+    int num_code_units = GetUtf8CodePointLength(str, count);
+    if (num_code_units == -1) {
+      // Skip the invalid byte.
+      ++str;
+      --count;
+      continue;
+    }
+
+    for (int i = 0; i < num_code_units; ++i) {
+      if (*str++ == '\0') {
+        return width;
+      }
+    }
+
+    ++width;
+    count -= num_code_units;
+  }
+
+  return width;
+}
+
+/**
+ * 1.10: D2Lang.0x6FC12DB0 (#10061)
+ */
+int Unicode::utfwidth() const {
+  char utf8[8];
+  return UnicodeCharToUtf8CodePoint(utf8, this->ch);
+}
