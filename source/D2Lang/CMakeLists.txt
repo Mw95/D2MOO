@@ -4,7 +4,6 @@ target_link_libraries(${D2LangImplName} PUBLIC D2CommonDefinitions D2Hell Fog)
 
 target_sources(${D2LangImplName}
   PRIVATE
-    src/D2LangStubs.cpp
     src/D2Crc16.cpp
     src/D2Unicode/D2UnicodeChar.cpp
     src/D2Unicode/D2UnicodeStr.cpp

@@ -810,3 +810,13 @@ TEST_CASE("Unicode::toUnicode code points beyond the BMP")
     CHECK(dest[2].ch == L'b');
     CHECK(dest[3].ch == 0);
 }
+
+TEST_CASE("D2LANG_GetStringHash")
+{
+    CHECK(D2LANG_GetStringHash("", 100) == 0);
+    CHECK(D2LANG_GetStringHash("a", 1000) == 'a');
+    CHECK(D2LANG_GetStringHash("ab", 10000) == ('a' << 4) + 'b');
+    CHECK(D2LANG_GetStringHash("ab", 7) == (('a' << 4) + 'b') % 7);
+    // Characters are sign extended, then the high bits are folded
+    CHECK(D2LANG_GetStringHash("\xE9", 0xFFFFFFFF) == ((0xFFFFFFE9 & 0x0FFFFFFF) ^ 0xF0));
+}

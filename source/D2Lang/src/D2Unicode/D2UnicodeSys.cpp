@@ -153,6 +153,10 @@ static int SysToUnicodeChar(unsigned short ch) {
  */
 BOOL __fastcall Unicode::loadSysMap(HD2ARCHIVE__* hArchive, const char* szFileName) {
   uint8_t* pFile = (uint8_t*)ARCHIVE_ALLOC_BUFFER_AND_READ_FILE_TO_IT(hArchive, szFileName, nullptr);
+  // Note: The original does not check if the file could be read.
+  if (!pFile) {
+    return FALSE;
+  }
 
   if (::strncmp((const char*)pFile, "KAMAP\n", 5) != 0) {
     D2_FREE(pFile);
