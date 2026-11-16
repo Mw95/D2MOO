@@ -764,3 +764,38 @@ TEST_CASE("Unicode::Personalize")
         CHECK(std::wstring((const wchar_t*)dest) == L"Sword");
     }
 }
+
+TEST_CASE("STR_GroupInt64Digits")
+{
+    Unicode dest[64];
+    STR_GroupInt64Digits(dest, 1234567890123LL, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"1,234,567,890,123") == 0);
+    STR_GroupInt64Digits(dest, -1234567890123LL, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"-1,234,567,890,123") == 0);
+    STR_GroupInt64Digits(dest, 0, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"0") == 0);
+    STR_GroupInt64Digits(dest, 1234567890123LL, 17);
+    CHECK(wcscmp((wchar_t*)dest, L"*") == 0);
+}
+
+TEST_CASE("STR_GroupUint64DigitsWithSuffix")
+{
+    Unicode dest[64];
+    STR_GroupUint64DigitsWithSuffix(dest, 999, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"999") == 0);
+    STR_GroupUint64DigitsWithSuffix(dest, 999999, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"999,999") == 0);
+    STR_GroupUint64DigitsWithSuffix(dest, 1234567, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"1,234K") == 0);
+    STR_GroupUint64DigitsWithSuffix(dest, 1234567890, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"1,234M") == 0);
+    STR_GroupUint64DigitsWithSuffix(dest, 1234567890123ULL, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"1,234B") == 0);
+    STR_GroupUint64DigitsWithSuffix(dest, 1234567890123456ULL, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"1,234T") == 0);
+    // At most 4 groups are removed
+    STR_GroupUint64DigitsWithSuffix(dest, 1234567890123456789ULL, 64);
+    CHECK(wcscmp((wchar_t*)dest, L"1,234,567T") == 0);
+    STR_GroupUint64DigitsWithSuffix(dest, 1234567, 7);
+    CHECK(wcscmp((wchar_t*)dest, L"*") == 0);
+}

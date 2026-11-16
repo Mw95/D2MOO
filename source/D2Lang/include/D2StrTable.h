@@ -32,6 +32,20 @@
 
 #include "D2Lang.h"
 
+#include <cstdint>
+
+enum D2C_LanguageCodeType
+{
+	// Name of the directory containing the language files, e.g. "ENG" for data\local\lng\ENG
+	LANGUAGE_CODE_DIRECTORY = 0,
+	// e.g. "ENG" for Japanese and Korean, the language code otherwise
+	LANGUAGE_CODE_ALTERNATE = 1,
+	// e.g. "USA" for English, "BRA" for Portuguese
+	LANGUAGE_CODE_REGION = 2,
+	// Four character code such as 'enUS', written without null terminator
+	LANGUAGE_CODE_LOCALE = 3,
+};
+
 /**
  * Returns the string table language.
  *
@@ -76,3 +90,39 @@ D2LANG_DLL_DECL void __stdcall STR_GroupIntDigits(
  */
 D2LANG_DLL_DECL void __stdcall STR_GroupUintDigits(
 		Unicode* pUnicode, unsigned int dwValue, int nMaxLength);
+
+/**
+ * Writes a code identifying the string table language into szDest.
+ * See D2C_LanguageCodeType.
+ *
+ * 1.10: D2Lang.0x6FC13FB0 (#10006)
+ */
+D2LANG_DLL_DECL void __stdcall STRTABLE_GetLanguageCode(char* szDest, D2C_LanguageCodeType eType);
+
+/**
+ * Returns the language of the operating system, from the "sLanguage"
+ * international setting. Returns LANGUAGE_ENGLISH if the language is
+ * unknown.
+ *
+ * 1.10: D2Lang.0x6FC13E60 (#10008)
+ */
+D2LANG_DLL_DECL D2C_Language STRTABLE_GetSystemLanguage();
+
+/**
+ * Same as STR_GroupIntDigits, for 64-bit integers.
+ *
+ * 1.10: D2Lang.0x6FC14330 (#10011)
+ */
+D2LANG_DLL_DECL void __stdcall STR_GroupInt64Digits(
+		Unicode* pUnicode, int64_t nValue, int nMaxLength);
+
+/**
+ * Same as STR_GroupUintDigits for 64-bit integers, but only the 4 to 6
+ * most significant digits are kept, followed by a localized suffix for
+ * thousands, millions, billions or trillions. For example, 1234567 is
+ * written as "1,234K". The digits are truncated, not rounded.
+ *
+ * 1.10: D2Lang.0x6FC14450 (#10012)
+ */
+D2LANG_DLL_DECL void __stdcall STR_GroupUint64DigitsWithSuffix(
+		Unicode* pUnicode, uint64_t nValue, int nMaxLength);
