@@ -1,4 +1,5 @@
 #include "PLAYER/PlayerStats.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -97,18 +98,18 @@ void __fastcall PLAYERSTATS_LevelUp(D2GameStrc* pGame, D2UnitStrc* pUnit)
 
     D2CharStatsTxt* pCharStatsTxtRecord = PLRSAVE2_GetCharStatsTxtRecord(nClassId);
 
-    STATLIST_SetUnitStat(pUnit, STAT_MAXHP, (nLevelDiff * pCharStatsTxtRecord->nLifePerLevel << 6) + STATLIST_GetUnitBaseStat(pUnit, STAT_MAXHP, 0), 0);
+    STATLIST_SetUnitStat(pUnit, STAT_MAXHP, D2SaturateToInt32(static_cast<int64_t>(nLevelDiff) * pCharStatsTxtRecord->nLifePerLevel * 64 + STATLIST_GetUnitBaseStat(pUnit, STAT_MAXHP, 0)), 0);
     const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pUnit);
     if (STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0) > 0)
     {
         STATLIST_SetUnitStat(pUnit, STAT_HITPOINTS, nMaxHp, 0);
     }
 
-    STATLIST_SetUnitStat(pUnit, STAT_MAXMANA, (nLevelDiff * pCharStatsTxtRecord->nManaPerLevel << 6) + STATLIST_GetUnitBaseStat(pUnit, STAT_MAXMANA, 0), 0);
+    STATLIST_SetUnitStat(pUnit, STAT_MAXMANA, D2SaturateToInt32(static_cast<int64_t>(nLevelDiff) * pCharStatsTxtRecord->nManaPerLevel * 64 + STATLIST_GetUnitBaseStat(pUnit, STAT_MAXMANA, 0)), 0);
     const int32_t nMaxMana = STATLIST_GetMaxManaFromUnit(pUnit);
     STATLIST_SetUnitStat(pUnit, STAT_MANA, nMaxMana, 0);
 
-    STATLIST_SetUnitStat(pUnit, STAT_MAXSTAMINA, (nLevelDiff * pCharStatsTxtRecord->nStaminaPerLevel << 6) + STATLIST_GetUnitBaseStat(pUnit, STAT_MAXSTAMINA, 0), 0);
+    STATLIST_SetUnitStat(pUnit, STAT_MAXSTAMINA, D2SaturateToInt32(static_cast<int64_t>(nLevelDiff) * pCharStatsTxtRecord->nStaminaPerLevel * 64 + STATLIST_GetUnitBaseStat(pUnit, STAT_MAXSTAMINA, 0)), 0);
     const int32_t nMaxStamina = STATLIST_GetMaxStaminaFromUnit(pUnit);
     STATLIST_SetUnitStat(pUnit, STAT_STAMINA, nMaxStamina, 0);
 

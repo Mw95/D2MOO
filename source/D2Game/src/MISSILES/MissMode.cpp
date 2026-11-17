@@ -1,4 +1,5 @@
 #include "MISSILES/MissMode.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -257,13 +258,13 @@ void __stdcall MISSMODE_FillDamageParams(D2UnitStrc* pMissile, D2UnitStrc* pTarg
 
         nDamagePercent = std::max(nDamagePercent, -90);
 
-        pDamage->dwPhysDamage += (nDamagePercent * pDamage->dwPhysDamage) / 100;
+        pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, D2SatMulDiv(nDamagePercent, pDamage->dwPhysDamage, 100));
     }
 
     if (STATLIST_UnitGetStatValue(pMissile, STAT_ITEM_DEADLYSTRIKE, 0))
     {
         pDamage->wResultFlags |= DAMAGERESULTFLAG_CRITICALSTRIKE;
-        pDamage->dwPhysDamage *= 2;
+        pDamage->dwPhysDamage = D2SatMul(pDamage->dwPhysDamage, 2);
     }
 
     if (STATLIST_UnitGetStatValue(pMissile, STAT_SKILL_BYPASS_UNDEAD, 0))
@@ -311,12 +312,12 @@ int32_t __fastcall MISSMODE_RollDamageValue(D2UnitStrc* pUnit, int32_t nMinDamSt
         const int32_t nMastery = STATLIST_UnitGetStatValue(pUnit, nMasteryStat, 0);
         if (nMastery)
         {
-            nMinDam += MONSTERUNIQUE_CalculatePercentage(nMinDam, nMastery, 100);
-            nMaxDam += MONSTERUNIQUE_CalculatePercentage(nMaxDam, nMastery, 100);
+            nMinDam = D2SatAdd(nMinDam, MONSTERUNIQUE_CalculatePercentage(nMinDam, nMastery, 100));
+            nMaxDam = D2SatAdd(nMaxDam, MONSTERUNIQUE_CalculatePercentage(nMaxDam, nMastery, 100));
         }
     }
 
-    return nMinDam + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDam - nMinDam);
+    return D2SatAdd(nMinDam, ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDam, nMinDam)));
 }
 
 //D2Game.0x6FC56480
@@ -349,13 +350,13 @@ int32_t __fastcall MISSMODE_GetDamageValue(D2GameStrc* pGame, D2UnitStrc* pAttac
 
             nDamagePercent = std::max(nDamagePercent, -90);
 
-            pDamage->dwPhysDamage += (nDamagePercent * pDamage->dwPhysDamage) / 100;
+            pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, D2SatMulDiv(nDamagePercent, pDamage->dwPhysDamage, 100));
         }
 
         if (STATLIST_UnitGetStatValue(pAttacker, STAT_ITEM_DEADLYSTRIKE, 0))
         {
             pDamage->wResultFlags |= DAMAGERESULTFLAG_CRITICALSTRIKE;
-            pDamage->dwPhysDamage *= 2;
+            pDamage->dwPhysDamage = D2SatMul(pDamage->dwPhysDamage, 2);
         }
 
         return pDamage->dwPhysDamage;
@@ -495,37 +496,37 @@ void __fastcall MISSMODE_AddDamageValue(D2GameStrc* pGame, D2UnitStrc* pMissile,
     switch (MISSILE_GetElemTypeFromMissileId(pMissile->dwClassId))
     {
     case ELEMTYPE_NONE:
-        pDamage->dwPhysDamage += nDamage;
+        pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, nDamage);
         break;
     case ELEMTYPE_FIRE:
-        pDamage->dwFireDamage += nDamage;
+        pDamage->dwFireDamage = D2SatAdd(pDamage->dwFireDamage, nDamage);
         break;
     case ELEMTYPE_LTNG:
-        pDamage->dwLtngDamage += nDamage;
+        pDamage->dwLtngDamage = D2SatAdd(pDamage->dwLtngDamage, nDamage);
         break;
     case ELEMTYPE_MAGIC:
-        pDamage->dwMagDamage += nDamage;
+        pDamage->dwMagDamage = D2SatAdd(pDamage->dwMagDamage, nDamage);
         break;
     case ELEMTYPE_COLD:
-        pDamage->dwColdDamage += nDamage;
+        pDamage->dwColdDamage = D2SatAdd(pDamage->dwColdDamage, nDamage);
         break;
     case ELEMTYPE_POIS:
-        pDamage->dwPoisDamage += nDamage;
+        pDamage->dwPoisDamage = D2SatAdd(pDamage->dwPoisDamage, nDamage);
         break;
     case ELEMTYPE_LIFE:
-        pDamage->dwLifeLeech += nDamage;
+        pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, nDamage);
         break;
     case ELEMTYPE_MANA:
-        pDamage->dwManaLeech += nDamage;
+        pDamage->dwManaLeech = D2SatAdd(pDamage->dwManaLeech, nDamage);
         break;
     case ELEMTYPE_STAMINA:
-        pDamage->dwStamLeech += nDamage;
+        pDamage->dwStamLeech = D2SatAdd(pDamage->dwStamLeech, nDamage);
         break;
     case ELEMTYPE_STUN:
         pDamage->dwStunLen += nDamage;
         break;
     case ELEMTYPE_BURN:
-        pDamage->dwBurnDamage += nDamage;
+        pDamage->dwBurnDamage = D2SatAdd(pDamage->dwBurnDamage, nDamage);
         break;
     case ELEMTYPE_FREEZE:
         pDamage->dwColdDamage = nDamage;
@@ -1800,7 +1801,7 @@ int32_t __fastcall MISSMODE_SrvDo29_RecyclerDelay(D2GameStrc* pGame, D2UnitStrc*
             const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pOwner) >> 8;
             if (nHitpoints < nMaxHp)
             {
-                const int32_t nNewHp = std::min(MONSTERUNIQUE_CalculatePercentage(nMaxHp, SKILLS_EvaluateSkillFormula(pOwner, pSkillsTxtRecord->dwCalc[0], nSkillId, MISSILE_GetLevel(pMissile)), 100) + nHitpoints, nMaxHp);
+                const int32_t nNewHp = std::min(D2SatAdd(MONSTERUNIQUE_CalculatePercentage(nMaxHp, SKILLS_EvaluateSkillFormula(pOwner, pSkillsTxtRecord->dwCalc[0], nSkillId, MISSILE_GetLevel(pMissile)), 100), nHitpoints), nMaxHp);
                 STATLIST_SetUnitStat(pOwner, STAT_HITPOINTS, nNewHp << 8, 0);
 
                 if (pMissilesTxtRecord->wProgOverlay > 0 && pMissilesTxtRecord->wProgOverlay < sgptDataTables->nOverlayTxtRecordCount)
@@ -3927,7 +3928,7 @@ int32_t __fastcall MISSMODE_SrvHit43_HealingVortex(D2GameStrc* pGame, D2UnitStrc
     D2UnitStrc* pOwner = SUNIT_GetOwner(pGame, pMissile);
     const int32_t nMinDamage = SKILLS_GetMinPhysDamage(pOwner, nSkillId, nLevel, 1);
     const int32_t nMaxDamage = SKILLS_GetMaxPhysDamage(pOwner, nSkillId, nLevel, 1);
-    const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pMissile->pSeed, nMaxDamage - nMinDamage) + nMinDamage;
+    const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pMissile->pSeed, D2SatSub(nMaxDamage, nMinDamage)) + nMinDamage;
 
     const int32_t nHitpoints = STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0);
     const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pUnit);
@@ -4676,7 +4677,7 @@ void __fastcall MISSMODE_SrvDmg13_BlessedHammerEx(D2GameStrc* pGame, D2UnitStrc*
         D2UnitStrc* pOwner = SUNIT_GetOwner(pGame, pMissile);
         if (pOwner)
         {
-            pDamage->dwPhysDamage += (int32_t)(pDamage->dwPhysDamage * STATLIST_UnitGetStatValue(pOwner, STAT_DAMAGEPERCENT, 0)) / 100;
+            pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, D2SatMulDiv(pDamage->dwPhysDamage, STATLIST_UnitGetStatValue(pOwner, STAT_DAMAGEPERCENT, 0), 100));
         }
 
         MISSMODE_SrvDmg05_BlessedHammer(pGame, pMissile, pUnit, pDamage);

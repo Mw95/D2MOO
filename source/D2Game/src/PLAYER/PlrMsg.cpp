@@ -1,4 +1,5 @@
 #include "PLAYER/PlrMsg.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -248,6 +249,30 @@ void __fastcall D2GAME_UpdateAttribute_6FC822D0(D2UnitStrc* pUnit, WORD nStat, u
     }
 }
 
+// Helper function
+// Fixed: packets 0x18, 0x95 and 0x96 carry life, mana and stamina in 15-bit fields, so the client receives them modulo 32768: a character
+// with 32768 life or more saw its life wrap in the orb and on the character screen. The packet layout is kept (an original client must still
+// read it); when a value does not fit in 15 bits, the exact 24.8 value follows in a stat packet (0x1D..0x1F), which both the original client
+// and the rewrite apply to the stat list after the 15-bit value.
+static void PLRMSG_SendExactVitalsIfTruncated(D2ClientStrc* pClient, D2UnitStrc* pUnit, int32_t nShiftedHitpoints, int32_t nShiftedMana, int32_t nShiftedStamina)
+{
+    constexpr int32_t nLargestPacketValue = (1 << 15) - 1;
+    if (nShiftedHitpoints > nLargestPacketValue)
+    {
+        D2GAME_PACKETS_SendPacket0x1D_E_F_6FC3D480(pClient, STAT_HITPOINTS, STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0));
+    }
+
+    if (nShiftedMana > nLargestPacketValue)
+    {
+        D2GAME_PACKETS_SendPacket0x1D_E_F_6FC3D480(pClient, STAT_MANA, STATLIST_UnitGetStatValue(pUnit, STAT_MANA, 0));
+    }
+
+    if (nShiftedStamina > nLargestPacketValue)
+    {
+        D2GAME_PACKETS_SendPacket0x1D_E_F_6FC3D480(pClient, STAT_STAMINA, STATLIST_UnitGetStatValue(pUnit, STAT_STAMINA, 0));
+    }
+}
+
 //D2Game.0x6FC82360
 //1.14d: 0x00548760
 int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* pPlayer, int32_t bSkipHpCheck)
@@ -276,10 +301,12 @@ int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* p
         return 0;
     }
 
-    int32_t nHpDiff = pClientPlayerData->nHitPoints - nShiftedHitpoints;
+    // Fixed: the last life sent is kept in 16 bits, so above 65535 life the original's difference was always large and an update went out on
+    // every call. The difference is now taken modulo 65536, which is exact for any change smaller than 32768 life.
+    int32_t nHpDiff = static_cast<int16_t>(static_cast<uint16_t>(pClientPlayerData->nHitPoints - static_cast<uint16_t>(nShiftedHitpoints)));
     nHpDiff = std::abs(nHpDiff);
 
-    if (!bSkipHpCheck && (100 * nHpDiff / nShiftedMaxHp < 10 || !nShiftedHitpoints && pClientPlayerData->nHitPoints))
+    if (!bSkipHpCheck && (D2SatMulDiv(nHpDiff, 100, nShiftedMaxHp) < 10 || !nShiftedHitpoints && pClientPlayerData->nHitPoints))
     {
         return 0;
     }
@@ -302,7 +329,8 @@ int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* p
         D2GameStrc* pGame = SUNIT_GetGameFromUnit(pUnit);
         const int32_t nFrameDiff = D2COMMON_10473(pHealthPotStatList) - pGame->dwGameFrame;
 
-        nPotionLifePercent = 100 * ((STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0) + nFrameDiff * STATLIST_GetStatValue(pHealthPotStatList, STAT_HPREGEN, 0)) >> 8) / nShiftedMaxHp;
+        // Fixed: computed in 64 bits; the original's 32-bit sum and product wrapped for a large life or a long potion.
+        nPotionLifePercent = static_cast<uint8_t>(std::min<int64_t>(100 * ((STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0) + static_cast<int64_t>(nFrameDiff) * STATLIST_GetStatValue(pHealthPotStatList, STAT_HPREGEN, 0)) >> 8) / nShiftedMaxHp, 255));
         if ((uint8_t)nPotionLifePercent > 100u)
         {
             nPotionLifePercent = 100;
@@ -332,7 +360,8 @@ int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* p
             const int32_t nFrameMultiplier = nManaMultiplier * (STATLIST_UnitGetStatValue(pUnit, STAT_MANARECOVERYBONUS, 0) + 100) / 100 + STATLIST_UnitGetStatValue(pUnit, STAT_MANARECOVERY, 0);
             D2GameStrc* pGame = SUNIT_GetGameFromUnit(pUnit);
             
-            nPotionManaPercent = 100 * (STATLIST_UnitGetStatValue(pUnit, STAT_MANA, 0) + nFrameMultiplier * (D2COMMON_10473(pManaPotStatList) - pGame->dwGameFrame)) / nMaxMana;
+            // Fixed: computed in 64 bits; the original multiplied the 24.8 mana by 100 in 32 bits, which wraps from 83,887 mana.
+            nPotionManaPercent = static_cast<uint8_t>(std::min<int64_t>(100 * (STATLIST_UnitGetStatValue(pUnit, STAT_MANA, 0) + static_cast<int64_t>(nFrameMultiplier) * static_cast<int32_t>(D2COMMON_10473(pManaPotStatList) - pGame->dwGameFrame)) / nMaxMana, 255));
             if ((uint8_t)nPotionManaPercent > 100u)
             {
                 nPotionManaPercent = 100;
@@ -346,6 +375,7 @@ int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* p
     if (pClientPlayerData->nPotionLifePercent != nPotionLifePercent || pClientPlayerData->nPotionManaPercent != nPotionManaPercent)
     {
         SCMD_SendVitalsAndPotionPrediction(pClient, nShiftedHitpoints, nShiftedMana, nStamina, nPotionLifePercent, nPotionManaPercent, nUnitX, nUnitY, nX, nY);
+        PLRMSG_SendExactVitalsIfTruncated(pClient, pUnit, nShiftedHitpoints, nShiftedMana, nStamina);
     
         pClientPlayerData->nPosX = nUnitX;
         pClientPlayerData->nPosY = nUnitY;
@@ -358,6 +388,7 @@ int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* p
         if (pClientPlayerData->nHitPoints != (uint16_t)nShiftedHitpoints || pClientPlayerData->nManaPoints != (uint16_t)nShiftedMana)
         {
             SCMD_SendVitals(pClient, nShiftedHitpoints, nShiftedMana, nStamina, nUnitX, nUnitY, nX, nY);
+            PLRMSG_SendExactVitalsIfTruncated(pClient, pUnit, nShiftedHitpoints, nShiftedMana, nStamina);
 
             pClientPlayerData->nPosX = nUnitX;
             pClientPlayerData->nPosY = nUnitY;
@@ -368,6 +399,7 @@ int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* p
         else if (pClientPlayerData->nStaminaPoints != (uint16_t)nStamina)
         {
             D2GAME_PACKETS_SendPacket0x96_WalkVerify_6FC3DA90(pClient, nStamina, nUnitX, nUnitY, nX, nY);
+            PLRMSG_SendExactVitalsIfTruncated(pClient, pUnit, 0, 0, nStamina);
 
             pClientPlayerData->nPosX = nUnitX;
             pClientPlayerData->nPosY = nUnitY;
@@ -396,6 +428,7 @@ int32_t __fastcall PLRMSG_SendPlayerStatUpdates(D2UnitStrc* pUnit, D2UnitStrc* p
                 else
                 {
                     D2GAME_PACKETS_SendPacket0x96_WalkVerify_6FC3DA90(pClient, nStamina, nUnitX, nUnitY, nX, nY);
+                    PLRMSG_SendExactVitalsIfTruncated(pClient, pUnit, 0, 0, nStamina);
 
                     pClientPlayerData->nPosX = nUnitX;
                     pClientPlayerData->nPosY = nUnitY;

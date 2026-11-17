@@ -1,4 +1,5 @@
 #include "SKILLS/SkillMonst.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -1960,10 +1961,10 @@ int32_t __fastcall SKILLS_SrvDo107_Mosquito(D2GameStrc* pGame, D2UnitStrc* pUnit
     const int32_t nMaxDamage = SKILLS_GetMaxPhysDamage(pUnit, nSkillId, nSkillLevel, 1) >> 8;
     D2GAME_RollPhysicalDamage_6FD14EC0(pUnit, &damage, nSkillId, nSkillLevel);
     D2GAME_RollElementalDamage_6FD14DD0(pUnit, &damage, nSkillId, nSkillLevel);
-    damage.dwPoisDamage = 2 * (nMinDamage + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage));
+    damage.dwPoisDamage = 2 * (nMinDamage + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage)));
     damage.dwPoisLen = SKILLS_GetElementalLength(pUnit, nSkillId, nSkillLevel, 1);
-    damage.dwManaLeech = (nMinDamage + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage)) << 8;
-    damage.dwStamLeech = (nMinDamage + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage)) << 8;
+    damage.dwManaLeech = D2SatShl(D2SatAdd(nMinDamage, ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage))), 8);
+    damage.dwStamLeech = D2SatShl(D2SatAdd(nMinDamage, ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage))), 8);
     damage.wResultFlags = 1;
 
     const int32_t nPercentage = SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[2], nSkillId, nSkillLevel);

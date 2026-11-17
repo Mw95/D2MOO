@@ -1,4 +1,5 @@
 #include "Units/Units.h"
+#include <D2Saturate.h>
 
 #include "D2Collision.h"
 #include "D2Composit.h"
@@ -3210,17 +3211,20 @@ unsigned int __stdcall UNITS_GetHealingCost(D2UnitStrc* pUnit)
 
 	if (nMaxLife > nLife)
 	{
-		nShiftedLifeDifference = (nMaxLife - nLife) >> 8;
+		// Fixed: the difference is taken in 64 bits; the original's wraps when the life is far below zero.
+		nShiftedLifeDifference = D2SaturateToInt32((static_cast<int64_t>(nMaxLife) - nLife) >> 8);
 	}
 
 	if (nMaxMana > nMana)
 	{
-		nShiftedManaDifference = (nMaxMana - nMana) >> 8;
+		nShiftedManaDifference = D2SaturateToInt32((static_cast<int64_t>(nMaxMana) - nMana) >> 8);
 	}
 
 	if (nShiftedLifeDifference || nShiftedManaDifference)
 	{
-		return (unsigned int)((nShiftedLifeDifference + nShiftedManaDifference) * STATLIST_UnitGetStatValue(pUnit, STAT_LEVEL, 0)) >> 2;
+		// Fixed: computed in 64 bits and capped at the largest cost the unsigned 32-bit result can hold.
+		const int64_t nCost = ((static_cast<int64_t>(nShiftedLifeDifference) + nShiftedManaDifference) * STATLIST_UnitGetStatValue(pUnit, STAT_LEVEL, 0)) >> 2;
+		return nCost < 0 ? 0u : (nCost > 0xFFFFFFFFLL ? 0xFFFFFFFFu : static_cast<unsigned int>(nCost));
 	}
 
 	return 0;

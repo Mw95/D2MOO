@@ -1,4 +1,5 @@
 #include "SKILLS/SkillDruid.h"
+#include <D2Saturate.h>
 
 #include <D2BitManip.h>
 
@@ -918,9 +919,9 @@ int32_t __fastcall SKILLS_SrvDo122_Hunger(D2GameStrc* pGame, D2UnitStrc* pUnit, 
 
         SUNITDMG_FillDamageValues(pGame, pUnit, pTarget, &damage, 0, pSkillsTxtRecord->nSrcDam);
         D2GAME_RollElementalDamage_6FD14DD0(pUnit, &damage, nSkillId, nSkillLevel);
-        damage.dwPhysDamage += MONSTERUNIQUE_CalculatePercentage(damage.dwPhysDamage, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel), 100);
-        damage.dwLifeLeech += SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[1], nSkillId, nSkillLevel);
-        damage.dwManaLeech += SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[2], nSkillId, nSkillLevel);
+        damage.dwPhysDamage = D2SatAdd(damage.dwPhysDamage, MONSTERUNIQUE_CalculatePercentage(damage.dwPhysDamage, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel), 100));
+        damage.dwLifeLeech = D2SatAdd(damage.dwLifeLeech, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[1], nSkillId, nSkillLevel));
+        damage.dwManaLeech = D2SatAdd(damage.dwManaLeech, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[2], nSkillId, nSkillLevel));
         SUNITDMG_AllocCombat(pGame, pUnit, pTarget, &damage, 128);
         SUNITDMG_DrainItemDurability(pGame, pUnit, pTarget, 0);
     }
@@ -1477,9 +1478,9 @@ int32_t __fastcall SKILLS_SrvSt60_SuckBlood(D2GameStrc* pGame, D2UnitStrc* pUnit
         }
 
         SUNITDMG_RollSuckBloodDamage(pGame, pUnit, pTarget, nSkillId, nSkillLevel, &damage);
-        damage.dwPhysDamage += MONSTERUNIQUE_CalculatePercentage(damage.dwPhysDamage, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel), 100);
-        damage.dwLifeLeech += SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[1], nSkillId, nSkillLevel);
-        damage.dwManaLeech += SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[2], nSkillId, nSkillLevel);
+        damage.dwPhysDamage = D2SatAdd(damage.dwPhysDamage, MONSTERUNIQUE_CalculatePercentage(damage.dwPhysDamage, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel), 100));
+        damage.dwLifeLeech = D2SatAdd(damage.dwLifeLeech, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[1], nSkillId, nSkillLevel));
+        damage.dwManaLeech = D2SatAdd(damage.dwManaLeech, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[2], nSkillId, nSkillLevel));
         SUNITDMG_AllocCombat(pGame, pUnit, pTarget, &damage, 128);
     }
 

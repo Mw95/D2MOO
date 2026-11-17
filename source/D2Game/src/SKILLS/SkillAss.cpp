@@ -1,4 +1,5 @@
 #include "SKILLS/SkillAss.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -336,7 +337,7 @@ void __fastcall SKILLS_ApplyProgressivePhysicalDamageBonus(D2UnitStrc* pUnit, D2
                             const int32_t nValue = STATLIST_GetStatValue(pStatList, nAuraStat, 0);
                             if (nValue > 0)
                             {
-                                pDamage->dwEnDmgPct += nValue * SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel);
+                                pDamage->dwEnDmgPct = D2SatAdd(pDamage->dwEnDmgPct, nValue * SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel));
 
                                 D2UnitStrc* pTargetUnit = SUNIT_GetTargetUnit(SUNIT_GetGameFromUnit(pUnit), pUnit);
                                 if (pTargetUnit && pSkillsTxtRecord->wTgtOverlay > 0 && pSkillsTxtRecord->wTgtOverlay < sgptDataTables->nOverlayTxtRecordCount)
@@ -388,18 +389,18 @@ void __fastcall SKILLS_ApplyProgressiveLeechAndElementalDamage(D2UnitStrc* pUnit
                                 switch (nValue)
                                 {
                                 case 1:
-                                    pDamage->dwLifeLeech += nLeech;
+                                    pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, nLeech);
                                     break;
 
                                 case 2:
-                                    pDamage->dwLifeLeech += nLeech;
-                                    pDamage->dwManaLeech += nLeech;
+                                    pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, nLeech);
+                                    pDamage->dwManaLeech = D2SatAdd(pDamage->dwManaLeech, nLeech);
                                     break;
 
                                 case 3:
                                     nLeech *= 2;
-                                    pDamage->dwLifeLeech += nLeech;
-                                    pDamage->dwManaLeech += nLeech;
+                                    pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, nLeech);
+                                    pDamage->dwManaLeech = D2SatAdd(pDamage->dwManaLeech, nLeech);
                                     break;
 
                                 default:
@@ -1223,17 +1224,17 @@ void __fastcall SKILLS_FillKickDamage(D2GameStrc* pGame, D2DamageStrc* pDamage, 
     const int32_t nMinBasePhysDamage = SKILLS_GetMinPhysDamage(pUnit, nSkillId, nSkillLevel, 0);
     const int32_t nMaxBasePhysDamage = SKILLS_GetMaxPhysDamage(pUnit, nSkillId, nSkillLevel, 0);
 
-    const int32_t nMinBaseDamage = nMinBasePhysDamage + MONSTERUNIQUE_CalculatePercentage(nMinBasePhysDamage, pDamage->dwEnDmgPct, 100);
-    const int32_t nMaxBaseDamage = nMaxBasePhysDamage + MONSTERUNIQUE_CalculatePercentage(nMaxBasePhysDamage, pDamage->dwEnDmgPct, 100);
+    const int32_t nMinBaseDamage = D2SatAdd(nMinBasePhysDamage, MONSTERUNIQUE_CalculatePercentage(nMinBasePhysDamage, pDamage->dwEnDmgPct, 100));
+    const int32_t nMaxBaseDamage = D2SatAdd(nMaxBasePhysDamage, MONSTERUNIQUE_CalculatePercentage(nMaxBasePhysDamage, pDamage->dwEnDmgPct, 100));
 
     int32_t nMinKickDamage = 0;
     int32_t nMaxKickDamage = 0;
     int32_t nDamagePercent = pDamage->dwEnDmgPct;
     SKILLS_CalculateKickDamage(pUnit, &nMinKickDamage, &nMaxKickDamage, &nDamagePercent);
 
-    const int32_t nMinDamage = nMinBaseDamage + MONSTERUNIQUE_CalculatePercentage(nMinKickDamage << 8, nDamagePercent, 100) + (nMinKickDamage << 8);
-    const int32_t nMaxDamage = nMaxBaseDamage + MONSTERUNIQUE_CalculatePercentage(nMaxKickDamage << 8, nDamagePercent, 100) + (nMaxKickDamage << 8);
-    pDamage->dwPhysDamage += ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage) + nMinDamage;
+    const int32_t nMinDamage = D2SaturateToInt32(static_cast<int64_t>(nMinBaseDamage) + MONSTERUNIQUE_CalculatePercentage(D2SatShl(nMinKickDamage, 8), nDamagePercent, 100) + D2SatShl(nMinKickDamage, 8));
+    const int32_t nMaxDamage = D2SaturateToInt32(static_cast<int64_t>(nMaxBaseDamage) + MONSTERUNIQUE_CalculatePercentage(D2SatShl(nMaxKickDamage, 8), nDamagePercent, 100) + D2SatShl(nMaxKickDamage, 8));
+    pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, D2SatAdd(ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage)), nMinDamage));
 
     D2GAME_RollElementalDamage_6FD14DD0(pUnit, pDamage, nSkillId, nSkillLevel);
 
@@ -1623,7 +1624,7 @@ void __fastcall SKILLS_AllocDragonClawCombat(D2GameStrc* pGame, D2UnitStrc* pUni
     {
         damage.dwHitFlags |= 2;
         SKILLS_ApplyProgressivePhysicalDamageBonus(pUnit, &damage);
-        damage.dwEnDmgPct += SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel);
+        damage.dwEnDmgPct = D2SatAdd(damage.dwEnDmgPct, SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel));
         if (pSkillsTxtRecord->nEType)
         {
             damage.dwConvPct = SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[3], nSkillId, nSkillLevel);
@@ -2059,7 +2060,7 @@ int32_t __fastcall SKILLS_SrvDo049_ShadowWarrior_Master(D2GameStrc* pGame, D2Uni
     if (nSkillLevel > 1)
     {
         const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pPet);
-        const int32_t nHitpoints = MONSTERUNIQUE_CalculatePercentage(nMaxHp, pSkillsTxtRecord->dwParam[0] * (nSkillLevel - 1), 100) + nMaxHp;
+        const int32_t nHitpoints = D2SatAdd(MONSTERUNIQUE_CalculatePercentage(nMaxHp, D2SatMul(pSkillsTxtRecord->dwParam[0], nSkillLevel - 1), 100), nMaxHp);
         STATLIST_SetUnitStat(pPet, STAT_MAXHP, nHitpoints, 0);
         STATLIST_SetUnitStat(pPet, STAT_HITPOINTS, nHitpoints, 0);
 
@@ -2247,8 +2248,8 @@ void __fastcall SKILLS_StatRemoveCallback_MindBlast(D2UnitStrc* pItem, int32_t n
         }
 
         STATLIST_SetUnitStat(pItem, STAT_LEVEL, nLevel, 0);
-        STATLIST_SetUnitStat(pItem, STAT_HITPOINTS, nNewHp << 8, 0);
-        STATLIST_SetUnitStat(pItem, STAT_MAXHP, nConversionMaxHp << 8, 0);
+        STATLIST_SetUnitStat(pItem, STAT_HITPOINTS, D2SatShl(nNewHp, 8), 0);
+        STATLIST_SetUnitStat(pItem, STAT_MAXHP, D2SatShl(nConversionMaxHp, 8), 0);
         D2Common_10474(pItem, pConversionStatList);
         STATLIST_FreeStatList(pConversionStatList);
     }
@@ -2326,8 +2327,8 @@ int32_t __fastcall SKILLS_AuraCallback_MindBlast(D2AuraCallbackStrc* pAuraCallba
             STATLIST_SetStatIfListIsValid(pConversionSaveStatList, STAT_CONVERSION_LEVEL, nLevel, 0);
             STATLIST_SetStatIfListIsValid(pConversionSaveStatList, STAT_CONVERSION_MAXHP, nMaxHp, 0);
 
-            int32_t nNewHitpoints = MONSTERUNIQUE_CalculatePercentage(nHitpoints, nOwnerLevel, nLevel) << 8;
-            int32_t nNewMaxHp = MONSTERUNIQUE_CalculatePercentage(nMaxHp, nOwnerLevel, nLevel) << 8;
+            int32_t nNewHitpoints = D2SatShl(MONSTERUNIQUE_CalculatePercentage(nHitpoints, nOwnerLevel, nLevel), 8);
+            int32_t nNewMaxHp = D2SatShl(MONSTERUNIQUE_CalculatePercentage(nMaxHp, nOwnerLevel, nLevel), 8);
             if (nNewMaxHp < 1)
             {
                 nNewMaxHp = 1;

@@ -5,6 +5,7 @@
 This project is a re-implementation of the Diablo2 game coupled with patching facilities for modders.
 The aim is to provide the modding community with an easy tool to understand and patch the game.
 To ensure that we stay as close as possible to the original game, we do not provide fixes for bugs (yet).
+The one exception is life and damage overflow, which is fixed by saturating the arithmetic: see [doc/OverflowFixes.md](doc/OverflowFixes.md).
 
 The game assets, main executable code and anything related to hacking or piracy is NOT endorsed by the authors, and as such we will not provide code related to such subjects.
 The original game assets and binaries is required to use this project.

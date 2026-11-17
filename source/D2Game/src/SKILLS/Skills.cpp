@@ -1,4 +1,5 @@
 #include "SKILLS/Skills.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -383,11 +384,11 @@ int32_t __fastcall SKILLS_SharePotionLifeWithBloodGolem(D2GameStrc* pGame, D2Uni
         return nLife;
     }
 
-    int32_t nLifeAdded = nLife * pSkillsTxtRecord->dwParam[5] / 100;
+    int32_t nLifeAdded = D2SatMulDiv(nLife, pSkillsTxtRecord->dwParam[5], 100);
     if (nLifeAdded > 0)
     {
         const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pBloodGolem);
-        int32_t nNewHp = nLifeAdded + STATLIST_UnitGetStatValue(pBloodGolem, STAT_HITPOINTS, 0);
+        int32_t nNewHp = D2SatAdd(nLifeAdded, STATLIST_UnitGetStatValue(pBloodGolem, STAT_HITPOINTS, 0));
         if (nNewHp > nMaxHp)
         {
             nLifeAdded += nMaxHp - nNewHp;
@@ -1899,27 +1900,27 @@ void __fastcall SKILLS_AddElementalDamage(D2UnitStrc* pUnit, D2DamageStrc* pDama
     case ELEMTYPE_FIRE:
     {
         pDamage->dwHitClass = 0x20u;
-        pDamage->dwFireDamage += nDamage;
+        pDamage->dwFireDamage = D2SatAdd(pDamage->dwFireDamage, nDamage);
         nResStatId = STAT_FIRERESIST;
         break;
     }
     case ELEMTYPE_LTNG:
     {
         pDamage->dwHitClass = 0x40u;
-        pDamage->dwLtngDamage += nDamage;
+        pDamage->dwLtngDamage = D2SatAdd(pDamage->dwLtngDamage, nDamage);
         nResStatId = STAT_LIGHTRESIST;
         break;
     }
     case ELEMTYPE_MAGIC:
     {
         nResStatId = STAT_MAGICRESIST;
-        pDamage->dwMagDamage += nDamage;
+        pDamage->dwMagDamage = D2SatAdd(pDamage->dwMagDamage, nDamage);
         break;
     }
     case ELEMTYPE_COLD:
     {
         pDamage->dwColdLen = nLength;
-        pDamage->dwColdDamage += nDamage;
+        pDamage->dwColdDamage = D2SatAdd(pDamage->dwColdDamage, nDamage);
         pDamage->dwHitClass = 0x30u;
         nResStatId = STAT_COLDRESIST;
         break;
@@ -1927,24 +1928,24 @@ void __fastcall SKILLS_AddElementalDamage(D2UnitStrc* pUnit, D2DamageStrc* pDama
     case ELEMTYPE_POIS:
     {
         pDamage->dwPoisLen = nLength;
-        pDamage->dwPoisDamage += nDamage;
+        pDamage->dwPoisDamage = D2SatAdd(pDamage->dwPoisDamage, nDamage);
         pDamage->dwHitClass = 0x50u;
         nResStatId = STAT_POISONRESIST;
         break;
     }
     case ELEMTYPE_LIFE:
     {
-        pDamage->dwLifeLeech += nDamage;
+        pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, nDamage);
         break;
     }
     case ELEMTYPE_MANA:
     {
-        pDamage->dwManaLeech += nDamage;
+        pDamage->dwManaLeech = D2SatAdd(pDamage->dwManaLeech, nDamage);
         break;
     }
     case ELEMTYPE_STAMINA:
     {
-        pDamage->dwStamLeech += nDamage;
+        pDamage->dwStamLeech = D2SatAdd(pDamage->dwStamLeech, nDamage);
         break;
     }
     case ELEMTYPE_STUN:
@@ -1956,20 +1957,20 @@ void __fastcall SKILLS_AddElementalDamage(D2UnitStrc* pUnit, D2DamageStrc* pDama
     case ELEMTYPE_BURN:
     {
         pDamage->dwBurnLen = nLength;
-        pDamage->dwBurnDamage += nDamage;
+        pDamage->dwBurnDamage = D2SatAdd(pDamage->dwBurnDamage, nDamage);
         break;
     }
     case ELEMTYPE_FREEZE:
     {
         pDamage->dwFrzLen = nLength;
-        pDamage->dwColdDamage += nDamage;
+        pDamage->dwColdDamage = D2SatAdd(pDamage->dwColdDamage, nDamage);
         pDamage->dwHitClass = 0x30u;
         nResStatId = STAT_COLDRESIST;
         break;
     }
     default:
     {
-        pDamage->dwPhysDamage += nDamage;
+        pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, nDamage);
         break;
     }
     }
@@ -3897,7 +3898,7 @@ int32_t __fastcall D2GAME_RollElementalDamage_6FD14DD0(D2UnitStrc* pUnit, D2Dama
     {
         const int32_t nMinDamage = SKILLS_GetMinElemDamage(pUnit, nSkillId, nSkillLevel, 1);
         const int32_t nMaxDamage = SKILLS_GetMaxElemDamage(pUnit, nSkillId, nSkillLevel, 1);
-        const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage) + nMinDamage;
+        const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage)) + nMinDamage;
         SKILLS_AddElementalDamage(pUnit, pDamage, pSkillsTxtRecord->nEType, nDamage, SKILLS_GetElementalLength(pUnit, nSkillId, nSkillLevel, 1), 0, 0);
         return nDamage;
     }
@@ -3914,8 +3915,8 @@ void __fastcall D2GAME_RollPhysicalDamage_6FD14EC0(D2UnitStrc* pUnit, D2DamageSt
     {
         const int32_t nMinDamage = SKILLS_GetMinPhysDamage(pUnit, nSkillId, nSkillLevel, 0);
         const int32_t nMaxDamage = SKILLS_GetMaxPhysDamage(pUnit, nSkillId, nSkillLevel, 0);
-        const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage) + nMinDamage;
-        pDamage->dwPhysDamage += nDamage;
+        const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage)) + nMinDamage;
+        pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, nDamage);
     }
 }
 

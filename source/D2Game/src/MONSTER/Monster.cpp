@@ -1,4 +1,5 @@
 #include "MONSTER/Monster.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -227,7 +228,7 @@ void __fastcall MONSTER_InitializeStatsAndSkills(D2GameStrc* pGame, D2ActiveRoom
     DATATBLS_CalculateMonsterStatsByLevel(pUnit->dwClassId, pGame->nGameType || pGame->dwGameType, nDifficulty, nLevel, 7, &monStatsInit);
 
     const int32_t nBaseHp = monStatsInit.nMinHP + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, monStatsInit.nMaxHP - monStatsInit.nMinHP + 1);
-    const int32_t nHp = std::min(nBaseHp + MONSTERUNIQUE_CalculatePercentage(nBaseHp, playerCountBonus.nHp, 100), (1 << 23) - 1);
+    const int32_t nHp = std::min(D2SatAdd(nBaseHp, MONSTERUNIQUE_CalculatePercentage(nBaseHp, playerCountBonus.nHp, 100)), (1 << 23) - 1);
     const int32_t nShiftedHp = nHp << 8;
     STATLIST_SetUnitStat(pUnit, STAT_MAXHP, nShiftedHp, 0);
     STATLIST_SetUnitStat(pUnit, STAT_HITPOINTS, nShiftedHp, 0);

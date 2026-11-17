@@ -1,4 +1,5 @@
 #include "SKILLS/SkillNec.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -1350,7 +1351,7 @@ int32_t __fastcall SKILLS_SrvDo055_CorpseExplosion(D2GameStrc* pGame, D2UnitStrc
     const int32_t nMinDamage = MONSTERUNIQUE_CalculatePercentage(SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel), nMaxHp, 100);
     const int32_t nMaxDamage = MONSTERUNIQUE_CalculatePercentage(SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[1], nSkillId, nSkillLevel), nMaxHp, 100);
     
-    int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pTarget->pSeed, nMaxDamage - nMinDamage) + nMinDamage;
+    int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pTarget->pSeed, D2SatSub(nMaxDamage, nMinDamage)) + nMinDamage;
     
     const int32_t nTargetLevel = STATLIST_UnitGetStatValue(pTarget, STAT_LEVEL, 0);
     const int32_t nUnitLevel = STATLIST_UnitGetStatValue(pUnit, STAT_LEVEL, 0);
@@ -1989,7 +1990,7 @@ int32_t __fastcall SKILLS_EventFunc04_ReflectPhysicalDamage(D2GameStrc* pGame, i
         if (nReducedDamage > 0)
         {
             const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pOwner);
-            int32_t nNewHp = nReducedDamage + STATLIST_UnitGetStatValue(pOwner, STAT_HITPOINTS, 0);
+            int32_t nNewHp = D2SatAdd(nReducedDamage, STATLIST_UnitGetStatValue(pOwner, STAT_HITPOINTS, 0));
             if (nNewHp > nMaxHp)
             {
                 const int32_t nHpDiff = nMaxHp - nNewHp;
@@ -2286,7 +2287,7 @@ int32_t __fastcall SKILLS_AddLifeAndGetGain(D2UnitStrc* pUnit, int32_t nValue)
     {
         const int32_t nHitPoints = STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0);
         const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pUnit);
-        int32_t nNewHp = nValue + nHitPoints;
+        int32_t nNewHp = D2SatAdd(nValue, nHitPoints);
         if (nNewHp > nMaxHp)
         {
             nValue += (nMaxHp - nNewHp);

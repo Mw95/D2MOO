@@ -1,4 +1,5 @@
 #include "SKILLS/SkillAma.h"
+#include <D2Saturate.h>
 
 #include "D2DataTbls.h"
 #include "DataTbls/SkillsTbls.h"
@@ -365,7 +366,7 @@ int32_t __fastcall SKILLS_SrvSt10_LightningStrike(D2GameStrc* pGame, D2UnitStrc*
     {
         const int32_t nMinDamage = SKILLS_GetMinElemDamage(pUnit, nSkillId, nSkillLevel, 1);
         const int32_t nMaxDamage = SKILLS_GetMaxElemDamage(pUnit, nSkillId, nSkillLevel, 1);
-        damage.dwLtngDamage = nMinDamage + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage);
+        damage.dwLtngDamage = nMinDamage + ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage));
         damage.dwEnDmgPct = SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[0], nSkillId, nSkillLevel);
 
         if (pSkillsTxtRecord->nEType)

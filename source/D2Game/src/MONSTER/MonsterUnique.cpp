@@ -4,6 +4,7 @@
 
 #include <D2BitManip.h>
 #include <D2Math.h>
+#include <D2Saturate.h>
 
 #include <D2StatList.h>
 #include <D2DataTbls.h>
@@ -211,7 +212,7 @@ void __fastcall MONSTERUNIQUE_UMod2_HealthBonus(D2UnitStrc* pUnit, int32_t nUMod
             const int32_t nPercentage = pMonUModTxtRecord ? pMonUModTxtRecord->dwConstants : 0;
 
             nHitpoints = STATLIST_GetMaxLifeFromUnit(pUnit);
-            nHitpoints += MONSTERUNIQUE_CalculatePercentage(nHitpoints, nPercentage, 100);
+            nHitpoints = D2SatAdd(nHitpoints, MONSTERUNIQUE_CalculatePercentage(nHitpoints, nPercentage, 100));
         }
         else
         {
@@ -219,7 +220,7 @@ void __fastcall MONSTERUNIQUE_UMod2_HealthBonus(D2UnitStrc* pUnit, int32_t nUMod
             const int32_t nPercentage = pMonUModTxtRecord ? pMonUModTxtRecord->dwConstants : 0;
 
             nHitpoints = STATLIST_GetMaxLifeFromUnit(pUnit);
-            nHitpoints += MONSTERUNIQUE_CalculatePercentage(nHitpoints, nPercentage, 100);
+            nHitpoints = D2SatAdd(nHitpoints, MONSTERUNIQUE_CalculatePercentage(nHitpoints, nPercentage, 100));
         }
 
         STATLIST_SetUnitStat(pUnit, STAT_MAXHP, nHitpoints, 0);
@@ -232,7 +233,7 @@ void __fastcall MONSTERUNIQUE_UMod2_HealthBonus(D2UnitStrc* pUnit, int32_t nUMod
         const int32_t nPercentage = pMonUModTxtRecord ? pMonUModTxtRecord->dwConstants : 0;
 
         int32_t nHitpoints = STATLIST_GetMaxLifeFromUnit(pUnit);
-        nHitpoints += MONSTERUNIQUE_CalculatePercentage(nHitpoints, nPercentage, 100);
+        nHitpoints = D2SatAdd(nHitpoints, MONSTERUNIQUE_CalculatePercentage(nHitpoints, nPercentage, 100));
 
         STATLIST_SetUnitStat(pUnit, STAT_MAXHP, nHitpoints, 0);
         STATLIST_SetUnitStat(pUnit, STAT_HITPOINTS, nHitpoints, 0);
@@ -241,34 +242,11 @@ void __fastcall MONSTERUNIQUE_UMod2_HealthBonus(D2UnitStrc* pUnit, int32_t nUMod
 
 //D2Game.0x6FC6AF70
 //1.14d: 0x00483360
+// Fixed: the same function as D2Common's DATATBLS_ApplyRatio, with the same overflows; now computed in 64 bits and
+// saturated. Results that did not wrap are unchanged.
 int32_t __fastcall MONSTERUNIQUE_CalculatePercentage(int32_t nValue, int32_t nMultiplier, int32_t nDivisor)
 {
-    if (!nDivisor)
-    {
-        return 0;
-    }
-
-    if (nValue <= 0x100000)
-    {
-        if (nMultiplier <= 0x10000)
-        {
-            return static_cast<int32_t>(static_cast<uint32_t>(nMultiplier) * static_cast<uint32_t>(nValue)) / nDivisor;
-        }
-
-        if (nDivisor <= (nMultiplier >> 4))
-        {
-            return static_cast<int32_t>(static_cast<uint32_t>(nValue) * static_cast<uint32_t>(nMultiplier / nDivisor));
-        }
-    }
-    else
-    {
-        if (nDivisor <= (nValue >> 4))
-        {
-            return static_cast<int32_t>(static_cast<uint32_t>(nMultiplier) * static_cast<uint32_t>(nValue / nDivisor));
-        }
-    }
-
-    return static_cast<int32_t>(nMultiplier * (int64_t)nValue / nDivisor);
+    return D2ApplyRatioSaturated(nValue, nMultiplier, nDivisor);
 }
 
 //D2Game.0x6FC6AFF0
@@ -1108,7 +1086,7 @@ void __fastcall MONSTERUNIQUE_CastCorpseExplode(D2GameStrc* pGame, D2UnitStrc* p
 
     const int32_t nMaxDamage = MONSTERUNIQUE_CalculatePercentage(monStatsInit.nMaxHP, pDifficultyLevelsTxtRecord->dwMonsterCEDmgPercent, 100);
     const int32_t nMinDamage = MONSTERUNIQUE_CalculatePercentage(nMaxDamage, 60, 100);
-    const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage);
+    const int32_t nDamage = ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage));
 
     D2DamageStrc damage = {};
     damage.dwPhysDamage = (nMinDamage + nDamage) << 6;
@@ -1336,8 +1314,8 @@ void __fastcall MONSTERUNIQUE_AddRogueHireMissileSecondaryDamage(D2GameStrc* pGa
         return;
     }
 
-    nMinDamage += (STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MINDAMAGE, 0) << 8) - 256;
-    nMaxDamage += (STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MAXDAMAGE, 0) << 8) - 256;
+    nMinDamage = D2SaturateToInt32(static_cast<int64_t>(nMinDamage) + static_cast<int64_t>(STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MINDAMAGE, 0)) * 256 - 256);
+    nMaxDamage = D2SaturateToInt32(static_cast<int64_t>(nMaxDamage) + static_cast<int64_t>(STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MAXDAMAGE, 0)) * 256 - 256);
 
     STATLIST_SetUnitStat(pUnit, STAT_MINDAMAGE, std::max(nMinDamage, 0), 0);
     STATLIST_SetUnitStat(pUnit, STAT_MAXDAMAGE, std::max(nMaxDamage, 0), 0);

@@ -1,4 +1,5 @@
 #include "MONSTER/MonsterMode.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -388,12 +389,12 @@ void __fastcall D2GAME_MONSTER_ApplyCriticalDamage_6FC62E70(D2UnitStrc* pAttacke
         D2MonStatsTxt* pMonStatsTxtRecord = MONSTERMODE_GetMonStatsTxtRecord(pAttacker->dwClassId);
         if (pMonStatsTxtRecord && pMonStatsTxtRecord->nCrit && (ITEMS_RollRandomNumber(&pAttacker->pSeed) % 100) < pMonStatsTxtRecord->nCrit)
         {
-            pDamage->dwPhysDamage *= 2;
-            pDamage->dwFireDamage *= 2;
-            pDamage->dwLtngDamage *= 2;
-            pDamage->dwMagDamage *= 2;
-            pDamage->dwColdDamage *= 2;
-            pDamage->dwPoisDamage *= 2;
+            pDamage->dwPhysDamage = D2SatMul(pDamage->dwPhysDamage, 2);
+            pDamage->dwFireDamage = D2SatMul(pDamage->dwFireDamage, 2);
+            pDamage->dwLtngDamage = D2SatMul(pDamage->dwLtngDamage, 2);
+            pDamage->dwMagDamage = D2SatMul(pDamage->dwMagDamage, 2);
+            pDamage->dwColdDamage = D2SatMul(pDamage->dwColdDamage, 2);
+            pDamage->dwPoisDamage = D2SatMul(pDamage->dwPoisDamage, 2);
 
             if (pDefender && !SUNITDMG_SetHitClass(pDamage, 0x10u))
             {
@@ -595,7 +596,7 @@ void __fastcall D2GAME_MONSTER_ApplyStatRegen_6FC63440(D2GameStrc* pGame, D2Unit
 
     if (STATES_CheckStateMaskLifeOnUnit(pUnit))
     {
-        nHpRegen -= STATLIST_GetUnitBaseStat(pUnit, STAT_HPREGEN, 0);
+        nHpRegen = D2SatSub(nHpRegen, STATLIST_GetUnitBaseStat(pUnit, STAT_HPREGEN, 0));
     }
 
     if (!STATES_CheckState(pUnit, STATE_PREVENTHEAL) || nHpRegen < 0)
@@ -614,7 +615,7 @@ void __fastcall D2GAME_MONSTER_ApplyStatRegen_6FC63440(D2GameStrc* pGame, D2Unit
                 }
             }
 
-            int32_t nNewHp = nHpRegen + nHitpoints;
+            int32_t nNewHp = D2SatAdd(nHpRegen, nHitpoints);
 
             const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pUnit);
             if (nNewHp > nMaxHp)
@@ -919,7 +920,7 @@ int32_t __fastcall MONSTERMODE_StartDeath(D2GameStrc* pGame, D2ModeChangeStrc* p
                     const int32_t nMinDamage = MONSTERUNIQUE_CalculatePercentage(nMaxDamage, 60, 100);
                     
                     D2DamageStrc damage = {};
-                    damage.dwPhysDamage = (nMinDamage + ITEMS_RollLimitedRandomNumber(&pModeChange->pUnit->pSeed, nMaxDamage - nMinDamage)) << 7;
+                    damage.dwPhysDamage = (nMinDamage + ITEMS_RollLimitedRandomNumber(&pModeChange->pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage))) << 7;
                     SUNITDMG_SetMissileDamageFlagsForNearbyUnits(pGame, pMissile, nX, nY, 5, &damage, 0, 0, nullptr, 0x581);
                     return 1;
 

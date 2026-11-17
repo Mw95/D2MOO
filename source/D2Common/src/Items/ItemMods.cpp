@@ -1,4 +1,5 @@
 #include "D2ItemMods.h"
+#include <D2Saturate.h>
 
 #include "D2Collision.h"
 #include "D2Environment.h"
@@ -819,7 +820,7 @@ BOOL __fastcall sub_6FD92A80(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 		case STAT_MAXSTAMINA:
 		case STAT_ITEM_HP_PERLEVEL:
 		case STAT_ITEM_MANA_PERLEVEL:
-			nValue <<= 8;
+			nValue = D2SatShl(nValue, 8);
 			break;
 
 		default:
@@ -831,7 +832,7 @@ BOOL __fastcall sub_6FD92A80(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 
 		if (nApplyType)
 		{
-			nValue = -STATLIST_GetStatValue(pStatList, nStatId, 0);
+			nValue = D2SatSub(0, STATLIST_GetStatValue(pStatList, nStatId, 0));
 		}
 
 		STATLIST_AddStat(pStatList, nStatId, nValue, 0);
@@ -1046,7 +1047,7 @@ BOOL __fastcall sub_6FD92EB0(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 		case STAT_MAXSTAMINA:
 		case STAT_ITEM_HP_PERLEVEL:
 		case STAT_ITEM_MANA_PERLEVEL:
-			nValue <<= 8;
+			nValue = D2SatShl(nValue, 8);
 			break;
 
 		default:
@@ -1058,7 +1059,7 @@ BOOL __fastcall sub_6FD92EB0(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 
 		if (nApplyType)
 		{
-			nValue = -STATLIST_GetStatValue(pStatList, nStatId, 0);
+			nValue = D2SatSub(0, STATLIST_GetStatValue(pStatList, nStatId, 0));
 		}
 
 		STATLIST_AddStat(pStatList, nStatId, nValue, 0);
@@ -1194,7 +1195,7 @@ BOOL __fastcall sub_6FD93410(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, in
 		case STAT_MAXSTAMINA:
 		case STAT_ITEM_HP_PERLEVEL:
 		case STAT_ITEM_MANA_PERLEVEL:
-			nValue <<= 8;
+			nValue = D2SatShl(nValue, 8);
 			break;
 
 		default:
@@ -1206,7 +1207,7 @@ BOOL __fastcall sub_6FD93410(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, in
 
 		if (nApplyType)
 		{
-			nValue = -STATLIST_GetStatValue(pStatList, nStatId, 0);
+			nValue = D2SatSub(0, STATLIST_GetStatValue(pStatList, nStatId, 0));
 		}
 
 		STATLIST_AddStat(pStatList, nStatId, nValue, 0);
@@ -1661,7 +1662,7 @@ void __fastcall sub_6FD94060(int nStatId, int* pValue)
 	case STAT_MAXSTAMINA:
 	case STAT_ITEM_HP_PERLEVEL:
 	case STAT_ITEM_MANA_PERLEVEL:
-		*pValue <<= 8;
+		*pValue = D2SatShl(*pValue, 8);
 		break;
 
 	default:
@@ -1847,7 +1848,7 @@ BOOL __fastcall sub_6FD944E0(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 	case STAT_MAXSTAMINA:
 	case STAT_ITEM_HP_PERLEVEL:
 	case STAT_ITEM_MANA_PERLEVEL:
-		nMin <<= 8;
+		nMin = D2SatShl(nMin, 8);
 		break;
 
 	default:
@@ -1864,7 +1865,7 @@ BOOL __fastcall sub_6FD944E0(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 	case STAT_MAXSTAMINA:
 	case STAT_ITEM_HP_PERLEVEL:
 	case STAT_ITEM_MANA_PERLEVEL:
-		nMax <<= 8;
+		nMax = D2SatShl(nMax, 8);
 		break;
 
 	default:
@@ -2036,7 +2037,7 @@ BOOL __fastcall sub_6FD94AB0(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 	case STAT_MAXSTAMINA:
 	case STAT_ITEM_HP_PERLEVEL:
 	case STAT_ITEM_MANA_PERLEVEL:
-		nMin <<= 8;
+		nMin = D2SatShl(nMin, 8);
 		break;
 
 	default:
@@ -2053,7 +2054,7 @@ BOOL __fastcall sub_6FD94AB0(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 	case STAT_STAMINA:
 	case STAT_ITEM_ARMORPERCENT_PERLEVEL:
 	case STAT_ITEM_HP_PERLEVEL:
-		nMax <<= 8;
+		nMax = D2SatShl(nMax, 8);
 		break;
 
 	default:
@@ -2070,7 +2071,7 @@ BOOL __fastcall sub_6FD94AB0(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 	case STAT_MAXMANA:
 	case STAT_ITEM_ARMOR_PERLEVEL:
 	case STAT_ITEM_ARMORPERCENT_PERLEVEL:
-		nLayer <<= 8;
+		nLayer = D2SatShl(nLayer, 8);
 		break;
 
 	default:
@@ -2333,7 +2334,7 @@ BOOL __fastcall sub_6FD95210(int nType, D2UnitStrc* pUnit, D2UnitStrc* pItem, co
 		case STAT_MAXSTAMINA:
 		case STAT_ITEM_HP_PERLEVEL:
 		case STAT_ITEM_MANA_PERLEVEL:
-			nMin <<= 8;
+			nMin = D2SatShl(nMin, 8);
 			break;
 
 		default:

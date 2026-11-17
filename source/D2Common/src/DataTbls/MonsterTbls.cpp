@@ -1,4 +1,5 @@
 #include "D2DataTbls.h"
+#include <D2Saturate.h>
 
 #include "D2Items.h"
 #include "D2Seed.h"
@@ -943,34 +944,11 @@ void __fastcall DATATBLS_UpdateTreasureClassProbabilities(D2TCExShortStrc* pTCEx
 
 //D2Common.0x6FD68D40
 //1.14d: 0x00483360
+// Fixed: the original wraps (its first branch multiplies up to 2^36 in 32 bits, its last truncates a 64-bit quotient
+// to 32). Every branch is now computed in 64 bits and saturated; results that did not wrap are unchanged.
 int __fastcall DATATBLS_ApplyRatio(signed int nValue, signed int nMultiplier, signed int nDivisor)
 {
-	if (nDivisor)
-	{
-		if (nValue <= 0x100'000)
-		{
-			if (nMultiplier <= 0x10'000)
-			{
-				return static_cast<int32_t>(static_cast<uint32_t>(nMultiplier) * static_cast<uint32_t>(nValue)) / nDivisor;
-			}
-
-			if (nDivisor <= (nMultiplier >> 4))
-			{
-				return static_cast<int32_t>(static_cast<uint32_t>(nValue) * static_cast<uint32_t>(nMultiplier / nDivisor));
-			}
-		}
-		else
-		{
-			if (nDivisor <= (nValue >> 4))
-			{
-				return static_cast<int32_t>(static_cast<uint32_t>(nMultiplier) * static_cast<uint32_t>(nValue / nDivisor));
-			}
-		}
-
-		return nMultiplier * (int64_t)nValue / nDivisor;
-	}
-
-	return 0;
+	return D2ApplyRatioSaturated(nValue, nMultiplier, nDivisor);
 }
 
 //D2Common.0x6FD68DC0 (#10658)

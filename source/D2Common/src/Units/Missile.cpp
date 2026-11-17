@@ -1,4 +1,5 @@
 #include "Units/Missile.h"
+#include <D2Saturate.h>
 
 #include "D2DataTbls.h"
 #include "Drlg/D2DrlgMaze.h"
@@ -556,8 +557,8 @@ void __stdcall MISSILE_CalculateDamageData(D2MissileDamageDataStrc* pMissileDama
 
 		if (pMissilesTxtRecord->dwMissileFlags & gdwBitMasks[MISSILESFLAGINDEX_APPLYMASTERY])
 		{
-			nMinElemDamage += MISSILE_CalculateMasteryBonus(pOwner, nElemType, nMinElemDamage);
-			nMaxElemDamage += MISSILE_CalculateMasteryBonus(pOwner, nElemType, nMaxElemDamage);
+			nMinElemDamage = D2SatAdd(nMinElemDamage, MISSILE_CalculateMasteryBonus(pOwner, nElemType, nMinElemDamage));
+			nMaxElemDamage = D2SatAdd(nMaxElemDamage, MISSILE_CalculateMasteryBonus(pOwner, nElemType, nMaxElemDamage));
 		}
 	}
 	else
@@ -651,37 +652,37 @@ void __stdcall MISSILE_CalculateDamageData(D2MissileDamageDataStrc* pMissileDama
 			nStrBonus = ITEMS_GetStrengthBonus(pItem);
 			if (nStrBonus)
 			{
-				nBonus += nStrBonus * STATLIST_UnitGetStatValue(pOwner, STAT_STRENGTH, 0) / 100;
+				nBonus = D2SatAdd(nBonus, D2SatMulDiv(nStrBonus, STATLIST_UnitGetStatValue(pOwner, STAT_STRENGTH, 0), 100));
 			}
 
 			nDexBonus = ITEMS_GetDexBonus(pItem);
 			if (nDexBonus)
 			{
-				nBonus += nDexBonus * STATLIST_UnitGetStatValue(pOwner, STAT_DEXTERITY, 0) / 100;
+				nBonus = D2SatAdd(nBonus, D2SatMulDiv(nDexBonus, STATLIST_UnitGetStatValue(pOwner, STAT_DEXTERITY, 0), 100));
 			}
 
 			if (ITEMS_CheckIfThrowable(pItem))
 			{
-				nBaseMinDamage = STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_THROW_MINDAMAGE, 0) << 8;
-				nBaseMaxDamage = STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_THROW_MAXDAMAGE, 0) << 8;
+				nBaseMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_THROW_MINDAMAGE, 0), 8);
+				nBaseMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_THROW_MAXDAMAGE, 0), 8);
 			}
 			else
 			{
 				if (pOwner->pInventory && INVENTORY_GetWieldType(pOwner, pOwner->pInventory) == 2)
 				{
-					nBaseMinDamage = STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MINDAMAGE, 0) << 8;
-					nBaseMaxDamage = STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MAXDAMAGE, 0) << 8;
+					nBaseMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MINDAMAGE, 0), 8);
+					nBaseMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_SECONDARY_MAXDAMAGE, 0), 8);
 				}
 				else
 				{
-					nBaseMinDamage = STATLIST_UnitGetStatValue(pOwner, STAT_MINDAMAGE, 0) << 8;
-					nBaseMaxDamage = STATLIST_UnitGetStatValue(pOwner, STAT_MAXDAMAGE, 0) << 8;
+					nBaseMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_MINDAMAGE, 0), 8);
+					nBaseMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_MAXDAMAGE, 0), 8);
 				}
 			}
 
 			if (ITEMS_CheckItemTypeId(pItem, ITEMTYPE_BLUNT))
 			{
-				pMissileDamageData->nUndeadDamagePercent += 50;
+				pMissileDamageData->nUndeadDamagePercent = D2SatAdd(pMissileDamageData->nUndeadDamagePercent, 50);
 			}
 		}
 		else
@@ -691,20 +692,20 @@ void __stdcall MISSILE_CalculateDamageData(D2MissileDamageDataStrc* pMissileDama
 				nDamagePercent = STATLIST_UnitGetStatValue(pOwner, STAT_DEXTERITY, 0);
 			}
 
-			nBaseMinDamage = STATLIST_UnitGetStatValue(pOwner, STAT_MINDAMAGE, 0) << 8;
-			nBaseMaxDamage = STATLIST_UnitGetStatValue(pOwner, STAT_MAXDAMAGE, 0) << 8;
+			nBaseMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_MINDAMAGE, 0), 8);
+			nBaseMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pOwner, STAT_MAXDAMAGE, 0), 8);
 		}
 
-		nMinDamage = nSkillSrcDamage * nBaseMinDamage / 128;
-		nMaxDamage = nSkillSrcDamage * nBaseMaxDamage / 128;
+		nMinDamage = D2SatMulDiv(nBaseMinDamage, nSkillSrcDamage, 128);
+		nMaxDamage = D2SatMulDiv(nBaseMaxDamage, nSkillSrcDamage, 128);
 
-		nDamagePercent += nBonus + STATLIST_UnitGetStatValue(pOwner, STAT_DAMAGEPERCENT, 0);
+		nDamagePercent = D2SatAdd(nDamagePercent, D2SatAdd(nBonus, STATLIST_UnitGetStatValue(pOwner, STAT_DAMAGEPERCENT, 0)));
 		nMinDamagePercent = STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_MINDAMAGE_PERCENT, 0);
 		nMaxDamagePercent = STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_MAXDAMAGE_PERCENT, 0);
 
-		pMissileDamageData->nDemonDamagePercent += STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_DEMONDAMAGE_PERCENT, 0);
-		pMissileDamageData->nUndeadDamagePercent += STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_UNDEADDAMAGE_PERCENT, 0);
-		pMissileDamageData->nDamageTargetAC += STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_DAMAGETARGETAC, 0);
+		pMissileDamageData->nDemonDamagePercent = D2SatAdd(pMissileDamageData->nDemonDamagePercent, STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_DEMONDAMAGE_PERCENT, 0));
+		pMissileDamageData->nUndeadDamagePercent = D2SatAdd(pMissileDamageData->nUndeadDamagePercent, STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_UNDEADDAMAGE_PERCENT, 0));
+		pMissileDamageData->nDamageTargetAC = D2SatAdd(pMissileDamageData->nDamageTargetAC, STATLIST_UnitGetStatValue(pOwner, STAT_ITEM_DAMAGETARGETAC, 0));
 
 		if (STATLIST_UnitGetStatValue(pOwner, STAT_SKILL_BYPASS_UNDEAD, 0))
 		{
@@ -728,25 +729,25 @@ void __stdcall MISSILE_CalculateDamageData(D2MissileDamageDataStrc* pMissileDama
 			pMissileDamageData->nFlags |= 2;
 		}
 
-		nMinDamage = nMissileSrcDamage * STATLIST_UnitGetStatValue(pOrigin, STAT_MINDAMAGE, 0) / 128;
-		nMaxDamage = nMissileSrcDamage * STATLIST_UnitGetStatValue(pOrigin, STAT_MAXDAMAGE, 0) / 128;
+		nMinDamage = D2SatMulDiv(STATLIST_UnitGetStatValue(pOrigin, STAT_MINDAMAGE, 0), nMissileSrcDamage, 128);
+		nMaxDamage = D2SatMulDiv(STATLIST_UnitGetStatValue(pOrigin, STAT_MAXDAMAGE, 0), nMissileSrcDamage, 128);
 
 		nDamagePercent = STATLIST_UnitGetStatValue(pOrigin, STAT_DAMAGEPERCENT, 0);
 		nMinDamagePercent = STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_MINDAMAGE_PERCENT, 0);
 		nMaxDamagePercent = STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_MAXDAMAGE_PERCENT, 0);
 
-		pMissileDamageData->nDemonDamagePercent += STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_DEMONDAMAGE_PERCENT, 0);
-		pMissileDamageData->nUndeadDamagePercent += STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_UNDEADDAMAGE_PERCENT, 0);
-		pMissileDamageData->nDamageTargetAC += STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_DAMAGETARGETAC, 0);
+		pMissileDamageData->nDemonDamagePercent = D2SatAdd(pMissileDamageData->nDemonDamagePercent, STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_DEMONDAMAGE_PERCENT, 0));
+		pMissileDamageData->nUndeadDamagePercent = D2SatAdd(pMissileDamageData->nUndeadDamagePercent, STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_UNDEADDAMAGE_PERCENT, 0));
+		pMissileDamageData->nDamageTargetAC = D2SatAdd(pMissileDamageData->nDamageTargetAC, STATLIST_UnitGetStatValue(pOrigin, STAT_ITEM_DAMAGETARGETAC, 0));
 	}
 
 	if (nMinDamagePercent <= nMaxDamagePercent)
 	{
-		pMissileDamageData->nDamagePercent = nMaxDamagePercent + STATLIST_UnitGetStatValue(pMissile, STAT_DAMAGEPERCENT, 0) + nDamagePercent;
+		pMissileDamageData->nDamagePercent = D2SaturateToInt32(static_cast<int64_t>(nMaxDamagePercent) + STATLIST_UnitGetStatValue(pMissile, STAT_DAMAGEPERCENT, 0) + nDamagePercent);
 	}
 	else
 	{
-		pMissileDamageData->nDamagePercent = nMinDamagePercent + STATLIST_UnitGetStatValue(pMissile, STAT_DAMAGEPERCENT, 0) + nDamagePercent;
+		pMissileDamageData->nDamagePercent = D2SaturateToInt32(static_cast<int64_t>(nMinDamagePercent) + STATLIST_UnitGetStatValue(pMissile, STAT_DAMAGEPERCENT, 0) + nDamagePercent);
 	}
 
 	if (pMissileDamageData->nDamagePercent <= -90)
@@ -754,8 +755,8 @@ void __stdcall MISSILE_CalculateDamageData(D2MissileDamageDataStrc* pMissileDama
 		pMissileDamageData->nDamagePercent = -90;
 	}
 
-	pMissileDamageData->nMinDamage = nMinPhysDamage + nMinDamage;
-	pMissileDamageData->nMaxDamage = nMaxPhysDamage + nMaxDamage;
+	pMissileDamageData->nMinDamage = D2SatAdd(nMinPhysDamage, nMinDamage);
+	pMissileDamageData->nMaxDamage = D2SatAdd(nMaxPhysDamage, nMaxDamage);
 
 	switch (nElemType)
 	{
@@ -869,35 +870,35 @@ void __fastcall MISSILE_AddStatsToDamage(D2MissileDamageDataStrc* pMissileDamage
 {
 	int nPoisonLength = 0;
 
-	pMissileDamageData->nFireMinDamage += STATLIST_UnitGetStatValue(pMissile, STAT_FIREMINDAM, 0) << nShift;
-	pMissileDamageData->nFireMaxDamage += STATLIST_UnitGetStatValue(pMissile, STAT_FIREMAXDAM, 0) << nShift;
-	pMissileDamageData->nLightMinDamage += STATLIST_UnitGetStatValue(pMissile, STAT_LIGHTMINDAM, 0) << nShift;
-	pMissileDamageData->nLightMaxDamage += STATLIST_UnitGetStatValue(pMissile, STAT_LIGHTMAXDAM, 0) << nShift;
-	pMissileDamageData->nMagicMinDamage += STATLIST_UnitGetStatValue(pMissile, STAT_MAGICMINDAM, 0) << nShift;
-	pMissileDamageData->nMagicMaxDamage += STATLIST_UnitGetStatValue(pMissile, STAT_MAGICMAXDAM, 0) << nShift;
-	pMissileDamageData->nColdMinDamage += STATLIST_UnitGetStatValue(pMissile, STAT_COLDMINDAM, 0) << nShift;
-	pMissileDamageData->nColdMaxDamage += STATLIST_UnitGetStatValue(pMissile, STAT_COLDMAXDAM, 0) << nShift;
-	pMissileDamageData->nColdLength += STATLIST_UnitGetStatValue(pMissile, STAT_COLDLENGTH, 0);
-	pMissileDamageData->nPoisonMinDamage += STATLIST_UnitGetStatValue(pMissile, STAT_POISONMINDAM, 0);
-	pMissileDamageData->nPoisonMaxDamage += STATLIST_UnitGetStatValue(pMissile, STAT_POISONMAXDAM, 0);
+	pMissileDamageData->nFireMinDamage = D2SatAdd(pMissileDamageData->nFireMinDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_FIREMINDAM, 0), nShift));
+	pMissileDamageData->nFireMaxDamage = D2SatAdd(pMissileDamageData->nFireMaxDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_FIREMAXDAM, 0), nShift));
+	pMissileDamageData->nLightMinDamage = D2SatAdd(pMissileDamageData->nLightMinDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_LIGHTMINDAM, 0), nShift));
+	pMissileDamageData->nLightMaxDamage = D2SatAdd(pMissileDamageData->nLightMaxDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_LIGHTMAXDAM, 0), nShift));
+	pMissileDamageData->nMagicMinDamage = D2SatAdd(pMissileDamageData->nMagicMinDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_MAGICMINDAM, 0), nShift));
+	pMissileDamageData->nMagicMaxDamage = D2SatAdd(pMissileDamageData->nMagicMaxDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_MAGICMAXDAM, 0), nShift));
+	pMissileDamageData->nColdMinDamage = D2SatAdd(pMissileDamageData->nColdMinDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_COLDMINDAM, 0), nShift));
+	pMissileDamageData->nColdMaxDamage = D2SatAdd(pMissileDamageData->nColdMaxDamage, D2SatShl(STATLIST_UnitGetStatValue(pMissile, STAT_COLDMAXDAM, 0), nShift));
+	pMissileDamageData->nColdLength = D2SatAdd(pMissileDamageData->nColdLength, STATLIST_UnitGetStatValue(pMissile, STAT_COLDLENGTH, 0));
+	pMissileDamageData->nPoisonMinDamage = D2SatAdd(pMissileDamageData->nPoisonMinDamage, STATLIST_UnitGetStatValue(pMissile, STAT_POISONMINDAM, 0));
+	pMissileDamageData->nPoisonMaxDamage = D2SatAdd(pMissileDamageData->nPoisonMaxDamage, STATLIST_UnitGetStatValue(pMissile, STAT_POISONMAXDAM, 0));
 
 	nPoisonLength = STATLIST_UnitGetStatValue(pMissile, STAT_SKILL_POISON_OVERRIDE_LENGTH, 0);
 
 	if (nPoisonLength <= 0)
 	{
-		pMissileDamageData->nPoisonLength += STATLIST_UnitGetStatValue(pMissile, STAT_POISONLENGTH, 0);
-		pMissileDamageData->nPoisonCount += STATLIST_UnitGetStatValue(pMissile, STAT_POISON_COUNT, 0);
+		pMissileDamageData->nPoisonLength = D2SatAdd(pMissileDamageData->nPoisonLength, STATLIST_UnitGetStatValue(pMissile, STAT_POISONLENGTH, 0));
+		pMissileDamageData->nPoisonCount = D2SatAdd(pMissileDamageData->nPoisonCount, STATLIST_UnitGetStatValue(pMissile, STAT_POISON_COUNT, 0));
 	}
 	else
 	{
-		pMissileDamageData->nPoisonLength += nPoisonLength;
+		pMissileDamageData->nPoisonLength = D2SatAdd(pMissileDamageData->nPoisonLength, nPoisonLength);
 	}
 
-	pMissileDamageData->nLifeDrainMinDamage += STATLIST_UnitGetStatValue(pMissile, STAT_LIFEDRAINMINDAM, 0);
-	pMissileDamageData->nManaDrainMinDamage += STATLIST_UnitGetStatValue(pMissile, STAT_MANADRAINMINDAM, 0);
-	pMissileDamageData->nBurningMin += STATLIST_UnitGetStatValue(pMissile, STAT_BURNINGMIN, 0);
-	pMissileDamageData->nBurningMax += STATLIST_UnitGetStatValue(pMissile, STAT_BURNINGMAX, 0);
-	pMissileDamageData->nBurnLength += STATLIST_UnitGetStatValue(pMissile, STAT_FIRELENGTH, 0);
+	pMissileDamageData->nLifeDrainMinDamage = D2SatAdd(pMissileDamageData->nLifeDrainMinDamage, STATLIST_UnitGetStatValue(pMissile, STAT_LIFEDRAINMINDAM, 0));
+	pMissileDamageData->nManaDrainMinDamage = D2SatAdd(pMissileDamageData->nManaDrainMinDamage, STATLIST_UnitGetStatValue(pMissile, STAT_MANADRAINMINDAM, 0));
+	pMissileDamageData->nBurningMin = D2SatAdd(pMissileDamageData->nBurningMin, STATLIST_UnitGetStatValue(pMissile, STAT_BURNINGMIN, 0));
+	pMissileDamageData->nBurningMax = D2SatAdd(pMissileDamageData->nBurningMax, STATLIST_UnitGetStatValue(pMissile, STAT_BURNINGMAX, 0));
+	pMissileDamageData->nBurnLength = D2SatAdd(pMissileDamageData->nBurnLength, STATLIST_UnitGetStatValue(pMissile, STAT_FIRELENGTH, 0));
 }
 
 //D2Common.0x6FDBB060
@@ -906,23 +907,23 @@ void __fastcall MISSILE_CalculateFinalDamage(D2MissileDamageDataStrc* pMissileDa
 {
 	if (nSrcDamage != 128)
 	{
-		pMissileDamageData->nFireMinDamage = nSrcDamage * pMissileDamageData->nFireMinDamage / 128;
-		pMissileDamageData->nFireMaxDamage = nSrcDamage * pMissileDamageData->nFireMaxDamage / 128;
-		pMissileDamageData->nLightMinDamage = nSrcDamage * pMissileDamageData->nLightMinDamage / 128;
-		pMissileDamageData->nLightMaxDamage = nSrcDamage * pMissileDamageData->nLightMaxDamage / 128;
-		pMissileDamageData->nMagicMinDamage = nSrcDamage * pMissileDamageData->nMagicMinDamage / 128;
-		pMissileDamageData->nMagicMaxDamage = nSrcDamage * pMissileDamageData->nMagicMaxDamage / 128;
-		pMissileDamageData->nColdMinDamage = nSrcDamage * pMissileDamageData->nColdMinDamage / 128;
-		pMissileDamageData->nColdMaxDamage = nSrcDamage * pMissileDamageData->nColdMaxDamage / 128;
-		pMissileDamageData->nColdLength = nSrcDamage * pMissileDamageData->nColdLength / 128;
-		pMissileDamageData->nPoisonMinDamage = nSrcDamage * pMissileDamageData->nPoisonMinDamage / 128;
-		pMissileDamageData->nPoisonMaxDamage = nSrcDamage * pMissileDamageData->nPoisonMaxDamage / 128;
-		pMissileDamageData->nPoisonCount = nSrcDamage * pMissileDamageData->nPoisonCount / 128;
-		pMissileDamageData->nLifeDrainMinDamage = nSrcDamage * pMissileDamageData->nLifeDrainMinDamage / 128;
-		pMissileDamageData->nManaDrainMinDamage = nSrcDamage * pMissileDamageData->nManaDrainMinDamage / 128;
-		pMissileDamageData->nBurningMin = nSrcDamage * pMissileDamageData->nBurningMin / 128;
-		pMissileDamageData->nBurningMax = nSrcDamage * pMissileDamageData->nBurningMax / 128;
-		pMissileDamageData->nBurnLength = nSrcDamage * pMissileDamageData->nBurnLength / 128;
+		pMissileDamageData->nFireMinDamage = D2SatMulDiv(pMissileDamageData->nFireMinDamage, nSrcDamage, 128);
+		pMissileDamageData->nFireMaxDamage = D2SatMulDiv(pMissileDamageData->nFireMaxDamage, nSrcDamage, 128);
+		pMissileDamageData->nLightMinDamage = D2SatMulDiv(pMissileDamageData->nLightMinDamage, nSrcDamage, 128);
+		pMissileDamageData->nLightMaxDamage = D2SatMulDiv(pMissileDamageData->nLightMaxDamage, nSrcDamage, 128);
+		pMissileDamageData->nMagicMinDamage = D2SatMulDiv(pMissileDamageData->nMagicMinDamage, nSrcDamage, 128);
+		pMissileDamageData->nMagicMaxDamage = D2SatMulDiv(pMissileDamageData->nMagicMaxDamage, nSrcDamage, 128);
+		pMissileDamageData->nColdMinDamage = D2SatMulDiv(pMissileDamageData->nColdMinDamage, nSrcDamage, 128);
+		pMissileDamageData->nColdMaxDamage = D2SatMulDiv(pMissileDamageData->nColdMaxDamage, nSrcDamage, 128);
+		pMissileDamageData->nColdLength = D2SatMulDiv(pMissileDamageData->nColdLength, nSrcDamage, 128);
+		pMissileDamageData->nPoisonMinDamage = D2SatMulDiv(pMissileDamageData->nPoisonMinDamage, nSrcDamage, 128);
+		pMissileDamageData->nPoisonMaxDamage = D2SatMulDiv(pMissileDamageData->nPoisonMaxDamage, nSrcDamage, 128);
+		pMissileDamageData->nPoisonCount = D2SatMulDiv(pMissileDamageData->nPoisonCount, nSrcDamage, 128);
+		pMissileDamageData->nLifeDrainMinDamage = D2SatMulDiv(pMissileDamageData->nLifeDrainMinDamage, nSrcDamage, 128);
+		pMissileDamageData->nManaDrainMinDamage = D2SatMulDiv(pMissileDamageData->nManaDrainMinDamage, nSrcDamage, 128);
+		pMissileDamageData->nBurningMin = D2SatMulDiv(pMissileDamageData->nBurningMin, nSrcDamage, 128);
+		pMissileDamageData->nBurningMax = D2SatMulDiv(pMissileDamageData->nBurningMax, nSrcDamage, 128);
+		pMissileDamageData->nBurnLength = D2SatMulDiv(pMissileDamageData->nBurnLength, nSrcDamage, 128);
 	}
 }
 
@@ -1084,11 +1085,11 @@ int __stdcall MISSILE_GetMinDamage(D2UnitStrc* pMissile, D2UnitStrc* pOwner, int
 				{
 					nBonus = DATATBLS_ApplyRatio(nDamage, nPercentage, 100);
 
-					nDamage += (int)nBonus;
+					nDamage = D2SatAdd(nDamage, (int)nBonus);
 				}
 			}
 
-			return nDamage << pMissilesTxtRecord->nHitShift;
+			return D2SatShl(nDamage, pMissilesTxtRecord->nHitShift);
 		}
 	}
 
@@ -1140,11 +1141,11 @@ int __stdcall MISSILE_GetMaxDamage(D2UnitStrc* pMissile, D2UnitStrc* pOwner, int
 				{
 					nBonus = DATATBLS_ApplyRatio(nDamage, nPercentage, 100);
 
-					nDamage += (int)nBonus;
+					nDamage = D2SatAdd(nDamage, (int)nBonus);
 				}
 			}
 
-			return nDamage << pMissilesTxtRecord->nHitShift;
+			return D2SatShl(nDamage, pMissilesTxtRecord->nHitShift);
 		}
 	}
 
@@ -1210,11 +1211,11 @@ int __stdcall MISSILE_GetMinElemDamage(D2UnitStrc* pMissile, D2UnitStrc* pOwner,
 				{
 					nBonus = DATATBLS_ApplyRatio(nDamage, nPercentage, 100);
 
-					nDamage += (int)nBonus;
+					nDamage = D2SatAdd(nDamage, (int)nBonus);
 				}
 			}
 
-			return nDamage << pMissilesTxtRecord->nHitShift;
+			return D2SatShl(nDamage, pMissilesTxtRecord->nHitShift);
 		}
 	}
 
@@ -1266,11 +1267,11 @@ int __stdcall MISSILE_GetMaxElemDamage(D2UnitStrc* pMissile, D2UnitStrc* pOwner,
 				{
 					nBonus = DATATBLS_ApplyRatio(nDamage, nPercentage, 100);
 
-					nDamage += (int)nBonus;
+					nDamage = D2SatAdd(nDamage, (int)nBonus);
 				}
 			}
 
-			return nDamage << pMissilesTxtRecord->nHitShift;
+			return D2SatShl(nDamage, pMissilesTxtRecord->nHitShift);
 		}
 	}
 

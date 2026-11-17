@@ -1,4 +1,5 @@
 #include "D2Items.h"
+#include <D2Saturate.h>
 #include <Units/Item.h>
 #include "D2BitManip.h"
 #include "D2Composit.h"
@@ -5826,7 +5827,7 @@ int __fastcall ITEMS_DecodeItemBitstreamComplete(D2UnitStrc* pItem, D2BitBufferS
 					pItemStatCostTxtRecord = ITEMS_GetItemStatCostTxtRecord(STAT_MAXHP);
 
 					nValue = BITMANIP_Read(pBuffer, (b109 ? pItemStatCostTxtRecord->n09SaveBits : pItemStatCostTxtRecord->nSaveBits)) - (b109 ? pItemStatCostTxtRecord->dw09SaveAdd : pItemStatCostTxtRecord->dwSaveAdd);
-					STATLIST_SetStatIfListIsValid(pStatList, STAT_MAXHP, nValue << 8, 0);
+					STATLIST_SetStatIfListIsValid(pStatList, STAT_MAXHP, D2SatShl(nValue, 8), 0);
 				}
 				break;
 			}

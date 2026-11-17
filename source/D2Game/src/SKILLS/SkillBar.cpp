@@ -1,4 +1,5 @@
 #include "SKILLS/SkillBar.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -109,7 +110,7 @@ int32_t __fastcall SKILLS_SrvSt32_Conversion_Bash_Stun_Concentrate_BearSmite(D2G
     D2DamageStrc* pDamage = SUNITDMG_GetDamageFromUnits(pUnit, pTarget);
     if (pDamage)
     {
-        pDamage->dwPhysDamage += SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[1], nSkillId, nSkillLevel) << 8;
+        pDamage->dwPhysDamage = D2SatAdd(pDamage->dwPhysDamage, D2SatShl(SKILLS_EvaluateSkillFormula(pUnit, pSkillsTxtRecord->dwCalc[1], nSkillId, nSkillLevel), 8));
     }
 
     if (pSkillsTxtRecord->nAuraState < 0 || pSkillsTxtRecord->nAuraState >= sgptDataTables->nStatesTxtRecordCount)

@@ -1,4 +1,5 @@
 #include "SKILLS/SkillItem.h"
+#include <D2Saturate.h>
 
 #include <D2BitManip.h>
 
@@ -1031,7 +1032,7 @@ int32_t __fastcall SKILLITEM_EventFunc06_AttackerTakesDamage(D2GameStrc* pGame, 
         {
             D2DamageStrc damage = {};
             damage.wResultFlags |= 0x4021u;
-            damage.dwPhysDamage = nDamage << 8;
+            damage.dwPhysDamage = D2SatShl(nDamage, 8);
             damage.dwHitClass = 0x8D;
             SUNITDMG_ExecuteEvents(pGame, pAttacker, pUnit, 1, &damage);
             SUNITDMG_ExecuteMissileDamage(pGame, pAttacker, pUnit, &damage);
@@ -1053,7 +1054,7 @@ int32_t __fastcall SKILLITEM_EventFunc10_AttackerTakesLightDamage(D2GameStrc* pG
         {
             D2DamageStrc damage = {};
             damage.wResultFlags |= 0x4021u;
-            damage.dwLtngDamage = nDamage << 8;
+            damage.dwLtngDamage = D2SatShl(nDamage, 8);
             damage.dwHitClass = 0x4D;
             SUNITDMG_ExecuteEvents(pGame, pAttacker, pUnit, 1, &damage);
             SUNITDMG_ExecuteMissileDamage(pGame, pAttacker, pUnit, &damage);
@@ -1081,7 +1082,7 @@ int32_t __fastcall SKILLITEM_EventFunc11_ApplyFireDamage(D2GameStrc* pGame, int3
 
     D2DamageStrc damage = {};
     damage.wResultFlags |= 0x4021u;
-    damage.dwFireDamage = nDamage << 8;
+    damage.dwFireDamage = D2SatShl(nDamage, 8);
     damage.dwHitClass = 0x2D;
     SUNITDMG_ExecuteEvents(pGame, pAttacker, pUnit, 1, &damage);
     SUNITDMG_ExecuteMissileDamage(pGame, pAttacker, pUnit, &damage);
@@ -1114,7 +1115,7 @@ int32_t __fastcall SKILLITEM_EventFunc12_ApplyColdDamage(D2GameStrc* pGame, int3
     D2DamageStrc damage = {};
     damage.wResultFlags |= 0x4021u;
     damage.dwColdLen = nLength;
-    damage.dwColdDamage = nDamage << 8;
+    damage.dwColdDamage = D2SatShl(nDamage, 8);
     damage.dwHitClass = 0x3D;
     SUNITDMG_ExecuteEvents(pGame, pAttacker, pUnit, 1, &damage);
     SUNITDMG_ExecuteMissileDamage(pGame, pAttacker, pUnit, &damage);
@@ -1436,7 +1437,7 @@ int32_t __fastcall SKILLITEM_EventFunc16_CrushingBlow(D2GameStrc* pGame, int32_t
             const int32_t nHpBonus = MONSTER_GetHpBonus(nPlayerCount);
             if (nHpBonus)
             {
-                nDivisor += MONSTERUNIQUE_CalculatePercentage(nDivisor, nHpBonus, 100);
+                nDivisor = D2SatAdd(nDivisor, MONSTERUNIQUE_CalculatePercentage(nDivisor, nHpBonus, 100));
             }
         }
     }
@@ -1457,10 +1458,10 @@ int32_t __fastcall SKILLITEM_EventFunc16_CrushingBlow(D2GameStrc* pGame, int32_t
 
     if (nDamageResist > 0)
     {
-        nCrushingBlowHp -= MONSTERUNIQUE_CalculatePercentage(nCrushingBlowHp, nDamageResist, 100);
+        nCrushingBlowHp = D2SatSub(nCrushingBlowHp, MONSTERUNIQUE_CalculatePercentage(nCrushingBlowHp, nDamageResist, 100));
     }
 
-    int32_t nNewHp = nHitpoints - nCrushingBlowHp;
+    int32_t nNewHp = D2SatSub(nHitpoints, nCrushingBlowHp);
     if (nNewHp <= 0)
     {
         nNewHp = 0;
@@ -1529,7 +1530,7 @@ int32_t __fastcall SKILLITEM_EventFunc28_HealAfterKill(D2GameStrc* pGame, int32_
 
             if (nHitpoints < nMaxHp)
             {
-                int32_t nNewHp = (nValue << 8) + nHitpoints;
+                int32_t nNewHp = D2SatAdd(D2SatShl(nValue, 8), nHitpoints);
                 if (nNewHp < 0)
                 {
                     nNewHp = 0;
@@ -1563,7 +1564,7 @@ int32_t __fastcall SKILLITEM_EventFunc18_HealAfterDemonKill(D2GameStrc* pGame, i
 
             if (nHitpoints < nMaxHp)
             {
-                int32_t nNewHp = (nValue << 8) + nHitpoints;
+                int32_t nNewHp = D2SatAdd(D2SatShl(nValue, 8), nHitpoints);
                 if (nNewHp < 0)
                 {
                     nNewHp = 0;

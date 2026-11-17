@@ -1,4 +1,5 @@
 #include "PLAYER/PlrModes.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -1111,7 +1112,7 @@ void __fastcall EVENTS_HpRegen(D2UnitStrc* pUnit)
     if (nHpRegen)
     {
         const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pUnit);
-        int32_t nLife = nHpRegen + STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0);
+        int32_t nLife = D2SatAdd(nHpRegen, STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0));
         if (nLife > nMaxHp)
         {
             nLife = nMaxHp;

@@ -1,4 +1,5 @@
 #include "D2Skills.h"
+#include <D2Saturate.h>
 
 #include "D2Collision.h"
 #include "D2Composit.h"
@@ -2560,27 +2561,30 @@ int __stdcall SKILLS_GetManaCosts(int nSkillId, int nSkillLevel)
 //1.14d: 0x00644B70
 int __fastcall SKILLS_CalculateDamageBonusByLevel(int nLevel, int* pLevelDamage)
 {
+	// Fixed: computed in 64 bits and saturated; the original's 32-bit sum of per-level damages wrapped for a high skill
+	// level or large per-level values.
 	if (nLevel > 1 && pLevelDamage)
 	{
+		const int64_t nLevelDamage[5] = { pLevelDamage[0], pLevelDamage[1], pLevelDamage[2], pLevelDamage[3], pLevelDamage[4] };
 		if (nLevel > 28)
 		{
-			return 7 * *pLevelDamage + pLevelDamage[4] * (nLevel - 28) + 6 * (pLevelDamage[2] + pLevelDamage[3]) + 8 * pLevelDamage[1];
+			return D2SaturateToInt32(7 * nLevelDamage[0] + nLevelDamage[4] * (nLevel - 28) + 6 * (nLevelDamage[2] + nLevelDamage[3]) + 8 * nLevelDamage[1]);
 		}
 		else if (nLevel > 22)
 		{
-			return 7 * *pLevelDamage + pLevelDamage[3] * (nLevel - 22) + 6 * pLevelDamage[2] + 8 * pLevelDamage[1];
+			return D2SaturateToInt32(7 * nLevelDamage[0] + nLevelDamage[3] * (nLevel - 22) + 6 * nLevelDamage[2] + 8 * nLevelDamage[1]);
 		}
 		else if (nLevel > 16)
 		{
-			return 7 * *pLevelDamage + pLevelDamage[2] * (nLevel - 16) + 8 * pLevelDamage[1];
+			return D2SaturateToInt32(7 * nLevelDamage[0] + nLevelDamage[2] * (nLevel - 16) + 8 * nLevelDamage[1]);
 		}
 		else if (nLevel > 8)
 		{
-			return 7 * *pLevelDamage + pLevelDamage[1] * (nLevel - 8);
+			return D2SaturateToInt32(7 * nLevelDamage[0] + nLevelDamage[1] * (nLevel - 8));
 		}
 		else
 		{
-			return *pLevelDamage * (nLevel - 1);
+			return D2SaturateToInt32(nLevelDamage[0] * (nLevel - 1));
 		}
 
 	}
@@ -2605,11 +2609,11 @@ int __stdcall SKILLS_GetMinPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 		{
 			if (!pUnit || pUnit->dwUnitType != UNIT_PLAYER)
 			{
-				nDamage = 3 * STATLIST_UnitGetStatValue(pUnit, STAT_LEVEL, 0);
+				nDamage = D2SatMul(3, STATLIST_UnitGetStatValue(pUnit, STAT_LEVEL, 0));
 			}
 			else
 			{
-				nDamage = STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0) + STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0) - 20;
+				nDamage = D2SaturateToInt32(static_cast<int64_t>(STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0)) + STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0) - 20);
 			}
 
 			if (nDamage < 1)
@@ -2617,7 +2621,7 @@ int __stdcall SKILLS_GetMinPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 				nDamage = 1;
 			}
 
-			return nDamage / 4 << 8;
+			return D2SatShl(nDamage / 4, 8);
 		}
 		else
 		{
@@ -2633,10 +2637,10 @@ int __stdcall SKILLS_GetMinPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 				{
 					nMinDamage = STATLIST_UnitGetStatValue(pUnit, STAT_MINDAMAGE, 0);
 				}
-				nDamage = (nMinDamage * pSkillsTxtRecord->nSrcDam) / 128;
+				nDamage = D2SatMulDiv(nMinDamage, pSkillsTxtRecord->nSrcDam, 128);
 			}
 
-			nDamage += pSkillsTxtRecord->dwMinDam + SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwMinLvlDam);
+			nDamage = D2SaturateToInt32(static_cast<int64_t>(nDamage) + pSkillsTxtRecord->dwMinDam + SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwMinLvlDam));
 
 			if (pSkillsTxtRecord->dwDmgSymPerCalc != -1)
 			{
@@ -2644,11 +2648,11 @@ int __stdcall SKILLS_GetMinPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 				if (nBonus)
 				{
-					nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
+					nDamage = D2SatAdd(nDamage, DATATBLS_ApplyRatio(nDamage, nBonus, 100));
 				}
 			}
 
-			return nDamage << pSkillsTxtRecord->nToHitShift;
+			return D2SatShl(nDamage, pSkillsTxtRecord->nToHitShift);
 		}
 	}
 
@@ -2672,11 +2676,11 @@ int __stdcall SKILLS_GetMaxPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 		{
 			if (!pUnit || pUnit->dwUnitType != UNIT_PLAYER)
 			{
-				nDamage = 3 * STATLIST_UnitGetStatValue(pUnit, STAT_LEVEL, 0);
+				nDamage = D2SatMul(3, STATLIST_UnitGetStatValue(pUnit, STAT_LEVEL, 0));
 			}
 			else
 			{
-				nDamage = STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0) + STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0) - 20;
+				nDamage = D2SaturateToInt32(static_cast<int64_t>(STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0)) + STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0) - 20);
 			}
 
 			if (nDamage < 1)
@@ -2684,7 +2688,7 @@ int __stdcall SKILLS_GetMaxPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 				nDamage = 1;
 			}
 
-			return nDamage / 3 << 8;
+			return D2SatShl(nDamage / 3, 8);
 		}
 		else
 		{
@@ -2694,17 +2698,18 @@ int __stdcall SKILLS_GetMaxPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 				int32_t nMaxDamage = 0;
 				if (pItem && INVENTORY_GetWieldType(pUnit, pUnit->pInventory) == 2)
 				{
-					nMaxDamage = STATLIST_GetMaxDamageFromUnit(pItem, 24) * pSkillsTxtRecord->nSrcDam;
+					nMaxDamage = STATLIST_GetMaxDamageFromUnit(pItem, 24);
 				}
 				else
 				{
-					nMaxDamage = STATLIST_UnitGetStatValue(pUnit, STAT_MAXDAMAGE, 0) * pSkillsTxtRecord->nSrcDam;
+					nMaxDamage = STATLIST_UnitGetStatValue(pUnit, STAT_MAXDAMAGE, 0);
 				}
 
-				nDamage = nMaxDamage / 128;
+				// Fixed: multiplied by nSrcDam in 64 bits; the original's 32-bit product wrapped above 16,777,215 damage.
+				nDamage = D2SatMulDiv(nMaxDamage, pSkillsTxtRecord->nSrcDam, 128);
 			}
 
-			nDamage += pSkillsTxtRecord->dwMaxDam + SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwMaxLvlDam);
+			nDamage = D2SaturateToInt32(static_cast<int64_t>(nDamage) + pSkillsTxtRecord->dwMaxDam + SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwMaxLvlDam));
 
 			if (pSkillsTxtRecord->dwDmgSymPerCalc != -1)
 			{
@@ -2712,11 +2717,11 @@ int __stdcall SKILLS_GetMaxPhysDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 				if (nBonus)
 				{
-					nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
+					nDamage = D2SatAdd(nDamage, DATATBLS_ApplyRatio(nDamage, nBonus, 100));
 				}
 			}
 
-			return nDamage << pSkillsTxtRecord->nToHitShift;
+			return D2SatShl(nDamage, pSkillsTxtRecord->nToHitShift);
 		}
 	}
 
@@ -2735,7 +2740,7 @@ int __stdcall SKILLS_GetMinElemDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 	if (pSkillsTxtRecord && nSkillLevel > 0)
 	{
-		nDamage = (pSkillsTxtRecord->dwEMin + SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwEMinLev)) << pSkillsTxtRecord->nToHitShift;
+		nDamage = D2SatShl(D2SatAdd(pSkillsTxtRecord->dwEMin, SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwEMinLev)), pSkillsTxtRecord->nToHitShift);
 
 		if (pSkillsTxtRecord->dwEDmgSymPerCalc != -1 && (nDamage > 256 || pSkillsTxtRecord->dwEMinLev[0]))
 		{
@@ -2743,7 +2748,7 @@ int __stdcall SKILLS_GetMinElemDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 			if (nBonus)
 			{
-				nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
+				nDamage = D2SatAdd(nDamage, DATATBLS_ApplyRatio(nDamage, nBonus, 100));
 			}
 		}
 
@@ -2799,7 +2804,7 @@ int __stdcall SKILLS_GetMaxElemDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 	if (pSkillsTxtRecord && nSkillLevel > 0)
 	{
-		nDamage = (pSkillsTxtRecord->dwEMax + SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwEMaxLev)) << pSkillsTxtRecord->nToHitShift;
+		nDamage = D2SatShl(D2SatAdd(pSkillsTxtRecord->dwEMax, SKILLS_CalculateDamageBonusByLevel(nSkillLevel, (int*)pSkillsTxtRecord->dwEMaxLev)), pSkillsTxtRecord->nToHitShift);
 
 		if (pSkillsTxtRecord->dwEDmgSymPerCalc != -1)
 		{
@@ -2807,7 +2812,7 @@ int __stdcall SKILLS_GetMaxElemDamage(D2UnitStrc* pUnit, int nSkillId, int nSkil
 
 			if (nBonus)
 			{
-				nDamage += DATATBLS_ApplyRatio(nDamage, nBonus, 100);
+				nDamage = D2SatAdd(nDamage, DATATBLS_ApplyRatio(nDamage, nBonus, 100));
 			}
 		}
 
@@ -3693,8 +3698,8 @@ void __stdcall SKILLS_CalculateKickDamage(D2UnitStrc* pUnit, int* pMinDamage, in
 	if (pUnit)
 	{
 		nKickDamage = STATLIST_UnitGetItemStatOrSkillStatValue(pUnit, STAT_ITEM_KICKDAMAGE, 0);
-		*pMinDamage += nKickDamage;
-		*pMaxDamage += nKickDamage;
+		*pMinDamage = D2SatAdd(*pMinDamage, nKickDamage);
+		*pMaxDamage = D2SatAdd(*pMaxDamage, nKickDamage);
 
 		if (pUnit->pInventory)
 		{
@@ -3729,22 +3734,22 @@ void __stdcall SKILLS_CalculateKickDamage(D2UnitStrc* pUnit, int* pMinDamage, in
 				pItemsTxtRecord = DATATBLS_GetItemsTxtRecord(pBoots->dwClassId);
 				if (pItemsTxtRecord)
 				{
-					nMinDamage = nKickDamage + pItemsTxtRecord->nMinDam;
-					nMaxDamage = nKickDamage + pItemsTxtRecord->nMaxDam;
+					nMinDamage = D2SatAdd(nKickDamage, pItemsTxtRecord->nMinDam);
+					nMaxDamage = D2SatAdd(nKickDamage, pItemsTxtRecord->nMaxDam);
 
 					nStrBonus = ITEMS_GetStrengthBonus(pBoots);
 					if (nStrBonus)
 					{
-						nDamagePercent += DATATBLS_ApplyRatio(STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0), nStrBonus, 100);
+						nDamagePercent = D2SatAdd(nDamagePercent, DATATBLS_ApplyRatio(STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0), nStrBonus, 100));
 					}
 
 					nDexBonus = ITEMS_GetDexBonus(pBoots);
 					if (nDexBonus)
 					{
-						nDamagePercent += DATATBLS_ApplyRatio(STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0), nDexBonus, 100);
+						nDamagePercent = D2SatAdd(nDamagePercent, DATATBLS_ApplyRatio(STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0), nDexBonus, 100));
 					}
 
-					nDamagePercent += STATLIST_UnitGetStatValue(pUnit, STAT_DAMAGEPERCENT, 0);
+					nDamagePercent = D2SatAdd(nDamagePercent, STATLIST_UnitGetStatValue(pUnit, STAT_DAMAGEPERCENT, 0));
 					if (nDamagePercent <= -90)
 					{
 						nDamagePercent = -90;
@@ -3755,9 +3760,9 @@ void __stdcall SKILLS_CalculateKickDamage(D2UnitStrc* pUnit, int* pMinDamage, in
 						nMaxDamage = nMinDamage;
 					}
 
-					*pDamagePercent += STATLIST_UnitGetStatValue(pUnit, STAT_ITEM_MAXDAMAGE_PERCENT, 0) + nDamagePercent;
-					*pMinDamage += nMinDamage;
-					*pMaxDamage += nMaxDamage;
+					*pDamagePercent = D2SaturateToInt32(static_cast<int64_t>(*pDamagePercent) + STATLIST_UnitGetStatValue(pUnit, STAT_ITEM_MAXDAMAGE_PERCENT, 0) + nDamagePercent);
+					*pMinDamage = D2SatAdd(*pMinDamage, nMinDamage);
+					*pMaxDamage = D2SatAdd(*pMaxDamage, nMaxDamage);
 				}
 			}
 

@@ -1,4 +1,5 @@
 #include "UNIT/SUnitDmg.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 
@@ -164,13 +165,13 @@ int32_t __fastcall SUNITDMG_ApplyDamageBonuses(D2UnitStrc* pUnit, int32_t bGetSt
         {
             if (INVENTORY_GetWieldType(pUnit, pUnit->pInventory) == 2)
             {
-                nMinDamage = STATLIST_UnitGetStatValue(pUnit, STAT_SECONDARY_MINDAMAGE, 0) << 8;
-                nMaxDamage = STATLIST_UnitGetStatValue(pUnit, STAT_SECONDARY_MAXDAMAGE, 0) << 8;
+                nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pUnit, STAT_SECONDARY_MINDAMAGE, 0), 8);
+                nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pUnit, STAT_SECONDARY_MAXDAMAGE, 0), 8);
             }
             else
             {
-                nMinDamage = STATLIST_UnitGetStatValue(pUnit, STAT_MINDAMAGE, 0) << 8;
-                nMaxDamage = STATLIST_UnitGetStatValue(pUnit, STAT_MAXDAMAGE, 0) << 8;
+                nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pUnit, STAT_MINDAMAGE, 0), 8);
+                nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pUnit, STAT_MAXDAMAGE, 0), 8);
             }
         }
         else
@@ -178,8 +179,8 @@ int32_t __fastcall SUNITDMG_ApplyDamageBonuses(D2UnitStrc* pUnit, int32_t bGetSt
             nMinDamage = std::max(STATLIST_UnitGetStatValue(pUnit, STAT_MINDAMAGE, 0), 1);
             nMaxDamage = std::max(STATLIST_UnitGetStatValue(pUnit, STAT_MAXDAMAGE, 0), 2);
 
-            nMinDamage <<= 8;
-            nMaxDamage <<= 8;
+            nMinDamage = D2SatShl(nMinDamage, 8);
+            nMaxDamage = D2SatShl(nMaxDamage, 8);
         }
     }
     else
@@ -188,9 +189,9 @@ int32_t __fastcall SUNITDMG_ApplyDamageBonuses(D2UnitStrc* pUnit, int32_t bGetSt
         nMaxDamage = nMaxDmg;
     }
 
-    const int32_t nNormalDamage = STATLIST_UnitGetItemStatOrSkillStatValue(pUnit, STAT_ITEM_NORMALDAMAGE, 0) << 8;
-    int32_t nTotalMinDamage = nNormalDamage + nMinDamage;
-    int32_t nTotalMaxDamage = nNormalDamage + nMaxDamage;
+    const int32_t nNormalDamage = D2SatShl(STATLIST_UnitGetItemStatOrSkillStatValue(pUnit, STAT_ITEM_NORMALDAMAGE, 0), 8);
+    int32_t nTotalMinDamage = D2SatAdd(nNormalDamage, nMinDamage);
+    int32_t nTotalMaxDamage = D2SatAdd(nNormalDamage, nMaxDamage);
 
     if (nTotalMinDamage < 1)
     {
@@ -199,43 +200,43 @@ int32_t __fastcall SUNITDMG_ApplyDamageBonuses(D2UnitStrc* pUnit, int32_t bGetSt
 
     if (nTotalMaxDamage <= nTotalMinDamage)
     {
-        nTotalMaxDamage = nTotalMinDamage + 256;
+        nTotalMaxDamage = D2SatAdd(nTotalMinDamage, 256);
     }
 
-    int32_t nDamagePct = nDamagePercent + STATLIST_UnitGetStatValue(pUnit, STAT_DAMAGEPERCENT, 0);
+    int32_t nDamagePct = D2SatAdd(nDamagePercent, STATLIST_UnitGetStatValue(pUnit, STAT_DAMAGEPERCENT, 0));
 
     if (pItem)
     {
         const int32_t nStrengthBonus = ITEMS_GetStrengthBonus(pItem);
         if (nStrengthBonus)
         {
-            nDamagePct += nStrengthBonus * STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0) / 100;
+            nDamagePct = D2SatAdd(nDamagePct, D2SatMulDiv(nStrengthBonus, STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0), 100));
         }
 
         const int32_t nDexterityBonus = ITEMS_GetDexBonus(pItem);
         if (nDexterityBonus)
         {
-            nDamagePct += nDexterityBonus * STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0) / 100;
+            nDamagePct = D2SatAdd(nDamagePct, D2SatMulDiv(nDexterityBonus, STATLIST_UnitGetStatValue(pUnit, STAT_DEXTERITY, 0), 100));
         }
 
-        nDamagePct += SKILLS_GetWeaponMasteryBonus(pUnit, pItem, 0, 1);
+        nDamagePct = D2SatAdd(nDamagePct, SKILLS_GetWeaponMasteryBonus(pUnit, pItem, 0, 1));
     }
     else if (bGetStats)
     {
-        nDamagePct += STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0);
+        nDamagePct = D2SatAdd(nDamagePct, STATLIST_UnitGetStatValue(pUnit, STAT_STRENGTH, 0));
     }
 
 	nDamagePct = std::max(nDamagePct, -90);
 
     if (nTotalMaxDamage > 0)
     {
-        nTotalMinDamage += MONSTERUNIQUE_CalculatePercentage(nTotalMinDamage, nDamagePct + STATLIST_UnitGetStatValue(pUnit, STAT_ITEM_MINDAMAGE_PERCENT, 0), 100);
-        nTotalMaxDamage += MONSTERUNIQUE_CalculatePercentage(nTotalMaxDamage, nDamagePct + STATLIST_UnitGetStatValue(pUnit, STAT_ITEM_MAXDAMAGE_PERCENT, 0), 100);
+        nTotalMinDamage = D2SatAdd(nTotalMinDamage, MONSTERUNIQUE_CalculatePercentage(nTotalMinDamage, D2SatAdd(nDamagePct, STATLIST_UnitGetStatValue(pUnit, STAT_ITEM_MINDAMAGE_PERCENT, 0)), 100));
+        nTotalMaxDamage = D2SatAdd(nTotalMaxDamage, MONSTERUNIQUE_CalculatePercentage(nTotalMaxDamage, D2SatAdd(nDamagePct, STATLIST_UnitGetStatValue(pUnit, STAT_ITEM_MAXDAMAGE_PERCENT, 0)), 100));
 
-        nDamage += nTotalMinDamage;
+        nDamage = D2SatAdd(nDamage, nTotalMinDamage);
         if (nTotalMaxDamage > nTotalMinDamage)
         {
-            nDamage += ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nTotalMaxDamage - nTotalMinDamage);
+            nDamage = D2SatAdd(nDamage, ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nTotalMaxDamage, nTotalMinDamage)));
         }
     }
 
@@ -281,7 +282,7 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			const int32_t nDemonDamagePct = STATLIST_UnitGetItemStatOrSkillStatValue(pAttacker, STAT_ITEM_DEMONDAMAGE_PERCENT, 0);
 			if (nDemonDamagePct > 0)
 			{
-				pDamage->dwEnDmgPct += nDemonDamagePct;
+				pDamage->dwEnDmgPct = D2SatAdd(pDamage->dwEnDmgPct, nDemonDamagePct);
 			}
 		}
 
@@ -297,7 +298,7 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			nUndeadDamagePct += STATLIST_UnitGetItemStatOrSkillStatValue(pAttacker, STAT_ITEM_UNDEADDAMAGE_PERCENT, 0);
 			if (nUndeadDamagePct > 0)
 			{
-				pDamage->dwEnDmgPct += nUndeadDamagePct;
+				pDamage->dwEnDmgPct = D2SatAdd(pDamage->dwEnDmgPct, nUndeadDamagePct);
 			}
 		}
 
@@ -312,7 +313,7 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 				{
 					if (SUNITDMG_CheckMonType(stats[i].nLayer, pMonStatsTxtRecord->wMonType))
 					{
-						pDamage->dwEnDmgPct += stats[i].nValue;
+						pDamage->dwEnDmgPct = D2SatAdd(pDamage->dwEnDmgPct, stats[i].nValue);
 					}
 				}
 			}
@@ -331,7 +332,7 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			)
 		{
 			pDamage->wResultFlags |= DAMAGERESULTFLAG_CRITICALSTRIKE;
-			pDamage->dwPhysDamage *= 2;
+			pDamage->dwPhysDamage = D2SatMul(pDamage->dwPhysDamage, 2);
 		}
 		else
 		{
@@ -339,7 +340,7 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			if (nCriticalStrike > 0 && (ITEMS_RollRandomNumber(&pAttacker->pSeed) % 100) < nCriticalStrike)
 			{
 				pDamage->wResultFlags |= DAMAGERESULTFLAG_CRITICALSTRIKE;
-				pDamage->dwPhysDamage *= 2;
+				pDamage->dwPhysDamage = D2SatMul(pDamage->dwPhysDamage, 2);
 			}
 			else
 			{
@@ -347,7 +348,7 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 				if (nDeadlyStrike > 0 && (ITEMS_RollRandomNumber(&pAttacker->pSeed) % 100) < nDeadlyStrike)
 				{
 					pDamage->wResultFlags |= DAMAGERESULTFLAG_CRITICALSTRIKE;
-					pDamage->dwPhysDamage *= 2;
+					pDamage->dwPhysDamage = D2SatMul(pDamage->dwPhysDamage, 2);
 				}
 			}
 		}
@@ -355,10 +356,10 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 
 	if (nSrcDam == 128)
 	{
-		int32_t nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMAXDAM, 0) << 8;
+		int32_t nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			const int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMINDAM, 0) << 8;
+			const int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_FIRE_MASTERY, 0);
 			pDamage->dwFireDamage = SUNITDMG_RollDamageValueInRange(pAttacker, nMinDamage, nMaxDamage, nMastery, nMastery, pDamage->dwFireDamage);
 		}
@@ -367,10 +368,10 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			pDamage->dwFireDamage = std::max(pDamage->dwFireDamage, 0);
 		}
 
-		nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMAXDAM, 0) << 8;
+		nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			const int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMINDAM, 0) << 8;
+			const int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_LTNG_MASTERY, 0);
 			pDamage->dwLtngDamage = SUNITDMG_RollDamageValueInRange(pAttacker, nMinDamage, nMaxDamage, nMastery, nMastery, pDamage->dwLtngDamage);
 		}
@@ -379,10 +380,10 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			pDamage->dwLtngDamage = std::max(pDamage->dwLtngDamage, 0);
 		}
 
-		nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMAXDAM, 0) << 8;
+		nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			const int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMINDAM, 0) << 8;
+			const int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_COLD_MASTERY, 0);
 			pDamage->dwColdDamage = SUNITDMG_RollDamageValueInRange(pAttacker, nMinDamage, nMaxDamage, nMastery, nMastery, pDamage->dwColdDamage);
 		}
@@ -391,10 +392,10 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			pDamage->dwColdDamage = std::max(pDamage->dwColdDamage, 0);
 		}
 
-		nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMAXDAM, 0) << 8;
+		nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			const int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMINDAM, 0) << 8;
+			const int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_MAG_MASTERY, 0);
 			pDamage->dwMagDamage = SUNITDMG_RollDamageValueInRange(pAttacker, nMinDamage, nMaxDamage, nMastery, nMastery, pDamage->dwMagDamage);
 		}
@@ -405,85 +406,85 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 	}
 	else
 	{
-		int32_t nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMAXDAM, 0) << 8;
+		int32_t nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMINDAM, 0) << 8;
+			int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_FIREMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_FIRE_MASTERY, 0);
 			if (nMaxDamage > 0)
 			{
-				nMinDamage += MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100);
-				nMaxDamage += MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100);
+				nMinDamage = D2SatAdd(nMinDamage, MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100));
+				nMaxDamage = D2SatAdd(nMaxDamage, MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100));
 
-				pDamage->dwFireDamage += nMinDamage;
+				pDamage->dwFireDamage = D2SatAdd(pDamage->dwFireDamage, nMinDamage);
 				if (nMaxDamage > nMinDamage)
 				{
-					pDamage->dwFireDamage += ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, nMaxDamage - nMinDamage);
+					pDamage->dwFireDamage = D2SatAdd(pDamage->dwFireDamage, ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, D2SatSub(nMaxDamage, nMinDamage)));
 				}
 			}
 		}
 
-		pDamage->dwFireDamage = std::max(pDamage->dwFireDamage, 0) * nSrcDam / 128;
+		pDamage->dwFireDamage = D2SatMulDiv(std::max(pDamage->dwFireDamage, 0), nSrcDam, 128);
 
-		nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMAXDAM, 0) << 8;
+		nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMINDAM, 0) << 8;
+			int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_LIGHTMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_LTNG_MASTERY, 0);
 			if (nMaxDamage > 0)
 			{
-				nMinDamage += MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100);
-				nMaxDamage += MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100);
+				nMinDamage = D2SatAdd(nMinDamage, MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100));
+				nMaxDamage = D2SatAdd(nMaxDamage, MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100));
 
-				pDamage->dwLtngDamage += nMinDamage;
+				pDamage->dwLtngDamage = D2SatAdd(pDamage->dwLtngDamage, nMinDamage);
 				if (nMaxDamage > nMinDamage)
 				{
-					pDamage->dwLtngDamage += ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, nMaxDamage - nMinDamage);
+					pDamage->dwLtngDamage = D2SatAdd(pDamage->dwLtngDamage, ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, D2SatSub(nMaxDamage, nMinDamage)));
 				}
 			}
 		}
 
-		pDamage->dwLtngDamage = std::max(pDamage->dwLtngDamage, 0) * nSrcDam / 128;
+		pDamage->dwLtngDamage = D2SatMulDiv(std::max(pDamage->dwLtngDamage, 0), nSrcDam, 128);
 
-		nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMAXDAM, 0) << 8;
+		nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMINDAM, 0) << 8;
+			int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_COLDMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_COLD_MASTERY, 0);
 			if (nMaxDamage > 0)
 			{
-				nMinDamage += MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100);
-				nMaxDamage += MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100);
+				nMinDamage = D2SatAdd(nMinDamage, MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100));
+				nMaxDamage = D2SatAdd(nMaxDamage, MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100));
 
-				pDamage->dwColdDamage += nMinDamage;
+				pDamage->dwColdDamage = D2SatAdd(pDamage->dwColdDamage, nMinDamage);
 				if (nMaxDamage > nMinDamage)
 				{
-					pDamage->dwColdDamage += ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, nMaxDamage - nMinDamage);
+					pDamage->dwColdDamage = D2SatAdd(pDamage->dwColdDamage, ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, D2SatSub(nMaxDamage, nMinDamage)));
 				}
 			}
 		}
 
-		pDamage->dwColdDamage = std::max(pDamage->dwColdDamage, 0) * nSrcDam / 128;
+		pDamage->dwColdDamage = D2SatMulDiv(std::max(pDamage->dwColdDamage, 0), nSrcDam, 128);
 
-		nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMAXDAM, 0) << 8;
+		nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMAXDAM, 0), 8);
 		if (nMaxDamage >= 8)
 		{
-			int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMINDAM, 0) << 8;
+			int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_MAGICMINDAM, 0), 8);
 			const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_MAG_MASTERY, 0);
 			if (nMaxDamage > 0)
 			{
-				nMinDamage += MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100);
-				nMaxDamage += MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100);
+				nMinDamage = D2SatAdd(nMinDamage, MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100));
+				nMaxDamage = D2SatAdd(nMaxDamage, MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100));
 
-				pDamage->dwMagDamage += nMinDamage;
+				pDamage->dwMagDamage = D2SatAdd(pDamage->dwMagDamage, nMinDamage);
 				if (nMaxDamage > nMinDamage)
 				{
-					pDamage->dwMagDamage += ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, nMaxDamage - nMinDamage);
+					pDamage->dwMagDamage = D2SatAdd(pDamage->dwMagDamage, ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, D2SatSub(nMaxDamage, nMinDamage)));
 				}
 			}
 		}
 
-		pDamage->dwMagDamage = std::max(pDamage->dwMagDamage, 0) * nSrcDam / 128;
+		pDamage->dwMagDamage = D2SatMulDiv(std::max(pDamage->dwMagDamage, 0), nSrcDam, 128);
 	}
 
 	const int32_t nHirelingTypeId = MONSTERS_GetHirelingTypeId(pAttacker);
@@ -493,59 +494,59 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 		{
 			if (!(pDamage->dwHitFlags & DAMAGEHITFLAG_LIFEDRAIN))
 			{
-				const int32_t nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMAXDAM, 0) << 8;
+				const int32_t nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMAXDAM, 0), 8);
 				if (nMaxDamage >= 8)
 				{
-					const int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMINDAM, 0) << 8;
+					const int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMINDAM, 0), 8);
 					pDamage->dwLifeLeech = SUNITDMG_RollDamageValueInRange(pAttacker, nMinDamage, nMaxDamage, 0, 0, pDamage->dwLifeLeech);
 				}
 				else
 				{
 					pDamage->dwLifeLeech = std::max(pDamage->dwLifeLeech, 0);
 				}
-				pDamage->dwLifeLeech += pDamage->dwLifeLeech * nSrcDam / 128;
+				pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, D2SatMulDiv(pDamage->dwLifeLeech, nSrcDam, 128));
 			}
 
 			if (!(pDamage->dwHitFlags & DAMAGEHITFLAG_MANADRAIN))
 			{
-				const int32_t nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMAXDAM, 0) << 8;
+				const int32_t nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMAXDAM, 0), 8);
 				if (nMaxDamage >= 8)
 				{
-					const int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMINDAM, 0) << 8;
+					const int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMINDAM, 0), 8);
 					pDamage->dwManaLeech = SUNITDMG_RollDamageValueInRange(pAttacker, nMinDamage, nMaxDamage, 0, 0, pDamage->dwManaLeech);
 				}
 				else
 				{
 					pDamage->dwManaLeech = std::max(pDamage->dwManaLeech, 0);
 				}
-				pDamage->dwManaLeech += pDamage->dwManaLeech * nSrcDam / 128;
+				pDamage->dwManaLeech = D2SatAdd(pDamage->dwManaLeech, D2SatMulDiv(pDamage->dwManaLeech, nSrcDam, 128));
 			}
 
 			if (!(pDamage->dwHitFlags & DAMAGEHITFLAG_STAMINADRAIN))
 			{
-				const int32_t nMaxDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_STAMDRAINMAXDAM, 0) << 8;
+				const int32_t nMaxDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_STAMDRAINMAXDAM, 0), 8);
 				if (nMaxDamage >= 8)
 				{
-					const int32_t nMinDamage = STATLIST_UnitGetStatValue(pAttacker, STAT_STAMDRAINMINDAM, 0) << 8;
+					const int32_t nMinDamage = D2SatShl(STATLIST_UnitGetStatValue(pAttacker, STAT_STAMDRAINMINDAM, 0), 8);
 					pDamage->dwStamLeech = SUNITDMG_RollDamageValueInRange(pAttacker, nMinDamage, nMaxDamage, 0, 0, pDamage->dwStamLeech);
 				}
 				else
 				{
 					pDamage->dwStamLeech = std::max(pDamage->dwStamLeech, 0);
 				}
-				pDamage->dwStamLeech += pDamage->dwStamLeech * nSrcDam / 128;
+				pDamage->dwStamLeech = D2SatAdd(pDamage->dwStamLeech, D2SatMulDiv(pDamage->dwStamLeech, nSrcDam, 128));
 			}
 		}
 		else
 		{
 			if (!(pDamage->dwHitFlags & DAMAGEHITFLAG_LIFEDRAIN))
 			{
-				pDamage->dwLifeLeech += STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMINDAM, 0);
+				pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMINDAM, 0));
 			}
 
 			if (!(pDamage->dwHitFlags & DAMAGEHITFLAG_MANADRAIN))
 			{
-				pDamage->dwManaLeech += STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMINDAM, 0);
+				pDamage->dwManaLeech = D2SatAdd(pDamage->dwManaLeech, STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMINDAM, 0));
 			}
 
 			if (STATLIST_UnitGetStatValue(pAttacker, STAT_SKILL_BYPASS_UNDEAD, 0))
@@ -570,12 +571,12 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 		{
 			if (!(pDamage->dwHitFlags & DAMAGEHITFLAG_LIFEDRAIN))
 			{
-				pDamage->dwLifeLeech += STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMINDAM, 0);
+				pDamage->dwLifeLeech = D2SatAdd(pDamage->dwLifeLeech, STATLIST_UnitGetStatValue(pAttacker, STAT_LIFEDRAINMINDAM, 0));
 			}
 
 			if (!(pDamage->dwHitFlags & DAMAGEHITFLAG_MANADRAIN))
 			{
-				pDamage->dwManaLeech += STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMINDAM, 0);
+				pDamage->dwManaLeech = D2SatAdd(pDamage->dwManaLeech, STATLIST_UnitGetStatValue(pAttacker, STAT_MANADRAINMINDAM, 0));
 			}
 
 			if (STATLIST_UnitGetStatValue(pAttacker, STAT_SKILL_BYPASS_UNDEAD, 0))
@@ -602,25 +603,25 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 	{
 		const int32_t nMastery = STATLIST_UnitGetStatValue(pAttacker, STAT_PASSIVE_POIS_MASTERY, 0);
 
-		nMinDamage += MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100);
-		nMaxDamage += MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100);
+		nMinDamage = D2SatAdd(nMinDamage, MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMastery, 100));
+		nMaxDamage = D2SatAdd(nMaxDamage, MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMastery, 100));
 
-		pDamage->dwPoisDamage += nMinDamage;
+		pDamage->dwPoisDamage = D2SatAdd(pDamage->dwPoisDamage, nMinDamage);
 
 		if (nMaxDamage > nMinDamage)
 		{
-			pDamage->dwPoisDamage += ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, nMaxDamage - nMinDamage);
+			pDamage->dwPoisDamage = D2SatAdd(pDamage->dwPoisDamage, ITEMS_RollLimitedRandomNumber(&pAttacker->pSeed, D2SatSub(nMaxDamage, nMinDamage)));
 		}
 	}
 
-	pDamage->dwPoisDamage = std::max(pDamage->dwPoisDamage, 0) * nSrcDam / 128;
+	pDamage->dwPoisDamage = D2SatMulDiv(std::max(pDamage->dwPoisDamage, 0), nSrcDam, 128);
 
 	if (pDamage->dwPoisDamage)
 	{
 		const int32_t nPoisonLength = STATLIST_UnitGetStatValue(pAttacker, STAT_SKILL_POISON_OVERRIDE_LENGTH, 0);
 		if (nPoisonLength <= 0)
 		{
-			pDamage->dwPoisLen += STATLIST_UnitGetStatValue(pAttacker, STAT_POISONLENGTH, 0);
+			pDamage->dwPoisLen = D2SatAdd(pDamage->dwPoisLen, STATLIST_UnitGetStatValue(pAttacker, STAT_POISONLENGTH, 0));
 			const int32_t nPoisonCount = STATLIST_UnitGetStatValue(pAttacker, STAT_POISON_COUNT, 0);
 			if (nPoisonCount > 1)
 			{
@@ -629,18 +630,18 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 		}
 		else
 		{
-			pDamage->dwPoisLen += nPoisonLength;
+			pDamage->dwPoisLen = D2SatAdd(pDamage->dwPoisLen, nPoisonLength);
 		}
 	}
 
 	if (pDamage->dwColdDamage > 0)
 	{
-		pDamage->dwColdLen += nSrcDam * STATLIST_UnitGetStatValue(pAttacker, STAT_COLDLENGTH, 0) / 128;
+		pDamage->dwColdLen = D2SatAdd(pDamage->dwColdLen, D2SatMulDiv(STATLIST_UnitGetStatValue(pAttacker, STAT_COLDLENGTH, 0), nSrcDam, 128));
 	}
 
 	if (!pDamage->dwStunLen)
 	{
-		pDamage->dwStunLen += nSrcDam * STATLIST_UnitGetStatValue(pAttacker, STAT_STUNLENGTH, 0) / 128;
+		pDamage->dwStunLen = D2SatAdd(pDamage->dwStunLen, D2SatMulDiv(STATLIST_UnitGetStatValue(pAttacker, STAT_STUNLENGTH, 0), nSrcDam, 128));
 	}
 
 	//TODO: Burn damage
@@ -660,7 +661,7 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 	//pDamage->dwBurnDamage = v95;
 	//if ((_DWORD)v94)
 	//{
-	//	pDamage->dwBurnLen += nSrcDam * STATLIST_UnitGetStatValue(pAttacker, STAT_FIRELENGTH, 0) / 128;
+	//	pDamage->dwBurnLen = D2SatAdd(pDamage->dwBurnLen, D2SatMulDiv(STATLIST_UnitGetStatValue(pAttacker, STAT_FIRELENGTH, 0), nSrcDam, 128));
 	//}
 
 	if ((pAttacker->dwUnitType == UNIT_PLAYER || nHirelingTypeId) && !(pDamage->wResultFlags & DAMAGERESULTFLAG_32))
@@ -685,19 +686,19 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 		switch (nElemType)
 		{
 		case ELEMTYPE_FIRE:
-			pDamage->dwFireDamage += nConvertedDamage;
+			pDamage->dwFireDamage = D2SatAdd(pDamage->dwFireDamage, nConvertedDamage);
 			break;
 
 		case ELEMTYPE_LTNG:
-			pDamage->dwLtngDamage += nConvertedDamage;
+			pDamage->dwLtngDamage = D2SatAdd(pDamage->dwLtngDamage, nConvertedDamage);
 			break;
 
 		case ELEMTYPE_MAGIC:
-			pDamage->dwMagDamage += nConvertedDamage;
+			pDamage->dwMagDamage = D2SatAdd(pDamage->dwMagDamage, nConvertedDamage);
 			break;
 
 		case ELEMTYPE_COLD:
-			pDamage->dwColdDamage += nConvertedDamage;
+			pDamage->dwColdDamage = D2SatAdd(pDamage->dwColdDamage, nConvertedDamage);
 			if (pDamage->dwColdLen < 50)
 			{
 				pDamage->dwColdLen = 50;
@@ -705,17 +706,17 @@ void __fastcall SUNITDMG_FillDamageValues(D2GameStrc* pGame, D2UnitStrc* pAttack
 			break;
 
 		case ELEMTYPE_POIS:
-			pDamage->dwPoisDamage += nConvertedDamage / 8;
+			pDamage->dwPoisDamage = D2SatAdd(pDamage->dwPoisDamage, nConvertedDamage / 8);
 			pDamage->dwPoisLen = std::max(pDamage->dwPoisLen, 50);
 			break;
 
 		case ELEMTYPE_BURN:
-			pDamage->dwFireDamage += nConvertedDamage;
+			pDamage->dwFireDamage = D2SatAdd(pDamage->dwFireDamage, nConvertedDamage);
 			pDamage->dwBurnLen = std::max(pDamage->dwBurnLen, 50);
 			break;
 
 		case ELEMTYPE_FREEZE:
-			pDamage->dwColdDamage += nConvertedDamage;
+			pDamage->dwColdDamage = D2SatAdd(pDamage->dwColdDamage, nConvertedDamage);
 			pDamage->dwFrzLen = std::max(pDamage->dwFrzLen, 50);
 			break;
 
@@ -747,15 +748,15 @@ int32_t __fastcall SUNITDMG_RollDamageValueInRange(D2UnitStrc* pUnit, int32_t nM
 {
 	if (nMaxDamage > 0)
 	{
-		nMinDamage += MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMinDamageBonusPct, 100);
+		nMinDamage = D2SatAdd(nMinDamage, MONSTERUNIQUE_CalculatePercentage(nMinDamage, nMinDamageBonusPct, 100));
 
-		nMaxDamage += MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMaxDamageBonusPct, 100);
+		nMaxDamage = D2SatAdd(nMaxDamage, MONSTERUNIQUE_CalculatePercentage(nMaxDamage, nMaxDamageBonusPct, 100));
 
-		nDamage += nMinDamage;
+		nDamage = D2SatAdd(nDamage, nMinDamage);
 
 		if (nMaxDamage > nMinDamage)
 		{
-			nDamage += ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, nMaxDamage - nMinDamage);
+			nDamage = D2SatAdd(nDamage, ITEMS_RollLimitedRandomNumber(&pUnit->pSeed, D2SatSub(nMaxDamage, nMinDamage)));
 		}
 	}
 
@@ -806,14 +807,14 @@ void __fastcall SUNITDMG_CalculateTotalDamage(D2GameStrc* pGame, D2UnitStrc* pAt
 
 	damageInfo.nDamageReduction[0] = 0;
 
-	int32_t nDamageReduction = STATLIST_UnitGetStatValue(pDefender, STAT_NORMAL_DAMAGE_REDUCTION, 0) << 8;
+	int32_t nDamageReduction = D2SatShl(STATLIST_UnitGetStatValue(pDefender, STAT_NORMAL_DAMAGE_REDUCTION, 0), 8);
 	if (nDamageReduction > 0 && pDamage->dwPiercePct > 0)
 	{
 		nDamageReduction = MONSTERUNIQUE_CalculatePercentage(nDamageReduction, pDamage->dwPiercePct, 1024);
 	}
 	damageInfo.nDamageReduction[1] = nDamageReduction;
 
-	int32_t nMagicDamageReduction = STATLIST_UnitGetStatValue(pDefender, STAT_MAGIC_DAMAGE_REDUCTION, 0) << 8;
+	int32_t nMagicDamageReduction = D2SatShl(STATLIST_UnitGetStatValue(pDefender, STAT_MAGIC_DAMAGE_REDUCTION, 0), 8);
 	if (nMagicDamageReduction > 0 && pDamage->dwPiercePct > 0)
 	{
 		nMagicDamageReduction = MONSTERUNIQUE_CalculatePercentage(nMagicDamageReduction, pDamage->dwPiercePct, 1024);
@@ -936,11 +937,12 @@ void __fastcall SUNITDMG_CalculateTotalDamage(D2GameStrc* pGame, D2UnitStrc* pAt
 		SUNITDMG_ApplyResistancesAndAbsorb(&damageInfo, pDamageStatTableRecord, bDontAbsorb);
 	}
 
-	pDamage->dwDmgTotal = pDamage->dwPhysDamage + pDamage->dwFireDamage + pDamage->dwLtngDamage + pDamage->dwMagDamage + pDamage->dwColdDamage + pDamage->dwPoisDamage;
+	// Fixed: the original sums the six damages in 32 bits; six large damages wrap to a small or negative total.
+	pDamage->dwDmgTotal = D2SaturateToInt32(static_cast<int64_t>(pDamage->dwPhysDamage) + pDamage->dwFireDamage + pDamage->dwLtngDamage + pDamage->dwMagDamage + pDamage->dwColdDamage + pDamage->dwPoisDamage);
 
 	if (damageInfo.bAttackerIsMonster)
 	{
-		pDamage->dwDmgTotal += pDamage->dwLifeLeech;
+		pDamage->dwDmgTotal = D2SatAdd(pDamage->dwDmgTotal, pDamage->dwLifeLeech);
 	}
 }
 
@@ -969,7 +971,7 @@ void __fastcall SUNITDMG_ApplyResistancesAndAbsorb(D2DamageInfoStrc* pDamageInfo
 		const int32_t nPierceValue = STATLIST_UnitGetStatValue(pDamageInfo->pAttacker, pDamageStatTableRecord->nPierceStatId, 0);
 		if (nPierceValue)
 		{
-			nResValue -= nPierceValue;
+			nResValue = D2SatSub(nResValue, nPierceValue);
 		}
 	}
 
@@ -977,7 +979,7 @@ void __fastcall SUNITDMG_ApplyResistancesAndAbsorb(D2DamageInfoStrc* pDamageInfo
 	{
 		if (pDamageInfo->pGame->bExpansion)
 		{
-			nResValue += pDamageInfo->pDifficultyLevelsTxt->dwResistPenalty;
+			nResValue = D2SatAdd(nResValue, pDamageInfo->pDifficultyLevelsTxt->dwResistPenalty);
 		}
 		else if (pDamageInfo->pGame->nDifficulty == DIFFMODE_NIGHTMARE)
 		{
@@ -1003,7 +1005,7 @@ void __fastcall SUNITDMG_ApplyResistancesAndAbsorb(D2DamageInfoStrc* pDamageInfo
 			}
 			else
 			{
-				nMaxResValue = std::min(STATLIST_UnitGetStatValue(pDamageInfo->pDefender, pDamageStatTableRecord->nMaxResStatId, pDamageInfo->bDefenderIsMonster) + 75, 95);
+				nMaxResValue = std::min(D2SatAdd(STATLIST_UnitGetStatValue(pDamageInfo->pDefender, pDamageStatTableRecord->nMaxResStatId, pDamageInfo->bDefenderIsMonster), 75), 95);
 			}
 
 			nResValue = D2Clamp(nResValue, -100, nMaxResValue);
@@ -1025,7 +1027,8 @@ void __fastcall SUNITDMG_ApplyResistancesAndAbsorb(D2DamageInfoStrc* pDamageInfo
 	}
 	else
 	{
-		nValue = nPreviousValue - pDamageInfo->nDamageReduction[pDamageStatTableRecord->nDamageReductionType];
+		// Fixed: a negative damage reduction (a curse, a negative item stat) made this subtraction wrap.
+		nValue = D2SatSub(nPreviousValue, pDamageInfo->nDamageReduction[pDamageStatTableRecord->nDamageReductionType]);
 	}
 
 	if (nValue > 0 && nResValue)
@@ -1053,16 +1056,16 @@ void __fastcall SUNITDMG_ApplyResistancesAndAbsorb(D2DamageInfoStrc* pDamageInfo
 			const int32_t nDamageAbsorbed = MONSTERUNIQUE_CalculatePercentage(nValue, nAbsorbPctValue, 100);
 
 			nValue -= nDamageAbsorbed;
-			pDamageInfo->pDamage->dwAbsLife += nDamageAbsorbed;
+			pDamageInfo->pDamage->dwAbsLife = D2SatAdd(pDamageInfo->pDamage->dwAbsLife, nDamageAbsorbed);
 		}
 
-		int32_t nAbsorbValue = STATLIST_UnitGetStatValue(pDamageInfo->pDefender, pDamageStatTableRecord->nAbsorbStatId, 0) << 8;
+		int32_t nAbsorbValue = D2SatShl(STATLIST_UnitGetStatValue(pDamageInfo->pDefender, pDamageStatTableRecord->nAbsorbStatId, 0), 8);
 		if (nAbsorbValue > 0)
 		{
 			nAbsorbValue = std::min(nAbsorbValue, nValue);
 			nValue -= nAbsorbValue;
 
-			pDamageInfo->pDamage->dwAbsLife += nAbsorbValue;
+			pDamageInfo->pDamage->dwAbsLife = D2SatAdd(pDamageInfo->pDamage->dwAbsLife, nAbsorbValue);
 		}
 	}
 
@@ -1178,8 +1181,14 @@ void __fastcall SUNITDMG_ExecuteEvents(D2GameStrc* pGame, D2UnitStrc* pAttacker,
 
 		if (nDrain > 0)
 		{
-			pDamage->dwLifeLeech <<= 6;
-			pDamage->dwManaLeech <<= 6;
+			// Fixed: the original shifts the leech left by 6 in 32 bits and, for a monster's drain, shifts it back right
+			// by 6 below. A monster's drain is a damage in 24.8, so the round trip wrapped any drain of 131,072 life or
+			// more. The drain values are kept, and restored instead of shifted back; the player's leech percent is
+			// shifted with saturation.
+			const int32_t nUnshiftedLifeLeech = pDamage->dwLifeLeech;
+			const int32_t nUnshiftedManaLeech = pDamage->dwManaLeech;
+			pDamage->dwLifeLeech = D2SatShl(pDamage->dwLifeLeech, 6);
+			pDamage->dwManaLeech = D2SatShl(pDamage->dwManaLeech, 6);
 
 			int32_t nUnitType = 0;
 			if (pAttacker)
@@ -1220,26 +1229,28 @@ void __fastcall SUNITDMG_ExecuteEvents(D2GameStrc* pGame, D2UnitStrc* pAttacker,
 			{
 				if (pDamage->dwPhysDamage > 0)
 				{
+					// Fixed: the leech is computed in 64 bits up to the final / 64. The original's 32-bit intermediate
+					// (the damage times the percent times 64) wrapped long before the leeched amount was large.
 					if (pDamage->dwManaLeech)
 					{
-						int32_t nLeechedMana = MONSTERUNIQUE_CalculatePercentage(pDamage->dwPhysDamage, pDamage->dwManaLeech, 100);
+						int64_t nLeechedMana = D2ApplyRatio64(pDamage->dwPhysDamage, pDamage->dwManaLeech, 100);
 						if (nDrain != 100)
 						{
-							nLeechedMana = MONSTERUNIQUE_CalculatePercentage(nLeechedMana, nDrain, 100);
+							nLeechedMana = D2ApplyRatio64(nLeechedMana, nDrain, 100);
 						}
 
-						SUNITDMG_AddLeechedMana(pAttacker, nLeechedMana / 64);
+						SUNITDMG_AddLeechedMana(pAttacker, D2SaturateToInt32(nLeechedMana / 64));
 					}
 
 					if (pDamage->dwLifeLeech)
 					{
-						int32_t nLeechedHp = MONSTERUNIQUE_CalculatePercentage(pDamage->dwPhysDamage, pDamage->dwLifeLeech, 100);
+						int64_t nLeechedHp = D2ApplyRatio64(pDamage->dwPhysDamage, pDamage->dwLifeLeech, 100);
 						if (nDrain != 100)
 						{
-							nLeechedHp = MONSTERUNIQUE_CalculatePercentage(nLeechedHp, nDrain, 100);
+							nLeechedHp = D2ApplyRatio64(nLeechedHp, nDrain, 100);
 						}
 
-						SUNITDMG_AddLeechedLife(pAttacker, nLeechedHp / 64);
+						SUNITDMG_AddLeechedLife(pAttacker, D2SaturateToInt32(nLeechedHp / 64));
 
 						if (pDamage->dwManaLeech)
 						{
@@ -1268,13 +1279,13 @@ void __fastcall SUNITDMG_ExecuteEvents(D2GameStrc* pGame, D2UnitStrc* pAttacker,
 				const int32_t nMana = STATLIST_UnitGetStatValue(pDefender, STAT_MANA, 0);
 				const int32_t nStamina = STATLIST_UnitGetStatValue(pDefender, STAT_STAMINA, 0);
 
-				pDamage->dwLifeLeech >>= 6;
-				pDamage->dwManaLeech >>= 6;
+				pDamage->dwLifeLeech = nUnshiftedLifeLeech;
+				pDamage->dwManaLeech = nUnshiftedManaLeech;
 
 				const int32_t nLifeLeech = std::min(pDamage->dwLifeLeech, pDamage->dwPhysDamage);
 				const int32_t nManaLeech = std::min(pDamage->dwManaLeech, nMana);
 				const int32_t nStaminaLeech = std::min(pDamage->dwStamLeech, nStamina);
-				int32_t nTotalLeech = nStaminaLeech + nManaLeech + nLifeLeech;
+				int32_t nTotalLeech = D2SaturateToInt32(static_cast<int64_t>(nStaminaLeech) + nManaLeech + nLifeLeech);
 				if (nTotalLeech)
 				{
 					if (nDrain != 100)
@@ -1282,7 +1293,7 @@ void __fastcall SUNITDMG_ExecuteEvents(D2GameStrc* pGame, D2UnitStrc* pAttacker,
 						nTotalLeech = MONSTERUNIQUE_CalculatePercentage(nTotalLeech, nDrain, 100);
 					}
 
-					const int32_t nMissingHp = STATLIST_GetMaxLifeFromUnit(pAttacker) - STATLIST_UnitGetStatValue(pAttacker, STAT_HITPOINTS, 0);
+					const int32_t nMissingHp = D2SatSub(STATLIST_GetMaxLifeFromUnit(pAttacker), STATLIST_UnitGetStatValue(pAttacker, STAT_HITPOINTS, 0));
 					nTotalLeech = std::min(nTotalLeech, nMissingHp);
 
 					if (nTotalLeech > 0)
@@ -1303,13 +1314,13 @@ void __fastcall SUNITDMG_ExecuteEvents(D2GameStrc* pGame, D2UnitStrc* pAttacker,
 	if (pDamage->dwAbsLife > 0 && !SUNIT_IsDead(pDefender) && !STATES_CheckState(pDefender, STATE_DEATH_DELAY))
 	{
 		const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pDefender);
-		const int32_t nNewHp = std::min(pDamage->dwAbsLife + (int32_t)STATLIST_UnitGetStatValue(pDefender, STAT_HITPOINTS, 0), nMaxHp);
+		const int32_t nNewHp = std::min(D2SatAdd(pDamage->dwAbsLife, (int32_t)STATLIST_UnitGetStatValue(pDefender, STAT_HITPOINTS, 0)), nMaxHp);
 		STATLIST_SetUnitStat(pDefender, STAT_HITPOINTS, nNewHp, 0);
 	}
 
 	if (pDamage->dwDmgTotal > 0)
 	{
-		int32_t nNewHp = STATLIST_UnitGetStatValue(pDefender, STAT_HITPOINTS, 0) - pDamage->dwDmgTotal;
+		int32_t nNewHp = D2SatSub(STATLIST_UnitGetStatValue(pDefender, STAT_HITPOINTS, 0), pDamage->dwDmgTotal);
 		if (nNewHp < 256)
 		{
 			nNewHp = 0;
@@ -1319,7 +1330,7 @@ void __fastcall SUNITDMG_ExecuteEvents(D2GameStrc* pGame, D2UnitStrc* pAttacker,
 
 	if (pDamage->dwManaLeech > 0)
 	{
-		int32_t nNewMana = STATLIST_UnitGetStatValue(pDefender, STAT_MANA, 0) - pDamage->dwManaLeech;
+		int32_t nNewMana = D2SatSub(STATLIST_UnitGetStatValue(pDefender, STAT_MANA, 0), pDamage->dwManaLeech);
 		if (nNewMana < 256)
 		{
 			nNewMana = 0;
@@ -1329,7 +1340,7 @@ void __fastcall SUNITDMG_ExecuteEvents(D2GameStrc* pGame, D2UnitStrc* pAttacker,
 
 	if (pDamage->dwStamLeech > 0)
 	{
-		int32_t nNewStamina = STATLIST_UnitGetStatValue(pDefender, STAT_STAMINA, 0) - pDamage->dwStamLeech;
+		int32_t nNewStamina = D2SatSub(STATLIST_UnitGetStatValue(pDefender, STAT_STAMINA, 0), pDamage->dwStamLeech);
 		if (nNewStamina < 256)
 		{
 			nNewStamina = 0;
@@ -1434,12 +1445,12 @@ int32_t __fastcall SUNITDMG_AddLeechedLife(D2UnitStrc* pUnit, int32_t nLifeLeech
 
 	const int32_t nMaxHp = STATLIST_GetMaxLifeFromUnit(pUnit);
 	const int32_t nHp = STATLIST_UnitGetStatValue(pUnit, STAT_HITPOINTS, 0);
-	const int32_t nNewHp = std::min(nLifeLeeched + nHp, nMaxHp);
+	const int32_t nNewHp = std::min(D2SatAdd(nLifeLeeched, nHp), nMaxHp);
 	STATLIST_SetUnitStat(pUnit, STAT_HITPOINTS, nNewHp, 0);
 
 	if (nNewHp == nMaxHp)
 	{
-		return nMaxHp - nHp;
+		return D2SatSub(nMaxHp, nHp);
 	}
 
 	return nLifeLeeched;
@@ -1456,12 +1467,12 @@ int32_t __fastcall SUNITDMG_AddLeechedMana(D2UnitStrc* pUnit, int32_t nManaLeech
 
 	const int32_t nMaxMana = STATLIST_GetMaxManaFromUnit(pUnit);
 	const int32_t nMana = STATLIST_UnitGetStatValue(pUnit, STAT_MANA, 0);
-	const int32_t nNewMana = std::min(nManaLeeched + nMana, nMaxMana);
+	const int32_t nNewMana = std::min(D2SatAdd(nManaLeeched, nMana), nMaxMana);
 	STATLIST_SetUnitStat(pUnit, STAT_MANA, nNewMana, 0);
 
 	if (nNewMana == nMaxMana)
 	{
-		return nMaxMana - nMana;
+		return D2SatSub(nMaxMana, nMana);
 	}
 
 	return nManaLeeched;

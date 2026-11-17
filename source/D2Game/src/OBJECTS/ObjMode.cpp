@@ -1,4 +1,5 @@
 #include "OBJECTS/ObjMode.h"
+#include <D2Saturate.h>
 
 #include <algorithm>
 #include <D2BitManip.h>
@@ -1684,7 +1685,7 @@ int32_t __fastcall OBJECTS_OperateFunction17_Obelisk(D2ObjOperateFnStrc* pOp, in
 void __fastcall D2GAME_SHRINES_Health_6FC766B0(D2ObjOperateFnStrc* pOp, D2ShrinesTxt* pShrinesTxtRecord)
 {
     D2_MAYBE_UNUSED(pShrinesTxtRecord);
-    const int32_t nDiff = STATLIST_GetMaxLifeFromUnit(pOp->pPlayer) - STATLIST_UnitGetStatValue(pOp->pPlayer, STAT_HITPOINTS, 0);
+    const int32_t nDiff = D2SatSub(STATLIST_GetMaxLifeFromUnit(pOp->pPlayer), STATLIST_UnitGetStatValue(pOp->pPlayer, STAT_HITPOINTS, 0));
     if (nDiff)
     {
         STATLIST_AddUnitStat(pOp->pPlayer, STAT_HITPOINTS, nDiff, 0);
@@ -1725,19 +1726,19 @@ void __fastcall D2GAME_SHRINES_Refill_6FC76730(D2ObjOperateFnStrc* pOp, D2Shrine
 //1.14d: 0x00582940
 void __fastcall D2GAME_SHRINES_ExchangeHealth_6FC76790(D2ObjOperateFnStrc* pOp, D2ShrinesTxt* pShrinesTxtRecord)
 {
-    const int32_t nHpPct = ((int32_t)STATLIST_UnitGetStatValue(pOp->pPlayer, STAT_HITPOINTS, 0) >> 8) * pShrinesTxtRecord->dwArg0;
-    const int32_t nValue = nHpPct / 100 << 8;
+    const int32_t nHpPct = D2SatMul((int32_t)STATLIST_UnitGetStatValue(pOp->pPlayer, STAT_HITPOINTS, 0) >> 8, pShrinesTxtRecord->dwArg0);
+    const int32_t nValue = D2SatShl(nHpPct / 100, 8);
     STATLIST_AddUnitStat(pOp->pPlayer, STAT_HITPOINTS, -nValue, 0);
-    STATLIST_AddUnitStat(pOp->pPlayer, STAT_MANA, nValue * pShrinesTxtRecord->dwArg1 / 100, 0);
+    STATLIST_AddUnitStat(pOp->pPlayer, STAT_MANA, D2SatMulDiv(nValue, pShrinesTxtRecord->dwArg1, 100), 0);
 }
 
 //D2Game.0x6FC767F0
 //1.14d: 0x005829A0
 void __fastcall D2GAME_SHRINES_ExchangeMana_6FC767F0(D2ObjOperateFnStrc* pOp, D2ShrinesTxt* pShrinesTxtRecord)
 {
-    const int32_t nValue = STATLIST_UnitGetStatValue(pOp->pPlayer, STAT_MANA, 0) * pShrinesTxtRecord->dwArg0 / 100;
+    const int32_t nValue = D2SatMulDiv(STATLIST_UnitGetStatValue(pOp->pPlayer, STAT_MANA, 0), pShrinesTxtRecord->dwArg0, 100);
     STATLIST_AddUnitStat(pOp->pPlayer, STAT_MANA, -nValue, 0);
-    STATLIST_AddUnitStat(pOp->pPlayer, STAT_HITPOINTS, nValue * pShrinesTxtRecord->dwArg1 / 100, 0);
+    STATLIST_AddUnitStat(pOp->pPlayer, STAT_HITPOINTS, D2SatMulDiv(nValue, pShrinesTxtRecord->dwArg1, 100), 0);
 }
 
 //D2Game.0x6FC76850
@@ -1914,7 +1915,7 @@ void __fastcall D2GAME_SHRINES_Storm_6FC76BC0(D2ObjOperateFnStrc* pOp, D2Shrines
         if (pFoundUnit && (pFoundUnit->dwUnitType == UNIT_MONSTER || pFoundUnit->dwUnitType == UNIT_PLAYER) && !SUNIT_IsDead(unitFindData.pUnitsArray[i]))
         {
             const int32_t nHitpoints = STATLIST_UnitGetStatValue(pFoundUnit, STAT_HITPOINTS, 0);
-            STATLIST_AddUnitStat(pFoundUnit, STAT_HITPOINTS, ((nHitpoints >> 8) * pShrinesTxtRecord->dwArg0) / -100 << 8, 0);
+            STATLIST_AddUnitStat(pFoundUnit, STAT_HITPOINTS, D2SatShl(D2SatMulDiv(nHitpoints >> 8, pShrinesTxtRecord->dwArg0, -100), 8), 0);
         }
     }
 
@@ -3555,7 +3556,7 @@ int32_t __fastcall OBJMODE_ObeliskPowerUp_IncreaseStrength(D2GameStrc* pGame, D2
 //1.14d: 0x005851E0
 int32_t __fastcall OBJMODE_ObeliskPowerUp_IncreaseHitpoints(D2GameStrc* pGame, D2UnitStrc* pUnit, int32_t nValue)
 {
-    const int32_t nNewValue = (nValue << 8) + STATLIST_GetMaxLifeFromUnit(pUnit);
+    const int32_t nNewValue = D2SatAdd(D2SatShl(nValue, 8), STATLIST_GetMaxLifeFromUnit(pUnit));
     STATLIST_SetUnitStat(pUnit, STAT_HITPOINTS, nNewValue, 0);
     STATLIST_SetUnitStat(pUnit, STAT_MAXHP, nNewValue, 0);
     return 1;

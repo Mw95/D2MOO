@@ -7,6 +7,7 @@
 #include "D2Items.h"
 #include "D2States.h"
 #include "Units/Units.h"
+#include <D2Saturate.h>
 //TODO: Find names
 
 
@@ -170,9 +171,12 @@ static int32_t STATLIST_ComputeStatPercentage(int32_t nValue, D2StatListExStrc* 
 
 //D2Common.0x6FDB5830
 //1.14d: 0x00626200
+// Fixed: the original sums the stat lists and the op bonuses in 32 bits, so a large total (a life of 8,388,608 or
+// more in 24.8, a damage percent times a level, ...) wraps. The sum is now kept in 64 bits and saturated on return,
+// and every op product is computed in 64 bits.
 int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::PackedType nLayer_StatId)
 {
-	int nAccumulatedValue = 0;
+	int64_t nAccumulatedValue = 0;
 
 	const uint16_t nStatId = D2SLayerStatIdStrc::FromPackedType(nLayer_StatId).nStat;
 
@@ -197,10 +201,10 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 
 	if (!pItemStatCostTxtRecord->bHasOpStatData)
 	{
-		return nAccumulatedValue;
+		return D2SaturateToInt32(nAccumulatedValue);
 	}
 
-	int nPreviousOpStatValue = nAccumulatedValue;
+	int nPreviousOpStatValue = D2SaturateToInt32(nAccumulatedValue);
 
 	for (int i = 0; i < ARRAY_SIZE(pItemStatCostTxtRecord->pOpStatData); ++i)
 	{
@@ -208,7 +212,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 		switch (opStatData.nOp)
 		{
 		case 0:
-			return nAccumulatedValue;
+			return D2SaturateToInt32(nAccumulatedValue);
 
 		case 1:
 
@@ -249,7 +253,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 								int nRecursiveValue = sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue);
 								if (nRecursiveValue)
 								{
-									nAccumulatedValue += (nShiftedVal * nRecursiveValue) >> opStatData.nOpParam;
+									nAccumulatedValue += (static_cast<int64_t>(nShiftedVal) * nRecursiveValue) >> opStatData.nOpParam;
 								}
 							}
 						}
@@ -277,7 +281,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 								int nRecursiveValue = sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue);
 								if (nRecursiveValue)
 								{
-									int nTemp = (nShiftedVal * nRecursiveValue) >> opStatData.nOpParam;
+									const int nTemp = D2SaturateToInt32((static_cast<int64_t>(nShiftedVal) * nRecursiveValue) >> opStatData.nOpParam);
 									nAccumulatedValue += DATATBLS_ApplyRatio(nPreviousOpStatValue, nTemp, 100);
 								}
 							}
@@ -302,7 +306,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 							int nRecursiveValue = sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue);
 							if (nRecursiveValue)
 							{
-								nAccumulatedValue += (nTmp * nRecursiveValue) >> opStatData.nOpParam;
+								nAccumulatedValue += (static_cast<int64_t>(nTmp) * nRecursiveValue) >> opStatData.nOpParam;
 							}
 						}
 					}
@@ -325,7 +329,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 							int nRecursiveValue = sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue);
 							if (nRecursiveValue)
 							{
-								int nTemp = (nTmp * nRecursiveValue) >> opStatData.nOpParam;
+								const int nTemp = D2SaturateToInt32((static_cast<int64_t>(nTmp) * nRecursiveValue) >> opStatData.nOpParam);
 								nAccumulatedValue += DATATBLS_ApplyRatio(nPreviousOpStatValue, nTemp, 100);
 							}
 						}
@@ -353,7 +357,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 				{
 					int nBaseTime = 0;
 					int nPeriodOfDay = ENVIRONMENT_GetPeriodOfDayFromAct(pStatListEx->pOwner->pDrlgAct, &nBaseTime);
-					nAccumulatedValue += DATATBLS_ApplyRatio(nAccumulatedValue, ITEMMODS_GetByTimeAdjustment(nTmp, nPeriodOfDay, nBaseTime, NULL, NULL, NULL), 100);
+					nAccumulatedValue += DATATBLS_ApplyRatio(D2SaturateToInt32(nAccumulatedValue), ITEMMODS_GetByTimeAdjustment(nTmp, nPeriodOfDay, nBaseTime, NULL, NULL, NULL), 100);
 				}
 			}
 			break;
@@ -369,10 +373,10 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 						nTemp = pStat->nValue;
 					}
 
-					int nBaseValue = sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue) - nTemp;
+					int nBaseValue = D2SatSub(sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue), nTemp);
 					if (nBaseValue)
 					{
-						nAccumulatedValue += nBaseValue * pCharStatsTxtRecord->nManaPerMagic << 6;
+						nAccumulatedValue += static_cast<int64_t>(nBaseValue) * pCharStatsTxtRecord->nManaPerMagic * 64;
 					}
 				}
 			}
@@ -389,16 +393,16 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 						nBaseStatValue = pStat->nValue;
 					}
 					
-					int nBonusValue = sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue) - nBaseStatValue;
+					int nBonusValue = D2SatSub(sub_6FDB5830(pStatListEx, D2SLayerStatIdStrc::MakeFromStatId(opStatData.nStat).nPackedValue), nBaseStatValue);
 					if (nBonusValue)
 					{
 						if (nStatId == STAT_MAXSTAMINA)
 						{
-							nAccumulatedValue += nBonusValue * pCharStatsTxtRecord->nStaminaPerVitality << 6;
+							nAccumulatedValue += static_cast<int64_t>(nBonusValue) * pCharStatsTxtRecord->nStaminaPerVitality * 64;
 						}
 						else
 						{
-							nAccumulatedValue += nBonusValue * pCharStatsTxtRecord->nLifePerVitality << 6;
+							nAccumulatedValue += static_cast<int64_t>(nBonusValue) * pCharStatsTxtRecord->nLifePerVitality * 64;
 						}
 					}
 				}
@@ -436,7 +440,7 @@ int __fastcall sub_6FDB5830(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::P
 		}
 	}
 
-	return nAccumulatedValue;
+	return D2SaturateToInt32(nAccumulatedValue);
 }
 
 
@@ -712,9 +716,14 @@ void __fastcall STATLIST_UpdateUnitStat_6FDB6AB0(D2StatListExStrc* pStatListEx, 
 	STATLIST_SetUnitStatNewValue(pStatListEx, pStatsArray, pStat, nLayer_StatId, nNewValue, pItemStatCostTxtRecord, pUnit);
 }
 
-//D2Common.0x6FDB6C10
-//1.14d: 0x00626920
-void __fastcall sub_6FDB6C10(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::PackedType nLayer_StatId, int nValue, D2UnitStrc* pUnit)
+// Helper function, the body of sub_6FDB6C10.
+// Fixed: the original adds the delta to each parent's cached total in 32 bits, so the total wraps. The delta is now
+// 64-bit (STATLIST_SetBaseStat's difference of two int32 can exceed the int32 range) and the cached total saturates.
+// A saturated cached total no longer equals the sum of its parts, so when the sum leaves the int32 range, or the
+// cached total was already at a bound, the total is recomputed from its parts (sub_6FDB5830, itself saturating)
+// instead of being moved by the delta. Every caller links a list before it adds the list's stats and unlinks it
+// before it subtracts them, so the recomputed total already reflects the change.
+static void STATLIST_PropagateStatDelta(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::PackedType nLayer_StatId, int64_t nValue, D2UnitStrc* pUnit)
 {
 	if (!nValue)
 	{
@@ -750,7 +759,16 @@ void __fastcall sub_6FDB6C10(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::
 			D2StatStrc* pStat = STATLIST_GetOrInsertStat(pParentStatList->pMemPool, &pParentStatList->FullStats, nLayer_StatId);
 
 			const int nPreviousValue = pStat->nValue;
-			const int nNewValue = nPreviousValue + nValue;
+			const int64_t nExactNewValue = static_cast<int64_t>(nPreviousValue) + nValue;
+			int nNewValue = 0;
+			if (nExactNewValue != D2SaturateToInt32(nExactNewValue) || nPreviousValue == D2_INT32_MAX || nPreviousValue == D2_INT32_MIN)
+			{
+				nNewValue = sub_6FDB5830(pParentStatList, nLayer_StatId);
+			}
+			else
+			{
+				nNewValue = static_cast<int>(nExactNewValue);
+			}
 			pStat->nValue = nNewValue;
 			if (nNewValue > 0 && pItemStatCostTxtRecord->bHasOpApplyingToItem)
 			{
@@ -771,6 +789,13 @@ void __fastcall sub_6FDB6C10(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::
 
 		pParentStatList = (D2StatListExStrc*)pParentStatList->pParent;
 	}
+}
+
+//D2Common.0x6FDB6C10
+//1.14d: 0x00626920
+void __fastcall sub_6FDB6C10(D2StatListExStrc* pStatListEx, D2SLayerStatIdStrc::PackedType nLayer_StatId, int nValue, D2UnitStrc* pUnit)
+{
+	STATLIST_PropagateStatDelta(pStatListEx, nLayer_StatId, nValue, pUnit);
 }
 
 //D2Common.0x6FDB6E30
@@ -859,7 +884,7 @@ void __stdcall D2Common_ExpireStatList_6FDB6E30(D2StatListStrc* pStatList)
 					D2ItemStatCostTxt* pItemStatCostTxtRecord = ITEMS_GetItemStatCostTxtRecord(i->nStat);
 					if (pItemStatCostTxtRecord && !(pItemStatCostTxtRecord->dwItemStatFlags & gdwBitMasks[ITEMSTATCOSTFLAGINDEX_DAMAGERELATED]))
 					{
-						sub_6FDB6C10(pParentStatListEx, i->nPackedValue, -i->nValue, pOwner);
+						STATLIST_PropagateStatDelta(pParentStatListEx, i->nPackedValue, -static_cast<int64_t>(i->nValue), pOwner);
 					}
 				}
 			}
@@ -867,7 +892,7 @@ void __stdcall D2Common_ExpireStatList_6FDB6E30(D2StatListStrc* pStatList)
 			{
 				for (D2StatStrc* i = pStatsArray->pStat; i < &pStatsArray->pStat[pStatsArray->nStatCount]; ++i)
 				{
-					sub_6FDB6C10(pParentStatListEx, i->nPackedValue, -i->nValue, pOwner);
+					STATLIST_PropagateStatDelta(pParentStatListEx, i->nPackedValue, -static_cast<int64_t>(i->nValue), pOwner);
 				}
 			}
 		}
@@ -1217,14 +1242,18 @@ void __stdcall STATLIST_AddStat(D2StatListStrc* pStatList, int nStatId, int nVal
 		pStat = STATLIST_InsertStatOrFail_6FDB6970(pStatList->pMemPool, pStatsArray, D2SLayerStatIdStrc::Make(nLayer, nStatId).nPackedValue);
 	}
 
-	pStat->nValue += nValue;
+	// Fixed: the original adds in 32 bits and wraps. The base value now saturates, and only the change it actually
+	// took is passed on to the totals.
+	const int nPreviousValue = pStat->nValue;
+	pStat->nValue = D2SatAdd(nPreviousValue, nValue);
+	const int64_t nAppliedValue = static_cast<int64_t>(pStat->nValue) - nPreviousValue;
 
 	if (pStat->nValue == 0)
 	{
 		STATLIST_RemoveStat_6FDB6A30(pStatList->pMemPool, pStatsArray, pStat);
 	}
 
-	sub_6FDB6C10((D2StatListExStrc*)pStatList, D2SLayerStatIdStrc::Make(nLayer, nStatId).nPackedValue, nValue, 0);
+	STATLIST_PropagateStatDelta((D2StatListExStrc*)pStatList, D2SLayerStatIdStrc::Make(nLayer, nStatId).nPackedValue, nAppliedValue, 0);
 	if (D2StatListExStrc* pStatListEx = STATLIST_StatListExCast(pStatList))
 	{
 		if (pStatList->dwOwnerType == UNIT_PLAYER)
@@ -1305,7 +1334,8 @@ BOOL __stdcall STATLIST_SetBaseStat(D2StatListStrc* pStatList, int nStatId, int 
 	}
 	D2StatStrc* pStat = &pBaseStatsArray->pStat[insertionIdx];
 
-	const int nDiffValue = nValue - pStat->nValue;
+	// Fixed: the original takes this difference in 32 bits, which wraps when the two values are far apart.
+	const int64_t nDiffValue = static_cast<int64_t>(nValue) - pStat->nValue;
 	if (nDiffValue == 0)
 	{
 		return FALSE;
@@ -1320,7 +1350,7 @@ BOOL __stdcall STATLIST_SetBaseStat(D2StatListStrc* pStatList, int nStatId, int 
 		STATLIST_RemoveStat_6FDB6A30(pStatList->pMemPool, pBaseStatsArray, pStat);
 	}
 
-	sub_6FDB6C10((D2StatListExStrc*)pStatList, nLayer_StatId.nPackedValue, nDiffValue, pUnit);
+	STATLIST_PropagateStatDelta((D2StatListExStrc*)pStatList, nLayer_StatId.nPackedValue, nDiffValue, pUnit);
 	if (D2StatListExStrc* pStatListEx = STATLIST_StatListExCast(pStatList))
 	{
 		if (pStatList->dwOwnerType == UNIT_PLAYER)
@@ -1485,7 +1515,8 @@ int __stdcall STATLIST_GetUnitStatBonus(D2UnitStrc* pUnit, int nStatId, uint16_t
 	if (const D2StatStrc* pStat = STATLIST_FindStat_6FDB6920(pBaseStatsArray, D2SLayerStatIdStrc::Make(nLayer, nStatId).nPackedValue))
 	{
 		int nBaseValue = STATLIST_ApplyMinValue(pStat->nValue, pItemStatCostTxtRecord, pStatListEx);
-		return nValue - nBaseValue;
+		// Fixed: saturates instead of wrapping when the total and the base are far apart.
+		return D2SatSub(nValue, nBaseValue);
 	}
 
 	return nValue;
@@ -2425,8 +2456,8 @@ BOOL __stdcall D2Common_11274_11275_Impl(D2UnitStrc* pTarget, D2UnitStrc* pUnit,
 		D2ItemStatCostTxt* pItemStatCostTxtRecord = ITEMS_GetItemStatCostTxtRecord(i->nStat);
 		if (pItemStatCostTxtRecord && (pItemStatCostTxtRecord->dwItemStatFlags & gdwBitMasks[ITEMSTATCOSTFLAGINDEX_DAMAGERELATED]))
 		{
-			const int nValue = addOrSubstract ? i->nValue : -i->nValue;
-			sub_6FDB6C10(pTarget->pStatListEx, i->nPackedValue, nValue, pUnit);
+			const int64_t nValue = addOrSubstract ? i->nValue : -static_cast<int64_t>(i->nValue);
+			STATLIST_PropagateStatDelta(pTarget->pStatListEx, i->nPackedValue, nValue, pUnit);
 		}
 	}
 

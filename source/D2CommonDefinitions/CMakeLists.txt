@@ -16,6 +16,7 @@ target_sources(D2CommonDefinitions
     include/D2Constants.h
     include/D2CommonDefinitions.h
     include/D2Math.h
+    include/D2Saturate.h
     include/D2Structs.OtherDLLs.h
     include/D2PacketDef.h
     include/D2Dll.h
